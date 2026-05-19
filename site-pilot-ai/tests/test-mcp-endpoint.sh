@@ -48,6 +48,36 @@ test_request() {
     fi
 }
 
+test_error_request() {
+    local test_name="$1"
+    local json_data="$2"
+    local expected_code="$3"
+
+    echo -e "${YELLOW}Testing: ${test_name}${NC}"
+
+    response=$(curl -s -X POST "${MCP_ENDPOINT}" \
+        -H "Content-Type: application/json" \
+        -H "X-API-Key: ${API_KEY}" \
+        -d "${json_data}")
+
+    if ! echo "$response" | jq -e . >/dev/null 2>&1; then
+        echo -e "${RED}✗ INVALID JSON${NC}"
+        echo "$response"
+        return 1
+    fi
+
+    if echo "$response" | jq -e --argjson code "$expected_code" '.error.code == $code' >/dev/null 2>&1; then
+        echo -e "${GREEN}✓ PASSED (expected error)${NC}"
+        echo "$response" | jq '.error' | head -20
+        echo ""
+        return 0
+    fi
+
+    echo -e "${RED}✗ FAILED${NC}"
+    echo "$response" | jq '.'
+    return 1
+}
+
 # Check dependencies
 if ! command -v curl &> /dev/null; then
     echo "curl is required but not installed. Aborting."
@@ -167,14 +197,14 @@ test_request "Batch Request (ping + site_info)" '[
 ]'
 
 # Test 9: Invalid Method (should error)
-test_request "Invalid Method (expect error)" '{
+test_error_request "Invalid Method (expect error)" '{
   "jsonrpc": "2.0",
   "method": "nonexistent_method",
   "id": 10
-}'
+}' -32601
 
 # Test 10: Invalid Tool (should error)
-test_request "Invalid Tool (expect error)" '{
+test_error_request "Invalid Tool (expect error)" '{
   "jsonrpc": "2.0",
   "method": "tools/call",
   "id": 11,
@@ -182,7 +212,7 @@ test_request "Invalid Tool (expect error)" '{
     "name": "wp_nonexistent_tool",
     "arguments": {}
   }
-}'
+}' -32602
 
 # Test 11: Notification (no response expected)
 echo -e "${YELLOW}Testing: Notification (no response)${NC}"

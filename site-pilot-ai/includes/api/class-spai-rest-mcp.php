@@ -64,6 +64,13 @@ class Spai_REST_MCP extends Spai_REST_API {
 	private $pro_registry;
 
 	/**
+	 * Output buffer level that existed before this controller was created.
+	 *
+	 * @var int
+	 */
+	private $initial_ob_level = 0;
+
+	/**
 	 * Resolved capability flags (cached).
 	 *
 	 * @var array|null
@@ -352,6 +359,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 		$this->server_version = defined( 'SPAI_VERSION' ) ? SPAI_VERSION : '1.0.0';
 		$site_name            = function_exists( 'get_bloginfo' ) ? get_bloginfo( 'name' ) : '';
 		$this->server_name    = 'site-pilot-ai' . ( '' !== $site_name ? ':' . $site_name : '' );
+		$this->initial_ob_level = ob_get_level();
 		$this->free_registry  = new Spai_MCP_Free_Tools();
 		$this->pro_registry   = new Spai_MCP_Pro_Tools();
 
@@ -378,10 +386,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 	public function force_json_content_type( $served, $result, $request, $server ) {
 		$route = $request->get_route();
 		if ( false !== strpos( $route, '/site-pilot-ai/v1/mcp' ) ) {
-			// Clean any stale output buffers that might contain wrong headers.
-			while ( ob_get_level() > 0 ) {
-				ob_end_clean();
-			}
+			$this->clean_mcp_output_buffers();
 
 			// Remove any previously sent content-type headers.
 			if ( ! headers_sent() ) {
@@ -1374,10 +1379,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 	 * @return WP_REST_Response Prepared response.
 	 */
 	private function prepare_mcp_response( $response ) {
-		// Clean any output buffering that might interfere with content-type.
-		while ( ob_get_level() > 0 ) {
-			ob_end_clean();
-		}
+		$this->clean_mcp_output_buffers();
 
 		// Force correct content type for JSON-RPC responses.
 		$response->header( 'Content-Type', 'application/json; charset=UTF-8' );
@@ -1394,6 +1396,21 @@ class Spai_REST_MCP extends Spai_REST_API {
 		$this->add_cors_headers( $response );
 
 		return $response;
+	}
+
+	/**
+	 * Clean buffers opened during MCP handling without closing pre-existing buffers.
+	 *
+	 * PHPUnit and some WordPress hosts use an outer output buffer. Closing those
+	 * buffers from an API handler causes test instability and can interfere with
+	 * host-level output handling.
+	 *
+	 * @return void
+	 */
+	private function clean_mcp_output_buffers() {
+		while ( ob_get_level() > $this->initial_ob_level ) {
+			ob_end_clean();
+		}
 	}
 
 	private function add_cors_headers( $response ) {
