@@ -112,6 +112,8 @@ Native WordPress comes first. If Yoast, Rank Math, SEOPress, or another SEO plug
 
 Goal: make each generated page easy for people, Google, Bing, ChatGPT search, and other AI answer engines to crawl, understand, cite, and connect to the rest of the site.
 
+For the deeper Semrush-style roadmap, see `docs/SEO_INTELLIGENCE_ROADMAP.md`.
+
 Current primary-source guidance points to these foundations:
 
 - Helpful, reliable, people-first content remains the core ranking input.
@@ -203,29 +205,43 @@ Issues to create or track:
 - #289 Add Search Console and webmaster verification notes.
 - Add admin documentation that explains Gutenberg-first workflows without exposing internal MCP complexity.
 
-### Sprint 8 - Site Editor and Global Styles
+### Sprint 8 - SEO Intelligence Foundation
 
-Goal: let agents work with block themes safely.
-
-Backlog:
-
-- Read active theme and block theme status.
-- Inspect global styles and theme.json-derived settings.
-- Update template parts with approval and rollback.
-- Create draft templates or template part revisions, never destructive direct edits first.
-- Add preview/diff output for theme-level changes.
-
-### Sprint 9 - Advanced Block Intelligence
-
-Goal: make Gutenberg edits deterministic and high quality.
+Goal: build a WordPress-native technical SEO audit, issue model, structured data inventory, media/page-experience checks, and internal link graph.
 
 Backlog:
 
-- Block tree diff endpoint.
-- Section-level patch endpoint.
-- Pattern matching: identify hero, CTA, FAQ, feature grid from block trees.
-- Accessibility checks for headings, alt text, button text, and landmark structure.
-- Render-safe preview pipeline for dynamic blocks.
+- #291 Build technical SEO site audit engine.
+- #296 Build SEO issue model and scoring system.
+- #290 Build internal link graph with PageRank-style signals.
+- #293 Build structured data inventory and validator.
+- #294 Build page experience and media audit engine.
+
+### Sprint 9 - Keyword And Content Strategy
+
+Goal: move from fixing SEO issues to planning content opportunities and briefs.
+
+Backlog:
+
+- #297 Build keyword and topic inventory from site content.
+- #298 Add content gap and opportunity workflow.
+- #299 Add keyword cannibalization and duplicate intent detection.
+- #300 Add agent-safe SEO content brief generator.
+- #301 Add competitor and SERP import interface.
+- #302 Add topical cluster and hub page planner.
+
+### Sprint 10 - SEO Monitoring And Reporting
+
+Goal: track SEO health over time and turn findings into scheduled tasks.
+
+Backlog:
+
+- #303 Add SEO crawl history and trend storage.
+- #304 Add Search Console/Bing data import and reporting hooks.
+- #305 Add SEO dashboard and scheduled recommendations.
+- #306 Add rank tracking placeholder and third-party import abstraction.
+- #308 Add AI search visibility and citation readiness report.
+- #307 Add approval-safe SEO autofix workflows.
 
 ## Guardrails
 

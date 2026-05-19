@@ -54,6 +54,9 @@ Milestones created:
 - Sprint 5 - Compact MCP Router
 - Sprint 6 - WordPress MCP Alignment
 - Sprint 7 - Gutenberg Agent Design System
+- Sprint 8 - SEO Intelligence Foundation
+- Sprint 9 - Keyword and Content Strategy
+- Sprint 10 - SEO Monitoring and Reporting
 
 Issues created:
 
@@ -85,6 +88,23 @@ Issues created:
 - #287 Add sitemap freshness and IndexNow workflow
 - #288 Add page experience and media SEO checks for Gutenberg pages
 - #289 Add Search Console and webmaster verification notes
+- #290 Build internal link graph with PageRank-style signals
+- #291 Build technical SEO site audit engine
+- #293 Build structured data inventory and validator
+- #294 Build page experience and media audit engine
+- #296 Build SEO issue model and scoring system
+- #297 Build keyword and topic inventory from site content
+- #298 Add content gap and opportunity workflow
+- #299 Add keyword cannibalization and duplicate intent detection
+- #300 Add agent-safe SEO content brief generator
+- #301 Add competitor and SERP import interface
+- #302 Add topical cluster and hub page planner
+- #303 Add SEO crawl history and trend storage
+- #304 Add Search Console/Bing data import and reporting hooks
+- #305 Add SEO dashboard and scheduled recommendations
+- #306 Add rank tracking placeholder and third-party import abstraction
+- #307 Add approval-safe SEO autofix workflows
+- #308 Add AI search visibility and citation readiness report
 
 ## SOS Bus
 
@@ -113,3 +133,5 @@ Important product guardrail: agents should not save arbitrary raw HTML, inline J
 Internal graph gap: the plugin currently has site context, content inventory, search/fetch, and SEO plugin detection, but not a true content/link graph. Sprint 7 now tracks `wp_get_content_graph`, internal link suggestions, orphan detection, broken-link validation, and approval-ready link diffs.
 
 Search/AI discovery direction: pre-publish checks should cover crawlability, indexability, canonicals, sitemap freshness, structured data, internal links, page experience, image/media SEO, and AI crawler access such as OpenAI `OAI-SearchBot`. The goal is not to game search engines; it is to make useful WordPress content easy to crawl, understand, cite, and connect.
+
+Deep SEO roadmap lives in `docs/SEO_INTELLIGENCE_ROADMAP.md`. Product direction: Semrush-like breadth, WordPress-native execution, no ranking promises, imports/provider abstractions instead of default SERP scraping, and approval-safe diffs for every mutating fix.
