@@ -79,6 +79,12 @@ Issues created:
 - #281 Add section-level Gutenberg diff, patch, and rollback
 - #282 Add internal link validation to Gutenberg publishing checks
 - #283 Add internal content graph for agent link suggestions
+- #284 Add search and AI crawler visibility audit
+- #285 Add structured data recommendation and validation workflow
+- #286 Add content quality and entity coverage audit for AI search
+- #287 Add sitemap freshness and IndexNow workflow
+- #288 Add page experience and media SEO checks for Gutenberg pages
+- #289 Add Search Console and webmaster verification notes
 
 ## SOS Bus
 
@@ -105,3 +111,5 @@ Gutenberg direction: make native WordPress blocks the default free build surface
 Important product guardrail: agents should not save arbitrary raw HTML, inline JavaScript, or whole-page classic/null blocks as the default path. They should produce editable Gutenberg blocks, request approval for exceptions, and run SEO checks before publishing or updating important pages.
 
 Internal graph gap: the plugin currently has site context, content inventory, search/fetch, and SEO plugin detection, but not a true content/link graph. Sprint 7 now tracks `wp_get_content_graph`, internal link suggestions, orphan detection, broken-link validation, and approval-ready link diffs.
+
+Search/AI discovery direction: pre-publish checks should cover crawlability, indexability, canonicals, sitemap freshness, structured data, internal links, page experience, image/media SEO, and AI crawler access such as OpenAI `OAI-SearchBot`. The goal is not to game search engines; it is to make useful WordPress content easy to crawl, understand, cite, and connect.

@@ -108,6 +108,34 @@ Minimum checks:
 
 Native WordPress comes first. If Yoast, Rank Math, SEOPress, or another SEO plugin is detected, the workflow should use the plugin's supported fields and APIs instead of writing random post meta.
 
+## Search And AI Discovery Roadmap
+
+Goal: make each generated page easy for people, Google, Bing, ChatGPT search, and other AI answer engines to crawl, understand, cite, and connect to the rest of the site.
+
+Current primary-source guidance points to these foundations:
+
+- Helpful, reliable, people-first content remains the core ranking input.
+- Google discovers new pages heavily through links, so internal links and crawlable anchors matter.
+- Links should be real `<a href="...">` links with descriptive anchor text.
+- Structured data helps search systems understand page meaning and can enable rich results, but it must match visible content and follow feature-specific guidelines.
+- Robots meta, `noindex`, `nofollow`, `nosnippet`, and `max-snippet` affect both classic search and AI surfaces such as AI Overviews/AI Mode.
+- Canonicals, redirects, and sitemap inclusion help search engines choose the preferred URL.
+- Page experience still matters: mobile usability, HTTPS, no intrusive interstitials, and good Core Web Vitals.
+- For ChatGPT search, allow `OAI-SearchBot` when the site wants to appear in ChatGPT search results; manage `GPTBot` separately if training access policy differs.
+- For Bing/IndexNow-supported engines, IndexNow can notify changed URLs, but it does not guarantee indexing and should not be spammed.
+
+Backlog capabilities:
+
+- Search/AI crawler visibility audit: robots.txt, robots meta, canonical, sitemap, `llms.txt`, OAI-SearchBot/GPTBot, and accidental snippet restrictions.
+- Structured data recommendation/validation: Article, BreadcrumbList, Product, FAQ, Organization, LocalBusiness, WebSite/SearchAction, SoftwareApplication, and other page-appropriate types.
+- Content quality and entity coverage audit: intent, summary, definitions, FAQs, entity names, trust signals, freshness, useful references, and answerability.
+- Internal content graph and internal link suggestions.
+- Sitemap freshness and IndexNow workflow for changed URLs.
+- Page experience and media SEO checks before publish.
+- Search Console/Bing Webmaster status notes or integrations where credentials/export data are available.
+
+Agents should treat these checks as a pre-publish gate. The plugin should return a clear report with `pass`, `warn`, `fail`, and approval-required items rather than silently rewriting SEO-sensitive settings.
+
 ## Internal Content Graph
 
 Current state: the plugin has site context, content inventory, recent updates, search/fetch tools, and SEO plugin detection. It does not yet expose a true graph of content nodes, links, backlinks, orphan pages, hubs, and related-content candidates.
@@ -167,6 +195,12 @@ Issues to create or track:
 - #281 Add section-level Gutenberg diff, patch, and rollback.
 - #283 Add internal content graph for agent link suggestions.
 - #282 Add internal link validation to Gutenberg publishing checks.
+- #284 Add search and AI crawler visibility audit.
+- #285 Add structured data recommendation and validation workflow.
+- #286 Add content quality and entity coverage audit for AI search.
+- #287 Add sitemap freshness and IndexNow workflow.
+- #288 Add page experience and media SEO checks for Gutenberg pages.
+- #289 Add Search Console and webmaster verification notes.
 - Add admin documentation that explains Gutenberg-first workflows without exposing internal MCP complexity.
 
 ### Sprint 8 - Site Editor and Global Styles
