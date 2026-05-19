@@ -515,7 +515,7 @@ class Spai_REST_Site_Manager extends Spai_REST_API {
 		$mods = $request->get_param( 'mods' );
 
 		if ( empty( $mods ) || ! is_array( $mods ) ) {
-			return $this->error_response( 'invalid_data', __( 'Mods object is required.', 'site-pilot-ai' ), 400 );
+			return $this->error_response( 'invalid_data', __( 'Mods object is required.', 'mumega-mcp' ), 400 );
 		}
 
 		$updated = $this->manager->update_theme_mods( $mods );

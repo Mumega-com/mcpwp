@@ -76,14 +76,17 @@ echo "==> Done: $OUTPUT_ZIP"
 echo ""
 
 # Sanity
-if unzip -l "$OUTPUT_ZIP" | grep -q "freemius/"; then
+ZIP_MANIFEST="$BUILD_DIR/zip-manifest.txt"
+unzip -Z1 "$OUTPUT_ZIP" > "$ZIP_MANIFEST"
+
+if grep -q "freemius/" "$ZIP_MANIFEST"; then
     echo "    [FAIL] Freemius found!"
     exit 1
 else
     echo "    [OK] No Freemius"
 fi
 
-if unzip -l "$OUTPUT_ZIP" | grep -q "class-spai-updater.php"; then
+if grep -q "class-spai-updater.php" "$ZIP_MANIFEST"; then
     echo "    [OK] Updater INCLUDED (self-hosted build)"
 else
     echo "    [WARN] Updater NOT found — this defeats the purpose!"

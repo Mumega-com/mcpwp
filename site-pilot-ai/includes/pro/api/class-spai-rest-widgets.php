@@ -240,7 +240,7 @@ class Spai_REST_Widgets extends Spai_REST_API {
 		if ( empty( $widget_type ) ) {
 			return $this->error_response(
 				'missing_type',
-				__( 'Widget type is required.', 'site-pilot-ai' ),
+				__( 'Widget type is required.', 'mumega-mcp' ),
 				400
 			);
 		}
@@ -278,7 +278,7 @@ class Spai_REST_Widgets extends Spai_REST_API {
 		if ( ! is_array( $settings ) || empty( $settings ) ) {
 			return $this->error_response(
 				'missing_settings',
-				__( 'Settings are required.', 'site-pilot-ai' ),
+				__( 'Settings are required.', 'mumega-mcp' ),
 				400
 			);
 		}
@@ -331,7 +331,7 @@ class Spai_REST_Widgets extends Spai_REST_API {
 		if ( empty( $sidebar_id ) ) {
 			return $this->error_response(
 				'missing_sidebar',
-				__( 'Target sidebar is required.', 'site-pilot-ai' ),
+				__( 'Target sidebar is required.', 'mumega-mcp' ),
 				400
 			);
 		}
@@ -363,7 +363,7 @@ class Spai_REST_Widgets extends Spai_REST_API {
 		if ( ! is_array( $widget_ids ) || empty( $widget_ids ) ) {
 			return $this->error_response(
 				'missing_widgets',
-				__( 'Widget IDs array is required.', 'site-pilot-ai' ),
+				__( 'Widget IDs array is required.', 'mumega-mcp' ),
 				400
 			);
 		}

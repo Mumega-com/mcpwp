@@ -71,7 +71,7 @@ class Spai_Site_Manager {
 		$menu = wp_get_nav_menu_object( $menu_id );
 
 		if ( ! $menu ) {
-			return new WP_Error( 'not_found', __( 'Menu not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'Menu not found.', 'mumega-mcp' ) );
 		}
 
 		$items = wp_get_nav_menu_items( $menu->term_id );
@@ -99,7 +99,7 @@ class Spai_Site_Manager {
 		$name = isset( $data['name'] ) ? sanitize_text_field( $data['name'] ) : '';
 
 		if ( empty( $name ) ) {
-			return new WP_Error( 'missing_name', __( 'Menu name is required.', 'site-pilot-ai' ) );
+			return new WP_Error( 'missing_name', __( 'Menu name is required.', 'mumega-mcp' ) );
 		}
 
 		$menu_id = wp_create_nav_menu( $name );
@@ -136,7 +136,7 @@ class Spai_Site_Manager {
 		$menu = wp_get_nav_menu_object( $menu_id );
 
 		if ( ! $menu ) {
-			return new WP_Error( 'not_found', __( 'Menu not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'Menu not found.', 'mumega-mcp' ) );
 		}
 
 		// Update name if provided.
@@ -178,13 +178,13 @@ class Spai_Site_Manager {
 		$menu = wp_get_nav_menu_object( $menu_id );
 
 		if ( ! $menu ) {
-			return new WP_Error( 'not_found', __( 'Menu not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'Menu not found.', 'mumega-mcp' ) );
 		}
 
 		$result = wp_delete_nav_menu( $menu_id );
 
 		if ( ! $result ) {
-			return new WP_Error( 'delete_failed', __( 'Failed to delete menu.', 'site-pilot-ai' ) );
+			return new WP_Error( 'delete_failed', __( 'Failed to delete menu.', 'mumega-mcp' ) );
 		}
 
 		return true;
@@ -201,7 +201,7 @@ class Spai_Site_Manager {
 		$menu = wp_get_nav_menu_object( $menu_id );
 
 		if ( ! $menu ) {
-			return new WP_Error( 'not_found', __( 'Menu not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'Menu not found.', 'mumega-mcp' ) );
 		}
 
 		$item_data = array(
@@ -303,7 +303,7 @@ class Spai_Site_Manager {
 		$result = wp_delete_post( $item_id, true );
 
 		if ( ! $result ) {
-			return new WP_Error( 'delete_failed', __( 'Failed to delete menu item.', 'site-pilot-ai' ) );
+			return new WP_Error( 'delete_failed', __( 'Failed to delete menu item.', 'mumega-mcp' ) );
 		}
 
 		return true;
@@ -480,7 +480,7 @@ class Spai_Site_Manager {
 	 */
 	public function get_global_styles() {
 		if ( ! function_exists( 'wp_get_global_styles' ) ) {
-			return new WP_Error( 'not_supported', __( 'Global styles require WordPress 5.9+ and a block theme.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_supported', __( 'Global styles require WordPress 5.9+ and a block theme.', 'mumega-mcp' ) );
 		}
 
 		return array(
@@ -525,7 +525,7 @@ class Spai_Site_Manager {
 		$templates = wp_get_theme()->get_page_templates();
 
 		$result = array(
-			'default' => __( 'Default Template', 'site-pilot-ai' ),
+			'default' => __( 'Default Template', 'mumega-mcp' ),
 		);
 
 		foreach ( $templates as $file => $name ) {
@@ -534,8 +534,8 @@ class Spai_Site_Manager {
 
 		// Add Elementor templates if active.
 		if ( did_action( 'elementor/loaded' ) ) {
-			$result['elementor_header_footer'] = __( 'Elementor Full Width', 'site-pilot-ai' );
-			$result['elementor_canvas'] = __( 'Elementor Canvas', 'site-pilot-ai' );
+			$result['elementor_header_footer'] = __( 'Elementor Full Width', 'mumega-mcp' );
+			$result['elementor_canvas'] = __( 'Elementor Canvas', 'mumega-mcp' );
 		}
 
 		return $result;
@@ -552,13 +552,13 @@ class Spai_Site_Manager {
 		$page = get_post( $page_id );
 
 		if ( ! $page || 'page' !== $page->post_type ) {
-			return new WP_Error( 'not_found', __( 'Page not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'Page not found.', 'mumega-mcp' ) );
 		}
 
 		// Validate template.
 		$valid_templates = array_keys( $this->get_page_templates() );
 		if ( ! in_array( $template, $valid_templates, true ) && 'default' !== $template && '' !== $template ) {
-			return new WP_Error( 'invalid_template', __( 'Invalid template.', 'site-pilot-ai' ) );
+			return new WP_Error( 'invalid_template', __( 'Invalid template.', 'mumega-mcp' ) );
 		}
 
 		// Set template (empty string or 'default' means default template).
@@ -578,7 +578,7 @@ class Spai_Site_Manager {
 		$page = get_post( $page_id );
 
 		if ( ! $page || 'page' !== $page->post_type ) {
-			return new WP_Error( 'not_found', __( 'Page not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'Page not found.', 'mumega-mcp' ) );
 		}
 
 		$template = get_post_meta( $page_id, '_wp_page_template', true );

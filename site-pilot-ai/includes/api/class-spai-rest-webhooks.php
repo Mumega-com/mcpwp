@@ -254,7 +254,7 @@ class Spai_REST_Webhooks extends Spai_REST_API {
 			array(
 				'id'      => $result,
 				'webhook' => $webhook,
-				'message' => __( 'Webhook created successfully.', 'site-pilot-ai' ),
+				'message' => __( 'Webhook created successfully.', 'mumega-mcp' ),
 			),
 			201
 		);
@@ -275,7 +275,7 @@ class Spai_REST_Webhooks extends Spai_REST_API {
 		if ( ! $webhook ) {
 			return $this->error_response(
 				'not_found',
-				__( 'Webhook not found.', 'site-pilot-ai' ),
+				__( 'Webhook not found.', 'mumega-mcp' ),
 				404
 			);
 		}
@@ -391,7 +391,7 @@ class Spai_REST_Webhooks extends Spai_REST_API {
 		if ( ! $webhook ) {
 			return $this->error_response(
 				'not_found',
-				__( 'Webhook not found.', 'site-pilot-ai' ),
+				__( 'Webhook not found.', 'mumega-mcp' ),
 				404
 			);
 		}

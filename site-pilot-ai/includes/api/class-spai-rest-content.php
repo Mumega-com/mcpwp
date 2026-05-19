@@ -34,17 +34,17 @@ class Spai_REST_Content extends Spai_REST_API {
 						$this->get_pagination_args(),
 						array(
 							'post_type' => array(
-								'description' => __( 'Post type to list (e.g., product).', 'site-pilot-ai' ),
+								'description' => __( 'Post type to list (e.g., product).', 'mumega-mcp' ),
 								'type'        => 'string',
 								'required'    => true,
 							),
 							'status'    => array(
-								'description' => __( 'Post status filter.', 'site-pilot-ai' ),
+								'description' => __( 'Post status filter.', 'mumega-mcp' ),
 								'type'        => 'string',
 								'default'     => 'any',
 							),
 							'search'    => array(
-								'description' => __( 'Search term.', 'site-pilot-ai' ),
+								'description' => __( 'Search term.', 'mumega-mcp' ),
 								'type'        => 'string',
 							),
 						)
@@ -64,7 +64,7 @@ class Spai_REST_Content extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'force' => array(
-							'description' => __( 'Force permanent deletion.', 'site-pilot-ai' ),
+							'description' => __( 'Force permanent deletion.', 'mumega-mcp' ),
 							'type'        => 'boolean',
 							'default'     => false,
 						),
@@ -87,7 +87,7 @@ class Spai_REST_Content extends Spai_REST_API {
 		if ( '' === $post_type || ! post_type_exists( $post_type ) ) {
 			return $this->error_response(
 				'invalid_post_type',
-				__( 'Invalid post_type.', 'site-pilot-ai' ),
+				__( 'Invalid post_type.', 'mumega-mcp' ),
 				400
 			);
 		}
@@ -163,7 +163,7 @@ class Spai_REST_Content extends Spai_REST_API {
 		if ( '' === $post_type || ! post_type_exists( $post_type ) ) {
 			return $this->error_response(
 				'invalid_post_type',
-				__( 'Invalid post_type.', 'site-pilot-ai' ),
+				__( 'Invalid post_type.', 'mumega-mcp' ),
 				400
 			);
 		}
@@ -172,7 +172,7 @@ class Spai_REST_Content extends Spai_REST_API {
 		if ( ! $post || $post_type !== $post->post_type ) {
 			return $this->error_response(
 				'not_found',
-				__( 'Content item not found.', 'site-pilot-ai' ),
+				__( 'Content item not found.', 'mumega-mcp' ),
 				404
 			);
 		}
@@ -181,7 +181,7 @@ class Spai_REST_Content extends Spai_REST_API {
 		if ( ! $result ) {
 			return $this->error_response(
 				'delete_failed',
-				__( 'Failed to delete content item.', 'site-pilot-ai' ),
+				__( 'Failed to delete content item.', 'mumega-mcp' ),
 				500
 			);
 		}
@@ -192,8 +192,8 @@ class Spai_REST_Content extends Spai_REST_API {
 				'post_id'   => $post_id,
 				'post_type' => $post_type,
 				'message'   => $force
-					? __( 'Content permanently deleted.', 'site-pilot-ai' )
-					: __( 'Content moved to trash.', 'site-pilot-ai' ),
+					? __( 'Content permanently deleted.', 'mumega-mcp' )
+					: __( 'Content moved to trash.', 'mumega-mcp' ),
 			)
 		);
 	}

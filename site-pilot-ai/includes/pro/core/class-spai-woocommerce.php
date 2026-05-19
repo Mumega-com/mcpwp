@@ -162,12 +162,12 @@ class Spai_WooCommerce {
 	 */
 	public function get_product( $id ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
+			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
 		}
 
 		$product = wc_get_product( $id );
 		if ( ! $product ) {
-			return new WP_Error( 'not_found', __( 'Product not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Product not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
 		}
 
 		return $this->format_product( $product, true );
@@ -181,7 +181,7 @@ class Spai_WooCommerce {
 	 */
 	public function create_product( $data ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
+			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
 		}
 
 		$type = isset( $data['type'] ) ? $data['type'] : 'simple';
@@ -205,7 +205,7 @@ class Spai_WooCommerce {
 		$product_id = $product->save();
 
 		if ( ! $product_id ) {
-			return new WP_Error( 'create_failed', __( 'Failed to create product.', 'site-pilot-ai' ), array( 'status' => 500 ) );
+			return new WP_Error( 'create_failed', __( 'Failed to create product.', 'mumega-mcp' ), array( 'status' => 500 ) );
 		}
 
 		// Handle categories.
@@ -230,12 +230,12 @@ class Spai_WooCommerce {
 	 */
 	public function update_product( $id, $data ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
+			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
 		}
 
 		$product = wc_get_product( $id );
 		if ( ! $product ) {
-			return new WP_Error( 'not_found', __( 'Product not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Product not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
 		}
 
 		$this->set_product_data( $product, $data );
@@ -264,12 +264,12 @@ class Spai_WooCommerce {
 	 */
 	public function delete_product( $id, $force = false ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
+			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
 		}
 
 		$product = wc_get_product( $id );
 		if ( ! $product ) {
-			return new WP_Error( 'not_found', __( 'Product not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Product not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
 		}
 
 		if ( $force ) {
@@ -471,11 +471,11 @@ class Spai_WooCommerce {
 	 */
 	public function create_product_category( $data ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
+			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
 		}
 
 		if ( empty( $data['name'] ) ) {
-			return new WP_Error( 'missing_name', __( 'Category name is required.', 'site-pilot-ai' ), array( 'status' => 400 ) );
+			return new WP_Error( 'missing_name', __( 'Category name is required.', 'mumega-mcp' ), array( 'status' => 400 ) );
 		}
 
 		$args = array();
@@ -525,12 +525,12 @@ class Spai_WooCommerce {
 	 */
 	public function update_product_category( $id, $data ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
+			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
 		}
 
 		$term = get_term( $id, 'product_cat' );
 		if ( ! $term || is_wp_error( $term ) ) {
-			return new WP_Error( 'not_found', __( 'Product category not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Product category not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
 		}
 
 		$args = array();
@@ -815,12 +815,12 @@ class Spai_WooCommerce {
 	 */
 	public function get_order( $id ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
+			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
 		}
 
 		$order = wc_get_order( $id );
 		if ( ! $order ) {
-			return new WP_Error( 'not_found', __( 'Order not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Order not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
 		}
 
 		return $this->format_order( $order, true );
@@ -835,12 +835,12 @@ class Spai_WooCommerce {
 	 */
 	public function update_order( $id, $data ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
+			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
 		}
 
 		$order = wc_get_order( $id );
 		if ( ! $order ) {
-			return new WP_Error( 'not_found', __( 'Order not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Order not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
 		}
 
 		// Update status.
@@ -1030,12 +1030,12 @@ class Spai_WooCommerce {
 	 */
 	public function get_customer( $id ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
+			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
 		}
 
 		$customer = new WC_Customer( $id );
 		if ( ! $customer->get_id() ) {
-			return new WP_Error( 'not_found', __( 'Customer not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Customer not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
 		}
 
 		return $this->format_customer( $customer, true );
@@ -1105,7 +1105,7 @@ class Spai_WooCommerce {
 	 */
 	public function get_analytics( $args = array() ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
+			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
 		}
 
 		$defaults = array(

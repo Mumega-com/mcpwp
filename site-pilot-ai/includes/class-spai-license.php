@@ -88,6 +88,21 @@ class Spai_License {
 			return true;
 		}
 
+		if ( function_exists( 'spai_get_fs_instance' ) ) {
+			$fs = spai_get_fs_instance();
+			if ( is_object( $fs ) ) {
+				if ( method_exists( $fs, 'can_use_premium_code' ) && $fs->can_use_premium_code() ) {
+					return true;
+				}
+				if ( method_exists( $fs, 'is_paying' ) && $fs->is_paying() ) {
+					return true;
+				}
+				if ( method_exists( $fs, 'is_trial' ) && $fs->is_trial() ) {
+					return true;
+				}
+			}
+		}
+
 		// Check stored license.
 		$license = $this->get_license_data();
 		if ( ! empty( $license['key'] ) && ! empty( $license['valid'] ) && ! $this->is_expired() ) {
@@ -110,6 +125,12 @@ class Spai_License {
 	public function is_paying() {
 		if ( defined( 'MUMCP_PRO' ) && MUMCP_PRO ) {
 			return true;
+		}
+		if ( function_exists( 'spai_get_fs_instance' ) ) {
+			$fs = spai_get_fs_instance();
+			if ( is_object( $fs ) && method_exists( $fs, 'is_paying' ) && $fs->is_paying() ) {
+				return true;
+			}
 		}
 		$license = $this->get_license_data();
 		return ! empty( $license['key'] ) && ! empty( $license['valid'] ) && ! $this->is_expired();
@@ -180,14 +201,15 @@ class Spai_License {
 		if ( ! empty( $existing ) ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Trial already started.', 'site-pilot-ai' ),
+				'message' => __( 'Trial already started.', 'mumega-mcp' ),
 				'days_remaining' => $this->get_trial_days_remaining(),
 			);
 		}
 		update_option( self::TRIAL_KEY, time() );
 		return array(
 			'success' => true,
-			'message' => sprintf( __( '%d-day Pro trial started. All integrations unlocked.', 'site-pilot-ai' ), self::TRIAL_DAYS ),
+			/* translators: %d: number of trial days */
+			'message' => sprintf( __( '%d-day Pro trial started. All integrations unlocked.', 'mumega-mcp' ), self::TRIAL_DAYS ),
 			'days_remaining' => self::TRIAL_DAYS,
 		);
 	}
@@ -256,7 +278,7 @@ class Spai_License {
 	 * @return string
 	 */
 	public function get_upgrade_url() {
-		return 'https://mucp.mumega.com/pricing/';
+		return 'https://sitepilotai.mumega.com/pricing/';
 	}
 
 	/**
@@ -265,7 +287,7 @@ class Spai_License {
 	 * @return string
 	 */
 	public function get_account_url() {
-		return 'https://mucp.mumega.com/account/';
+		return 'https://sitepilotai.mumega.com/account/';
 	}
 
 	/**
@@ -281,7 +303,7 @@ class Spai_License {
 		if ( empty( $license_key ) ) {
 			return array(
 				'success' => false,
-				'message' => __( 'License key is required.', 'site-pilot-ai' ),
+				'message' => __( 'License key is required.', 'mumega-mcp' ),
 			);
 		}
 
@@ -308,7 +330,7 @@ class Spai_License {
 
 			return array(
 				'success' => true,
-				'message' => __( 'License saved (offline validation — will verify on next check).', 'site-pilot-ai' ),
+				'message' => __( 'License saved (offline validation — will verify on next check).', 'mumega-mcp' ),
 				'plan'    => 'pro',
 			);
 		}
@@ -317,7 +339,7 @@ class Spai_License {
 		$valid = isset( $body['valid'] ) && $body['valid'];
 
 		if ( ! $valid ) {
-			$error = isset( $body['error'] ) ? $body['error'] : __( 'Invalid license key.', 'site-pilot-ai' );
+			$error = isset( $body['error'] ) ? $body['error'] : __( 'Invalid license key.', 'mumega-mcp' );
 			return array(
 				'success' => false,
 				'message' => $error,
@@ -345,7 +367,8 @@ class Spai_License {
 
 		return array(
 			'success' => true,
-			'message' => sprintf( __( 'License activated. Plan: %s', 'site-pilot-ai' ), ucfirst( $plan ) ),
+			/* translators: %s: license plan name */
+			'message' => sprintf( __( 'License activated. Plan: %s', 'mumega-mcp' ), ucfirst( $plan ) ),
 			'plan'    => $plan,
 		);
 	}
@@ -373,7 +396,7 @@ class Spai_License {
 
 		return array(
 			'success' => true,
-			'message' => __( 'License deactivated. Pro features disabled.', 'site-pilot-ai' ),
+			'message' => __( 'License deactivated. Pro features disabled.', 'mumega-mcp' ),
 		);
 	}
 

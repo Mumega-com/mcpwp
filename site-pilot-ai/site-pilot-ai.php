@@ -12,14 +12,14 @@
  *
  * @wordpress-plugin
  * Plugin Name:       mumcp
- * Plugin URI:        https://mucp.mumega.com
+ * Plugin URI:        https://sitepilotai.mumega.com/
  * Description:       Connect WordPress to AI assistants via the Model Context Protocol (MCP). Manage posts, pages, media, and Elementor through natural language.
- * Version:           2.8.2
+ * Version:           2.8.4
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            Mumega
  * Author URI:        https://mumega.com/
- * Text Domain:       site-pilot-ai
+ * Text Domain:       mumega-mcp
  * Domain Path:       /languages
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin version.
  */
-define( 'SPAI_VERSION', '2.8.2' );
+define( 'SPAI_VERSION', '2.8.4' );
 
 /**
  * Plugin directory path.
@@ -94,7 +94,7 @@ if ( ! function_exists( 'spai_php_version_notice' ) ) {
 			<?php
 			printf(
 				/* translators: 1: Required PHP version 2: Current PHP version */
-				esc_html__( 'MUCP requires PHP %1$s or higher. You are running PHP %2$s.', 'site-pilot-ai' ),
+				esc_html__( 'MUCP requires PHP %1$s or higher. You are running PHP %2$s.', 'mumega-mcp' ),
 				esc_html( SPAI_MIN_PHP_VERSION ),
 				esc_html( PHP_VERSION )
 			);
@@ -117,7 +117,7 @@ if ( ! function_exists( 'spai_wp_version_notice' ) ) {
 			<?php
 			printf(
 				/* translators: 1: Required WP version 2: Current WP version */
-				esc_html__( 'MUCP requires WordPress %1$s or higher. You are running WordPress %2$s.', 'site-pilot-ai' ),
+				esc_html__( 'MUCP requires WordPress %1$s or higher. You are running WordPress %2$s.', 'mumega-mcp' ),
 				esc_html( SPAI_MIN_WP_VERSION ),
 				esc_html( $wp_version )
 			);
@@ -154,6 +154,9 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/class-spai-webhooks.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/class-spai-alerts.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/class-spai-license.php';
+	if ( defined( 'SPAI_FREEMIUS_BUILD' ) && SPAI_FREEMIUS_BUILD && file_exists( SPAI_PLUGIN_DIR . 'includes/freemius-init.php' ) ) {
+		require_once SPAI_PLUGIN_DIR . 'includes/freemius-init.php';
+	}
 	// Self-updater excluded from WP.org builds — only loaded when present.
 	if ( file_exists( SPAI_PLUGIN_DIR . 'includes/class-spai-updater.php' ) ) {
 		require_once SPAI_PLUGIN_DIR . 'includes/class-spai-updater.php';

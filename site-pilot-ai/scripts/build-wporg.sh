@@ -13,8 +13,9 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-PLUGIN_SLUG="site-pilot-ai"
-WPORG_NAME="mumega-mcp"
+SOURCE_SLUG="site-pilot-ai"
+WPORG_SLUG="mumega-mcp"
+PLUGIN_MAIN="$SOURCE_SLUG.php"
 
 # Parse version from plugin header if not supplied
 VERSION=""
@@ -26,7 +27,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z "$VERSION" ]]; then
-    VERSION=$(grep -m1 "Version:" "$PLUGIN_DIR/$PLUGIN_SLUG.php" | sed 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')
+    VERSION=$(grep -m1 "Version:" "$PLUGIN_DIR/$PLUGIN_MAIN" | sed 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')
 fi
 
 if [[ -z "$VERSION" ]]; then
@@ -34,11 +35,11 @@ if [[ -z "$VERSION" ]]; then
     exit 1
 fi
 
-echo "==> Building $WPORG_NAME v$VERSION for WordPress.org"
+echo "==> Building $WPORG_SLUG v$VERSION for WordPress.org"
 
 # Create temp build directory
 BUILD_DIR=$(mktemp -d)
-DEST="$BUILD_DIR/$PLUGIN_SLUG"
+DEST="$BUILD_DIR/$WPORG_SLUG"
 trap 'rm -rf "$BUILD_DIR"' EXIT
 
 # Copy plugin tree
@@ -57,7 +58,7 @@ rm -f  "$DEST/includes/freemius-init.php"
 
 # ── Inject SPAI_WPORG_BUILD constant for WP.org compliance ─────
 echo "    Injecting SPAI_WPORG_BUILD constant..."
-sed -i "s|define( 'SPAI_VERSION'|define( 'SPAI_WPORG_BUILD', true );\ndefine( 'SPAI_VERSION'|" "$DEST/$PLUGIN_SLUG.php"
+sed -i "s|define( 'SPAI_VERSION'|define( 'SPAI_WPORG_BUILD', true );\ndefine( 'SPAI_VERSION'|" "$DEST/$PLUGIN_MAIN"
 
 # ── Apply .distignore exclusions ────────────────────────────────
 echo "    Applying .distignore..."
@@ -78,11 +79,11 @@ rm -rf "$DEST/scripts"
 
 # ── Build zip ───────────────────────────────────────────────────
 OUTPUT_DIR="$PLUGIN_DIR/scripts"
-OUTPUT_ZIP="$OUTPUT_DIR/$WPORG_NAME-$VERSION.zip"
+OUTPUT_ZIP="$OUTPUT_DIR/$WPORG_SLUG-$VERSION.zip"
 
 echo "    Creating zip..."
 cd "$BUILD_DIR"
-zip -qr "$OUTPUT_ZIP" "$PLUGIN_SLUG/"
+zip -qr "$OUTPUT_ZIP" "$WPORG_SLUG/"
 
 echo ""
 echo "==> Done: $OUTPUT_ZIP"
@@ -90,8 +91,10 @@ echo ""
 
 # Sanity checks
 echo "    Sanity checks:"
+ZIP_MANIFEST="$BUILD_DIR/zip-manifest.txt"
+unzip -Z1 "$OUTPUT_ZIP" > "$ZIP_MANIFEST"
 
-if unzip -l "$OUTPUT_ZIP" | grep -q "freemius/"; then
+if grep -q "freemius/" "$ZIP_MANIFEST"; then
     echo "    [FAIL] Freemius SDK found in zip!"
     exit 1
 else

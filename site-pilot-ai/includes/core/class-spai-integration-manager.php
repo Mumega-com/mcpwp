@@ -63,7 +63,7 @@ class Spai_Integration_Manager {
 		),
 		'screenshot' => array(
 			'name'        => 'Screenshot Worker',
-			'url'         => 'https://mucp.mumega.com/docs/screenshot-worker/',
+			'url'         => 'https://sitepilotai.mumega.com/docs/screenshot-worker/',
 			'key_prefix'  => '',
 			'tier'        => 'free',
 			'description' => 'Cloudflare Browser Rendering for high-quality headless Chromium screenshots. Without this, screenshots use WordPress mshots (lower quality, delayed).',
@@ -326,7 +326,7 @@ class Spai_Integration_Manager {
 		if ( false === $key ) {
 			return array(
 				'success' => false,
-				'message' => __( 'No API key configured for this provider.', 'site-pilot-ai' ),
+				'message' => __( 'No API key configured for this provider.', 'mumega-mcp' ),
 			);
 		}
 
@@ -334,7 +334,7 @@ class Spai_Integration_Manager {
 		if ( ! $provider_instance ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Unknown provider.', 'site-pilot-ai' ),
+				'message' => __( 'Unknown provider.', 'mumega-mcp' ),
 			);
 		}
 
@@ -361,7 +361,7 @@ class Spai_Integration_Manager {
 		if ( ! $config || empty( $config['url'] ) ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Screenshot worker URL not configured.', 'site-pilot-ai' ),
+				'message' => __( 'Screenshot worker URL not configured.', 'mumega-mcp' ),
 			);
 		}
 
@@ -393,7 +393,7 @@ class Spai_Integration_Manager {
 			$body = json_decode( wp_remote_retrieve_body( $response ), true );
 			if ( 200 === $code && ! empty( $body['success'] ) ) {
 				$result['success'] = true;
-				$result['message'] = __( 'Screenshot worker is responding correctly.', 'site-pilot-ai' );
+				$result['message'] = __( 'Screenshot worker is responding correctly.', 'mumega-mcp' );
 			} else {
 				$result['message'] = isset( $body['error'] ) ? $body['error'] : sprintf( 'Worker returned HTTP %d', $code );
 			}
@@ -419,7 +419,7 @@ class Spai_Integration_Manager {
 		if ( ! class_exists( 'Spai_Google_Indexing' ) ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Google Indexing API requires a configured service account.', 'site-pilot-ai' ),
+				'message' => __( 'Google Indexing API requires a configured service account.', 'mumega-mcp' ),
 			);
 		}
 
@@ -446,7 +446,7 @@ class Spai_Integration_Manager {
 		if ( ! class_exists( 'Spai_Figma' ) ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Figma support is not available in this build.', 'site-pilot-ai' ),
+				'message' => __( 'Figma support is not available in this build.', 'mumega-mcp' ),
 			);
 		}
 

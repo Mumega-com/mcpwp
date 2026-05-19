@@ -150,13 +150,13 @@ class Spai_Theme_Builder {
 	 */
 	public function get_template( $template_id ) {
 		if ( ! $this->is_available() ) {
-			return new WP_Error( 'not_available', __( 'Elementor Pro Theme Builder is not available.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_available', __( 'Elementor Pro Theme Builder is not available.', 'mumega-mcp' ) );
 		}
 
 		$template = get_post( $template_id );
 
 		if ( ! $template || 'elementor_library' !== $template->post_type ) {
-			return new WP_Error( 'not_found', __( 'Template not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'Template not found.', 'mumega-mcp' ) );
 		}
 
 		$data = $this->format_template( $template );
@@ -252,13 +252,13 @@ class Spai_Theme_Builder {
 	 */
 	public function set_template_conditions( $template_id, $conditions ) {
 		if ( ! $this->is_available() ) {
-			return new WP_Error( 'not_available', __( 'Elementor Pro Theme Builder is not available.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_available', __( 'Elementor Pro Theme Builder is not available.', 'mumega-mcp' ) );
 		}
 
 		$document = \Elementor\Plugin::instance()->documents->get( $template_id );
 
 		if ( ! $document ) {
-			return new WP_Error( 'not_found', __( 'Template not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'Template not found.', 'mumega-mcp' ) );
 		}
 
 		// Validate and format conditions.
@@ -376,7 +376,7 @@ class Spai_Theme_Builder {
 				'invalid_scope',
 				sprintf(
 					/* translators: 1: provided scope 2: valid scopes */
-					__( 'Invalid scope "%1$s". Valid scopes: %2$s', 'site-pilot-ai' ),
+					__( 'Invalid scope "%1$s". Valid scopes: %2$s', 'mumega-mcp' ),
 					$scope,
 					implode( ', ', $valid_scopes )
 				)
@@ -409,7 +409,7 @@ class Spai_Theme_Builder {
 	 */
 	public function create_theme_template( $data ) {
 		if ( ! $this->is_available() ) {
-			return new WP_Error( 'not_available', __( 'Elementor Pro Theme Builder is not available.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_available', __( 'Elementor Pro Theme Builder is not available.', 'mumega-mcp' ) );
 		}
 
 		$dry_run = ! empty( $data['dry_run'] );
@@ -418,15 +418,16 @@ class Spai_Theme_Builder {
 		$scope   = ! empty( $data['scope'] ) ? sanitize_text_field( $data['scope'] ) : 'entire_site';
 
 		if ( empty( $title ) ) {
-			return new WP_Error( 'missing_title', __( 'Template title is required.', 'site-pilot-ai' ) );
+			return new WP_Error( 'missing_title', __( 'Template title is required.', 'mumega-mcp' ) );
 		}
 
 		$valid_types = array( 'header', 'footer', 'single', 'archive' );
-		if ( ! in_array( $type, $valid_types, true ) ) {
-			return new WP_Error( 'invalid_type', sprintf(
-				__( 'Invalid template type. Must be one of: %s', 'site-pilot-ai' ),
-				implode( ', ', $valid_types )
-			) );
+			if ( ! in_array( $type, $valid_types, true ) ) {
+				return new WP_Error( 'invalid_type', sprintf(
+					/* translators: %s: comma-separated list of valid template types */
+					__( 'Invalid template type. Must be one of: %s', 'mumega-mcp' ),
+					implode( ', ', $valid_types )
+				) );
 		}
 
 		// Dry run: validate params without creating anything.
@@ -437,7 +438,7 @@ class Spai_Theme_Builder {
 				'title'    => $title,
 				'type'     => $type,
 				'scope'    => $scope,
-				'message'  => __( 'Validation passed — no template created.', 'site-pilot-ai' ),
+				'message'  => __( 'Validation passed — no template created.', 'mumega-mcp' ),
 			);
 			if ( ! empty( $data['elementor_data'] ) ) {
 				$elements = $data['elementor_data'];
@@ -621,12 +622,12 @@ class Spai_Theme_Builder {
 	public function get_available_conditions() {
 		return array(
 			'scopes' => array(
-				'entire_site' => __( 'Entire Site', 'site-pilot-ai' ),
-				'singular'    => __( 'Singular', 'site-pilot-ai' ),
-				'archive'     => __( 'Archive', 'site-pilot-ai' ),
-				'specific'    => __( 'Specific Pages/Posts', 'site-pilot-ai' ),
-				'front_page'  => __( 'Front Page', 'site-pilot-ai' ),
-				'404'         => __( '404 Page', 'site-pilot-ai' ),
+				'entire_site' => __( 'Entire Site', 'mumega-mcp' ),
+				'singular'    => __( 'Singular', 'mumega-mcp' ),
+				'archive'     => __( 'Archive', 'mumega-mcp' ),
+				'specific'    => __( 'Specific Pages/Posts', 'mumega-mcp' ),
+				'front_page'  => __( 'Front Page', 'mumega-mcp' ),
+				'404'         => __( '404 Page', 'mumega-mcp' ),
 			),
 			'post_types' => get_post_types( array( 'public' => true ), 'objects' ),
 			'taxonomies' => get_taxonomies( array( 'public' => true ), 'objects' ),

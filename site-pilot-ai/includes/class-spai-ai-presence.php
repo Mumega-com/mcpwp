@@ -44,7 +44,7 @@ class Spai_AI_Presence {
 		status_header( 200 );
 		header( 'Content-Type: text/plain; charset=' . get_bloginfo( 'charset' ) );
 		header( 'X-Robots-Tag: noarchive' );
-		echo $this->generate_llms_txt();
+		echo esc_html( $this->generate_llms_txt() );
 		exit;
 	}
 

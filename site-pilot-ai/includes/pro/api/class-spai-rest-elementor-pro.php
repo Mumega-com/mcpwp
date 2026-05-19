@@ -227,7 +227,7 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 				'permission_callback' => array( $this, 'check_permission' ),
 				'args'                => array(
 					'widget' => array(
-						'description' => __( 'Widget type name to get full controls schema.', 'site-pilot-ai' ),
+						'description' => __( 'Widget type name to get full controls schema.', 'mumega-mcp' ),
 						'type'        => 'string',
 					),
 				),
@@ -417,7 +417,7 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 
 		if ( ! $post || $this->custom_code_cpt !== $post->post_type ) {
 			$this->log_activity( 'sanitize_elementor_custom_code', $request, null, 404 );
-			return $this->error_response( 'not_found', __( 'Custom Code snippet not found.', 'site-pilot-ai' ), 404 );
+			return $this->error_response( 'not_found', __( 'Custom Code snippet not found.', 'mumega-mcp' ), 404 );
 		}
 
 		$meta    = get_post_meta( $id );
@@ -474,7 +474,7 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 
 		if ( ! $post || $this->custom_code_cpt !== $post->post_type ) {
 			$this->log_activity( 'set_elementor_custom_code_status', $request, null, 404 );
-			return $this->error_response( 'not_found', __( 'Custom Code snippet not found.', 'site-pilot-ai' ), 404 );
+			return $this->error_response( 'not_found', __( 'Custom Code snippet not found.', 'mumega-mcp' ), 404 );
 		}
 
 		$status = $this->validate_post_status( $status, array( 'publish', 'draft' ) );
@@ -686,7 +686,7 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 		$page_id     = absint( $request->get_param( 'page_id' ) );
 
 		if ( ! $page_id ) {
-			return $this->error_response( 'missing_page_id', __( 'Page ID is required.', 'site-pilot-ai' ), 400 );
+			return $this->error_response( 'missing_page_id', __( 'Page ID is required.', 'mumega-mcp' ), 400 );
 		}
 
 		$result = $this->elementor_pro->apply_template_to_page( $page_id, $template_id );
@@ -831,7 +831,7 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 		$page_id      = absint( $request->get_param( 'page_id' ) );
 
 		if ( ! $page_id ) {
-			return $this->error_response( 'missing_page_id', __( 'Page ID is required.', 'site-pilot-ai' ), 400 );
+			return $this->error_response( 'missing_page_id', __( 'Page ID is required.', 'mumega-mcp' ), 400 );
 		}
 
 		$result = $this->elementor_pro->apply_archetype_to_page( $archetype_id, $page_id );
@@ -978,7 +978,7 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 		$element_id = $request->get_param( 'element_id' );
 
 		if ( ! $page_id || ! $element_id ) {
-			return $this->error_response( 'missing_params', __( 'page_id and element_id are required.', 'site-pilot-ai' ), 400 );
+			return $this->error_response( 'missing_params', __( 'page_id and element_id are required.', 'mumega-mcp' ), 400 );
 		}
 
 		$data = array(
@@ -1046,7 +1046,7 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 		$position = (string) ( $request->get_param( 'position' ) ?: 'end' );
 
 		if ( ! $page_id ) {
-			return $this->error_response( 'missing_page_id', __( 'Page ID is required.', 'site-pilot-ai' ), 400 );
+			return $this->error_response( 'missing_page_id', __( 'Page ID is required.', 'mumega-mcp' ), 400 );
 		}
 
 		if ( 'insert' === $mode ) {
@@ -1085,7 +1085,7 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 		$source_id = absint( $request->get_param( 'source_id' ) );
 
 		if ( ! $source_id ) {
-			return $this->error_response( 'missing_source_id', __( 'Source ID is required.', 'site-pilot-ai' ), 400 );
+			return $this->error_response( 'missing_source_id', __( 'Source ID is required.', 'mumega-mcp' ), 400 );
 		}
 
 		$args = array(
@@ -1190,7 +1190,7 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 		$this->log_activity( 'set_elementor_globals', $request );
 
 		if ( ! class_exists( '\Elementor\Plugin' ) ) {
-			return $this->error_response( 'elementor_not_active', __( 'Elementor is not active.', 'site-pilot-ai' ), 400 );
+			return $this->error_response( 'elementor_not_active', __( 'Elementor is not active.', 'mumega-mcp' ), 400 );
 		}
 
 		$params = $request->get_json_params();
@@ -1199,13 +1199,13 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 		}
 
 		if ( empty( $params ) || ! is_array( $params ) ) {
-			return $this->error_response( 'missing_params', __( 'Globals data is required.', 'site-pilot-ai' ), 400 );
+			return $this->error_response( 'missing_params', __( 'Globals data is required.', 'mumega-mcp' ), 400 );
 		}
 
 		// Get the active kit
 		$kit = \Elementor\Plugin::$instance->kits_manager->get_active_kit();
 		if ( ! $kit || ! $kit->get_id() ) {
-			return $this->error_response( 'no_kit', __( 'No active Elementor kit found.', 'site-pilot-ai' ), 500 );
+			return $this->error_response( 'no_kit', __( 'No active Elementor kit found.', 'mumega-mcp' ), 500 );
 		}
 
 		$kit_id       = $kit->get_id();
@@ -1242,7 +1242,7 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 		$response = array(
 			'kit_id'   => $kit_id,
 			'settings' => $updated,
-			'message'  => __( 'Elementor globals updated.', 'site-pilot-ai' ),
+			'message'  => __( 'Elementor globals updated.', 'mumega-mcp' ),
 		);
 		if ( ! empty( $warnings ) ) {
 			$response['warnings'] = $warnings;

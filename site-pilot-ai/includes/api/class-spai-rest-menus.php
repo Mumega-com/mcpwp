@@ -58,12 +58,12 @@ class Spai_REST_Menus extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'menu_id'  => array(
-							'description' => __( 'Menu ID to assign.', 'site-pilot-ai' ),
+							'description' => __( 'Menu ID to assign.', 'mumega-mcp' ),
 							'type'        => 'integer',
 							'required'    => true,
 						),
 						'location' => array(
-							'description' => __( 'Theme menu location key (e.g., menu-1).', 'site-pilot-ai' ),
+							'description' => __( 'Theme menu location key (e.g., menu-1).', 'mumega-mcp' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
@@ -96,22 +96,22 @@ class Spai_REST_Menus extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'name'      => array(
-							'description' => __( 'Menu name.', 'site-pilot-ai' ),
+							'description' => __( 'Menu name.', 'mumega-mcp' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'location'  => array(
-							'description' => __( 'Theme menu location key to assign.', 'site-pilot-ai' ),
+							'description' => __( 'Theme menu location key to assign.', 'mumega-mcp' ),
 							'type'        => 'string',
 						),
 						'page_ids'  => array(
-							'description' => __( 'Page IDs to add as menu items.', 'site-pilot-ai' ),
+							'description' => __( 'Page IDs to add as menu items.', 'mumega-mcp' ),
 							'type'        => 'array',
 							'items'       => array( 'type' => 'integer' ),
 							'default'     => array(),
 						),
 						'overwrite' => array(
-							'description' => __( 'If true, creates a new menu even if one with same name exists.', 'site-pilot-ai' ),
+							'description' => __( 'If true, creates a new menu even if one with same name exists.', 'mumega-mcp' ),
 							'type'        => 'boolean',
 							'default'     => false,
 						),
@@ -136,50 +136,50 @@ class Spai_REST_Menus extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'type'        => array(
-							'description' => __( 'Item type: custom, post_type, or taxonomy.', 'site-pilot-ai' ),
+							'description' => __( 'Item type: custom, post_type, or taxonomy.', 'mumega-mcp' ),
 							'type'        => 'string',
 							'enum'        => array( 'custom', 'post_type', 'taxonomy' ),
 							'default'     => 'custom',
 						),
 						'title'       => array(
-							'description' => __( 'Menu item label.', 'site-pilot-ai' ),
+							'description' => __( 'Menu item label.', 'mumega-mcp' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'url'         => array(
-							'description' => __( 'URL for custom links.', 'site-pilot-ai' ),
+							'description' => __( 'URL for custom links.', 'mumega-mcp' ),
 							'type'        => 'string',
 						),
 						'object'      => array(
-							'description' => __( 'Object type: page, post, product, category, etc.', 'site-pilot-ai' ),
+							'description' => __( 'Object type: page, post, product, category, etc.', 'mumega-mcp' ),
 							'type'        => 'string',
 						),
 						'object_id'   => array(
-							'description' => __( 'Object ID for post_type or taxonomy items.', 'site-pilot-ai' ),
+							'description' => __( 'Object ID for post_type or taxonomy items.', 'mumega-mcp' ),
 							'type'        => 'integer',
 						),
 						'parent_id'   => array(
-							'description' => __( 'Parent menu item ID (for sub-menus).', 'site-pilot-ai' ),
+							'description' => __( 'Parent menu item ID (for sub-menus).', 'mumega-mcp' ),
 							'type'        => 'integer',
 							'default'     => 0,
 						),
 						'position'    => array(
-							'description' => __( 'Menu order position.', 'site-pilot-ai' ),
+							'description' => __( 'Menu order position.', 'mumega-mcp' ),
 							'type'        => 'integer',
 						),
 						'classes'     => array(
-							'description' => __( 'CSS classes for this item.', 'site-pilot-ai' ),
+							'description' => __( 'CSS classes for this item.', 'mumega-mcp' ),
 							'type'        => 'array',
 							'items'       => array( 'type' => 'string' ),
 							'default'     => array(),
 						),
 						'target'      => array(
-							'description' => __( 'Link target: _blank or _self.', 'site-pilot-ai' ),
+							'description' => __( 'Link target: _blank or _self.', 'mumega-mcp' ),
 							'type'        => 'string',
 							'enum'        => array( '_blank', '_self' ),
 						),
 						'description' => array(
-							'description' => __( 'Item description or tooltip.', 'site-pilot-ai' ),
+							'description' => __( 'Item description or tooltip.', 'mumega-mcp' ),
 							'type'        => 'string',
 						),
 					),
@@ -198,33 +198,33 @@ class Spai_REST_Menus extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'title'       => array(
-							'description' => __( 'Menu item label.', 'site-pilot-ai' ),
+							'description' => __( 'Menu item label.', 'mumega-mcp' ),
 							'type'        => 'string',
 						),
 						'url'         => array(
-							'description' => __( 'URL (for custom links).', 'site-pilot-ai' ),
+							'description' => __( 'URL (for custom links).', 'mumega-mcp' ),
 							'type'        => 'string',
 						),
 						'parent_id'   => array(
-							'description' => __( 'Parent menu item ID.', 'site-pilot-ai' ),
+							'description' => __( 'Parent menu item ID.', 'mumega-mcp' ),
 							'type'        => 'integer',
 						),
 						'position'    => array(
-							'description' => __( 'Menu order position.', 'site-pilot-ai' ),
+							'description' => __( 'Menu order position.', 'mumega-mcp' ),
 							'type'        => 'integer',
 						),
 						'classes'     => array(
-							'description' => __( 'CSS classes.', 'site-pilot-ai' ),
+							'description' => __( 'CSS classes.', 'mumega-mcp' ),
 							'type'        => 'array',
 							'items'       => array( 'type' => 'string' ),
 						),
 						'target'      => array(
-							'description' => __( 'Link target: _blank or _self.', 'site-pilot-ai' ),
+							'description' => __( 'Link target: _blank or _self.', 'mumega-mcp' ),
 							'type'        => 'string',
 							'enum'        => array( '_blank', '_self' ),
 						),
 						'description' => array(
-							'description' => __( 'Item description or tooltip.', 'site-pilot-ai' ),
+							'description' => __( 'Item description or tooltip.', 'mumega-mcp' ),
 							'type'        => 'string',
 						),
 					),
@@ -248,33 +248,33 @@ class Spai_REST_Menus extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'title'       => array(
-							'description' => __( 'Menu item label.', 'site-pilot-ai' ),
+							'description' => __( 'Menu item label.', 'mumega-mcp' ),
 							'type'        => 'string',
 						),
 						'url'         => array(
-							'description' => __( 'URL (for custom links).', 'site-pilot-ai' ),
+							'description' => __( 'URL (for custom links).', 'mumega-mcp' ),
 							'type'        => 'string',
 						),
 						'parent_id'   => array(
-							'description' => __( 'Parent menu item ID.', 'site-pilot-ai' ),
+							'description' => __( 'Parent menu item ID.', 'mumega-mcp' ),
 							'type'        => 'integer',
 						),
 						'position'    => array(
-							'description' => __( 'Menu order position.', 'site-pilot-ai' ),
+							'description' => __( 'Menu order position.', 'mumega-mcp' ),
 							'type'        => 'integer',
 						),
 						'classes'     => array(
-							'description' => __( 'CSS classes.', 'site-pilot-ai' ),
+							'description' => __( 'CSS classes.', 'mumega-mcp' ),
 							'type'        => 'array',
 							'items'       => array( 'type' => 'string' ),
 						),
 						'target'      => array(
-							'description' => __( 'Link target: _blank or _self.', 'site-pilot-ai' ),
+							'description' => __( 'Link target: _blank or _self.', 'mumega-mcp' ),
 							'type'        => 'string',
 							'enum'        => array( '_blank', '_self' ),
 						),
 						'description' => array(
-							'description' => __( 'Item description or tooltip.', 'site-pilot-ai' ),
+							'description' => __( 'Item description or tooltip.', 'mumega-mcp' ),
 							'type'        => 'string',
 						),
 					),
@@ -298,7 +298,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'items' => array(
-							'description' => __( 'Array of {id, position, parent_id} objects.', 'site-pilot-ai' ),
+							'description' => __( 'Array of {id, position, parent_id} objects.', 'mumega-mcp' ),
 							'type'        => 'array',
 							'required'    => true,
 							'items'       => array( 'type' => 'object' ),
@@ -348,7 +348,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( ! $menu ) {
 			return $this->error_response(
 				'menu_not_found',
-				__( 'Menu not found.', 'site-pilot-ai' ),
+				__( 'Menu not found.', 'mumega-mcp' ),
 				404
 			);
 		}
@@ -367,7 +367,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( ! $result ) {
 			return $this->error_response(
 				'delete_failed',
-				__( 'Failed to delete menu.', 'site-pilot-ai' ),
+				__( 'Failed to delete menu.', 'mumega-mcp' ),
 				500
 			);
 		}
@@ -396,7 +396,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( '' === $location ) {
 			return $this->error_response(
 				'missing_location',
-				__( 'Location key is required.', 'site-pilot-ai' ),
+				__( 'Location key is required.', 'mumega-mcp' ),
 				400
 			);
 		}
@@ -405,7 +405,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( ! $menu ) {
 			return $this->error_response(
 				'menu_not_found',
-				__( 'Menu not found.', 'site-pilot-ai' ),
+				__( 'Menu not found.', 'mumega-mcp' ),
 				404
 			);
 		}
@@ -415,7 +415,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 			$available = array_keys( $registered );
 			return $this->error_response(
 				'invalid_location',
-				__( 'Unknown theme menu location.', 'site-pilot-ai' ),
+				__( 'Unknown theme menu location.', 'mumega-mcp' ),
 				400,
 				array( 'available_locations' => $available )
 			);
@@ -488,7 +488,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( '' === $name ) {
 			return $this->error_response(
 				'missing_name',
-				__( 'Menu name is required.', 'site-pilot-ai' ),
+				__( 'Menu name is required.', 'mumega-mcp' ),
 				400
 			);
 		}
@@ -585,7 +585,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( ! $menu ) {
 			return $this->error_response(
 				'menu_not_found',
-				__( 'Menu not found.', 'site-pilot-ai' ),
+				__( 'Menu not found.', 'mumega-mcp' ),
 				404
 			);
 		}
@@ -595,7 +595,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( false === $items ) {
 			return $this->error_response(
 				'menu_items_error',
-				__( 'Could not retrieve menu items.', 'site-pilot-ai' ),
+				__( 'Could not retrieve menu items.', 'mumega-mcp' ),
 				500
 			);
 		}
@@ -631,7 +631,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( ! $menu ) {
 			return $this->error_response(
 				'menu_not_found',
-				__( 'Menu not found.', 'site-pilot-ai' ),
+				__( 'Menu not found.', 'mumega-mcp' ),
 				404
 			);
 		}
@@ -650,7 +650,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( '' === $title ) {
 			return $this->error_response(
 				'missing_title',
-				__( 'Menu item title is required.', 'site-pilot-ai' ),
+				__( 'Menu item title is required.', 'mumega-mcp' ),
 				400
 			);
 		}
@@ -678,7 +678,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 			if ( '' === $url ) {
 				return $this->error_response(
 					'missing_url',
-					__( 'URL is required for custom link items.', 'site-pilot-ai' ),
+					__( 'URL is required for custom link items.', 'mumega-mcp' ),
 					400
 				);
 			}
@@ -688,7 +688,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 			if ( '' === $object || $object_id <= 0 ) {
 				return $this->error_response(
 					'missing_object',
-					__( 'Object and object_id are required for post_type items.', 'site-pilot-ai' ),
+					__( 'Object and object_id are required for post_type items.', 'mumega-mcp' ),
 					400
 				);
 			}
@@ -699,7 +699,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 			if ( '' === $object || $object_id <= 0 ) {
 				return $this->error_response(
 					'missing_object',
-					__( 'Object and object_id are required for taxonomy items.', 'site-pilot-ai' ),
+					__( 'Object and object_id are required for taxonomy items.', 'mumega-mcp' ),
 					400
 				);
 			}
@@ -745,7 +745,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( ! $menu ) {
 			return $this->error_response(
 				'menu_not_found',
-				__( 'Menu not found.', 'site-pilot-ai' ),
+				__( 'Menu not found.', 'mumega-mcp' ),
 				404
 			);
 		}
@@ -754,7 +754,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( ! $existing || 'nav_menu_item' !== $existing->post_type ) {
 			return $this->error_response(
 				'item_not_found',
-				__( 'Menu item not found.', 'site-pilot-ai' ),
+				__( 'Menu item not found.', 'mumega-mcp' ),
 				404
 			);
 		}
@@ -845,7 +845,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( ! $existing || 'nav_menu_item' !== $existing->post_type ) {
 			return $this->error_response(
 				'item_not_found',
-				__( 'Menu item not found.', 'site-pilot-ai' ),
+				__( 'Menu item not found.', 'mumega-mcp' ),
 				404
 			);
 		}
@@ -855,7 +855,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( ! $deleted ) {
 			return $this->error_response(
 				'delete_failed',
-				__( 'Failed to delete menu item.', 'site-pilot-ai' ),
+				__( 'Failed to delete menu item.', 'mumega-mcp' ),
 				500
 			);
 		}
@@ -883,7 +883,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( ! $menu ) {
 			return $this->error_response(
 				'menu_not_found',
-				__( 'Menu not found.', 'site-pilot-ai' ),
+				__( 'Menu not found.', 'mumega-mcp' ),
 				404
 			);
 		}
@@ -893,7 +893,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( empty( $items ) ) {
 			return $this->error_response(
 				'missing_items',
-				__( 'Items array is required.', 'site-pilot-ai' ),
+				__( 'Items array is required.', 'mumega-mcp' ),
 				400
 			);
 		}
@@ -963,7 +963,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( ! $existing || 'nav_menu_item' !== $existing->post_type ) {
 			return new WP_Error(
 				'item_not_found',
-				__( 'Menu item not found.', 'site-pilot-ai' ),
+				__( 'Menu item not found.', 'mumega-mcp' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -972,7 +972,7 @@ class Spai_REST_Menus extends Spai_REST_API {
 		if ( is_wp_error( $menus ) || empty( $menus ) ) {
 			return new WP_Error(
 				'menu_not_found',
-				__( 'Could not determine which menu this item belongs to.', 'site-pilot-ai' ),
+				__( 'Could not determine which menu this item belongs to.', 'mumega-mcp' ),
 				array( 'status' => 404 )
 			);
 		}

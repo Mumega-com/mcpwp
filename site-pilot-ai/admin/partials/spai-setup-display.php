@@ -63,7 +63,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 		<span class="spai-logo">
 			<span class="dashicons dashicons-airplane"></span>
 		</span>
-		<?php esc_html_e( 'mumcp', 'site-pilot-ai' ); ?>
+		<?php esc_html_e( 'mumcp', 'mumega-mcp' ); ?>
 		<span class="spai-version">v<?php echo esc_html( SPAI_VERSION ); ?></span>
 	</h1>
 
@@ -74,8 +74,8 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 			<span class="dashicons dashicons-yes-alt"></span>
 		</div>
 		<div class="spai-welcome-content">
-			<h2><?php esc_html_e( 'mumcp is ready!', 'site-pilot-ai' ); ?></h2>
-			<p><?php esc_html_e( 'Your API key has been generated. Copy it now and use it to connect Claude Desktop, Claude Code, or ChatGPT to your WordPress site.', 'site-pilot-ai' ); ?></p>
+			<h2><?php esc_html_e( 'mumcp is ready!', 'mumega-mcp' ); ?></h2>
+			<p><?php esc_html_e( 'Your API key has been generated. Copy it now and use it to connect Claude Desktop, Claude Code, or ChatGPT to your WordPress site.', 'mumega-mcp' ); ?></p>
 			<div class="spai-api-key-wrapper spai-api-key-wrapper--highlight">
 				<input
 					type="text"
@@ -86,15 +86,15 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				/>
 				<button type="button" class="button button-primary spai-copy-btn" data-copy="<?php echo esc_attr( $new_key ); ?>">
 					<span class="dashicons dashicons-clipboard"></span>
-					<?php esc_html_e( 'Copy Key', 'site-pilot-ai' ); ?>
+					<?php esc_html_e( 'Copy Key', 'mumega-mcp' ); ?>
 				</button>
 			</div>
 			<p class="spai-welcome-warning">
-				<strong><?php esc_html_e( 'Save this key now!', 'site-pilot-ai' ); ?></strong>
-				<?php esc_html_e( 'It will not be shown again after you leave this page. You can always regenerate a new key.', 'site-pilot-ai' ); ?>
+				<strong><?php esc_html_e( 'Save this key now!', 'mumega-mcp' ); ?></strong>
+				<?php esc_html_e( 'It will not be shown again after you leave this page. You can always regenerate a new key.', 'mumega-mcp' ); ?>
 			</p>
 			<button type="button" class="button spai-dismiss-welcome" id="spai-dismiss-welcome">
-				<?php esc_html_e( 'Got it, I\'ve saved my key', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Got it, I\'ve saved my key', 'mumega-mcp' ); ?>
 			</button>
 		</div>
 	</div>
@@ -103,9 +103,9 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 	<div class="spai-license-banner spai-license-active">
 		<div class="spai-license-content">
 			<span class="dashicons dashicons-yes-alt"></span>
-			<strong><?php esc_html_e( 'All features included', 'site-pilot-ai' ); ?></strong>
+			<strong><?php esc_html_e( 'All features included', 'mumega-mcp' ); ?></strong>
 			&mdash;
-			<a href="https://mumega.com/" target="_blank"><?php esc_html_e( 'Powered by Mumega', 'site-pilot-ai' ); ?></a>
+			<a href="https://mumega.com/" target="_blank"><?php esc_html_e( 'Powered by Mumega', 'mumega-mcp' ); ?></a>
 		</div>
 	</div>
 
@@ -117,21 +117,21 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 		<div class="spai-card">
 			<h2>
 				<span class="dashicons dashicons-admin-network"></span>
-				<?php esc_html_e( 'Your API Key', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Your API Key', 'mumega-mcp' ); ?>
 			</h2>
 			<p class="description">
-				<?php esc_html_e( 'This key authenticates AI assistants when they connect to your site. Generate one key per AI client so you can revoke access individually.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'This key authenticates AI assistants when they connect to your site. Generate one key per AI client so you can revoke access individually.', 'mumega-mcp' ); ?>
 			</p>
 
 			<?php if ( empty( $stored_key_hash ) && ! ( isset( $new_key ) && $new_key ) ) : ?>
 			<!-- No keys yet — prominent Generate button -->
 			<div class="spai-no-key-prompt">
-				<p class="description"><strong><?php esc_html_e( 'No API key configured yet.', 'site-pilot-ai' ); ?></strong> <?php esc_html_e( 'Generate one to start connecting AI tools to this site.', 'site-pilot-ai' ); ?></p>
+				<p class="description"><strong><?php esc_html_e( 'No API key configured yet.', 'mumega-mcp' ); ?></strong> <?php esc_html_e( 'Generate one to start connecting AI tools to this site.', 'mumega-mcp' ); ?></p>
 				<form method="post" class="spai-regenerate-form">
 					<?php wp_nonce_field( 'spai_regenerate_key', 'spai_nonce' ); ?>
 					<button type="submit" name="spai_regenerate_key" class="button button-primary button-hero">
 						<span class="dashicons dashicons-plus-alt"></span>
-						<?php esc_html_e( 'Generate API Key', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Generate API Key', 'mumega-mcp' ); ?>
 					</button>
 				</form>
 			</div>
@@ -149,14 +149,14 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				<?php if ( ! $is_hidden ) : ?>
 				<button type="button" class="button spai-copy-btn" data-copy="<?php echo esc_attr( $display_key ); ?>">
 					<span class="dashicons dashicons-clipboard"></span>
-					<?php esc_html_e( 'Copy', 'site-pilot-ai' ); ?>
+					<?php esc_html_e( 'Copy', 'mumega-mcp' ); ?>
 				</button>
 				<?php endif; ?>
 			</div>
 
 			<?php if ( $is_hidden ) : ?>
 			<p class="description">
-				<?php esc_html_e( 'Your API key is stored securely (hashed). To see it again, regenerate a new one below.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Your API key is stored securely (hashed). To see it again, regenerate a new one below.', 'mumega-mcp' ); ?>
 			</p>
 			<?php endif; ?>
 
@@ -164,17 +164,17 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				<?php wp_nonce_field( 'spai_regenerate_key', 'spai_nonce' ); ?>
 				<button type="submit" name="spai_regenerate_key" class="button spai-regenerate-btn">
 					<span class="dashicons dashicons-update"></span>
-					<?php esc_html_e( 'Regenerate Key', 'site-pilot-ai' ); ?>
+					<?php esc_html_e( 'Regenerate Key', 'mumega-mcp' ); ?>
 				</button>
-				<span class="description"><?php esc_html_e( 'The old key will stop working immediately.', 'site-pilot-ai' ); ?></span>
+				<span class="description"><?php esc_html_e( 'The old key will stop working immediately.', 'mumega-mcp' ); ?></span>
 			</form>
 			<?php endif; ?>
 
 			<!-- Role-based API keys -->
 			<hr style="margin:24px 0;" />
-			<h3><?php esc_html_e( 'Create Role-Based Key', 'site-pilot-ai' ); ?></h3>
+			<h3><?php esc_html_e( 'Create Role-Based Key', 'mumega-mcp' ); ?></h3>
 			<p class="description">
-				<?php esc_html_e( 'Each role limits which MCP tools the AI can access. Use Designer for Elementor-only access, Editor for content, Author for drafts.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Each role limits which MCP tools the AI can access. Use Designer for Elementor-only access, Editor for content, Author for drafts.', 'mumega-mcp' ); ?>
 			</p>
 
 			<?php if ( ! empty( $new_scoped_key['key'] ) ) : ?>
@@ -187,7 +187,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				/>
 				<button type="button" class="button button-primary spai-copy-btn" data-copy="<?php echo esc_attr( $new_scoped_key['key'] ); ?>">
 					<span class="dashicons dashicons-clipboard"></span>
-					<?php esc_html_e( 'Copy Key', 'site-pilot-ai' ); ?>
+					<?php esc_html_e( 'Copy Key', 'mumega-mcp' ); ?>
 				</button>
 			</div>
 			<?php endif; ?>
@@ -195,11 +195,11 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 			<form method="post" class="spai-regenerate-form">
 				<?php wp_nonce_field( 'spai_manage_scoped_keys', 'spai_scoped_keys_nonce' ); ?>
 				<p>
-					<label for="spai_scoped_key_label"><strong><?php esc_html_e( 'Label', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_scoped_key_label" name="spai_scoped_key_label" class="regular-text" placeholder="<?php esc_attr_e( 'Example: Content Writer Bot', 'site-pilot-ai' ); ?>" />
+					<label for="spai_scoped_key_label"><strong><?php esc_html_e( 'Label', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_scoped_key_label" name="spai_scoped_key_label" class="regular-text" placeholder="<?php esc_attr_e( 'Example: Content Writer Bot', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_scoped_key_role"><strong><?php esc_html_e( 'Role', 'site-pilot-ai' ); ?></strong></label><br />
+					<label for="spai_scoped_key_role"><strong><?php esc_html_e( 'Role', 'mumega-mcp' ); ?></strong></label><br />
 					<select id="spai_scoped_key_role" name="spai_scoped_key_role" style="min-width:200px;">
 						<?php foreach ( $role_definitions as $role_slug => $role_def ) : ?>
 						<option value="<?php echo esc_attr( $role_slug ); ?>"
@@ -210,9 +210,9 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 					</select>
 				</p>
 				<div id="spai-custom-categories" style="display:none;margin-bottom:12px;">
-					<strong><?php esc_html_e( 'Tool Categories', 'site-pilot-ai' ); ?></strong><br />
+					<strong><?php esc_html_e( 'Tool Categories', 'mumega-mcp' ); ?></strong><br />
 					<p class="description" style="margin-bottom:6px;">
-						<?php esc_html_e( 'Select which tool categories this key can access.', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Select which tool categories this key can access.', 'mumega-mcp' ); ?>
 					</p>
 					<?php foreach ( $all_cat_labels as $cat_slug => $cat_label ) : ?>
 					<label style="display:inline-block;min-width:120px;margin:2px 0;">
@@ -222,11 +222,11 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 					<?php endforeach; ?>
 				</div>
 				<div id="spai-role-preview" style="margin-bottom:12px;padding:8px 12px;background:#f0f0f1;border-radius:4px;display:none;">
-					<strong><?php esc_html_e( 'Access:', 'site-pilot-ai' ); ?></strong>
+					<strong><?php esc_html_e( 'Access:', 'mumega-mcp' ); ?></strong>
 					<span id="spai-role-preview-categories"></span>
 				</div>
 				<button type="submit" name="spai_create_scoped_key" class="button button-primary">
-					<?php esc_html_e( 'Create API Key', 'site-pilot-ai' ); ?>
+					<?php esc_html_e( 'Create API Key', 'mumega-mcp' ); ?>
 				</button>
 			</form>
 
@@ -250,7 +250,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 					} else if (role === 'admin') {
 						customDiv.style.display = 'none';
 						previewDiv.style.display = 'block';
-						previewCat.textContent = '<?php echo esc_js( __( 'All categories (unrestricted)', 'site-pilot-ai' ) ); ?>';
+						previewCat.textContent = '<?php echo esc_js( __( 'All categories (unrestricted)', 'mumega-mcp' ) ); ?>';
 					} else {
 						customDiv.style.display = 'none';
 						previewDiv.style.display = 'block';
@@ -271,17 +271,17 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 
 			<!-- Active keys table -->
 			<?php if ( ! empty( $scoped_keys ) ) : ?>
-			<h3 style="margin-top:24px;"><?php esc_html_e( 'Active Keys', 'site-pilot-ai' ); ?></h3>
+			<h3 style="margin-top:24px;"><?php esc_html_e( 'Active Keys', 'mumega-mcp' ); ?></h3>
 			<table class="widefat striped">
 				<thead>
 					<tr>
-						<th><?php esc_html_e( 'Label', 'site-pilot-ai' ); ?></th>
-						<th><?php esc_html_e( 'Role', 'site-pilot-ai' ); ?></th>
-						<th><?php esc_html_e( 'Categories', 'site-pilot-ai' ); ?></th>
-						<th><?php esc_html_e( 'Created', 'site-pilot-ai' ); ?></th>
-						<th><?php esc_html_e( 'Last Used', 'site-pilot-ai' ); ?></th>
-						<th><?php esc_html_e( 'Status', 'site-pilot-ai' ); ?></th>
-						<th><?php esc_html_e( 'Action', 'site-pilot-ai' ); ?></th>
+						<th><?php esc_html_e( 'Label', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Role', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Categories', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Created', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Last Used', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Status', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Action', 'mumega-mcp' ); ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -291,7 +291,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 						$badge_bg    = isset( $role_colors[ $key_role ] ) ? $role_colors[ $key_role ] : '#50575e';
 						$display_cats = array();
 						if ( 'admin' === $key_role ) {
-							$display_cats = array( __( 'All', 'site-pilot-ai' ) );
+							$display_cats = array( __( 'All', 'mumega-mcp' ) );
 						} elseif ( 'custom' === $key_role && ! empty( $key['tool_categories'] ) ) {
 							foreach ( $key['tool_categories'] as $cat ) {
 								$display_cats[] = isset( $all_cat_labels[ $cat ] ) ? $all_cat_labels[ $cat ] : $cat;
@@ -314,9 +314,9 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 						<td><?php echo ! empty( $key['last_used_at'] ) ? esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $key['last_used_at'] ) ) ) : '&mdash;'; ?></td>
 						<td>
 							<?php if ( ! empty( $key['revoked_at'] ) ) : ?>
-								<span class="spai-status spai-status-inactive"><?php esc_html_e( 'Revoked', 'site-pilot-ai' ); ?></span>
+								<span class="spai-status spai-status-inactive"><?php esc_html_e( 'Revoked', 'mumega-mcp' ); ?></span>
 							<?php else : ?>
-								<span class="spai-status spai-status-active"><?php esc_html_e( 'Active', 'site-pilot-ai' ); ?></span>
+								<span class="spai-status spai-status-active"><?php esc_html_e( 'Active', 'mumega-mcp' ); ?></span>
 							<?php endif; ?>
 						</td>
 						<td>
@@ -324,8 +324,8 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 							<form method="post" style="display:inline;">
 								<?php wp_nonce_field( 'spai_manage_scoped_keys', 'spai_scoped_keys_nonce' ); ?>
 								<input type="hidden" name="spai_scoped_key_id" value="<?php echo esc_attr( $key['id'] ); ?>" />
-								<button type="submit" name="spai_revoke_scoped_key" class="button button-link-delete" onclick="return confirm('<?php echo esc_js( __( 'Revoke this key?', 'site-pilot-ai' ) ); ?>');">
-									<?php esc_html_e( 'Revoke', 'site-pilot-ai' ); ?>
+								<button type="submit" name="spai_revoke_scoped_key" class="button button-link-delete" onclick="return confirm('<?php echo esc_js( __( 'Revoke this key?', 'mumega-mcp' ) ); ?>');">
+									<?php esc_html_e( 'Revoke', 'mumega-mcp' ); ?>
 								</button>
 							</form>
 							<?php else : ?>
@@ -343,22 +343,22 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 		<div class="spai-card">
 			<h2>
 				<span class="dashicons dashicons-cloud"></span>
-				<?php esc_html_e( 'Connect Your AI', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Connect Your AI', 'mumega-mcp' ); ?>
 			</h2>
 			<p class="description">
-				<?php esc_html_e( 'Copy the config for your AI client and paste it in. Replace YOUR_API_KEY with the key from above.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Copy the config for your AI client and paste it in. Replace YOUR_API_KEY with the key from above.', 'mumega-mcp' ); ?>
 			</p>
 
 			<nav class="nav-tab-wrapper spai-tabs spai-tabs--inner" id="spai-connect-tabs">
-				<a href="#" class="nav-tab nav-tab-active spai-inner-tab" data-tab="claude-code"><?php esc_html_e( 'Claude Code', 'site-pilot-ai' ); ?></a>
-				<a href="#" class="nav-tab spai-inner-tab" data-tab="claude-desktop"><?php esc_html_e( 'Claude Desktop', 'site-pilot-ai' ); ?></a>
-				<a href="#" class="nav-tab spai-inner-tab" data-tab="cursor"><?php esc_html_e( 'Cursor', 'site-pilot-ai' ); ?></a>
-				<a href="#" class="nav-tab spai-inner-tab" data-tab="windsurf"><?php esc_html_e( 'Windsurf', 'site-pilot-ai' ); ?></a>
+				<a href="#" class="nav-tab nav-tab-active spai-inner-tab" data-tab="claude-code"><?php esc_html_e( 'Claude Code', 'mumega-mcp' ); ?></a>
+				<a href="#" class="nav-tab spai-inner-tab" data-tab="claude-desktop"><?php esc_html_e( 'Claude Desktop', 'mumega-mcp' ); ?></a>
+				<a href="#" class="nav-tab spai-inner-tab" data-tab="cursor"><?php esc_html_e( 'Cursor', 'mumega-mcp' ); ?></a>
+				<a href="#" class="nav-tab spai-inner-tab" data-tab="windsurf"><?php esc_html_e( 'Windsurf', 'mumega-mcp' ); ?></a>
 			</nav>
 
 			<!-- Claude Code -->
 			<div class="spai-inner-tab-content" id="spai-tab-claude-code">
-				<p><?php esc_html_e( 'Add to .mcp.json in your project root or ~/.claude.json for global access:', 'site-pilot-ai' ); ?></p>
+				<p><?php esc_html_e( 'Add to .mcp.json in your project root or ~/.claude.json for global access:', 'mumega-mcp' ); ?></p>
 				<div class="spai-code-wrapper">
 					<pre class="spai-code-block" id="spai-claude-code-cfg">{
   "mcpServers": {
@@ -372,7 +372,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 }</pre>
 					<button type="button" class="button spai-copy-code-btn" data-target="spai-claude-code-cfg">
 						<span class="dashicons dashicons-clipboard"></span>
-						<?php esc_html_e( 'Copy', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Copy', 'mumega-mcp' ); ?>
 					</button>
 				</div>
 			</div>
@@ -380,16 +380,16 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 			<!-- Claude Desktop -->
 			<div class="spai-inner-tab-content" id="spai-tab-claude-desktop" style="display:none;">
 				<p>
-					<?php esc_html_e( 'Fastest method: in Claude Desktop go to Settings → Connectors → Add custom connector and paste the MCP URL:', 'site-pilot-ai' ); ?>
+					<?php esc_html_e( 'Fastest method: in Claude Desktop go to Settings → Connectors → Add custom connector and paste the MCP URL:', 'mumega-mcp' ); ?>
 				</p>
 				<div class="spai-code-wrapper">
 					<pre class="spai-code-block" id="spai-claude-desktop-url"><?php echo esc_url( add_query_arg( 'api_key', ( $is_hidden ? 'YOUR_API_KEY' : $display_key ), $mcp_url ) ); ?></pre>
 					<button type="button" class="button spai-copy-code-btn" data-target="spai-claude-desktop-url">
 						<span class="dashicons dashicons-clipboard"></span>
-						<?php esc_html_e( 'Copy URL', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Copy URL', 'mumega-mcp' ); ?>
 					</button>
 				</div>
-				<p><?php esc_html_e( 'Or add to claude_desktop_config.json:', 'site-pilot-ai' ); ?></p>
+				<p><?php esc_html_e( 'Or add to claude_desktop_config.json:', 'mumega-mcp' ); ?></p>
 				<div class="spai-code-wrapper">
 					<pre class="spai-code-block" id="spai-claude-desktop-cfg">{
   "mcpServers": {
@@ -403,14 +403,14 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 }</pre>
 					<button type="button" class="button spai-copy-code-btn" data-target="spai-claude-desktop-cfg">
 						<span class="dashicons dashicons-clipboard"></span>
-						<?php esc_html_e( 'Copy', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Copy', 'mumega-mcp' ); ?>
 					</button>
 				</div>
 			</div>
 
 			<!-- Cursor -->
 			<div class="spai-inner-tab-content" id="spai-tab-cursor" style="display:none;">
-				<p><?php esc_html_e( 'In Cursor go to Settings → MCP and add a new server:', 'site-pilot-ai' ); ?></p>
+				<p><?php esc_html_e( 'In Cursor go to Settings → MCP and add a new server:', 'mumega-mcp' ); ?></p>
 				<div class="spai-code-wrapper">
 					<pre class="spai-code-block" id="spai-cursor-cfg">{
   "mcpServers": {
@@ -424,14 +424,14 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 }</pre>
 					<button type="button" class="button spai-copy-code-btn" data-target="spai-cursor-cfg">
 						<span class="dashicons dashicons-clipboard"></span>
-						<?php esc_html_e( 'Copy', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Copy', 'mumega-mcp' ); ?>
 					</button>
 				</div>
 			</div>
 
 			<!-- Windsurf -->
 			<div class="spai-inner-tab-content" id="spai-tab-windsurf" style="display:none;">
-				<p><?php esc_html_e( 'Add to your Windsurf MCP config (~/.codeium/windsurf/mcp_config.json):', 'site-pilot-ai' ); ?></p>
+				<p><?php esc_html_e( 'Add to your Windsurf MCP config (~/.codeium/windsurf/mcp_config.json):', 'mumega-mcp' ); ?></p>
 				<div class="spai-code-wrapper">
 					<pre class="spai-code-block" id="spai-windsurf-cfg">{
   "mcpServers": {
@@ -445,7 +445,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 }</pre>
 					<button type="button" class="button spai-copy-code-btn" data-target="spai-windsurf-cfg">
 						<span class="dashicons dashicons-clipboard"></span>
-						<?php esc_html_e( 'Copy', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Copy', 'mumega-mcp' ); ?>
 					</button>
 				</div>
 			</div>
@@ -476,10 +476,10 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 		<div class="spai-card">
 			<h2>
 				<span class="dashicons dashicons-yes-alt"></span>
-				<?php esc_html_e( 'Connection Status', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Connection Status', 'mumega-mcp' ); ?>
 			</h2>
 			<p class="description">
-				<?php esc_html_e( 'Verify that the REST API is working and the plugin is reachable.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Verify that the REST API is working and the plugin is reachable.', 'mumega-mcp' ); ?>
 			</p>
 
 			<div class="spai-library-summary" style="margin-bottom:20px;">
@@ -491,24 +491,24 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 							<span style="color:#dba617;">&#9679;</span>
 						<?php endif; ?>
 					</span>
-					<span class="spai-library-stat__label"><?php $last_activity_time ? esc_html_e( 'Activity Detected', 'site-pilot-ai' ) : esc_html_e( 'No Activity Yet', 'site-pilot-ai' ); ?></span>
+					<span class="spai-library-stat__label"><?php $last_activity_time ? esc_html_e( 'Activity Detected', 'mumega-mcp' ) : esc_html_e( 'No Activity Yet', 'mumega-mcp' ); ?></span>
 				</div>
 				<?php if ( $last_activity_time ) : ?>
 				<div class="spai-library-stat">
 					<span class="spai-library-stat__value" style="font-size:13px;"><?php echo esc_html( $last_activity_time ); ?></span>
-					<span class="spai-library-stat__label"><?php esc_html_e( 'Last API Call', 'site-pilot-ai' ); ?></span>
+					<span class="spai-library-stat__label"><?php esc_html_e( 'Last API Call', 'mumega-mcp' ); ?></span>
 				</div>
 				<?php endif; ?>
 				<div class="spai-library-stat">
 					<span class="spai-library-stat__value"><?php echo esc_html( SPAI_VERSION ); ?></span>
-					<span class="spai-library-stat__label"><?php esc_html_e( 'Plugin Version', 'site-pilot-ai' ); ?></span>
+					<span class="spai-library-stat__label"><?php esc_html_e( 'Plugin Version', 'mumega-mcp' ); ?></span>
 				</div>
 			</div>
 
 			<div class="spai-test-connection">
 				<button type="button" class="button button-primary" id="spai-test-btn">
 					<span class="dashicons dashicons-yes-alt"></span>
-					<?php esc_html_e( 'Test Connection', 'site-pilot-ai' ); ?>
+					<?php esc_html_e( 'Test Connection', 'mumega-mcp' ); ?>
 				</button>
 				<div class="spai-test-result" id="spai-test-result" style="display:none;">
 					<div class="spai-test-success" style="display:none;">
@@ -527,21 +527,22 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				<?php if ( $update_channel['update_available'] ) : ?>
 				<div class="notice notice-warning inline" style="margin-bottom:12px;">
 					<p>
-						<?php
-						printf(
-							esc_html__( 'Update available: v%1$s → v%2$s.', 'site-pilot-ai' ),
-							esc_html( $update_channel['current_version'] ),
-							esc_html( $update_channel['remote_version'] )
+							<?php
+							printf(
+								/* translators: 1: current plugin version, 2: available plugin version */
+								esc_html__( 'Update available: v%1$s → v%2$s.', 'mumega-mcp' ),
+								esc_html( $update_channel['current_version'] ),
+								esc_html( $update_channel['remote_version'] )
 						);
 						?>
-						<a href="<?php echo esc_url( admin_url( 'update-core.php' ) ); ?>" class="button button-primary" style="margin-left:8px;"><?php esc_html_e( 'Update Now', 'site-pilot-ai' ); ?></a>
-						<a href="<?php echo esc_url( $update_channel['download_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="button" style="margin-left:4px;"><?php esc_html_e( 'Download ZIP', 'site-pilot-ai' ); ?></a>
+						<a href="<?php echo esc_url( admin_url( 'update-core.php' ) ); ?>" class="button button-primary" style="margin-left:8px;"><?php esc_html_e( 'Update Now', 'mumega-mcp' ); ?></a>
+						<a href="<?php echo esc_url( $update_channel['download_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="button" style="margin-left:4px;"><?php esc_html_e( 'Download ZIP', 'mumega-mcp' ); ?></a>
 					</p>
 				</div>
 				<?php else : ?>
 				<div class="notice notice-success inline" style="margin-bottom:12px;">
 					<p>
-						<?php esc_html_e( 'You are running the latest version.', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'You are running the latest version.', 'mumega-mcp' ); ?>
 						<strong>v<?php echo esc_html( SPAI_VERSION ); ?></strong>
 					</p>
 				</div>
@@ -550,11 +551,11 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 					<?php wp_nonce_field( 'spai_check_update', 'spai_update_nonce' ); ?>
 					<button type="submit" name="spai_force_update_check" class="button">
 						<span class="dashicons dashicons-update"></span>
-						<?php esc_html_e( 'Check for Updates', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Check for Updates', 'mumega-mcp' ); ?>
 					</button>
 				</form>
 				<p class="description" style="margin-top:8px;">
-					<?php esc_html_e( 'Manifest:', 'site-pilot-ai' ); ?>
+					<?php esc_html_e( 'Manifest:', 'mumega-mcp' ); ?>
 					<code><?php echo esc_html( $update_channel['manifest_url'] ); ?></code>
 				</p>
 			</div>
@@ -564,43 +565,43 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 		<div class="spai-card">
 			<h2>
 				<span class="dashicons dashicons-admin-links"></span>
-				<?php esc_html_e( 'Quick Links', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Quick Links', 'mumega-mcp' ); ?>
 			</h2>
 			<ul class="spai-quick-links">
 				<li>
 					<a href="<?php echo esc_url( admin_url( 'admin.php?page=' . Spai_Admin::LIBRARY_PAGE_SLUG ) ); ?>" class="button">
 						<span class="dashicons dashicons-screenoptions"></span>
-						<?php esc_html_e( 'Library', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Library', 'mumega-mcp' ); ?>
 					</a>
-					<span class="description"><?php esc_html_e( 'Archetypes, reusable parts, and design references.', 'site-pilot-ai' ); ?></span>
+					<span class="description"><?php esc_html_e( 'Archetypes, reusable parts, and design references.', 'mumega-mcp' ); ?></span>
 				</li>
 				<li>
 					<a href="<?php echo esc_url( admin_url( 'admin.php?page=' . Spai_Tools_Admin::PAGE_SLUG ) ); ?>" class="button">
 						<span class="dashicons dashicons-admin-tools"></span>
-						<?php esc_html_e( 'Tools', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Tools', 'mumega-mcp' ); ?>
 					</a>
-					<span class="description"><?php esc_html_e( 'Enable or disable MCP tool categories.', 'site-pilot-ai' ); ?></span>
+					<span class="description"><?php esc_html_e( 'Enable or disable MCP tool categories.', 'mumega-mcp' ); ?></span>
 				</li>
 				<li>
 					<a href="<?php echo esc_url( admin_url( 'admin.php?page=' . Spai_Admin::ACTIVITY_LOG_PAGE_SLUG ) ); ?>" class="button">
 						<span class="dashicons dashicons-list-view"></span>
-						<?php esc_html_e( 'Activity Log', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Activity Log', 'mumega-mcp' ); ?>
 					</a>
-					<span class="description"><?php esc_html_e( 'Full history of API calls from connected AI tools.', 'site-pilot-ai' ); ?></span>
+					<span class="description"><?php esc_html_e( 'Full history of API calls from connected AI tools.', 'mumega-mcp' ); ?></span>
 				</li>
 				<li>
 					<a href="<?php echo esc_url( admin_url( 'admin.php?page=' . Spai_Admin::SETTINGS_PAGE_SLUG ) ); ?>" class="button">
 						<span class="dashicons dashicons-admin-generic"></span>
-						<?php esc_html_e( 'Settings', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Settings', 'mumega-mcp' ); ?>
 					</a>
-					<span class="description"><?php esc_html_e( 'Rate limits, site context, logging, and more.', 'site-pilot-ai' ); ?></span>
+					<span class="description"><?php esc_html_e( 'Rate limits, site context, logging, and more.', 'mumega-mcp' ); ?></span>
 				</li>
 				<li>
-					<a href="https://mucp.mumega.com/docs" target="_blank" rel="noopener noreferrer" class="button">
+					<a href="https://sitepilotai.mumega.com/docs/" target="_blank" rel="noopener noreferrer" class="button">
 						<span class="dashicons dashicons-book"></span>
-						<?php esc_html_e( 'Documentation', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Documentation', 'mumega-mcp' ); ?>
 					</a>
-					<span class="description"><?php esc_html_e( 'Full API reference and guides at mucp.mumega.com', 'site-pilot-ai' ); ?></span>
+					<span class="description"><?php esc_html_e( 'Full API reference and guides at sitepilotai.mumega.com', 'mumega-mcp' ); ?></span>
 				</li>
 			</ul>
 		</div>

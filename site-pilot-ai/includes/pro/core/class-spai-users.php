@@ -67,7 +67,7 @@ class Spai_Users {
 		$user = get_user_by( 'ID', $user_id );
 
 		if ( ! $user ) {
-			return new WP_Error( 'not_found', __( 'User not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'User not found.', 'mumega-mcp' ) );
 		}
 
 		return $this->format_user( $user, true );
@@ -82,21 +82,21 @@ class Spai_Users {
 	public function create_user( $data ) {
 		// Validate required fields.
 		if ( empty( $data['username'] ) ) {
-			return new WP_Error( 'missing_username', __( 'Username is required.', 'site-pilot-ai' ) );
+			return new WP_Error( 'missing_username', __( 'Username is required.', 'mumega-mcp' ) );
 		}
 
 		if ( empty( $data['email'] ) ) {
-			return new WP_Error( 'missing_email', __( 'Email is required.', 'site-pilot-ai' ) );
+			return new WP_Error( 'missing_email', __( 'Email is required.', 'mumega-mcp' ) );
 		}
 
 		// Check if username exists.
 		if ( username_exists( $data['username'] ) ) {
-			return new WP_Error( 'username_exists', __( 'Username already exists.', 'site-pilot-ai' ) );
+			return new WP_Error( 'username_exists', __( 'Username already exists.', 'mumega-mcp' ) );
 		}
 
 		// Check if email exists.
 		if ( email_exists( $data['email'] ) ) {
-			return new WP_Error( 'email_exists', __( 'Email already exists.', 'site-pilot-ai' ) );
+			return new WP_Error( 'email_exists', __( 'Email already exists.', 'mumega-mcp' ) );
 		}
 
 		$userdata = array(
@@ -120,7 +120,7 @@ class Spai_Users {
 
 		// Prevent creating administrators via API unless current user is admin.
 		if ( 'administrator' === $userdata['role'] && ! current_user_can( 'create_users' ) ) {
-			return new WP_Error( 'cannot_create_admin', __( 'Cannot create administrator users.', 'site-pilot-ai' ) );
+			return new WP_Error( 'cannot_create_admin', __( 'Cannot create administrator users.', 'mumega-mcp' ) );
 		}
 
 		$user_id = wp_insert_user( $userdata );
@@ -155,12 +155,12 @@ class Spai_Users {
 		$user = get_user_by( 'ID', $user_id );
 
 		if ( ! $user ) {
-			return new WP_Error( 'not_found', __( 'User not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'User not found.', 'mumega-mcp' ) );
 		}
 
 		// Prevent modifying users with higher privileges.
 		if ( ! $this->can_modify_user( $user ) ) {
-			return new WP_Error( 'cannot_modify', __( 'Cannot modify this user.', 'site-pilot-ai' ) );
+			return new WP_Error( 'cannot_modify', __( 'Cannot modify this user.', 'mumega-mcp' ) );
 		}
 
 		$userdata = array( 'ID' => $user_id );
@@ -170,7 +170,7 @@ class Spai_Users {
 			// Check if email exists for another user.
 			$existing = email_exists( $email );
 			if ( $existing && $existing !== $user_id ) {
-				return new WP_Error( 'email_exists', __( 'Email already exists.', 'site-pilot-ai' ) );
+				return new WP_Error( 'email_exists', __( 'Email already exists.', 'mumega-mcp' ) );
 			}
 			$userdata['user_email'] = $email;
 		}
@@ -211,7 +211,7 @@ class Spai_Users {
 			if ( in_array( $new_role, $valid_roles, true ) ) {
 				// Prevent promoting to admin.
 				if ( 'administrator' === $new_role && ! current_user_can( 'promote_users' ) ) {
-					return new WP_Error( 'cannot_promote_admin', __( 'Cannot promote to administrator.', 'site-pilot-ai' ) );
+					return new WP_Error( 'cannot_promote_admin', __( 'Cannot promote to administrator.', 'mumega-mcp' ) );
 				}
 				$userdata['role'] = $new_role;
 			}
@@ -244,17 +244,17 @@ class Spai_Users {
 		$user = get_user_by( 'ID', $user_id );
 
 		if ( ! $user ) {
-			return new WP_Error( 'not_found', __( 'User not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'User not found.', 'mumega-mcp' ) );
 		}
 
 		// Prevent deleting self.
 		if ( get_current_user_id() === $user_id ) {
-			return new WP_Error( 'cannot_delete_self', __( 'Cannot delete yourself.', 'site-pilot-ai' ) );
+			return new WP_Error( 'cannot_delete_self', __( 'Cannot delete yourself.', 'mumega-mcp' ) );
 		}
 
 		// Prevent deleting users with higher privileges.
 		if ( ! $this->can_modify_user( $user ) ) {
-			return new WP_Error( 'cannot_delete', __( 'Cannot delete this user.', 'site-pilot-ai' ) );
+			return new WP_Error( 'cannot_delete', __( 'Cannot delete this user.', 'mumega-mcp' ) );
 		}
 
 		if ( ! function_exists( 'wp_delete_user' ) ) {
@@ -264,7 +264,7 @@ class Spai_Users {
 		$result = wp_delete_user( $user_id, $reassign );
 
 		if ( ! $result ) {
-			return new WP_Error( 'delete_failed', __( 'Failed to delete user.', 'site-pilot-ai' ) );
+			return new WP_Error( 'delete_failed', __( 'Failed to delete user.', 'mumega-mcp' ) );
 		}
 
 		return true;
@@ -301,7 +301,7 @@ class Spai_Users {
 		$user = get_user_by( 'ID', $user_id );
 
 		if ( ! $user ) {
-			return new WP_Error( 'not_found', __( 'User not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'User not found.', 'mumega-mcp' ) );
 		}
 
 		return array(

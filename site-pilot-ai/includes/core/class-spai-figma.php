@@ -84,14 +84,14 @@ class Spai_Figma {
 			);
 		}
 
-		$mode_label = ! empty( $config['personal_access_token'] ) ? __( 'personal token', 'site-pilot-ai' ) : __( 'OAuth', 'site-pilot-ai' );
+		$mode_label = ! empty( $config['personal_access_token'] ) ? __( 'personal token', 'mumega-mcp' ) : __( 'OAuth', 'mumega-mcp' );
 		$me = $this->request( '/me' );
 		if ( ! is_wp_error( $me ) ) {
-			$handle = isset( $me['handle'] ) ? (string) $me['handle'] : __( 'authenticated user', 'site-pilot-ai' );
+			$handle = isset( $me['handle'] ) ? (string) $me['handle'] : __( 'authenticated user', 'mumega-mcp' );
 			return array(
 				'success' => true,
 				/* translators: 1: Figma handle 2: auth mode */
-				'message' => sprintf( __( 'Connected to Figma as %1$s using %2$s.', 'site-pilot-ai' ), $handle, $mode_label ),
+				'message' => sprintf( __( 'Connected to Figma as %1$s using %2$s.', 'mumega-mcp' ), $handle, $mode_label ),
 			);
 		}
 
@@ -113,7 +113,7 @@ class Spai_Figma {
 				return array(
 					'success' => true,
 					/* translators: %s: Figma file title */
-					'message' => sprintf( __( 'Connected to Figma and reached file %s.', 'site-pilot-ai' ), $title ),
+					'message' => sprintf( __( 'Connected to Figma and reached file %s.', 'mumega-mcp' ), $title ),
 				);
 			}
 		}
@@ -151,7 +151,7 @@ class Spai_Figma {
 	public function get_oauth_authorize_url() {
 		$config = $this->get_raw_config();
 		if ( empty( $config['oauth_client_id'] ) || empty( $config['oauth_client_secret'] ) ) {
-			return new WP_Error( 'figma_oauth_not_ready', __( 'Figma OAuth requires both a client ID and client secret.', 'site-pilot-ai' ) );
+			return new WP_Error( 'figma_oauth_not_ready', __( 'Figma OAuth requires both a client ID and client secret.', 'mumega-mcp' ) );
 		}
 
 		$state = wp_generate_password( 32, false, false );
@@ -185,13 +185,13 @@ class Spai_Figma {
 	public function exchange_oauth_code( $code, $state ) {
 		$config = $this->get_raw_config();
 		if ( empty( $config['oauth_client_id'] ) || empty( $config['oauth_client_secret'] ) ) {
-			return new WP_Error( 'figma_oauth_not_ready', __( 'Figma OAuth credentials are missing.', 'site-pilot-ai' ) );
+			return new WP_Error( 'figma_oauth_not_ready', __( 'Figma OAuth credentials are missing.', 'mumega-mcp' ) );
 		}
 
 		$stored_state = get_transient( 'spai_figma_oauth_state_' . $state );
 		delete_transient( 'spai_figma_oauth_state_' . $state );
 		if ( empty( $stored_state ) ) {
-			return new WP_Error( 'figma_invalid_state', __( 'The Figma OAuth state is invalid or expired. Start the connection again.', 'site-pilot-ai' ) );
+			return new WP_Error( 'figma_invalid_state', __( 'The Figma OAuth state is invalid or expired. Start the connection again.', 'mumega-mcp' ) );
 		}
 
 		$response = wp_remote_post(
@@ -222,7 +222,7 @@ class Spai_Figma {
 		$code_status = (int) wp_remote_retrieve_response_code( $response );
 		$payload     = json_decode( wp_remote_retrieve_body( $response ), true );
 		if ( $code_status < 200 || $code_status >= 300 || ! is_array( $payload ) ) {
-			$message = is_array( $payload ) && ! empty( $payload['error_description'] ) ? (string) $payload['error_description'] : __( 'Figma OAuth token exchange failed.', 'site-pilot-ai' );
+			$message = is_array( $payload ) && ! empty( $payload['error_description'] ) ? (string) $payload['error_description'] : __( 'Figma OAuth token exchange failed.', 'mumega-mcp' );
 			return new WP_Error( 'figma_token_exchange_failed', $message, array( 'status' => $code_status ) );
 		}
 
@@ -232,7 +232,7 @@ class Spai_Figma {
 		$config['expires_at']    = ! empty( $payload['expires_in'] ) ? gmdate( 'Y-m-d H:i:s', time() + (int) $payload['expires_in'] ) : '';
 
 		if ( ! $this->manager->set_provider_config( 'figma', $config ) ) {
-			return new WP_Error( 'figma_save_failed', __( 'Figma OAuth succeeded, but the tokens could not be saved.', 'site-pilot-ai' ) );
+			return new WP_Error( 'figma_save_failed', __( 'Figma OAuth succeeded, but the tokens could not be saved.', 'mumega-mcp' ) );
 		}
 
 		return $this->test_connection();
@@ -297,7 +297,7 @@ class Spai_Figma {
 
 		$node_id = trim( (string) $node_id );
 		if ( '' === $node_id ) {
-			return new WP_Error( 'missing_node_id', __( 'A Figma node_id is required.', 'site-pilot-ai' ) );
+			return new WP_Error( 'missing_node_id', __( 'A Figma node_id is required.', 'mumega-mcp' ) );
 		}
 
 		$response = $this->request(
@@ -317,7 +317,7 @@ class Spai_Figma {
 			: null;
 
 		if ( ! is_array( $node ) ) {
-			return new WP_Error( 'node_not_found', __( 'The requested Figma node was not found in the file response.', 'site-pilot-ai' ) );
+			return new WP_Error( 'node_not_found', __( 'The requested Figma node was not found in the file response.', 'mumega-mcp' ) );
 		}
 
 		return array(
@@ -346,7 +346,7 @@ class Spai_Figma {
 		}
 
 		if ( empty( $config['default_file_key'] ) ) {
-			return new WP_Error( 'missing_file_key', __( 'No Figma file_key was provided and no default_file_key is configured.', 'site-pilot-ai' ) );
+			return new WP_Error( 'missing_file_key', __( 'No Figma file_key was provided and no default_file_key is configured.', 'mumega-mcp' ) );
 		}
 
 		return (string) $config['default_file_key'];
@@ -360,7 +360,7 @@ class Spai_Figma {
 	private function get_config() {
 		$config = $this->manager->get_provider_config( 'figma' );
 		if ( ! is_array( $config ) ) {
-			return new WP_Error( 'figma_not_configured', __( 'Figma is not configured. Add a personal token or OAuth app in mumcp → Integrations.', 'site-pilot-ai' ) );
+			return new WP_Error( 'figma_not_configured', __( 'Figma is not configured. Add a personal token or OAuth app in mumcp → Integrations.', 'mumega-mcp' ) );
 		}
 
 		return $config;
@@ -403,7 +403,7 @@ class Spai_Figma {
 			return (string) $refreshed['access_token'];
 		}
 
-		return new WP_Error( 'figma_not_configured', __( 'Figma is not configured. Add a personal token or complete the OAuth connection in mumcp → Integrations.', 'site-pilot-ai' ) );
+		return new WP_Error( 'figma_not_configured', __( 'Figma is not configured. Add a personal token or complete the OAuth connection in mumcp → Integrations.', 'mumega-mcp' ) );
 	}
 
 	/**
@@ -433,7 +433,7 @@ class Spai_Figma {
 	 */
 	private function refresh_oauth_token( $config ) {
 		if ( empty( $config['oauth_client_id'] ) || empty( $config['oauth_client_secret'] ) || empty( $config['refresh_token'] ) ) {
-			return new WP_Error( 'figma_refresh_unavailable', __( 'Figma OAuth refresh is unavailable because credentials or refresh token are missing.', 'site-pilot-ai' ) );
+			return new WP_Error( 'figma_refresh_unavailable', __( 'Figma OAuth refresh is unavailable because credentials or refresh token are missing.', 'mumega-mcp' ) );
 		}
 
 		$response = wp_remote_post(
@@ -463,7 +463,7 @@ class Spai_Figma {
 		$code_status = (int) wp_remote_retrieve_response_code( $response );
 		$payload     = json_decode( wp_remote_retrieve_body( $response ), true );
 		if ( $code_status < 200 || $code_status >= 300 || ! is_array( $payload ) ) {
-			$message = is_array( $payload ) && ! empty( $payload['error_description'] ) ? (string) $payload['error_description'] : __( 'Figma OAuth token refresh failed.', 'site-pilot-ai' );
+			$message = is_array( $payload ) && ! empty( $payload['error_description'] ) ? (string) $payload['error_description'] : __( 'Figma OAuth token refresh failed.', 'mumega-mcp' );
 			return new WP_Error( 'figma_refresh_failed', $message, array( 'status' => $code_status ) );
 		}
 
@@ -475,7 +475,7 @@ class Spai_Figma {
 		$config['expires_at'] = ! empty( $payload['expires_in'] ) ? gmdate( 'Y-m-d H:i:s', time() + (int) $payload['expires_in'] ) : '';
 
 		if ( ! $this->manager->set_provider_config( 'figma', $config ) ) {
-			return new WP_Error( 'figma_refresh_save_failed', __( 'Figma OAuth token refresh succeeded, but the new token could not be saved.', 'site-pilot-ai' ) );
+			return new WP_Error( 'figma_refresh_save_failed', __( 'Figma OAuth token refresh succeeded, but the new token could not be saved.', 'mumega-mcp' ) );
 		}
 
 		return $config;
@@ -534,12 +534,13 @@ class Spai_Figma {
 		if ( $code < 200 || $code >= 300 ) {
 			$message = is_array( $data ) && ! empty( $data['err'] )
 				? (string) $data['err']
-				: sprintf( __( 'Figma API returned HTTP %d.', 'site-pilot-ai' ), $code );
+				/* translators: %d: HTTP response status code */
+				: sprintf( __( 'Figma API returned HTTP %d.', 'mumega-mcp' ), $code );
 			return new WP_Error( 'figma_request_failed', $message, array( 'status' => $code ) );
 		}
 
 		if ( ! is_array( $data ) ) {
-			return new WP_Error( 'figma_invalid_response', __( 'Figma returned an invalid JSON response.', 'site-pilot-ai' ) );
+			return new WP_Error( 'figma_invalid_response', __( 'Figma returned an invalid JSON response.', 'mumega-mcp' ) );
 		}
 
 		return $data;

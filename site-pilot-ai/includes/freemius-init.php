@@ -104,7 +104,7 @@ function spa_fs_custom_connect_message(
 ) {
 	return sprintf(
 		/* translators: %1$s: User first name, %2$s: Product title */
-		__( 'Hey %1$s, allow %2$s to collect diagnostic data to help improve the plugin and enable license management.', 'site-pilot-ai' ),
+		__( 'Hey %1$s, allow %2$s to collect diagnostic data to help improve the plugin and enable license management.', 'mumega-mcp' ),
 		$user_first_name,
 		'<b>' . $product_title . '</b>'
 	);

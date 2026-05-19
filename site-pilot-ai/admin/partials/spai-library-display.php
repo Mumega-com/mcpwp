@@ -45,7 +45,7 @@ $unlinked_archetype_count = count(
 		<span class="spai-logo">
 			<span class="dashicons dashicons-screenoptions"></span>
 		</span>
-		<?php esc_html_e( 'Library', 'site-pilot-ai' ); ?>
+		<?php esc_html_e( 'Library', 'mumega-mcp' ); ?>
 		<span class="spai-version">v<?php echo esc_html( SPAI_VERSION ); ?></span>
 	</h1>
 
@@ -55,85 +55,85 @@ $unlinked_archetype_count = count(
 		<div class="spai-card">
 			<h2>
 				<span class="dashicons dashicons-screenoptions"></span>
-				<?php esc_html_e( 'Structured Design Library', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Structured Design Library', 'mumega-mcp' ); ?>
 			</h2>
 			<p class="description">
-				<?php esc_html_e( 'This is the reusable system your models should build against. SPAI stores reusable page structures and sections as Elementor templates, then adds archetype and part metadata on top so they stay editable in Elementor and reusable in SPAI.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'This is the reusable system your models should build against. SPAI stores reusable page structures and sections as Elementor templates, then adds archetype and part metadata on top so they stay editable in Elementor and reusable in SPAI.', 'mumega-mcp' ); ?>
 			</p>
 
 			<div class="spai-library-summary">
 				<div class="spai-library-stat">
 					<span class="spai-library-stat__value"><?php echo esc_html( count( $library_inventory['page_archetypes'] ) ); ?></span>
-					<span class="spai-library-stat__label"><?php esc_html_e( 'Page Archetypes', 'site-pilot-ai' ); ?></span>
+					<span class="spai-library-stat__label"><?php esc_html_e( 'Page Archetypes', 'mumega-mcp' ); ?></span>
 				</div>
 				<div class="spai-library-stat">
 					<span class="spai-library-stat__value"><?php echo esc_html( count( $library_inventory['product_archetypes'] ) ); ?></span>
-					<span class="spai-library-stat__label"><?php esc_html_e( 'Product Archetypes', 'site-pilot-ai' ); ?></span>
+					<span class="spai-library-stat__label"><?php esc_html_e( 'Product Archetypes', 'mumega-mcp' ); ?></span>
 				</div>
 				<div class="spai-library-stat">
 					<span class="spai-library-stat__value"><?php echo esc_html( count( $library_inventory['parts'] ) ); ?></span>
-					<span class="spai-library-stat__label"><?php esc_html_e( 'Reusable Parts', 'site-pilot-ai' ); ?></span>
+					<span class="spai-library-stat__label"><?php esc_html_e( 'Reusable Parts', 'mumega-mcp' ); ?></span>
 				</div>
 				<div class="spai-library-stat">
 					<span class="spai-library-stat__value"><?php echo esc_html( count( $library_inventory['design_references'] ) ); ?></span>
-					<span class="spai-library-stat__label"><?php esc_html_e( 'Design References', 'site-pilot-ai' ); ?></span>
+					<span class="spai-library-stat__label"><?php esc_html_e( 'Design References', 'mumega-mcp' ); ?></span>
 				</div>
 			</div>
 		</div>
 
 		<div class="spai-card">
-			<h2><?php esc_html_e( 'Library Health', 'site-pilot-ai' ); ?></h2>
+			<h2><?php esc_html_e( 'Library Health', 'mumega-mcp' ); ?></h2>
 			<p class="description">
-				<?php esc_html_e( 'Use this to spot references that have not produced assets yet, and library items that are not connected back to a source design.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Use this to spot references that have not produced assets yet, and library items that are not connected back to a source design.', 'mumega-mcp' ); ?>
 			</p>
 			<div class="spai-library-summary">
 				<div class="spai-library-stat spai-library-stat--warning">
 					<span class="spai-library-stat__value"><?php echo esc_html( $unused_reference_count ); ?></span>
-					<span class="spai-library-stat__label"><?php esc_html_e( 'Unused References', 'site-pilot-ai' ); ?></span>
+					<span class="spai-library-stat__label"><?php esc_html_e( 'Unused References', 'mumega-mcp' ); ?></span>
 				</div>
 				<div class="spai-library-stat">
 					<span class="spai-library-stat__value"><?php echo esc_html( $unlinked_part_count ); ?></span>
-					<span class="spai-library-stat__label"><?php esc_html_e( 'Parts Without Reference Links', 'site-pilot-ai' ); ?></span>
+					<span class="spai-library-stat__label"><?php esc_html_e( 'Parts Without Reference Links', 'mumega-mcp' ); ?></span>
 				</div>
 				<div class="spai-library-stat">
 					<span class="spai-library-stat__value"><?php echo esc_html( $unlinked_archetype_count ); ?></span>
-					<span class="spai-library-stat__label"><?php esc_html_e( 'Archetypes Without Reference Links', 'site-pilot-ai' ); ?></span>
+					<span class="spai-library-stat__label"><?php esc_html_e( 'Archetypes Without Reference Links', 'mumega-mcp' ); ?></span>
 				</div>
 			</div>
 		</div>
 
 		<div class="spai-card">
-			<h2><?php esc_html_e( 'Find Assets', 'site-pilot-ai' ); ?></h2>
+			<h2><?php esc_html_e( 'Find Assets', 'mumega-mcp' ); ?></h2>
 			<form method="get" class="spai-library-filters">
 				<input type="hidden" name="page" value="<?php echo esc_attr( Spai_Admin::LIBRARY_PAGE_SLUG ); ?>" />
 				<div class="spai-library-filters__grid">
 					<p>
-						<label for="library_search"><strong><?php esc_html_e( 'Search', 'site-pilot-ai' ); ?></strong></label><br />
-						<input type="text" id="library_search" name="library_search" class="regular-text" value="<?php echo esc_attr( $library_filters['search'] ); ?>" placeholder="<?php esc_attr_e( 'hero, blog_post, premium, homepage', 'site-pilot-ai' ); ?>" />
+						<label for="library_search"><strong><?php esc_html_e( 'Search', 'mumega-mcp' ); ?></strong></label><br />
+						<input type="text" id="library_search" name="library_search" class="regular-text" value="<?php echo esc_attr( $library_filters['search'] ); ?>" placeholder="<?php esc_attr_e( 'hero, blog_post, premium, homepage', 'mumega-mcp' ); ?>" />
 					</p>
 					<p>
-						<label for="library_asset_type"><strong><?php esc_html_e( 'Asset Type', 'site-pilot-ai' ); ?></strong></label><br />
+						<label for="library_asset_type"><strong><?php esc_html_e( 'Asset Type', 'mumega-mcp' ); ?></strong></label><br />
 						<select id="library_asset_type" name="library_asset_type">
-							<option value="all" <?php selected( 'all', $library_filters['asset_type'] ); ?>><?php esc_html_e( 'All', 'site-pilot-ai' ); ?></option>
-							<option value="archetypes" <?php selected( 'archetypes', $library_filters['asset_type'] ); ?>><?php esc_html_e( 'Page Archetypes', 'site-pilot-ai' ); ?></option>
-							<option value="products" <?php selected( 'products', $library_filters['asset_type'] ); ?>><?php esc_html_e( 'Product Archetypes', 'site-pilot-ai' ); ?></option>
-							<option value="parts" <?php selected( 'parts', $library_filters['asset_type'] ); ?>><?php esc_html_e( 'Reusable Parts', 'site-pilot-ai' ); ?></option>
-							<option value="references" <?php selected( 'references', $library_filters['asset_type'] ); ?>><?php esc_html_e( 'Design References', 'site-pilot-ai' ); ?></option>
+							<option value="all" <?php selected( 'all', $library_filters['asset_type'] ); ?>><?php esc_html_e( 'All', 'mumega-mcp' ); ?></option>
+							<option value="archetypes" <?php selected( 'archetypes', $library_filters['asset_type'] ); ?>><?php esc_html_e( 'Page Archetypes', 'mumega-mcp' ); ?></option>
+							<option value="products" <?php selected( 'products', $library_filters['asset_type'] ); ?>><?php esc_html_e( 'Product Archetypes', 'mumega-mcp' ); ?></option>
+							<option value="parts" <?php selected( 'parts', $library_filters['asset_type'] ); ?>><?php esc_html_e( 'Reusable Parts', 'mumega-mcp' ); ?></option>
+							<option value="references" <?php selected( 'references', $library_filters['asset_type'] ); ?>><?php esc_html_e( 'Design References', 'mumega-mcp' ); ?></option>
 						</select>
 					</p>
 					<p>
-						<label for="library_class"><strong><?php esc_html_e( 'Class / Kind', 'site-pilot-ai' ); ?></strong></label><br />
+						<label for="library_class"><strong><?php esc_html_e( 'Class / Kind', 'mumega-mcp' ); ?></strong></label><br />
 						<select id="library_class" name="library_class">
-							<option value=""><?php esc_html_e( 'All', 'site-pilot-ai' ); ?></option>
+							<option value=""><?php esc_html_e( 'All', 'mumega-mcp' ); ?></option>
 							<?php foreach ( $library_filter_options['classes'] as $class_option ) : ?>
 								<option value="<?php echo esc_attr( $class_option ); ?>" <?php selected( $class_option, $library_filters['class'] ); ?>><?php echo esc_html( $class_option ); ?></option>
 							<?php endforeach; ?>
 						</select>
 					</p>
 					<p>
-						<label for="library_style"><strong><?php esc_html_e( 'Style', 'site-pilot-ai' ); ?></strong></label><br />
+						<label for="library_style"><strong><?php esc_html_e( 'Style', 'mumega-mcp' ); ?></strong></label><br />
 						<select id="library_style" name="library_style">
-							<option value=""><?php esc_html_e( 'All', 'site-pilot-ai' ); ?></option>
+							<option value=""><?php esc_html_e( 'All', 'mumega-mcp' ); ?></option>
 							<?php foreach ( $library_filter_options['styles'] as $style_option ) : ?>
 								<option value="<?php echo esc_attr( $style_option ); ?>" <?php selected( $style_option, $library_filters['style'] ); ?>><?php echo esc_html( $style_option ); ?></option>
 							<?php endforeach; ?>
@@ -141,64 +141,64 @@ $unlinked_archetype_count = count(
 					</p>
 				</div>
 				<p class="spai-library-filters__actions">
-					<button type="submit" class="button button-primary"><?php esc_html_e( 'Apply Filters', 'site-pilot-ai' ); ?></button>
-					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=' . Spai_Admin::LIBRARY_PAGE_SLUG ) ); ?>"><?php esc_html_e( 'Reset', 'site-pilot-ai' ); ?></a>
+					<button type="submit" class="button button-primary"><?php esc_html_e( 'Apply Filters', 'mumega-mcp' ); ?></button>
+					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=' . Spai_Admin::LIBRARY_PAGE_SLUG ) ); ?>"><?php esc_html_e( 'Reset', 'mumega-mcp' ); ?></a>
 				</p>
 			</form>
 		</div>
 
 		<div class="spai-card">
-			<h2><?php esc_html_e( 'Operating Sequence', 'site-pilot-ai' ); ?></h2>
+			<h2><?php esc_html_e( 'Operating Sequence', 'mumega-mcp' ); ?></h2>
 			<p class="description">
-				<?php esc_html_e( 'This is the operator loop mumcp is designed around. New models and humans should follow this path instead of building pages from scratch every time.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'This is the operator loop mumcp is designed around. New models and humans should follow this path instead of building pages from scratch every time.', 'mumega-mcp' ); ?>
 			</p>
 			<div class="spai-workflow-sequence">
 				<div class="spai-workflow-step">
 					<span class="spai-workflow-step__number">1</span>
-					<strong><?php esc_html_e( 'Define Character', 'site-pilot-ai' ); ?></strong>
-					<div class="spai-design-reference__meta"><?php esc_html_e( 'Set the site voice, audience, and structure rules first.', 'site-pilot-ai' ); ?></div>
+					<strong><?php esc_html_e( 'Define Character', 'mumega-mcp' ); ?></strong>
+					<div class="spai-design-reference__meta"><?php esc_html_e( 'Set the site voice, audience, and structure rules first.', 'mumega-mcp' ); ?></div>
 				</div>
 				<div class="spai-workflow-step">
 					<span class="spai-workflow-step__number">2</span>
-					<strong><?php esc_html_e( 'Store References', 'site-pilot-ai' ); ?></strong>
-					<div class="spai-design-reference__meta"><?php esc_html_e( 'Turn screenshots, mockups, and approved designs into reusable references.', 'site-pilot-ai' ); ?></div>
+					<strong><?php esc_html_e( 'Store References', 'mumega-mcp' ); ?></strong>
+					<div class="spai-design-reference__meta"><?php esc_html_e( 'Turn screenshots, mockups, and approved designs into reusable references.', 'mumega-mcp' ); ?></div>
 				</div>
 				<div class="spai-workflow-step">
 					<span class="spai-workflow-step__number">3</span>
-					<strong><?php esc_html_e( 'Reuse Archetypes', 'site-pilot-ai' ); ?></strong>
-					<div class="spai-design-reference__meta"><?php esc_html_e( 'Start from saved page or product structures before inventing anything new.', 'site-pilot-ai' ); ?></div>
+					<strong><?php esc_html_e( 'Reuse Archetypes', 'mumega-mcp' ); ?></strong>
+					<div class="spai-design-reference__meta"><?php esc_html_e( 'Start from saved page or product structures before inventing anything new.', 'mumega-mcp' ); ?></div>
 				</div>
 				<div class="spai-workflow-step">
 					<span class="spai-workflow-step__number">4</span>
-					<strong><?php esc_html_e( 'Build Drafts', 'site-pilot-ai' ); ?></strong>
-					<div class="spai-design-reference__meta"><?php esc_html_e( 'Create draft pages and products, then review instead of publishing blindly.', 'site-pilot-ai' ); ?></div>
+					<strong><?php esc_html_e( 'Build Drafts', 'mumega-mcp' ); ?></strong>
+					<div class="spai-design-reference__meta"><?php esc_html_e( 'Create draft pages and products, then review instead of publishing blindly.', 'mumega-mcp' ); ?></div>
 				</div>
 				<div class="spai-workflow-step">
 					<span class="spai-workflow-step__number">5</span>
-					<strong><?php esc_html_e( 'Save Reusable Parts', 'site-pilot-ai' ); ?></strong>
-					<div class="spai-design-reference__meta"><?php esc_html_e( 'Good sections should compound into the library for the next build.', 'site-pilot-ai' ); ?></div>
+					<strong><?php esc_html_e( 'Save Reusable Parts', 'mumega-mcp' ); ?></strong>
+					<div class="spai-design-reference__meta"><?php esc_html_e( 'Good sections should compound into the library for the next build.', 'mumega-mcp' ); ?></div>
 				</div>
 			</div>
 		</div>
 
 		<div class="spai-card">
-			<h2><?php esc_html_e( 'Design References', 'site-pilot-ai' ); ?></h2>
+			<h2><?php esc_html_e( 'Design References', 'mumega-mcp' ); ?></h2>
 			<p class="description">
-				<?php esc_html_e( 'Store screenshots, mockups, and design inspiration here before turning them into archetypes or reusable Elementor parts. This gives models a visual source of truth to work from.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Store screenshots, mockups, and design inspiration here before turning them into archetypes or reusable Elementor parts. This gives models a visual source of truth to work from.', 'mumega-mcp' ); ?>
 			</p>
 			<?php if ( empty( $library_inventory['design_references'] ) ) : ?>
-				<p><em><?php esc_html_e( 'No design references saved yet.', 'site-pilot-ai' ); ?></em></p>
+				<p><em><?php esc_html_e( 'No design references saved yet.', 'mumega-mcp' ); ?></em></p>
 			<?php else : ?>
 				<table class="widefat striped">
 					<thead>
 						<tr>
-							<th><?php esc_html_e( 'Reference', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'ID', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Intent / Class', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Style', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Source', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Tags / Reuse Notes', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Updated', 'site-pilot-ai' ); ?></th>
+							<th><?php esc_html_e( 'Reference', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'ID', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Intent / Class', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Style', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Source', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Tags / Reuse Notes', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Updated', 'mumega-mcp' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -210,7 +210,7 @@ $unlinked_archetype_count = count(
 										<img class="spai-design-reference__thumb" src="<?php echo esc_url( $item['image_url'] ); ?>" alt="<?php echo esc_attr( $item['title'] ); ?>" />
 									<?php endif; ?>
 									<div class="spai-design-reference__body">
-										<strong><?php echo esc_html( $item['title'] ? $item['title'] : __( 'Untitled Reference', 'site-pilot-ai' ) ); ?></strong>
+										<strong><?php echo esc_html( $item['title'] ? $item['title'] : __( 'Untitled Reference', 'mumega-mcp' ) ); ?></strong>
 										<?php if ( ! empty( $item['analysis_summary'] ) ) : ?>
 											<div class="spai-design-reference__meta"><?php echo esc_html( $item['analysis_summary'] ); ?></div>
 										<?php elseif ( ! empty( $item['notes'] ) ) : ?>
@@ -221,7 +221,7 @@ $unlinked_archetype_count = count(
 											echo esc_html(
 												sprintf(
 													/* translators: %d: page count */
-													_n( 'Used on %d page', 'Used on %d pages', (int) $item['page_count'], 'site-pilot-ai' ),
+													_n( 'Used on %d page', 'Used on %d pages', (int) $item['page_count'], 'mumega-mcp' ),
 													(int) $item['page_count']
 												)
 											);
@@ -229,7 +229,7 @@ $unlinked_archetype_count = count(
 										</div>
 										<?php if ( ! empty( $item['linked_pages'] ) ) : ?>
 											<div class="spai-design-reference__meta">
-												<strong><?php esc_html_e( 'Pages:', 'site-pilot-ai' ); ?></strong>
+												<strong><?php esc_html_e( 'Pages:', 'mumega-mcp' ); ?></strong>
 												<?php foreach ( $item['linked_pages'] as $page_link ) : ?>
 													<a href="<?php echo esc_url( $page_link['url'] ); ?>"><?php echo esc_html( $page_link['title'] ? $page_link['title'] : '#' . $page_link['id'] ); ?></a><?php echo end( $item['linked_pages'] ) === $page_link ? '' : ', '; ?>
 												<?php endforeach; ?>
@@ -239,8 +239,8 @@ $unlinked_archetype_count = count(
 											<form method="post" class="spai-inline-action spai-inline-action--grid">
 												<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
 												<input type="hidden" name="spai_action_design_reference_id" value="<?php echo esc_attr( $item['id'] ); ?>" />
-												<input type="text" name="spai_design_reference_page_title" class="regular-text" placeholder="<?php esc_attr_e( 'Draft page title', 'site-pilot-ai' ); ?>" />
-												<button type="submit" name="spai_create_page_from_design_reference" class="button button-small"><?php esc_html_e( 'Create Draft Page', 'site-pilot-ai' ); ?></button>
+												<input type="text" name="spai_design_reference_page_title" class="regular-text" placeholder="<?php esc_attr_e( 'Draft page title', 'mumega-mcp' ); ?>" />
+												<button type="submit" name="spai_create_page_from_design_reference" class="button button-small"><?php esc_html_e( 'Create Draft Page', 'mumega-mcp' ); ?></button>
 											</form>
 										</div>
 									</div>
@@ -269,19 +269,19 @@ $unlinked_archetype_count = count(
 									</div>
 								<?php endif; ?>
 								<?php if ( ! empty( $item['must_keep'] ) ) : ?>
-									<div class="spai-design-reference__meta"><strong><?php esc_html_e( 'Keep:', 'site-pilot-ai' ); ?></strong> <?php echo esc_html( implode( ', ', $item['must_keep'] ) ); ?></div>
+									<div class="spai-design-reference__meta"><strong><?php esc_html_e( 'Keep:', 'mumega-mcp' ); ?></strong> <?php echo esc_html( implode( ', ', $item['must_keep'] ) ); ?></div>
 								<?php endif; ?>
 								<?php if ( ! empty( $item['avoid'] ) ) : ?>
-									<div class="spai-design-reference__meta"><strong><?php esc_html_e( 'Avoid:', 'site-pilot-ai' ); ?></strong> <?php echo esc_html( implode( ', ', $item['avoid'] ) ); ?></div>
+									<div class="spai-design-reference__meta"><strong><?php esc_html_e( 'Avoid:', 'mumega-mcp' ); ?></strong> <?php echo esc_html( implode( ', ', $item['avoid'] ) ); ?></div>
 								<?php endif; ?>
 								<?php if ( ! empty( $item['linked_part_count'] ) || ! empty( $item['linked_archetype_count'] ) ) : ?>
 									<div class="spai-design-reference__meta">
-										<strong><?php esc_html_e( 'Linked:', 'site-pilot-ai' ); ?></strong>
+										<strong><?php esc_html_e( 'Linked:', 'mumega-mcp' ); ?></strong>
 										<?php
 										echo esc_html(
 											sprintf(
 												/* translators: 1: part count 2: archetype count */
-												__( '%1$d parts, %2$d archetypes', 'site-pilot-ai' ),
+												__( '%1$d parts, %2$d archetypes', 'mumega-mcp' ),
 												(int) $item['linked_part_count'],
 												(int) $item['linked_archetype_count']
 											)
@@ -299,88 +299,88 @@ $unlinked_archetype_count = count(
 		</div>
 
 		<div class="spai-card">
-			<h2><?php esc_html_e( 'Add Design Reference', 'site-pilot-ai' ); ?></h2>
+			<h2><?php esc_html_e( 'Add Design Reference', 'mumega-mcp' ); ?></h2>
 			<p class="description">
-				<?php esc_html_e( 'Upload a screenshot, paste a design URL, or point at existing media. Save the intent and reuse rules now so future models can turn it into archetypes and reusable parts.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Upload a screenshot, paste a design URL, or point at existing media. Save the intent and reuse rules now so future models can turn it into archetypes and reusable parts.', 'mumega-mcp' ); ?>
 			</p>
 
 			<form method="post" enctype="multipart/form-data" class="spai-library-form">
 				<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
 				<p>
-					<label for="spai_design_reference_title"><strong><?php esc_html_e( 'Title', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_design_reference_title" name="spai_design_reference_title" class="regular-text" placeholder="<?php esc_attr_e( 'Homepage Hero Inspiration / SaaS', 'site-pilot-ai' ); ?>" required />
+					<label for="spai_design_reference_title"><strong><?php esc_html_e( 'Title', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_design_reference_title" name="spai_design_reference_title" class="regular-text" placeholder="<?php esc_attr_e( 'Homepage Hero Inspiration / SaaS', 'mumega-mcp' ); ?>" required />
 				</p>
 				<p>
-					<label for="spai_design_reference_file"><strong><?php esc_html_e( 'Upload Image', 'site-pilot-ai' ); ?></strong></label><br />
+					<label for="spai_design_reference_file"><strong><?php esc_html_e( 'Upload Image', 'mumega-mcp' ); ?></strong></label><br />
 					<input type="file" id="spai_design_reference_file" name="spai_design_reference_file" accept="image/*" />
 				</p>
 				<p>
-					<label for="spai_design_reference_url"><strong><?php esc_html_e( 'Image URL', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="url" id="spai_design_reference_url" name="spai_design_reference_url" class="large-text" placeholder="<?php esc_attr_e( 'https://example.com/reference.png', 'site-pilot-ai' ); ?>" />
+					<label for="spai_design_reference_url"><strong><?php esc_html_e( 'Image URL', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="url" id="spai_design_reference_url" name="spai_design_reference_url" class="large-text" placeholder="<?php esc_attr_e( 'https://example.com/reference.png', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_design_reference_media_id"><strong><?php esc_html_e( 'Existing Media ID', 'site-pilot-ai' ); ?></strong></label><br />
+					<label for="spai_design_reference_media_id"><strong><?php esc_html_e( 'Existing Media ID', 'mumega-mcp' ); ?></strong></label><br />
 					<input type="number" min="1" id="spai_design_reference_media_id" name="spai_design_reference_media_id" class="small-text" />
 				</p>
 				<p>
-					<label for="spai_design_reference_intent"><strong><?php esc_html_e( 'Page Intent', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_design_reference_intent" name="spai_design_reference_intent" class="regular-text" placeholder="<?php esc_attr_e( 'landing_page, blog_post, product_page', 'site-pilot-ai' ); ?>" />
+					<label for="spai_design_reference_intent"><strong><?php esc_html_e( 'Page Intent', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_design_reference_intent" name="spai_design_reference_intent" class="regular-text" placeholder="<?php esc_attr_e( 'landing_page, blog_post, product_page', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_design_reference_class"><strong><?php esc_html_e( 'Archetype Class', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_design_reference_class" name="spai_design_reference_class" class="regular-text" placeholder="<?php esc_attr_e( 'saas_landing, editorial_blog, digital_product', 'site-pilot-ai' ); ?>" />
+					<label for="spai_design_reference_class"><strong><?php esc_html_e( 'Archetype Class', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_design_reference_class" name="spai_design_reference_class" class="regular-text" placeholder="<?php esc_attr_e( 'saas_landing, editorial_blog, digital_product', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_design_reference_style"><strong><?php esc_html_e( 'Style', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_design_reference_style" name="spai_design_reference_style" class="regular-text" placeholder="<?php esc_attr_e( 'showcase, editorial, premium', 'site-pilot-ai' ); ?>" />
+					<label for="spai_design_reference_style"><strong><?php esc_html_e( 'Style', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_design_reference_style" name="spai_design_reference_style" class="regular-text" placeholder="<?php esc_attr_e( 'showcase, editorial, premium', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_design_reference_tags"><strong><?php esc_html_e( 'Tags', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_design_reference_tags" name="spai_design_reference_tags" class="regular-text" placeholder="<?php esc_attr_e( 'hero, pricing, b2b', 'site-pilot-ai' ); ?>" />
+					<label for="spai_design_reference_tags"><strong><?php esc_html_e( 'Tags', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_design_reference_tags" name="spai_design_reference_tags" class="regular-text" placeholder="<?php esc_attr_e( 'hero, pricing, b2b', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_design_reference_notes"><strong><?php esc_html_e( 'Notes', 'site-pilot-ai' ); ?></strong></label><br />
-					<textarea id="spai_design_reference_notes" name="spai_design_reference_notes" rows="4" class="large-text" placeholder="<?php esc_attr_e( 'Why this design matters and where it should be used.', 'site-pilot-ai' ); ?>"></textarea>
+					<label for="spai_design_reference_notes"><strong><?php esc_html_e( 'Notes', 'mumega-mcp' ); ?></strong></label><br />
+					<textarea id="spai_design_reference_notes" name="spai_design_reference_notes" rows="4" class="large-text" placeholder="<?php esc_attr_e( 'Why this design matters and where it should be used.', 'mumega-mcp' ); ?>"></textarea>
 				</p>
 				<p>
-					<label for="spai_design_reference_summary"><strong><?php esc_html_e( 'Analysis Summary', 'site-pilot-ai' ); ?></strong></label><br />
-					<textarea id="spai_design_reference_summary" name="spai_design_reference_summary" rows="4" class="large-text" placeholder="<?php esc_attr_e( 'Short structural summary of the design.', 'site-pilot-ai' ); ?>"></textarea>
+					<label for="spai_design_reference_summary"><strong><?php esc_html_e( 'Analysis Summary', 'mumega-mcp' ); ?></strong></label><br />
+					<textarea id="spai_design_reference_summary" name="spai_design_reference_summary" rows="4" class="large-text" placeholder="<?php esc_attr_e( 'Short structural summary of the design.', 'mumega-mcp' ); ?>"></textarea>
 				</p>
 				<p>
-					<label for="spai_design_reference_must_keep"><strong><?php esc_html_e( 'Must Keep', 'site-pilot-ai' ); ?></strong></label><br />
-					<textarea id="spai_design_reference_must_keep" name="spai_design_reference_must_keep" rows="4" class="large-text" placeholder="<?php esc_attr_e( "One item per line:\nstrong headline\nleft-aligned proof strip", 'site-pilot-ai' ); ?>"></textarea>
+					<label for="spai_design_reference_must_keep"><strong><?php esc_html_e( 'Must Keep', 'mumega-mcp' ); ?></strong></label><br />
+					<textarea id="spai_design_reference_must_keep" name="spai_design_reference_must_keep" rows="4" class="large-text" placeholder="<?php esc_attr_e( "One item per line:\nstrong headline\nleft-aligned proof strip", 'mumega-mcp' ); ?>"></textarea>
 				</p>
 				<p>
-					<label for="spai_design_reference_avoid"><strong><?php esc_html_e( 'Avoid', 'site-pilot-ai' ); ?></strong></label><br />
-					<textarea id="spai_design_reference_avoid" name="spai_design_reference_avoid" rows="4" class="large-text" placeholder="<?php esc_attr_e( "One item per line:\ncarousel\ndense paragraph blocks", 'site-pilot-ai' ); ?>"></textarea>
+					<label for="spai_design_reference_avoid"><strong><?php esc_html_e( 'Avoid', 'mumega-mcp' ); ?></strong></label><br />
+					<textarea id="spai_design_reference_avoid" name="spai_design_reference_avoid" rows="4" class="large-text" placeholder="<?php esc_attr_e( "One item per line:\ncarousel\ndense paragraph blocks", 'mumega-mcp' ); ?>"></textarea>
 				</p>
 				<p>
-					<label for="spai_design_reference_outline"><strong><?php esc_html_e( 'Section Outline', 'site-pilot-ai' ); ?></strong></label><br />
-					<textarea id="spai_design_reference_outline" name="spai_design_reference_outline" rows="5" class="large-text" placeholder="<?php esc_attr_e( "One section per line:\nhero\nfeature grid\ntestimonials\ncta", 'site-pilot-ai' ); ?>"></textarea>
+					<label for="spai_design_reference_outline"><strong><?php esc_html_e( 'Section Outline', 'mumega-mcp' ); ?></strong></label><br />
+					<textarea id="spai_design_reference_outline" name="spai_design_reference_outline" rows="5" class="large-text" placeholder="<?php esc_attr_e( "One section per line:\nhero\nfeature grid\ntestimonials\ncta", 'mumega-mcp' ); ?>"></textarea>
 				</p>
 				<p>
-					<button type="submit" name="spai_create_design_reference" class="button button-primary"><?php esc_html_e( 'Save Design Reference', 'site-pilot-ai' ); ?></button>
+					<button type="submit" name="spai_create_design_reference" class="button button-primary"><?php esc_html_e( 'Save Design Reference', 'mumega-mcp' ); ?></button>
 				</p>
 			</form>
 		</div>
 
 		<div class="spai-card">
-			<h2><?php esc_html_e( 'Page Archetypes', 'site-pilot-ai' ); ?></h2>
+			<h2><?php esc_html_e( 'Page Archetypes', 'mumega-mcp' ); ?></h2>
 			<p class="description">
-				<?php esc_html_e( 'Page archetypes are Elementor templates marked as canonical structures for blog posts, landing pages, service pages, and other repeatable layouts. Models should start from one of these before generating a page from scratch.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Page archetypes are Elementor templates marked as canonical structures for blog posts, landing pages, service pages, and other repeatable layouts. Models should start from one of these before generating a page from scratch.', 'mumega-mcp' ); ?>
 			</p>
 			<?php if ( empty( $library_inventory['page_archetypes'] ) ) : ?>
-				<p><em><?php esc_html_e( 'No page archetypes saved yet.', 'site-pilot-ai' ); ?></em></p>
+				<p><em><?php esc_html_e( 'No page archetypes saved yet.', 'mumega-mcp' ); ?></em></p>
 			<?php else : ?>
 				<table class="widefat striped">
 					<thead>
 						<tr>
-							<th><?php esc_html_e( 'Template', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'ID', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Class', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Style', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Type', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Modified', 'site-pilot-ai' ); ?></th>
+							<th><?php esc_html_e( 'Template', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'ID', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Class', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Style', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Type', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Modified', 'mumega-mcp' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -389,7 +389,7 @@ $unlinked_archetype_count = count(
 							<td>
 								<strong><?php echo esc_html( $item['title'] ); ?></strong>
 								<?php if ( ! empty( $item['edit_url'] ) ) : ?>
-									<div class="spai-row-actions"><a href="<?php echo esc_url( $item['edit_url'] ); ?>"><?php esc_html_e( 'Open in Elementor', 'site-pilot-ai' ); ?></a></div>
+									<div class="spai-row-actions"><a href="<?php echo esc_url( $item['edit_url'] ); ?>"><?php esc_html_e( 'Open in Elementor', 'mumega-mcp' ); ?></a></div>
 								<?php endif; ?>
 								<div class="spai-design-reference__meta"><span class="spai-origin-badge"><?php echo esc_html( $item['provenance_label'] ); ?></span></div>
 								<div class="spai-design-reference__meta">
@@ -397,7 +397,7 @@ $unlinked_archetype_count = count(
 									echo esc_html(
 										sprintf(
 											/* translators: %d: reference count */
-											_n( 'Linked from %d design reference', 'Linked from %d design references', (int) $item['reference_count'], 'site-pilot-ai' ),
+											_n( 'Linked from %d design reference', 'Linked from %d design references', (int) $item['reference_count'], 'mumega-mcp' ),
 											(int) $item['reference_count']
 										)
 									);
@@ -405,7 +405,7 @@ $unlinked_archetype_count = count(
 								</div>
 								<?php if ( ! empty( $item['linked_references'] ) ) : ?>
 									<div class="spai-design-reference__meta">
-										<strong><?php esc_html_e( 'References:', 'site-pilot-ai' ); ?></strong>
+										<strong><?php esc_html_e( 'References:', 'mumega-mcp' ); ?></strong>
 										<?php foreach ( $item['linked_references'] as $reference_link ) : ?>
 											<a href="<?php echo esc_url( $reference_link['url'] ); ?>"><?php echo esc_html( $reference_link['title'] ? $reference_link['title'] : $reference_link['id'] ); ?></a><?php echo end( $item['linked_references'] ) === $reference_link ? '' : ', '; ?>
 										<?php endforeach; ?>
@@ -415,12 +415,12 @@ $unlinked_archetype_count = count(
 									<form method="post" class="spai-inline-action">
 										<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
 										<input type="hidden" name="spai_action_archetype_id" value="<?php echo esc_attr( $item['id'] ); ?>" />
-										<button type="submit" name="spai_create_page_from_archetype" class="button button-small"><?php esc_html_e( 'Create Draft Page', 'site-pilot-ai' ); ?></button>
+										<button type="submit" name="spai_create_page_from_archetype" class="button button-small"><?php esc_html_e( 'Create Draft Page', 'mumega-mcp' ); ?></button>
 									</form>
 									<form method="post" class="spai-inline-action">
 										<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
 										<input type="hidden" name="spai_action_archetype_id" value="<?php echo esc_attr( $item['id'] ); ?>" />
-										<button type="submit" name="spai_demote_archetype" class="button button-small"><?php esc_html_e( 'Remove Archetype Tag', 'site-pilot-ai' ); ?></button>
+										<button type="submit" name="spai_demote_archetype" class="button button-small"><?php esc_html_e( 'Remove Archetype Tag', 'mumega-mcp' ); ?></button>
 									</form>
 								</div>
 							</td>
@@ -437,23 +437,23 @@ $unlinked_archetype_count = count(
 		</div>
 
 		<div class="spai-card">
-			<h2><?php esc_html_e( 'Product Archetypes', 'site-pilot-ai' ); ?></h2>
+			<h2><?php esc_html_e( 'Product Archetypes', 'mumega-mcp' ); ?></h2>
 			<p class="description">
-				<?php esc_html_e( 'Use product archetypes to standardize WooCommerce product pages and field structure. This is where simple products, variable products, and other catalog patterns should live.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Use product archetypes to standardize WooCommerce product pages and field structure. This is where simple products, variable products, and other catalog patterns should live.', 'mumega-mcp' ); ?>
 			</p>
 			<?php if ( empty( $library_inventory['product_archetypes'] ) ) : ?>
-				<p><em><?php esc_html_e( 'No product archetypes saved yet.', 'site-pilot-ai' ); ?></em></p>
+				<p><em><?php esc_html_e( 'No product archetypes saved yet.', 'mumega-mcp' ); ?></em></p>
 			<?php else : ?>
 				<table class="widefat striped">
 					<thead>
 						<tr>
-							<th><?php esc_html_e( 'Name', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'ID', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Class', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Style', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Product Type', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Status Default', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Updated', 'site-pilot-ai' ); ?></th>
+							<th><?php esc_html_e( 'Name', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'ID', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Class', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Style', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Product Type', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Status Default', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Updated', 'mumega-mcp' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -465,13 +465,13 @@ $unlinked_archetype_count = count(
 									<form method="post" class="spai-inline-action spai-inline-action--grid">
 										<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
 										<input type="hidden" name="spai_action_product_archetype_id" value="<?php echo esc_attr( $item['id'] ); ?>" />
-										<input type="text" name="spai_product_name" class="regular-text" placeholder="<?php esc_attr_e( 'Draft product name', 'site-pilot-ai' ); ?>" />
-										<button type="submit" name="spai_create_product_from_archetype" class="button button-small"><?php esc_html_e( 'Create Draft Product', 'site-pilot-ai' ); ?></button>
+										<input type="text" name="spai_product_name" class="regular-text" placeholder="<?php esc_attr_e( 'Draft product name', 'mumega-mcp' ); ?>" />
+										<button type="submit" name="spai_create_product_from_archetype" class="button button-small"><?php esc_html_e( 'Create Draft Product', 'mumega-mcp' ); ?></button>
 									</form>
 									<form method="post" class="spai-inline-action">
 										<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
 										<input type="hidden" name="spai_action_product_archetype_id" value="<?php echo esc_attr( $item['id'] ); ?>" />
-										<button type="submit" name="spai_delete_product_archetype" class="button button-small"><?php esc_html_e( 'Remove Archetype', 'site-pilot-ai' ); ?></button>
+										<button type="submit" name="spai_delete_product_archetype" class="button button-small"><?php esc_html_e( 'Remove Archetype', 'mumega-mcp' ); ?></button>
 									</form>
 								</div>
 							</td>
@@ -489,107 +489,107 @@ $unlinked_archetype_count = count(
 		</div>
 
 		<div class="spai-card">
-			<h2><?php esc_html_e( 'Create Product Archetype', 'site-pilot-ai' ); ?></h2>
+			<h2><?php esc_html_e( 'Create Product Archetype', 'mumega-mcp' ); ?></h2>
 			<p class="description">
-				<?php esc_html_e( 'Define a canonical WooCommerce product pattern once, then let models and humans generate consistent draft products from it.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Define a canonical WooCommerce product pattern once, then let models and humans generate consistent draft products from it.', 'mumega-mcp' ); ?>
 			</p>
 
 			<form method="post" class="spai-library-form">
 				<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
 				<p>
-					<label for="spai_product_archetype_name"><strong><?php esc_html_e( 'Archetype Name', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_product_archetype_name" name="spai_product_archetype_name" class="regular-text" placeholder="<?php esc_attr_e( 'Digital Course / Premium / Default', 'site-pilot-ai' ); ?>" required />
+					<label for="spai_product_archetype_name"><strong><?php esc_html_e( 'Archetype Name', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_product_archetype_name" name="spai_product_archetype_name" class="regular-text" placeholder="<?php esc_attr_e( 'Digital Course / Premium / Default', 'mumega-mcp' ); ?>" required />
 				</p>
 				<p>
-					<label for="spai_product_archetype_class"><strong><?php esc_html_e( 'Archetype Class', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_product_archetype_class" name="spai_product_archetype_class" class="regular-text" placeholder="<?php esc_attr_e( 'simple_product, digital_product, variable_product', 'site-pilot-ai' ); ?>" />
+					<label for="spai_product_archetype_class"><strong><?php esc_html_e( 'Archetype Class', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_product_archetype_class" name="spai_product_archetype_class" class="regular-text" placeholder="<?php esc_attr_e( 'simple_product, digital_product, variable_product', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_product_archetype_style"><strong><?php esc_html_e( 'Style', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_product_archetype_style" name="spai_product_archetype_style" class="regular-text" placeholder="<?php esc_attr_e( 'premium, minimal, editorial', 'site-pilot-ai' ); ?>" />
+					<label for="spai_product_archetype_style"><strong><?php esc_html_e( 'Style', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_product_archetype_style" name="spai_product_archetype_style" class="regular-text" placeholder="<?php esc_attr_e( 'premium, minimal, editorial', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_product_type"><strong><?php esc_html_e( 'Product Type', 'site-pilot-ai' ); ?></strong></label><br />
+					<label for="spai_product_type"><strong><?php esc_html_e( 'Product Type', 'mumega-mcp' ); ?></strong></label><br />
 					<select id="spai_product_type" name="spai_product_type">
-						<option value="simple"><?php esc_html_e( 'Simple', 'site-pilot-ai' ); ?></option>
-						<option value="variable"><?php esc_html_e( 'Variable', 'site-pilot-ai' ); ?></option>
-						<option value="grouped"><?php esc_html_e( 'Grouped', 'site-pilot-ai' ); ?></option>
-						<option value="external"><?php esc_html_e( 'External', 'site-pilot-ai' ); ?></option>
+						<option value="simple"><?php esc_html_e( 'Simple', 'mumega-mcp' ); ?></option>
+						<option value="variable"><?php esc_html_e( 'Variable', 'mumega-mcp' ); ?></option>
+						<option value="grouped"><?php esc_html_e( 'Grouped', 'mumega-mcp' ); ?></option>
+						<option value="external"><?php esc_html_e( 'External', 'mumega-mcp' ); ?></option>
 					</select>
 				</p>
 				<p>
-					<label for="spai_product_status"><strong><?php esc_html_e( 'Default Status', 'site-pilot-ai' ); ?></strong></label><br />
+					<label for="spai_product_status"><strong><?php esc_html_e( 'Default Status', 'mumega-mcp' ); ?></strong></label><br />
 					<select id="spai_product_status" name="spai_product_status">
-						<option value="draft"><?php esc_html_e( 'Draft', 'site-pilot-ai' ); ?></option>
-						<option value="publish"><?php esc_html_e( 'Publish', 'site-pilot-ai' ); ?></option>
-						<option value="pending"><?php esc_html_e( 'Pending', 'site-pilot-ai' ); ?></option>
-						<option value="private"><?php esc_html_e( 'Private', 'site-pilot-ai' ); ?></option>
+						<option value="draft"><?php esc_html_e( 'Draft', 'mumega-mcp' ); ?></option>
+						<option value="publish"><?php esc_html_e( 'Publish', 'mumega-mcp' ); ?></option>
+						<option value="pending"><?php esc_html_e( 'Pending', 'mumega-mcp' ); ?></option>
+						<option value="private"><?php esc_html_e( 'Private', 'mumega-mcp' ); ?></option>
 					</select>
 				</p>
 				<p>
-					<label for="spai_product_regular_price"><strong><?php esc_html_e( 'Regular Price', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_product_regular_price" name="spai_product_regular_price" class="regular-text" placeholder="<?php esc_attr_e( '99.00', 'site-pilot-ai' ); ?>" />
+					<label for="spai_product_regular_price"><strong><?php esc_html_e( 'Regular Price', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_product_regular_price" name="spai_product_regular_price" class="regular-text" placeholder="<?php esc_attr_e( '99.00', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_product_sale_price"><strong><?php esc_html_e( 'Sale Price', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_product_sale_price" name="spai_product_sale_price" class="regular-text" placeholder="<?php esc_attr_e( '79.00', 'site-pilot-ai' ); ?>" />
+					<label for="spai_product_sale_price"><strong><?php esc_html_e( 'Sale Price', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_product_sale_price" name="spai_product_sale_price" class="regular-text" placeholder="<?php esc_attr_e( '79.00', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_product_stock_status"><strong><?php esc_html_e( 'Stock Status', 'site-pilot-ai' ); ?></strong></label><br />
+					<label for="spai_product_stock_status"><strong><?php esc_html_e( 'Stock Status', 'mumega-mcp' ); ?></strong></label><br />
 					<select id="spai_product_stock_status" name="spai_product_stock_status">
-						<option value="instock"><?php esc_html_e( 'In stock', 'site-pilot-ai' ); ?></option>
-						<option value="outofstock"><?php esc_html_e( 'Out of stock', 'site-pilot-ai' ); ?></option>
-						<option value="onbackorder"><?php esc_html_e( 'On backorder', 'site-pilot-ai' ); ?></option>
+						<option value="instock"><?php esc_html_e( 'In stock', 'mumega-mcp' ); ?></option>
+						<option value="outofstock"><?php esc_html_e( 'Out of stock', 'mumega-mcp' ); ?></option>
+						<option value="onbackorder"><?php esc_html_e( 'On backorder', 'mumega-mcp' ); ?></option>
 					</select>
 				</p>
 				<p>
-					<label><input type="checkbox" name="spai_product_virtual" value="1" /> <?php esc_html_e( 'Virtual product', 'site-pilot-ai' ); ?></label>
-					<label style="margin-left:12px;"><input type="checkbox" name="spai_product_downloadable" value="1" /> <?php esc_html_e( 'Downloadable product', 'site-pilot-ai' ); ?></label>
+					<label><input type="checkbox" name="spai_product_virtual" value="1" /> <?php esc_html_e( 'Virtual product', 'mumega-mcp' ); ?></label>
+					<label style="margin-left:12px;"><input type="checkbox" name="spai_product_downloadable" value="1" /> <?php esc_html_e( 'Downloadable product', 'mumega-mcp' ); ?></label>
 				</p>
 				<p>
-					<label for="spai_product_categories"><strong><?php esc_html_e( 'Default Categories', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_product_categories" name="spai_product_categories" class="regular-text" placeholder="<?php esc_attr_e( 'Courses, Membership', 'site-pilot-ai' ); ?>" />
+					<label for="spai_product_categories"><strong><?php esc_html_e( 'Default Categories', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_product_categories" name="spai_product_categories" class="regular-text" placeholder="<?php esc_attr_e( 'Courses, Membership', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_product_tags"><strong><?php esc_html_e( 'Default Tags', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_product_tags" name="spai_product_tags" class="regular-text" placeholder="<?php esc_attr_e( 'featured, evergreen', 'site-pilot-ai' ); ?>" />
+					<label for="spai_product_tags"><strong><?php esc_html_e( 'Default Tags', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_product_tags" name="spai_product_tags" class="regular-text" placeholder="<?php esc_attr_e( 'featured, evergreen', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_product_short_description"><strong><?php esc_html_e( 'Short Description', 'site-pilot-ai' ); ?></strong></label><br />
-					<textarea id="spai_product_short_description" name="spai_product_short_description" rows="4" class="large-text" placeholder="<?php esc_attr_e( 'Concise merchandising copy for the product summary.', 'site-pilot-ai' ); ?>"></textarea>
+					<label for="spai_product_short_description"><strong><?php esc_html_e( 'Short Description', 'mumega-mcp' ); ?></strong></label><br />
+					<textarea id="spai_product_short_description" name="spai_product_short_description" rows="4" class="large-text" placeholder="<?php esc_attr_e( 'Concise merchandising copy for the product summary.', 'mumega-mcp' ); ?>"></textarea>
 				</p>
 				<p>
-					<label for="spai_product_description"><strong><?php esc_html_e( 'Full Description', 'site-pilot-ai' ); ?></strong></label><br />
-					<textarea id="spai_product_description" name="spai_product_description" rows="6" class="large-text" placeholder="<?php esc_attr_e( 'Long-form product description or structure starter.', 'site-pilot-ai' ); ?>"></textarea>
+					<label for="spai_product_description"><strong><?php esc_html_e( 'Full Description', 'mumega-mcp' ); ?></strong></label><br />
+					<textarea id="spai_product_description" name="spai_product_description" rows="6" class="large-text" placeholder="<?php esc_attr_e( 'Long-form product description or structure starter.', 'mumega-mcp' ); ?>"></textarea>
 				</p>
 				<p>
-					<label for="spai_product_archetype_brief"><strong><?php esc_html_e( 'Archetype Override Brief', 'site-pilot-ai' ); ?></strong></label><br />
-					<textarea id="spai_product_archetype_brief" name="spai_product_archetype_brief" rows="5" class="large-text" placeholder="<?php esc_attr_e( 'Specific guidance for this product class.', 'site-pilot-ai' ); ?>"></textarea>
+					<label for="spai_product_archetype_brief"><strong><?php esc_html_e( 'Archetype Override Brief', 'mumega-mcp' ); ?></strong></label><br />
+					<textarea id="spai_product_archetype_brief" name="spai_product_archetype_brief" rows="5" class="large-text" placeholder="<?php esc_attr_e( 'Specific guidance for this product class.', 'mumega-mcp' ); ?>"></textarea>
 				</p>
 				<p>
-					<button type="submit" name="spai_create_product_archetype" class="button button-primary"><?php esc_html_e( 'Save Product Archetype', 'site-pilot-ai' ); ?></button>
+					<button type="submit" name="spai_create_product_archetype" class="button button-primary"><?php esc_html_e( 'Save Product Archetype', 'mumega-mcp' ); ?></button>
 				</p>
 			</form>
 		</div>
 
 		<div class="spai-card">
-			<h2><?php esc_html_e( 'Reusable Elementor Parts', 'site-pilot-ai' ); ?></h2>
+			<h2><?php esc_html_e( 'Reusable Elementor Parts', 'mumega-mcp' ); ?></h2>
 			<p class="description">
-				<?php esc_html_e( 'Reusable parts are Elementor templates marked as reusable sections. Every strong hero, feature grid, FAQ block, testimonial strip, and CTA should be saved here so future models can reuse it instead of reinventing it.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Reusable parts are Elementor templates marked as reusable sections. Every strong hero, feature grid, FAQ block, testimonial strip, and CTA should be saved here so future models can reuse it instead of reinventing it.', 'mumega-mcp' ); ?>
 			</p>
 			<?php if ( empty( $library_inventory['parts'] ) ) : ?>
-				<p><em><?php esc_html_e( 'No reusable parts saved yet.', 'site-pilot-ai' ); ?></em></p>
+				<p><em><?php esc_html_e( 'No reusable parts saved yet.', 'mumega-mcp' ); ?></em></p>
 			<?php else : ?>
 				<table class="widefat striped">
 					<thead>
 						<tr>
-							<th><?php esc_html_e( 'Part', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'ID', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Kind', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Style', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Tags', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Source', 'site-pilot-ai' ); ?></th>
-							<th><?php esc_html_e( 'Modified', 'site-pilot-ai' ); ?></th>
+							<th><?php esc_html_e( 'Part', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'ID', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Kind', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Style', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Tags', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Source', 'mumega-mcp' ); ?></th>
+							<th><?php esc_html_e( 'Modified', 'mumega-mcp' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -598,7 +598,7 @@ $unlinked_archetype_count = count(
 							<td>
 								<strong><?php echo esc_html( $item['title'] ); ?></strong>
 								<?php if ( ! empty( $item['edit_url'] ) ) : ?>
-									<div class="spai-row-actions"><a href="<?php echo esc_url( $item['edit_url'] ); ?>"><?php esc_html_e( 'Open in Elementor', 'site-pilot-ai' ); ?></a></div>
+									<div class="spai-row-actions"><a href="<?php echo esc_url( $item['edit_url'] ); ?>"><?php esc_html_e( 'Open in Elementor', 'mumega-mcp' ); ?></a></div>
 								<?php endif; ?>
 								<div class="spai-design-reference__meta"><span class="spai-origin-badge"><?php echo esc_html( $item['provenance_label'] ); ?></span></div>
 								<div class="spai-design-reference__meta">
@@ -606,7 +606,7 @@ $unlinked_archetype_count = count(
 									echo esc_html(
 										sprintf(
 											/* translators: %d: reference count */
-											_n( 'Linked from %d design reference', 'Linked from %d design references', (int) $item['reference_count'], 'site-pilot-ai' ),
+											_n( 'Linked from %d design reference', 'Linked from %d design references', (int) $item['reference_count'], 'mumega-mcp' ),
 											(int) $item['reference_count']
 										)
 									);
@@ -614,7 +614,7 @@ $unlinked_archetype_count = count(
 								</div>
 								<?php if ( ! empty( $item['linked_references'] ) ) : ?>
 									<div class="spai-design-reference__meta">
-										<strong><?php esc_html_e( 'References:', 'site-pilot-ai' ); ?></strong>
+										<strong><?php esc_html_e( 'References:', 'mumega-mcp' ); ?></strong>
 										<?php foreach ( $item['linked_references'] as $reference_link ) : ?>
 											<a href="<?php echo esc_url( $reference_link['url'] ); ?>"><?php echo esc_html( $reference_link['title'] ? $reference_link['title'] : $reference_link['id'] ); ?></a><?php echo end( $item['linked_references'] ) === $reference_link ? '' : ', '; ?>
 										<?php endforeach; ?>
@@ -624,21 +624,21 @@ $unlinked_archetype_count = count(
 									<form method="post" class="spai-inline-action spai-inline-action--grid">
 										<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
 										<input type="hidden" name="spai_action_part_id" value="<?php echo esc_attr( $item['id'] ); ?>" />
-										<input type="number" min="1" name="spai_target_page_id" class="small-text" placeholder="<?php esc_attr_e( 'Page ID', 'site-pilot-ai' ); ?>" required />
+										<input type="number" min="1" name="spai_target_page_id" class="small-text" placeholder="<?php esc_attr_e( 'Page ID', 'mumega-mcp' ); ?>" required />
 										<select name="spai_part_apply_mode">
-											<option value="insert"><?php esc_html_e( 'Insert', 'site-pilot-ai' ); ?></option>
-											<option value="replace"><?php esc_html_e( 'Replace', 'site-pilot-ai' ); ?></option>
+											<option value="insert"><?php esc_html_e( 'Insert', 'mumega-mcp' ); ?></option>
+											<option value="replace"><?php esc_html_e( 'Replace', 'mumega-mcp' ); ?></option>
 										</select>
 										<select name="spai_part_apply_position">
-											<option value="end"><?php esc_html_e( 'End', 'site-pilot-ai' ); ?></option>
-											<option value="start"><?php esc_html_e( 'Start', 'site-pilot-ai' ); ?></option>
+											<option value="end"><?php esc_html_e( 'End', 'mumega-mcp' ); ?></option>
+											<option value="start"><?php esc_html_e( 'Start', 'mumega-mcp' ); ?></option>
 										</select>
-										<button type="submit" name="spai_apply_part_to_page" class="button button-small"><?php esc_html_e( 'Apply to Page', 'site-pilot-ai' ); ?></button>
+										<button type="submit" name="spai_apply_part_to_page" class="button button-small"><?php esc_html_e( 'Apply to Page', 'mumega-mcp' ); ?></button>
 									</form>
 									<form method="post" class="spai-inline-action">
 										<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
 										<input type="hidden" name="spai_action_part_id" value="<?php echo esc_attr( $item['id'] ); ?>" />
-										<button type="submit" name="spai_demote_part" class="button button-small"><?php esc_html_e( 'Remove Part Tag', 'site-pilot-ai' ); ?></button>
+										<button type="submit" name="spai_demote_part" class="button button-small"><?php esc_html_e( 'Remove Part Tag', 'mumega-mcp' ); ?></button>
 									</form>
 								</div>
 							</td>
@@ -672,111 +672,111 @@ $unlinked_archetype_count = count(
 		</div>
 
 		<div class="spai-card">
-			<h2><?php esc_html_e( 'Promote Existing Template', 'site-pilot-ai' ); ?></h2>
+			<h2><?php esc_html_e( 'Promote Existing Template', 'mumega-mcp' ); ?></h2>
 			<p class="description">
-				<?php esc_html_e( 'Use this when you already have an Elementor template and want SPAI to classify it as a canonical archetype or reusable part without duplicating the template.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Use this when you already have an Elementor template and want SPAI to classify it as a canonical archetype or reusable part without duplicating the template.', 'mumega-mcp' ); ?>
 			</p>
 
 			<div class="spai-library-actions">
 				<form method="post" class="spai-library-form">
 					<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
-					<h3><?php esc_html_e( 'Promote to Page Archetype', 'site-pilot-ai' ); ?></h3>
+					<h3><?php esc_html_e( 'Promote to Page Archetype', 'mumega-mcp' ); ?></h3>
 					<p>
-						<label for="spai_archetype_template_id"><strong><?php esc_html_e( 'Template ID', 'site-pilot-ai' ); ?></strong></label><br />
+						<label for="spai_archetype_template_id"><strong><?php esc_html_e( 'Template ID', 'mumega-mcp' ); ?></strong></label><br />
 						<input type="number" min="1" id="spai_archetype_template_id" name="spai_archetype_template_id" class="small-text" required />
 					</p>
 					<p>
-						<label for="spai_archetype_title"><strong><?php esc_html_e( 'Title Override', 'site-pilot-ai' ); ?></strong></label><br />
-						<input type="text" id="spai_archetype_title" name="spai_archetype_title" class="regular-text" placeholder="<?php esc_attr_e( 'Optional', 'site-pilot-ai' ); ?>" />
+						<label for="spai_archetype_title"><strong><?php esc_html_e( 'Title Override', 'mumega-mcp' ); ?></strong></label><br />
+						<input type="text" id="spai_archetype_title" name="spai_archetype_title" class="regular-text" placeholder="<?php esc_attr_e( 'Optional', 'mumega-mcp' ); ?>" />
 					</p>
 					<p>
-						<label for="spai_archetype_scope"><strong><?php esc_html_e( 'Scope', 'site-pilot-ai' ); ?></strong></label><br />
+						<label for="spai_archetype_scope"><strong><?php esc_html_e( 'Scope', 'mumega-mcp' ); ?></strong></label><br />
 						<select id="spai_archetype_scope" name="spai_archetype_scope">
-							<option value="page"><?php esc_html_e( 'Page', 'site-pilot-ai' ); ?></option>
-							<option value="product"><?php esc_html_e( 'Product', 'site-pilot-ai' ); ?></option>
+							<option value="page"><?php esc_html_e( 'Page', 'mumega-mcp' ); ?></option>
+							<option value="product"><?php esc_html_e( 'Product', 'mumega-mcp' ); ?></option>
 						</select>
 					</p>
 					<p>
-						<label for="spai_archetype_class"><strong><?php esc_html_e( 'Archetype Class', 'site-pilot-ai' ); ?></strong></label><br />
-						<input type="text" id="spai_archetype_class" name="spai_archetype_class" class="regular-text" placeholder="<?php esc_attr_e( 'blog_post, landing_page, service_page', 'site-pilot-ai' ); ?>" />
+						<label for="spai_archetype_class"><strong><?php esc_html_e( 'Archetype Class', 'mumega-mcp' ); ?></strong></label><br />
+						<input type="text" id="spai_archetype_class" name="spai_archetype_class" class="regular-text" placeholder="<?php esc_attr_e( 'blog_post, landing_page, service_page', 'mumega-mcp' ); ?>" />
 					</p>
 					<p>
-						<label for="spai_archetype_style"><strong><?php esc_html_e( 'Style', 'site-pilot-ai' ); ?></strong></label><br />
-						<input type="text" id="spai_archetype_style" name="spai_archetype_style" class="regular-text" placeholder="<?php esc_attr_e( 'editorial, minimal, bold', 'site-pilot-ai' ); ?>" />
+						<label for="spai_archetype_style"><strong><?php esc_html_e( 'Style', 'mumega-mcp' ); ?></strong></label><br />
+						<input type="text" id="spai_archetype_style" name="spai_archetype_style" class="regular-text" placeholder="<?php esc_attr_e( 'editorial, minimal, bold', 'mumega-mcp' ); ?>" />
 					</p>
 					<p>
-						<label for="spai_archetype_brief"><strong><?php esc_html_e( 'Archetype Override Brief', 'site-pilot-ai' ); ?></strong></label><br />
-						<textarea id="spai_archetype_brief" name="spai_archetype_brief" rows="5" class="large-text" placeholder="<?php esc_attr_e( 'Specific guidance for this page type.', 'site-pilot-ai' ); ?>"></textarea>
+						<label for="spai_archetype_brief"><strong><?php esc_html_e( 'Archetype Override Brief', 'mumega-mcp' ); ?></strong></label><br />
+						<textarea id="spai_archetype_brief" name="spai_archetype_brief" rows="5" class="large-text" placeholder="<?php esc_attr_e( 'Specific guidance for this page type.', 'mumega-mcp' ); ?>"></textarea>
 					</p>
 					<p>
-						<button type="submit" name="spai_promote_template_archetype" class="button button-primary"><?php esc_html_e( 'Save Archetype', 'site-pilot-ai' ); ?></button>
+						<button type="submit" name="spai_promote_template_archetype" class="button button-primary"><?php esc_html_e( 'Save Archetype', 'mumega-mcp' ); ?></button>
 					</p>
 				</form>
 
 				<form method="post" class="spai-library-form">
 					<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
-					<h3><?php esc_html_e( 'Promote to Reusable Part', 'site-pilot-ai' ); ?></h3>
+					<h3><?php esc_html_e( 'Promote to Reusable Part', 'mumega-mcp' ); ?></h3>
 					<p>
-						<label for="spai_part_template_id"><strong><?php esc_html_e( 'Template ID', 'site-pilot-ai' ); ?></strong></label><br />
+						<label for="spai_part_template_id"><strong><?php esc_html_e( 'Template ID', 'mumega-mcp' ); ?></strong></label><br />
 						<input type="number" min="1" id="spai_part_template_id" name="spai_part_template_id" class="small-text" required />
 					</p>
 					<p>
-						<label for="spai_part_title"><strong><?php esc_html_e( 'Title Override', 'site-pilot-ai' ); ?></strong></label><br />
-						<input type="text" id="spai_part_title" name="spai_part_title" class="regular-text" placeholder="<?php esc_attr_e( 'Optional', 'site-pilot-ai' ); ?>" />
+						<label for="spai_part_title"><strong><?php esc_html_e( 'Title Override', 'mumega-mcp' ); ?></strong></label><br />
+						<input type="text" id="spai_part_title" name="spai_part_title" class="regular-text" placeholder="<?php esc_attr_e( 'Optional', 'mumega-mcp' ); ?>" />
 					</p>
 					<p>
-						<label for="spai_part_kind"><strong><?php esc_html_e( 'Part Kind', 'site-pilot-ai' ); ?></strong></label><br />
-						<input type="text" id="spai_part_kind" name="spai_part_kind" class="regular-text" placeholder="<?php esc_attr_e( 'hero, faq, cta, testimonials', 'site-pilot-ai' ); ?>" />
+						<label for="spai_part_kind"><strong><?php esc_html_e( 'Part Kind', 'mumega-mcp' ); ?></strong></label><br />
+						<input type="text" id="spai_part_kind" name="spai_part_kind" class="regular-text" placeholder="<?php esc_attr_e( 'hero, faq, cta, testimonials', 'mumega-mcp' ); ?>" />
 					</p>
 					<p>
-						<label for="spai_part_style"><strong><?php esc_html_e( 'Style', 'site-pilot-ai' ); ?></strong></label><br />
-						<input type="text" id="spai_part_style" name="spai_part_style" class="regular-text" placeholder="<?php esc_attr_e( 'clean, editorial, premium', 'site-pilot-ai' ); ?>" />
+						<label for="spai_part_style"><strong><?php esc_html_e( 'Style', 'mumega-mcp' ); ?></strong></label><br />
+						<input type="text" id="spai_part_style" name="spai_part_style" class="regular-text" placeholder="<?php esc_attr_e( 'clean, editorial, premium', 'mumega-mcp' ); ?>" />
 					</p>
 					<p>
-						<label for="spai_part_tags"><strong><?php esc_html_e( 'Tags', 'site-pilot-ai' ); ?></strong></label><br />
-						<input type="text" id="spai_part_tags" name="spai_part_tags" class="regular-text" placeholder="<?php esc_attr_e( 'comma, separated, tags', 'site-pilot-ai' ); ?>" />
+						<label for="spai_part_tags"><strong><?php esc_html_e( 'Tags', 'mumega-mcp' ); ?></strong></label><br />
+						<input type="text" id="spai_part_tags" name="spai_part_tags" class="regular-text" placeholder="<?php esc_attr_e( 'comma, separated, tags', 'mumega-mcp' ); ?>" />
 					</p>
 					<p>
-						<button type="submit" name="spai_promote_template_part" class="button button-primary"><?php esc_html_e( 'Save Reusable Part', 'site-pilot-ai' ); ?></button>
+						<button type="submit" name="spai_promote_template_part" class="button button-primary"><?php esc_html_e( 'Save Reusable Part', 'mumega-mcp' ); ?></button>
 					</p>
 				</form>
 			</div>
 		</div>
 
 		<div class="spai-card">
-			<h2><?php esc_html_e( 'Extract Live Section to Part', 'site-pilot-ai' ); ?></h2>
+			<h2><?php esc_html_e( 'Extract Live Section to Part', 'mumega-mcp' ); ?></h2>
 			<p class="description">
-				<?php esc_html_e( 'Use this when a live page contains a strong section you want to preserve for future pages. Enter the source page ID and the Elementor element ID for the section or container.', 'site-pilot-ai' ); ?>
+				<?php esc_html_e( 'Use this when a live page contains a strong section you want to preserve for future pages. Enter the source page ID and the Elementor element ID for the section or container.', 'mumega-mcp' ); ?>
 			</p>
 
 			<form method="post" class="spai-library-form">
 				<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
 				<p>
-					<label for="spai_source_page_id"><strong><?php esc_html_e( 'Source Page ID', 'site-pilot-ai' ); ?></strong></label><br />
+					<label for="spai_source_page_id"><strong><?php esc_html_e( 'Source Page ID', 'mumega-mcp' ); ?></strong></label><br />
 					<input type="number" min="1" id="spai_source_page_id" name="spai_source_page_id" class="small-text" required />
 				</p>
 				<p>
-					<label for="spai_source_element_id"><strong><?php esc_html_e( 'Elementor Element ID', 'site-pilot-ai' ); ?></strong></label><br />
+					<label for="spai_source_element_id"><strong><?php esc_html_e( 'Elementor Element ID', 'mumega-mcp' ); ?></strong></label><br />
 					<input type="text" id="spai_source_element_id" name="spai_source_element_id" class="regular-text" required />
 				</p>
 				<p>
-					<label for="spai_extract_part_title"><strong><?php esc_html_e( 'Part Title', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_extract_part_title" name="spai_extract_part_title" class="regular-text" placeholder="<?php esc_attr_e( 'Homepage Hero / Default', 'site-pilot-ai' ); ?>" />
+					<label for="spai_extract_part_title"><strong><?php esc_html_e( 'Part Title', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_extract_part_title" name="spai_extract_part_title" class="regular-text" placeholder="<?php esc_attr_e( 'Homepage Hero / Default', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_extract_part_kind"><strong><?php esc_html_e( 'Part Kind', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_extract_part_kind" name="spai_extract_part_kind" class="regular-text" placeholder="<?php esc_attr_e( 'hero, faq, cta, pricing', 'site-pilot-ai' ); ?>" />
+					<label for="spai_extract_part_kind"><strong><?php esc_html_e( 'Part Kind', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_extract_part_kind" name="spai_extract_part_kind" class="regular-text" placeholder="<?php esc_attr_e( 'hero, faq, cta, pricing', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_extract_part_style"><strong><?php esc_html_e( 'Style', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_extract_part_style" name="spai_extract_part_style" class="regular-text" placeholder="<?php esc_attr_e( 'bold, minimal, editorial', 'site-pilot-ai' ); ?>" />
+					<label for="spai_extract_part_style"><strong><?php esc_html_e( 'Style', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_extract_part_style" name="spai_extract_part_style" class="regular-text" placeholder="<?php esc_attr_e( 'bold, minimal, editorial', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<label for="spai_extract_part_tags"><strong><?php esc_html_e( 'Tags', 'site-pilot-ai' ); ?></strong></label><br />
-					<input type="text" id="spai_extract_part_tags" name="spai_extract_part_tags" class="regular-text" placeholder="<?php esc_attr_e( 'homepage, saas, lead-gen', 'site-pilot-ai' ); ?>" />
+					<label for="spai_extract_part_tags"><strong><?php esc_html_e( 'Tags', 'mumega-mcp' ); ?></strong></label><br />
+					<input type="text" id="spai_extract_part_tags" name="spai_extract_part_tags" class="regular-text" placeholder="<?php esc_attr_e( 'homepage, saas, lead-gen', 'mumega-mcp' ); ?>" />
 				</p>
 				<p>
-					<button type="submit" name="spai_extract_section_part" class="button button-primary"><?php esc_html_e( 'Extract to Library', 'site-pilot-ai' ); ?></button>
+					<button type="submit" name="spai_extract_section_part" class="button button-primary"><?php esc_html_e( 'Extract to Library', 'mumega-mcp' ); ?></button>
 				</p>
 			</form>
 		</div>

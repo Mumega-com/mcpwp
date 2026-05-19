@@ -484,7 +484,7 @@ class Spai_Themes {
 			if ( get_option( 'astra-settings' ) === $updated ) {
 				return $this->get_astra_settings();
 			}
-			return new WP_Error( 'update_failed', __( 'Failed to update Astra settings.', 'site-pilot-ai' ) );
+			return new WP_Error( 'update_failed', __( 'Failed to update Astra settings.', 'mumega-mcp' ) );
 		}
 
 		// Clear Astra caches.

@@ -183,7 +183,7 @@ class Spai_Provider_ElevenLabs {
 
 		return array(
 			'success' => true,
-			'message' => __( 'ElevenLabs API connection successful.', 'site-pilot-ai' ),
+			'message' => __( 'ElevenLabs API connection successful.', 'mumega-mcp' ),
 		);
 	}
 }

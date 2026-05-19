@@ -115,13 +115,13 @@ class Spai_SEO {
 		$post = get_post( $post_id );
 
 		if ( ! $post ) {
-			return new WP_Error( 'not_found', __( 'Post not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'Post not found.', 'mumega-mcp' ) );
 		}
 
 		$plugin = $plugin ?: $this->get_active_plugin();
 
 		if ( ! $plugin ) {
-			return new WP_Error( 'no_seo_plugin', __( 'No SEO plugin is active.', 'site-pilot-ai' ) );
+			return new WP_Error( 'no_seo_plugin', __( 'No SEO plugin is active.', 'mumega-mcp' ) );
 		}
 
 		$method = 'get_' . $plugin . '_data';
@@ -129,7 +129,7 @@ class Spai_SEO {
 			return $this->$method( $post_id );
 		}
 
-		return new WP_Error( 'unsupported_plugin', __( 'SEO plugin not supported.', 'site-pilot-ai' ) );
+		return new WP_Error( 'unsupported_plugin', __( 'SEO plugin not supported.', 'mumega-mcp' ) );
 	}
 
 	/**
@@ -144,13 +144,13 @@ class Spai_SEO {
 		$post = get_post( $post_id );
 
 		if ( ! $post ) {
-			return new WP_Error( 'not_found', __( 'Post not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'Post not found.', 'mumega-mcp' ) );
 		}
 
 		$plugin = $plugin ?: $this->get_active_plugin();
 
 		if ( ! $plugin ) {
-			return new WP_Error( 'no_seo_plugin', __( 'No SEO plugin is active.', 'site-pilot-ai' ) );
+			return new WP_Error( 'no_seo_plugin', __( 'No SEO plugin is active.', 'mumega-mcp' ) );
 		}
 
 		$method = 'set_' . $plugin . '_data';
@@ -158,7 +158,7 @@ class Spai_SEO {
 			return $this->$method( $post_id, $data );
 		}
 
-		return new WP_Error( 'unsupported_plugin', __( 'SEO plugin not supported.', 'site-pilot-ai' ) );
+		return new WP_Error( 'unsupported_plugin', __( 'SEO plugin not supported.', 'mumega-mcp' ) );
 	}
 
 	/**
@@ -590,7 +590,7 @@ class Spai_SEO {
 		$post = get_post( $post_id );
 
 		if ( ! $post ) {
-			return new WP_Error( 'not_found', __( 'Post not found.', 'site-pilot-ai' ) );
+			return new WP_Error( 'not_found', __( 'Post not found.', 'mumega-mcp' ) );
 		}
 
 		$seo_data = $this->get_post_seo( $post_id );
@@ -606,36 +606,36 @@ class Spai_SEO {
 		$title = ! empty( $seo_data['title'] ) ? $seo_data['title'] : $post->post_title;
 		$title_len = strlen( $title );
 		if ( $title_len < 30 ) {
-			$analysis['warnings'][] = __( 'SEO title is too short (under 30 characters).', 'site-pilot-ai' );
+			$analysis['warnings'][] = __( 'SEO title is too short (under 30 characters).', 'mumega-mcp' );
 		} elseif ( $title_len > 60 ) {
-			$analysis['warnings'][] = __( 'SEO title is too long (over 60 characters).', 'site-pilot-ai' );
+			$analysis['warnings'][] = __( 'SEO title is too long (over 60 characters).', 'mumega-mcp' );
 		}
 
 		// Check meta description.
 		$desc = $seo_data['description'] ?? '';
 		if ( empty( $desc ) ) {
-			$analysis['issues'][] = __( 'Missing meta description.', 'site-pilot-ai' );
+			$analysis['issues'][] = __( 'Missing meta description.', 'mumega-mcp' );
 		} else {
 			$desc_len = strlen( $desc );
 			if ( $desc_len < 120 ) {
-				$analysis['warnings'][] = __( 'Meta description is too short (under 120 characters).', 'site-pilot-ai' );
+				$analysis['warnings'][] = __( 'Meta description is too short (under 120 characters).', 'mumega-mcp' );
 			} elseif ( $desc_len > 160 ) {
-				$analysis['warnings'][] = __( 'Meta description is too long (over 160 characters).', 'site-pilot-ai' );
+				$analysis['warnings'][] = __( 'Meta description is too long (over 160 characters).', 'mumega-mcp' );
 			}
 		}
 
 		// Check focus keyword.
 		$keyword = $seo_data['focus_keyword'] ?? '';
 		if ( empty( $keyword ) ) {
-			$analysis['suggestions'][] = __( 'Consider adding a focus keyword.', 'site-pilot-ai' );
+			$analysis['suggestions'][] = __( 'Consider adding a focus keyword.', 'mumega-mcp' );
 		} else {
 			// Check if keyword is in title.
 			if ( stripos( $title, $keyword ) === false ) {
-				$analysis['warnings'][] = __( 'Focus keyword not found in SEO title.', 'site-pilot-ai' );
+				$analysis['warnings'][] = __( 'Focus keyword not found in SEO title.', 'mumega-mcp' );
 			}
 			// Check if keyword is in description.
 			if ( ! empty( $desc ) && stripos( $desc, $keyword ) === false ) {
-				$analysis['suggestions'][] = __( 'Consider adding focus keyword to meta description.', 'site-pilot-ai' );
+				$analysis['suggestions'][] = __( 'Consider adding focus keyword to meta description.', 'mumega-mcp' );
 			}
 		}
 
@@ -644,7 +644,7 @@ class Spai_SEO {
 		if ( $content_len < 300 ) {
 			$analysis['warnings'][] = sprintf(
 				/* translators: %d: word count */
-				__( 'Content is short (%d words). Consider expanding to at least 300 words.', 'site-pilot-ai' ),
+				__( 'Content is short (%d words). Consider expanding to at least 300 words.', 'mumega-mcp' ),
 				$content_len
 			);
 		}

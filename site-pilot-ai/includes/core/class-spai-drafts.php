@@ -45,7 +45,7 @@ class Spai_Drafts {
 			$drafts[] = array(
 				'id'       => $post->ID,
 				'type'     => $post->post_type,
-				'title'    => $post->post_title ?: __( '(no title)', 'site-pilot-ai' ),
+				'title'    => $post->post_title ?: __( '(no title)', 'mumega-mcp' ),
 				'created'  => $post->post_date,
 				'modified' => $post->post_modified,
 				'author'   => array(
@@ -110,7 +110,7 @@ class Spai_Drafts {
 			'failed'   => $failed,
 			'message'  => sprintf(
 				/* translators: %d: number of deleted drafts */
-				__( '%d drafts deleted.', 'site-pilot-ai' ),
+				__( '%d drafts deleted.', 'mumega-mcp' ),
 				$deleted
 			),
 			'force'    => $force,

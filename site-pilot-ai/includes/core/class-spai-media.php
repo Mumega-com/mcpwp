@@ -38,7 +38,7 @@ class Spai_Media {
 		if ( empty( $file['tmp_name'] ) ) {
 			return new WP_Error(
 				'no_file',
-				__( 'No file uploaded.', 'site-pilot-ai' ),
+				__( 'No file uploaded.', 'mumega-mcp' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -116,7 +116,7 @@ class Spai_Media {
 		if ( empty( $url ) ) {
 			return new WP_Error(
 				'invalid_url',
-				__( 'Invalid URL provided.', 'site-pilot-ai' ),
+				__( 'Invalid URL provided.', 'mumega-mcp' ),
 				array(
 					'status' => 400,
 					'hint'   => 'Provide a fully qualified URL starting with http:// or https://. The URL must point to a publicly accessible file.',
@@ -222,7 +222,7 @@ class Spai_Media {
 		if ( false === $decoded ) {
 			return new WP_Error(
 				'invalid_base64',
-				__( 'Invalid Base64 data.', 'site-pilot-ai' ),
+				__( 'Invalid Base64 data.', 'mumega-mcp' ),
 				array(
 					'status' => 400,
 					'hint'   => 'The Base64 data could not be decoded. Ensure the data is properly encoded. If using a data URI prefix (data:image/png;base64,...), it will be stripped automatically.',
@@ -235,7 +235,7 @@ class Spai_Media {
 		if ( strlen( $decoded ) > $max_size ) {
 			return new WP_Error(
 				'file_too_large',
-				__( 'File exceeds maximum size of 10MB.', 'site-pilot-ai' ),
+				__( 'File exceeds maximum size of 10MB.', 'mumega-mcp' ),
 				array(
 					'status' => 400,
 					'hint'   => 'The decoded file exceeds the 10MB limit. Use a smaller file, or upload via URL with wp_upload_media_from_url if the server supports larger files.',
@@ -248,7 +248,7 @@ class Spai_Media {
 		if ( empty( $filename ) ) {
 			return new WP_Error(
 				'invalid_filename',
-				__( 'A valid filename is required.', 'site-pilot-ai' ),
+				__( 'A valid filename is required.', 'mumega-mcp' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -258,7 +258,7 @@ class Spai_Media {
 		if ( ! $tmp_file ) {
 			return new WP_Error(
 				'tmp_error',
-				__( 'Could not create temporary file.', 'site-pilot-ai' ),
+				__( 'Could not create temporary file.', 'mumega-mcp' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -306,7 +306,7 @@ class Spai_Media {
 			wp_delete_file( $tmp_file );
 			return new WP_Error(
 				'move_error',
-				__( 'Could not move file to uploads directory.', 'site-pilot-ai' ),
+				__( 'Could not move file to uploads directory.', 'mumega-mcp' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -448,7 +448,7 @@ class Spai_Media {
 		if ( ! $attachment || 'attachment' !== $attachment->post_type ) {
 			return new WP_Error(
 				'not_found',
-				__( 'Attachment not found.', 'site-pilot-ai' ),
+				__( 'Attachment not found.', 'mumega-mcp' ),
 				array(
 					'status' => 404,
 					'hint'   => sprintf(
@@ -467,7 +467,7 @@ class Spai_Media {
 		if ( ! $result ) {
 			return new WP_Error(
 				'delete_failed',
-				__( 'Failed to delete attachment.', 'site-pilot-ai' ),
+				__( 'Failed to delete attachment.', 'mumega-mcp' ),
 				array( 'status' => 500 )
 			);
 		}

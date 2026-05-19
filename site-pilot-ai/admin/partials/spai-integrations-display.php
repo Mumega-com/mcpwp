@@ -18,12 +18,12 @@ $figma_oauth_notice = isset( $_GET['spai_figma_oauth'] ) ? sanitize_key( wp_unsl
 $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unslash( $_GET['message'] ) ) : '';
 ?>
 <div class="wrap spai-wrap">
-	<h1><?php esc_html_e( 'AI Integrations', 'site-pilot-ai' ); ?></h1>
+	<h1><?php esc_html_e( 'AI Integrations', 'mumega-mcp' ); ?></h1>
 	<p class="description">
-		<?php esc_html_e( 'Connect third-party AI and design services to unlock image generation, vision analysis, text-to-speech, screenshots, stock photos, and design-context intake via MCP tools.', 'site-pilot-ai' ); ?>
+		<?php esc_html_e( 'Connect third-party AI and design services to unlock image generation, vision analysis, text-to-speech, screenshots, stock photos, and design-context intake via MCP tools.', 'mumega-mcp' ); ?>
 	</p>
 	<p class="description" style="margin-top:4px;">
-		<?php esc_html_e( 'AI assistants can also configure these integrations via the wp_configure_integration MCP tool.', 'site-pilot-ai' ); ?>
+		<?php esc_html_e( 'AI assistants can also configure these integrations via the wp_configure_integration MCP tool.', 'mumega-mcp' ); ?>
 	</p>
 
 	<?php if ( in_array( $figma_oauth_notice, array( 'success', 'error' ), true ) && '' !== $figma_oauth_message ) : ?>
@@ -41,16 +41,16 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 			$has_description  = ! empty( $provider['description'] );
 			$is_figma         = 'figma' === $slug;
 			$figma_auth_mode  = $is_figma && ! empty( $provider['auth_mode'] ) ? (string) $provider['auth_mode'] : '';
-			$figma_mode_label = 'oauth' === $figma_auth_mode ? __( 'OAuth Connected', 'site-pilot-ai' ) : ( 'personal_token' === $figma_auth_mode ? __( 'Personal Token Active', 'site-pilot-ai' ) : __( 'Not Connected Yet', 'site-pilot-ai' ) );
+			$figma_mode_label = 'oauth' === $figma_auth_mode ? __( 'OAuth Connected', 'mumega-mcp' ) : ( 'personal_token' === $figma_auth_mode ? __( 'Personal Token Active', 'mumega-mcp' ) : __( 'Not Connected Yet', 'mumega-mcp' ) );
 			?>
 			<div class="spai-integration-card" style="background:#fff;border:1px solid #c3c4c7;border-radius:4px;padding:20px;position:relative;">
 				<?php if ( $is_pro_provider ) : ?>
 					<span style="position:absolute;top:12px;right:12px;background:<?php echo $is_pro ? '#00a32a' : '#dba617'; ?>;color:#fff;font-size:11px;padding:2px 8px;border-radius:3px;font-weight:600;">
-						<?php echo $is_pro ? 'PRO' : esc_html__( 'PRO REQUIRED', 'site-pilot-ai' ); ?>
+						<?php echo $is_pro ? 'PRO' : esc_html__( 'PRO REQUIRED', 'mumega-mcp' ); ?>
 					</span>
 				<?php else : ?>
 					<span style="position:absolute;top:12px;right:12px;background:#2271b1;color:#fff;font-size:11px;padding:2px 8px;border-radius:3px;font-weight:600;">
-						<?php esc_html_e( 'FREE', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'FREE', 'mumega-mcp' ); ?>
 					</span>
 				<?php endif; ?>
 
@@ -66,37 +66,37 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 
 				<p style="margin:0 0 15px 0;">
 					<a href="<?php echo esc_url( $provider['url'] ); ?>" target="_blank" rel="noopener">
-						<?php echo $is_multi_field ? esc_html__( 'Setup Guide', 'site-pilot-ai' ) : esc_html__( 'Get API Key', 'site-pilot-ai' ); ?> &rarr;
+						<?php echo $is_multi_field ? esc_html__( 'Setup Guide', 'mumega-mcp' ) : esc_html__( 'Get API Key', 'mumega-mcp' ); ?> &rarr;
 					</a>
 				</p>
 
 				<?php if ( $is_figma ) : ?>
 					<div class="spai-figma-panel">
 						<div class="spai-figma-panel__row">
-							<strong><?php esc_html_e( 'Use Case', 'site-pilot-ai' ); ?></strong>
-							<span><?php esc_html_e( 'Approved design intake for archetypes, parts, and site briefs.', 'site-pilot-ai' ); ?></span>
+							<strong><?php esc_html_e( 'Use Case', 'mumega-mcp' ); ?></strong>
+							<span><?php esc_html_e( 'Approved design intake for archetypes, parts, and site briefs.', 'mumega-mcp' ); ?></span>
 						</div>
 						<div class="spai-figma-panel__row">
-							<strong><?php esc_html_e( 'Auth Status', 'site-pilot-ai' ); ?></strong>
+							<strong><?php esc_html_e( 'Auth Status', 'mumega-mcp' ); ?></strong>
 							<span><?php echo esc_html( $figma_mode_label ); ?></span>
 						</div>
 						<div class="spai-figma-panel__row">
-							<strong><?php esc_html_e( 'OAuth Redirect URI', 'site-pilot-ai' ); ?></strong>
+							<strong><?php esc_html_e( 'OAuth Redirect URI', 'mumega-mcp' ); ?></strong>
 							<code><?php echo esc_html( admin_url( 'admin-post.php?action=spai_figma_oauth_callback' ) ); ?></code>
 						</div>
 						<div class="spai-figma-panel__row">
-							<strong><?php esc_html_e( 'Model Flow', 'site-pilot-ai' ); ?></strong>
-							<span><?php esc_html_e( 'Inspect Figma, then translate it into local archetypes and reusable parts.', 'site-pilot-ai' ); ?></span>
+							<strong><?php esc_html_e( 'Model Flow', 'mumega-mcp' ); ?></strong>
+							<span><?php esc_html_e( 'Inspect Figma, then translate it into local archetypes and reusable parts.', 'mumega-mcp' ); ?></span>
 						</div>
 					</div>
 				<?php endif; ?>
 
 				<?php if ( $locked ) : ?>
 					<p style="color:#666;font-style:italic;">
-						<?php esc_html_e( 'Upgrade to Pro to use this integration.', 'site-pilot-ai' ); ?>
+						<?php esc_html_e( 'Upgrade to Pro to use this integration.', 'mumega-mcp' ); ?>
 						<?php if ( function_exists( 'spai_license' ) ) : ?>
 							<a href="<?php echo esc_url( admin_url( 'admin.php?page=site-pilot-ai-pricing' ) ); ?>">
-								<?php esc_html_e( 'Upgrade', 'site-pilot-ai' ); ?>
+								<?php esc_html_e( 'Upgrade', 'mumega-mcp' ); ?>
 							</a>
 						<?php endif; ?>
 					</p>
@@ -107,7 +107,7 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 								<span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;background:<?php echo 'ok' === $provider['test_status'] ? '#00a32a' : ( 'failed' === $provider['test_status'] ? '#d63638' : '#dba617' ); ?>;"></span>
 								<code style="background:#f0f0f1;padding:2px 8px;border-radius:3px;">
 									<?php
-									esc_html_e( 'Configured', 'site-pilot-ai' );
+									esc_html_e( 'Configured', 'mumega-mcp' );
 									if ( $provider['configured_at'] ) {
 										echo ' &mdash; ' . esc_html( human_time_diff( strtotime( $provider['configured_at'] ) ) ) . ' ago';
 									}
@@ -116,14 +116,14 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 							</div>
 							<div style="margin-top:10px;display:flex;gap:8px;">
 								<button type="button" class="button spai-test-integration" data-provider="<?php echo esc_attr( $slug ); ?>">
-									<?php esc_html_e( 'Test Connection', 'site-pilot-ai' ); ?>
+									<?php esc_html_e( 'Test Connection', 'mumega-mcp' ); ?>
 								</button>
 								<button type="button" class="button spai-remove-integration" data-provider="<?php echo esc_attr( $slug ); ?>" style="color:#d63638;">
-									<?php esc_html_e( 'Remove', 'site-pilot-ai' ); ?>
+									<?php esc_html_e( 'Remove', 'mumega-mcp' ); ?>
 								</button>
 								<?php if ( $is_figma && ! empty( $provider['oauth_ready'] ) ) : ?>
 									<a href="<?php echo esc_url( $integrations_admin->get_figma_oauth_start_url() ); ?>" class="button">
-										<?php esc_html_e( 'Reconnect OAuth', 'site-pilot-ai' ); ?>
+										<?php esc_html_e( 'Reconnect OAuth', 'mumega-mcp' ); ?>
 									</a>
 								<?php endif; ?>
 							</div>
@@ -132,11 +132,11 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 									<p class="description" style="margin:0 0 10px;">
 										<?php
 										if ( 'personal_token' === $figma_auth_mode ) {
-											esc_html_e( 'Using a personal token. OAuth is ready if you want the cleaner long-term setup.', 'site-pilot-ai' );
+											esc_html_e( 'Using a personal token. OAuth is ready if you want the cleaner long-term setup.', 'mumega-mcp' );
 										} elseif ( 'oauth' === $figma_auth_mode ) {
-											esc_html_e( 'Using OAuth. Models can rely on this connection for approved Figma design context.', 'site-pilot-ai' );
+											esc_html_e( 'Using OAuth. Models can rely on this connection for approved Figma design context.', 'mumega-mcp' );
 										} else {
-											esc_html_e( 'Figma credentials are stored, but the connection is not complete yet.', 'site-pilot-ai' );
+											esc_html_e( 'Figma credentials are stored, but the connection is not complete yet.', 'mumega-mcp' );
 										}
 										?>
 									</p>
@@ -154,24 +154,24 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 										<?php endforeach; ?>
 									</div>
 								<?php else : ?>
-									<input type="text" class="regular-text spai-integration-key-input" placeholder="<?php esc_attr_e( 'Paste new key to update...', 'site-pilot-ai' ); ?>" style="display:none;" />
+									<input type="text" class="regular-text spai-integration-key-input" placeholder="<?php esc_attr_e( 'Paste new key to update...', 'mumega-mcp' ); ?>" style="display:none;" />
 								<?php endif; ?>
 								<button type="button" class="button spai-update-key-toggle" data-provider="<?php echo esc_attr( $slug ); ?>">
-									<?php esc_html_e( 'Update', 'site-pilot-ai' ); ?>
+									<?php esc_html_e( 'Update', 'mumega-mcp' ); ?>
 								</button>
 								<button type="button" class="button button-primary spai-save-integration" data-provider="<?php echo esc_attr( $slug ); ?>" style="display:none;">
-									<?php esc_html_e( 'Save', 'site-pilot-ai' ); ?>
+									<?php esc_html_e( 'Save', 'mumega-mcp' ); ?>
 								</button>
 							</div>
 						<?php else : ?>
 							<?php if ( $is_figma && ! empty( $provider['oauth_ready'] ) ) : ?>
 								<p style="margin:0 0 8px;">
 									<a href="<?php echo esc_url( $integrations_admin->get_figma_oauth_start_url() ); ?>" class="button">
-										<?php esc_html_e( 'Connect with Figma OAuth', 'site-pilot-ai' ); ?>
+										<?php esc_html_e( 'Connect with Figma OAuth', 'mumega-mcp' ); ?>
 									</a>
 								</p>
 								<p class="description" style="margin:0 0 12px;">
-									<?php esc_html_e( 'Recommended for production. Use a personal token only for quick testing or temporary access.', 'site-pilot-ai' ); ?>
+									<?php esc_html_e( 'Recommended for production. Use a personal token only for quick testing or temporary access.', 'mumega-mcp' ); ?>
 								</p>
 							<?php endif; ?>
 							<?php if ( $is_multi_field ) : ?>
@@ -187,13 +187,13 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 									<?php endforeach; ?>
 								</div>
 								<button type="button" class="button button-primary spai-save-integration" data-provider="<?php echo esc_attr( $slug ); ?>">
-									<?php esc_html_e( 'Save', 'site-pilot-ai' ); ?>
+									<?php esc_html_e( 'Save', 'mumega-mcp' ); ?>
 								</button>
 							<?php else : ?>
 								<div style="display:flex;gap:8px;align-items:center;">
-									<input type="text" class="regular-text spai-integration-key-input" placeholder="<?php esc_attr_e( 'Paste your API key...', 'site-pilot-ai' ); ?>" />
+									<input type="text" class="regular-text spai-integration-key-input" placeholder="<?php esc_attr_e( 'Paste your API key...', 'mumega-mcp' ); ?>" />
 									<button type="button" class="button button-primary spai-save-integration" data-provider="<?php echo esc_attr( $slug ); ?>">
-										<?php esc_html_e( 'Save', 'site-pilot-ai' ); ?>
+										<?php esc_html_e( 'Save', 'mumega-mcp' ); ?>
 									</button>
 								</div>
 							<?php endif; ?>
@@ -206,16 +206,16 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 	</div>
 
 	<div style="margin-top:30px;padding:15px;background:#f0f6fc;border:1px solid #c3c4c7;border-radius:4px;">
-		<h3 style="margin:0 0 8px;"><?php esc_html_e( 'Available MCP Tools', 'site-pilot-ai' ); ?></h3>
+		<h3 style="margin:0 0 8px;"><?php esc_html_e( 'Available MCP Tools', 'mumega-mcp' ); ?></h3>
 		<p style="margin:0 0 10px;color:#50575e;">
-			<?php esc_html_e( 'Once configured, these tools become available to AI assistants via MCP:', 'site-pilot-ai' ); ?>
+			<?php esc_html_e( 'Once configured, these tools become available to AI assistants via MCP:', 'mumega-mcp' ); ?>
 		</p>
 		<table class="widefat striped" style="max-width:700px;">
 			<thead>
 				<tr>
-					<th><?php esc_html_e( 'Tool', 'site-pilot-ai' ); ?></th>
-					<th><?php esc_html_e( 'Provider', 'site-pilot-ai' ); ?></th>
-					<th><?php esc_html_e( 'Tier', 'site-pilot-ai' ); ?></th>
+					<th><?php esc_html_e( 'Tool', 'mumega-mcp' ); ?></th>
+					<th><?php esc_html_e( 'Provider', 'mumega-mcp' ); ?></th>
+					<th><?php esc_html_e( 'Tier', 'mumega-mcp' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -233,22 +233,22 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 				<tr><td><code>wp_get_figma_node</code></td><td>Figma</td><td>Pro</td></tr>
 			</tbody>
 		</table>
-		<h4 style="margin:15px 0 8px;"><?php esc_html_e( 'Integration Management Tools', 'site-pilot-ai' ); ?></h4>
+		<h4 style="margin:15px 0 8px;"><?php esc_html_e( 'Integration Management Tools', 'mumega-mcp' ); ?></h4>
 		<p style="margin:0 0 10px;color:#50575e;">
-			<?php esc_html_e( 'AI assistants can manage integrations directly via MCP:', 'site-pilot-ai' ); ?>
+			<?php esc_html_e( 'AI assistants can manage integrations directly via MCP:', 'mumega-mcp' ); ?>
 		</p>
 		<table class="widefat striped" style="max-width:700px;">
 			<thead>
 				<tr>
-					<th><?php esc_html_e( 'Tool', 'site-pilot-ai' ); ?></th>
-					<th><?php esc_html_e( 'Description', 'site-pilot-ai' ); ?></th>
+					<th><?php esc_html_e( 'Tool', 'mumega-mcp' ); ?></th>
+					<th><?php esc_html_e( 'Description', 'mumega-mcp' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr><td><code>wp_integrations_status</code></td><td><?php esc_html_e( 'List all integrations and their configuration status', 'site-pilot-ai' ); ?></td></tr>
-				<tr><td><code>wp_configure_integration</code></td><td><?php esc_html_e( 'Set up a provider (API key or URL+token)', 'site-pilot-ai' ); ?></td></tr>
-				<tr><td><code>wp_test_integration</code></td><td><?php esc_html_e( 'Test a provider connection', 'site-pilot-ai' ); ?></td></tr>
-				<tr><td><code>wp_remove_integration</code></td><td><?php esc_html_e( 'Remove a provider configuration', 'site-pilot-ai' ); ?></td></tr>
+				<tr><td><code>wp_integrations_status</code></td><td><?php esc_html_e( 'List all integrations and their configuration status', 'mumega-mcp' ); ?></td></tr>
+				<tr><td><code>wp_configure_integration</code></td><td><?php esc_html_e( 'Set up a provider (API key or URL+token)', 'mumega-mcp' ); ?></td></tr>
+				<tr><td><code>wp_test_integration</code></td><td><?php esc_html_e( 'Test a provider connection', 'mumega-mcp' ); ?></td></tr>
+				<tr><td><code>wp_remove_integration</code></td><td><?php esc_html_e( 'Remove a provider configuration', 'mumega-mcp' ); ?></td></tr>
 			</tbody>
 		</table>
 	</div>

@@ -1,11 +1,11 @@
 === mumcp ===
 Contributors: mumega
-Donate link: https://mucp.mumega.com
+Donate link: https://sitepilotai.mumega.com/
 Tags: ai, claude, mcp, model-context-protocol, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.2
+Stable tag: 2.8.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,12 @@ Each site needs its own plugin installation and API key. Multi-site management f
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.4 =
+* Fix: Align the text domain and WordPress.org package slug with the assigned mumega-mcp slug
+
+= 2.8.3 =
+* Fix: Resolve Plugin Check errors for WordPress.org submission
 
 = 2.8.2 =
 * Fix: API key creation form now defaults all scopes (Read, Write, Admin) checked — previously only Read was checked, causing new keys to be read-only
@@ -879,8 +885,8 @@ Used as a fallback for generating website screenshot thumbnails when no Cloudfla
 When a user submits feedback via the wp_submit_feedback tool, the feedback is relayed to a central endpoint so plugin developers receive bug reports. This can be disabled by defining `SPAI_DISABLE_FEEDBACK_RELAY` as true.
 * Data sent: Feedback text, site URL, site name, plugin version
 * When: Only when the wp_submit_feedback MCP tool is explicitly called
-* Endpoint: https://mucp.mumega.com/wp-json/site-pilot-ai/v1/feedback/relay
-* Privacy Policy: https://mucp.mumega.com/privacy
+* Endpoint: https://sitepilotai.mumega.com/wp-json/site-pilot-ai/v1/feedback/relay
+* Privacy Policy: https://sitepilotai.mumega.com/privacy
 
 = GitHub API (optional) =
 If configured in settings, feedback can be automatically posted as GitHub issues.
@@ -957,6 +963,6 @@ Powers the built-in Chat assistant when no OpenAI key is configured.
 
 == Support ==
 
-* Documentation: [mucp.mumega.com/docs](https://mucp.mumega.com/docs)
-* Support Forum: [wordpress.org/support/plugin/site-pilot-ai](https://wordpress.org/support/plugin/site-pilot-ai)
+* Documentation: [sitepilotai.mumega.com/docs](https://sitepilotai.mumega.com/docs/)
+* Support Forum: [wordpress.org/support/plugin/mumega-mcp](https://wordpress.org/support/plugin/mumega-mcp)
 * GitHub: [github.com/Mumega-com/mcp-for-wp](https://github.com/Mumega-com/mcp-for-wp)
