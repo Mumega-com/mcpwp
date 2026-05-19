@@ -64,6 +64,6 @@ PR #257 verified the following baseline:
 - Local WordPress install test: previously passed for the same WP.org package shape; rerun after upload if needed.
 - WP.org free ZIP contents: 99 files, no Freemius SDK, no Pro modules, no legacy updater.
 - Plugin Check 1.9.0 result for WP.org ZIP: `0 ERROR`, `352 WARNING`.
-- WP.org ZIP SHA256: `6d3e72048eabf72cee691620b3944be64582f7e4da1728382a9684edba44eb02`.
+- WP.org ZIP SHA256: `baadf4892e1b62e9c8830a59b024f48ca99bdcb4d518a27b3f6f9ff482f6692f`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-36804412ca392e06049b
