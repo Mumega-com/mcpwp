@@ -8,7 +8,7 @@ This file captures the current state so work can continue after context compacti
 - Draft PR: https://github.com/Mumega-com/mcp-for-wp/pull/257
 - Commit in PR: `77554c1`
 - Latest docs commit in PR: `4e68822`
-- Latest WP.org-free packaging commit: `34b5c1d`
+- Latest WP.org-free packaging commit: `d500952`
 
 ## Current Release Candidate
 
@@ -17,6 +17,9 @@ This file captures the current state so work can continue after context compacti
 - Freemius ZIP: `scripts/site-pilot-ai-freemius-2.8.5.zip`
 - WP.org Plugin Check baseline: `0 ERROR`, `352 WARNING`.
 - WP.org free ZIP contents: 99 files, no Freemius SDK, no Pro modules, no legacy updater.
+- Local WordPress install test: `mumega-mcp` activated at version `2.8.5`.
+- WP.org ZIP SHA256: `b1eb9de9fcc55d8488b61b12448467c1f3ed70b034172faaf0ef0abbc7b254c1`.
+- Freemius ZIP SHA256: `ec01ce6311065c415402cbadb102cfb0c6c363ad78e241fa57cd23f3fde12b13`.
 
 ## Completed in PR #257
 
