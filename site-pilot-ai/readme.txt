@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.5
+Stable tag: 2.8.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,10 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
+= 2.8.6 =
+* Fix: Rename public display brand to Mumega MCP for WordPress.org packaging.
+* Docs: Keep technical identifiers documented as stable while updating user-facing naming.
+
 = 2.8.5 =
 * Fix: Align text domain and WordPress.org package slug with the assigned mumega-mcp slug.
 * Fix: Build the WordPress.org ZIP as the free package.
@@ -158,8 +162,8 @@ Each site needs its own plugin installation and API key.
 
 == Upgrade Notice ==
 
-= 2.8.5 =
-WordPress.org free package: text domain aligned with mumega-mcp, Pro modules excluded, and updater/Freemius code removed from the ZIP.
+= 2.8.6 =
+Public display brand is now Mumega MCP. Slug, text domain, and REST namespace remain stable.
 
 == Disclaimer ==
 

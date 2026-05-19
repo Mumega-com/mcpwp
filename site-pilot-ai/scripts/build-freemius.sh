@@ -7,7 +7,7 @@
 #
 # Usage:
 #   bash scripts/build-freemius.sh
-#   bash scripts/build-freemius.sh --version 2.8.5
+#   bash scripts/build-freemius.sh --version 2.8.6
 
 set -euo pipefail
 

@@ -51,19 +51,19 @@ bash scripts/build-freemius.sh
 9. Confirm the WP.org ZIP does not contain `freemius/`, `includes/freemius-init.php`, or `includes/class-spai-updater.php`.
 10. Confirm the Freemius ZIP contains `freemius/start.php` and `includes/freemius-init.php`, and does not contain `includes/class-spai-updater.php`.
 11. Merge the release PR.
-12. Tag the release, for example `v2.8.5`.
+12. Tag the release, for example `v2.8.6`.
 13. Publish the GitHub release and attach intended ZIPs if needed.
 
 ## Current Verified Baseline
 
 PR #257 verified the following baseline:
 
-- WP.org ZIP: `scripts/mumega-mcp-2.8.5.zip`.
-- Freemius ZIP: `scripts/site-pilot-ai-freemius-2.8.5.zip`.
+- WP.org ZIP: `scripts/mumega-mcp-2.8.6.zip`.
+- Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
 - WordPress test matrix: WordPress 6.9 / PHP 8.2.
-- Local WordPress install test: `mumega-mcp` activated at version `2.8.5`.
+- Local WordPress install test: previously passed for the same WP.org package shape; rerun after upload if needed.
 - WP.org free ZIP contents: 99 files, no Freemius SDK, no Pro modules, no legacy updater.
 - Plugin Check 1.9.0 result for WP.org ZIP: `0 ERROR`, `352 WARNING`.
-- WP.org ZIP SHA256: `b1eb9de9fcc55d8488b61b12448467c1f3ed70b034172faaf0ef0abbc7b254c1`.
-- Freemius ZIP SHA256: `ec01ce6311065c415402cbadb102cfb0c6c363ad78e241fa57cd23f3fde12b13`.
+- WP.org ZIP SHA256: `6d3e72048eabf72cee691620b3944be64582f7e4da1728382a9684edba44eb02`.
+- Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-36804412ca392e06049b
