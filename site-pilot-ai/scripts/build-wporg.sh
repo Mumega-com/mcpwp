@@ -2,8 +2,8 @@
 #
 # Build a WordPress.org-compliant zip of Mumega MCP for WordPress.
 #
-# All features are free — no Pro stripping needed.
-# Just applies .distignore and creates a clean zip.
+# Builds the free WP.org package.
+# Freemius, the legacy updater, and Pro modules are excluded.
 #
 # Usage:
 #   bash scripts/build-wporg.sh
@@ -56,6 +56,9 @@ rm -f "$DEST"/assets/icon.svg
 rm -rf "$DEST/freemius"
 rm -f  "$DEST/includes/freemius-init.php"
 
+# ── Remove Pro modules from the free WP.org package ─────────────
+rm -rf "$DEST/includes/pro"
+
 # ── Inject SPAI_WPORG_BUILD constant for WP.org compliance ─────
 echo "    Injecting SPAI_WPORG_BUILD constant..."
 sed -i "s|define( 'SPAI_VERSION'|define( 'SPAI_WPORG_BUILD', true );\ndefine( 'SPAI_VERSION'|" "$DEST/$PLUGIN_MAIN"
@@ -82,6 +85,7 @@ OUTPUT_DIR="$PLUGIN_DIR/scripts"
 OUTPUT_ZIP="$OUTPUT_DIR/$WPORG_SLUG-$VERSION.zip"
 
 echo "    Creating zip..."
+rm -f "$OUTPUT_ZIP"
 cd "$BUILD_DIR"
 zip -qr "$OUTPUT_ZIP" "$WPORG_SLUG/"
 
@@ -99,6 +103,20 @@ if grep -q "freemius/" "$ZIP_MANIFEST"; then
     exit 1
 else
     echo "    [OK] No Freemius SDK"
+fi
+
+if grep -q "includes/pro/" "$ZIP_MANIFEST"; then
+    echo "    [FAIL] Pro modules found in WP.org zip!"
+    exit 1
+else
+    echo "    [OK] No Pro modules"
+fi
+
+if grep -q "includes/class-spai-updater.php" "$ZIP_MANIFEST"; then
+    echo "    [FAIL] Legacy updater found in WP.org zip!"
+    exit 1
+else
+    echo "    [OK] No legacy updater"
 fi
 
 FILE_COUNT=$(unzip -l "$OUTPUT_ZIP" | tail -1 | awk '{print $2}')

@@ -1305,12 +1305,16 @@ class Spai_REST_MCP extends Spai_REST_API {
 	}
 
 	/**
-	 * Check if all features are active.
+	 * Check if Pro features are active.
 	 *
-	 * @return bool Always true — all features are free.
+	 * @return bool True when a non-WP.org build has an active entitlement.
 	 */
 	private function is_pro_active() {
-		return true;
+		if ( defined( 'SPAI_WPORG_BUILD' ) ) {
+			return false;
+		}
+
+		return class_exists( 'Spai_License' ) && Spai_License::get_instance()->is_pro();
 	}
 
 	/**

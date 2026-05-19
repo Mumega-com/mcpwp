@@ -192,9 +192,12 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/mcp/class-spai-mcp-ai-integration.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/mcp/class-spai-mcp-figma-integration.php';
 
-	// Load Pro modules (always available — all features are free).
+	// Load Pro modules only for non-WP.org builds with an active entitlement.
 	$pro_bootstrap = SPAI_PLUGIN_DIR . 'includes/pro/class-spai-pro-bootstrap.php';
-	if ( file_exists( $pro_bootstrap ) ) {
+	$pro_active    = ! defined( 'SPAI_WPORG_BUILD' )
+		&& class_exists( 'Spai_License' )
+		&& Spai_License::get_instance()->is_pro();
+	if ( $pro_active && file_exists( $pro_bootstrap ) ) {
 		require_once $pro_bootstrap;
 		if ( class_exists( 'Spai_Pro_Bootstrap' ) ) {
 			Spai_Pro_Bootstrap::init();

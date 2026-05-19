@@ -24,6 +24,7 @@ bash scripts/build-freemius.sh
 - Uses text domain `mumega-mcp`.
 - Excludes `freemius/`.
 - Excludes `includes/freemius-init.php`.
+- Excludes `includes/pro/`.
 - Excludes `includes/class-spai-updater.php`.
 - Excludes build scripts, tests, docs, development metadata, and ZIP files through `.distignore`.
 - Must pass Plugin Check with no errors before upload.
@@ -60,4 +61,5 @@ PR #257 verified the following baseline:
 - WP.org ZIP: `scripts/mumega-mcp-2.8.4.zip`.
 - Freemius ZIP: `scripts/site-pilot-ai-freemius-2.8.4.zip`.
 - WordPress test matrix: WordPress 6.9 / PHP 8.2.
-- Plugin Check 1.9.0 result for WP.org ZIP: `0 ERROR`, `398 WARNING`.
+- WP.org free ZIP contents: 99 files, no Freemius SDK, no Pro modules, no legacy updater.
+- Plugin Check 1.9.0 result for WP.org ZIP: `0 ERROR`, `352 WARNING`.

@@ -8,13 +8,15 @@ This file captures the current state so work can continue after context compacti
 - Draft PR: https://github.com/Mumega-com/mcp-for-wp/pull/257
 - Commit in PR: `77554c1`
 - Latest docs commit in PR: `4e68822`
+- Latest WP.org-free packaging work: pending commit after `4e68822`
 
 ## Current Release Candidate
 
 - Version: `2.8.4`
 - WP.org ZIP: `scripts/mumega-mcp-2.8.4.zip`
 - Freemius ZIP: `scripts/site-pilot-ai-freemius-2.8.4.zip`
-- WP.org Plugin Check baseline: `0 ERROR`, `398 WARNING`.
+- WP.org Plugin Check baseline: `0 ERROR`, `352 WARNING`.
+- WP.org free ZIP contents: 99 files, no Freemius SDK, no Pro modules, no legacy updater.
 
 ## Completed in PR #257
 
@@ -25,6 +27,8 @@ This file captures the current state so work can continue after context compacti
 - Freemius bootstrap gated behind `SPAI_FREEMIUS_BUILD`.
 - Freemius license state recognized by `Spai_License`.
 - WP.org build excludes Freemius SDK and updater.
+- WP.org build excludes `includes/pro/` and disables Pro MCP exposure through `SPAI_WPORG_BUILD`.
+- `site-pilot-ai.php` only loads Pro modules outside WP.org builds when `Spai_License::is_pro()` is true.
 - Freemius build includes SDK/bootstrap and excludes legacy updater.
 - Planning docs added for free/pro split, packaging, capability map, compact router, continuity, and agent workflows.
 
