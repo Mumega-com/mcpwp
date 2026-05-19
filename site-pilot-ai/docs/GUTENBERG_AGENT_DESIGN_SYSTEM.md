@@ -12,6 +12,7 @@ The agent should be able to:
 - Serialize structured block arrays when the agent wants exact block trees.
 - Save and read back the page to confirm WordPress accepted the block tree.
 - Prefer native Gutenberg, patterns, template parts, and global styles before third-party builders.
+- Pass SEO and editability checks before publish/update.
 
 ## Current First Slice
 
@@ -47,6 +48,7 @@ Existing REST/MCP tools remain:
    - block names and nesting
 5. Call `wp_set_blocks` with `content` for exact markup or `blocks` for structured save.
 6. Call `wp_get_blocks` to confirm the stored page state.
+7. Run SEO/editability checks before publish: H1, heading order, slug, title, meta description, image alt text, internal links, and indexability.
 
 ## HTML-Like Mapping
 
@@ -62,6 +64,46 @@ Agents can think in semantic HTML, then emit Gutenberg blocks:
 - spacing -> `core/spacer` or block spacing supports
 
 Plain HTML should be treated as a fallback, not the primary output. If `parse_blocks()` returns a classic/null block for a whole page, the agent produced content WordPress cannot manage as native blocks.
+
+## Block-Native Policy
+
+Default rule: agents must produce editable Gutenberg blocks, not opaque HTML/JS payloads.
+
+Allowed by default:
+
+- Core blocks and registered third-party blocks discovered through `wp_list_block_types`.
+- Block patterns discovered through `wp_list_block_patterns`.
+- Template parts and reusable patterns after the workflow has approval and rollback support.
+- Semantic block attributes, classes, spacing, layout, typography, and theme-supported style controls.
+
+Restricted by default:
+
+- Whole-page classic/null blocks produced by plain HTML.
+- `core/html` as a page-building shortcut.
+- Inline `<script>` or `<style>` tags inside content.
+- Arbitrary iframes or embeds not represented by a supported block.
+- Large duplicated sections that should be reusable patterns or template parts.
+
+If an exception is needed, the agent should return a reason and request approval before saving.
+
+## SEO Policy
+
+Gutenberg page creation is not done until the content is publishable and discoverable.
+
+Minimum checks:
+
+- One clear H1.
+- Heading levels are ordered and not used only for visual size.
+- SEO title and meta description are present where native WP or an SEO plugin supports them.
+- Slug is readable and aligned with search intent.
+- Excerpt is set for posts and indexable content.
+- Images have useful alt text.
+- Buttons and links use descriptive text.
+- Internal links connect the page to relevant site content.
+- Canonical/indexing state is not accidentally changed.
+- Schema suggestions are generated where appropriate, but not injected blindly.
+
+Native WordPress comes first. If Yoast, Rank Math, SEOPress, or another SEO plugin is detected, the workflow should use the plugin's supported fields and APIs instead of writing random post meta.
 
 ## Design System Recipes
 
@@ -96,6 +138,9 @@ Issues to create or track:
 - #275 Add pattern/template-part management tools.
 - Add reusable design memory: approved sections, brand tokens, content tone, and layout archetypes.
 - #276 Add compact router actions for `page.build`, `page.section.update`, `pattern.create`, and `template_part.update`.
+- #279 Enforce block-native Gutenberg guardrails for agent edits.
+- #278 Add SEO-safe Gutenberg publishing workflow.
+- #281 Add section-level Gutenberg diff, patch, and rollback.
 - Add admin documentation that explains Gutenberg-first workflows without exposing internal MCP complexity.
 
 ### Sprint 8 - Site Editor and Global Styles
@@ -129,6 +174,8 @@ Backlog:
 - Do not remove Elementor support. Elementor remains valuable for existing sites, but Gutenberg should be the default native path.
 - Keep legacy direct MCP tools while the compact router is introduced.
 - Prefer block patterns and template parts over duplicated markup for repeated sections.
+- Treat raw HTML, inline JavaScript, and whole-page classic blocks as restricted output that requires explicit approval.
+- Treat SEO checks as part of the save/publish workflow, not a separate afterthought.
 
 ## Local WordPress Validation
 

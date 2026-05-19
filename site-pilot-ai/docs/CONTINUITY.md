@@ -74,6 +74,9 @@ Issues created:
 - #274 Add local WordPress Gutenberg route and save tests
 - #275 Add Gutenberg pattern and template-part workflows
 - #276 Add Gutenberg compact router actions
+- #278 Add SEO-safe Gutenberg publishing workflow
+- #279 Enforce block-native Gutenberg guardrails for agent edits
+- #281 Add section-level Gutenberg diff, patch, and rollback
 
 ## SOS Bus
 
@@ -96,3 +99,5 @@ Do not delete legacy MCP tools immediately. Add compact router support first, ma
 The key product frame to preserve after compaction: Mumega MCP is the WordPress execution layer for external AI agents. Humans approve and audit; agents execute through compact, deterministic tools.
 
 Gutenberg direction: make native WordPress blocks the default free build surface for agents. Agents should treat Gutenberg like a structured HTML DOM: discover the design system, generate block markup, parse before saving, save through MCP/REST, then read back the block tree. Elementor remains supported for existing sites, but Gutenberg is the product's cleanest native WordPress path.
+
+Important product guardrail: agents should not save arbitrary raw HTML, inline JavaScript, or whole-page classic/null blocks as the default path. They should produce editable Gutenberg blocks, request approval for exceptions, and run SEO checks before publishing or updating important pages.
