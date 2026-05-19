@@ -12,9 +12,9 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.4`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.4.zip`
-- Freemius ZIP: `scripts/site-pilot-ai-freemius-2.8.4.zip`
+- Version: `2.8.5`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.5.zip`
+- Freemius ZIP: `scripts/site-pilot-ai-freemius-2.8.5.zip`
 - WP.org Plugin Check baseline: `0 ERROR`, `352 WARNING`.
 - WP.org free ZIP contents: 99 files, no Freemius SDK, no Pro modules, no legacy updater.
 
@@ -35,7 +35,7 @@ This file captures the current state so work can continue after context compacti
 ## Next Recommended Work
 
 1. Merge PR #257 after review.
-2. Tag `v2.8.4`.
+2. Tag `v2.8.5`.
 3. Create/execute Sprint 4: free/pro capability split.
 4. Create/execute Sprint 5: compact deterministic MCP router.
 5. Create/execute Sprint 6: official WordPress MCP/Abilities alignment.

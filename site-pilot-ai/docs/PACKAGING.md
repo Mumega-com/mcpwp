@@ -51,15 +51,15 @@ bash scripts/build-freemius.sh
 9. Confirm the WP.org ZIP does not contain `freemius/`, `includes/freemius-init.php`, or `includes/class-spai-updater.php`.
 10. Confirm the Freemius ZIP contains `freemius/start.php` and `includes/freemius-init.php`, and does not contain `includes/class-spai-updater.php`.
 11. Merge the release PR.
-12. Tag the release, for example `v2.8.4`.
+12. Tag the release, for example `v2.8.5`.
 13. Publish the GitHub release and attach intended ZIPs if needed.
 
 ## Current Verified Baseline
 
 PR #257 verified the following baseline:
 
-- WP.org ZIP: `scripts/mumega-mcp-2.8.4.zip`.
-- Freemius ZIP: `scripts/site-pilot-ai-freemius-2.8.4.zip`.
+- WP.org ZIP: `scripts/mumega-mcp-2.8.5.zip`.
+- Freemius ZIP: `scripts/site-pilot-ai-freemius-2.8.5.zip`.
 - WordPress test matrix: WordPress 6.9 / PHP 8.2.
 - WP.org free ZIP contents: 99 files, no Freemius SDK, no Pro modules, no legacy updater.
 - Plugin Check 1.9.0 result for WP.org ZIP: `0 ERROR`, `352 WARNING`.
