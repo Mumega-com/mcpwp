@@ -747,6 +747,40 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// Internal content graph for SEO and internal linking workflows.
+		register_rest_route(
+			$this->namespace,
+			'/content-graph',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_content_graph' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'post_types' => array(
+							'description' => __( 'Comma-separated post types to include.', 'mumega-mcp' ),
+							'type'        => 'string',
+							'default'     => 'page,post',
+						),
+						'limit' => array(
+							'description'       => __( 'Maximum number of content nodes.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 100,
+							'minimum'           => 1,
+							'maximum'           => 500,
+							'sanitize_callback' => 'absint',
+						),
+						'include_drafts' => array(
+							'description'       => __( 'Include draft/private content nodes.', 'mumega-mcp' ),
+							'type'              => 'boolean',
+							'default'           => false,
+							'sanitize_callback' => 'rest_sanitize_boolean',
+						),
+					),
+				),
+			)
+		);
+
 		// Theme info
 		register_rest_route(
 			$this->namespace,
@@ -1319,6 +1353,284 @@ class Spai_REST_Site extends Spai_REST_API {
 		);
 
 		return $this->success_response( $data );
+	}
+
+	/**
+	 * Get a lightweight internal content graph for agents.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function get_content_graph( $request ) {
+		$this->log_activity( 'get_content_graph', $request );
+
+		$post_types = $this->parse_graph_post_types( (string) $request->get_param( 'post_types' ) );
+		$limit      = min( 500, max( 1, absint( $request->get_param( 'limit' ) ) ) );
+		$statuses   = rest_sanitize_boolean( $request->get_param( 'include_drafts' ) )
+			? array( 'publish', 'draft', 'private' )
+			: array( 'publish' );
+
+		$posts = get_posts(
+			array(
+				'post_type'      => $post_types,
+				'post_status'    => $statuses,
+				'posts_per_page' => $limit,
+				'orderby'        => 'modified',
+				'order'          => 'DESC',
+			)
+		);
+
+		$nodes_by_id   = array();
+		$url_to_id     = array();
+		$menu_post_ids = $this->get_menu_post_ids();
+
+		foreach ( $posts as $post ) {
+			$permalink  = get_permalink( $post );
+			$term_names = wp_get_object_terms( $post->ID, get_object_taxonomies( $post->post_type ), array( 'fields' => 'names' ) );
+			$term_names = is_wp_error( $term_names ) ? array() : array_values( array_unique( $term_names ) );
+			$headings   = $this->extract_heading_texts( $post->post_content );
+
+			$node = array(
+				'id'             => (int) $post->ID,
+				'type'           => $post->post_type,
+				'status'         => $post->post_status,
+				'title'          => get_the_title( $post ),
+				'url'            => $permalink,
+				'slug'           => $post->post_name,
+				'excerpt'        => has_excerpt( $post ) ? get_the_excerpt( $post ) : wp_trim_words( wp_strip_all_tags( $post->post_content ), 32 ),
+				'modified'       => get_post_modified_time( DATE_ATOM, true, $post ),
+				'parent_id'      => (int) $post->post_parent,
+				'in_menu'        => in_array( (int) $post->ID, $menu_post_ids, true ),
+				'terms'          => $term_names,
+				'headings'       => $headings,
+				'word_count'     => str_word_count( wp_strip_all_tags( $post->post_content ) ),
+				'inbound_count'  => 0,
+				'outbound_count' => 0,
+				'anchors_in'     => array(),
+				'anchors_out'    => array(),
+			);
+
+			$nodes_by_id[ (int) $post->ID ] = $node;
+			$url_to_id[ $this->normalize_internal_graph_url( $permalink ) ] = (int) $post->ID;
+		}
+
+		$edges = array();
+
+		foreach ( $posts as $post ) {
+			$from_id = (int) $post->ID;
+			$links   = $this->extract_internal_links_from_content( $post->post_content, $url_to_id );
+
+			foreach ( $links as $link ) {
+				$to_id = $link['target_id'];
+				if ( $from_id === $to_id || ! isset( $nodes_by_id[ $to_id ] ) ) {
+					continue;
+				}
+
+				$edges[] = array(
+					'from'   => $from_id,
+					'to'     => $to_id,
+					'type'   => 'content_link',
+					'anchor' => $link['anchor'],
+					'url'    => $link['url'],
+				);
+
+				$nodes_by_id[ $from_id ]['outbound_count']++;
+				$nodes_by_id[ $to_id ]['inbound_count']++;
+				$nodes_by_id[ $from_id ]['anchors_out'][] = $link['anchor'];
+				$nodes_by_id[ $to_id ]['anchors_in'][]    = $link['anchor'];
+			}
+
+			if ( $post->post_parent && isset( $nodes_by_id[ (int) $post->post_parent ] ) ) {
+				$edges[] = array(
+					'from' => (int) $post->post_parent,
+					'to'   => $from_id,
+					'type' => 'parent_child',
+				);
+			}
+		}
+
+		$front_page_id = (int) get_option( 'page_on_front' );
+		$orphans       = array();
+
+		foreach ( $nodes_by_id as $id => $node ) {
+			$nodes_by_id[ $id ]['anchors_in']  = array_values( array_unique( array_filter( $node['anchors_in'] ) ) );
+			$nodes_by_id[ $id ]['anchors_out'] = array_values( array_unique( array_filter( $node['anchors_out'] ) ) );
+
+			if ( 'publish' === $node['status'] && 0 === $node['inbound_count'] && ! $node['in_menu'] && $front_page_id !== $id ) {
+				$orphans[] = array(
+					'id'    => $id,
+					'title' => $node['title'],
+					'type'  => $node['type'],
+					'url'   => $node['url'],
+				);
+			}
+		}
+
+		$nodes = array_values( $nodes_by_id );
+
+		return $this->success_response(
+			array(
+				'summary' => array(
+					'node_count'   => count( $nodes ),
+					'edge_count'   => count( $edges ),
+					'orphan_count' => count( $orphans ),
+					'post_types'   => $post_types,
+					'statuses'     => $statuses,
+				),
+				'nodes'   => $nodes,
+				'edges'   => $edges,
+				'orphans' => $orphans,
+				'workflow' => array(
+					'read'     => 'Use this graph before creating pages or adding internal links.',
+					'suggest'  => 'Choose candidate links from nodes and edges; do not invent internal URLs.',
+					'approval' => 'Return a link diff before applying links to page content.',
+				),
+			)
+		);
+	}
+
+	/**
+	 * Parse requested graph post types and keep only public/queryable types.
+	 *
+	 * @param string $post_types Raw comma-separated post types.
+	 * @return array Post types.
+	 */
+	private function parse_graph_post_types( $post_types ) {
+		$requested = array_filter( array_map( 'sanitize_key', array_map( 'trim', explode( ',', $post_types ) ) ) );
+		if ( empty( $requested ) ) {
+			$requested = array( 'page', 'post' );
+		}
+
+		$allowed = array();
+		foreach ( $requested as $post_type ) {
+			$obj = get_post_type_object( $post_type );
+			if ( $obj && ( ! empty( $obj->public ) || ! empty( $obj->publicly_queryable ) ) ) {
+				$allowed[] = $post_type;
+			}
+		}
+
+		return empty( $allowed ) ? array( 'page', 'post' ) : array_values( array_unique( $allowed ) );
+	}
+
+	/**
+	 * Get post IDs included in navigation menus.
+	 *
+	 * @return array Menu post IDs.
+	 */
+	private function get_menu_post_ids() {
+		$ids       = array();
+		$locations = get_nav_menu_locations();
+
+		foreach ( $locations as $menu_id ) {
+			$items = wp_get_nav_menu_items( $menu_id );
+			if ( empty( $items ) || is_wp_error( $items ) ) {
+				continue;
+			}
+
+			foreach ( $items as $item ) {
+				if ( 'post_type' === $item->type && ! empty( $item->object_id ) ) {
+					$ids[] = (int) $item->object_id;
+				}
+			}
+		}
+
+		return array_values( array_unique( $ids ) );
+	}
+
+	/**
+	 * Extract heading texts from block/raw content.
+	 *
+	 * @param string $content Post content.
+	 * @return array Heading texts.
+	 */
+	private function extract_heading_texts( $content ) {
+		$headings = array();
+
+		if ( preg_match_all( '/<h([1-6])[^>]*>(.*?)<\/h\1>/is', $content, $matches, PREG_SET_ORDER ) ) {
+			foreach ( $matches as $match ) {
+				$text = trim( wp_strip_all_tags( $match[2] ) );
+				if ( '' !== $text ) {
+					$headings[] = array(
+						'level' => (int) $match[1],
+						'text'  => $text,
+					);
+				}
+			}
+		}
+
+		return $headings;
+	}
+
+	/**
+	 * Extract internal links from post content.
+	 *
+	 * @param string $content   Post content.
+	 * @param array  $url_to_id Normalized URL to post ID map.
+	 * @return array Links.
+	 */
+	private function extract_internal_links_from_content( $content, $url_to_id ) {
+		$links = array();
+
+		if ( preg_match_all( '/<a\s[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)<\/a>/is', $content, $matches, PREG_SET_ORDER ) ) {
+			foreach ( $matches as $match ) {
+				$link = $this->resolve_internal_graph_link( $match[1], wp_strip_all_tags( $match[2] ), $url_to_id );
+				if ( $link ) {
+					$links[] = $link;
+				}
+			}
+		}
+
+		return $links;
+	}
+
+	/**
+	 * Resolve a URL to a graph link if it points to known local content.
+	 *
+	 * @param string $href      Raw href.
+	 * @param string $anchor    Anchor text.
+	 * @param array  $url_to_id Normalized URL to post ID map.
+	 * @return array|null Link record.
+	 */
+	private function resolve_internal_graph_link( $href, $anchor, $url_to_id ) {
+		$href = trim( $href );
+		if ( '' === $href || 0 === strpos( $href, '#' ) || preg_match( '/^(mailto|tel|sms|javascript):/i', $href ) ) {
+			return null;
+		}
+
+		$absolute = wp_http_validate_url( $href ) ? $href : home_url( $href );
+		$home     = wp_parse_url( home_url() );
+		$target   = wp_parse_url( $absolute );
+
+		if ( empty( $target['host'] ) || empty( $home['host'] ) || strtolower( $target['host'] ) !== strtolower( $home['host'] ) ) {
+			return null;
+		}
+
+		$normalized = $this->normalize_internal_graph_url( $absolute );
+		$target_id  = isset( $url_to_id[ $normalized ] ) ? (int) $url_to_id[ $normalized ] : url_to_postid( $absolute );
+
+		if ( ! $target_id ) {
+			return null;
+		}
+
+		return array(
+			'target_id' => $target_id,
+			'url'       => $absolute,
+			'anchor'    => trim( $anchor ),
+		);
+	}
+
+	/**
+	 * Normalize internal URLs for graph lookup.
+	 *
+	 * @param string $url URL.
+	 * @return string Normalized URL.
+	 */
+	private function normalize_internal_graph_url( $url ) {
+		$parts = wp_parse_url( $url );
+		$path  = isset( $parts['path'] ) ? untrailingslashit( $parts['path'] ) : '';
+		$query = isset( $parts['query'] ) ? '?' . $parts['query'] : '';
+
+		return strtolower( $path . $query );
 	}
 
 	/**

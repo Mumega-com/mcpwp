@@ -68,6 +68,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_update_options'          => 'site',
 			'wp_get_site_context'        => 'site',
 			'wp_set_site_context'        => 'site',
+			'wp_get_content_graph'       => 'content',
 			'wp_get_custom_css'          => 'site',
 			'wp_set_custom_css'          => 'site',
 			'wp_delete_custom_css'       => 'site',
@@ -507,6 +508,25 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 					'type'        => 'string',
 					'description' => 'Markdown text defining site style rules, header/footer structure, predefined sections, color palette, typography, and page layout guidelines',
 					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_get_content_graph',
+			'Get a lightweight internal content graph for SEO and internal linking. Returns content nodes, link edges, inbound/outbound counts, menu presence, orphan candidates, headings, and anchor text. Use before creating pages or adding internal links.',
+			array(
+				'post_types' => array(
+					'type'        => 'string',
+					'description' => 'Comma-separated post types to include. Defaults to page,post.',
+				),
+				'limit' => array(
+					'type'        => 'number',
+					'description' => 'Maximum number of content nodes, 1-500. Defaults to 100.',
+				),
+				'include_drafts' => array(
+					'type'        => 'boolean',
+					'description' => 'Include draft/private content nodes. Defaults to false.',
 				),
 			)
 		);
@@ -2189,7 +2209,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_set_blocks',
-			'Set Gutenberg blocks for a post or page. Provide either a blocks array (serialized automatically) or raw block content string. Blocks use WordPress block grammar (<!-- wp:blockname {...} --> content <!-- /wp:blockname -->).',
+			'Set Gutenberg blocks for a post or page. Provide either a blocks array (serialized automatically) or raw block content string. Blocks use WordPress block grammar and are safety-validated by default.',
 			array(
 				'id' => array(
 					'type'        => 'number',
@@ -2203,6 +2223,14 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'content' => array(
 					'type'        => 'string',
 					'description' => 'Raw block content string (alternative to blocks array)',
+				),
+				'allow_restricted_blocks' => array(
+					'type'        => 'boolean',
+					'description' => 'Explicitly allow restricted output such as core/html or inline scripts/styles. Requires approval_note.',
+				),
+				'approval_note' => array(
+					'type'        => 'string',
+					'description' => 'Human approval note explaining why restricted block output is necessary.',
 				),
 			)
 		);
@@ -2239,6 +2267,21 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 					'type'        => 'array',
 					'description' => 'Array of parsed block objects with blockName, attrs, innerBlocks, innerHTML, and innerContent.',
 					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_validate_blocks',
+			'Validate generated Gutenberg content before saving. Fails whole-page classic HTML, core/html shortcuts, inline script/style tags, and unsafe iframes so agents keep pages editable as native blocks.',
+			array(
+				'content' => array(
+					'type'        => 'string',
+					'description' => 'Raw Gutenberg block markup to validate.',
+				),
+				'blocks' => array(
+					'type'        => 'array',
+					'description' => 'Array of parsed block objects to serialize and validate.',
 				),
 			)
 		);
@@ -2503,6 +2546,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_set_site_context' => array(
 				'method' => 'POST',
 				'route'  => '/site-context',
+			),
+			'wp_get_content_graph' => array(
+				'method' => 'GET',
+				'route'  => '/content-graph',
 			),
 			'wp_get_custom_css' => array(
 				'method' => 'GET',
@@ -2899,6 +2946,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_serialize_blocks'    => array(
 				'method' => 'POST',
 				'route'  => '/blocks/serialize',
+			),
+			'wp_validate_blocks'     => array(
+				'method' => 'POST',
+				'route'  => '/blocks/validate',
 			),
 			'wp_get_block_design_system' => array(
 				'method' => 'GET',

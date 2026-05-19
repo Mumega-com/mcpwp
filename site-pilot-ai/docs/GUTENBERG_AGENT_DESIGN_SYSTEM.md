@@ -24,12 +24,16 @@ New free-core MCP tools:
 - `wp_get_block_design_system`
 - `wp_parse_blocks`
 - `wp_serialize_blocks`
+- `wp_validate_blocks`
+- `wp_get_content_graph`
 
 New REST endpoints:
 
 - `GET /site-pilot-ai/v1/blocks/design-system`
 - `POST /site-pilot-ai/v1/blocks/parse`
 - `POST /site-pilot-ai/v1/blocks/serialize`
+- `POST /site-pilot-ai/v1/blocks/validate`
+- `GET /site-pilot-ai/v1/content-graph`
 
 Existing REST/MCP tools remain:
 
@@ -43,14 +47,15 @@ Existing REST/MCP tools remain:
 1. Call `wp_get_block_design_system`.
 2. Use `patterns`, `recommended_primitives`, and `recipes` to choose the page structure.
 3. Generate WordPress block markup, not plain HTML.
-4. Call `wp_parse_blocks` and inspect:
+4. Call `wp_validate_blocks` before saving. Fix `classic_content`, `classic_block`, `core_html_block`, `inline_script`, `inline_style`, and `unsafe_iframe` issues.
+5. Call `wp_parse_blocks` and inspect:
    - `has_block_markup`
    - `block_count`
    - block names and nesting
-5. Call `wp_set_blocks` with `content` for exact markup or `blocks` for structured save.
-6. Call `wp_get_blocks` to confirm the stored page state.
-7. Run SEO/editability checks before publish: H1, heading order, slug, title, meta description, image alt text, internal links, and indexability.
-8. Use the internal content graph to suggest and apply relevant internal links with an approval-ready diff.
+6. Call `wp_set_blocks` with `content` for exact markup or `blocks` for structured save. Restricted blocks require explicit `allow_restricted_blocks` plus an `approval_note`.
+7. Call `wp_get_blocks` to confirm the stored page state.
+8. Run SEO/editability checks before publish: H1, heading order, slug, title, meta description, image alt text, internal links, and indexability.
+9. Call `wp_get_content_graph` before choosing internal links. Use only graph URLs and return an approval-ready diff before applying links.
 
 ## HTML-Like Mapping
 
@@ -86,7 +91,7 @@ Restricted by default:
 - Arbitrary iframes or embeds not represented by a supported block.
 - Large duplicated sections that should be reusable patterns or template parts.
 
-If an exception is needed, the agent should return a reason and request approval before saving.
+Current enforcement: `wp_validate_blocks` and `POST /site-pilot-ai/v1/blocks/validate` return a safety report. `wp_set_blocks` rejects restricted content by default. If an exception is needed, the agent must return a reason and request approval before saving.
 
 ## SEO Policy
 
@@ -140,7 +145,9 @@ Agents should treat these checks as a pre-publish gate. The plugin should return
 
 ## Internal Content Graph
 
-Current state: the plugin has site context, content inventory, recent updates, search/fetch tools, and SEO plugin detection. It does not yet expose a true graph of content nodes, links, backlinks, orphan pages, hubs, and related-content candidates.
+Current state: the first read-only graph slice is implemented through `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph`. It returns content nodes, content-link edges, parent/child edges, inbound/outbound counts, menu presence, headings, anchor text, and orphan candidates.
+
+Not implemented yet: PageRank-style scoring, taxonomy edge weights, broken-link validation, link suggestions, and approval-ready link application.
 
 Needed graph primitives:
 
@@ -151,7 +158,7 @@ Needed graph primitives:
 
 Proposed MCP/REST tools:
 
-- `wp_get_content_graph`
+- `wp_get_content_graph` - implemented first read-only slice.
 - `wp_suggest_internal_links`
 - `wp_apply_internal_links`
 - `wp_find_orphan_content`
@@ -192,10 +199,10 @@ Issues to create or track:
 - #275 Add pattern/template-part management tools.
 - Add reusable design memory: approved sections, brand tokens, content tone, and layout archetypes.
 - #276 Add compact router actions for `page.build`, `page.section.update`, `pattern.create`, and `template_part.update`.
-- #279 Enforce block-native Gutenberg guardrails for agent edits.
+- #279 Enforce block-native Gutenberg guardrails for agent edits. Status: first safety validator implemented.
 - #278 Add SEO-safe Gutenberg publishing workflow.
 - #281 Add section-level Gutenberg diff, patch, and rollback.
-- #283 Add internal content graph for agent link suggestions.
+- #283 Add internal content graph for agent link suggestions. Status: first read-only graph implemented.
 - #282 Add internal link validation to Gutenberg publishing checks.
 - #284 Add search and AI crawler visibility audit.
 - #285 Add structured data recommendation and validation workflow.

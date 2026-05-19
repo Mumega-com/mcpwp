@@ -109,6 +109,27 @@ class Spai_REST_Blocks extends Spai_REST_API {
 			)
 		);
 
+		// Validate block-native safety before saving generated content.
+		register_rest_route(
+			$this->namespace,
+			'/blocks/validate',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'validate_block_content' ),
+				'permission_callback' => array( $this, 'check_permission' ),
+				'args'                => array(
+					'content' => array(
+						'type'     => 'string',
+						'required' => false,
+					),
+					'blocks'  => array(
+						'type'     => 'array',
+						'required' => false,
+					),
+				),
+			)
+		);
+
 		// Agent-facing Gutenberg design system and block grammar.
 		register_rest_route(
 			$this->namespace,
@@ -181,6 +202,8 @@ class Spai_REST_Blocks extends Spai_REST_API {
 
 		$blocks  = $request->get_param( 'blocks' );
 		$content = $request->get_param( 'content' );
+		$allow_restricted_blocks = rest_sanitize_boolean( $request->get_param( 'allow_restricted_blocks' ) );
+		$approval_note           = (string) $request->get_param( 'approval_note' );
 
 		if ( ! empty( $blocks ) && is_array( $blocks ) ) {
 			// Serialize blocks array to HTML content.
@@ -191,6 +214,33 @@ class Spai_REST_Blocks extends Spai_REST_API {
 				'Provide either a blocks array or content string.',
 				400
 			);
+		}
+
+		$safety_report = $this->build_block_safety_report( $content );
+		if ( ! $safety_report['pass'] ) {
+			if ( ! $allow_restricted_blocks ) {
+				return new WP_Error(
+					'block_safety_failed',
+					'Block safety validation failed. Generated content must be editable Gutenberg blocks by default.',
+					array(
+						'status'        => 400,
+						'safety_report' => $safety_report,
+						'hint'          => 'Use wp_validate_blocks before saving. Restricted output requires allow_restricted_blocks=true and an approval_note.',
+					)
+				);
+			}
+
+			if ( '' === trim( $approval_note ) ) {
+				return new WP_Error(
+					'approval_note_required',
+					'Restricted block output requires an approval note before saving.',
+					array(
+						'status'        => 400,
+						'safety_report' => $safety_report,
+						'hint'          => 'Pass approval_note explaining why the restricted output is necessary.',
+					)
+				);
+			}
 		}
 
 		$result = wp_update_post(
@@ -221,6 +271,8 @@ class Spai_REST_Blocks extends Spai_REST_API {
 				'post_id'     => $post_id,
 				'block_count' => count( $parsed ),
 				'blocks'      => $parsed,
+				'safety'      => $safety_report,
+				'approved_restricted_blocks' => ( ! $safety_report['pass'] && $allow_restricted_blocks ),
 			)
 		);
 	}
@@ -356,6 +408,7 @@ class Spai_REST_Blocks extends Spai_REST_API {
 				'block_count'      => count( $cleaned ),
 				'blocks'           => $cleaned,
 				'has_block_markup' => has_blocks( $content ),
+				'safety'           => $this->build_block_safety_report( $content ),
 				'raw_content'      => $content,
 			)
 		);
@@ -388,8 +441,36 @@ class Spai_REST_Blocks extends Spai_REST_API {
 				'content'          => $content,
 				'block_count'      => count( $parsed ),
 				'roundtrip_blocks' => $parsed,
+				'safety'           => $this->build_block_safety_report( $content ),
 			)
 		);
+	}
+
+	/**
+	 * Validate content for block-native safety.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function validate_block_content( $request ) {
+		$blocks  = $request->get_param( 'blocks' );
+		$content = $request->get_param( 'content' );
+
+		if ( ! empty( $blocks ) && is_array( $blocks ) ) {
+			$content = serialize_blocks( $blocks );
+		}
+
+		if ( ! is_string( $content ) || '' === trim( $content ) ) {
+			return $this->error_response(
+				'missing_data',
+				'Provide either a blocks array or content string.',
+				400
+			);
+		}
+
+		$this->log_activity( 'validate_blocks', $request );
+
+		return $this->success_response( $this->build_block_safety_report( $content ) );
 	}
 
 	/**
@@ -422,7 +503,7 @@ class Spai_REST_Blocks extends Spai_REST_API {
 				'workflow'               => array(
 					'discover'  => 'Call wp_get_block_design_system, then wp_list_block_patterns for full pattern content if needed.',
 					'draft'     => 'Build valid WordPress block markup using core block comments, attributes, and nested inner blocks.',
-					'validate'  => 'Call wp_parse_blocks before saving and inspect block_count plus round-tripped block names.',
+					'validate'  => 'Call wp_validate_blocks and wp_parse_blocks before saving. Fix classic/null blocks, core/html, inline script/style tags, and unsafe iframes.',
 					'save'      => 'Call wp_set_blocks with content for exact markup, or blocks for structured serialization.',
 					'read_back' => 'Call wp_get_blocks after saving to confirm the stored tree.',
 				),
@@ -487,6 +568,7 @@ class Spai_REST_Blocks extends Spai_REST_API {
 			'Use nested columns sparingly; prefer group and grid-like layouts that remain readable on mobile.',
 			'Always parse generated markup before saving. A classic block means the content was plain HTML, not block-native markup.',
 			'Use reusable patterns and template parts for repeated sections instead of duplicating large markup.',
+			'Do not use core/html, inline script/style tags, or unsafe iframes unless a human explicitly approves the exception.',
 		);
 	}
 
@@ -599,6 +681,160 @@ class Spai_REST_Blocks extends Spai_REST_API {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Build a safety report for generated Gutenberg content.
+	 *
+	 * @param string $content Raw block content.
+	 * @return array Safety report.
+	 */
+	private function build_block_safety_report( $content ) {
+		$issues = array();
+		$blocks = parse_blocks( $content );
+
+		if ( ! has_blocks( $content ) && '' !== trim( $content ) ) {
+			$issues[] = $this->make_block_safety_issue(
+				'classic_content',
+				'error',
+				'Content is plain HTML/classic content instead of native Gutenberg block markup.',
+				'root',
+				null
+			);
+		}
+
+		if ( preg_match( '/<script\b/i', $content ) ) {
+			$issues[] = $this->make_block_safety_issue(
+				'inline_script',
+				'error',
+				'Inline script tags are restricted in generated block content.',
+				'content',
+				null
+			);
+		}
+
+		if ( preg_match( '/<style\b/i', $content ) ) {
+			$issues[] = $this->make_block_safety_issue(
+				'inline_style',
+				'error',
+				'Inline style tags are restricted in generated block content.',
+				'content',
+				null
+			);
+		}
+
+		$this->collect_block_safety_issues( $blocks, array(), $issues );
+
+		$error_count   = 0;
+		$warning_count = 0;
+		foreach ( $issues as $issue ) {
+			if ( 'error' === $issue['severity'] ) {
+				$error_count++;
+			} elseif ( 'warning' === $issue['severity'] ) {
+				$warning_count++;
+			}
+		}
+
+		return array(
+			'pass'              => 0 === $error_count,
+			'status'            => 0 === $error_count ? ( $warning_count > 0 ? 'warn' : 'pass' ) : 'fail',
+			'has_block_markup'  => has_blocks( $content ),
+			'block_count'       => count( $this->clean_blocks( $blocks ) ),
+			'error_count'       => $error_count,
+			'warning_count'     => $warning_count,
+			'approval_required' => $error_count > 0,
+			'issues'            => $issues,
+		);
+	}
+
+	/**
+	 * Recursively collect block safety issues.
+	 *
+	 * @param array $blocks Parsed blocks.
+	 * @param array $path   Current block path.
+	 * @param array $issues Issues accumulator.
+	 */
+	private function collect_block_safety_issues( $blocks, $path, &$issues ) {
+		foreach ( $blocks as $index => $block ) {
+			$current_path = array_merge( $path, array( (string) $index ) );
+			$path_label   = implode( '.innerBlocks.', $current_path );
+			$block_name   = $block['blockName'] ?? null;
+			$inner_html   = isset( $block['innerHTML'] ) ? (string) $block['innerHTML'] : '';
+
+			if ( empty( $block_name ) && '' !== trim( $inner_html ) ) {
+				$issues[] = $this->make_block_safety_issue(
+					'classic_block',
+					'error',
+					'A classic/null block was found. Agents should emit native Gutenberg block comments and registered block types.',
+					$path_label,
+					$block_name
+				);
+			}
+
+			if ( 'core/html' === $block_name ) {
+				$issues[] = $this->make_block_safety_issue(
+					'core_html_block',
+					'error',
+					'core/html is restricted as a default agent output because it creates opaque content.',
+					$path_label,
+					$block_name
+				);
+			}
+
+			if ( preg_match( '/<script\b/i', $inner_html ) ) {
+				$issues[] = $this->make_block_safety_issue(
+					'inline_script',
+					'error',
+					'Inline script tags are restricted in block HTML.',
+					$path_label,
+					$block_name
+				);
+			}
+
+			if ( preg_match( '/<style\b/i', $inner_html ) ) {
+				$issues[] = $this->make_block_safety_issue(
+					'inline_style',
+					'error',
+					'Inline style tags are restricted in block HTML.',
+					$path_label,
+					$block_name
+				);
+			}
+
+			if ( preg_match( '/<iframe\b/i', $inner_html ) && ! in_array( $block_name, array( 'core/embed', 'core/video' ), true ) ) {
+				$issues[] = $this->make_block_safety_issue(
+					'unsafe_iframe',
+					'error',
+					'Iframes are restricted unless represented by a supported embed/media block.',
+					$path_label,
+					$block_name
+				);
+			}
+
+			if ( ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
+				$this->collect_block_safety_issues( $block['innerBlocks'], $current_path, $issues );
+			}
+		}
+	}
+
+	/**
+	 * Create a normalized block safety issue.
+	 *
+	 * @param string      $code       Issue code.
+	 * @param string      $severity   Severity.
+	 * @param string      $message    Human-readable message.
+	 * @param string      $path       Block path.
+	 * @param string|null $block_name Block name.
+	 * @return array Issue.
+	 */
+	private function make_block_safety_issue( $code, $severity, $message, $path, $block_name ) {
+		return array(
+			'code'      => $code,
+			'severity'  => $severity,
+			'message'   => $message,
+			'path'      => $path,
+			'blockName' => $block_name,
+		);
 	}
 
 	/**

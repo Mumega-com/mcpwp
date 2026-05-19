@@ -59,6 +59,8 @@ Relevant issues:
 - #282 Add internal link validation to Gutenberg publishing checks.
 - #290 Build internal link graph with PageRank-style signals.
 
+Status: first read-only implementation added `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph`. It returns content nodes, content-link edges, parent/child edges, inbound/outbound counts, menu presence, headings, anchors, and orphan candidates. Link suggestions, broken-link validation, weighted graph signals, and approved mutation flows are still open.
+
 ## Core Architecture Gaps
 
 ### Compact MCP Router
@@ -127,6 +129,8 @@ Needed:
 Relevant issue:
 
 - #279 Enforce block-native Gutenberg guardrails for agent edits.
+
+Status: first implementation added `wp_validate_blocks`, `POST /site-pilot-ai/v1/blocks/validate`, safety reports on block parse/serialize, and default rejection in `wp_set_blocks` unless `allow_restricted_blocks` and `approval_note` are provided. It currently detects whole-page classic content, classic/null blocks, `core/html`, inline script/style tags, and unsafe iframes.
 
 ### Patterns, Template Parts, And Global Styles
 
@@ -329,4 +333,3 @@ Relevant docs:
 - `docs/AGENT_WORKFLOWS.md`
 - `docs/GUTENBERG_AGENT_DESIGN_SYSTEM.md`
 - `docs/SEO_INTELLIGENCE_ROADMAP.md`
-
