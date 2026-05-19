@@ -5,7 +5,7 @@
  * Merges the optional site override (`spai_update_info`) with the
  * worker-served manifest and prefers the newer valid release.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -325,7 +325,7 @@ class Spai_Updater {
 		}
 
 		$info                = new stdClass();
-		$info->name          = isset( $remote->name ) ? $remote->name : 'mumcp';
+		$info->name          = isset( $remote->name ) ? $remote->name : 'Mumega MCP';
 		$info->slug          = $this->plugin_slug;
 		$info->version       = $remote->version;
 		$info->author        = isset( $remote->author ) ? sprintf( '<a href="%s">%s</a>', esc_url( isset( $remote->author_homepage ) ? $remote->author_homepage : '' ), esc_html( $remote->author ) ) : '';

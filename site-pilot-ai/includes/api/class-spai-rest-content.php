@@ -2,7 +2,7 @@
 /**
  * Content REST Controller (generic post types)
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

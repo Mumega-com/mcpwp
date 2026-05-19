@@ -2,7 +2,7 @@
 /**
  * REST API Base Controller
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

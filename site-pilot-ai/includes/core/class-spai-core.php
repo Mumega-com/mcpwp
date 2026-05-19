@@ -2,7 +2,7 @@
 /**
  * Core functionality
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -45,7 +45,7 @@ class Spai_Core {
 			'text_direction' => ( function_exists( 'is_rtl' ) && is_rtl() ) ? 'rtl' : 'ltr',
 			'capabilities' => $this->get_capabilities(),
 			'plugin'       => array(
-				'name'    => 'mumcp',
+				'name'    => 'Mumega MCP',
 				'version' => SPAI_VERSION,
 			),
 		);

@@ -4,7 +4,7 @@
  *
  * Generates valid Elementor JSON from high-level section definitions.
  *
- * @package SitePilotAI_Pro
+ * @package MumegaMCP_Pro
  * @since   1.1.3
  */
 

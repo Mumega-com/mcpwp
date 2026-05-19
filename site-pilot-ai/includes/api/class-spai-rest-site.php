@@ -2,7 +2,7 @@
 /**
  * Site REST Controller
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -1021,7 +1021,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			return $this->success_response(
 				array(
 					'plugin'  => array(
-						'name'    => 'mumcp',
+						'name'    => 'Mumega MCP',
 						'version' => defined( 'SPAI_VERSION' ) ? SPAI_VERSION : null,
 					),
 					'message' => 'MCP controller not available.',
@@ -1034,7 +1034,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			return $this->success_response(
 				array(
 					'plugin'  => array(
-						'name'    => 'mumcp',
+						'name'    => 'Mumega MCP',
 						'version' => defined( 'SPAI_VERSION' ) ? SPAI_VERSION : null,
 					),
 					'message' => 'Introspection is not supported in this version.',
@@ -1081,7 +1081,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			'wp_version'  => $site_info['wp_version'] ?? $GLOBALS['wp_version'],
 			'theme'       => $site_info['theme'] ?? array(),
 			'plugin'      => $site_info['plugin'] ?? array(
-				'name'    => 'mumcp',
+				'name'    => 'Mumega MCP',
 				'version' => defined( 'SPAI_VERSION' ) ? SPAI_VERSION : null,
 			),
 		);
@@ -1859,7 +1859,7 @@ class Spai_REST_Site extends Spai_REST_API {
 	}
 
 	/**
-	 * Get mumcp plugin settings.
+	 * Get Mumega MCP plugin settings.
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response Response.
@@ -1887,7 +1887,7 @@ class Spai_REST_Site extends Spai_REST_API {
 	}
 
 	/**
-	 * Update mumcp plugin settings.
+	 * Update Mumega MCP plugin settings.
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response|WP_Error Response.
@@ -3049,7 +3049,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			// Theme settings (hyphenated keys that don't match prefix rules).
 			'astra-settings',
 			'generate_settings',
-			// mumcp.
+			// Mumega MCP.
 			'spai_site_context',
 			'spai_site_context_updated',
 			// Elementor.
@@ -4308,7 +4308,7 @@ class Spai_REST_Site extends Spai_REST_API {
 				'has_api_key'  => $has_key,
 				'hint'         => $has_key
 					? 'Connect to the MCP endpoint above with the site\'s API key.'
-					: 'This site needs an API key. Generate one from WP Admin > mumcp.',
+					: 'This site needs an API key. Generate one from WP Admin > Mumega MCP.',
 			)
 		);
 	}

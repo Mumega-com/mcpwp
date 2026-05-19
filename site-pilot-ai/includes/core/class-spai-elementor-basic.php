@@ -2,7 +2,7 @@
 /**
  * Basic Elementor handler (FREE tier)
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

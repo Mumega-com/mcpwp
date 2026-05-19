@@ -4,7 +4,7 @@
  *
  * Provides step-by-step workflow guides for common WordPress tasks.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -5,7 +5,7 @@
  * Stores uploaded design references that models can reuse when building
  * Elementor pages, page archetypes, and parts.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -2,7 +2,7 @@
 /**
  * Webhooks Manager
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -579,7 +579,7 @@ class Spai_Webhooks {
 
 		$payload = array(
 			'test'    => true,
-			'message' => __( 'This is a test webhook delivery from mumcp.', 'mumega-mcp' ),
+			'message' => __( 'This is a test webhook delivery from Mumega MCP.', 'mumega-mcp' ),
 		);
 
 		$body = wp_json_encode( $payload );

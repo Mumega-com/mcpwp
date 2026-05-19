@@ -63,7 +63,7 @@ Issues created:
 - #263 Implement deterministic MCP router
 - #264 Add MCP mode setting for compact vs legacy
 - #265 Assess official WordPress MCP and Abilities integration
-- #266 Map SitePilotAI workflows onto WordPress Abilities where practical
+- #266 Map Mumega MCP workflows onto WordPress Abilities where practical
 - #267 Add design-reference intake workflow
 - #268 Define agent-facing workflow handles
 - #269 Implement approval gates for agent mutations
@@ -80,8 +80,10 @@ Do not parse `~/.codex/config.toml` for bearer tokens. The wrapper handles TOML 
 
 Recent bus messages were sent to `mumcp` with findings about PR #257 and the packaging validation.
 
+Branding note: public product/display name is now `Mumega MCP`. Keep the WP.org slug/text domain as `mumega-mcp`; keep legacy route/package identifiers such as `site-pilot-ai/v1` unless a migration is planned.
+
 ## Caution
 
 Do not delete legacy MCP tools immediately. Add compact router support first, make it the default for new/WP.org installs, and keep legacy/expanded mode as a compatibility path until usage is understood.
 
-The key product frame to preserve after compaction: SitePilotAI is the WordPress execution layer for external AI agents. Humans approve and audit; agents execute through compact, deterministic tools.
+The key product frame to preserve after compaction: Mumega MCP is the WordPress execution layer for external AI agents. Humans approve and audit; agents execute through compact, deterministic tools.

@@ -5,7 +5,7 @@
  * Submit URLs to Google for indexing using the Indexing API
  * with a service account JSON key.
  *
- * @package SitePilotAI_Pro
+ * @package MumegaMCP_Pro
  * @since   1.1.22
  */
 
@@ -154,7 +154,7 @@ class Spai_Google_Indexing {
 		if ( ! $sa ) {
 			return new WP_Error(
 				'no_service_account',
-				__( 'Google Indexing API service account not configured. Add it via mumcp > Integrations.', 'mumega-mcp' ),
+				__( 'Google Indexing API service account not configured. Add it via Mumega MCP > Integrations.', 'mumega-mcp' ),
 				array( 'status' => 400 )
 			);
 		}

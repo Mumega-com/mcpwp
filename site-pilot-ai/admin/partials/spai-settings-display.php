@@ -8,7 +8,7 @@
  *   $llms_url             — string  public llms.txt URL
  *   $llms_preview         — string  llms.txt content preview
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php esc_html_e( 'About', 'mumega-mcp' ); ?>
 			</h2>
 			<p class="description">
-				<?php esc_html_e( 'All features are included for free. mumcp connects your WordPress site to AI assistants via the Model Context Protocol (MCP).', 'mumega-mcp' ); ?>
+				<?php esc_html_e( 'All features are included for free. Mumega MCP connects your WordPress site to AI assistants via the Model Context Protocol (MCP).', 'mumega-mcp' ); ?>
 			</p>
 			<p style="margin-top:10px;">
 				<a href="https://mumega.com/" target="_blank" class="button">

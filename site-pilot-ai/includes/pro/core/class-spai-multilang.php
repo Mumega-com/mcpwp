@@ -4,7 +4,7 @@
  *
  * Supports WPML, Polylang, and TranslatePress.
  *
- * @package SitePilotAI_Pro
+ * @package MumegaMCP_Pro
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

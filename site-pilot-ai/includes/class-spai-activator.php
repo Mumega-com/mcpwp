@@ -2,7 +2,7 @@
 /**
  * Plugin Activator
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -81,7 +81,7 @@ class Spai_Activator {
 	 */
 	private static function create_api_role_and_user() {
 		// Add Role — principle of least privilege: no manage_options or edit_theme_options.
-		add_role( 'spai_api_agent', 'Site Pilot API Agent', array(
+		add_role( 'spai_api_agent', 'Mumega MCP API Agent', array(
 			'read'               => true,
 			'edit_posts'         => true,
 			'edit_pages'         => true,
@@ -118,8 +118,8 @@ class Spai_Activator {
 				'user_login'   => 'spai_bot',
 				'user_pass'    => wp_generate_password( 64 ),
 				'role'         => 'spai_api_agent',
-				'display_name' => 'mumcp',
-				'description'  => 'Service account for mumcp API',
+				'display_name' => 'Mumega MCP',
+				'description'  => 'Service account for Mumega MCP API',
 			) );
 		}
 	}

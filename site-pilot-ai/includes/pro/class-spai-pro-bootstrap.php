@@ -6,7 +6,7 @@
  *
  * All features are free — no Pro/premium split.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

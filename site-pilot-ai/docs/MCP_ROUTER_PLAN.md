@@ -140,7 +140,7 @@ The router should return deterministic errors:
 ```json
 {
   "code": "pro_required",
-  "message": "The figma.node action requires SitePilotAI Pro.",
+  "message": "The figma.node action requires Mumega MCP Pro.",
   "data": {
     "resource": "figma",
     "action": "node",
@@ -164,5 +164,5 @@ Other standard codes:
 The compact router should not replace official WordPress MCP/Abilities. It should complement it.
 
 - Use native WordPress MCP/Abilities for generic WordPress operations when practical.
-- Use SitePilotAI router actions for higher-level workflows, design memory, archetypes, commerce flows, and safety policy.
+- Use Mumega MCP router actions for higher-level workflows, design memory, archetypes, commerce flows, and safety policy.
 - Keep self-hosted fallback support for sites that do not have native MCP available.

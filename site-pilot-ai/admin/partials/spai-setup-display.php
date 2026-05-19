@@ -1,13 +1,13 @@
 <?php
 /**
- * Setup page template — first thing users see after installing mumcp.
+ * Setup page template — first thing users see after installing Mumega MCP.
  *
  * Variables available from render_setup_page():
  *   $new_key        — string|null  plaintext key just generated (or from first-activation transient)
  *   $new_scoped_key — array|null   newly created scoped key payload
  *   $scoped_keys    — array        list of all scoped API keys
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -63,7 +63,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 		<span class="spai-logo">
 			<span class="dashicons dashicons-airplane"></span>
 		</span>
-		<?php esc_html_e( 'mumcp', 'mumega-mcp' ); ?>
+		<?php esc_html_e( 'Mumega MCP', 'mumega-mcp' ); ?>
 		<span class="spai-version">v<?php echo esc_html( SPAI_VERSION ); ?></span>
 	</h1>
 
@@ -74,7 +74,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 			<span class="dashicons dashicons-yes-alt"></span>
 		</div>
 		<div class="spai-welcome-content">
-			<h2><?php esc_html_e( 'mumcp is ready!', 'mumega-mcp' ); ?></h2>
+			<h2><?php esc_html_e( 'Mumega MCP is ready!', 'mumega-mcp' ); ?></h2>
 			<p><?php esc_html_e( 'Your API key has been generated. Copy it now and use it to connect Claude Desktop, Claude Code, or ChatGPT to your WordPress site.', 'mumega-mcp' ); ?></p>
 			<div class="spai-api-key-wrapper spai-api-key-wrapper--highlight">
 				<input
@@ -362,7 +362,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				<div class="spai-code-wrapper">
 					<pre class="spai-code-block" id="spai-claude-code-cfg">{
   "mcpServers": {
-    "mumcp-<?php echo esc_html( $site_slug ); ?>": {
+    "mumega-mcp-<?php echo esc_html( $site_slug ); ?>": {
       "url": "<?php echo esc_url( $mcp_url ); ?>",
       "headers": {
         "X-API-Key": "<?php echo $is_hidden ? 'YOUR_API_KEY' : esc_attr( $display_key ); ?>"
@@ -393,7 +393,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				<div class="spai-code-wrapper">
 					<pre class="spai-code-block" id="spai-claude-desktop-cfg">{
   "mcpServers": {
-    "mumcp-<?php echo esc_html( $site_slug ); ?>": {
+    "mumega-mcp-<?php echo esc_html( $site_slug ); ?>": {
       "url": "<?php echo esc_url( $mcp_url ); ?>",
       "headers": {
         "X-API-Key": "<?php echo $is_hidden ? 'YOUR_API_KEY' : esc_attr( $display_key ); ?>"
@@ -414,7 +414,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				<div class="spai-code-wrapper">
 					<pre class="spai-code-block" id="spai-cursor-cfg">{
   "mcpServers": {
-    "mumcp-<?php echo esc_html( $site_slug ); ?>": {
+    "mumega-mcp-<?php echo esc_html( $site_slug ); ?>": {
       "url": "<?php echo esc_url( $mcp_url ); ?>",
       "headers": {
         "X-API-Key": "<?php echo $is_hidden ? 'YOUR_API_KEY' : esc_attr( $display_key ); ?>"
@@ -435,7 +435,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				<div class="spai-code-wrapper">
 					<pre class="spai-code-block" id="spai-windsurf-cfg">{
   "mcpServers": {
-    "mumcp-<?php echo esc_html( $site_slug ); ?>": {
+    "mumega-mcp-<?php echo esc_html( $site_slug ); ?>": {
       "serverUrl": "<?php echo esc_url( $mcp_url ); ?>",
       "headers": {
         "X-API-Key": "<?php echo $is_hidden ? 'YOUR_API_KEY' : esc_attr( $display_key ); ?>"
@@ -601,7 +601,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 						<span class="dashicons dashicons-book"></span>
 						<?php esc_html_e( 'Documentation', 'mumega-mcp' ); ?>
 					</a>
-					<span class="description"><?php esc_html_e( 'Full API reference and guides at sitepilotai.mumega.com', 'mumega-mcp' ); ?></span>
+					<span class="description"><?php esc_html_e( 'Full API reference and Mumega MCP guides.', 'mumega-mcp' ); ?></span>
 				</li>
 			</ul>
 		</div>

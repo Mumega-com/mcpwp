@@ -4,7 +4,7 @@
  *
  * Contains all pro tier MCP tool definitions and route mappings.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

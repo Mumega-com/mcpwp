@@ -4,7 +4,7 @@
  *
  * Stock photo search and download via Pexels API.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  * @since   1.1.0
  */
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * License management for mumcp.
+ * License management for Mumega MCP.
  *
  * Free core: 70 tools (pages, posts, media, menus, settings, Gutenberg, taxonomy, admin)
  * Pro: All 239 tools (adds Elementor, WooCommerce, LearnPress, SEO, Theme Builder, Forms)
@@ -8,7 +8,7 @@
  * License validation via Lemon Squeezy API or local override.
  * 14-day free trial on first activation (no credit card required).
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

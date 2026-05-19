@@ -4,7 +4,7 @@
  *
  * Stores and retrieves encrypted API keys for third-party AI providers.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  * @since   1.1.0
  */
 
@@ -99,7 +99,7 @@ class Spai_Integration_Manager {
 			'url'         => 'https://developers.figma.com/docs/figma-mcp-server/',
 			'key_prefix'  => '',
 			'tier'        => 'pro',
-			'description' => 'Read Figma design context into mumcp so models can inspect approved frames and then turn them into archetypes, parts, and site briefs. Supports either a personal access token or a Figma OAuth app.',
+			'description' => 'Read Figma design context into Mumega MCP so models can inspect approved frames and then turn them into archetypes, parts, and site briefs. Supports either a personal access token or a Figma OAuth app.',
 			'fields'      => array(
 				'personal_access_token' => array(
 					'label'       => 'Personal Access Token',

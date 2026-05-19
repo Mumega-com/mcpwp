@@ -1,6 +1,6 @@
 # ChatGPT App Submission Runbook
 
-This runbook covers the end-to-end process for submitting Site Pilot AI as a public ChatGPT app after internal Developer Mode validation.
+This runbook covers the end-to-end process for submitting Mumega MCP as a public ChatGPT app after internal Developer Mode validation.
 
 ## Preconditions
 
@@ -27,7 +27,7 @@ Submission requires:
 
 Prepare these assets before opening the submission form:
 
-- App name: `Site Pilot AI`
+- App name: `Mumega MCP`
 - Short description (one sentence)
 - Full description and intended use cases
 - App icon (square, high resolution)

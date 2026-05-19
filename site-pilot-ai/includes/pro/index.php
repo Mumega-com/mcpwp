@@ -2,7 +2,7 @@
 /**
  * Pro module directory.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

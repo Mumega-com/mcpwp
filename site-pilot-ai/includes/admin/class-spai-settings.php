@@ -2,7 +2,7 @@
 /**
  * Settings functionality
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

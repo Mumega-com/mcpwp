@@ -4,7 +4,7 @@
  *
  * Text-to-speech audio generation.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  * @since   1.1.0
  */
 

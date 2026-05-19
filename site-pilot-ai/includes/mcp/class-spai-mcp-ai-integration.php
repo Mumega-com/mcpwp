@@ -3,9 +3,9 @@
  * MCP AI Integration
  *
  * Extends Spai_Integration to register AI-powered MCP tools
- * (image generation, vision, TTS, stock photos) with mumcp.
+ * (image generation, vision, TTS, stock photos) with Mumega MCP.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  * @since   1.1.0
  */
 

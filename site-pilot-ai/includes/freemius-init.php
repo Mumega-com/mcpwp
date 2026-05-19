@@ -2,7 +2,7 @@
 /**
  * Freemius SDK Integration
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -181,7 +181,7 @@ function spa_fs_uninstall_cleanup() {
 }
 
 /**
- * Cleanup a single site's mumcp data.
+ * Cleanup a single site's Mumega MCP data.
  */
 function spa_fs_uninstall_cleanup_site() {
 	// Clean up options.

@@ -2,7 +2,7 @@
 /**
  * Feedback Core
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -261,7 +261,7 @@ class Spai_Feedback {
 			array(
 				'headers' => array(
 					'Content-Type' => 'application/json',
-					'User-Agent'   => 'SitePilotAI/' . ( defined( 'SPAI_VERSION' ) ? SPAI_VERSION : '0' ),
+					'User-Agent'   => 'Mumega MCP/' . ( defined( 'SPAI_VERSION' ) ? SPAI_VERSION : '0' ),
 				),
 				'body'    => wp_json_encode( $payload ),
 				'timeout' => 10,
@@ -315,7 +315,7 @@ class Spai_Feedback {
 					'Authorization' => "Bearer {$token}",
 					'Accept'        => 'application/vnd.github+json',
 					'Content-Type'  => 'application/json',
-					'User-Agent'    => 'SitePilotAI/' . SPAI_VERSION,
+					'User-Agent'    => 'Mumega MCP/' . SPAI_VERSION,
 				),
 				'body'    => wp_json_encode( array(
 					'title'  => "[{$type}] {$title}",
@@ -376,7 +376,7 @@ class Spai_Feedback {
 			}
 		}
 
-		$body .= "\n---\n*Submitted via mumcp feedback system*";
+		$body .= "\n---\n*Submitted via Mumega MCP feedback system*";
 
 		return $body;
 	}
@@ -425,7 +425,7 @@ class Spai_Feedback {
 				'headers' => array(
 					'Authorization' => "Bearer {$token}",
 					'Accept'        => 'application/vnd.github+json',
-					'User-Agent'    => 'SitePilotAI-Relay/' . SPAI_VERSION,
+					'User-Agent'    => 'Mumega-MCP-Relay/' . SPAI_VERSION,
 				),
 				'timeout' => 10,
 			)
@@ -452,7 +452,7 @@ class Spai_Feedback {
 					'Authorization' => "Bearer {$token}",
 					'Accept'        => 'application/vnd.github+json',
 					'Content-Type'  => 'application/json',
-					'User-Agent'    => 'SitePilotAI-Relay/' . SPAI_VERSION,
+					'User-Agent'    => 'Mumega-MCP-Relay/' . SPAI_VERSION,
 				),
 				'body'    => wp_json_encode( array(
 					'title'  => $search_title,

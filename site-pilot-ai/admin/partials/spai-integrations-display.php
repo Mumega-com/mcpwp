@@ -2,7 +2,7 @@
 /**
  * Integrations admin page template.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  * @since   1.1.0
  *
  * @var array $providers Provider status data from Spai_Integration_Manager.

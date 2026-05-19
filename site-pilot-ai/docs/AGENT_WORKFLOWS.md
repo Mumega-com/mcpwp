@@ -2,7 +2,7 @@
 
 ## Product Frame
 
-SitePilotAI is the WordPress execution layer for AI design and coding agents.
+Mumega MCP is the WordPress execution layer for AI design and coding agents.
 
 The buyer and approver is still human: a site owner, agency operator, developer, marketer, or store manager. The daily operator can be an agent running in Claude Code, Codex CLI or desktop, OpenClaw, Hermes, Claude Desktop, or any MCP-capable client.
 
@@ -13,15 +13,15 @@ The plugin should therefore be designed for two audiences:
 
 ## Design-Agent Loop
 
-Tools like Claude Design, Google Stitch, Figma, screenshots, and local mockups can produce interface direction, but they do not safely operate WordPress by themselves. SitePilotAI should bridge that gap.
+Tools like Claude Design, Google Stitch, Figma, screenshots, and local mockups can produce interface direction, but they do not safely operate WordPress by themselves. Mumega MCP should bridge that gap.
 
 Recommended loop:
 
 1. Human or agent uploads a design reference from Stitch, Claude Design, Figma, screenshot, or mockup.
-2. SitePilotAI stores the design reference with source, intent, notes, constraints, and approval state.
+2. Mumega MCP stores the design reference with source, intent, notes, constraints, and approval state.
 3. Agent reads site context, theme data, existing pages, reusable parts, archetypes, and design references.
 4. Agent creates or updates a draft page, product page, section, reusable part, or template.
-5. SitePilotAI validates capability, tier, scope, schema, and safety policy.
+5. Mumega MCP validates capability, tier, scope, schema, and safety policy.
 6. Human reviews, previews, approves, publishes, or rolls back.
 7. Successful sections can be saved as reusable parts or archetype improvements.
 

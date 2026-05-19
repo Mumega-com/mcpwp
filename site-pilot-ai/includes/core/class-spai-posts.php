@@ -2,7 +2,7 @@
 /**
  * Posts handler
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

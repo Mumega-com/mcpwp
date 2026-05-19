@@ -6,7 +6,7 @@
  * API keys. Unlike our own SPAI keys which are one-way hashed, third-party
  * keys need to be decrypted for outgoing API calls.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  * @since   1.1.0
  */
 

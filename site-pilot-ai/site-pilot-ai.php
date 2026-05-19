@@ -1,17 +1,17 @@
 <?php
 /**
- * MUCP
+ * Mumega MCP
  *
  * Connect WordPress to AI assistants via the Model Context Protocol (MCP).
  * Expose your WordPress site's functionality to AI assistants like Claude.
  *
- * @package           MumegaSitePilotAI
+ * @package           MumegaMCP
  * @author            Mumega
  * @copyright         2026 Mumega
  * @license           GPL-2.0-or-later
  *
  * @wordpress-plugin
- * Plugin Name:       mumcp
+ * Plugin Name:       Mumega MCP
  * Plugin URI:        https://sitepilotai.mumega.com/
  * Description:       Connect WordPress to AI assistants via the Model Context Protocol (MCP). Manage posts, pages, media, and Elementor through natural language.
  * Version:           2.8.5
@@ -94,7 +94,7 @@ if ( ! function_exists( 'spai_php_version_notice' ) ) {
 			<?php
 			printf(
 				/* translators: 1: Required PHP version 2: Current PHP version */
-				esc_html__( 'MUCP requires PHP %1$s or higher. You are running PHP %2$s.', 'mumega-mcp' ),
+				esc_html__( 'Mumega MCP requires PHP %1$s or higher. You are running PHP %2$s.', 'mumega-mcp' ),
 				esc_html( SPAI_MIN_PHP_VERSION ),
 				esc_html( PHP_VERSION )
 			);
@@ -117,7 +117,7 @@ if ( ! function_exists( 'spai_wp_version_notice' ) ) {
 			<?php
 			printf(
 				/* translators: 1: Required WP version 2: Current WP version */
-				esc_html__( 'MUCP requires WordPress %1$s or higher. You are running WordPress %2$s.', 'mumega-mcp' ),
+				esc_html__( 'Mumega MCP requires WordPress %1$s or higher. You are running WordPress %2$s.', 'mumega-mcp' ),
 				esc_html( SPAI_MIN_WP_VERSION ),
 				esc_html( $wp_version )
 			);
@@ -272,7 +272,7 @@ if ( ! function_exists( 'spai_activate' ) ) {
 }
 
 /**
- * Provision mumcp tables/options when a new site is created in a multisite network.
+ * Provision Mumega MCP tables/options when a new site is created in a multisite network.
  *
  * @param WP_Site $new_site New site object.
  */
@@ -282,7 +282,7 @@ if ( ! function_exists( 'spai_on_new_site' ) ) {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 	}
 
-	// Only run if mumcp is network-activated.
+	// Only run if Mumega MCP is network-activated.
 	if ( ! is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
 		return;
 	}

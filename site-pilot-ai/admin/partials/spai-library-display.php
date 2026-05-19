@@ -7,7 +7,7 @@
  *   $library_filters        — array  active filter values
  *   $library_filter_options — array  available filter options (classes, styles)
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -150,7 +150,7 @@ $unlinked_archetype_count = count(
 		<div class="spai-card">
 			<h2><?php esc_html_e( 'Operating Sequence', 'mumega-mcp' ); ?></h2>
 			<p class="description">
-				<?php esc_html_e( 'This is the operator loop mumcp is designed around. New models and humans should follow this path instead of building pages from scratch every time.', 'mumega-mcp' ); ?>
+				<?php esc_html_e( 'This is the operator loop Mumega MCP is designed around. New models and humans should follow this path instead of building pages from scratch every time.', 'mumega-mcp' ); ?>
 			</p>
 			<div class="spai-workflow-sequence">
 				<div class="spai-workflow-step">

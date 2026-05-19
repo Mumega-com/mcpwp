@@ -2,7 +2,7 @@
 /**
  * Feedback REST Controller
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -89,7 +89,7 @@ class Spai_REST_Feedback extends Spai_REST_API {
 			)
 		);
 
-		// Public relay endpoint — receives feedback from any mumcp install.
+		// Public relay endpoint — receives feedback from any Mumega MCP install.
 		// No API key required; rate-limited by IP.
 		register_rest_route(
 			$this->namespace,
@@ -170,7 +170,7 @@ class Spai_REST_Feedback extends Spai_REST_API {
 	}
 
 	/**
-	 * Relay feedback from remote mumcp installs.
+	 * Relay feedback from remote Mumega MCP installs.
 	 *
 	 * Public endpoint — no API key required.
 	 * Creates a GitHub issue using this server's github_token.

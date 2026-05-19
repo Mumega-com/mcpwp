@@ -4,7 +4,7 @@
  *
  * Imagen 3 image generation, Gemini vision analysis, and text generation.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  * @since   1.1.0
  */
 

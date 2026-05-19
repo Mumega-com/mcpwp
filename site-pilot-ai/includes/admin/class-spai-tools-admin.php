@@ -6,7 +6,7 @@
  * Allows site owners to enable/disable entire tool categories
  * to reduce noise in the AI model's context.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  * @since   1.1.2
  */
 

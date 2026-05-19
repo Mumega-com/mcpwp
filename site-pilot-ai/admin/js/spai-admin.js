@@ -1,7 +1,7 @@
 /**
- * Site Pilot AI Admin JavaScript
+ * Mumega MCP Admin JavaScript
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 (function($) {

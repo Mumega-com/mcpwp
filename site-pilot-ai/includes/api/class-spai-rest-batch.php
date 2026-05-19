@@ -4,7 +4,7 @@
  *
  * Allows multiple REST API operations in a single request for efficiency.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

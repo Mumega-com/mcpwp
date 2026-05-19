@@ -4,7 +4,7 @@
  *
  * Sends webhook alerts when error rates spike.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

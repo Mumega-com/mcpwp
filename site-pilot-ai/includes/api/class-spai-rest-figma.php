@@ -2,7 +2,7 @@
 /**
  * Figma REST API Controller
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

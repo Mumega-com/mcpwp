@@ -2,7 +2,7 @@
 /**
  * Internationalization
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

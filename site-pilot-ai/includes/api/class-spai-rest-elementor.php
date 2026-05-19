@@ -2,7 +2,7 @@
 /**
  * Elementor REST Controller (Basic - FREE)
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

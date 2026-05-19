@@ -1,6 +1,6 @@
 # ChatGPT Conformance Suite
 
-This document defines the repeatable checks required before each Site Pilot AI release intended for ChatGPT Developer Mode and public MCP app submission.
+This document defines the repeatable checks required before each Mumega MCP release intended for ChatGPT Developer Mode and public MCP app submission.
 
 ## Automated Checks
 

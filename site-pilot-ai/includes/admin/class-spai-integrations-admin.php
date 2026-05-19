@@ -4,7 +4,7 @@
  *
  * Handles the admin UI for managing third-party AI provider integrations.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  * @since   1.1.0
  */
 

@@ -2,7 +2,7 @@
 /**
  * Integration Base Class
  *
- * Third-party plugins extend this to register with mumcp.
+ * Third-party plugins extend this to register with Mumega MCP.
  * Provides MCP tool definitions, REST route registration, and
  * capability declarations in a single class.
  *
@@ -16,7 +16,7 @@
  *         return $integrations;
  *     } );
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  * @since   1.0.58
  */
 
@@ -124,7 +124,7 @@ abstract class Spai_Integration extends Spai_MCP_Tool_Registry {
 		}
 
 		/**
-		 * Filter to register third-party integrations with mumcp.
+		 * Filter to register third-party integrations with Mumega MCP.
 		 *
 		 * @since 1.0.58
 		 *

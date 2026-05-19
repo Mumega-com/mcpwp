@@ -2,7 +2,7 @@
 /**
  * Media REST Controller
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

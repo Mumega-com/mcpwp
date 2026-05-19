@@ -4,7 +4,7 @@
  *
  * Provides LearnPress operations for AI agents.
  *
- * @package SitePilotAI_Pro
+ * @package MumegaMCP_Pro
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

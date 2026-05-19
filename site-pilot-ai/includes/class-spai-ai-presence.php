@@ -2,7 +2,7 @@
 /**
  * Public AI presence helpers.
  *
- * @package SitePilotAI
+ * @package MumegaMCP
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -130,7 +130,7 @@ class Spai_AI_Presence {
 		} else {
 			$lines[] = '';
 			$lines[] = '## Site Character';
-			$lines[] = 'No explicit AI site context is configured yet. Use the mumcp settings to define the brand voice, design system, target audience, and recurring page patterns.';
+			$lines[] = 'No explicit AI site context is configured yet. Use the Mumega MCP settings to define the brand voice, design system, target audience, and recurring page patterns.';
 		}
 
 		$lines[] = '';

@@ -2,7 +2,7 @@
 /**
  * Google Indexing REST API Controller
  *
- * @package SitePilotAI_Pro
+ * @package MumegaMCP_Pro
  * @since   1.1.22
  */
 
