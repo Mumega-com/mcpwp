@@ -8,7 +8,7 @@ This file captures the current state so work can continue after context compacti
 - Draft PR: https://github.com/Mumega-com/mcp-for-wp/pull/257
 - Commit in PR: `77554c1`
 - Latest docs commit in PR: `4e68822`
-- Latest WP.org-free packaging commit: `349a385`
+- Latest WP.org-free packaging commit: `34b5c1d`
 
 ## Current Release Candidate
 
