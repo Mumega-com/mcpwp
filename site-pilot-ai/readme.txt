@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.6
+Stable tag: 2.8.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,12 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
+= 2.8.7 =
+* New: Add Gutenberg block safety validation for agent-generated content.
+* New: Add a read-only internal content graph for internal link and orphan-page workflows.
+* Fix: Reject unsafe block saves by default unless restricted output is explicitly approved.
+* Fix: Stabilize MCP endpoint buffering and endpoint test coverage.
+
 = 2.8.6 =
 * Fix: Rename public display brand to Mumega MCP for WordPress.org packaging.
 * Docs: Keep technical identifiers documented as stable while updating user-facing naming.
@@ -161,6 +167,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.7 =
+Adds Gutenberg safety checks and a read-only content graph for safer AI-assisted WordPress editing.
 
 = 2.8.6 =
 Public display brand is now Mumega MCP. Slug, text domain, and REST namespace remain stable.

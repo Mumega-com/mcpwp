@@ -12,8 +12,8 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.6`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.6.zip`
+- Version: `2.8.7`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.7.zip`
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
 - WP.org Plugin Check baseline: `0 ERROR`, `352 WARNING`.
 - WP.org free ZIP contents: 99 files, no Freemius SDK, no Pro modules, no legacy updater.
@@ -39,7 +39,7 @@ This file captures the current state so work can continue after context compacti
 ## Next Recommended Work
 
 1. Merge PR #257 after review.
-2. Upload `scripts/mumega-mcp-2.8.6.zip` to WordPress.org using the account/SVN workflow.
+2. Upload `scripts/mumega-mcp-2.8.7.zip` to WordPress.org using the account/SVN workflow.
 3. Publish or retarget the GitHub draft release after merge.
 4. Create/execute Sprint 4: free/pro capability split.
 5. Create/execute Sprint 5: compact deterministic MCP router.
