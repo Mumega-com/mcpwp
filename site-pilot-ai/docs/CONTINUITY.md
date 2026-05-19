@@ -20,7 +20,7 @@ This file captures the current state so work can continue after context compacti
 - Local WordPress install test: previously passed for the same WP.org package shape; rerun after upload if needed.
 - WP.org ZIP SHA256: `c9f9cb051822918f22d228047236b112707765e5ff11700ebf95b1ca9b7d451e`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
-- GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-9c2b233ac34e5715d187
+- GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
 
 ## Completed in PR #257
 
