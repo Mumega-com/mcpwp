@@ -135,3 +135,5 @@ Internal graph gap: the plugin currently has site context, content inventory, se
 Search/AI discovery direction: pre-publish checks should cover crawlability, indexability, canonicals, sitemap freshness, structured data, internal links, page experience, image/media SEO, and AI crawler access such as OpenAI `OAI-SearchBot`. The goal is not to game search engines; it is to make useful WordPress content easy to crawl, understand, cite, and connect.
 
 Deep SEO roadmap lives in `docs/SEO_INTELLIGENCE_ROADMAP.md`. Product direction: Semrush-like breadth, WordPress-native execution, no ranking promises, imports/provider abstractions instead of default SERP scraping, and approval-safe diffs for every mutating fix.
+
+Gap register lives in `docs/GAP_REGISTER.md`. Highest-priority gaps before serious agent autonomy: approval/diff/rollback pipeline, section-level Gutenberg patching, internal content graph, compact router, capability registry, block safety validator, SEO data model, repeatable local WP E2E tests, performance controls for audits/graphs, and admin UX for approvals/rollback.
