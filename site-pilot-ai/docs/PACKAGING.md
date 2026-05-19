@@ -66,3 +66,4 @@ PR #257 verified the following baseline:
 - Plugin Check 1.9.0 result for WP.org ZIP: `0 ERROR`, `352 WARNING`.
 - WP.org ZIP SHA256: `b1eb9de9fcc55d8488b61b12448467c1f3ed70b034172faaf0ef0abbc7b254c1`.
 - Freemius ZIP SHA256: `ec01ce6311065c415402cbadb102cfb0c6c363ad78e241fa57cd23f3fde12b13`.
+- GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-36804412ca392e06049b

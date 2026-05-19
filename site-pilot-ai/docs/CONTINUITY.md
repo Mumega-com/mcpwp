@@ -20,6 +20,7 @@ This file captures the current state so work can continue after context compacti
 - Local WordPress install test: `mumega-mcp` activated at version `2.8.5`.
 - WP.org ZIP SHA256: `b1eb9de9fcc55d8488b61b12448467c1f3ed70b034172faaf0ef0abbc7b254c1`.
 - Freemius ZIP SHA256: `ec01ce6311065c415402cbadb102cfb0c6c363ad78e241fa57cd23f3fde12b13`.
+- GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-36804412ca392e06049b
 
 ## Completed in PR #257
 
@@ -38,10 +39,11 @@ This file captures the current state so work can continue after context compacti
 ## Next Recommended Work
 
 1. Merge PR #257 after review.
-2. Tag `v2.8.5`.
-3. Create/execute Sprint 4: free/pro capability split.
-4. Create/execute Sprint 5: compact deterministic MCP router.
-5. Create/execute Sprint 6: official WordPress MCP/Abilities alignment.
+2. Upload `scripts/mumega-mcp-2.8.5.zip` to WordPress.org using the account/SVN workflow.
+3. Publish or retarget the GitHub draft release after merge.
+4. Create/execute Sprint 4: free/pro capability split.
+5. Create/execute Sprint 5: compact deterministic MCP router.
+6. Create/execute Sprint 6: official WordPress MCP/Abilities alignment.
 
 ## GitHub Planning
 
