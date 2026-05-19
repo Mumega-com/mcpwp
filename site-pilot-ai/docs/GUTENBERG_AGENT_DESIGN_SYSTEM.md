@@ -13,6 +13,7 @@ The agent should be able to:
 - Save and read back the page to confirm WordPress accepted the block tree.
 - Prefer native Gutenberg, patterns, template parts, and global styles before third-party builders.
 - Pass SEO and editability checks before publish/update.
+- See and use the site's internal content graph before adding links or creating new pages.
 
 ## Current First Slice
 
@@ -49,6 +50,7 @@ Existing REST/MCP tools remain:
 5. Call `wp_set_blocks` with `content` for exact markup or `blocks` for structured save.
 6. Call `wp_get_blocks` to confirm the stored page state.
 7. Run SEO/editability checks before publish: H1, heading order, slug, title, meta description, image alt text, internal links, and indexability.
+8. Use the internal content graph to suggest and apply relevant internal links with an approval-ready diff.
 
 ## HTML-Like Mapping
 
@@ -100,10 +102,32 @@ Minimum checks:
 - Images have useful alt text.
 - Buttons and links use descriptive text.
 - Internal links connect the page to relevant site content.
+- New pages are not orphaned and should be connected from at least one relevant hub, menu, archive, or related page where appropriate.
 - Canonical/indexing state is not accidentally changed.
 - Schema suggestions are generated where appropriate, but not injected blindly.
 
 Native WordPress comes first. If Yoast, Rank Math, SEOPress, or another SEO plugin is detected, the workflow should use the plugin's supported fields and APIs instead of writing random post meta.
+
+## Internal Content Graph
+
+Current state: the plugin has site context, content inventory, recent updates, search/fetch tools, and SEO plugin detection. It does not yet expose a true graph of content nodes, links, backlinks, orphan pages, hubs, and related-content candidates.
+
+Needed graph primitives:
+
+- Nodes: posts, pages, custom post types, taxonomies, menu items, media, reusable patterns, and template parts.
+- Edges: existing internal links, menu relationships, parent/child page relationships, taxonomy membership, embeds, media usage, and related content suggestions.
+- Signals: title, slug, excerpt, headings, categories, tags, modified date, status, word count, current anchors, inbound link count, outbound link count, and SEO metadata.
+- Actions: suggest links, preview link diffs, apply approved links, detect broken internal links, identify orphan content, and recommend hub pages.
+
+Proposed MCP/REST tools:
+
+- `wp_get_content_graph`
+- `wp_suggest_internal_links`
+- `wp_apply_internal_links`
+- `wp_find_orphan_content`
+- `wp_validate_internal_links`
+
+Agents should never invent internal URLs. They should choose links from the graph, preserve existing user-authored links, avoid repeated anchors, and return a diff before applying changes.
 
 ## Design System Recipes
 
@@ -141,6 +165,8 @@ Issues to create or track:
 - #279 Enforce block-native Gutenberg guardrails for agent edits.
 - #278 Add SEO-safe Gutenberg publishing workflow.
 - #281 Add section-level Gutenberg diff, patch, and rollback.
+- #283 Add internal content graph for agent link suggestions.
+- #282 Add internal link validation to Gutenberg publishing checks.
 - Add admin documentation that explains Gutenberg-first workflows without exposing internal MCP complexity.
 
 ### Sprint 8 - Site Editor and Global Styles

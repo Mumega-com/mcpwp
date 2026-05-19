@@ -77,6 +77,8 @@ Issues created:
 - #278 Add SEO-safe Gutenberg publishing workflow
 - #279 Enforce block-native Gutenberg guardrails for agent edits
 - #281 Add section-level Gutenberg diff, patch, and rollback
+- #282 Add internal link validation to Gutenberg publishing checks
+- #283 Add internal content graph for agent link suggestions
 
 ## SOS Bus
 
@@ -101,3 +103,5 @@ The key product frame to preserve after compaction: Mumega MCP is the WordPress 
 Gutenberg direction: make native WordPress blocks the default free build surface for agents. Agents should treat Gutenberg like a structured HTML DOM: discover the design system, generate block markup, parse before saving, save through MCP/REST, then read back the block tree. Elementor remains supported for existing sites, but Gutenberg is the product's cleanest native WordPress path.
 
 Important product guardrail: agents should not save arbitrary raw HTML, inline JavaScript, or whole-page classic/null blocks as the default path. They should produce editable Gutenberg blocks, request approval for exceptions, and run SEO checks before publishing or updating important pages.
+
+Internal graph gap: the plugin currently has site context, content inventory, search/fetch, and SEO plugin detection, but not a true content/link graph. Sprint 7 now tracks `wp_get_content_graph`, internal link suggestions, orphan detection, broken-link validation, and approval-ready link diffs.
