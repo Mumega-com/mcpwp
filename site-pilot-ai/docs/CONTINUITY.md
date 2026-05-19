@@ -7,7 +7,7 @@ This file captures the current state so work can continue after context compacti
 - Branch: `codex/wporg-freemius-packaging`
 - Draft PR: https://github.com/Mumega-com/mcp-for-wp/pull/257
 - Commit in PR: `77554c1`
-- Latest docs commit in PR: `0255d7f`
+- Latest docs commit in PR: `4e68822`
 
 ## Current Release Candidate
 
