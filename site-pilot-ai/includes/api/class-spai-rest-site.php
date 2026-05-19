@@ -1206,8 +1206,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			);
 		}
 
-		// All features available (no Pro gating).
-		$is_pro = true;
+		$is_pro = class_exists( 'Spai_License' ) && Spai_License::get_instance()->is_pro();
 
 		// 4. Available tools grouped by category.
 		$tools_by_category = array();
@@ -1229,7 +1228,7 @@ class Spai_REST_Site extends Spai_REST_API {
 				$tools_by_category[ $cat ][] = array(
 					'name'        => $name,
 					'description' => $tool['description'] ?? '',
-					'tier'        => $is_pro ? 'pro' : 'free',
+					'tier'        => ( ! empty( $tool['annotations']['tier'] ) ) ? $tool['annotations']['tier'] : 'free',
 				);
 			}
 		}

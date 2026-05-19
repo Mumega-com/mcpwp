@@ -34,7 +34,7 @@ class Spai_Integrations_Admin {
 
 		$manager   = Spai_Integration_Manager::get_instance();
 		$providers = $manager->get_available_providers();
-		$is_pro    = true;
+		$is_pro    = class_exists( 'Spai_License' ) && Spai_License::get_instance()->is_pro();
 
 		include SPAI_PLUGIN_DIR . 'admin/partials/spai-integrations-display.php';
 	}

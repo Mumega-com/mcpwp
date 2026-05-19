@@ -50,7 +50,12 @@ class Spai_Core {
 			),
 		);
 
-		$info['license'] = array( 'plan' => 'free', 'is_pro' => true );
+		$license = class_exists( 'Spai_License' ) ? Spai_License::get_instance() : null;
+
+		$info['license'] = array(
+			'plan'   => $license ? $license->get_plan() : 'free',
+			'is_pro' => $license ? $license->is_pro() : false,
+		);
 
 		return $info;
 	}

@@ -83,6 +83,10 @@ class Spai_License {
 	 * @return bool
 	 */
 	public function is_pro() {
+		if ( defined( 'SPAI_WPORG_BUILD' ) ) {
+			return false;
+		}
+
 		// Developer override.
 		if ( defined( 'MUMCP_PRO' ) && MUMCP_PRO ) {
 			return true;
@@ -123,6 +127,10 @@ class Spai_License {
 	 * @return bool
 	 */
 	public function is_paying() {
+		if ( defined( 'SPAI_WPORG_BUILD' ) ) {
+			return false;
+		}
+
 		if ( defined( 'MUMCP_PRO' ) && MUMCP_PRO ) {
 			return true;
 		}
