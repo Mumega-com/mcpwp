@@ -7,6 +7,7 @@ This file captures the current state so work can continue after context compacti
 - Branch: `codex/wporg-freemius-packaging`
 - Draft PR: https://github.com/Mumega-com/mcp-for-wp/pull/257
 - Commit in PR: `77554c1`
+- Latest docs commit in PR: `0255d7f`
 
 ## Current Release Candidate
 
@@ -25,6 +26,7 @@ This file captures the current state so work can continue after context compacti
 - Freemius license state recognized by `Spai_License`.
 - WP.org build excludes Freemius SDK and updater.
 - Freemius build includes SDK/bootstrap and excludes legacy updater.
+- Planning docs added for free/pro split, packaging, capability map, compact router, continuity, and agent workflows.
 
 ## Next Recommended Work
 
@@ -53,6 +55,9 @@ Issues created:
 - #264 Add MCP mode setting for compact vs legacy
 - #265 Assess official WordPress MCP and Abilities integration
 - #266 Map SitePilotAI workflows onto WordPress Abilities where practical
+- #267 Add design-reference intake workflow
+- #268 Define agent-facing workflow handles
+- #269 Implement approval gates for agent mutations
 
 ## SOS Bus
 
@@ -69,3 +74,5 @@ Recent bus messages were sent to `mumcp` with findings about PR #257 and the pac
 ## Caution
 
 Do not delete legacy MCP tools immediately. Add compact router support first, make it the default for new/WP.org installs, and keep legacy/expanded mode as a compatibility path until usage is understood.
+
+The key product frame to preserve after compaction: SitePilotAI is the WordPress execution layer for external AI agents. Humans approve and audit; agents execute through compact, deterministic tools.

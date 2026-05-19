@@ -7,6 +7,8 @@ SitePilotAI should not compete with WordPress native MCP plumbing. WordPress MCP
 - Free: make self-hosted WordPress AI-ready through MCP with safe core site operations.
 - Pro: turn WordPress into a reusable AI site production system with commerce, design memory, advanced integrations, and agency workflows.
 
+The human customer buys, configures, approves, and audits. The day-to-day tool user can be an agent such as Claude Code, Codex CLI/Desktop, OpenClaw, Hermes, Claude Desktop, or another MCP-capable client.
+
 ## Free Capabilities
 
 Free must be useful without Freemius, without custom update code, and without external paid services.
@@ -18,6 +20,7 @@ Free must be useful without Freemius, without custom update code, and without ex
 - Basic Elementor read/write support when Elementor is installed.
 - Activity log and security settings.
 - Tool category toggles.
+- Human approval gates for publish, delete, commerce, menu, and theme-builder mutations.
 - Compatibility/fallback behavior for sites without official WordPress MCP support.
 
 ## Pro Capabilities
@@ -31,6 +34,7 @@ Pro is for teams that use AI to operate a site repeatedly, not just connect to i
 - Reusable Elementor parts.
 - Page and product archetypes.
 - Design references from screenshots, mockups, and approved source material.
+- Agent workflows that turn design references and archetypes into draft pages, product pages, sections, and reusable parts.
 - Figma OAuth and Figma design intake.
 - Google Indexing.
 - AI provider integrations: OpenAI, Gemini, ElevenLabs, Pexels, screenshot worker.

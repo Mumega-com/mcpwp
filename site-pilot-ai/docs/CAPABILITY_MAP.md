@@ -15,6 +15,7 @@ This document is the contract for free/pro behavior. The implementation should m
 | Menus | Free | REST + MCP | `menu.*` | Core site operations. |
 | Taxonomy | Free | REST + MCP | `taxonomy.*` | Needed for posts/pages/products metadata. |
 | Activity log | Free | Admin + REST | `log.list`, `log.get` | Keep local and configurable. |
+| Approvals | Free | Admin + REST + MCP | `approval.*` | Required before publish/destructive/commerce/theme-builder actions. |
 | Basic Elementor | Free | REST + MCP | `elementor.basic.*` | Basic read/write when Elementor is installed. |
 | Webhooks | Free or Pro TBD | REST + MCP | `webhook.*` | Decide based on abuse/security review. |
 | AI providers | Pro | Integrations + MCP | `ai.image.*`, `ai.text.*`, `ai.vision.*` | External service dependency. |
@@ -24,6 +25,7 @@ This document is the contract for free/pro behavior. The implementation should m
 | Page archetypes | Pro | REST + MCP + Admin | `archetype.page.*` | Production system feature. |
 | Product archetypes | Pro | REST + MCP + Admin | `archetype.product.*` | Production system feature. |
 | Reusable parts | Pro | REST + MCP + Admin | `part.*` | Production system feature. |
+| Agent workflows | Pro | MCP router + REST | `workflow.*` | Multi-step outcomes such as build from design reference or SEO cleanup. |
 | WooCommerce | Pro | REST + MCP | `commerce.*` | Paid because it touches revenue operations. |
 | SEO integrations | Pro | REST + MCP | `seo.*` | Paid advanced workflow. |
 | Forms integrations | Pro | REST + MCP | `form.*` | Paid advanced workflow. |
@@ -56,7 +58,10 @@ Future PHP registry entries should look like this:
 - Missing API key scope: return `insufficient_scope`.
 - Invalid payload: return `invalid_payload` with schema hints.
 - Handler failure: return normalized `WP_Error` data.
+- Human approval required: return `approval_required` with the resource IDs and requested action.
 
 ## Documentation Rules
 
 When a capability changes tier or behavior, update this file and the implementation in the same PR.
+
+The agent-facing workflow model is documented in `docs/AGENT_WORKFLOWS.md`.

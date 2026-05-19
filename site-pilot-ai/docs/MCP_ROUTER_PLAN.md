@@ -8,6 +8,8 @@ The plugin currently exposes a very large MCP tool surface. That makes tool choi
 
 Add a deterministic compact router while preserving legacy tools during migration.
 
+The primary runtime user of the router is an external AI agent, not a human clicking through wp-admin. Humans still own setup, entitlement, approval, and rollback. Agents need a compact, stable contract that works from Claude Code, Codex CLI/Desktop, OpenClaw, Hermes, Claude Desktop, and other MCP clients.
+
 The compact MCP surface should expose a small set of stable tools:
 
 - `wp_site_info`
@@ -22,6 +24,8 @@ The compact MCP surface should expose a small set of stable tools:
 - `wp_get_schema`
 
 The router maps compact calls to internal handlers through the capability registry.
+
+See `docs/AGENT_WORKFLOWS.md` for the design-agent loop and workflow handles.
 
 ## Example
 
@@ -57,6 +61,8 @@ Use one deterministic call shape:
 6. Dispatch to the handler.
 7. Normalize success and error responses.
 8. Log the routed action.
+
+For multi-step work, the router should prefer `wp_run_workflow` over expanding the public MCP surface. Examples include `build_from_design_reference`, `create_landing_page_from_archetype`, `update_page_section_from_reference`, and `save_section_as_reusable_part`.
 
 ## Migration Strategy
 
@@ -148,6 +154,7 @@ Other standard codes:
 - `unknown_action`
 - `invalid_payload`
 - `insufficient_scope`
+- `approval_required`
 - `provider_not_configured`
 - `integration_missing`
 - `handler_failed`
