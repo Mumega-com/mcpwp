@@ -4,7 +4,7 @@ Mumega MCP uses two long-lived release branches plus short-lived feature branche
 
 ## Long-Lived Branches
 
-### `wporg/free`
+### `free/wporg`
 
 WordPress.org free distribution source.
 
@@ -33,11 +33,11 @@ Use short-lived branches for implementation:
 ```text
 feature/example
   -> main
-     -> wporg/free
+     -> free/wporg
      -> freemius/pro
 ```
 
-Free-only fixes may target `wporg/free` first, then merge or cherry-pick back to `main`.
+Free-only fixes may target `free/wporg` first, then merge or cherry-pick back to `main`.
 
 Pro-only work should target `freemius/pro`. Shared abstractions should be merged back to `main` when they are useful outside the paid build.
 
