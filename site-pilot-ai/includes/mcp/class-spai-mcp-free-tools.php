@@ -2219,6 +2219,41 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			array()
 		);
 
+		$tools[] = $this->define_tool(
+			'wp_parse_blocks',
+			'Parse raw Gutenberg block markup into a structured block tree. Use before saving to validate that generated content is block-native, not plain HTML/classic content.',
+			array(
+				'content' => array(
+					'type'        => 'string',
+					'description' => 'Raw Gutenberg block markup or HTML-like content to parse.',
+					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_serialize_blocks',
+			'Serialize a structured Gutenberg blocks array into WordPress block markup, then return a parsed round-trip result for validation.',
+			array(
+				'blocks' => array(
+					'type'        => 'array',
+					'description' => 'Array of parsed block objects with blockName, attrs, innerBlocks, innerHTML, and innerContent.',
+					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_get_block_design_system',
+			'Get an agent-facing Gutenberg design system: HTML-like block grammar, composition rules, recommended primitives, recipes, active theme, block types, and patterns.',
+			array(
+				'include_patterns_content' => array(
+					'type'        => 'boolean',
+					'description' => 'Include full pattern block markup in the response. Defaults to false to keep context compact.',
+				),
+			)
+		);
+
 		// Option Management
 		$tools[] = $this->define_tool(
 			'wp_get_option',
@@ -2856,6 +2891,18 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_list_block_patterns' => array(
 				'method' => 'GET',
 				'route'  => '/block-patterns',
+			),
+			'wp_parse_blocks'        => array(
+				'method' => 'POST',
+				'route'  => '/blocks/parse',
+			),
+			'wp_serialize_blocks'    => array(
+				'method' => 'POST',
+				'route'  => '/blocks/serialize',
+			),
+			'wp_get_block_design_system' => array(
+				'method' => 'GET',
+				'route'  => '/blocks/design-system',
 			),
 
 			// Post Meta

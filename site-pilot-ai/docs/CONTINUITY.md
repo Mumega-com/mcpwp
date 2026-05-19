@@ -44,6 +44,7 @@ This file captures the current state so work can continue after context compacti
 4. Create/execute Sprint 4: free/pro capability split.
 5. Create/execute Sprint 5: compact deterministic MCP router.
 6. Create/execute Sprint 6: official WordPress MCP/Abilities alignment.
+7. Continue Gutenberg-first work from `feature/gutenberg-agent-design-system`; see `docs/GUTENBERG_AGENT_DESIGN_SYSTEM.md`.
 
 ## GitHub Planning
 
@@ -52,6 +53,7 @@ Milestones created:
 - Sprint 4 - Free/Pro Split
 - Sprint 5 - Compact MCP Router
 - Sprint 6 - WordPress MCP Alignment
+- Sprint 7 - Gutenberg Agent Design System
 
 Issues created:
 
@@ -67,6 +69,11 @@ Issues created:
 - #267 Add design-reference intake workflow
 - #268 Define agent-facing workflow handles
 - #269 Implement approval gates for agent mutations
+- #272 Add Gutenberg design-system discovery endpoint
+- #273 Add Gutenberg block parse and serialize MCP tools
+- #274 Add local WordPress Gutenberg route and save tests
+- #275 Add Gutenberg pattern and template-part workflows
+- #276 Add Gutenberg compact router actions
 
 ## SOS Bus
 
@@ -87,3 +94,5 @@ Branding note: public product/display name is now `Mumega MCP`. Keep the WP.org 
 Do not delete legacy MCP tools immediately. Add compact router support first, make it the default for new/WP.org installs, and keep legacy/expanded mode as a compatibility path until usage is understood.
 
 The key product frame to preserve after compaction: Mumega MCP is the WordPress execution layer for external AI agents. Humans approve and audit; agents execute through compact, deterministic tools.
+
+Gutenberg direction: make native WordPress blocks the default free build surface for agents. Agents should treat Gutenberg like a structured HTML DOM: discover the design system, generate block markup, parse before saving, save through MCP/REST, then read back the block tree. Elementor remains supported for existing sites, but Gutenberg is the product's cleanest native WordPress path.

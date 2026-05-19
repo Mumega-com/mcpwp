@@ -74,6 +74,59 @@ class Spai_REST_Blocks extends Spai_REST_API {
 				'permission_callback' => array( $this, 'check_permission' ),
 			)
 		);
+
+		// Parse raw Gutenberg block markup into an inspectable block tree.
+		register_rest_route(
+			$this->namespace,
+			'/blocks/parse',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'parse_block_content' ),
+				'permission_callback' => array( $this, 'check_permission' ),
+				'args'                => array(
+					'content' => array(
+						'type'     => 'string',
+						'required' => true,
+					),
+				),
+			)
+		);
+
+		// Serialize a block tree back to Gutenberg block markup.
+		register_rest_route(
+			$this->namespace,
+			'/blocks/serialize',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'serialize_block_content' ),
+				'permission_callback' => array( $this, 'check_permission' ),
+				'args'                => array(
+					'blocks' => array(
+						'type'     => 'array',
+						'required' => true,
+					),
+				),
+			)
+		);
+
+		// Agent-facing Gutenberg design system and block grammar.
+		register_rest_route(
+			$this->namespace,
+			'/blocks/design-system',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_block_design_system' ),
+				'permission_callback' => array( $this, 'check_permission' ),
+				'args'                => array(
+					'include_patterns_content' => array(
+						'type'              => 'boolean',
+						'required'          => false,
+						'default'           => false,
+						'sanitize_callback' => 'rest_sanitize_boolean',
+					),
+				),
+			)
+		);
 	}
 
 	/**
@@ -274,6 +327,278 @@ class Spai_REST_Blocks extends Spai_REST_API {
 				'patterns' => $result,
 			)
 		);
+	}
+
+	/**
+	 * Parse raw Gutenberg block markup into a structured block tree.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function parse_block_content( $request ) {
+		$content = $request->get_param( 'content' );
+
+		if ( ! is_string( $content ) || '' === trim( $content ) ) {
+			return $this->error_response(
+				'missing_content',
+				'Provide a non-empty content string.',
+				400
+			);
+		}
+
+		$blocks  = parse_blocks( $content );
+		$cleaned = $this->clean_blocks( $blocks );
+
+		$this->log_activity( 'parse_blocks', $request );
+
+		return $this->success_response(
+			array(
+				'block_count'      => count( $cleaned ),
+				'blocks'           => $cleaned,
+				'has_block_markup' => has_blocks( $content ),
+				'raw_content'      => $content,
+			)
+		);
+	}
+
+	/**
+	 * Serialize a structured block tree into Gutenberg block markup.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function serialize_block_content( $request ) {
+		$blocks = $request->get_param( 'blocks' );
+
+		if ( empty( $blocks ) || ! is_array( $blocks ) ) {
+			return $this->error_response(
+				'missing_blocks',
+				'Provide a non-empty blocks array.',
+				400
+			);
+		}
+
+		$content = serialize_blocks( $blocks );
+		$parsed  = $this->clean_blocks( parse_blocks( $content ) );
+
+		$this->log_activity( 'serialize_blocks', $request );
+
+		return $this->success_response(
+			array(
+				'content'          => $content,
+				'block_count'      => count( $parsed ),
+				'roundtrip_blocks' => $parsed,
+			)
+		);
+	}
+
+	/**
+	 * Return an agent-facing Gutenberg design system.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function get_block_design_system( $request ) {
+		$include_patterns_content = rest_sanitize_boolean( $request->get_param( 'include_patterns_content' ) );
+		$theme                    = wp_get_theme();
+
+		$this->log_activity( 'get_block_design_system', $request );
+
+		return $this->success_response(
+			array(
+				'site_editor_ready'      => function_exists( 'wp_is_block_theme' ) ? wp_is_block_theme() : false,
+				'theme'                  => array(
+					'name'       => $theme->get( 'Name' ),
+					'stylesheet' => get_stylesheet(),
+					'template'   => get_template(),
+					'version'    => $theme->get( 'Version' ),
+				),
+				'grammar'                => $this->get_html_like_block_grammar(),
+				'composition_rules'      => $this->get_block_composition_rules(),
+				'recommended_primitives' => $this->get_recommended_block_primitives(),
+				'recipes'                => $this->get_design_recipes(),
+				'block_types'            => $this->summarize_block_types(),
+				'patterns'               => $this->summarize_block_patterns( $include_patterns_content ),
+				'workflow'               => array(
+					'discover'  => 'Call wp_get_block_design_system, then wp_list_block_patterns for full pattern content if needed.',
+					'draft'     => 'Build valid WordPress block markup using core block comments, attributes, and nested inner blocks.',
+					'validate'  => 'Call wp_parse_blocks before saving and inspect block_count plus round-tripped block names.',
+					'save'      => 'Call wp_set_blocks with content for exact markup, or blocks for structured serialization.',
+					'read_back' => 'Call wp_get_blocks after saving to confirm the stored tree.',
+				),
+			)
+		);
+	}
+
+	/**
+	 * Get a compact block grammar reference for agents.
+	 *
+	 * @return array Grammar reference.
+	 */
+	private function get_html_like_block_grammar() {
+		return array(
+			'container' => array(
+				'html'  => '<section>',
+				'block' => 'core/group',
+				'open'  => '<!-- wp:group {"tagName":"section","layout":{"type":"constrained"}} -->',
+				'close' => '<!-- /wp:group -->',
+			),
+			'grid'      => array(
+				'html'  => '<div class="columns">',
+				'block' => 'core/columns with nested core/column blocks',
+			),
+			'heading'   => array(
+				'html'  => '<h2>',
+				'block' => 'core/heading',
+			),
+			'paragraph' => array(
+				'html'  => '<p>',
+				'block' => 'core/paragraph',
+			),
+			'button'    => array(
+				'html'  => '<a class="button">',
+				'block' => 'core/buttons with nested core/button blocks',
+			),
+			'image'     => array(
+				'html'  => '<figure><img>',
+				'block' => 'core/image',
+			),
+			'list'      => array(
+				'html'  => '<ul><li>',
+				'block' => 'core/list',
+			),
+			'spacer'    => array(
+				'html'  => '<div style="height">',
+				'block' => 'core/spacer',
+			),
+		);
+	}
+
+	/**
+	 * Get composition rules for stable agent edits.
+	 *
+	 * @return array Rules.
+	 */
+	private function get_block_composition_rules() {
+		return array(
+			'Use core blocks first; add plugin blocks only after wp_list_block_types confirms they exist.',
+			'Prefer patterns for large sections, then edit copy, links, images, and spacing attributes.',
+			'Keep semantic wrappers: group tagName section/main/header/footer where appropriate.',
+			'Use nested columns sparingly; prefer group and grid-like layouts that remain readable on mobile.',
+			'Always parse generated markup before saving. A classic block means the content was plain HTML, not block-native markup.',
+			'Use reusable patterns and template parts for repeated sections instead of duplicating large markup.',
+		);
+	}
+
+	/**
+	 * Get recommended core blocks for design-system work.
+	 *
+	 * @return array Recommended blocks.
+	 */
+	private function get_recommended_block_primitives() {
+		return array(
+			'layout'     => array( 'core/group', 'core/columns', 'core/column', 'core/spacer', 'core/separator' ),
+			'content'    => array( 'core/heading', 'core/paragraph', 'core/list', 'core/quote', 'core/table' ),
+			'media'      => array( 'core/image', 'core/gallery', 'core/video', 'core/cover' ),
+			'actions'    => array( 'core/buttons', 'core/button' ),
+			'navigation' => array( 'core/navigation', 'core/query', 'core/post-template' ),
+			'structure'  => array( 'core/template-part', 'core/post-content', 'core/query-title' ),
+		);
+	}
+
+	/**
+	 * Get reusable design recipes for agents.
+	 *
+	 * @return array Recipes.
+	 */
+	private function get_design_recipes() {
+		return array(
+			array(
+				'name'      => 'page_hero',
+				'purpose'   => 'Top page section with headline, copy, and primary action.',
+				'structure' => array( 'core/group(section)', 'core/heading(h1)', 'core/paragraph', 'core/buttons', 'core/button' ),
+			),
+			array(
+				'name'      => 'feature_grid',
+				'purpose'   => 'Scannable product or service benefits.',
+				'structure' => array( 'core/group(section)', 'core/heading', 'core/columns', 'core/column x3', 'heading/paragraph in each column' ),
+			),
+			array(
+				'name'      => 'proof_band',
+				'purpose'   => 'Testimonials, metrics, or trust markers.',
+				'structure' => array( 'core/group(section)', 'core/columns', 'core/quote or core/paragraph metrics' ),
+			),
+			array(
+				'name'      => 'faq',
+				'purpose'   => 'Question and answer content without custom JS dependencies.',
+				'structure' => array( 'core/group(section)', 'core/heading', 'core/details repeated' ),
+			),
+			array(
+				'name'      => 'cta_band',
+				'purpose'   => 'Final conversion section.',
+				'structure' => array( 'core/group(section)', 'core/heading', 'core/paragraph', 'core/buttons' ),
+			),
+		);
+	}
+
+	/**
+	 * Summarize registered block types.
+	 *
+	 * @return array Block type summary.
+	 */
+	private function summarize_block_types() {
+		if ( ! class_exists( 'WP_Block_Type_Registry' ) ) {
+			return array();
+		}
+
+		$registry    = WP_Block_Type_Registry::get_instance();
+		$block_types = $registry->get_all_registered();
+		$result      = array();
+
+		foreach ( $block_types as $name => $block_type ) {
+			$result[] = array(
+				'name'        => $name,
+				'title'       => ! empty( $block_type->title ) ? $block_type->title : '',
+				'category'    => ! empty( $block_type->category ) ? $block_type->category : '',
+				'description' => ! empty( $block_type->description ) ? $block_type->description : '',
+				'supports'    => ! empty( $block_type->supports ) ? $block_type->supports : (object) array(),
+			);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Summarize registered block patterns.
+	 *
+	 * @param bool $include_content Whether to include full pattern content.
+	 * @return array Pattern summary.
+	 */
+	private function summarize_block_patterns( $include_content = false ) {
+		if ( ! class_exists( 'WP_Block_Patterns_Registry' ) ) {
+			return array();
+		}
+
+		$registry = WP_Block_Patterns_Registry::get_instance();
+		$patterns = $registry->get_all_registered();
+		$result   = array();
+
+		foreach ( $patterns as $pattern ) {
+			$item = array(
+				'name'        => $pattern['name'],
+				'title'       => ! empty( $pattern['title'] ) ? $pattern['title'] : '',
+				'categories'  => ! empty( $pattern['categories'] ) ? $pattern['categories'] : array(),
+				'description' => ! empty( $pattern['description'] ) ? $pattern['description'] : '',
+			);
+
+			if ( $include_content && ! empty( $pattern['content'] ) ) {
+				$item['content'] = $pattern['content'];
+			}
+
+			$result[] = $item;
+		}
+
+		return $result;
 	}
 
 	/**
