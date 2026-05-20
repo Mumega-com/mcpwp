@@ -25,7 +25,7 @@ Relevant issues:
 - #281 Add section-level Gutenberg diff, patch, and rollback.
 - #307 Add approval-safe SEO autofix workflows.
 
-Status: first implementation started with a central approval store, approval REST/MCP tools, and an approval-required path for `wp_set_blocks`. Current apply/rollback support is limited to Gutenberg post-content updates; next slices must generalize the mutation adapter for meta, menus, options, Elementor, SEO, commerce, and template changes.
+Status: first implementation started with a central approval store, approval REST/MCP tools, an approval-required path for `wp_set_blocks`, and approval-first section patches through `wp_patch_block_section`. Current apply/rollback support is limited to Gutenberg post-content updates; next slices must generalize the mutation adapter for meta, menus, options, Elementor, SEO, commerce, and template changes.
 
 ### Section-Level Gutenberg Patching
 
@@ -43,6 +43,8 @@ Relevant issues:
 
 - #281 Add section-level Gutenberg diff, patch, and rollback.
 - #279 Enforce block-native Gutenberg guardrails for agent edits.
+
+Status: first implementation adds `wp_patch_block_section` and `POST /blocks/{id}/section`. It can select sections by path, anchor, or heading and creates an approval request by default. Future slices should add richer section inventory, semantic recipes, visual preview, and fine-grained diff output.
 
 ### Internal Content Graph
 

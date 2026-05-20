@@ -93,6 +93,7 @@ Minimum objects the router and capability registry should understand:
 - Default to draft for generated or substantially rewritten content.
 - Require explicit approval before publishing, deleting, changing menus, changing commerce data, or modifying theme-builder templates.
 - For production Gutenberg edits, prefer `wp_set_blocks(approval_required=true)` so the site stores a pending approval with diff and rollback data before applying the change.
+- For narrow Gutenberg edits, prefer `wp_patch_block_section` with a path, anchor, or heading selector instead of rewriting the whole page. It creates approval requests by default.
 - Approval sequence: create pending request, inspect with `wp_get_approval`, human approves with `wp_approve_request`, apply with `wp_apply_approval`, and revert with `wp_rollback_approval` if needed.
 - Apply and rollback are guarded by content hashes; if the post changed after request creation or after apply, the tool returns `approval_content_conflict` instead of overwriting newer work.
 - Return deterministic errors that agents can recover from: `pro_required`, `approval_required`, `invalid_payload`, `unknown_action`, `provider_not_configured`, `insufficient_scope`.

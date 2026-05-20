@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.8
+Stable tag: 2.8.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,10 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
+= 2.8.9 =
+* New: Add section-level Gutenberg patching by block path, anchor, or heading text.
+* New: Section patches create approval requests by default so agents do not rewrite full pages directly.
+
 = 2.8.8 =
 * New: Add approval, diff, apply, and rollback workflow for agent mutations.
 * New: Allow `wp_set_blocks` to create a pending approval request instead of saving immediately.
@@ -172,6 +176,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.9 =
+Adds safer section-level Gutenberg patching with approval-first behavior.
 
 = 2.8.8 =
 Adds approval requests with apply and rollback support for safer AI-assisted WordPress editing.

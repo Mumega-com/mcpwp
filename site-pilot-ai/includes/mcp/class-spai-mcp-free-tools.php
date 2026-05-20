@@ -162,6 +162,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			// Gutenberg
 			'wp_get_blocks'              => 'gutenberg',
 			'wp_set_blocks'              => 'gutenberg',
+			'wp_patch_block_section'     => 'gutenberg',
 			'wp_list_block_types'        => 'gutenberg',
 			'wp_list_block_patterns'     => 'gutenberg',
 			'wp_list_approvals'          => 'admin',
@@ -2246,6 +2247,39 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 		);
 
 		$tools[] = $this->define_tool(
+			'wp_patch_block_section',
+			'Replace one Gutenberg section by block path, anchor, or heading. Creates an approval request by default so agents do not rewrite the full page directly.',
+			array(
+				'id' => array(
+					'type'        => 'number',
+					'description' => 'Post or page ID',
+					'required'    => true,
+				),
+				'selector' => array(
+					'type'        => 'object',
+					'description' => 'Section selector. Use one of: {"path":"0.innerBlocks.2"}, {"anchor":"section-anchor"}, or {"heading":"Pricing"}.',
+					'required'    => true,
+				),
+				'content' => array(
+					'type'        => 'string',
+					'description' => 'Replacement section as native Gutenberg block markup.',
+				),
+				'blocks' => array(
+					'type'        => 'array',
+					'description' => 'Replacement section as parsed block objects.',
+				),
+				'approval_required' => array(
+					'type'        => 'boolean',
+					'description' => 'Defaults to true. Set false only for explicitly approved immediate saves.',
+				),
+				'approval_note' => array(
+					'type'        => 'string',
+					'description' => 'Human review note for the pending section patch.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
 			'wp_list_block_types',
 			'List all registered Gutenberg block types with name, title, category, description, and supported features. Use this to discover available blocks before building pages.',
 			array()
@@ -3023,6 +3057,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_set_blocks'          => array(
 				'method' => 'POST',
 				'route'  => '/blocks/{id}',
+			),
+			'wp_patch_block_section' => array(
+				'method' => 'POST',
+				'route'  => '/blocks/{id}/section',
 			),
 			'wp_list_block_types'    => array(
 				'method' => 'GET',

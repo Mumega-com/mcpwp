@@ -130,6 +130,24 @@ class Spai_REST_Blocks extends Spai_REST_API {
 			)
 		);
 
+		// Patch one block section without rewriting the full page directly.
+		register_rest_route(
+			$this->namespace,
+			'/blocks/(?P<id>\d+)/section',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'patch_block_section' ),
+				'permission_callback' => array( $this, 'check_permission' ),
+				'args'                => array(
+					'id' => array(
+						'type'              => 'integer',
+						'required'          => true,
+						'sanitize_callback' => 'absint',
+					),
+				),
+			)
+		);
+
 		// Agent-facing Gutenberg design system and block grammar.
 		register_rest_route(
 			$this->namespace,
@@ -512,6 +530,140 @@ class Spai_REST_Blocks extends Spai_REST_API {
 	}
 
 	/**
+	 * Patch one section by path, anchor, or heading.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function patch_block_section( $request ) {
+		$post_id = $request->get_param( 'id' );
+		$post    = get_post( $post_id );
+
+		if ( ! $post ) {
+			return $this->error_response( 'not_found', 'Post not found.', 404 );
+		}
+
+		$selector = $request->get_param( 'selector' );
+		$content  = $request->get_param( 'content' );
+		$blocks   = $request->get_param( 'blocks' );
+
+		if ( empty( $selector ) || ! is_array( $selector ) ) {
+			return $this->error_response( 'missing_selector', 'Provide a selector with path, anchor, or heading.', 400 );
+		}
+
+		if ( ! empty( $blocks ) && is_array( $blocks ) ) {
+			$content = serialize_blocks( $blocks );
+		}
+
+		if ( ! is_string( $content ) || '' === trim( $content ) ) {
+			return $this->error_response( 'missing_content', 'Provide replacement section content or blocks.', 400 );
+		}
+
+		$replacement_blocks = $this->filter_empty_blocks( parse_blocks( $content ) );
+		if ( empty( $replacement_blocks ) ) {
+			return $this->error_response( 'invalid_replacement', 'Replacement content did not parse into Gutenberg blocks.', 400 );
+		}
+
+		$safety_report = $this->build_block_safety_report( serialize_blocks( $replacement_blocks ) );
+		if ( ! $safety_report['pass'] ) {
+			return new WP_Error(
+				'block_safety_failed',
+				'Replacement section failed block safety validation.',
+				array(
+					'status'        => 400,
+					'safety_report' => $safety_report,
+					'hint'          => 'Patch sections with editable Gutenberg blocks. Restricted section output should go through a separate human-approved full-content edit.',
+				)
+			);
+		}
+
+		$page_blocks = $this->filter_empty_blocks( parse_blocks( $post->post_content ) );
+		$path        = $this->resolve_section_selector_path( $page_blocks, $selector );
+
+		if ( is_wp_error( $path ) ) {
+			return $path;
+		}
+
+		$patched_blocks = $page_blocks;
+		$patched        = $this->replace_blocks_at_path( $patched_blocks, $path, $replacement_blocks );
+
+		if ( ! $patched ) {
+			return $this->error_response( 'section_patch_failed', 'Could not replace the selected section.', 500 );
+		}
+
+		$patched_content    = serialize_blocks( $patched_blocks );
+		$approval_required = null === $request->get_param( 'approval_required' )
+			? true
+			: rest_sanitize_boolean( $request->get_param( 'approval_required' ) );
+		$approval_note     = (string) $request->get_param( 'approval_note' );
+
+		if ( $approval_required ) {
+			if ( ! class_exists( 'Spai_Approvals' ) ) {
+				return $this->error_response( 'approvals_unavailable', 'Approval pipeline is not available.', 500 );
+			}
+
+			$approval = Spai_Approvals::create_post_content_request(
+				$post_id,
+				$patched_content,
+				array(
+					'title'    => sprintf( 'Patch Gutenberg section for #%d', (int) $post_id ),
+					'note'     => $approval_note,
+					'tool'     => 'wp_patch_block_section',
+					'metadata' => array(
+						'selector' => $selector,
+						'path'     => $path,
+						'safety'   => $safety_report,
+					),
+				)
+			);
+
+			if ( is_wp_error( $approval ) ) {
+				return $approval;
+			}
+
+			$this->log_activity( 'request_section_patch_approval', $request, array( 'post_id' => $post_id, 'approval_id' => $approval['id'] ) );
+
+			return $this->success_response(
+				array(
+					'success'  => true,
+					'status'   => 'approval_required',
+					'post_id'  => (int) $post_id,
+					'selector' => $selector,
+					'path'     => $path,
+					'approval' => $approval,
+					'safety'   => $safety_report,
+				),
+				202
+			);
+		}
+
+		$result = wp_update_post(
+			array(
+				'ID'           => $post_id,
+				'post_content' => $patched_content,
+			),
+			true
+		);
+
+		if ( is_wp_error( $result ) ) {
+			return $this->error_response( 'update_failed', $result->get_error_message(), 500 );
+		}
+
+		$this->log_activity( 'patch_block_section', $request, array( 'post_id' => $post_id ) );
+
+		return $this->success_response(
+			array(
+				'success'     => true,
+				'post_id'     => (int) $post_id,
+				'selector'    => $selector,
+				'path'        => $path,
+				'block_count' => count( $this->clean_blocks( parse_blocks( $patched_content ) ) ),
+				'safety'      => $safety_report,
+			)
+		);
+	}
+
+	/**
 	 * Return an agent-facing Gutenberg design system.
 	 *
 	 * @param WP_REST_Request $request Request object.
@@ -873,6 +1025,196 @@ class Spai_REST_Blocks extends Spai_REST_API {
 			'path'      => $path,
 			'blockName' => $block_name,
 		);
+	}
+
+	/**
+	 * Filter parser artifacts from parsed blocks.
+	 *
+	 * @param array $blocks Parsed blocks.
+	 * @return array Blocks.
+	 */
+	private function filter_empty_blocks( $blocks ) {
+		$filtered = array();
+
+		foreach ( $blocks as $block ) {
+			if ( empty( $block['blockName'] ) && empty( trim( $block['innerHTML'] ?? '' ) ) ) {
+				continue;
+			}
+
+			if ( ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
+				$block['innerBlocks'] = $this->filter_empty_blocks( $block['innerBlocks'] );
+			}
+
+			$filtered[] = $block;
+		}
+
+		return $filtered;
+	}
+
+	/**
+	 * Resolve a section selector to a numeric block path.
+	 *
+	 * @param array $blocks   Parsed blocks.
+	 * @param array $selector Selector.
+	 * @return array|WP_Error Path or error.
+	 */
+	private function resolve_section_selector_path( $blocks, $selector ) {
+		if ( isset( $selector['path'] ) && '' !== (string) $selector['path'] ) {
+			$path = $this->parse_block_path( (string) $selector['path'] );
+			if ( null !== $path && $this->block_path_exists( $blocks, $path ) ) {
+				return $path;
+			}
+
+			return new WP_Error( 'section_not_found', __( 'No block exists at the requested path.', 'mumega-mcp' ), array( 'status' => 404 ) );
+		}
+
+		if ( isset( $selector['anchor'] ) && '' !== trim( (string) $selector['anchor'] ) ) {
+			$path = $this->find_block_path_by_anchor( $blocks, sanitize_title( (string) $selector['anchor'] ) );
+			if ( null !== $path ) {
+				return $path;
+			}
+
+			return new WP_Error( 'section_not_found', __( 'No block section matched the requested anchor.', 'mumega-mcp' ), array( 'status' => 404 ) );
+		}
+
+		if ( isset( $selector['heading'] ) && '' !== trim( (string) $selector['heading'] ) ) {
+			$path = $this->find_section_path_by_heading( $blocks, (string) $selector['heading'] );
+			if ( null !== $path ) {
+				return $path;
+			}
+
+			return new WP_Error( 'section_not_found', __( 'No block section matched the requested heading.', 'mumega-mcp' ), array( 'status' => 404 ) );
+		}
+
+		return new WP_Error( 'invalid_selector', __( 'Selector must include path, anchor, or heading.', 'mumega-mcp' ), array( 'status' => 400 ) );
+	}
+
+	/**
+	 * Parse a block path string.
+	 *
+	 * @param string $path Path like "0.innerBlocks.2" or "0/2".
+	 * @return array|null Path.
+	 */
+	private function parse_block_path( $path ) {
+		$path  = str_replace( array( '.innerBlocks.', '/' ), '.', trim( $path ) );
+		$parts = array_values( array_filter( explode( '.', $path ), 'strlen' ) );
+		$parsed = array();
+
+		foreach ( $parts as $part ) {
+			if ( ! ctype_digit( $part ) ) {
+				return null;
+			}
+			$parsed[] = (int) $part;
+		}
+
+		return empty( $parsed ) ? null : $parsed;
+	}
+
+	/**
+	 * Check whether a block path exists.
+	 *
+	 * @param array $blocks Blocks.
+	 * @param array $path   Path.
+	 * @return bool Exists.
+	 */
+	private function block_path_exists( $blocks, $path ) {
+		$current = $blocks;
+		foreach ( $path as $index ) {
+			if ( ! isset( $current[ $index ] ) ) {
+				return false;
+			}
+			$current = isset( $current[ $index ]['innerBlocks'] ) && is_array( $current[ $index ]['innerBlocks'] )
+				? $current[ $index ]['innerBlocks']
+				: array();
+		}
+
+		return true;
+	}
+
+	/**
+	 * Find a block by anchor attribute.
+	 *
+	 * @param array $blocks Blocks.
+	 * @param string $anchor Anchor.
+	 * @param array  $path Current path.
+	 * @return array|null Path.
+	 */
+	private function find_block_path_by_anchor( $blocks, $anchor, $path = array() ) {
+		foreach ( $blocks as $index => $block ) {
+			$current_path = array_merge( $path, array( $index ) );
+			$attrs        = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
+
+			if ( isset( $attrs['anchor'] ) && sanitize_title( (string) $attrs['anchor'] ) === $anchor ) {
+				return $current_path;
+			}
+
+			if ( ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
+				$found = $this->find_block_path_by_anchor( $block['innerBlocks'], $anchor, $current_path );
+				if ( null !== $found ) {
+					return $found;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Find the closest section-like block containing a heading.
+	 *
+	 * @param array  $blocks  Blocks.
+	 * @param string $heading Heading text.
+	 * @param array  $path    Current path.
+	 * @return array|null Path.
+	 */
+	private function find_section_path_by_heading( $blocks, $heading, $path = array() ) {
+		$needle = strtolower( trim( wp_strip_all_tags( $heading ) ) );
+
+		foreach ( $blocks as $index => $block ) {
+			$current_path = array_merge( $path, array( $index ) );
+			$block_name   = $block['blockName'] ?? '';
+			$text         = strtolower( trim( wp_strip_all_tags( $block['innerHTML'] ?? '' ) ) );
+
+			if ( 'core/heading' === $block_name && false !== strpos( $text, $needle ) ) {
+				return empty( $path ) ? $current_path : $path;
+			}
+
+			if ( ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
+				$found = $this->find_section_path_by_heading( $block['innerBlocks'], $heading, $current_path );
+				if ( null !== $found ) {
+					return $found;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Replace one block path with replacement blocks.
+	 *
+	 * @param array $blocks       Blocks.
+	 * @param array $path         Path.
+	 * @param array $replacements Replacement blocks.
+	 * @return bool Replaced.
+	 */
+	private function replace_blocks_at_path( &$blocks, $path, $replacements ) {
+		$index = array_shift( $path );
+
+		if ( ! isset( $blocks[ $index ] ) ) {
+			return false;
+		}
+
+		if ( empty( $path ) ) {
+			array_splice( $blocks, $index, 1, $replacements );
+			return true;
+		}
+
+		if ( empty( $blocks[ $index ]['innerBlocks'] ) || ! is_array( $blocks[ $index ]['innerBlocks'] ) ) {
+			return false;
+		}
+
+		return $this->replace_blocks_at_path( $blocks[ $index ]['innerBlocks'], $path, $replacements );
 	}
 
 	/**
