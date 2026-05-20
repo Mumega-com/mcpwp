@@ -12,13 +12,13 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.7`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.7.zip`
+- Version: `2.8.8`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.8.zip`
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
 - WP.org Plugin Check baseline: `0 ERROR`, `352 WARNING`.
-- WP.org free ZIP contents: 99 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Local WordPress install test: previously passed for the same WP.org package shape; rerun after upload if needed.
-- WP.org ZIP SHA256: `c9f9cb051822918f22d228047236b112707765e5ff11700ebf95b1ca9b7d451e`.
+- WP.org free ZIP contents: 101 files, no Freemius SDK, no Pro modules, no legacy updater.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`.
+- WP.org ZIP SHA256: `d31dced374f23623d5cdbdba8e3b2c7d0fbe586c28f885833bb1eb44dd32d41c`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
 
@@ -39,7 +39,7 @@ This file captures the current state so work can continue after context compacti
 ## Next Recommended Work
 
 1. Merge PR #257 after review.
-2. Upload `scripts/mumega-mcp-2.8.7.zip` to WordPress.org using the account/SVN workflow.
+2. Upload `scripts/mumega-mcp-2.8.8.zip` to WordPress.org using the account/SVN workflow.
 3. Publish or retarget the GitHub draft release after merge.
 4. Create/execute Sprint 4: free/pro capability split.
 5. Create/execute Sprint 5: compact deterministic MCP router.
@@ -139,3 +139,5 @@ Deep SEO roadmap lives in `docs/SEO_INTELLIGENCE_ROADMAP.md`. Product direction:
 Gap register lives in `docs/GAP_REGISTER.md`. Highest-priority gaps before serious agent autonomy: approval/diff/rollback pipeline, section-level Gutenberg patching, internal content graph, compact router, capability registry, block safety validator, SEO data model, repeatable local WP E2E tests, performance controls for audits/graphs, and admin UX for approvals/rollback.
 
 Implementation progress on PR #277: block safety first slice now exposes `wp_validate_blocks` and `POST /site-pilot-ai/v1/blocks/validate`, adds safety reports to parse/serialize responses, and makes `wp_set_blocks` reject classic HTML, `core/html`, inline script/style tags, and unsafe iframes by default unless an explicit approval note is supplied. Internal graph first slice now exposes `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph` with nodes, content links, parent/child edges, inbound/outbound counts, anchors, headings, menu presence, and orphan candidates.
+
+Approval pipeline progress: first slice adds a central approval request store plus `wp_list_approvals`, `wp_get_approval`, `wp_approve_request`, `wp_reject_request`, `wp_apply_approval`, and `wp_rollback_approval`. `wp_set_blocks` can now pass `approval_required=true` to create a pending approval instead of saving immediately. Apply/rollback currently supports Gutenberg post-content updates; future slices must add mutation adapters for section patches, meta, menus, options, Elementor, SEO, commerce, and templates.

@@ -25,6 +25,8 @@ Relevant issues:
 - #281 Add section-level Gutenberg diff, patch, and rollback.
 - #307 Add approval-safe SEO autofix workflows.
 
+Status: first implementation started with a central approval store, approval REST/MCP tools, and an approval-required path for `wp_set_blocks`. Current apply/rollback support is limited to Gutenberg post-content updates; next slices must generalize the mutation adapter for meta, menus, options, Elementor, SEO, commerce, and template changes.
+
 ### Section-Level Gutenberg Patching
 
 Gap: agents can get/set blocks, parse blocks, and serialize blocks, but still need deterministic section-level edits.
@@ -96,6 +98,25 @@ Relevant issues:
 - #259 Create central capability registry.
 - #260 Gate Pro MCP tools and REST routes consistently.
 - #261 Gate Pro admin UI and update readme scope.
+
+### Freemius Product Setup
+
+Gap: Freemius code packaging exists, but the actual Freemius product/account setup and upload process is not complete.
+
+Needed:
+
+- Freemius account and product created.
+- Product IDs/public keys/secrets added to `includes/freemius-init.php` through a secure release process.
+- Plans, pricing, trial policy, and feature gates mapped to the capability registry.
+- Freemius ZIP upload and install/upgrade smoke test.
+- Customer-facing upgrade copy that stays compliant with WordPress.org rules.
+- Release checklist for WP.org free package, Freemius free/pro package, and self-hosted/internal package.
+
+Relevant docs:
+
+- `docs/FREEMIUS_SETUP.md`
+- `docs/FREE_PRO_SPLIT.md`
+- `docs/PACKAGING.md`
 
 ### Native WordPress MCP / Abilities Alignment
 

@@ -203,6 +203,7 @@ class Spai_REST_Blocks extends Spai_REST_API {
 		$blocks  = $request->get_param( 'blocks' );
 		$content = $request->get_param( 'content' );
 		$allow_restricted_blocks = rest_sanitize_boolean( $request->get_param( 'allow_restricted_blocks' ) );
+		$approval_required       = rest_sanitize_boolean( $request->get_param( 'approval_required' ) );
 		$approval_note           = (string) $request->get_param( 'approval_note' );
 
 		if ( ! empty( $blocks ) && is_array( $blocks ) ) {
@@ -241,6 +242,43 @@ class Spai_REST_Blocks extends Spai_REST_API {
 					)
 				);
 			}
+		}
+
+		if ( $approval_required ) {
+			if ( ! class_exists( 'Spai_Approvals' ) ) {
+				return $this->error_response( 'approvals_unavailable', 'Approval pipeline is not available.', 500 );
+			}
+
+			$approval = Spai_Approvals::create_post_content_request(
+				$post_id,
+				$content,
+				array(
+					'title'    => sprintf( 'Update Gutenberg blocks for #%d', (int) $post_id ),
+					'note'     => $approval_note,
+					'tool'     => 'wp_set_blocks',
+					'metadata' => array(
+						'safety' => $safety_report,
+					),
+				)
+			);
+
+			if ( is_wp_error( $approval ) ) {
+				return $approval;
+			}
+
+			$this->log_activity( 'request_block_approval', $request, array( 'post_id' => $post_id, 'approval_id' => $approval['id'] ) );
+
+			return $this->success_response(
+				array(
+					'success'     => true,
+					'status'      => 'approval_required',
+					'post_id'     => (int) $post_id,
+					'approval'    => $approval,
+					'safety'      => $safety_report,
+					'hint'        => 'Approval request created. Use wp_approve_request, then wp_apply_approval to apply it.',
+				),
+				202
+			);
 		}
 
 		$result = wp_update_post(

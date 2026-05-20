@@ -164,6 +164,12 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_set_blocks'              => 'gutenberg',
 			'wp_list_block_types'        => 'gutenberg',
 			'wp_list_block_patterns'     => 'gutenberg',
+			'wp_list_approvals'          => 'admin',
+			'wp_get_approval'            => 'admin',
+			'wp_approve_request'         => 'admin',
+			'wp_reject_request'          => 'admin',
+			'wp_apply_approval'          => 'admin',
+			'wp_rollback_approval'       => 'admin',
 
 			// API Keys & Rate Limiting
 			'wp_list_api_keys'           => 'admin',
@@ -2228,9 +2234,13 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 					'type'        => 'boolean',
 					'description' => 'Explicitly allow restricted output such as core/html or inline scripts/styles. Requires approval_note.',
 				),
+				'approval_required' => array(
+					'type'        => 'boolean',
+					'description' => 'Create an approval request instead of saving immediately. Use for production edits that need human review.',
+				),
 				'approval_note' => array(
 					'type'        => 'string',
-					'description' => 'Human approval note explaining why restricted block output is necessary.',
+					'description' => 'Human approval note explaining why restricted output is necessary, or why a pending approval should be created.',
 				),
 			)
 		);
@@ -2293,6 +2303,89 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'include_patterns_content' => array(
 					'type'        => 'boolean',
 					'description' => 'Include full pattern block markup in the response. Defaults to false to keep context compact.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_list_approvals',
+			'List pending, approved, applied, rejected, or rolled-back approval requests for agent mutations.',
+			array(
+				'status' => array(
+					'type'        => 'string',
+					'description' => 'Optional status filter: pending, approved, applied, rejected, or rolled_back.',
+				),
+				'limit' => array(
+					'type'        => 'number',
+					'description' => 'Maximum requests to return. Defaults to 50.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_get_approval',
+			'Get one approval request with diff metadata and rollback status.',
+			array(
+				'id' => array(
+					'type'        => 'string',
+					'description' => 'Approval request ID.',
+					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_approve_request',
+			'Approve a pending mutation request so it can be applied.',
+			array(
+				'id' => array(
+					'type'        => 'string',
+					'description' => 'Approval request ID.',
+					'required'    => true,
+				),
+				'note' => array(
+					'type'        => 'string',
+					'description' => 'Optional human review note.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_reject_request',
+			'Reject a pending mutation request.',
+			array(
+				'id' => array(
+					'type'        => 'string',
+					'description' => 'Approval request ID.',
+					'required'    => true,
+				),
+				'note' => array(
+					'type'        => 'string',
+					'description' => 'Optional human review note.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_apply_approval',
+			'Apply an approved mutation request. First slice supports approved Gutenberg post-content updates.',
+			array(
+				'id' => array(
+					'type'        => 'string',
+					'description' => 'Approval request ID.',
+					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_rollback_approval',
+			'Roll back an applied mutation request using its stored before-state.',
+			array(
+				'id' => array(
+					'type'        => 'string',
+					'description' => 'Approval request ID.',
+					'required'    => true,
 				),
 			)
 		);
@@ -2954,6 +3047,30 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_block_design_system' => array(
 				'method' => 'GET',
 				'route'  => '/blocks/design-system',
+			),
+			'wp_list_approvals'     => array(
+				'method' => 'GET',
+				'route'  => '/approvals',
+			),
+			'wp_get_approval'       => array(
+				'method' => 'GET',
+				'route'  => '/approvals/{id}',
+			),
+			'wp_approve_request'    => array(
+				'method' => 'POST',
+				'route'  => '/approvals/{id}/approve',
+			),
+			'wp_reject_request'     => array(
+				'method' => 'POST',
+				'route'  => '/approvals/{id}/reject',
+			),
+			'wp_apply_approval'     => array(
+				'method' => 'POST',
+				'route'  => '/approvals/{id}/apply',
+			),
+			'wp_rollback_approval'  => array(
+				'method' => 'POST',
+				'route'  => '/approvals/{id}/rollback',
 			),
 
 			// Post Meta

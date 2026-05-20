@@ -273,6 +273,10 @@ class Spai_Loader {
 		$blocks_controller = new Spai_REST_Blocks();
 		$blocks_controller->register_routes();
 
+		// Approvals
+		$approvals_controller = new Spai_REST_Approvals();
+		$approvals_controller->register_routes();
+
 		// MCP (Model Context Protocol)
 		$mcp_controller = new Spai_REST_MCP();
 		$mcp_controller->register_routes();
