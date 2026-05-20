@@ -259,7 +259,7 @@ Relevant issues:
 - #310 Add Apify trend and SERP import provider.
 - #311 Add WooCommerce SEO intelligence workflows.
 
-Status: backlog now treats Search Console/Bing (#304), local keyword inventory (#297), Apify provider imports (#310), and WooCommerce SEO intelligence (#311) as layered work on top of the current SEO issue model. SEO remains the priority; WooCommerce is a high-value vertical application of the SEO foundation. #304 first slice now stores explicit Search Console, Bing, rank tracker, or manual search performance rows and exposes `wp_import_search_performance` plus `wp_get_seo_trends`; OAuth/API fetching, scheduled imports, and Search Console/Bing credential setup remain open.
+Status: backlog now treats Search Console/Bing (#304), local keyword inventory (#297), Apify provider imports (#310), and WooCommerce SEO intelligence (#311) as layered work on top of the current SEO issue model. SEO remains the priority; WooCommerce is a high-value vertical application of the SEO foundation. #304 first slice now stores explicit Search Console, Bing, rank tracker, or manual search performance rows and exposes `wp_import_search_performance` plus `wp_get_seo_trends`; OAuth/API fetching, scheduled imports, and Search Console/Bing credential setup remain open. #311 first slice now adds `wp_get_woocommerce_seo_report` for product content depth, short descriptions, category/image evidence, SKU/price/stock signals, imported search performance, and approval-safe next steps.
 
 ### Structured Data
 
@@ -411,7 +411,7 @@ Priority order:
 5. #316 Content coherence scoring and recommendations.
 6. #307 Approval-safe SEO autofix workflows. Status: first read-only planner added `wp_run_seo_autofix_plan` and REST `GET /site-pilot-ai/v1/seo/autofix-plan`; no direct mutation is allowed.
 7. #304 Search Console/Bing data imports. Status: first explicit import/reporting slice added `wp_import_search_performance`, `wp_get_seo_trends`, and REST search performance endpoints; external API connectors remain open.
-8. #311 WooCommerce SEO intelligence.
+8. #311 WooCommerce SEO intelligence. Status: first read-only product SEO report added `wp_get_woocommerce_seo_report` and REST `GET /site-pilot-ai/v1/seo/woocommerce`; product mutation adapters and category drill-downs remain open.
 
 Reasoning: first make state changes observable, then make site state compact, then make human supervision richer, then give agents safe playbooks, then turn the whole system into prioritized customer value.
 

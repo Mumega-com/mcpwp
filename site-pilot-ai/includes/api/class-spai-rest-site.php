@@ -1209,6 +1209,35 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// WooCommerce SEO intelligence.
+		register_rest_route(
+			$this->namespace,
+			'/seo/woocommerce',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_woocommerce_seo_report' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'status' => array(
+							'description'       => __( 'Product status filter: publish, draft, private, or any.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'default'           => 'publish',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'limit' => array(
+							'description'       => __( 'Maximum products to inspect.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 25,
+							'minimum'           => 1,
+							'maximum'           => 100,
+							'sanitize_callback' => 'absint',
+						),
+					),
+				),
+			)
+		);
+
 		// Content quality and AI-search citation readiness audit.
 		register_rest_route(
 			$this->namespace,
@@ -2837,6 +2866,38 @@ class Spai_REST_Site extends Spai_REST_API {
 			'top_queries'    => array(),
 			'top_urls'       => array(),
 			'daily'          => array(),
+		);
+
+		return $this->success_response( $report );
+	}
+
+	/**
+	 * Get WooCommerce SEO intelligence report.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function get_woocommerce_seo_report( $request ) {
+		$this->log_activity( 'get_woocommerce_seo_report', $request );
+
+		$report = class_exists( 'Spai_WooCommerce_SEO' ) ? Spai_WooCommerce_SEO::get_report(
+			array(
+				'status' => $request->get_param( 'status' ),
+				'limit'  => $request->get_param( 'limit' ),
+			)
+		) : array(
+			'schema_version' => '2026-05-20',
+			'summary'        => array(
+				'woocommerce_detected' => false,
+				'products_inspected'   => 0,
+				'error_count'          => 0,
+				'warning_count'        => 0,
+				'opportunity_count'    => 0,
+				'search_clicks'        => 0,
+				'search_impressions'   => 0,
+				'search_ctr'           => 0,
+			),
+			'products'       => array(),
 		);
 
 		return $this->success_response( $report );

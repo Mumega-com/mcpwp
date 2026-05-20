@@ -82,6 +82,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_run_seo_autofix_plan'    => 'seo',
 			'wp_import_search_performance' => 'seo',
 			'wp_get_seo_trends'          => 'seo',
+			'wp_get_woocommerce_seo_report' => 'seo',
 			'wp_get_custom_css'          => 'site',
 			'wp_set_custom_css'          => 'site',
 			'wp_delete_custom_css'       => 'site',
@@ -795,6 +796,21 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'limit' => array(
 					'type'        => 'number',
 					'description' => 'Maximum grouped rows to return, 1-100. Defaults to 20.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_get_woocommerce_seo_report',
+			'Get a read-only WooCommerce SEO intelligence report for products. Inspects product content depth, short descriptions, category evidence, images, price/schema signals, stock review opportunities, and imported search performance evidence.',
+			array(
+				'status' => array(
+					'type'        => 'string',
+					'description' => 'Product status: publish, draft, private, or any. Defaults to publish.',
+				),
+				'limit' => array(
+					'type'        => 'number',
+					'description' => 'Maximum products to inspect, 1-100. Defaults to 25.',
 				),
 			)
 		);
@@ -3064,6 +3080,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_seo_trends' => array(
 				'method' => 'GET',
 				'route'  => '/seo/search-performance',
+			),
+			'wp_get_woocommerce_seo_report' => array(
+				'method' => 'GET',
+				'route'  => '/seo/woocommerce',
 			),
 			'wp_audit_content_quality' => array(
 				'method' => 'GET',
