@@ -141,7 +141,7 @@ Backlog capabilities:
 - Page experience and media SEO checks before publish.
 - Search Console/Bing Webmaster status notes or integrations where credentials/export data are available.
 
-Agents should treat these checks as a pre-publish gate. `wp_validate_seo_readiness` returns a clear report with `pass`, `warn`, `fail`, and approval-required items rather than silently rewriting SEO-sensitive settings.
+Agents should treat these checks as a pre-publish gate. `wp_validate_seo_readiness` returns a clear report with `pass`, `warn`, `fail`, and approval-required items rather than silently rewriting SEO-sensitive settings. `wp_validate_structured_data` adds read-only schema inventory, validation, and recommendations; agents must not inject schema unless visible content supports it and the human approves.
 
 ## Internal Content Graph
 
@@ -206,7 +206,7 @@ Issues to create or track:
 - #283 Add internal content graph for agent link suggestions. Status: first read-only graph implemented.
 - #282 Add internal link validation to Gutenberg publishing checks.
 - #284 Add search and AI crawler visibility audit.
-- #285 Add structured data recommendation and validation workflow.
+- #285 Add structured data recommendation and validation workflow. Status: first read-only validator implemented.
 - #286 Add content quality and entity coverage audit for AI search.
 - #287 Add sitemap freshness and IndexNow workflow.
 - #288 Add page experience and media SEO checks for Gutenberg pages.
@@ -222,7 +222,7 @@ Backlog:
 - #291 Build technical SEO site audit engine.
 - #296 Build SEO issue model and scoring system.
 - #290 Build internal link graph with PageRank-style signals.
-- #293 Build structured data inventory and validator.
+- #293 Build structured data inventory and validator. Status: first read-only validator implemented.
 - #294 Build page experience and media audit engine.
 
 ### Sprint 9 - Keyword And Content Strategy

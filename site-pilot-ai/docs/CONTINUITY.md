@@ -12,13 +12,13 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.14`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.14.zip`
+- Version: `2.8.15`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.15.zip`
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
 - WP.org Plugin Check baseline: `0 ERROR`, `352 WARNING`.
 - WP.org free ZIP contents: 101 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`.
-- WP.org ZIP SHA256: `627cd80610ae3b1d0d9aac2cbd2ff25434f05cc8f49872b8c05b1cf74a76975e`.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`.
+- WP.org ZIP SHA256: `25d92a3662703293c009fe44769234be12a171a5e4ee2f6cc2945a60fcd8e225`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
 
@@ -151,3 +151,5 @@ Internal link validation progress: `wp_validate_internal_links` and `GET /site-p
 Weighted graph progress: `wp_get_content_graph` now includes `shared_taxonomy` edges plus node-level `menu_depth`, `freshness_days`, `freshness_score`, `hub_score`, `orphan_severity`, and PageRank-style `rank_score` signals for SEO and internal linking decisions.
 
 SEO readiness progress: `wp_validate_seo_readiness` and `GET /site-pilot-ai/v1/seo/readiness/{id}` now provide a read-only pre-publish check for title, slug, content depth, H1, heading order, meta description, image alt text, internal links, orphan state, noindex, canonical override, robots.txt, sitemap hint, and schema hint.
+
+Structured data progress: `wp_validate_structured_data` and `GET /site-pilot-ai/v1/seo/structured-data/{id}` now inventory JSON-LD, microdata, and schema.org hints; report invalid JSON-LD, missing `@context`/`@type`, basic Article/FAQ/Product shape issues, and page-appropriate schema recommendations without mutating content.

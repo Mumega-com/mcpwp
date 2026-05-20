@@ -229,7 +229,7 @@ Relevant issues:
 - #287 Add sitemap freshness and IndexNow workflow.
 - #288 Add page experience and media SEO checks for Gutenberg pages.
 
-Status: first pre-publish slice adds `wp_validate_seo_readiness` and `GET /site-pilot-ai/v1/seo/readiness/{id}`. It checks title, slug, thin content, H1, heading order, meta description, image alt text, internal links, orphan state, noindex, canonical overrides, robots.txt, sitemap hints, and schema hints without mutating content.
+Status: first pre-publish slice adds `wp_validate_seo_readiness` and `GET /site-pilot-ai/v1/seo/readiness/{id}`. It checks title, slug, thin content, H1, heading order, meta description, image alt text, internal links, orphan state, noindex, canonical overrides, robots.txt, sitemap hints, and schema hints without mutating content. Structured data first slice adds `wp_validate_structured_data` and `GET /site-pilot-ai/v1/seo/structured-data/{id}`.
 
 ### Keyword, Topic, And Content Strategy
 
@@ -255,7 +255,7 @@ Relevant issues:
 
 ### Structured Data
 
-Gap: structured data recommendations are planned but not implemented.
+Gap: structured data recommendations now have a first read-only slice, but no approved mutation/integration workflow yet.
 
 Needed:
 
@@ -269,6 +269,8 @@ Relevant issues:
 
 - #285 Add structured data recommendation and validation workflow.
 - #293 Build structured data inventory and validator.
+
+Status: `wp_validate_structured_data` inventories JSON-LD, microdata, and schema.org hints; reports invalid JSON-LD, missing `@context`/`@type`, basic Article/FAQ/Product shape issues, and page-appropriate recommendations. Next slices should integrate SEO plugin schema APIs and approval-safe schema updates.
 
 ## Operational Gaps
 

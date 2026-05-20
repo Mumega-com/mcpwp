@@ -73,6 +73,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_apply_internal_link'     => 'content',
 			'wp_validate_internal_links' => 'content',
 			'wp_validate_seo_readiness'  => 'seo',
+			'wp_validate_structured_data' => 'seo',
 			'wp_get_custom_css'          => 'site',
 			'wp_set_custom_css'          => 'site',
 			'wp_delete_custom_css'       => 'site',
@@ -621,6 +622,18 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 		$tools[] = $this->define_tool(
 			'wp_validate_seo_readiness',
 			'Validate SEO pre-publish readiness for a post or page without mutating content. Checks title, slug, H1, heading order, meta description, image alt text, internal links, indexability, canonical, robots, sitemap, and schema hints.',
+			array(
+				'id' => array(
+					'type'        => 'number',
+					'description' => 'Post or page ID to validate.',
+					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_validate_structured_data',
+			'Validate structured data for a post or page without mutating content. Inventories JSON-LD, microdata, and schema.org hints, reports parse/shape issues, and recommends schema types that match visible WordPress content.',
 			array(
 				'id' => array(
 					'type'        => 'number',
@@ -2785,6 +2798,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_validate_seo_readiness' => array(
 				'method' => 'GET',
 				'route'  => '/seo/readiness/{id}',
+			),
+			'wp_validate_structured_data' => array(
+				'method' => 'GET',
+				'route'  => '/seo/structured-data/{id}',
 			),
 			'wp_get_custom_css' => array(
 				'method' => 'GET',

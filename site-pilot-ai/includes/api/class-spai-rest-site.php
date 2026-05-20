@@ -925,6 +925,27 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// Structured data inventory and validation.
+		register_rest_route(
+			$this->namespace,
+			'/seo/structured-data/(?P<id>\d+)',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'validate_structured_data' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'id' => array(
+							'description'       => __( 'Post or page ID to validate.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'required'          => true,
+							'sanitize_callback' => 'absint',
+						),
+					),
+				),
+			)
+		);
+
 		// Theme info
 		register_rest_route(
 			$this->namespace,
@@ -2000,6 +2021,111 @@ class Spai_REST_Site extends Spai_REST_API {
 	}
 
 	/**
+	 * Validate structured data for a single post/page without mutating content.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function validate_structured_data( $request ) {
+		$post_id = absint( $request->get_param( 'id' ) );
+		$post    = get_post( $post_id );
+
+		if ( ! $post ) {
+			return $this->error_response( 'not_found', 'Post not found.', 404 );
+		}
+
+		$this->log_activity( 'validate_structured_data', $request, array( 'post_id' => $post_id ) );
+
+		$content         = (string) $post->post_content;
+		$json_ld_items   = $this->extract_json_ld_items( $content );
+		$microdata_items = $this->extract_microdata_items( $content );
+		$issues          = array();
+		$schema_types    = array();
+
+		foreach ( $json_ld_items as $index => $item ) {
+			if ( ! empty( $item['error'] ) ) {
+				$issues[] = $this->make_structured_data_issue(
+					'invalid_json_ld',
+					'error',
+					__( 'A JSON-LD block could not be parsed.', 'mumega-mcp' ),
+					__( 'Fix the JSON syntax or remove the invalid structured data block.', 'mumega-mcp' ),
+					array(
+						'format' => 'json-ld',
+						'index'  => $index,
+						'error'  => $item['error'],
+					)
+				);
+				continue;
+			}
+
+			foreach ( $this->flatten_schema_entities( $item['data'] ) as $entity ) {
+				$type = $this->normalize_schema_type( $entity['@type'] ?? '' );
+				if ( '' !== $type ) {
+					$schema_types[] = $type;
+				}
+
+				if ( empty( $entity['@context'] ) ) {
+					$issues[] = $this->make_structured_data_issue( 'missing_context', 'warning', __( 'JSON-LD entity is missing @context.', 'mumega-mcp' ), __( 'Use a schema.org @context for valid JSON-LD.', 'mumega-mcp' ), array( 'index' => $index ) );
+				}
+
+				if ( '' === $type ) {
+					$issues[] = $this->make_structured_data_issue( 'missing_type', 'warning', __( 'JSON-LD entity is missing @type.', 'mumega-mcp' ), __( 'Add a concrete schema type that matches the visible content.', 'mumega-mcp' ), array( 'index' => $index ) );
+				}
+
+				$issues = array_merge( $issues, $this->validate_schema_entity_shape( $entity, $type, $post ) );
+			}
+		}
+
+		foreach ( $microdata_items as $item ) {
+			$type = $this->normalize_schema_type( $item['type'] );
+			if ( '' !== $type ) {
+				$schema_types[] = $type;
+			}
+		}
+
+		$schema_types    = array_values( array_unique( array_filter( $schema_types ) ) );
+		$recommendations = $this->recommend_schema_types_for_post( $post, $content, $schema_types );
+
+		if ( empty( $json_ld_items ) && empty( $microdata_items ) ) {
+			$issues[] = $this->make_structured_data_issue( 'no_structured_data', 'info', __( 'No structured data was detected in the post content.', 'mumega-mcp' ), __( 'Add schema only when it accurately describes visible content or can be handled by the active SEO plugin.', 'mumega-mcp' ) );
+		}
+
+		if ( ! empty( $recommendations ) ) {
+			$issues[] = $this->make_structured_data_issue( 'schema_recommendation_available', 'info', __( 'Page-appropriate schema recommendations are available.', 'mumega-mcp' ), __( 'Review the recommendations and add schema through an SEO plugin or approved block-native workflow only when supported by visible content.', 'mumega-mcp' ) );
+		}
+
+		$summary = $this->summarize_structured_data_issues( $issues );
+
+		return $this->success_response(
+			array(
+				'post'            => array(
+					'id'     => $post_id,
+					'title'  => get_the_title( $post ),
+					'type'   => $post->post_type,
+					'status' => $post->post_status,
+					'url'    => get_permalink( $post ),
+				),
+				'summary'         => $summary,
+				'inventory'       => array(
+					'json_ld_count'    => count( $json_ld_items ),
+					'microdata_count'  => count( $microdata_items ),
+					'schema_org_hints' => substr_count( strtolower( $content ), 'schema.org' ),
+					'types'            => $schema_types,
+				),
+				'json_ld'         => $this->summarize_json_ld_items( $json_ld_items ),
+				'microdata'       => $microdata_items,
+				'issues'          => $issues,
+				'recommendations' => $recommendations,
+				'workflow'        => array(
+					'read'  => 'Use before publishing or when auditing AI/search citation readiness.',
+					'fix'   => 'Add or correct schema only through approved SEO plugin fields or visible-content-backed markup.',
+					'guard' => 'This endpoint is read-only and does not inject structured data.',
+				),
+			)
+		);
+	}
+
+	/**
 	 * Build internal content graph data.
 	 *
 	 * @param array $post_types     Post types.
@@ -2608,6 +2734,298 @@ class Spai_REST_Site extends Spai_REST_API {
 			'warning_count' => $warning_count,
 			'info_count'    => $info_count,
 		);
+	}
+
+	/**
+	 * Create a normalized structured data issue.
+	 *
+	 * @param string $code           Issue code.
+	 * @param string $severity       Severity.
+	 * @param string $message        Message.
+	 * @param string $recommendation Recommendation.
+	 * @param array  $extra          Extra fields.
+	 * @return array Issue.
+	 */
+	private function make_structured_data_issue( $code, $severity, $message, $recommendation, $extra = array() ) {
+		return array_merge(
+			array(
+				'code'              => $code,
+				'severity'          => $severity,
+				'message'           => $message,
+				'recommendation'    => $recommendation,
+				'approval_required' => in_array( $severity, array( 'error', 'warning' ), true ),
+			),
+			$extra
+		);
+	}
+
+	/**
+	 * Summarize structured data issues.
+	 *
+	 * @param array $issues Issues.
+	 * @return array Summary.
+	 */
+	private function summarize_structured_data_issues( $issues ) {
+		$error_count   = 0;
+		$warning_count = 0;
+		$info_count    = 0;
+
+		foreach ( $issues as $issue ) {
+			if ( 'error' === $issue['severity'] ) {
+				$error_count++;
+			} elseif ( 'warning' === $issue['severity'] ) {
+				$warning_count++;
+			} elseif ( 'info' === $issue['severity'] ) {
+				$info_count++;
+			}
+		}
+
+		return array(
+			'status'        => 0 === $error_count ? ( $warning_count > 0 ? 'warn' : 'pass' ) : 'fail',
+			'issue_count'   => count( $issues ),
+			'error_count'   => $error_count,
+			'warning_count' => $warning_count,
+			'info_count'    => $info_count,
+		);
+	}
+
+	/**
+	 * Extract JSON-LD script blocks from content.
+	 *
+	 * @param string $content Content.
+	 * @return array JSON-LD items.
+	 */
+	private function extract_json_ld_items( $content ) {
+		$items = array();
+
+		if ( ! preg_match_all( '/<script[^>]+type=["\']application\/ld\+json["\'][^>]*>(.*?)<\/script>/is', $content, $matches ) ) {
+			return $items;
+		}
+
+		foreach ( $matches[1] as $raw_json ) {
+			$raw_json = trim( html_entity_decode( $raw_json, ENT_QUOTES, get_bloginfo( 'charset' ) ) );
+			$data     = json_decode( $raw_json, true );
+			$error    = json_last_error();
+
+			$items[] = array(
+				'raw'   => $raw_json,
+				'data'  => JSON_ERROR_NONE === $error ? $data : null,
+				'error' => JSON_ERROR_NONE === $error ? '' : json_last_error_msg(),
+			);
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Summarize JSON-LD items without returning full raw payloads.
+	 *
+	 * @param array $items JSON-LD items.
+	 * @return array Summary items.
+	 */
+	private function summarize_json_ld_items( $items ) {
+		$summary = array();
+
+		foreach ( $items as $index => $item ) {
+			$types = array();
+			if ( empty( $item['error'] ) ) {
+				foreach ( $this->flatten_schema_entities( $item['data'] ) as $entity ) {
+					$type = $this->normalize_schema_type( $entity['@type'] ?? '' );
+					if ( '' !== $type ) {
+						$types[] = $type;
+					}
+				}
+			}
+
+			$summary[] = array(
+				'index'   => $index,
+				'valid'   => empty( $item['error'] ),
+				'types'   => array_values( array_unique( $types ) ),
+				'preview' => substr( wp_strip_all_tags( (string) $item['raw'] ), 0, 300 ),
+				'error'   => $item['error'],
+			);
+		}
+
+		return $summary;
+	}
+
+	/**
+	 * Extract microdata/schema.org hints from content.
+	 *
+	 * @param string $content Content.
+	 * @return array Microdata items.
+	 */
+	private function extract_microdata_items( $content ) {
+		$items = array();
+
+		if ( preg_match_all( '/itemscope[^>]*itemtype=["\']([^"\']+)["\']/is', $content, $matches ) ) {
+			foreach ( $matches[1] as $url ) {
+				$items[] = array(
+					'format' => 'microdata',
+					'type'   => $this->normalize_schema_type( $url ),
+					'url'    => esc_url_raw( $url ),
+				);
+			}
+		}
+
+		return array_values( array_unique( $items, SORT_REGULAR ) );
+	}
+
+	/**
+	 * Flatten JSON-LD into entity arrays.
+	 *
+	 * @param mixed $data JSON-LD data.
+	 * @return array Entities.
+	 */
+	private function flatten_schema_entities( $data ) {
+		$entities = array();
+
+		if ( ! is_array( $data ) ) {
+			return $entities;
+		}
+
+		if ( isset( $data['@graph'] ) && is_array( $data['@graph'] ) ) {
+			foreach ( $data['@graph'] as $entity ) {
+				if ( is_array( $entity ) ) {
+					if ( empty( $entity['@context'] ) && ! empty( $data['@context'] ) ) {
+						$entity['@context'] = $data['@context'];
+					}
+					$entities[] = $entity;
+				}
+			}
+			return $entities;
+		}
+
+		if ( $this->is_list_array( $data ) ) {
+			foreach ( $data as $entity ) {
+				if ( is_array( $entity ) ) {
+					$entities[] = $entity;
+				}
+			}
+			return $entities;
+		}
+
+		return array( $data );
+	}
+
+	/**
+	 * Determine whether an array uses contiguous numeric keys.
+	 *
+	 * @param array $value Array value.
+	 * @return bool True when list-like.
+	 */
+	private function is_list_array( $value ) {
+		if ( array() === $value ) {
+			return true;
+		}
+
+		return array_keys( $value ) === range( 0, count( $value ) - 1 );
+	}
+
+	/**
+	 * Normalize a schema type from URL/string/array forms.
+	 *
+	 * @param mixed $type Schema type.
+	 * @return string Normalized type.
+	 */
+	private function normalize_schema_type( $type ) {
+		if ( is_array( $type ) ) {
+			$type = reset( $type );
+		}
+
+		$type = trim( (string) $type );
+		if ( '' === $type ) {
+			return '';
+		}
+
+		$type = preg_replace( '#^https?://schema\.org/#i', '', $type );
+		$type = preg_replace( '#^schema:#i', '', $type );
+
+		return sanitize_key( $type );
+	}
+
+	/**
+	 * Validate basic schema shape against visible WordPress content.
+	 *
+	 * @param array   $entity Schema entity.
+	 * @param string  $type   Schema type.
+	 * @param WP_Post $post   Post object.
+	 * @return array Issues.
+	 */
+	private function validate_schema_entity_shape( $entity, $type, $post ) {
+		$issues = array();
+
+		if ( in_array( $type, array( 'article', 'blogposting', 'newsarticle' ), true ) ) {
+			if ( empty( $entity['headline'] ) && empty( $entity['name'] ) ) {
+				$issues[] = $this->make_structured_data_issue( 'article_missing_headline', 'warning', __( 'Article schema is missing headline/name.', 'mumega-mcp' ), __( 'Use the visible post title as the schema headline.', 'mumega-mcp' ), array( 'schema_type' => $type ) );
+			}
+			if ( empty( $entity['datePublished'] ) ) {
+				$issues[] = $this->make_structured_data_issue( 'article_missing_date_published', 'warning', __( 'Article schema is missing datePublished.', 'mumega-mcp' ), __( 'Include the published date when Article schema is used.', 'mumega-mcp' ), array( 'schema_type' => $type ) );
+			}
+		}
+
+		if ( 'faqpage' === $type && empty( $entity['mainEntity'] ) ) {
+			$issues[] = $this->make_structured_data_issue( 'faq_missing_questions', 'warning', __( 'FAQPage schema is missing questions.', 'mumega-mcp' ), __( 'Only use FAQPage schema when the visible content contains matching questions and answers.', 'mumega-mcp' ), array( 'schema_type' => $type ) );
+		}
+
+		if ( 'product' === $type && 'product' !== $post->post_type ) {
+			$issues[] = $this->make_structured_data_issue( 'product_schema_on_non_product', 'warning', __( 'Product schema appears on non-product content.', 'mumega-mcp' ), __( 'Use Product schema only for visible product detail pages.', 'mumega-mcp' ), array( 'schema_type' => $type ) );
+		}
+
+		if ( in_array( $type, array( 'webpage', 'article', 'blogposting', 'newsarticle' ), true ) && empty( $entity['url'] ) && empty( $entity['mainEntityOfPage'] ) ) {
+			$issues[] = $this->make_structured_data_issue( 'schema_missing_url', 'info', __( 'Schema entity does not include URL/mainEntityOfPage.', 'mumega-mcp' ), __( 'Connect schema to the canonical page URL where supported.', 'mumega-mcp' ), array( 'schema_type' => $type ) );
+		}
+
+		return $issues;
+	}
+
+	/**
+	 * Recommend schema types that fit visible WordPress content.
+	 *
+	 * @param WP_Post $post           Post object.
+	 * @param string  $content        Content.
+	 * @param array   $existing_types Existing schema types.
+	 * @return array Recommendations.
+	 */
+	private function recommend_schema_types_for_post( $post, $content, $existing_types ) {
+		$recommendations = array();
+		$base_type       = 'post' === $post->post_type ? 'Article' : 'WebPage';
+
+		if ( ! in_array( strtolower( $base_type ), $existing_types, true ) && ! in_array( 'blogposting', $existing_types, true ) && ! in_array( 'newsarticle', $existing_types, true ) ) {
+			$recommendations[] = array(
+				'type'       => $base_type,
+				'confidence' => 'high',
+				'reason'     => 'Matches the WordPress post type and visible page title/content.',
+				'guardrail'  => 'Prefer SEO plugin schema output when available; do not duplicate existing schema.',
+			);
+		}
+
+		if ( $this->content_looks_like_faq( $content ) && ! in_array( 'faqpage', $existing_types, true ) ) {
+			$recommendations[] = array(
+				'type'       => 'FAQPage',
+				'confidence' => 'medium',
+				'reason'     => 'Content has question-like headings.',
+				'guardrail'  => 'Only use if matching answers are visible on the page.',
+			);
+		}
+
+		return $recommendations;
+	}
+
+	/**
+	 * Detect FAQ-like visible content.
+	 *
+	 * @param string $content Content.
+	 * @return bool True when FAQ-like.
+	 */
+	private function content_looks_like_faq( $content ) {
+		foreach ( $this->extract_heading_texts( $content ) as $heading ) {
+			if ( false !== strpos( (string) $heading['text'], '?' ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

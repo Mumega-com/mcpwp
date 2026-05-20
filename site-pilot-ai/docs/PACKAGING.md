@@ -51,19 +51,19 @@ bash scripts/build-freemius.sh
 9. Confirm the WP.org ZIP does not contain `freemius/`, `includes/freemius-init.php`, or `includes/class-spai-updater.php`.
 10. Confirm the Freemius ZIP contains `freemius/start.php` and `includes/freemius-init.php`, and does not contain `includes/class-spai-updater.php`.
 11. Merge the release PR.
-12. Tag the release, for example `v2.8.14`.
+12. Tag the release, for example `v2.8.15`.
 13. Publish the GitHub release and attach intended ZIPs if needed.
 
 ## Current Verified Baseline
 
 PR #257 verified the following baseline:
 
-- WP.org ZIP: `scripts/mumega-mcp-2.8.14.zip`.
+- WP.org ZIP: `scripts/mumega-mcp-2.8.15.zip`.
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
 - WordPress test matrix: WordPress 6.9 / PHP 8.2.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`.
 - WP.org free ZIP contents: 101 files, no Freemius SDK, no Pro modules, no legacy updater.
 - Plugin Check 1.9.0 result for WP.org ZIP: `0 ERROR`, `352 WARNING`.
-- WP.org ZIP SHA256: `627cd80610ae3b1d0d9aac2cbd2ff25434f05cc8f49872b8c05b1cf74a76975e`.
+- WP.org ZIP SHA256: `25d92a3662703293c009fe44769234be12a171a5e4ee2f6cc2945a60fcd8e225`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
