@@ -31,6 +31,13 @@ class Spai_Admin {
 	const ACTIVITY_LOG_PAGE_SLUG = 'site-pilot-ai-activity-log';
 
 	/**
+	 * Control room page slug.
+	 *
+	 * @var string
+	 */
+	const CONTROL_ROOM_PAGE_SLUG = 'site-pilot-ai-control-room';
+
+	/**
 	 * SVG icon for menu (base64 encoded).
 	 *
 	 * @var string
@@ -75,6 +82,16 @@ class Spai_Admin {
 			'activate_plugins',
 			self::PAGE_SLUG,
 			array( $this, 'render_setup_page' )
+		);
+
+		// Control Room - human supervision for agent work.
+		add_submenu_page(
+			self::PAGE_SLUG,
+			__( 'Control Room', 'mumega-mcp' ),
+			__( 'Control Room', 'mumega-mcp' ),
+			'activate_plugins',
+			self::CONTROL_ROOM_PAGE_SLUG,
+			array( $this, 'render_control_room_page' )
 		);
 
 		// Chat — AI assistant.
@@ -147,6 +164,7 @@ class Spai_Admin {
 	public function enqueue_styles( $hook ) {
 		$allowed_hooks = array(
 			'toplevel_page_' . self::PAGE_SLUG,
+			self::PAGE_SLUG . '_page_' . self::CONTROL_ROOM_PAGE_SLUG,
 			self::PAGE_SLUG . '_page_' . self::LIBRARY_PAGE_SLUG,
 			self::PAGE_SLUG . '_page_' . self::SETTINGS_PAGE_SLUG,
 			self::PAGE_SLUG . '_page_' . self::ACTIVITY_LOG_PAGE_SLUG,
@@ -360,6 +378,133 @@ class Spai_Admin {
 		$scoped_keys = $this->list_scoped_api_keys( true );
 
 		include SPAI_PLUGIN_DIR . 'admin/partials/spai-setup-display.php';
+	}
+
+	/**
+	 * Render the human control room page.
+	 */
+	public function render_control_room_page() {
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'mumega-mcp' ) );
+		}
+
+		$control_room = $this->get_control_room_data();
+
+		include SPAI_PLUGIN_DIR . 'admin/partials/spai-control-room-display.php';
+	}
+
+	/**
+	 * Get summarized control room data.
+	 *
+	 * @return array
+	 */
+	public function get_control_room_data() {
+		$approvals = class_exists( 'Spai_Approvals' ) ? Spai_Approvals::list_requests( '', 100 ) : array();
+		$approval_counts = array(
+			'pending'     => 0,
+			'approved'    => 0,
+			'applied'     => 0,
+			'rejected'    => 0,
+			'rolled_back' => 0,
+		);
+
+		foreach ( $approvals as $approval ) {
+			$status = isset( $approval['status'] ) ? sanitize_key( (string) $approval['status'] ) : '';
+			if ( isset( $approval_counts[ $status ] ) ) {
+				$approval_counts[ $status ]++;
+			}
+		}
+
+		$seo_open = class_exists( 'Spai_SEO_Audit_Store' )
+			? Spai_SEO_Audit_Store::list_issues( array( 'status' => 'open', 'limit' => 8 ) )
+			: array(
+				'summary' => array( 'total' => 0, 'open' => 0, 'resolved' => 0, 'error' => 0, 'warning' => 0, 'info' => 0 ),
+				'issues'  => array(),
+			);
+
+		$seo_all = class_exists( 'Spai_SEO_Audit_Store' )
+			? Spai_SEO_Audit_Store::list_issues( array( 'limit' => 1 ) )
+			: $seo_open;
+
+		$recent_activity = $this->get_recent_activity_rows( 8 );
+
+		$data = array(
+			'approval_counts'  => $approval_counts,
+			'pending_approvals' => class_exists( 'Spai_Approvals' ) ? Spai_Approvals::list_requests( 'pending', 5 ) : array(),
+			'rollback_ready'   => array_slice(
+				array_values(
+					array_filter(
+						$approvals,
+						function ( $approval ) {
+							return isset( $approval['status'] ) && 'applied' === $approval['status'];
+						}
+					)
+				),
+				0,
+				5
+			),
+			'seo_summary'      => isset( $seo_all['summary'] ) && is_array( $seo_all['summary'] ) ? $seo_all['summary'] : array(),
+			'open_seo_issues'  => isset( $seo_open['issues'] ) && is_array( $seo_open['issues'] ) ? $seo_open['issues'] : array(),
+			'recent_activity'  => $recent_activity,
+		);
+
+		$data['recommendations'] = $this->get_control_room_recommendations( $data );
+
+		return $data;
+	}
+
+	/**
+	 * Build short human recommendations for the control room.
+	 *
+	 * @param array $data Control room data.
+	 * @return array
+	 */
+	private function get_control_room_recommendations( $data ) {
+		$recommendations = array();
+		$approval_counts = isset( $data['approval_counts'] ) && is_array( $data['approval_counts'] ) ? $data['approval_counts'] : array();
+		$seo_summary     = isset( $data['seo_summary'] ) && is_array( $data['seo_summary'] ) ? $data['seo_summary'] : array();
+
+		if ( ! empty( $approval_counts['pending'] ) ) {
+			$recommendations[] = array(
+				'priority' => 'high',
+				'title'    => __( 'Review pending approvals', 'mumega-mcp' ),
+				'detail'   => sprintf(
+					/* translators: %d: number of pending approvals */
+					_n( '%d agent change is waiting for human review.', '%d agent changes are waiting for human review.', (int) $approval_counts['pending'], 'mumega-mcp' ),
+					(int) $approval_counts['pending']
+				),
+			);
+		}
+
+		if ( ! empty( $approval_counts['applied'] ) ) {
+			$recommendations[] = array(
+				'priority' => 'medium',
+				'title'    => __( 'Keep rollback handles visible', 'mumega-mcp' ),
+				'detail'   => __( 'Applied approval requests can still be rolled back if production content needs to revert.', 'mumega-mcp' ),
+			);
+		}
+
+		if ( ! empty( $seo_summary['error'] ) ) {
+			$recommendations[] = array(
+				'priority' => 'high',
+				'title'    => __( 'Prioritize SEO errors', 'mumega-mcp' ),
+				'detail'   => sprintf(
+					/* translators: %d: number of SEO errors */
+					_n( '%d stored SEO error needs attention before lower-priority warnings.', '%d stored SEO errors need attention before lower-priority warnings.', (int) $seo_summary['error'], 'mumega-mcp' ),
+					(int) $seo_summary['error']
+				),
+			);
+		}
+
+		if ( empty( $recommendations ) ) {
+			$recommendations[] = array(
+				'priority' => 'low',
+				'title'    => __( 'Run the next supervised workflow', 'mumega-mcp' ),
+				'detail'   => __( 'No urgent approval or stored SEO issue is visible. Run a stored SEO audit or create an approval-required draft change to populate the control room.', 'mumega-mcp' ),
+			);
+		}
+
+		return $recommendations;
 	}
 
 	/**

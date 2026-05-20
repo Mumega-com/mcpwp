@@ -119,6 +119,8 @@ Issues:
 - #308 Add AI search visibility and citation readiness report.
 - #307 Add approval-safe SEO autofix workflows.
 - #309 Build human control room for approvals and SEO issues.
+- #310 Add Apify trend and SERP import provider.
+- #311 Add WooCommerce SEO intelligence workflows.
 
 Expected MCP/REST surfaces:
 
@@ -169,7 +171,10 @@ Pro can carry heavier workflows:
 - Historical crawl storage.
 - Scheduled audits and reports.
 - Search Console/Bing imports.
+- Keyword/topic inventory stored inside WordPress and mapped to posts, pages, products, categories, and clusters.
 - Rank tracker/provider imports.
-- Competitor/SERP import analysis.
+- Competitor/SERP import analysis, including optional Apify provider imports for trend and market evidence.
 - Bulk autofix workflows.
 - Advanced content gap and topical cluster planning.
+
+WooCommerce direction: keep SEO as the main product priority, then apply it to WooCommerce products and categories through #311. Product/category audits should cover discoverability, schema, images, thin descriptions, duplicate intent, content-to-product internal links, and Search Console/Bing performance mapped to revenue pages. Commerce mutations such as prices, stock, and settings require explicit approval.

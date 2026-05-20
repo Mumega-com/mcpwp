@@ -12,13 +12,13 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.19`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.19.zip`
+- Version: `2.8.20`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.20.zip`
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
-- WP.org Plugin Check baseline: `0 ERROR` on the packaged `mumega-mcp` ZIP; warning count not recounted for `2.8.19`.
-- WP.org free ZIP contents: 102 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`.
-- WP.org ZIP SHA256: `928b82a0f7a9be59a042abc279037b7826e69e2f43e7e28fbfd87304b264ccb1`.
+- WP.org Plugin Check baseline: `0 ERROR` on packaged `mumega-mcp` ZIP for `2.8.20`.
+- WP.org free ZIP contents: 103 files, no Freemius SDK, no Pro modules, no legacy updater.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`.
+- WP.org ZIP SHA256: `e6e68e1d0ac4776a5472923b071a2f74a0131412280b73fb8ad752de3bd77a24`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
 
@@ -106,6 +106,8 @@ Issues created:
 - #307 Add approval-safe SEO autofix workflows
 - #308 Add AI search visibility and citation readiness report
 - #309 Build human control room for approvals and SEO issues
+- #310 Add Apify trend and SERP import provider
+- #311 Add WooCommerce SEO intelligence workflows
 
 ## SOS Bus
 
@@ -140,6 +142,8 @@ Deep SEO roadmap lives in `docs/SEO_INTELLIGENCE_ROADMAP.md`. Product direction:
 Gap register lives in `docs/GAP_REGISTER.md`. Highest-priority gaps before serious agent autonomy: approval/diff/rollback pipeline, section-level Gutenberg patching, internal content graph, compact router, capability registry, block safety validator, SEO data model, repeatable local WP E2E tests, performance controls for audits/graphs, and admin UX for approvals/rollback.
 
 Human control room backlog: #309 tracks the next WordPress admin layer. It should combine pending approvals, stored SEO issues, recommended next actions, recent agent activity, and rollback-ready changes so humans can supervise agent work without reading raw MCP responses.
+
+SEO provider backlog: #304 covers Search Console/Bing imports, #297 covers keyword/topic inventory, #310 covers optional Apify trend/SERP provider imports, and #311 covers WooCommerce SEO intelligence. Keep the sequencing SEO-first: core issue model and control room, then keyword/search imports, then WooCommerce as a revenue-focused vertical, then Apify as an optional Pro/provider evidence source.
 
 Implementation progress on PR #277: block safety first slice now exposes `wp_validate_blocks` and `POST /site-pilot-ai/v1/blocks/validate`, adds safety reports to parse/serialize responses, and makes `wp_set_blocks` reject classic HTML, `core/html`, inline script/style tags, and unsafe iframes by default unless an explicit approval note is supplied. Internal graph first slice now exposes `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph` with nodes, content links, parent/child edges, inbound/outbound counts, anchors, headings, menu presence, and orphan candidates.
 

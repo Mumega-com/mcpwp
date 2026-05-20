@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.19
+Stable tag: 2.8.20
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,10 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
+= 2.8.20 =
+* New: Add a WordPress admin Control Room for approvals, stored SEO issues, rollback-ready changes, recommendations, and recent agent activity.
+* New: Document Search Console, Bing, Apify, keyword inventory, and WooCommerce SEO intelligence backlog direction.
+
 = 2.8.19 =
 * New: Add optional stored SEO audit runs and normalized issue records.
 * New: Add stored SEO issue listing with status, severity, category, post, and run filters.
@@ -217,6 +221,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.20 =
+Adds the first human Control Room screen for supervising agent work and SEO issue follow-up.
 
 = 2.8.19 =
 Adds stored SEO audit issues so agents can track open and resolved findings over time.

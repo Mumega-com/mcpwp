@@ -251,6 +251,8 @@ Backlog:
 - #308 Add AI search visibility and citation readiness report.
 - #307 Add approval-safe SEO autofix workflows.
 - #309 Build human control room for approvals and SEO issues.
+- #310 Add Apify trend and SERP import provider.
+- #311 Add WooCommerce SEO intelligence workflows.
 
 ## Guardrails
 

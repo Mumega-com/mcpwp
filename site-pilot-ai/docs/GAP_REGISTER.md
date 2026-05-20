@@ -241,10 +241,12 @@ Needed:
 
 - Local topic/keyword extraction.
 - Search Console/Bing/import data adapters.
+- Optional Apify trend, SERP, and competitor evidence provider with bring-your-own token, caching, and hard rate limits.
 - Content gap and refresh opportunities.
 - Cannibalization detection.
 - Agent-safe briefs.
 - Topic cluster and hub planning.
+- WooCommerce product/category keyword mapping where WooCommerce is active.
 
 Relevant issues:
 
@@ -254,6 +256,10 @@ Relevant issues:
 - #300 Add agent-safe SEO content brief generator.
 - #301 Add competitor and SERP import interface.
 - #302 Add topical cluster and hub page planner.
+- #310 Add Apify trend and SERP import provider.
+- #311 Add WooCommerce SEO intelligence workflows.
+
+Status: backlog now treats Search Console/Bing (#304), local keyword inventory (#297), Apify provider imports (#310), and WooCommerce SEO intelligence (#311) as layered work on top of the current SEO issue model. SEO remains the priority; WooCommerce is a high-value vertical application of the SEO foundation.
 
 ### Structured Data
 
