@@ -77,6 +77,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_audit_media_seo'         => 'seo',
 			'wp_seo_audit_site'          => 'seo',
 			'wp_audit_content_quality'   => 'seo',
+			'wp_get_seo_issues'          => 'seo',
 			'wp_get_custom_css'          => 'site',
 			'wp_set_custom_css'          => 'site',
 			'wp_delete_custom_css'       => 'site',
@@ -673,6 +674,41 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'include_drafts' => array(
 					'type'        => 'boolean',
 					'description' => 'Include draft/private content. Defaults to false.',
+				),
+				'store' => array(
+					'type'        => 'boolean',
+					'description' => 'Store this run and normalized issues. Defaults to false.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_get_seo_issues',
+			'List stored SEO issue records from stored audit runs. Filter by status, severity, category, post ID, or run ID.',
+			array(
+				'status' => array(
+					'type'        => 'string',
+					'description' => 'Issue status: open or resolved.',
+				),
+				'severity' => array(
+					'type'        => 'string',
+					'description' => 'Severity: error, warning, or info.',
+				),
+				'category' => array(
+					'type'        => 'string',
+					'description' => 'Category such as readiness, structured_data, media, or content_quality.',
+				),
+				'post_id' => array(
+					'type'        => 'number',
+					'description' => 'Filter issues for a post/page ID.',
+				),
+				'run_id' => array(
+					'type'        => 'string',
+					'description' => 'Filter issues first or last seen in a stored audit run.',
+				),
+				'limit' => array(
+					'type'        => 'number',
+					'description' => 'Maximum issues to return, 1-200. Defaults to 50.',
 				),
 			)
 		);
@@ -2856,6 +2892,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_seo_audit_site' => array(
 				'method' => 'GET',
 				'route'  => '/seo/audit',
+			),
+			'wp_get_seo_issues' => array(
+				'method' => 'GET',
+				'route'  => '/seo/issues',
 			),
 			'wp_audit_content_quality' => array(
 				'method' => 'GET',

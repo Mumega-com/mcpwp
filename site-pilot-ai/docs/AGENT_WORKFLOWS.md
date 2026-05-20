@@ -100,6 +100,7 @@ Minimum objects the router and capability registry should understand:
 - For pages where schema matters, call `wp_validate_structured_data` and use its recommendations only when the schema is backed by visible content.
 - For image-heavy pages, call `wp_audit_media_seo` and fix missing alt text, large images, and weak image markup through approved media or Gutenberg edits.
 - For site-wide triage, call `wp_seo_audit_site` first, then run targeted per-page validators on the highest-scoring URLs.
+- For tracked SEO work, call `wp_seo_audit_site` with `store=true`, then call `wp_get_seo_issues` to list open, resolved, or category-specific findings before planning fixes.
 - For answer-oriented pages, call `wp_audit_content_quality` and improve visible copy rather than inventing facts, entities, or citations.
 - Approval sequence: create pending request, inspect with `wp_get_approval`, human approves with `wp_approve_request`, apply with `wp_apply_approval`, and revert with `wp_rollback_approval` if needed.
 - Apply and rollback are guarded by content hashes; if the post changed after request creation or after apply, the tool returns `approval_content_conflict` instead of overwriting newer work.

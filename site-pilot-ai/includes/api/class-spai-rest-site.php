@@ -954,6 +954,60 @@ class Spai_REST_Site extends Spai_REST_API {
 							'default'           => false,
 							'sanitize_callback' => 'rest_sanitize_boolean',
 						),
+						'store' => array(
+							'description'       => __( 'Store this audit run and normalized issue records.', 'mumega-mcp' ),
+							'type'              => 'boolean',
+							'default'           => false,
+							'sanitize_callback' => 'rest_sanitize_boolean',
+						),
+					),
+				),
+			)
+		);
+
+		// Stored SEO issues.
+		register_rest_route(
+			$this->namespace,
+			'/seo/issues',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_seo_issues' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'status' => array(
+							'description'       => __( 'Issue status filter: open or resolved.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'severity' => array(
+							'description'       => __( 'Severity filter: error, warning, or info.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'category' => array(
+							'description'       => __( 'Issue category filter.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'post_id' => array(
+							'description'       => __( 'Post ID filter.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'sanitize_callback' => 'absint',
+						),
+						'run_id' => array(
+							'description'       => __( 'Audit run ID filter.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'limit' => array(
+							'description'       => __( 'Maximum issues to return.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 50,
+							'minimum'           => 1,
+							'maximum'           => 200,
+							'sanitize_callback' => 'absint',
+						),
 					),
 				),
 			)
@@ -2108,6 +2162,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		$post_types     = $this->parse_graph_post_types( (string) $request->get_param( 'post_types' ) );
 		$limit          = min( 50, max( 1, absint( $request->get_param( 'limit' ) ) ) );
 		$include_drafts = rest_sanitize_boolean( $request->get_param( 'include_drafts' ) );
+		$store          = rest_sanitize_boolean( $request->get_param( 'store' ) );
 		$statuses       = $include_drafts ? array( 'publish', 'draft', 'private' ) : array( 'publish' );
 		$posts          = get_posts(
 			array(
@@ -2203,26 +2258,78 @@ class Spai_REST_Site extends Spai_REST_API {
 			}
 		);
 
+		$payload = array(
+			'summary' => array(
+				'status'        => $total_errors > 0 ? 'fail' : ( $total_warnings > 0 ? 'warn' : 'pass' ),
+				'audited_count' => count( $urls ),
+				'critical_urls' => $critical_urls,
+				'needs_review'  => $needs_review,
+				'pass_urls'     => max( 0, count( $urls ) - $critical_urls - $needs_review ),
+				'error_count'   => $total_errors,
+				'warning_count' => $total_warnings,
+				'info_count'    => $total_info,
+			),
+			'category_counts' => $category_counts,
+			'top_issue_codes' => array_slice( $top_issue_codes, 0, 12 ),
+			'urls'            => $urls,
+			'workflow'        => array(
+				'read'  => 'Use to prioritize URLs before running targeted per-page SEO tools.',
+				'fix'   => 'Open the highest-scoring URLs and fix issues through approval-first Gutenberg, media, or SEO metadata edits.',
+				'guard' => 'This endpoint is read-only and does not mutate content, media, or SEO settings.',
+			),
+		);
+
+		if ( $store && class_exists( 'Spai_SEO_Audit_Store' ) ) {
+			$payload['stored_run'] = Spai_SEO_Audit_Store::store_run(
+				$payload,
+				array(
+					'post_types'     => $post_types,
+					'limit'          => $limit,
+					'include_drafts' => $include_drafts,
+				)
+			);
+		}
+
 		return $this->success_response(
-			array(
-				'summary' => array(
-					'status'         => $total_errors > 0 ? 'fail' : ( $total_warnings > 0 ? 'warn' : 'pass' ),
-					'audited_count'  => count( $urls ),
-					'critical_urls'  => $critical_urls,
-					'needs_review'   => $needs_review,
-					'pass_urls'      => max( 0, count( $urls ) - $critical_urls - $needs_review ),
-					'error_count'    => $total_errors,
-					'warning_count'  => $total_warnings,
-					'info_count'     => $total_info,
-				),
-				'category_counts' => $category_counts,
-				'top_issue_codes' => array_slice( $top_issue_codes, 0, 12 ),
-				'urls'            => $urls,
-				'workflow'        => array(
-					'read'  => 'Use to prioritize URLs before running targeted per-page SEO tools.',
-					'fix'   => 'Open the highest-scoring URLs and fix issues through approval-first Gutenberg, media, or SEO metadata edits.',
-					'guard' => 'This endpoint is read-only and does not mutate content, media, or SEO settings.',
-				),
+			$payload
+		);
+	}
+
+	/**
+	 * Get stored SEO issues.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function get_seo_issues( $request ) {
+		$this->log_activity( 'get_seo_issues', $request );
+
+		if ( ! class_exists( 'Spai_SEO_Audit_Store' ) ) {
+			return $this->success_response(
+				array(
+					'summary' => array(
+						'total'    => 0,
+						'open'     => 0,
+						'resolved' => 0,
+						'error'    => 0,
+						'warning'  => 0,
+						'info'     => 0,
+					),
+					'issues'  => array(),
+				)
+			);
+		}
+
+		return $this->success_response(
+			Spai_SEO_Audit_Store::list_issues(
+				array(
+					'status'   => $request->get_param( 'status' ),
+					'severity' => $request->get_param( 'severity' ),
+					'category' => $request->get_param( 'category' ),
+					'post_id'  => $request->get_param( 'post_id' ),
+					'run_id'   => $request->get_param( 'run_id' ),
+					'limit'    => $request->get_param( 'limit' ),
+				)
 			)
 		);
 	}

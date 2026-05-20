@@ -4,7 +4,7 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Branch and PR
 
-- Branch: `codex/wporg-freemius-packaging`
+- Branch: `feature/gutenberg-agent-design-system`
 - Draft PR: https://github.com/Mumega-com/mcp-for-wp/pull/257
 - Commit in PR: `77554c1`
 - Latest docs commit in PR: `4e68822`
@@ -12,13 +12,13 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.18`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.18.zip`
+- Version: `2.8.19`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.19.zip`
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
-- WP.org Plugin Check baseline: `0 ERROR`, `352 WARNING`.
-- WP.org free ZIP contents: 101 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`.
-- WP.org ZIP SHA256: `a76a5038cf044c07b31690bf19fc6707391254806601b4c8385ed78a1252a3d6`.
+- WP.org Plugin Check baseline: `0 ERROR` on the packaged `mumega-mcp` ZIP; warning count not recounted for `2.8.19`.
+- WP.org free ZIP contents: 102 files, no Freemius SDK, no Pro modules, no legacy updater.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`.
+- WP.org ZIP SHA256: `928b82a0f7a9be59a042abc279037b7826e69e2f43e7e28fbfd87304b264ccb1`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
 
@@ -159,3 +159,5 @@ Media SEO progress: `wp_audit_media_seo` and `GET /site-pilot-ai/v1/seo/media/{i
 Site SEO audit progress: `wp_seo_audit_site` and `GET /site-pilot-ai/v1/seo/audit` now aggregate readiness, structured data, and media SEO issues across recent posts/pages into prioritized URL rows, category counts, and top issue codes without mutating content.
 
 Content quality progress: `wp_audit_content_quality` and `GET /site-pilot-ai/v1/seo/content-quality/{id}` now report word depth, summary intro, question coverage, entity-like names, freshness, trust signals, and external reference hints for AI-search/citation readiness without mutating content. `wp_seo_audit_site` includes this category in aggregate counts.
+
+Stored SEO issue progress: `wp_seo_audit_site` and `GET /site-pilot-ai/v1/seo/audit` now accept `store=true` to persist recent audit runs and normalized top issue records. `wp_get_seo_issues` and `GET /site-pilot-ai/v1/seo/issues` list issues by status, severity, category, post ID, run ID, and limit. Resolution is scoped to posts included in the current run so partial audits do not incorrectly close issues from skipped content.

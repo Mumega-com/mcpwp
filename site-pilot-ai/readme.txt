@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.18
+Stable tag: 2.8.19
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,10 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
+= 2.8.19 =
+* New: Add optional stored SEO audit runs and normalized issue records.
+* New: Add stored SEO issue listing with status, severity, category, post, and run filters.
+
 = 2.8.18 =
 * New: Add read-only content quality and AI-search citation readiness audit for posts and pages.
 * New: Check answer depth, summaries, FAQ/question coverage, entity-like names, freshness, trust signals, and reference hints.
@@ -213,6 +217,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.19 =
+Adds stored SEO audit issues so agents can track open and resolved findings over time.
 
 = 2.8.18 =
 Adds content quality and citation-readiness checks for AI/search-oriented publishing.

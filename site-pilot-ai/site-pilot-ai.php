@@ -14,7 +14,7 @@
  * Plugin Name:       Mumega MCP
  * Plugin URI:        https://sitepilotai.mumega.com/
  * Description:       Connect WordPress to AI assistants via the Model Context Protocol (MCP). Manage posts, pages, media, and Elementor through natural language.
- * Version:           2.8.18
+ * Version:           2.8.19
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            Mumega
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin version.
  */
-define( 'SPAI_VERSION', '2.8.18' );
+define( 'SPAI_VERSION', '2.8.19' );
 
 /**
  * Plugin directory path.
@@ -179,6 +179,7 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-integration-manager.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-design-references.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-approvals.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-seo-audit-store.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-figma.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-provider-openai.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-provider-gemini.php';

@@ -141,7 +141,7 @@ Backlog capabilities:
 - Page experience and media SEO checks before publish.
 - Search Console/Bing Webmaster status notes or integrations where credentials/export data are available.
 
-Agents should treat these checks as a pre-publish gate. `wp_seo_audit_site` gives a site-level triage view. `wp_validate_seo_readiness` returns a clear report with `pass`, `warn`, `fail`, and approval-required items rather than silently rewriting SEO-sensitive settings. `wp_validate_structured_data` adds read-only schema inventory, validation, and recommendations; agents must not inject schema unless visible content supports it and the human approves. `wp_audit_media_seo` checks images before publishing without rewriting media. `wp_audit_content_quality` checks answerability and citation readiness without inventing entities or sources.
+Agents should treat these checks as a pre-publish gate. `wp_seo_audit_site` gives a site-level triage view and can store tracked runs with `store=true`. `wp_get_seo_issues` lists open and resolved stored issues for follow-up planning. `wp_validate_seo_readiness` returns a clear report with `pass`, `warn`, `fail`, and approval-required items rather than silently rewriting SEO-sensitive settings. `wp_validate_structured_data` adds read-only schema inventory, validation, and recommendations; agents must not inject schema unless visible content supports it and the human approves. `wp_audit_media_seo` checks images before publishing without rewriting media. `wp_audit_content_quality` checks answerability and citation readiness without inventing entities or sources.
 
 ## Internal Content Graph
 
@@ -220,7 +220,7 @@ Goal: build a WordPress-native technical SEO audit, issue model, structured data
 Backlog:
 
 - #291 Build technical SEO site audit engine. Status: first read-only site audit summary implemented.
-- #296 Build SEO issue model and scoring system.
+- #296 Build SEO issue model and scoring system. Status: first stored audit run and issue list implemented.
 - #290 Build internal link graph with PageRank-style signals.
 - #293 Build structured data inventory and validator. Status: first read-only validator implemented.
 - #294 Build page experience and media audit engine. Status: first media SEO audit implemented.

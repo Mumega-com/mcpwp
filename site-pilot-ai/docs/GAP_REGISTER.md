@@ -231,6 +231,8 @@ Relevant issues:
 
 Status: first pre-publish slice adds `wp_validate_seo_readiness` and `GET /site-pilot-ai/v1/seo/readiness/{id}`. It checks title, slug, thin content, H1, heading order, meta description, image alt text, internal links, orphan state, noindex, canonical overrides, robots.txt, sitemap hints, and schema hints without mutating content. Structured data first slice adds `wp_validate_structured_data` and `GET /site-pilot-ai/v1/seo/structured-data/{id}`. Media SEO first slice adds `wp_audit_media_seo` and `GET /site-pilot-ai/v1/seo/media/{id}`. Site audit first slice adds `wp_seo_audit_site` and `GET /site-pilot-ai/v1/seo/audit`. Content quality first slice adds `wp_audit_content_quality` and `GET /site-pilot-ai/v1/seo/content-quality/{id}`.
 
+Stored issue status: `wp_seo_audit_site(store=true)` now stores recent audit runs and normalized top issue records. `wp_get_seo_issues` and `GET /site-pilot-ai/v1/seo/issues` expose status, severity, category, post, run, and limit filters. This is the first lightweight issue model; scheduled crawls, trends, dashboard UI, and richer evidence remain open.
+
 ### Keyword, Topic, And Content Strategy
 
 Gap: no keyword inventory, gap analysis, cannibalization detection, or content brief generator.

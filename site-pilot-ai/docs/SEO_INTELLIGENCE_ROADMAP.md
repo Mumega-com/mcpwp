@@ -44,7 +44,7 @@ Expected MCP/REST surfaces:
 
 - `wp_seo_audit_site`
 - `wp_seo_audit_url`
-- `wp_get_seo_issues`
+- `wp_get_seo_issues` - implemented first options-backed slice for stored top issues.
 - `wp_get_content_graph`
 - `wp_get_internal_link_opportunities`
 - `wp_validate_structured_data`
@@ -154,6 +154,7 @@ Reporting should show:
 Free should include enough SEO value to make the WP.org version credible:
 
 - Site-level SEO triage through `wp_seo_audit_site`.
+- Optional stored issue tracking through `wp_seo_audit_site(store=true)` and `wp_get_seo_issues`.
 - Per-page Gutenberg SEO checks through `wp_validate_seo_readiness`.
 - Crawlability/indexability checks.
 - Basic weighted internal graph and orphan detection.
