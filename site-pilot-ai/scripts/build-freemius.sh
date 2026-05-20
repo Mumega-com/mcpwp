@@ -93,6 +93,7 @@ OUTPUT_DIR="$PLUGIN_DIR/scripts"
 OUTPUT_ZIP="$OUTPUT_DIR/$DIST_NAME-$VERSION.zip"
 
 echo "    Creating zip..."
+rm -f "$OUTPUT_ZIP"
 cd "$BUILD_DIR"
 zip -qr "$OUTPUT_ZIP" "$PLUGIN_SLUG/"
 

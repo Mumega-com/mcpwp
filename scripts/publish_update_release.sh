@@ -6,7 +6,7 @@ PLUGIN_DIR="$ROOT_DIR/site-pilot-ai"
 PLUGIN_MAIN="$PLUGIN_DIR/site-pilot-ai.php"
 README_FILE="$PLUGIN_DIR/readme.txt"
 MANIFEST_FILE="$ROOT_DIR/version.json"
-BUILD_SCRIPT="$PLUGIN_DIR/scripts/build-wporg.sh"
+BUILD_SCRIPT="$PLUGIN_DIR/scripts/build-selfhosted.sh"
 STATIC_DIR="/var/www/mcp-updates"
 STATIC_ZIP="$STATIC_DIR/mumega-mcp-latest.zip"
 STATIC_MANIFEST="$STATIC_DIR/version.json"
@@ -29,6 +29,7 @@ Options:
 
 Notes:
   - The canonical updater source is https://mumega.com/mcp-updates/version.json
+  - This channel serves the self-hosted package with the legacy updater included
   - The worker is optional and no longer part of the critical path
 EOF
 }
@@ -91,7 +92,7 @@ if [[ "$PLUGIN_VERSION" != "$DEFINE_VERSION" || "$PLUGIN_VERSION" != "$README_VE
 fi
 
 VERSION="$PLUGIN_VERSION"
-ZIP_PATH="$PLUGIN_DIR/scripts/mumega-mcp-$VERSION.zip"
+ZIP_PATH="$PLUGIN_DIR/scripts/mumega-mcp-selfhosted-$VERSION.zip"
 
 if [[ "$BUILD" -eq 1 ]]; then
 	bash "$BUILD_SCRIPT" --version "$VERSION"
@@ -103,14 +104,15 @@ if [[ ! -f "$ZIP_PATH" ]]; then
 	exit 1
 fi
 
-ZIP_MAIN_FILE="site-pilot-ai/site-pilot-ai.php"
-if ! unzip -Z1 "$ZIP_PATH" | grep -qx "$ZIP_MAIN_FILE"; then
-	ZIP_MAIN_FILE="mumega-mcp/site-pilot-ai.php"
-fi
-
-ZIP_VERSION="$(unzip -p "$ZIP_PATH" "$ZIP_MAIN_FILE" | grep -m1 'Version:' | sed 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')"
+ZIP_ROOT="$(unzip -Z1 "$ZIP_PATH" | sed -n '1p' | cut -d/ -f1)"
+ZIP_VERSION="$(unzip -p "$ZIP_PATH" "$ZIP_ROOT/site-pilot-ai.php" | grep -m1 'Version:' | sed 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')"
 if [[ "$ZIP_VERSION" != "$VERSION" ]]; then
 	echo "ZIP version mismatch: expected $VERSION, got $ZIP_VERSION" >&2
+	exit 1
+fi
+
+if ! unzip -Z1 "$ZIP_PATH" | grep -q 'includes/class-spai-updater.php'; then
+	echo "Updater missing from canonical self-hosted ZIP: $ZIP_PATH" >&2
 	exit 1
 fi
 

@@ -14,7 +14,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 PLUGIN_SLUG="site-pilot-ai"
-DIST_NAME="mumega-mcp"
+DIST_NAME="mumega-mcp-selfhosted"
 
 VERSION=""
 while [[ $# -gt 0 ]]; do
@@ -68,6 +68,7 @@ rm -rf "$DEST/scripts"
 OUTPUT_DIR="$PLUGIN_DIR/scripts"
 OUTPUT_ZIP="$OUTPUT_DIR/$DIST_NAME-$VERSION.zip"
 
+rm -f "$OUTPUT_ZIP"
 cd "$BUILD_DIR"
 zip -qr "$OUTPUT_ZIP" "$PLUGIN_SLUG/"
 
