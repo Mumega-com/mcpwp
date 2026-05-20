@@ -12,17 +12,17 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.30`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.30.zip`.
-- Freemius ZIP: `scripts/site-pilot-ai-freemius-2.8.30.zip`.
+- Version: `2.8.31`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.31.zip`.
+- Freemius ZIP: `scripts/site-pilot-ai-freemius-2.8.31.zip`.
 - WP.org Plugin Check baseline: `0 ERROR`, `402 WARNING` on packaged `mumega-mcp` ZIP for `2.8.30`.
 - WP.org free ZIP contents: 110 files, no Freemius SDK, no Pro modules, no legacy updater.
 - Freemius ZIP contents: 369 files, Freemius SDK included, Freemius bootstrap included, Pro modules included, no legacy updater.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`; Control Room action smoke passed on version `2.8.22`; event store and REST event smoke passed on version `2.8.23`; site-state snapshot smoke passed on version `2.8.24`; Control Room event inbox smoke passed on version `2.8.25`; agent playbook contract smoke passed on version `2.8.26`; content coherence report smoke passed on version `2.8.27`; SEO autofix plan smoke passed on version `2.8.28`; search performance import smoke passed on version `2.8.29`; WooCommerce SEO report smoke passed on version `2.8.30`.
-- Freemius activation smoke: passed on local WordPress using isolated `site-pilot-ai-freemius-test` folder; `SPAI_FREEMIUS_BUILD=true`, `spa_fs()` exists, Pro bootstrap present, and new SEO MCP routes are registered. WP-CLI activation emits a non-fatal Freemius SDK `HTTP_HOST` warning in CLI context.
-- WP.org ZIP SHA256: `86e18b6f3eb6355d69e37dcc450040832846bc6549be61dc6c135cd2043012d1`.
-- Freemius ZIP SHA256: `090b408c20aa7f185e8eeb59a604e90c707d9e5263e9d50b0258d83d51f0f6b1`.
-- GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`; Control Room action smoke passed on version `2.8.22`; event store and REST event smoke passed on version `2.8.23`; site-state snapshot smoke passed on version `2.8.24`; Control Room event inbox smoke passed on version `2.8.25`; agent playbook contract smoke passed on version `2.8.26`; content coherence report smoke passed on version `2.8.27`; SEO autofix plan smoke passed on version `2.8.28`; search performance import smoke passed on version `2.8.29`; WooCommerce SEO report smoke passed on version `2.8.30`; Freemius update refresh smoke passed on version `2.8.31`.
+- Freemius activation smoke: passed on local WordPress using isolated `site-pilot-ai-freemius-test` folder; `SPAI_FREEMIUS_BUILD=true`, `spa_fs()` exists, Pro bootstrap present, and Freemius update-refresh hook updates `spai_last_update_flush` from the plugins page. WP-CLI activation no longer emits the Freemius SDK `HTTP_HOST` warning.
+- WP.org ZIP SHA256: `108adf98dc90ef6cae3ef14e7b6a45bd66bc607547154377ddb1b726aec81bc5`.
+- Freemius ZIP SHA256: `fb0ea1d574d6d73b2deea4fccba5aafbed68c294b68a2faee6e6f3ce0754041e`.
+- GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-21e3b02478f1f4126a53
 
 ## Completed in PR #257
 

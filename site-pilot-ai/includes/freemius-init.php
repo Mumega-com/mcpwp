@@ -11,6 +11,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! function_exists( 'spa_fs' ) ) {
 	/**
+	 * Ensure Freemius has a host value when WordPress runs outside HTTP.
+	 *
+	 * Freemius reads HTTP_HOST during initialization. WP-CLI and some cron
+	 * contexts do not set it, which can produce noisy warnings during package
+	 * activation and update checks.
+	 */
+	function spai_freemius_ensure_http_host() {
+		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
+			return;
+		}
+
+		$site_url = function_exists( 'home_url' ) ? home_url() : '';
+		$host     = function_exists( 'wp_parse_url' ) ? wp_parse_url( $site_url, PHP_URL_HOST ) : parse_url( $site_url, PHP_URL_HOST );
+
+		if ( is_string( $host ) && '' !== $host ) {
+			$_SERVER['HTTP_HOST'] = $host;
+		}
+	}
+
+	/**
 	 * Create a helper function for easy SDK access.
 	 *
 	 * @return Freemius
@@ -23,6 +43,8 @@ if ( ! function_exists( 'spa_fs' ) ) {
 			if ( ! defined( 'WP_FS__PRODUCT_23824_MULTISITE' ) ) {
 				define( 'WP_FS__PRODUCT_23824_MULTISITE', true );
 			}
+
+			spai_freemius_ensure_http_host();
 
 			// Include Freemius SDK.
 			require_once SPAI_PLUGIN_DIR . 'freemius/start.php';
@@ -128,10 +150,8 @@ if ( $spai_fs_instance && method_exists( $spai_fs_instance, 'add_filter' ) ) {
 
 // Force Freemius to re-check for updates when visiting the plugins page.
 // This fixes the delay between deploying a new version and seeing the update notice.
-if ( $spai_fs_instance && method_exists( $spai_fs_instance, 'add_action' ) ) {
-	add_action( 'load-plugins.php', 'spa_fs_maybe_flush_update_cache' );
-	add_action( 'load-update-core.php', 'spa_fs_maybe_flush_update_cache' );
-}
+add_action( 'load-plugins.php', 'spa_fs_maybe_flush_update_cache' );
+add_action( 'load-update-core.php', 'spa_fs_maybe_flush_update_cache' );
 
 /**
  * Clear Freemius update cache on plugins page to ensure updates appear immediately.
@@ -151,7 +171,7 @@ function spa_fs_maybe_flush_update_cache() {
 
 	// Delete the WordPress update transient so it re-checks.
 	delete_site_transient( 'update_plugins' );
-	update_option( 'spai_last_update_flush', time() );
+	update_option( 'spai_last_update_flush', time(), false );
 
 	// Trigger Freemius to re-sync if available.
 	if ( is_object( $fs ) && method_exists( $fs, 'get_update' ) ) {

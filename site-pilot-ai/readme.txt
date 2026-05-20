@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.30
+Stable tag: 2.8.31
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,10 @@ Each site needs its own plugin installation and API key.
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.31 =
+* Fix: Harden Freemius update checks so admin update pages reliably refresh the update cache.
+* Fix: Avoid Freemius SDK host warnings during WP-CLI activation and update checks.
 
 = 2.8.30 =
 * New: Add read-only WooCommerce SEO intelligence report for product content, commerce evidence, and search performance.
@@ -260,6 +264,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.31 =
+Improves Freemius update checks and removes WP-CLI host warnings during activation and update refreshes.
 
 = 2.8.30 =
 Adds a read-only WooCommerce SEO report for product content quality, commerce signals, and search evidence.
