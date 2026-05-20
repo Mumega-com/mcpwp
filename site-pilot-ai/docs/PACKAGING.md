@@ -51,19 +51,19 @@ bash scripts/build-freemius.sh
 9. Confirm the WP.org ZIP does not contain `freemius/`, `includes/freemius-init.php`, or `includes/class-spai-updater.php`.
 10. Confirm the Freemius ZIP contains `freemius/start.php` and `includes/freemius-init.php`, and does not contain `includes/class-spai-updater.php`.
 11. Merge the release PR.
-12. Tag the release, for example `v2.8.26`.
+12. Tag the release, for example `v2.8.27`.
 13. Publish the GitHub release and attach intended ZIPs if needed.
 
 ## Current Verified Baseline
 
 PR #257 verified the following baseline:
 
-- WP.org ZIP: `scripts/mumega-mcp-2.8.26.zip`.
+- WP.org ZIP: `scripts/mumega-mcp-2.8.27.zip`.
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
 - WordPress test matrix: WordPress 6.9 / PHP 8.2.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`; Control Room action smoke passed on version `2.8.22`; event store and REST event smoke passed on version `2.8.23`; site-state snapshot smoke passed on version `2.8.24`; Control Room event inbox smoke passed on version `2.8.25`; agent playbook contract smoke passed on version `2.8.26`.
-- WP.org free ZIP contents: 106 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Plugin Check 1.9.0 result for WP.org ZIP: `0 ERROR` on packaged `mumega-mcp` ZIP for `2.8.26`.
-- WP.org ZIP SHA256: `e9338bb8cbc505e826182f53422a456ca406d5c1eda191b1f7c6164b108a0496`.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`; Control Room action smoke passed on version `2.8.22`; event store and REST event smoke passed on version `2.8.23`; site-state snapshot smoke passed on version `2.8.24`; Control Room event inbox smoke passed on version `2.8.25`; agent playbook contract smoke passed on version `2.8.26`; content coherence report smoke passed on version `2.8.27`.
+- WP.org free ZIP contents: 107 files, no Freemius SDK, no Pro modules, no legacy updater.
+- Plugin Check 1.9.0 result for WP.org ZIP: `0 ERROR` on packaged `mumega-mcp` ZIP for `2.8.27`.
+- WP.org ZIP SHA256: `5b2bc0a7649bc83cb3b238d58c2981bfa805e9eef4dfb3a0dcdb9d134d9d9018`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac

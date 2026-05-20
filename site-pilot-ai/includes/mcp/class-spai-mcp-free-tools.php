@@ -223,6 +223,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_guide'               => 'site',
 			'wp_get_workflow'            => 'site',
 			'wp_get_agent_playbook'      => 'site',
+			'wp_get_content_coherence_report' => 'seo',
 		);
 
 		// Remove custom CSS tool categories in WP.org build.
@@ -2878,6 +2879,12 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			)
 		);
 
+		$tools[] = $this->define_tool(
+			'wp_get_content_coherence_report',
+			'Get a read-only content coherence score and prioritized recommendations across site context, graph, content depth, SEO, approvals, and events.',
+			array()
+		);
+
 		return $tools;
 	}
 
@@ -3500,6 +3507,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_agent_playbook'  => array(
 				'method' => 'GET',
 				'route'  => '/agent-playbooks',
+			),
+			'wp_get_content_coherence_report' => array(
+				'method' => 'GET',
+				'route'  => '/content-coherence',
 			),
 		);
 

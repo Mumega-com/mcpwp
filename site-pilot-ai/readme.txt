@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.26
+Stable tag: 2.8.27
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,10 @@ Each site needs its own plugin installation and API key.
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.27 =
+* New: Add content coherence score across context, graph, content, SEO, approvals, and events.
+* New: Add REST and MCP report with prioritized recommendations mapped to deterministic playbooks.
 
 = 2.8.26 =
 * New: Add deterministic agent playbook contracts for Gutenberg, SEO, internal links, and rollback workflows.
@@ -244,6 +248,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.27 =
+Adds a read-only content coherence score so agents and humans can prioritize focused site improvements.
 
 = 2.8.26 =
 Adds deterministic playbook contracts so agents can follow safe tool order, validation gates, approval gates, and rollback paths.

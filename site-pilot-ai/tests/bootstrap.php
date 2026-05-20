@@ -178,6 +178,11 @@ function __($text)
     return $text;
 }
 
+function _n($single, $plural, $number)
+{
+    return 1 === (int) $number ? $single : $plural;
+}
+
 function is_wp_error($value)
 {
     return $value instanceof WP_Error;
@@ -591,6 +596,7 @@ require_once dirname(__DIR__) . '/includes/class-spai-rate-limiter.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-event-store.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-site-state.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-agent-playbooks.php';
+require_once dirname(__DIR__) . '/includes/core/class-spai-content-coherence.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-api.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-tool-registry.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-free-tools.php';

@@ -12,13 +12,13 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.26`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.26.zip`.
+- Version: `2.8.27`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.27.zip`.
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
-- WP.org Plugin Check baseline: `0 ERROR` on packaged `mumega-mcp` ZIP for `2.8.26`.
-- WP.org free ZIP contents: 106 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`; Control Room action smoke passed on version `2.8.22`; event store and REST event smoke passed on version `2.8.23`; site-state snapshot smoke passed on version `2.8.24`; Control Room event inbox smoke passed on version `2.8.25`; agent playbook contract smoke passed on version `2.8.26`.
-- WP.org ZIP SHA256: `e9338bb8cbc505e826182f53422a456ca406d5c1eda191b1f7c6164b108a0496`.
+- WP.org Plugin Check baseline: `0 ERROR` on packaged `mumega-mcp` ZIP for `2.8.27`.
+- WP.org free ZIP contents: 107 files, no Freemius SDK, no Pro modules, no legacy updater.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`; Control Room action smoke passed on version `2.8.22`; event store and REST event smoke passed on version `2.8.23`; site-state snapshot smoke passed on version `2.8.24`; Control Room event inbox smoke passed on version `2.8.25`; agent playbook contract smoke passed on version `2.8.26`; content coherence report smoke passed on version `2.8.27`.
+- WP.org ZIP SHA256: `5b2bc0a7649bc83cb3b238d58c2981bfa805e9eef4dfb3a0dcdb9d134d9d9018`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
 
@@ -161,6 +161,8 @@ Site-state snapshot progress: #313 first slice adds `Spai_Site_State`, REST `GET
 Control Room event inbox progress: #314 first slice adds a normalized Event Inbox panel to the Control Room with event type and risk filters. Escalation rules mark high-risk events, failing SEO audit events, and approval lifecycle events for human attention.
 
 Deterministic playbook progress: #315 first slice adds `Spai_Agent_Playbooks`, REST `GET /site-pilot-ai/v1/agent-playbooks`, and MCP `wp_get_agent_playbook`. Current contracts cover `build_gutenberg_page`, `update_gutenberg_section`, `seo_audit_triage`, `internal_link_improvement`, and `rollback_change` with required tools, validation gates, approval gates, rollback paths, and stop conditions.
+
+Content coherence progress: #316 first slice adds `Spai_Content_Coherence`, REST `GET /site-pilot-ai/v1/content-coherence`, and MCP `wp_get_content_coherence_report`. The score uses site-state inputs across context, graph connection, content depth/freshness, stored SEO issues, approval risk, and event risk, then maps recommendations to deterministic playbooks.
 
 Coming sprint sequence: #312 event hooks, #313 site-state snapshot, #314 Control Room event inbox, #315 deterministic playbooks, #316 content coherence score, then #307 SEO autofix, #304 Search Console/Bing imports, and #311 WooCommerce SEO intelligence. The sequence makes the system observable before it becomes more autonomous.
 

@@ -409,6 +409,19 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// Content coherence score and recommendations.
+		register_rest_route(
+			$this->namespace,
+			'/content-coherence',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_content_coherence' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+				),
+			)
+		);
+
 		// Categories
 		register_rest_route(
 			$this->namespace,
@@ -7292,6 +7305,20 @@ class Spai_REST_Site extends Spai_REST_API {
 		$this->log_activity( 'get_agent_playbook', $request, array( 'name' => sanitize_key( (string) $name ) ) );
 
 		return $this->success_response( $playbook );
+	}
+
+	/**
+	 * Get content coherence report.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response object.
+	 */
+	public function get_content_coherence( $request ) {
+		$this->log_activity( 'get_content_coherence', $request );
+
+		$report = class_exists( 'Spai_Content_Coherence' ) ? Spai_Content_Coherence::get_report() : array();
+
+		return $this->success_response( $report );
 	}
 
 	/**

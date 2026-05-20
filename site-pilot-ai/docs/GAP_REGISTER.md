@@ -396,9 +396,9 @@ Relevant issues:
 - #305 Add SEO dashboard and scheduled recommendations.
 - #312 Add AI-first event hooks and outbound webhooks.
 - #315 Define deterministic agent playbook contracts.
-- #316 Add content coherence scoring and recommendations.
+- #316 Add content coherence scoring and recommendations. Status: first implementation added `wp_get_content_coherence_report` and REST `GET /site-pilot-ai/v1/content-coherence`.
 
-Status: content graph, stored SEO issues, approvals, and Control Room now exist as separate slices. Next work should connect them through event hooks, a shared state summary, deterministic playbooks, and a content coherence score.
+Status: content graph, stored SEO issues, approvals, Control Room, event hooks, site-state snapshot, deterministic playbooks, and first content coherence score now exist as separate slices. Next work should deepen coherence scoring with richer evidence, trend history, and per-page drill-downs.
 
 ### Coming Sprint Sequence
 
