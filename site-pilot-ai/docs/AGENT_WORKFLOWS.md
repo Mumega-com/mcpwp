@@ -96,6 +96,7 @@ Minimum objects the router and capability registry should understand:
 - For narrow Gutenberg edits, prefer `wp_patch_block_section` with a path, anchor, or heading selector instead of rewriting the whole page. It creates approval requests by default.
 - For internal links, call `wp_suggest_internal_links` first. Use only returned graph URLs and apply accepted links through `wp_apply_internal_link`, `wp_patch_block_section`, or `wp_set_blocks` with approval enabled.
 - Before publishing or after link edits, call `wp_validate_internal_links` and fix errors through approval-first Gutenberg edits.
+- Before publishing search-facing content, call `wp_validate_seo_readiness` and address error/warning issues through approval-first edits or SEO metadata updates.
 - Approval sequence: create pending request, inspect with `wp_get_approval`, human approves with `wp_approve_request`, apply with `wp_apply_approval`, and revert with `wp_rollback_approval` if needed.
 - Apply and rollback are guarded by content hashes; if the post changed after request creation or after apply, the tool returns `approval_content_conflict` instead of overwriting newer work.
 - Return deterministic errors that agents can recover from: `pro_required`, `approval_required`, `invalid_payload`, `unknown_action`, `provider_not_configured`, `insufficient_scope`.

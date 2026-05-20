@@ -904,6 +904,27 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// SEO pre-publish readiness checks.
+		register_rest_route(
+			$this->namespace,
+			'/seo/readiness/(?P<id>\d+)',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'validate_seo_readiness' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'id' => array(
+							'description'       => __( 'Post or page ID to validate.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'required'          => true,
+							'sanitize_callback' => 'absint',
+						),
+					),
+				),
+			)
+		);
+
 		// Theme info
 		register_rest_route(
 			$this->namespace,
@@ -1838,6 +1859,147 @@ class Spai_REST_Site extends Spai_REST_API {
 	}
 
 	/**
+	 * Validate SEO readiness for a single post before publishing/updating.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function validate_seo_readiness( $request ) {
+		$post_id = absint( $request->get_param( 'id' ) );
+		$post    = get_post( $post_id );
+
+		if ( ! $post ) {
+			return $this->error_response( 'not_found', 'Post not found.', 404 );
+		}
+
+		$this->log_activity( 'validate_seo_readiness', $request, array( 'post_id' => $post_id ) );
+
+		$issues       = array();
+		$content      = (string) $post->post_content;
+		$text_content = trim( wp_strip_all_tags( $content ) );
+		$title        = trim( get_the_title( $post ) );
+		$headings     = $this->extract_heading_texts( $content );
+		$h1_count     = 0;
+		$last_level   = 0;
+
+		if ( '' === $title ) {
+			$issues[] = $this->make_seo_readiness_issue( 'missing_title', 'error', __( 'Post title is missing.', 'mumega-mcp' ), __( 'Add a clear, descriptive title.', 'mumega-mcp' ) );
+		} elseif ( strlen( $title ) < 10 ) {
+			$issues[] = $this->make_seo_readiness_issue( 'short_title', 'warning', __( 'Post title is very short.', 'mumega-mcp' ), __( 'Use a descriptive title that sets search intent clearly.', 'mumega-mcp' ) );
+		}
+
+		if ( '' === trim( (string) $post->post_name ) ) {
+			$issues[] = $this->make_seo_readiness_issue( 'missing_slug', 'error', __( 'Slug is missing.', 'mumega-mcp' ), __( 'Set a readable URL slug before publishing.', 'mumega-mcp' ) );
+		}
+
+		if ( str_word_count( $text_content ) < 80 ) {
+			$issues[] = $this->make_seo_readiness_issue( 'thin_content', 'warning', __( 'Content is thin.', 'mumega-mcp' ), __( 'Add enough useful copy to answer the page intent.', 'mumega-mcp' ) );
+		}
+
+		foreach ( $headings as $heading ) {
+			if ( 1 === (int) $heading['level'] ) {
+				$h1_count++;
+			}
+
+			if ( $last_level > 0 && (int) $heading['level'] > $last_level + 1 ) {
+				$issues[] = $this->make_seo_readiness_issue( 'heading_order_skip', 'warning', __( 'Heading levels skip in the page outline.', 'mumega-mcp' ), __( 'Use a logical heading hierarchy without jumping levels.', 'mumega-mcp' ) );
+				break;
+			}
+
+			$last_level = (int) $heading['level'];
+		}
+
+		if ( 0 === $h1_count ) {
+			$issues[] = $this->make_seo_readiness_issue( 'missing_h1', 'warning', __( 'No H1 heading found in the content.', 'mumega-mcp' ), __( 'Add one visible H1 or confirm the theme renders the post title as H1.', 'mumega-mcp' ) );
+		} elseif ( $h1_count > 1 ) {
+			$issues[] = $this->make_seo_readiness_issue( 'multiple_h1', 'warning', __( 'Multiple H1 headings found.', 'mumega-mcp' ), __( 'Use one primary H1 and demote secondary headings.', 'mumega-mcp' ) );
+		}
+
+		$meta_description = $this->get_seo_meta_description( $post_id );
+		if ( '' === $meta_description ) {
+			$issues[] = $this->make_seo_readiness_issue( 'missing_meta_description', 'warning', __( 'Meta description is missing.', 'mumega-mcp' ), __( 'Add a concise meta description through the active SEO plugin or supported post meta.', 'mumega-mcp' ) );
+		} elseif ( strlen( $meta_description ) < 50 || strlen( $meta_description ) > 170 ) {
+			$issues[] = $this->make_seo_readiness_issue( 'meta_description_length', 'warning', __( 'Meta description length is outside the recommended range.', 'mumega-mcp' ), __( 'Aim for roughly 50-170 characters that summarize the page accurately.', 'mumega-mcp' ) );
+		}
+
+		foreach ( $this->extract_image_ids_from_content( $content ) as $image_id ) {
+			if ( '' === trim( (string) get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) ) {
+				$issues[] = $this->make_seo_readiness_issue( 'missing_image_alt', 'warning', __( 'An image is missing alt text.', 'mumega-mcp' ), __( 'Add descriptive alt text or mark decorative images intentionally.', 'mumega-mcp' ), array( 'attachment_id' => $image_id ) );
+			}
+		}
+
+		$graph_post_types = array_values( array_unique( array( 'page', 'post', $post->post_type ) ) );
+		$graph            = $this->build_content_graph_data( $graph_post_types, 500, 'publish' !== $post->post_status );
+		$node  = null;
+		foreach ( $graph['nodes'] as $candidate ) {
+			if ( (int) $candidate['id'] === $post_id ) {
+				$node = $candidate;
+				break;
+			}
+		}
+
+		if ( $node && 0 === (int) $node['outbound_count'] ) {
+			$issues[] = $this->make_seo_readiness_issue( 'no_internal_outbound_links', 'warning', __( 'No internal outbound links found.', 'mumega-mcp' ), __( 'Add relevant internal links from the content graph where useful.', 'mumega-mcp' ) );
+		}
+
+		if ( $node && 'publish' === $post->post_status && 'none' !== $node['orphan_severity'] ) {
+			$issues[] = $this->make_seo_readiness_issue( 'orphan_content', 'warning', __( 'Published content appears orphaned in the graph.', 'mumega-mcp' ), __( 'Link to this page from a relevant hub, menu, archive, or related page.', 'mumega-mcp' ), array( 'orphan_severity' => $node['orphan_severity'] ) );
+		}
+
+		if ( $this->is_post_noindex( $post_id ) ) {
+			$issues[] = $this->make_seo_readiness_issue( 'noindex_enabled', 'error', __( 'Post appears to be marked noindex.', 'mumega-mcp' ), __( 'Remove noindex before publishing content intended for search.', 'mumega-mcp' ) );
+		}
+
+		$canonical = $this->get_seo_canonical_url( $post_id );
+		if ( '' !== $canonical && $this->normalize_internal_graph_url( $canonical ) !== $this->normalize_internal_graph_url( get_permalink( $post ) ) ) {
+			$issues[] = $this->make_seo_readiness_issue( 'canonical_override', 'warning', __( 'Canonical URL points somewhere other than this permalink.', 'mumega-mcp' ), __( 'Confirm this canonical is intentional before publishing.', 'mumega-mcp' ), array( 'canonical_url' => $canonical ) );
+		}
+
+		$robots_txt = $this->get_robots_txt();
+		if ( false !== stripos( $robots_txt, 'Disallow: /' ) ) {
+			$issues[] = $this->make_seo_readiness_issue( 'robots_disallow_root', 'error', __( 'robots.txt appears to disallow the whole site.', 'mumega-mcp' ), __( 'Review robots.txt before publishing search-facing content.', 'mumega-mcp' ) );
+		}
+
+		if ( ! $this->site_has_sitemap_hint() ) {
+			$issues[] = $this->make_seo_readiness_issue( 'sitemap_not_detected', 'info', __( 'Sitemap endpoint was not detected locally.', 'mumega-mcp' ), __( 'Confirm XML sitemaps are enabled in WordPress or your SEO plugin.', 'mumega-mcp' ) );
+		}
+
+		if ( ! $this->content_has_schema_hint( $content ) ) {
+			$issues[] = $this->make_seo_readiness_issue( 'schema_hint_missing', 'info', __( 'No structured-data hint found in content.', 'mumega-mcp' ), __( 'Consider schema only when it accurately matches visible content.', 'mumega-mcp' ) );
+		}
+
+		$summary = $this->summarize_seo_readiness_issues( $issues );
+
+		return $this->success_response(
+			array(
+				'post'    => array(
+					'id'     => $post_id,
+					'title'  => $title,
+					'type'   => $post->post_type,
+					'status' => $post->post_status,
+					'url'    => get_permalink( $post ),
+				),
+				'summary' => $summary,
+				'issues'  => $issues,
+				'checks'  => array(
+					'word_count'         => str_word_count( $text_content ),
+					'heading_count'      => count( $headings ),
+					'h1_count'           => $h1_count,
+					'meta_description'   => $meta_description,
+					'canonical_url'      => $canonical,
+					'robots_txt_checked' => '' !== $robots_txt,
+					'sitemap_hint'       => $this->site_has_sitemap_hint(),
+				),
+				'workflow' => array(
+					'read'  => 'Use before publishing or after major agent edits.',
+					'fix'   => 'Fix accepted issues through approval-first Gutenberg or SEO metadata edits.',
+					'guard' => 'This endpoint is read-only and does not mutate content.',
+				),
+			)
+		);
+	}
+
+	/**
 	 * Build internal content graph data.
 	 *
 	 * @param array $post_types     Post types.
@@ -2393,6 +2555,202 @@ class Spai_REST_Site extends Spai_REST_API {
 			),
 			$extra
 		);
+	}
+
+	/**
+	 * Create a normalized SEO readiness issue.
+	 *
+	 * @param string $code           Issue code.
+	 * @param string $severity       Severity.
+	 * @param string $message        Message.
+	 * @param string $recommendation Recommendation.
+	 * @param array  $extra          Extra fields.
+	 * @return array Issue.
+	 */
+	private function make_seo_readiness_issue( $code, $severity, $message, $recommendation, $extra = array() ) {
+		return array_merge(
+			array(
+				'code'              => $code,
+				'severity'          => $severity,
+				'message'           => $message,
+				'recommendation'    => $recommendation,
+				'approval_required' => in_array( $severity, array( 'error', 'warning' ), true ),
+			),
+			$extra
+		);
+	}
+
+	/**
+	 * Summarize SEO readiness issues.
+	 *
+	 * @param array $issues Issues.
+	 * @return array Summary.
+	 */
+	private function summarize_seo_readiness_issues( $issues ) {
+		$error_count   = 0;
+		$warning_count = 0;
+		$info_count    = 0;
+
+		foreach ( $issues as $issue ) {
+			if ( 'error' === $issue['severity'] ) {
+				$error_count++;
+			} elseif ( 'warning' === $issue['severity'] ) {
+				$warning_count++;
+			} elseif ( 'info' === $issue['severity'] ) {
+				$info_count++;
+			}
+		}
+
+		return array(
+			'status'        => 0 === $error_count ? ( $warning_count > 0 ? 'warn' : 'pass' ) : 'fail',
+			'issue_count'   => count( $issues ),
+			'error_count'   => $error_count,
+			'warning_count' => $warning_count,
+			'info_count'    => $info_count,
+		);
+	}
+
+	/**
+	 * Get supported SEO meta description value.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return string Description.
+	 */
+	private function get_seo_meta_description( $post_id ) {
+		$keys = array(
+			'_yoast_wpseo_metadesc',
+			'rank_math_description',
+			'_aioseo_description',
+			'_seopress_titles_desc',
+			'spai_meta_description',
+		);
+
+		foreach ( $keys as $key ) {
+			$value = trim( (string) get_post_meta( $post_id, $key, true ) );
+			if ( '' !== $value ) {
+				return $value;
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * Get supported SEO canonical value.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return string Canonical URL.
+	 */
+	private function get_seo_canonical_url( $post_id ) {
+		$keys = array(
+			'_yoast_wpseo_canonical',
+			'rank_math_canonical_url',
+			'_aioseo_canonical_url',
+			'_seopress_robots_canonical',
+		);
+
+		foreach ( $keys as $key ) {
+			$value = trim( (string) get_post_meta( $post_id, $key, true ) );
+			if ( '' !== $value ) {
+				return $value;
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * Determine whether common SEO meta marks a post noindex.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return bool True when noindex.
+	 */
+	private function is_post_noindex( $post_id ) {
+		$values = array(
+			get_post_meta( $post_id, '_yoast_wpseo_meta-robots-noindex', true ),
+			get_post_meta( $post_id, 'rank_math_robots', true ),
+			get_post_meta( $post_id, '_aioseo_robots_noindex', true ),
+			get_post_meta( $post_id, '_seopress_robots_index', true ),
+		);
+
+		foreach ( $values as $value ) {
+			if ( is_array( $value ) && in_array( 'noindex', array_map( 'strtolower', $value ), true ) ) {
+				return true;
+			}
+
+			$value = strtolower( trim( (string) $value ) );
+			if ( in_array( $value, array( '1', 'true', 'yes', 'noindex' ), true ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Extract image attachment IDs from block/image markup.
+	 *
+	 * @param string $content Content.
+	 * @return array Attachment IDs.
+	 */
+	private function extract_image_ids_from_content( $content ) {
+		$image_ids = array();
+
+		if ( preg_match_all( '/<!--\s+wp:image\s+({.*?})\s+-->/is', $content, $matches ) ) {
+			foreach ( $matches[1] as $json ) {
+				$attrs = json_decode( html_entity_decode( $json, ENT_QUOTES, get_bloginfo( 'charset' ) ), true );
+				if ( ! empty( $attrs['id'] ) ) {
+					$image_ids[] = (int) $attrs['id'];
+				}
+			}
+		}
+
+		if ( preg_match_all( '/wp-image-(\d+)/i', $content, $matches ) ) {
+			foreach ( $matches[1] as $id ) {
+				$image_ids[] = (int) $id;
+			}
+		}
+
+		return array_values( array_unique( array_filter( $image_ids ) ) );
+	}
+
+	/**
+	 * Get robots.txt output.
+	 *
+	 * @return string Robots content.
+	 */
+	private function get_robots_txt() {
+		$public = (bool) get_option( 'blog_public' );
+		$output = "User-agent: *\n";
+
+		if ( $public ) {
+			$output .= "Disallow:\n";
+		} else {
+			$output .= "Disallow: /\n";
+		}
+
+		return (string) apply_filters( 'robots_txt', $output, $public );
+	}
+
+	/**
+	 * Check whether a sitemap endpoint is likely available.
+	 *
+	 * @return bool True when sitemap is likely.
+	 */
+	private function site_has_sitemap_hint() {
+		return function_exists( 'wp_sitemaps_get_server' ) || defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || defined( 'AIOSEO_VERSION' ) || defined( 'SEOPRESS_VERSION' );
+	}
+
+	/**
+	 * Check for structured data hints in content.
+	 *
+	 * @param string $content Content.
+	 * @return bool True when schema hint exists.
+	 */
+	private function content_has_schema_hint( $content ) {
+		return false !== stripos( $content, 'application/ld+json' )
+			|| false !== stripos( $content, 'itemscope' )
+			|| false !== stripos( $content, 'schema.org' );
 	}
 
 	/**

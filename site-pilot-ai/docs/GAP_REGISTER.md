@@ -229,6 +229,8 @@ Relevant issues:
 - #287 Add sitemap freshness and IndexNow workflow.
 - #288 Add page experience and media SEO checks for Gutenberg pages.
 
+Status: first pre-publish slice adds `wp_validate_seo_readiness` and `GET /site-pilot-ai/v1/seo/readiness/{id}`. It checks title, slug, thin content, H1, heading order, meta description, image alt text, internal links, orphan state, noindex, canonical overrides, robots.txt, sitemap hints, and schema hints without mutating content.
+
 ### Keyword, Topic, And Content Strategy
 
 Gap: no keyword inventory, gap analysis, cannibalization detection, or content brief generator.

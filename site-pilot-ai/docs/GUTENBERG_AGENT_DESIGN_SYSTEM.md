@@ -141,7 +141,7 @@ Backlog capabilities:
 - Page experience and media SEO checks before publish.
 - Search Console/Bing Webmaster status notes or integrations where credentials/export data are available.
 
-Agents should treat these checks as a pre-publish gate. The plugin should return a clear report with `pass`, `warn`, `fail`, and approval-required items rather than silently rewriting SEO-sensitive settings.
+Agents should treat these checks as a pre-publish gate. `wp_validate_seo_readiness` returns a clear report with `pass`, `warn`, `fail`, and approval-required items rather than silently rewriting SEO-sensitive settings.
 
 ## Internal Content Graph
 

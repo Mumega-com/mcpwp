@@ -72,6 +72,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_suggest_internal_links'  => 'content',
 			'wp_apply_internal_link'     => 'content',
 			'wp_validate_internal_links' => 'content',
+			'wp_validate_seo_readiness'  => 'seo',
 			'wp_get_custom_css'          => 'site',
 			'wp_set_custom_css'          => 'site',
 			'wp_delete_custom_css'       => 'site',
@@ -613,6 +614,18 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'include_drafts' => array(
 					'type'        => 'boolean',
 					'description' => 'Include draft/private source content. Defaults to false.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_validate_seo_readiness',
+			'Validate SEO pre-publish readiness for a post or page without mutating content. Checks title, slug, H1, heading order, meta description, image alt text, internal links, indexability, canonical, robots, sitemap, and schema hints.',
+			array(
+				'id' => array(
+					'type'        => 'number',
+					'description' => 'Post or page ID to validate.',
+					'required'    => true,
 				),
 			)
 		);
@@ -2768,6 +2781,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_validate_internal_links' => array(
 				'method' => 'GET',
 				'route'  => '/content-graph/validate-links',
+			),
+			'wp_validate_seo_readiness' => array(
+				'method' => 'GET',
+				'route'  => '/seo/readiness/{id}',
 			),
 			'wp_get_custom_css' => array(
 				'method' => 'GET',
