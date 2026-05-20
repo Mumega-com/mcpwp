@@ -640,6 +640,8 @@ trait Spai_Api_Auth {
 			'wp_list_webhooks',
 			'wp_list_webhook_logs',
 			'wp_list_webhook_events',
+			'wp_get_event_schema',
+			'wp_list_mcp_events',
 			'wp_create_api_key',
 			'wp_revoke_api_key',
 			'wp_list_api_keys',

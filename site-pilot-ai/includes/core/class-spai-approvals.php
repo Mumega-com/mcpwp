@@ -80,7 +80,16 @@ class Spai_Approvals {
 
 		self::upsert( $request );
 
-		return self::public_record( $request );
+		$public = self::public_record( $request );
+		self::emit_event(
+			'approval.created',
+			$public,
+			'pending',
+			'medium',
+			__( 'Review approval request.', 'mumega-mcp' )
+		);
+
+		return $public;
 	}
 
 	/**
@@ -181,7 +190,16 @@ class Spai_Approvals {
 		$request['updated_at'] = $request['applied_at'];
 		self::upsert( $request );
 
-		return self::public_record( $request );
+		$public = self::public_record( $request );
+		self::emit_event(
+			'approval.applied',
+			$public,
+			'applied',
+			'medium',
+			__( 'Monitor applied change and keep rollback available.', 'mumega-mcp' )
+		);
+
+		return $public;
 	}
 
 	/**
@@ -210,7 +228,16 @@ class Spai_Approvals {
 		$request['updated_at']     = $request['rolled_back_at'];
 		self::upsert( $request );
 
-		return self::public_record( $request );
+		$public = self::public_record( $request );
+		self::emit_event(
+			'approval.rolled_back',
+			$public,
+			'rolled_back',
+			'low',
+			__( 'Review rollback result.', 'mumega-mcp' )
+		);
+
+		return $public;
 	}
 
 	/**
@@ -260,7 +287,46 @@ class Spai_Approvals {
 
 		self::upsert( $request );
 
-		return self::public_record( $request );
+		$public = self::public_record( $request );
+		self::emit_event(
+			'approval.' . $status,
+			$public,
+			$status,
+			'approved' === $status ? 'medium' : 'low',
+			'approved' === $status ? __( 'Apply approved change when ready.', 'mumega-mcp' ) : __( 'No apply action needed.', 'mumega-mcp' )
+		);
+
+		return $public;
+	}
+
+	/**
+	 * Emit an approval lifecycle event.
+	 *
+	 * @param string $type               Event type.
+	 * @param array  $approval           Public approval record.
+	 * @param string $approval_state     Approval state.
+	 * @param string $risk_level         Risk level.
+	 * @param string $recommended_action Recommended action.
+	 * @return void
+	 */
+	private static function emit_event( $type, $approval, $approval_state, $risk_level, $recommended_action ) {
+		if ( ! class_exists( 'Spai_Event_Store' ) ) {
+			return;
+		}
+
+		$resource = isset( $approval['resource'] ) && is_array( $approval['resource'] ) ? $approval['resource'] : array();
+		Spai_Event_Store::emit(
+			$type,
+			array(
+				'approval' => $approval,
+			),
+			array(
+				'resource'           => $resource,
+				'risk_level'         => $risk_level,
+				'approval_state'     => $approval_state,
+				'recommended_action' => $recommended_action,
+			)
+		);
 	}
 
 	/**

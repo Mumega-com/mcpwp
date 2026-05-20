@@ -136,7 +136,7 @@ Expected MCP/REST surfaces:
 - `wp_get_ai_visibility_report`
 - `wp_run_seo_autofix_plan`
 - `wp_get_event_schema`
-- `wp_list_event_deliveries`
+- `wp_list_mcp_events`
 - `wp_get_site_state`
 - `wp_get_agent_playbook`
 - `wp_get_content_coherence_report`

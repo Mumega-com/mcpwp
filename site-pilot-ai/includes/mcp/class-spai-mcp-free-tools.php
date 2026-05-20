@@ -205,6 +205,8 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 			// Webhooks
 			'wp_list_webhook_events'     => 'webhooks',
+			'wp_get_event_schema'        => 'webhooks',
+			'wp_list_mcp_events'         => 'webhooks',
 			'wp_list_webhooks'           => 'webhooks',
 			'wp_create_webhook'          => 'webhooks',
 			'wp_update_webhook'          => 'webhooks',
@@ -2169,6 +2171,28 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 		);
 
 		$tools[] = $this->define_tool(
+			'wp_get_event_schema',
+			'Get normalized AI-first event schema with WordPress hook names for agents and webhook subscribers',
+			array()
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_list_mcp_events',
+			'List recent normalized Mumega MCP events emitted by approvals, SEO audits, and other agent workflows',
+			array(
+				'type'  => array(
+					'type'        => 'string',
+					'description' => 'Optional event type filter, for example approval.created or seo.audit_completed',
+				),
+				'limit' => array(
+					'type'        => 'number',
+					'description' => 'Maximum events to return',
+					'default'     => 50,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
 			'wp_list_webhooks',
 			'List webhooks with optional filters',
 			array(
@@ -3246,6 +3270,14 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_list_webhook_events'  => array(
 				'method' => 'GET',
 				'route'  => '/webhooks/events',
+			),
+			'wp_get_event_schema'        => array(
+				'method' => 'GET',
+				'route'  => '/events/schema',
+			),
+			'wp_list_mcp_events'         => array(
+				'method' => 'GET',
+				'route'  => '/events',
 			),
 			'wp_list_webhooks'        => array(
 				'method' => 'GET',

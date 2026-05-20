@@ -12,13 +12,13 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.22`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.22.zip`
+- Version: `2.8.23`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.23.zip`.
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
-- WP.org Plugin Check baseline: `0 ERROR` on packaged `mumega-mcp` ZIP for `2.8.22`.
-- WP.org free ZIP contents: 103 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`; Control Room action smoke passed on version `2.8.22`.
-- WP.org ZIP SHA256: `d9704dfba32f838598b0d79c3f3d34c78ef9168cfc4386aa3522eabb4d62f069`.
+- WP.org Plugin Check baseline: `0 ERROR` on packaged `mumega-mcp` ZIP for `2.8.23`.
+- WP.org free ZIP contents: 104 files, no Freemius SDK, no Pro modules, no legacy updater.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`; Control Room action smoke passed on version `2.8.22`; event store and REST event smoke passed on version `2.8.23`.
+- WP.org ZIP SHA256: `4e5677142ef5c57836b8a3d8fe73998acd83c78740a7368dab8dadc9bfe78756`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
 
@@ -151,6 +151,8 @@ Human control room progress: #309 now has the first admin implementation. The Co
 SEO provider backlog: #304 covers Search Console/Bing imports, #297 covers keyword/topic inventory, #310 covers optional Apify trend/SERP provider imports, and #311 covers WooCommerce SEO intelligence. Keep the sequencing SEO-first: core issue model and control room, then keyword/search imports, then WooCommerce as a revenue-focused vertical, then Apify as an optional Pro/provider evidence source.
 
 AI-first hooks backlog: #312 tracks harness-neutral WordPress hooks plus signed outbound webhooks. First slice should emit approval lifecycle and stored SEO audit events, then broaden to SEO issue, content graph, activity, and Control Room alert events. Outbound notifications are safe first; inbound mutating commands must be scoped, signed, logged, and approval-first.
+
+AI-first hooks progress: first slice adds `Spai_Event_Store`, recent normalized event history, `spai_event_emitted`, specific hooks such as `spai_approval_created` and `spai_seo_audit_completed`, webhook forwarding through existing signed webhooks, REST `/events/schema`, REST `/events`, MCP `wp_get_event_schema`, and MCP `wp_list_mcp_events`.
 
 Coherent content-system frame: treat WordPress as one connected state model across posts, pages, Gutenberg blocks, media, taxonomies, menus, internal links, SEO metadata, approvals, activity, commerce, and templates. Agents should respond to current site state and graph relationships instead of seeing disconnected tools or pushing raw page edits.
 

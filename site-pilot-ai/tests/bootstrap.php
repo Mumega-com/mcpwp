@@ -195,6 +195,11 @@ function sanitize_email($value)
     return filter_var($value, FILTER_SANITIZE_EMAIL);
 }
 
+function sanitize_user($value)
+{
+    return preg_replace('/[^a-zA-Z0-9_\\-.@]/', '', (string) $value);
+}
+
 function absint($value)
 {
     return abs((int) $value);
@@ -218,6 +223,24 @@ function wp_unslash($value)
 function wp_set_current_user($user_id)
 {
     $GLOBALS['spai_test_current_user'] = (int) $user_id;
+}
+
+function get_current_user_id()
+{
+    return (int) $GLOBALS['spai_test_current_user'];
+}
+
+function get_userdata($user_id)
+{
+    foreach ($GLOBALS['spai_test_users'] as $user) {
+        if ((int) $user->ID === (int) $user_id) {
+            if (empty($user->user_login)) {
+                $user->user_login = 'spai_test_user';
+            }
+            return $user;
+        }
+    }
+    return false;
 }
 
 function get_users($args = array())
@@ -361,7 +384,20 @@ function current_time($type)
     if ('mysql' === $type) {
         return gmdate('Y-m-d H:i:s');
     }
+    if ('c' === $type) {
+        return gmdate('c');
+    }
     return time();
+}
+
+function get_site_url()
+{
+    return 'https://example.com';
+}
+
+function wp_generate_uuid4()
+{
+    return '00000000-0000-4000-8000-' . str_pad((string) mt_rand(1, 999999999999), 12, '0', STR_PAD_LEFT);
 }
 
 function wp_hash_password($password)
@@ -444,6 +480,7 @@ require_once dirname(__DIR__) . '/includes/traits/trait-spai-api-auth.php';
 require_once dirname(__DIR__) . '/includes/traits/trait-spai-sanitization.php';
 require_once dirname(__DIR__) . '/includes/traits/trait-spai-logging.php';
 require_once dirname(__DIR__) . '/includes/class-spai-rate-limiter.php';
+require_once dirname(__DIR__) . '/includes/core/class-spai-event-store.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-api.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-tool-registry.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-free-tools.php';

@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.22
+Stable tag: 2.8.23
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,10 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
+= 2.8.23 =
+* New: Add AI-first event store and WordPress hooks for approval lifecycle and stored SEO audit events.
+* New: Add event schema and recent event listing endpoints for agents and webhook subscribers.
+
 = 2.8.22 =
 * New: Add Control Room actions for approving, rejecting, applying, and rolling back supervised agent changes.
 * New: Add a one-click stored SEO audit action and status, severity, and category filters for stored SEO issues.
@@ -228,6 +232,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.23 =
+Adds normalized event hooks and recent event history so external agents and automations can react to supervised WordPress state changes.
 
 = 2.8.22 =
 Adds actionable Control Room workflows for approvals, rollback, stored SEO audits, and filtered SEO issue review.

@@ -68,11 +68,34 @@ class Spai_SEO_Audit_Store {
 		self::upsert_run( $run );
 		$issue_count = self::store_issues_for_run( $run_id, $urls, $now );
 
-		return array(
+		$stored = array(
 			'id'          => $run_id,
 			'created_at'  => $now,
 			'issue_count' => $issue_count,
 		);
+
+		if ( class_exists( 'Spai_Event_Store' ) ) {
+			Spai_Event_Store::emit(
+				'seo.audit_completed',
+				array(
+					'run'             => $stored,
+					'summary'         => $run['summary'],
+					'category_counts' => $run['category_counts'],
+					'top_issue_codes' => $run['top_issue_codes'],
+				),
+				array(
+					'resource'           => array(
+						'type' => 'seo_audit',
+						'id'   => $run_id,
+					),
+					'risk_level'         => ! empty( $run['summary']['error_count'] ) ? 'high' : ( ! empty( $run['summary']['warning_count'] ) ? 'medium' : 'low' ),
+					'seo_state'          => isset( $run['summary']['status'] ) ? sanitize_key( (string) $run['summary']['status'] ) : '',
+					'recommended_action' => __( 'Review stored SEO issues.', 'mumega-mcp' ),
+				)
+			);
+		}
+
+		return $stored;
 	}
 
 	/**

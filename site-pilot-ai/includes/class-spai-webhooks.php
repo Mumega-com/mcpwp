@@ -50,6 +50,12 @@ class Spai_Webhooks {
 		'comment.created',
 		'comment.approved',
 		'comment.deleted',
+		'approval.created',
+		'approval.approved',
+		'approval.rejected',
+		'approval.applied',
+		'approval.rolled_back',
+		'seo.audit_completed',
 		'api.alert.5xx_spike',
 		'api.alert.auth_spike',
 	);

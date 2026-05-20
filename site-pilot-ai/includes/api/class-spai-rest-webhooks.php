@@ -45,6 +45,42 @@ class Spai_REST_Webhooks extends Spai_REST_API {
 			)
 		);
 
+		register_rest_route(
+			$this->namespace,
+			'/events/schema',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_event_schema' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+				),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/events',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'list_events' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'type'  => array(
+							'type'    => 'string',
+							'default' => '',
+						),
+						'limit' => array(
+							'type'    => 'integer',
+							'default' => 50,
+							'minimum' => 1,
+							'maximum' => 100,
+						),
+					),
+				),
+			)
+		);
+
 		// List webhooks / Create webhook
 		register_rest_route(
 			$this->namespace,
@@ -191,6 +227,49 @@ class Spai_REST_Webhooks extends Spai_REST_API {
 				'total'   => count( $events ),
 			)
 		);
+	}
+
+	/**
+	 * Get normalized event schema.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function get_event_schema( $request ) {
+		$this->log_activity( 'event_schema', $request );
+
+		$schema = class_exists( 'Spai_Event_Store' ) ? Spai_Event_Store::get_schema() : array();
+
+		return $this->success_response(
+			array(
+				'events' => $schema,
+				'total'  => count( $schema ),
+			)
+		);
+	}
+
+	/**
+	 * List recent normalized events.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function list_events( $request ) {
+		$this->log_activity( 'list_events', $request );
+
+		$result = class_exists( 'Spai_Event_Store' )
+			? Spai_Event_Store::list_events(
+				array(
+					'type'  => $request->get_param( 'type' ),
+					'limit' => $request->get_param( 'limit' ),
+				)
+			)
+			: array(
+				'events' => array(),
+				'total'  => 0,
+			);
+
+		return $this->success_response( $result );
 	}
 
 	/**
