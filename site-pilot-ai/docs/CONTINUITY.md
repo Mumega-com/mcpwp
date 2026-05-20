@@ -12,13 +12,13 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.12`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.12.zip`
+- Version: `2.8.13`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.13.zip`
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
 - WP.org Plugin Check baseline: `0 ERROR`, `352 WARNING`.
 - WP.org free ZIP contents: 101 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`.
-- WP.org ZIP SHA256: `4db7bd095b9804658527e575121f10892047f3fb8ada9a4b1312fd8458cf6ee1`.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`.
+- WP.org ZIP SHA256: `e586c7bf0065bdbaf8c0dd8d0715bc285187d5aea623c4109a32b20e937ce9c2`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
 
@@ -147,3 +147,5 @@ Section patching progress: `wp_patch_block_section` and `POST /site-pilot-ai/v1/
 Internal graph progress: `wp_suggest_internal_links` and `GET /site-pilot-ai/v1/content-graph/suggestions` now return read-only internal link suggestions from the content graph. Suggestions use existing graph URLs only, include a conservative anchor and approval diff, and do not mutate content. `wp_apply_internal_link` and `POST /site-pilot-ai/v1/content-graph/apply-link` now apply accepted graph targets by creating an approval request by default and appending a native Gutenberg related-link paragraph.
 
 Internal link validation progress: `wp_validate_internal_links` and `GET /site-pilot-ai/v1/content-graph/validate-links` now report self-links, duplicate internal targets, empty/weak anchors, missing targets, unpublished targets, and non-canonical URLs without mutating content.
+
+Weighted graph progress: `wp_get_content_graph` now includes `shared_taxonomy` edges plus node-level `menu_depth`, `freshness_days`, `freshness_score`, `hub_score`, `orphan_severity`, and PageRank-style `rank_score` signals for SEO and internal linking decisions.

@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.12
+Stable tag: 2.8.13
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,11 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
+= 2.8.13 =
+* New: Add weighted content graph signals for SEO and internal linking workflows.
+* New: Content graph nodes now include menu depth, freshness score, hub score, orphan severity, and PageRank-style rank score.
+* New: Content graph now includes taxonomy edges for shared topic relationships.
+
 = 2.8.12 =
 * New: Add read-only internal link validation for SEO and agent publishing workflows.
 * New: Detect self-links, duplicate internal targets, weak anchors, missing targets, unpublished targets, and non-canonical internal URLs.
@@ -188,6 +193,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.13 =
+Adds weighted content graph signals for better internal linking and SEO workflows.
 
 = 2.8.12 =
 Adds internal link validation for safer SEO and publishing workflows.

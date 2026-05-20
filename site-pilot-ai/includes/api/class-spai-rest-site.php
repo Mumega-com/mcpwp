@@ -1858,15 +1858,19 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
-		$nodes_by_id   = array();
-		$url_to_id     = array();
-		$menu_post_ids = $this->get_menu_post_ids();
+		$nodes_by_id       = array();
+		$url_to_id         = array();
+		$menu_post_depths  = $this->get_menu_post_depths();
+		$menu_post_ids     = array_keys( $menu_post_depths );
+		$terms_to_post_ids = array();
+		$now               = time();
 
 		foreach ( $posts as $post ) {
 			$permalink  = get_permalink( $post );
-			$term_names = wp_get_object_terms( $post->ID, get_object_taxonomies( $post->post_type ), array( 'fields' => 'names' ) );
-			$term_names = is_wp_error( $term_names ) ? array() : array_values( array_unique( $term_names ) );
+			$term_names = $this->get_graph_term_names( $post );
 			$headings   = $this->extract_heading_texts( $post->post_content );
+			$modified_ts = (int) get_post_modified_time( 'U', true, $post );
+			$freshness_days = $modified_ts > 0 ? max( 0, floor( ( $now - $modified_ts ) / DAY_IN_SECONDS ) ) : null;
 
 			$node = array(
 				'id'             => (int) $post->ID,
@@ -1879,17 +1883,38 @@ class Spai_REST_Site extends Spai_REST_API {
 				'modified'       => get_post_modified_time( DATE_ATOM, true, $post ),
 				'parent_id'      => (int) $post->post_parent,
 				'in_menu'        => in_array( (int) $post->ID, $menu_post_ids, true ),
+				'menu_depth'     => isset( $menu_post_depths[ (int) $post->ID ] ) ? (int) $menu_post_depths[ (int) $post->ID ] : null,
 				'terms'          => $term_names,
 				'headings'       => $headings,
 				'word_count'     => str_word_count( wp_strip_all_tags( $post->post_content ) ),
+				'freshness_days' => $freshness_days,
+				'freshness_score' => $this->calculate_freshness_score( $freshness_days ),
 				'inbound_count'  => 0,
 				'outbound_count' => 0,
+				'hub_score'      => 0,
+				'orphan_severity' => 'none',
+				'rank_score'     => 0,
 				'anchors_in'     => array(),
 				'anchors_out'    => array(),
 			);
 
 			$nodes_by_id[ (int) $post->ID ] = $node;
 			$url_to_id[ $this->normalize_internal_graph_url( $permalink ) ] = (int) $post->ID;
+
+			foreach ( $term_names as $term_name ) {
+				$term_key = sanitize_title( $term_name );
+				if ( '' === $term_key ) {
+					continue;
+				}
+
+				if ( empty( $terms_to_post_ids[ $term_key ] ) ) {
+					$terms_to_post_ids[ $term_key ] = array(
+						'name' => $term_name,
+						'ids'  => array(),
+					);
+				}
+				$terms_to_post_ids[ $term_key ]['ids'][] = (int) $post->ID;
+			}
 		}
 
 		$edges = array();
@@ -1927,19 +1952,42 @@ class Spai_REST_Site extends Spai_REST_API {
 			}
 		}
 
+		foreach ( $terms_to_post_ids as $term ) {
+			$term_ids = array_values( array_unique( $term['ids'] ) );
+			sort( $term_ids );
+
+			for ( $i = 0; $i < count( $term_ids ); $i++ ) {
+				for ( $j = $i + 1; $j < count( $term_ids ); $j++ ) {
+					$edges[] = array(
+						'from'   => $term_ids[ $i ],
+						'to'     => $term_ids[ $j ],
+						'type'   => 'shared_taxonomy',
+						'term'   => $term['name'],
+						'weight' => 2,
+					);
+				}
+			}
+		}
+
 		$front_page_id = (int) get_option( 'page_on_front' );
 		$orphans       = array();
+		$page_rank     = $this->calculate_graph_page_rank( array_keys( $nodes_by_id ), $edges );
 
 		foreach ( $nodes_by_id as $id => $node ) {
 			$nodes_by_id[ $id ]['anchors_in']  = array_values( array_unique( array_filter( $node['anchors_in'] ) ) );
 			$nodes_by_id[ $id ]['anchors_out'] = array_values( array_unique( array_filter( $node['anchors_out'] ) ) );
+			$nodes_by_id[ $id ]['hub_score']   = $this->calculate_hub_score( $nodes_by_id[ $id ] );
+			$nodes_by_id[ $id ]['rank_score']  = isset( $page_rank[ $id ] ) ? $page_rank[ $id ] : 0;
 
 			if ( 'publish' === $node['status'] && 0 === $node['inbound_count'] && ! $node['in_menu'] && $front_page_id !== $id ) {
+				$severity = $this->calculate_orphan_severity( $nodes_by_id[ $id ] );
+				$nodes_by_id[ $id ]['orphan_severity'] = $severity;
 				$orphans[] = array(
 					'id'    => $id,
 					'title' => $node['title'],
 					'type'  => $node['type'],
 					'url'   => $node['url'],
+					'severity' => $severity,
 				);
 			}
 		}
@@ -1953,6 +2001,7 @@ class Spai_REST_Site extends Spai_REST_API {
 				'orphan_count' => count( $orphans ),
 				'post_types'   => $post_types,
 				'statuses'     => $statuses,
+				'signals'      => array( 'hub_score', 'rank_score', 'freshness_score', 'orphan_severity', 'menu_depth', 'shared_taxonomy' ),
 			),
 			'nodes'   => $nodes,
 			'edges'   => $edges,
@@ -1989,12 +2038,43 @@ class Spai_REST_Site extends Spai_REST_API {
 	}
 
 	/**
+	 * Get graph-safe term names for a post.
+	 *
+	 * @param WP_Post $post Post.
+	 * @return array Term names.
+	 */
+	private function get_graph_term_names( $post ) {
+		$names      = array();
+		$taxonomies = get_object_taxonomies( $post->post_type );
+
+		foreach ( $taxonomies as $taxonomy ) {
+			$term_names = wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'names' ) );
+			if ( is_wp_error( $term_names ) || empty( $term_names ) ) {
+				continue;
+			}
+
+			$names = array_merge( $names, $term_names );
+		}
+
+		return array_values( array_unique( array_filter( array_map( 'trim', $names ) ) ) );
+	}
+
+	/**
 	 * Get post IDs included in navigation menus.
 	 *
 	 * @return array Menu post IDs.
 	 */
 	private function get_menu_post_ids() {
-		$ids       = array();
+		return array_keys( $this->get_menu_post_depths() );
+	}
+
+	/**
+	 * Get post IDs included in navigation menus with shallowest menu depth.
+	 *
+	 * @return array Post ID to depth map.
+	 */
+	private function get_menu_post_depths() {
+		$depths    = array();
 		$locations = get_nav_menu_locations();
 
 		foreach ( $locations as $menu_id ) {
@@ -2005,12 +2085,164 @@ class Spai_REST_Site extends Spai_REST_API {
 
 			foreach ( $items as $item ) {
 				if ( 'post_type' === $item->type && ! empty( $item->object_id ) ) {
-					$ids[] = (int) $item->object_id;
+					$depth   = $this->get_menu_item_depth( $item, $items );
+					$post_id = (int) $item->object_id;
+
+					if ( ! isset( $depths[ $post_id ] ) || $depth < $depths[ $post_id ] ) {
+						$depths[ $post_id ] = $depth;
+					}
 				}
 			}
 		}
 
-		return array_values( array_unique( $ids ) );
+		return $depths;
+	}
+
+	/**
+	 * Get depth for a nav menu item.
+	 *
+	 * @param WP_Post $item  Menu item.
+	 * @param array   $items Menu items.
+	 * @return int Depth.
+	 */
+	private function get_menu_item_depth( $item, $items ) {
+		$parent_id = (int) $item->menu_item_parent;
+		$depth     = 0;
+		$seen      = array();
+
+		while ( $parent_id > 0 && ! isset( $seen[ $parent_id ] ) ) {
+			$seen[ $parent_id ] = true;
+			$depth++;
+			$next_parent = 0;
+
+			foreach ( $items as $candidate ) {
+				if ( (int) $candidate->ID === $parent_id ) {
+					$next_parent = (int) $candidate->menu_item_parent;
+					break;
+				}
+			}
+
+			$parent_id = $next_parent;
+		}
+
+		return $depth;
+	}
+
+	/**
+	 * Calculate freshness score from age in days.
+	 *
+	 * @param int|null $freshness_days Days since modified.
+	 * @return float Score from 0-1.
+	 */
+	private function calculate_freshness_score( $freshness_days ) {
+		if ( null === $freshness_days ) {
+			return 0.0;
+		}
+
+		if ( $freshness_days <= 30 ) {
+			return 1.0;
+		}
+
+		if ( $freshness_days >= 730 ) {
+			return 0.0;
+		}
+
+		return round( max( 0, 1 - ( ( $freshness_days - 30 ) / 700 ) ), 3 );
+	}
+
+	/**
+	 * Calculate a simple hub score for graph nodes.
+	 *
+	 * @param array $node Graph node.
+	 * @return float Score.
+	 */
+	private function calculate_hub_score( $node ) {
+		$score = ( (int) $node['inbound_count'] * 2 ) + (int) $node['outbound_count'];
+
+		if ( ! empty( $node['in_menu'] ) ) {
+			$score += null === $node['menu_depth'] ? 2 : max( 1, 3 - (int) $node['menu_depth'] );
+		}
+
+		if ( ! empty( $node['parent_id'] ) ) {
+			$score += 1;
+		}
+
+		$score += min( 3, count( $node['terms'] ) );
+
+		return round( $score, 3 );
+	}
+
+	/**
+	 * Calculate orphan severity for nodes.
+	 *
+	 * @param array $node Graph node.
+	 * @return string Severity.
+	 */
+	private function calculate_orphan_severity( $node ) {
+		if ( ! empty( $node['in_menu'] ) || (int) $node['inbound_count'] > 0 ) {
+			return 'none';
+		}
+
+		if ( 'page' === $node['type'] && (int) $node['word_count'] >= 300 ) {
+			return 'high';
+		}
+
+		if ( (int) $node['word_count'] >= 150 ) {
+			return 'medium';
+		}
+
+		return 'low';
+	}
+
+	/**
+	 * Calculate a compact PageRank-style score for content-link edges.
+	 *
+	 * @param array $node_ids Node IDs.
+	 * @param array $edges    Graph edges.
+	 * @return array Scores.
+	 */
+	private function calculate_graph_page_rank( $node_ids, $edges ) {
+		$count = count( $node_ids );
+		if ( 0 === $count ) {
+			return array();
+		}
+
+		$ranks    = array_fill_keys( $node_ids, 1 / $count );
+		$outgoing = array_fill_keys( $node_ids, array() );
+
+		foreach ( $edges as $edge ) {
+			if ( 'content_link' !== $edge['type'] || ! array_key_exists( $edge['from'], $outgoing ) ) {
+				continue;
+			}
+
+			if ( isset( $outgoing[ $edge['from'] ], $ranks[ $edge['to'] ] ) ) {
+				$outgoing[ $edge['from'] ][] = (int) $edge['to'];
+			}
+		}
+
+		for ( $i = 0; $i < 8; $i++ ) {
+			$next = array_fill_keys( $node_ids, ( 1 - 0.85 ) / $count );
+
+			foreach ( $node_ids as $node_id ) {
+				$targets = array_values( array_unique( $outgoing[ $node_id ] ) );
+				if ( empty( $targets ) ) {
+					continue;
+				}
+
+				$share = ( $ranks[ $node_id ] * 0.85 ) / count( $targets );
+				foreach ( $targets as $target_id ) {
+					$next[ $target_id ] += $share;
+				}
+			}
+
+			$ranks = $next;
+		}
+
+		foreach ( $ranks as $id => $score ) {
+			$ranks[ $id ] = round( $score, 6 );
+		}
+
+		return $ranks;
 	}
 
 	/**

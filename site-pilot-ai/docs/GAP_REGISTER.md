@@ -63,7 +63,7 @@ Relevant issues:
 - #282 Add internal link validation to Gutenberg publishing checks.
 - #290 Build internal link graph with PageRank-style signals.
 
-Status: first read-only implementation added `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph`. It returns content nodes, content-link edges, parent/child edges, inbound/outbound counts, menu presence, headings, anchors, and orphan candidates. Link workflows now include `wp_suggest_internal_links` for graph-based suggestions, `wp_apply_internal_link` for approval-first insertion of existing graph targets, and `wp_validate_internal_links` for read-only validation. Weighted graph signals and richer contextual placement are still open.
+Status: first read-only implementation added `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph`. It returns content nodes, content-link edges, parent/child edges, inbound/outbound counts, menu presence, headings, anchors, and orphan candidates. Link workflows now include `wp_suggest_internal_links` for graph-based suggestions, `wp_apply_internal_link` for approval-first insertion of existing graph targets, and `wp_validate_internal_links` for read-only validation. Weighted graph signals now include taxonomy edges, menu depth, freshness score, hub score, orphan severity, and PageRank-style rank score. Richer contextual placement is still open.
 
 ## Core Architecture Gaps
 

@@ -524,7 +524,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_get_content_graph',
-			'Get a lightweight internal content graph for SEO and internal linking. Returns content nodes, link edges, inbound/outbound counts, menu presence, orphan candidates, headings, and anchor text. Use before creating pages or adding internal links.',
+			'Get a weighted internal content graph for SEO and internal linking. Returns content nodes, link/taxonomy edges, inbound/outbound counts, hub/rank/freshness signals, menu depth, orphan candidates, headings, and anchor text.',
 			array(
 				'post_types' => array(
 					'type'        => 'string',

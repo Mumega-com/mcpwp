@@ -145,9 +145,9 @@ Agents should treat these checks as a pre-publish gate. The plugin should return
 
 ## Internal Content Graph
 
-Current state: the first read-only graph slice is implemented through `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph`. It returns content nodes, content-link edges, parent/child edges, inbound/outbound counts, menu presence, headings, anchor text, and orphan candidates. Link workflows now include `wp_suggest_internal_links` for graph-based, approval-ready link ideas, `wp_apply_internal_link` for approval-first insertion of accepted graph targets, and `wp_validate_internal_links` for read-only link QA.
+Current state: the first read-only graph slice is implemented through `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph`. It returns content nodes, content-link edges, parent/child edges, inbound/outbound counts, menu presence, headings, anchor text, orphan candidates, taxonomy edges, menu depth, freshness score, hub score, orphan severity, and PageRank-style rank score. Link workflows now include `wp_suggest_internal_links` for graph-based, approval-ready link ideas, `wp_apply_internal_link` for approval-first insertion of accepted graph targets, and `wp_validate_internal_links` for read-only link QA.
 
-Not implemented yet: PageRank-style scoring, taxonomy edge weights, automated link fixes, and richer contextual link placement.
+Not implemented yet: automated link fixes and richer contextual link placement.
 
 Needed graph primitives:
 

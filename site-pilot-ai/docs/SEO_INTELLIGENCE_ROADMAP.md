@@ -154,7 +154,7 @@ Free should include enough SEO value to make the WP.org version credible:
 
 - Per-page Gutenberg SEO checks.
 - Crawlability/indexability checks.
-- Basic internal graph and orphan detection.
+- Basic weighted internal graph and orphan detection.
 - Basic structured data recommendations.
 - Basic media/alt text checks.
 
@@ -167,4 +167,3 @@ Pro can carry heavier workflows:
 - Competitor/SERP import analysis.
 - Bulk autofix workflows.
 - Advanced content gap and topical cluster planning.
-
