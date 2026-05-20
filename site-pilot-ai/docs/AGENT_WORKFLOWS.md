@@ -140,3 +140,5 @@ Outbound events can notify Telegram, Slack, OpenClaw, Hermes, n8n, Make, Zapier,
 #315 first slice is implemented through `wp_get_agent_playbook` and REST `GET /site-pilot-ai/v1/agent-playbooks`. Playbooks return required tools, validation gates, approval gates, rollback paths, and stop conditions for Gutenberg page creation, one-section updates, SEO audit triage, internal link improvements, and rollback.
 
 #316 first slice is implemented through `wp_get_content_coherence_report` and REST `GET /site-pilot-ai/v1/content-coherence`. The report scores whether the WordPress site is connected, understandable, fresh, crawlable, and governed safely for human and AI search. Agents should use that score to propose focused work, not broad rewrites.
+
+#307 first slice is implemented through `wp_run_seo_autofix_plan` and REST `GET /site-pilot-ai/v1/seo/autofix-plan`. Agents should run it after a stored SEO audit and `wp_get_seo_issues`; it returns approval-safe next steps for meta descriptions, image alt text, internal links, heading/content patches, schema review, and unsupported issue codes. The endpoint is read-only and every action has `can_auto_apply=false`.

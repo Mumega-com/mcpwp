@@ -79,6 +79,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_seo_audit_site'          => 'seo',
 			'wp_audit_content_quality'   => 'seo',
 			'wp_get_seo_issues'          => 'seo',
+			'wp_run_seo_autofix_plan'    => 'seo',
 			'wp_get_custom_css'          => 'site',
 			'wp_set_custom_css'          => 'site',
 			'wp_delete_custom_css'       => 'site',
@@ -714,6 +715,37 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'limit' => array(
 					'type'        => 'number',
 					'description' => 'Maximum issues to return, 1-200. Defaults to 50.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_run_seo_autofix_plan',
+			'Build an approval-safe SEO autofix plan from stored SEO issues. This is read-only: it tells agents which fixes can be prepared, which tool/playbook to use, and why every publish-facing change still needs approval.',
+			array(
+				'severity' => array(
+					'type'        => 'string',
+					'description' => 'Filter by severity: error, warning, or info.',
+				),
+				'category' => array(
+					'type'        => 'string',
+					'description' => 'Filter by issue category such as readiness, structured_data, media, or content_quality.',
+				),
+				'post_id' => array(
+					'type'        => 'number',
+					'description' => 'Filter issues for a post/page ID.',
+				),
+				'run_id' => array(
+					'type'        => 'string',
+					'description' => 'Filter issues first or last seen in a stored audit run.',
+				),
+				'issue_id' => array(
+					'type'        => 'string',
+					'description' => 'Plan a single stored issue by ID.',
+				),
+				'limit' => array(
+					'type'        => 'number',
+					'description' => 'Maximum issues to inspect, 1-200. Defaults to 50.',
 				),
 			)
 		);
@@ -2971,6 +3003,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_seo_issues' => array(
 				'method' => 'GET',
 				'route'  => '/seo/issues',
+			),
+			'wp_run_seo_autofix_plan' => array(
+				'method' => 'GET',
+				'route'  => '/seo/autofix-plan',
 			),
 			'wp_audit_content_quality' => array(
 				'method' => 'GET',

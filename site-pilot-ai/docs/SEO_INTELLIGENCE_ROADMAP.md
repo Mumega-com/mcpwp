@@ -134,7 +134,7 @@ Expected MCP/REST surfaces:
 - `wp_import_search_performance`
 - `wp_import_rank_tracking`
 - `wp_get_ai_visibility_report`
-- `wp_run_seo_autofix_plan`
+- `wp_run_seo_autofix_plan` - implemented first read-only approval-safe planner from stored SEO issues.
 - `wp_get_event_schema`
 - `wp_list_mcp_events`
 - `wp_get_site_state`
@@ -153,6 +153,8 @@ AI-first content model:
 - Treat WordPress as one coherent content system, not isolated posts and pages.
 - Event payloads should identify the resource, related graph nodes, current risk level, approval state, SEO state, and recommended next action.
 - Agents should react to events by reading current state and creating approval requests, not by blindly mutating content from a chat message.
+
+#307 status: first implementation adds `Spai_SEO_Autofix`, REST `GET /site-pilot-ai/v1/seo/autofix-plan`, and MCP `wp_run_seo_autofix_plan`. The planner consumes stored open SEO issues and returns strategy, tool, playbook, next step, approval requirement, and guardrails. It deliberately never applies fixes directly; every action reports `can_auto_apply=false`.
 - `wp_get_site_state` is now the compact first read before multi-step work.
 - Playbooks should encode safe tool order, validation gates, approval gates, and rollback paths.
 - Coherence scoring should translate graph/SEO/content data into customer-facing priorities.

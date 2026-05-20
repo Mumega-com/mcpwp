@@ -398,7 +398,7 @@ Relevant issues:
 - #315 Define deterministic agent playbook contracts.
 - #316 Add content coherence scoring and recommendations. Status: first implementation added `wp_get_content_coherence_report` and REST `GET /site-pilot-ai/v1/content-coherence`.
 
-Status: content graph, stored SEO issues, approvals, Control Room, event hooks, site-state snapshot, deterministic playbooks, and first content coherence score now exist as separate slices. Next work should deepen coherence scoring with richer evidence, trend history, and per-page drill-downs.
+Status: content graph, stored SEO issues, approvals, Control Room, event hooks, site-state snapshot, deterministic playbooks, first content coherence score, and the first approval-safe SEO autofix planner now exist as separate slices. Next work should deepen coherence scoring with richer evidence, trend history, per-page drill-downs, and approved mutation adapters.
 
 ### Coming Sprint Sequence
 
@@ -409,7 +409,7 @@ Priority order:
 3. #314 Control Room event inbox and escalation rules.
 4. #315 Deterministic agent playbook contracts.
 5. #316 Content coherence scoring and recommendations.
-6. #307 Approval-safe SEO autofix workflows.
+6. #307 Approval-safe SEO autofix workflows. Status: first read-only planner added `wp_run_seo_autofix_plan` and REST `GET /site-pilot-ai/v1/seo/autofix-plan`; no direct mutation is allowed.
 7. #304 Search Console/Bing data imports.
 8. #311 WooCommerce SEO intelligence.
 

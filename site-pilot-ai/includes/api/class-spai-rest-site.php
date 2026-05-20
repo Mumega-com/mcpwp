@@ -1089,6 +1089,54 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// Approval-safe SEO autofix plan.
+		register_rest_route(
+			$this->namespace,
+			'/seo/autofix-plan',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_seo_autofix_plan' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'severity' => array(
+							'description'       => __( 'Severity filter: error, warning, or info.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'category' => array(
+							'description'       => __( 'Issue category filter.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'post_id' => array(
+							'description'       => __( 'Post ID filter.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'sanitize_callback' => 'absint',
+						),
+						'run_id' => array(
+							'description'       => __( 'Audit run ID filter.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'issue_id' => array(
+							'description'       => __( 'Specific stored issue ID.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'limit' => array(
+							'description'       => __( 'Maximum issues to inspect.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 50,
+							'minimum'           => 1,
+							'maximum'           => 200,
+							'sanitize_callback' => 'absint',
+						),
+					),
+				),
+			)
+		);
+
 		// Content quality and AI-search citation readiness audit.
 		register_rest_route(
 			$this->namespace,
@@ -2616,6 +2664,42 @@ class Spai_REST_Site extends Spai_REST_API {
 				),
 			)
 		);
+	}
+
+	/**
+	 * Get approval-safe SEO autofix plan.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function get_seo_autofix_plan( $request ) {
+		$this->log_activity( 'get_seo_autofix_plan', $request );
+
+		$plan = class_exists( 'Spai_SEO_Autofix' ) ? Spai_SEO_Autofix::get_plan(
+			array(
+				'severity' => $request->get_param( 'severity' ),
+				'category' => $request->get_param( 'category' ),
+				'post_id'  => $request->get_param( 'post_id' ),
+				'run_id'   => $request->get_param( 'run_id' ),
+				'issue_id' => $request->get_param( 'issue_id' ),
+				'limit'    => $request->get_param( 'limit' ),
+			)
+		) : array(
+			'schema_version' => '2026-05-20',
+			'summary'        => array(
+				'issues_inspected' => 0,
+				'actions'          => 0,
+				'can_prepare'      => 0,
+				'can_auto_apply'   => 0,
+				'needs_approval'   => 0,
+				'manual_review'    => 0,
+				'by_strategy'      => array(),
+			),
+			'filters'        => array(),
+			'actions'        => array(),
+		);
+
+		return $this->success_response( $plan );
 	}
 
 	/**
