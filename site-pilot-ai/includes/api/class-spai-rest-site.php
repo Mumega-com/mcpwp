@@ -781,6 +781,54 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// Internal link suggestions from the content graph.
+		register_rest_route(
+			$this->namespace,
+			'/content-graph/suggestions',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_internal_link_suggestions' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'source_id' => array(
+							'description'       => __( 'Source post or page ID that needs internal links.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'required'          => true,
+							'sanitize_callback' => 'absint',
+						),
+						'post_types' => array(
+							'description' => __( 'Comma-separated post types to include.', 'mumega-mcp' ),
+							'type'        => 'string',
+							'default'     => 'page,post',
+						),
+						'limit' => array(
+							'description'       => __( 'Maximum number of graph nodes to inspect.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 100,
+							'minimum'           => 1,
+							'maximum'           => 500,
+							'sanitize_callback' => 'absint',
+						),
+						'max_suggestions' => array(
+							'description'       => __( 'Maximum suggestions to return.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 5,
+							'minimum'           => 1,
+							'maximum'           => 20,
+							'sanitize_callback' => 'absint',
+						),
+						'include_drafts' => array(
+							'description'       => __( 'Include draft/private content candidates.', 'mumega-mcp' ),
+							'type'              => 'boolean',
+							'default'           => false,
+							'sanitize_callback' => 'rest_sanitize_boolean',
+						),
+					),
+				),
+			)
+		);
+
 		// Theme info
 		register_rest_route(
 			$this->namespace,
@@ -1366,9 +1414,137 @@ class Spai_REST_Site extends Spai_REST_API {
 
 		$post_types = $this->parse_graph_post_types( (string) $request->get_param( 'post_types' ) );
 		$limit      = min( 500, max( 1, absint( $request->get_param( 'limit' ) ) ) );
-		$statuses   = rest_sanitize_boolean( $request->get_param( 'include_drafts' ) )
-			? array( 'publish', 'draft', 'private' )
-			: array( 'publish' );
+		$graph      = $this->build_content_graph_data( $post_types, $limit, rest_sanitize_boolean( $request->get_param( 'include_drafts' ) ) );
+
+		return $this->success_response( $graph );
+	}
+
+	/**
+	 * Get internal link suggestions from the graph.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function get_internal_link_suggestions( $request ) {
+		$source_id = absint( $request->get_param( 'source_id' ) );
+		$source    = get_post( $source_id );
+
+		if ( ! $source ) {
+			return $this->error_response( 'not_found', 'Source post not found.', 404 );
+		}
+
+		$this->log_activity( 'suggest_internal_links', $request, array( 'source_id' => $source_id ) );
+
+		$post_types      = $this->parse_graph_post_types( (string) $request->get_param( 'post_types' ) );
+		$limit           = min( 500, max( 1, absint( $request->get_param( 'limit' ) ) ) );
+		$max_suggestions = min( 20, max( 1, absint( $request->get_param( 'max_suggestions' ) ) ) );
+		$graph           = $this->build_content_graph_data( $post_types, $limit, rest_sanitize_boolean( $request->get_param( 'include_drafts' ) ) );
+		$nodes_by_id     = array();
+
+		foreach ( $graph['nodes'] as $node ) {
+			$nodes_by_id[ (int) $node['id'] ] = $node;
+		}
+
+		if ( empty( $nodes_by_id[ $source_id ] ) ) {
+			return $this->error_response( 'source_not_in_graph', 'Source post is not included in the content graph.', 404 );
+		}
+
+		$already_linked = array();
+		foreach ( $graph['edges'] as $edge ) {
+			if ( 'content_link' === $edge['type'] && (int) $edge['from'] === $source_id ) {
+				$already_linked[] = (int) $edge['to'];
+			}
+		}
+
+		$source_node   = $nodes_by_id[ $source_id ];
+		$source_tokens = $this->build_link_suggestion_tokens( $source_node, $source->post_content );
+		$suggestions   = array();
+
+		foreach ( $nodes_by_id as $candidate_id => $candidate ) {
+			if ( $candidate_id === $source_id || in_array( $candidate_id, $already_linked, true ) || 'publish' !== $candidate['status'] ) {
+				continue;
+			}
+
+			$candidate_post   = get_post( $candidate_id );
+			$candidate_tokens = $this->build_link_suggestion_tokens( $candidate, $candidate_post ? $candidate_post->post_content : '' );
+			$overlap          = array_values( array_intersect( $source_tokens, $candidate_tokens ) );
+			$shared_terms     = array_values( array_intersect( $source_node['terms'], $candidate['terms'] ) );
+			$score            = ( count( $overlap ) * 2 ) + ( count( $shared_terms ) * 3 );
+
+			if ( $source_node['type'] === $candidate['type'] ) {
+				$score++;
+			}
+
+			if ( 0 === (int) $candidate['inbound_count'] ) {
+				$score += 2;
+			}
+
+			if ( $score < 3 ) {
+				continue;
+			}
+
+			$anchor = $this->choose_internal_link_anchor( $candidate, $overlap );
+
+			$suggestions[] = array(
+				'target_id'         => $candidate_id,
+				'title'             => $candidate['title'],
+				'url'               => $candidate['url'],
+				'anchor'            => $anchor,
+				'score'             => $score,
+				'reasons'           => array_values(
+					array_filter(
+						array(
+							! empty( $overlap ) ? 'Shared topic terms: ' . implode( ', ', array_slice( $overlap, 0, 5 ) ) : '',
+							! empty( $shared_terms ) ? 'Shared taxonomy terms: ' . implode( ', ', array_slice( $shared_terms, 0, 5 ) ) : '',
+							0 === (int) $candidate['inbound_count'] ? 'Candidate has no inbound links in the current graph.' : '',
+						)
+					)
+				),
+				'approval_diff'     => array(
+					'action'      => 'insert_internal_link',
+					'source_id'   => $source_id,
+					'target_id'   => $candidate_id,
+					'link_html'   => sprintf( '<a href="%s">%s</a>', esc_url( $candidate['url'] ), esc_html( $anchor ) ),
+					'insert_hint' => 'Place this link where the anchor topic is already discussed. Do not add unrelated or repeated links.',
+				),
+				'approval_required' => true,
+			);
+		}
+
+		usort(
+			$suggestions,
+			function ( $a, $b ) {
+				return (int) $b['score'] <=> (int) $a['score'];
+			}
+		);
+
+		return $this->success_response(
+			array(
+				'source'      => array(
+					'id'    => $source_id,
+					'title' => $source_node['title'],
+					'url'   => $source_node['url'],
+				),
+				'suggestions' => array_slice( $suggestions, 0, $max_suggestions ),
+				'workflow'    => array(
+					'read'     => 'Review suggested links and anchors before editing content.',
+					'apply'    => 'Use wp_patch_block_section or wp_set_blocks with approval_required=true to add accepted links.',
+					'guardrail' => 'Suggestions use existing graph URLs only; agents should not invent internal URLs.',
+				),
+			)
+		);
+	}
+
+	/**
+	 * Build internal content graph data.
+	 *
+	 * @param array $post_types     Post types.
+	 * @param int   $limit          Maximum nodes.
+	 * @param bool  $include_drafts Include drafts/private posts.
+	 * @return array Graph data.
+	 */
+	private function build_content_graph_data( $post_types, $limit, $include_drafts = false ) {
+		$statuses = $include_drafts ? array( 'publish', 'draft', 'private' ) : array( 'publish' );
 
 		$posts = get_posts(
 			array(
@@ -1468,24 +1644,22 @@ class Spai_REST_Site extends Spai_REST_API {
 
 		$nodes = array_values( $nodes_by_id );
 
-		return $this->success_response(
-			array(
-				'summary' => array(
-					'node_count'   => count( $nodes ),
-					'edge_count'   => count( $edges ),
-					'orphan_count' => count( $orphans ),
-					'post_types'   => $post_types,
-					'statuses'     => $statuses,
-				),
-				'nodes'   => $nodes,
-				'edges'   => $edges,
-				'orphans' => $orphans,
-				'workflow' => array(
-					'read'     => 'Use this graph before creating pages or adding internal links.',
-					'suggest'  => 'Choose candidate links from nodes and edges; do not invent internal URLs.',
-					'approval' => 'Return a link diff before applying links to page content.',
-				),
-			)
+		return array(
+			'summary' => array(
+				'node_count'   => count( $nodes ),
+				'edge_count'   => count( $edges ),
+				'orphan_count' => count( $orphans ),
+				'post_types'   => $post_types,
+				'statuses'     => $statuses,
+			),
+			'nodes'   => $nodes,
+			'edges'   => $edges,
+			'orphans' => $orphans,
+			'workflow' => array(
+				'read'     => 'Use this graph before creating pages or adding internal links.',
+				'suggest'  => 'Choose candidate links from nodes and edges; do not invent internal URLs.',
+				'approval' => 'Return a link diff before applying links to page content.',
+			),
 		);
 	}
 
@@ -1581,6 +1755,93 @@ class Spai_REST_Site extends Spai_REST_API {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Build normalized tokens for link suggestion scoring.
+	 *
+	 * @param array  $node    Graph node.
+	 * @param string $content Raw content.
+	 * @return array Tokens.
+	 */
+	private function build_link_suggestion_tokens( $node, $content = '' ) {
+		$text_parts = array(
+			$node['title'] ?? '',
+			$node['slug'] ?? '',
+			$node['excerpt'] ?? '',
+			wp_strip_all_tags( $content ),
+		);
+
+		if ( ! empty( $node['terms'] ) ) {
+			$text_parts[] = implode( ' ', $node['terms'] );
+		}
+
+		if ( ! empty( $node['headings'] ) ) {
+			foreach ( $node['headings'] as $heading ) {
+				if ( ! empty( $heading['text'] ) ) {
+					$text_parts[] = $heading['text'];
+				}
+			}
+		}
+
+		$text   = strtolower( html_entity_decode( implode( ' ', $text_parts ), ENT_QUOTES, get_bloginfo( 'charset' ) ) );
+		$tokens = preg_split( '/[^a-z0-9]+/', $text );
+		$stop   = array(
+			'a',
+			'an',
+			'and',
+			'are',
+			'as',
+			'at',
+			'be',
+			'by',
+			'for',
+			'from',
+			'how',
+			'in',
+			'is',
+			'it',
+			'of',
+			'on',
+			'or',
+			'our',
+			'the',
+			'this',
+			'to',
+			'we',
+			'with',
+			'you',
+			'your',
+		);
+
+		$tokens = array_filter(
+			$tokens,
+			function ( $token ) use ( $stop ) {
+				return strlen( $token ) >= 4 && ! in_array( $token, $stop, true );
+			}
+		);
+
+		return array_values( array_unique( $tokens ) );
+	}
+
+	/**
+	 * Choose a conservative anchor for a suggested internal link.
+	 *
+	 * @param array $candidate Candidate node.
+	 * @param array $overlap   Shared tokens.
+	 * @return string Anchor.
+	 */
+	private function choose_internal_link_anchor( $candidate, $overlap ) {
+		$title = trim( (string) ( $candidate['title'] ?? '' ) );
+		if ( '' !== $title ) {
+			return $title;
+		}
+
+		if ( ! empty( $overlap ) ) {
+			return implode( ' ', array_slice( $overlap, 0, 3 ) );
+		}
+
+		return trim( (string) ( $candidate['slug'] ?? __( 'Related content', 'mumega-mcp' ) ) );
 	}
 
 	/**

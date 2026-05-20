@@ -69,6 +69,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_site_context'        => 'site',
 			'wp_set_site_context'        => 'site',
 			'wp_get_content_graph'       => 'content',
+			'wp_suggest_internal_links'  => 'content',
 			'wp_get_custom_css'          => 'site',
 			'wp_set_custom_css'          => 'site',
 			'wp_delete_custom_css'       => 'site',
@@ -534,6 +535,34 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'include_drafts' => array(
 					'type'        => 'boolean',
 					'description' => 'Include draft/private content nodes. Defaults to false.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_suggest_internal_links',
+			'Suggest internal links for a source post or page using the content graph. Returns existing site URLs only and approval-ready diffs without mutating content.',
+			array(
+				'source_id' => array(
+					'type'        => 'number',
+					'description' => 'Source post or page ID that needs internal links.',
+					'required'    => true,
+				),
+				'post_types' => array(
+					'type'        => 'string',
+					'description' => 'Comma-separated post types to include. Defaults to page,post.',
+				),
+				'limit' => array(
+					'type'        => 'number',
+					'description' => 'Maximum graph nodes to inspect, 1-500. Defaults to 100.',
+				),
+				'max_suggestions' => array(
+					'type'        => 'number',
+					'description' => 'Maximum suggestions to return, 1-20. Defaults to 5.',
+				),
+				'include_drafts' => array(
+					'type'        => 'boolean',
+					'description' => 'Include draft/private candidates. Defaults to false.',
 				),
 			)
 		);
@@ -2677,6 +2706,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_content_graph' => array(
 				'method' => 'GET',
 				'route'  => '/content-graph',
+			),
+			'wp_suggest_internal_links' => array(
+				'method' => 'GET',
+				'route'  => '/content-graph/suggestions',
 			),
 			'wp_get_custom_css' => array(
 				'method' => 'GET',

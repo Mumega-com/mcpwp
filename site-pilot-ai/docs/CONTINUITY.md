@@ -12,13 +12,13 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.9`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.9.zip`
+- Version: `2.8.10`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.10.zip`
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
 - WP.org Plugin Check baseline: `0 ERROR`, `352 WARNING`.
 - WP.org free ZIP contents: 101 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`.
-- WP.org ZIP SHA256: `51227d803e2f43ffb4effb0282d1a55ee606eed29cd200e444a3453cfaffbf18`.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`.
+- WP.org ZIP SHA256: `f9738f3c73a9f4b0c73d9096656a6709f88dc493bc8526a0dd2d9c7f8823fffc`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
 
@@ -143,3 +143,5 @@ Implementation progress on PR #277: block safety first slice now exposes `wp_val
 Approval pipeline progress: first slice adds a central approval request store plus `wp_list_approvals`, `wp_get_approval`, `wp_approve_request`, `wp_reject_request`, `wp_apply_approval`, and `wp_rollback_approval`. `wp_set_blocks` can now pass `approval_required=true` to create a pending approval instead of saving immediately. Apply/rollback currently supports Gutenberg post-content updates; future slices must add mutation adapters for section patches, meta, menus, options, Elementor, SEO, commerce, and templates.
 
 Section patching progress: `wp_patch_block_section` and `POST /site-pilot-ai/v1/blocks/{id}/section` now replace one selected Gutenberg section by path, anchor, or heading. The endpoint validates replacement markup and creates an approval request by default; immediate saves require `approval_required=false`.
+
+Internal graph progress: `wp_suggest_internal_links` and `GET /site-pilot-ai/v1/content-graph/suggestions` now return read-only internal link suggestions from the content graph. Suggestions use existing graph URLs only, include a conservative anchor and approval diff, and do not mutate content.
