@@ -35,9 +35,9 @@ class Spai_Site_State {
 		$graph          = self::get_graph_summary( (int) $args['graph_limit'], ! empty( $args['include_drafts'] ) );
 		$approvals      = self::get_approval_summary();
 		$seo            = self::get_seo_summary();
-		$events         = class_exists( 'Spai_Event_Store' )
+		$event_result   = class_exists( 'Spai_Event_Store' )
 			? Spai_Event_Store::list_events( array( 'limit' => min( 50, max( 1, absint( $args['event_limit'] ) ) ) ) )
-			: array();
+			: array( 'events' => array(), 'total' => 0 );
 		$capabilities   = self::get_capabilities( ! empty( $args['include_plugins'] ) );
 		$context        = self::get_context_summary();
 		$recommendations = self::get_recommendations( $content_counts, $graph, $approvals, $seo, $context );
@@ -52,8 +52,8 @@ class Spai_Site_State {
 			'approvals'           => $approvals,
 			'seo'                 => $seo,
 			'events'              => array(
-				'count' => count( $events ),
-				'items' => $events,
+				'count' => isset( $event_result['total'] ) ? (int) $event_result['total'] : 0,
+				'items' => isset( $event_result['events'] ) && is_array( $event_result['events'] ) ? $event_result['events'] : array(),
 			),
 			'capabilities'        => $capabilities,
 			'recommended_actions' => $recommendations,

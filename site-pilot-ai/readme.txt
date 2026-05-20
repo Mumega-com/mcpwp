@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.24
+Stable tag: 2.8.25
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,10 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
+= 2.8.25 =
+* New: Add Control Room event inbox with event type and risk filters.
+* New: Add escalation rules for high-risk, failing SEO, and approval lifecycle events.
+
 = 2.8.24 =
 * New: Add compact site-state snapshot for deterministic agent starts across content, graph, SEO, approvals, events, and capabilities.
 * New: Add MCP and REST access for agents to read recommended next actions before mutating WordPress content.
@@ -236,6 +240,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.25 =
+Adds an event inbox in the Control Room so humans can see and filter recent agent-relevant events.
 
 = 2.8.24 =
 Adds a coherent site-state snapshot so agents can read the whole WordPress system before choosing a playbook or proposing changes.

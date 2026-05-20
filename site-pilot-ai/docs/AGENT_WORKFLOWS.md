@@ -135,4 +135,6 @@ Outbound events can notify Telegram, Slack, OpenClaw, Hermes, n8n, Make, Zapier,
 
 #313 first slice is implemented through `wp_get_site_state` and REST `GET /site-pilot-ai/v1/site-state`. Agents should start meaningful work by reading this compact site-state snapshot, then selecting a deterministic playbook instead of improvising tool order. The snapshot summarizes content, graph, SEO, approvals, events, capabilities, and recommended next actions. Coming sprint work for #315 should make playbooks return required tools, validation gates, approval gates, and rollback paths for common jobs.
 
+#314 first slice is implemented in the Control Room Event Inbox. Humans can filter recent normalized events by event type and risk, and the inbox escalates high-risk events, failing SEO audit events, and approval lifecycle events for attention.
+
 The customer-facing value is the content coherence score: a prioritized view of whether the WordPress site is connected, understandable, fresh, crawlable, and ready for human and AI search. Agents should use that score to propose focused work, not broad rewrites.

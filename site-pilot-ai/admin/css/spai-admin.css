@@ -218,6 +218,7 @@
 
 .spai-control-filters label,
 .spai-control-filters label span,
+.spai-control-filters input,
 .spai-control-filters select {
 	display: block;
 	width: 100%;
@@ -240,6 +241,23 @@
 
 .spai-control-actions .button {
 	margin-top: 0;
+}
+
+.spai-control-count,
+.spai-control-event-escalation {
+	background: #f0f0f1;
+	border-radius: 999px;
+	color: #50575e;
+	display: inline-block;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1;
+	padding: 6px 9px;
+}
+
+.spai-control-event-list code {
+	display: inline-block;
+	margin-top: 6px;
 }
 
 .spai-control-action {

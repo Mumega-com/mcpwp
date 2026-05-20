@@ -526,7 +526,8 @@ class Spai_Admin {
 	 */
 	public function get_control_room_data() {
 		$approvals = class_exists( 'Spai_Approvals' ) ? Spai_Approvals::list_requests( '', 100 ) : array();
-		$seo_filters = $this->get_control_room_seo_filters();
+		$seo_filters   = $this->get_control_room_seo_filters();
+		$event_filters = $this->get_control_room_event_filters();
 		$approval_counts = array(
 			'pending'     => 0,
 			'approved'    => 0,
@@ -559,6 +560,7 @@ class Spai_Admin {
 			: $seo_open;
 
 		$recent_activity = $this->get_recent_activity_rows( 8 );
+		$event_inbox     = $this->get_control_room_event_inbox( $event_filters );
 
 		$data = array(
 			'approval_counts'  => $approval_counts,
@@ -579,6 +581,8 @@ class Spai_Admin {
 			'seo_summary'      => isset( $seo_all['summary'] ) && is_array( $seo_all['summary'] ) ? $seo_all['summary'] : array(),
 			'open_seo_issues'  => isset( $seo_open['issues'] ) && is_array( $seo_open['issues'] ) ? $seo_open['issues'] : array(),
 			'seo_filters'      => $seo_filters,
+			'event_inbox'      => $event_inbox,
+			'event_filters'    => $event_filters,
 			'recent_activity'  => $recent_activity,
 		);
 
@@ -613,6 +617,124 @@ class Spai_Admin {
 			'status'   => $status,
 			'severity' => $severity,
 			'category' => $category,
+		);
+	}
+
+	/**
+	 * Read and sanitize control room event filters.
+	 *
+	 * @return array
+	 */
+	private function get_control_room_event_filters() {
+		$type       = isset( $_GET['spai_event_type'] ) ? sanitize_text_field( wp_unslash( $_GET['spai_event_type'] ) ) : '';
+		$risk_level = isset( $_GET['spai_event_risk'] ) ? sanitize_key( wp_unslash( $_GET['spai_event_risk'] ) ) : '';
+
+		$type = preg_replace( '/[^a-z0-9_.-]/', '', strtolower( $type ) );
+
+		if ( ! in_array( $risk_level, array( 'high', 'medium', 'low', '' ), true ) ) {
+			$risk_level = '';
+		}
+
+		return array(
+			'type'       => $type,
+			'risk_level' => $risk_level,
+		);
+	}
+
+	/**
+	 * Build Control Room event inbox data.
+	 *
+	 * @param array $filters Event filters.
+	 * @return array
+	 */
+	private function get_control_room_event_inbox( $filters ) {
+		if ( ! class_exists( 'Spai_Event_Store' ) ) {
+			return array(
+				'summary' => array( 'total' => 0, 'high' => 0, 'medium' => 0, 'low' => 0, 'escalated' => 0 ),
+				'events'  => array(),
+			);
+		}
+
+		$result = Spai_Event_Store::list_events(
+			array(
+				'type'  => isset( $filters['type'] ) ? $filters['type'] : '',
+				'limit' => 50,
+			)
+		);
+		$events = isset( $result['events'] ) && is_array( $result['events'] ) ? $result['events'] : array();
+
+		if ( ! empty( $filters['risk_level'] ) ) {
+			$events = array_values(
+				array_filter(
+					$events,
+					function ( $event ) use ( $filters ) {
+						return isset( $event['risk_level'] ) && $filters['risk_level'] === $event['risk_level'];
+					}
+				)
+			);
+		}
+
+		$summary = array(
+			'total'     => count( $events ),
+			'high'      => 0,
+			'medium'    => 0,
+			'low'       => 0,
+			'escalated' => 0,
+		);
+
+		foreach ( $events as $index => $event ) {
+			$risk = isset( $event['risk_level'] ) ? sanitize_key( (string) $event['risk_level'] ) : 'low';
+			if ( isset( $summary[ $risk ] ) ) {
+				$summary[ $risk ]++;
+			}
+
+			$events[ $index ]['escalation'] = $this->classify_control_room_event_escalation( $event );
+			if ( ! empty( $events[ $index ]['escalation']['escalated'] ) ) {
+				$summary['escalated']++;
+			}
+		}
+
+		return array(
+			'summary' => $summary,
+			'events'  => array_slice( $events, 0, 10 ),
+		);
+	}
+
+	/**
+	 * Classify event urgency for the Control Room inbox.
+	 *
+	 * @param array $event Event record.
+	 * @return array
+	 */
+	private function classify_control_room_event_escalation( $event ) {
+		$risk           = isset( $event['risk_level'] ) ? sanitize_key( (string) $event['risk_level'] ) : 'low';
+		$approval_state = isset( $event['approval_state'] ) ? sanitize_key( (string) $event['approval_state'] ) : '';
+		$seo_state      = isset( $event['seo_state'] ) ? sanitize_key( (string) $event['seo_state'] ) : '';
+		$type           = isset( $event['type'] ) ? sanitize_text_field( (string) $event['type'] ) : '';
+
+		if ( 'high' === $risk || 'fail' === $seo_state ) {
+			return array(
+				'escalated' => true,
+				'level'     => 'high',
+				'label'     => __( 'Needs attention', 'mumega-mcp' ),
+				'reason'    => __( 'High-risk event or failing SEO state.', 'mumega-mcp' ),
+			);
+		}
+
+		if ( 'pending' === $approval_state || false !== strpos( $type, 'approval.' ) ) {
+			return array(
+				'escalated' => true,
+				'level'     => 'medium',
+				'label'     => __( 'Human decision', 'mumega-mcp' ),
+				'reason'    => __( 'Approval lifecycle event requires human awareness.', 'mumega-mcp' ),
+			);
+		}
+
+		return array(
+			'escalated' => false,
+			'level'     => 'low',
+			'label'     => __( 'Informational', 'mumega-mcp' ),
+			'reason'    => __( 'No escalation rule matched.', 'mumega-mcp' ),
 		);
 	}
 
@@ -655,6 +777,18 @@ class Spai_Admin {
 					/* translators: %d: number of SEO errors */
 					_n( '%d stored SEO error needs attention before lower-priority warnings.', '%d stored SEO errors need attention before lower-priority warnings.', (int) $seo_summary['error'], 'mumega-mcp' ),
 					(int) $seo_summary['error']
+				),
+			);
+		}
+
+		if ( ! empty( $data['event_inbox']['summary']['escalated'] ) ) {
+			$recommendations[] = array(
+				'priority' => 'high',
+				'title'    => __( 'Review escalated events', 'mumega-mcp' ),
+				'detail'   => sprintf(
+					/* translators: %d: number of escalated events */
+					_n( '%d recent event needs human attention.', '%d recent events need human attention.', (int) $data['event_inbox']['summary']['escalated'], 'mumega-mcp' ),
+					(int) $data['event_inbox']['summary']['escalated']
 				),
 			);
 		}

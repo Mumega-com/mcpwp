@@ -20,14 +20,19 @@ $approved_items  = isset( $control_room['approved_approvals'] ) && is_array( $co
 $rollback_items  = isset( $control_room['rollback_ready'] ) && is_array( $control_room['rollback_ready'] ) ? $control_room['rollback_ready'] : array();
 $seo_issues      = isset( $control_room['open_seo_issues'] ) && is_array( $control_room['open_seo_issues'] ) ? $control_room['open_seo_issues'] : array();
 $seo_filters     = isset( $control_room['seo_filters'] ) && is_array( $control_room['seo_filters'] ) ? $control_room['seo_filters'] : array();
+$event_inbox     = isset( $control_room['event_inbox'] ) && is_array( $control_room['event_inbox'] ) ? $control_room['event_inbox'] : array();
+$event_filters   = isset( $control_room['event_filters'] ) && is_array( $control_room['event_filters'] ) ? $control_room['event_filters'] : array();
 $activity_rows   = isset( $control_room['recent_activity'] ) && is_array( $control_room['recent_activity'] ) ? $control_room['recent_activity'] : array();
 $recommendations = isset( $control_room['recommendations'] ) && is_array( $control_room['recommendations'] ) ? $control_room['recommendations'] : array();
+$event_summary   = isset( $event_inbox['summary'] ) && is_array( $event_inbox['summary'] ) ? $event_inbox['summary'] : array();
+$event_items     = isset( $event_inbox['events'] ) && is_array( $event_inbox['events'] ) ? $event_inbox['events'] : array();
 
 $pending_count  = (int) ( $approval_counts['pending'] ?? 0 );
 $approved_count = (int) ( $approval_counts['approved'] ?? 0 );
 $applied_count  = (int) ( $approval_counts['applied'] ?? 0 );
 $seo_open_count = (int) ( $seo_summary['open'] ?? 0 );
 $seo_error_count = (int) ( $seo_summary['error'] ?? 0 );
+$event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 ?>
 
 <div class="wrap spai-admin spai-control-room">
@@ -65,6 +70,11 @@ $seo_error_count = (int) ( $seo_summary['error'] ?? 0 );
 			<span class="spai-control-stat__icon dashicons <?php echo esc_attr( $seo_error_count > 0 ? 'dashicons-warning' : 'dashicons-yes' ); ?>"></span>
 			<span class="spai-library-stat__value"><?php echo esc_html( (string) $seo_error_count ); ?></span>
 			<span class="spai-library-stat__label"><?php esc_html_e( 'SEO errors', 'mumega-mcp' ); ?></span>
+		</div>
+		<div class="spai-library-stat spai-control-stat <?php echo esc_attr( $event_escalated_count > 0 ? 'is-critical' : 'is-good' ); ?>">
+			<span class="spai-control-stat__icon dashicons <?php echo esc_attr( $event_escalated_count > 0 ? 'dashicons-bell' : 'dashicons-yes-alt' ); ?>"></span>
+			<span class="spai-library-stat__value"><?php echo esc_html( (string) $event_escalated_count ); ?></span>
+			<span class="spai-library-stat__label"><?php esc_html_e( 'Escalated events', 'mumega-mcp' ); ?></span>
 		</div>
 	</div>
 
@@ -284,6 +294,76 @@ $seo_error_count = (int) ( $seo_summary['error'] ?? 0 );
 				</ul>
 			<?php endif; ?>
 		</div>
+	</div>
+
+	<div class="spai-card">
+		<div class="spai-control-card-header">
+			<h2>
+				<span class="dashicons dashicons-bell"></span>
+				<?php esc_html_e( 'Event Inbox', 'mumega-mcp' ); ?>
+			</h2>
+			<span class="spai-control-count">
+				<?php
+				printf(
+					/* translators: %d: number of visible events */
+					esc_html( _n( '%d event', '%d events', (int) ( $event_summary['total'] ?? 0 ), 'mumega-mcp' ) ),
+					esc_html( (string) ( $event_summary['total'] ?? 0 ) )
+				);
+				?>
+			</span>
+		</div>
+		<form method="get" class="spai-control-filters">
+			<input type="hidden" name="page" value="<?php echo esc_attr( Spai_Admin::CONTROL_ROOM_PAGE_SLUG ); ?>">
+			<label>
+				<span><?php esc_html_e( 'Event type', 'mumega-mcp' ); ?></span>
+				<input type="text" name="spai_event_type" value="<?php echo esc_attr( $event_filters['type'] ?? '' ); ?>" placeholder="approval.created">
+			</label>
+			<label>
+				<span><?php esc_html_e( 'Risk', 'mumega-mcp' ); ?></span>
+				<select name="spai_event_risk">
+					<option value="" <?php selected( $event_filters['risk_level'] ?? '', '' ); ?>><?php esc_html_e( 'Any', 'mumega-mcp' ); ?></option>
+					<option value="high" <?php selected( $event_filters['risk_level'] ?? '', 'high' ); ?>><?php esc_html_e( 'High', 'mumega-mcp' ); ?></option>
+					<option value="medium" <?php selected( $event_filters['risk_level'] ?? '', 'medium' ); ?>><?php esc_html_e( 'Medium', 'mumega-mcp' ); ?></option>
+					<option value="low" <?php selected( $event_filters['risk_level'] ?? '', 'low' ); ?>><?php esc_html_e( 'Low', 'mumega-mcp' ); ?></option>
+				</select>
+			</label>
+			<button type="submit" class="button"><?php esc_html_e( 'Filter', 'mumega-mcp' ); ?></button>
+		</form>
+		<?php if ( empty( $event_items ) ) : ?>
+			<div class="spai-control-empty is-muted">
+				<span class="dashicons dashicons-bell"></span>
+				<p><?php esc_html_e( 'No normalized events match the current filters yet.', 'mumega-mcp' ); ?></p>
+			</div>
+		<?php else : ?>
+			<ul class="spai-control-list spai-control-event-list">
+				<?php foreach ( $event_items as $event ) : ?>
+					<?php
+					$event_risk       = isset( $event['risk_level'] ) ? sanitize_key( (string) $event['risk_level'] ) : 'low';
+					$event_escalation = isset( $event['escalation'] ) && is_array( $event['escalation'] ) ? $event['escalation'] : array();
+					$event_class      = 'high' === $event_risk ? 'is-critical' : ( 'medium' === $event_risk ? 'is-warning' : 'is-info' );
+					$event_icon       = ! empty( $event_escalation['escalated'] ) ? 'dashicons-warning' : 'dashicons-info';
+					$event_resource   = isset( $event['resource'] ) && is_array( $event['resource'] ) ? $event['resource'] : array();
+					?>
+					<li class="spai-control-list__item <?php echo esc_attr( $event_class ); ?>">
+						<span class="spai-control-list__icon dashicons <?php echo esc_attr( $event_icon ); ?>"></span>
+						<strong><?php echo esc_html( $event['type'] ?? '' ); ?></strong>
+						<span>
+							<?php echo esc_html( strtoupper( $event_risk ) ); ?>
+							<?php echo esc_html( ' · ' . (string) ( $event['timestamp'] ?? '' ) ); ?>
+						</span>
+						<?php if ( ! empty( $event_escalation['label'] ) ) : ?>
+							<span class="spai-control-event-escalation"><?php echo esc_html( $event_escalation['label'] ); ?></span>
+						<?php endif; ?>
+						<?php if ( ! empty( $event['recommended_action'] ) ) : ?>
+							<span><?php echo esc_html( $event['recommended_action'] ); ?></span>
+						<?php endif; ?>
+						<?php if ( ! empty( $event_resource['id'] ) || ! empty( $event_resource['type'] ) ) : ?>
+							<code><?php echo esc_html( trim( (string) ( $event_resource['type'] ?? '' ) . ' #' . (string) ( $event_resource['id'] ?? '' ) ) ); ?></code>
+						<?php endif; ?>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		<?php endif; ?>
 	</div>
 
 	<div class="spai-card">
