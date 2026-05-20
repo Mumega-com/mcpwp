@@ -20,6 +20,11 @@ $rollback_items  = isset( $control_room['rollback_ready'] ) && is_array( $contro
 $seo_issues      = isset( $control_room['open_seo_issues'] ) && is_array( $control_room['open_seo_issues'] ) ? $control_room['open_seo_issues'] : array();
 $activity_rows   = isset( $control_room['recent_activity'] ) && is_array( $control_room['recent_activity'] ) ? $control_room['recent_activity'] : array();
 $recommendations = isset( $control_room['recommendations'] ) && is_array( $control_room['recommendations'] ) ? $control_room['recommendations'] : array();
+
+$pending_count  = (int) ( $approval_counts['pending'] ?? 0 );
+$applied_count  = (int) ( $approval_counts['applied'] ?? 0 );
+$seo_open_count = (int) ( $seo_summary['open'] ?? 0 );
+$seo_error_count = (int) ( $seo_summary['error'] ?? 0 );
 ?>
 
 <div class="wrap spai-admin spai-control-room">
@@ -36,20 +41,24 @@ $recommendations = isset( $control_room['recommendations'] ) && is_array( $contr
 	</p>
 
 	<div class="spai-control-summary">
-		<div class="spai-library-stat">
-			<span class="spai-library-stat__value"><?php echo esc_html( (string) ( $approval_counts['pending'] ?? 0 ) ); ?></span>
+		<div class="spai-library-stat spai-control-stat <?php echo esc_attr( $pending_count > 0 ? 'is-warning' : 'is-good' ); ?>">
+			<span class="spai-control-stat__icon dashicons <?php echo esc_attr( $pending_count > 0 ? 'dashicons-clock' : 'dashicons-yes-alt' ); ?>"></span>
+			<span class="spai-library-stat__value"><?php echo esc_html( (string) $pending_count ); ?></span>
 			<span class="spai-library-stat__label"><?php esc_html_e( 'Pending approvals', 'mumega-mcp' ); ?></span>
 		</div>
-		<div class="spai-library-stat">
-			<span class="spai-library-stat__value"><?php echo esc_html( (string) ( $approval_counts['applied'] ?? 0 ) ); ?></span>
+		<div class="spai-library-stat spai-control-stat <?php echo esc_attr( $applied_count > 0 ? 'is-info' : 'is-good' ); ?>">
+			<span class="spai-control-stat__icon dashicons <?php echo esc_attr( $applied_count > 0 ? 'dashicons-backup' : 'dashicons-shield' ); ?>"></span>
+			<span class="spai-library-stat__value"><?php echo esc_html( (string) $applied_count ); ?></span>
 			<span class="spai-library-stat__label"><?php esc_html_e( 'Rollback-ready changes', 'mumega-mcp' ); ?></span>
 		</div>
-		<div class="spai-library-stat">
-			<span class="spai-library-stat__value"><?php echo esc_html( (string) ( $seo_summary['open'] ?? 0 ) ); ?></span>
+		<div class="spai-library-stat spai-control-stat <?php echo esc_attr( $seo_open_count > 0 ? 'is-warning' : 'is-good' ); ?>">
+			<span class="spai-control-stat__icon dashicons <?php echo esc_attr( $seo_open_count > 0 ? 'dashicons-search' : 'dashicons-chart-line' ); ?>"></span>
+			<span class="spai-library-stat__value"><?php echo esc_html( (string) $seo_open_count ); ?></span>
 			<span class="spai-library-stat__label"><?php esc_html_e( 'Open SEO issues', 'mumega-mcp' ); ?></span>
 		</div>
-		<div class="spai-library-stat">
-			<span class="spai-library-stat__value"><?php echo esc_html( (string) ( $seo_summary['error'] ?? 0 ) ); ?></span>
+		<div class="spai-library-stat spai-control-stat <?php echo esc_attr( $seo_error_count > 0 ? 'is-critical' : 'is-good' ); ?>">
+			<span class="spai-control-stat__icon dashicons <?php echo esc_attr( $seo_error_count > 0 ? 'dashicons-warning' : 'dashicons-yes' ); ?>"></span>
+			<span class="spai-library-stat__value"><?php echo esc_html( (string) $seo_error_count ); ?></span>
 			<span class="spai-library-stat__label"><?php esc_html_e( 'SEO errors', 'mumega-mcp' ); ?></span>
 		</div>
 	</div>
@@ -61,7 +70,7 @@ $recommendations = isset( $control_room['recommendations'] ) && is_array( $contr
 				<?php esc_html_e( 'Recommended Next Actions', 'mumega-mcp' ); ?>
 			</h2>
 			<?php foreach ( $recommendations as $recommendation ) : ?>
-				<div class="spai-control-action">
+				<div class="spai-control-action spai-control-action--<?php echo esc_attr( sanitize_html_class( $recommendation['priority'] ?? 'low' ) ); ?>">
 					<span class="spai-control-priority spai-control-priority--<?php echo esc_attr( sanitize_html_class( $recommendation['priority'] ?? 'low' ) ); ?>">
 						<?php echo esc_html( $recommendation['priority'] ?? 'low' ); ?>
 					</span>
@@ -79,7 +88,10 @@ $recommendations = isset( $control_room['recommendations'] ) && is_array( $contr
 				<?php esc_html_e( 'Pending Approvals', 'mumega-mcp' ); ?>
 			</h2>
 			<?php if ( empty( $pending_items ) ) : ?>
-				<p><em><?php esc_html_e( 'No pending approval requests.', 'mumega-mcp' ); ?></em></p>
+				<div class="spai-control-empty is-good">
+					<span class="dashicons dashicons-yes-alt"></span>
+					<p><?php esc_html_e( 'No pending approval requests.', 'mumega-mcp' ); ?></p>
+				</div>
 			<?php else : ?>
 				<ul class="spai-control-list">
 					<?php foreach ( $pending_items as $item ) : ?>
@@ -88,7 +100,8 @@ $recommendations = isset( $control_room['recommendations'] ) && is_array( $contr
 						$post_id  = isset( $resource['id'] ) ? absint( $resource['id'] ) : 0;
 						$edit_url = $post_id ? get_edit_post_link( $post_id, 'raw' ) : '';
 						?>
-						<li>
+						<li class="spai-control-list__item is-warning">
+							<span class="spai-control-list__icon dashicons dashicons-clock"></span>
 							<strong><?php echo esc_html( $item['title'] ?? $item['id'] ?? '' ); ?></strong>
 							<span><?php echo esc_html( $item['tool'] ?? $item['action'] ?? '' ); ?></span>
 							<?php if ( $edit_url ) : ?>
@@ -108,18 +121,25 @@ $recommendations = isset( $control_room['recommendations'] ) && is_array( $contr
 				<?php esc_html_e( 'Open SEO Issues', 'mumega-mcp' ); ?>
 			</h2>
 			<?php if ( empty( $seo_issues ) ) : ?>
-				<p><em><?php esc_html_e( 'No stored open SEO issues. Run a site SEO audit with store=true to populate this panel.', 'mumega-mcp' ); ?></em></p>
+				<div class="spai-control-empty is-good">
+					<span class="dashicons dashicons-chart-line"></span>
+					<p><?php esc_html_e( 'No stored open SEO issues. Run a site SEO audit with store=true to populate this panel.', 'mumega-mcp' ); ?></p>
+				</div>
 			<?php else : ?>
 				<ul class="spai-control-list">
 					<?php foreach ( $seo_issues as $issue ) : ?>
 						<?php
-						$post_id  = isset( $issue['post_id'] ) ? absint( $issue['post_id'] ) : 0;
-						$edit_url = $post_id ? get_edit_post_link( $post_id, 'raw' ) : '';
+						$post_id     = isset( $issue['post_id'] ) ? absint( $issue['post_id'] ) : 0;
+						$edit_url    = $post_id ? get_edit_post_link( $post_id, 'raw' ) : '';
+						$severity    = isset( $issue['severity'] ) ? sanitize_key( (string) $issue['severity'] ) : 'info';
+						$icon_class  = 'error' === $severity ? 'dashicons-warning' : ( 'warning' === $severity ? 'dashicons-info' : 'dashicons-lightbulb' );
+						$state_class = 'error' === $severity ? 'is-critical' : ( 'warning' === $severity ? 'is-warning' : 'is-info' );
 						?>
-						<li>
+						<li class="spai-control-list__item <?php echo esc_attr( $state_class ); ?>">
+							<span class="spai-control-list__icon dashicons <?php echo esc_attr( $icon_class ); ?>"></span>
 							<strong><?php echo esc_html( $issue['message'] ?? $issue['code'] ?? '' ); ?></strong>
 							<span>
-								<?php echo esc_html( strtoupper( (string) ( $issue['severity'] ?? 'info' ) ) ); ?>
+								<?php echo esc_html( strtoupper( $severity ) ); ?>
 								<?php echo esc_html( ' · ' . (string) ( $issue['category'] ?? '' ) ); ?>
 							</span>
 							<?php if ( $edit_url ) : ?>
@@ -137,11 +157,15 @@ $recommendations = isset( $control_room['recommendations'] ) && is_array( $contr
 				<?php esc_html_e( 'Rollback Ready', 'mumega-mcp' ); ?>
 			</h2>
 			<?php if ( empty( $rollback_items ) ) : ?>
-				<p><em><?php esc_html_e( 'No applied approval requests are currently listed for rollback.', 'mumega-mcp' ); ?></em></p>
+				<div class="spai-control-empty is-muted">
+					<span class="dashicons dashicons-shield"></span>
+					<p><?php esc_html_e( 'No applied approval requests are currently listed for rollback.', 'mumega-mcp' ); ?></p>
+				</div>
 			<?php else : ?>
 				<ul class="spai-control-list">
 					<?php foreach ( $rollback_items as $item ) : ?>
-						<li>
+						<li class="spai-control-list__item is-info">
+							<span class="spai-control-list__icon dashicons dashicons-backup"></span>
 							<strong><?php echo esc_html( $item['title'] ?? $item['id'] ?? '' ); ?></strong>
 							<span><?php echo esc_html( $item['applied_at'] ?? '' ); ?></span>
 						</li>
@@ -157,7 +181,10 @@ $recommendations = isset( $control_room['recommendations'] ) && is_array( $contr
 			<?php esc_html_e( 'Recent Agent Activity', 'mumega-mcp' ); ?>
 		</h2>
 		<?php if ( empty( $activity_rows ) ) : ?>
-			<p><em><?php esc_html_e( 'No activity recorded yet.', 'mumega-mcp' ); ?></em></p>
+			<div class="spai-control-empty is-muted">
+				<span class="dashicons dashicons-list-view"></span>
+				<p><?php esc_html_e( 'No activity recorded yet.', 'mumega-mcp' ); ?></p>
+			</div>
 		<?php else : ?>
 			<table class="widefat striped">
 				<thead>

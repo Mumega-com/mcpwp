@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.20
+Stable tag: 2.8.21
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,9 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
+= 2.8.21 =
+* New: Add state-driven Control Room visuals for healthy, warning, critical, empty, and rollback-ready dashboard states.
+
 = 2.8.20 =
 * New: Add a WordPress admin Control Room for approvals, stored SEO issues, rollback-ready changes, recommendations, and recent agent activity.
 * New: Document Search Console, Bing, Apify, keyword inventory, and WooCommerce SEO intelligence backlog direction.
@@ -221,6 +224,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.21 =
+Adds state-aware Control Room visuals so dashboard cards and issue rows adapt to current approval and SEO status.
 
 = 2.8.20 =
 Adds the first human Control Room screen for supervising agent work and SEO issue follow-up.

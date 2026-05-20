@@ -12,13 +12,13 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.20`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.20.zip`
+- Version: `2.8.21`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.21.zip`
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
-- WP.org Plugin Check baseline: `0 ERROR` on packaged `mumega-mcp` ZIP for `2.8.20`.
+- WP.org Plugin Check baseline: `0 ERROR` on packaged `mumega-mcp` ZIP for `2.8.21`.
 - WP.org free ZIP contents: 103 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`.
-- WP.org ZIP SHA256: `e6e68e1d0ac4776a5472923b071a2f74a0131412280b73fb8ad752de3bd77a24`.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`.
+- WP.org ZIP SHA256: `67f9a0fff6c6902d014546a2733f840e65ecc4ada308b5e566ca1784b9feb8c7`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
 
