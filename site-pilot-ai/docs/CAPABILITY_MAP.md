@@ -17,7 +17,8 @@ This document is the contract for free/pro behavior. The implementation should m
 | Activity log | Free | Admin + REST | `log.list`, `log.get` | Keep local and configurable. |
 | Approvals | Free | Admin + REST + MCP | `approval.*` | Required before publish/destructive/commerce/theme-builder actions. |
 | Basic Elementor | Free | REST + MCP | `elementor.basic.*` | Basic read/write when Elementor is installed. |
-| Webhooks | Free or Pro TBD | REST + MCP | `webhook.*` | Decide based on abuse/security review. |
+| Event hooks | Free | WordPress hooks | `event.*` | Internal developer hooks for approvals, SEO, graph, and activity state changes. |
+| Webhooks | Pro or advanced Free TBD | REST + MCP | `webhook.*` | Signed outbound subscriptions for external agents, chat channels, and automation tools. |
 | AI providers | Pro | Integrations + MCP | `ai.image.*`, `ai.text.*`, `ai.vision.*` | External service dependency. |
 | Screenshot worker | Pro | Integrations + MCP | `screenshot.render` | Free may keep WP.com mShots fallback if low-risk. |
 | Figma | Pro | Integrations + MCP | `figma.file`, `figma.node` | Design intake and OAuth should be paid. |

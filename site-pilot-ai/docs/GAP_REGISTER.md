@@ -355,6 +355,47 @@ Relevant issues:
 
 Status: backlog issue #309 now tracks the combined admin surface for pending approvals, stored SEO issues, recommended next actions, recent agent activity, and rollback-ready changes. Build it on existing approval and SEO issue stores first; deeper scheduling/trends remain in Sprint 10.
 
+### AI-First Event Hooks
+
+Gap: external agents, chat channels, dashboards, and automation tools need a neutral way to react to WordPress state changes without polling or hardcoded harness integrations.
+
+Needed:
+
+- WordPress developer hooks for approvals, SEO audits, SEO issue changes, content graph updates, activity logs, and Control Room alerts.
+- Signed outbound webhook subscriptions with event allowlists, delivery logs, retry state, and failure visibility.
+- Stable event payloads that include event ID, type, timestamp, site URL, actor, resource, related graph nodes, risk level, approval state, SEO state, and Control Room link when relevant.
+- Clear split between outbound notifications and inbound commands. Inbound mutating commands must be scoped, signed, logged, and approval-first.
+- Harness-neutral docs for Telegram, Slack, OpenClaw, Hermes, n8n, Make, Zapier, Codex CLI, and custom workers.
+
+Relevant issues:
+
+- #312 Add AI-first event hooks and outbound webhooks.
+- #263 Implement deterministic MCP router.
+- #309 Build human control room for approvals and SEO issues.
+
+Status: added to the coming Sprint 10 track. First slice should emit approval lifecycle and stored SEO audit events before adding broader graph/content events.
+
+### Coherent WordPress Content System
+
+Gap: agents still see too many separate tools and resources instead of one coherent WordPress content model.
+
+Needed:
+
+- A unified state model across posts, pages, blocks, media, taxonomies, menus, internal links, SEO metadata, approvals, activity, commerce, and templates.
+- Content graph and event payloads that expose relationships, not just flat records.
+- Recommended next actions derived from the whole site state: orphan pages, weak hubs, stale posts, missing media alt text, duplicate intent, unresolved SEO issues, and pending approval risk.
+- Control Room and MCP router should use the same state model so humans and agents see the same truth.
+
+Relevant issues:
+
+- #290 Build internal link graph with PageRank-style signals.
+- #296 Build SEO issue model and scoring system.
+- #302 Add topical cluster and hub page planner.
+- #305 Add SEO dashboard and scheduled recommendations.
+- #312 Add AI-first event hooks and outbound webhooks.
+
+Status: content graph, stored SEO issues, approvals, and Control Room now exist as separate slices. Next work should connect them through event hooks and a shared state summary.
+
 ### Agent Playbooks
 
 Gap: docs explain direction, but concise agent playbooks are needed.

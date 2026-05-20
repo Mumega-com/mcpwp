@@ -253,6 +253,7 @@ Backlog:
 - #309 Build human control room for approvals and SEO issues.
 - #310 Add Apify trend and SERP import provider.
 - #311 Add WooCommerce SEO intelligence workflows.
+- #312 Add AI-first event hooks and outbound webhooks.
 
 ## Guardrails
 
@@ -263,6 +264,8 @@ Backlog:
 - Prefer block patterns and template parts over duplicated markup for repeated sections.
 - Treat raw HTML, inline JavaScript, and whole-page classic blocks as restricted output that requires explicit approval.
 - Treat SEO checks as part of the save/publish workflow, not a separate afterthought.
+- Treat WordPress as a coherent content system. Agent-facing events should connect blocks, posts, media, taxonomies, menus, internal links, SEO issues, approvals, and activity into one state model.
+- Notify external agents and chat channels through signed outbound events, but keep mutating actions approval-first.
 
 ## Local WordPress Validation
 

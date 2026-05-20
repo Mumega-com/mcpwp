@@ -124,3 +124,9 @@ The painful jobs to optimize first:
 ## Human Control Room
 
 The admin Control Room is now the human supervision screen for production agent work. It shows pending approvals, approved changes ready to apply, stored SEO issues with filters, recent activity, recommended next actions, and rollback-ready changes. Humans can approve, reject, apply, roll back, and run a stored SEO audit from wp-admin while agents continue to expose deterministic REST/MCP data.
+
+## Event Hooks
+
+Coming sprint work is #312: a harness-neutral event layer. External agents, chat channels, dashboards, and automation tools should subscribe to WordPress state changes instead of polling or relying on a specific runtime. First events should cover approval lifecycle and stored SEO audits, then SEO issues, content graph updates, activity logs, and Control Room alerts.
+
+Outbound events can notify Telegram, Slack, OpenClaw, Hermes, n8n, Make, Zapier, Codex CLI, or custom workers. Inbound mutating commands remain approval-first: the agent reads current state, creates an approval request, and lets the human approve/apply through the Control Room or a signed confirmation flow.

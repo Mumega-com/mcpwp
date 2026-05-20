@@ -108,6 +108,7 @@ Issues created:
 - #309 Build human control room for approvals and SEO issues
 - #310 Add Apify trend and SERP import provider
 - #311 Add WooCommerce SEO intelligence workflows
+- #312 Add AI-first event hooks and outbound webhooks
 
 ## SOS Bus
 
@@ -144,6 +145,10 @@ Gap register lives in `docs/GAP_REGISTER.md`. Highest-priority gaps before serio
 Human control room progress: #309 now has the first admin implementation. The Control Room combines pending approvals, approved changes ready to apply, rollback-ready changes, stored SEO issues, filters, recommended next actions, recent agent activity, and a stored SEO audit action so humans can supervise agent work without reading raw MCP responses.
 
 SEO provider backlog: #304 covers Search Console/Bing imports, #297 covers keyword/topic inventory, #310 covers optional Apify trend/SERP provider imports, and #311 covers WooCommerce SEO intelligence. Keep the sequencing SEO-first: core issue model and control room, then keyword/search imports, then WooCommerce as a revenue-focused vertical, then Apify as an optional Pro/provider evidence source.
+
+AI-first hooks backlog: #312 tracks harness-neutral WordPress hooks plus signed outbound webhooks. First slice should emit approval lifecycle and stored SEO audit events, then broaden to SEO issue, content graph, activity, and Control Room alert events. Outbound notifications are safe first; inbound mutating commands must be scoped, signed, logged, and approval-first.
+
+Coherent content-system frame: treat WordPress as one connected state model across posts, pages, Gutenberg blocks, media, taxonomies, menus, internal links, SEO metadata, approvals, activity, commerce, and templates. Agents should respond to current site state and graph relationships instead of seeing disconnected tools or pushing raw page edits.
 
 Implementation progress on PR #277: block safety first slice now exposes `wp_validate_blocks` and `POST /site-pilot-ai/v1/blocks/validate`, adds safety reports to parse/serialize responses, and makes `wp_set_blocks` reject classic HTML, `core/html`, inline script/style tags, and unsafe iframes by default unless an explicit approval note is supplied. Internal graph first slice now exposes `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph` with nodes, content links, parent/child edges, inbound/outbound counts, anchors, headings, menu presence, and orphan candidates.
 

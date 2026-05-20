@@ -121,6 +121,7 @@ Issues:
 - #309 Build human control room for approvals and SEO issues.
 - #310 Add Apify trend and SERP import provider.
 - #311 Add WooCommerce SEO intelligence workflows.
+- #312 Add AI-first event hooks and outbound webhooks.
 
 Expected MCP/REST surfaces:
 
@@ -128,6 +129,21 @@ Expected MCP/REST surfaces:
 - `wp_get_seo_trends`
 - `wp_import_search_performance`
 - `wp_import_rank_tracking`
+- `wp_get_event_schema`
+- `wp_list_event_deliveries`
+
+Event surfaces:
+
+- WordPress developer hooks for approval, SEO, graph, content, and activity lifecycle events.
+- Signed outbound webhooks for external agents, chat channels, automations, and dashboards.
+- Delivery logs and retry state visible from wp-admin.
+- Control Room links in payloads when a human decision is required.
+
+AI-first content model:
+
+- Treat WordPress as one coherent content system, not isolated posts and pages.
+- Event payloads should identify the resource, related graph nodes, current risk level, approval state, SEO state, and recommended next action.
+- Agents should react to events by reading current state and creating approval requests, not by blindly mutating content from a chat message.
 - `wp_get_ai_visibility_report`
 - `wp_run_seo_autofix_plan`
 
