@@ -59,11 +59,12 @@ bash scripts/build-freemius.sh
 PR #257 verified the following baseline:
 
 - WP.org ZIP: `scripts/mumega-mcp-2.8.30.zip`.
-- Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
+- Freemius ZIP: `scripts/site-pilot-ai-freemius-2.8.30.zip`.
 - WordPress test matrix: WordPress 6.9 / PHP 8.2.
 - Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`; Control Room action smoke passed on version `2.8.22`; event store and REST event smoke passed on version `2.8.23`; site-state snapshot smoke passed on version `2.8.24`; Control Room event inbox smoke passed on version `2.8.25`; agent playbook contract smoke passed on version `2.8.26`; content coherence report smoke passed on version `2.8.27`; SEO autofix plan smoke passed on version `2.8.28`; search performance import smoke passed on version `2.8.29`; WooCommerce SEO report smoke passed on version `2.8.30`.
-- WP.org free ZIP contents: 107 files, no Freemius SDK, no Pro modules, no legacy updater.
+- WP.org free ZIP contents: 110 files, no Freemius SDK, no Pro modules, no legacy updater.
+- Freemius ZIP contents: 369 files, Freemius SDK included, Freemius bootstrap included, Pro modules included, no legacy updater.
 - Plugin Check 1.9.0 result for WP.org ZIP: `0 ERROR`, `402 WARNING` on packaged `mumega-mcp` ZIP for `2.8.30`.
-- WP.org ZIP SHA256: `5b2bc0a7649bc83cb3b238d58c2981bfa805e9eef4dfb3a0dcdb9d134d9d9018`.
-- Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
+- WP.org ZIP SHA256: `86e18b6f3eb6355d69e37dcc450040832846bc6549be61dc6c135cd2043012d1`.
+- Freemius ZIP SHA256: `090b408c20aa7f185e8eeb59a604e90c707d9e5263e9d50b0258d83d51f0f6b1`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
