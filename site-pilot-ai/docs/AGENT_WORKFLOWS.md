@@ -120,3 +120,7 @@ The painful jobs to optimize first:
 - Update product pages and SEO metadata without missing commerce details.
 - Reuse proven sections instead of generating one-off layouts.
 - Give agencies a repeatable operating layer across many client sites.
+
+## Human Control Room
+
+The next admin UX backlog item is #309. The goal is one WordPress screen where humans can see pending approvals, stored SEO issues, recent agent activity, recommended next actions, and rollback-ready changes. Agents should continue to expose deterministic data, but humans should not need to read raw MCP responses to supervise production work.

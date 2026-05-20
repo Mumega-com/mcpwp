@@ -118,6 +118,7 @@ Issues:
 - #306 Add rank tracking placeholder and third-party import abstraction.
 - #308 Add AI search visibility and citation readiness report.
 - #307 Add approval-safe SEO autofix workflows.
+- #309 Build human control room for approvals and SEO issues.
 
 Expected MCP/REST surfaces:
 
@@ -138,6 +139,7 @@ Reporting should show:
 - Search performance import trends.
 - AI crawler and citation readiness.
 - Recommended next actions with risk and approval requirements.
+- A human control room that combines approvals, stored SEO issues, recent agent work, and rollback-ready changes.
 
 ## Guardrails
 

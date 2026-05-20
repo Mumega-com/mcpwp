@@ -333,16 +333,21 @@ Gap: users need clear screens for agent control and SEO/approval state.
 
 Needed:
 
+- Human control room that makes agent work understandable without reading raw MCP responses.
 - Pending approvals.
 - Recent changes.
 - Failed actions.
 - Rollback actions.
 - SEO issue dashboard.
 - Next recommended tasks.
+- Risk, scope, and approval state for every recommended mutating action.
 
 Relevant issues:
 
 - #305 Add SEO dashboard and scheduled recommendations.
+- #309 Build human control room for approvals and SEO issues.
+
+Status: backlog issue #309 now tracks the combined admin surface for pending approvals, stored SEO issues, recommended next actions, recent agent activity, and rollback-ready changes. Build it on existing approval and SEO issue stores first; deeper scheduling/trends remain in Sprint 10.
 
 ### Agent Playbooks
 

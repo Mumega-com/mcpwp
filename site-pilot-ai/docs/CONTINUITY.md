@@ -105,6 +105,7 @@ Issues created:
 - #306 Add rank tracking placeholder and third-party import abstraction
 - #307 Add approval-safe SEO autofix workflows
 - #308 Add AI search visibility and citation readiness report
+- #309 Build human control room for approvals and SEO issues
 
 ## SOS Bus
 
@@ -137,6 +138,8 @@ Search/AI discovery direction: pre-publish checks should cover crawlability, ind
 Deep SEO roadmap lives in `docs/SEO_INTELLIGENCE_ROADMAP.md`. Product direction: Semrush-like breadth, WordPress-native execution, no ranking promises, imports/provider abstractions instead of default SERP scraping, and approval-safe diffs for every mutating fix.
 
 Gap register lives in `docs/GAP_REGISTER.md`. Highest-priority gaps before serious agent autonomy: approval/diff/rollback pipeline, section-level Gutenberg patching, internal content graph, compact router, capability registry, block safety validator, SEO data model, repeatable local WP E2E tests, performance controls for audits/graphs, and admin UX for approvals/rollback.
+
+Human control room backlog: #309 tracks the next WordPress admin layer. It should combine pending approvals, stored SEO issues, recommended next actions, recent agent activity, and rollback-ready changes so humans can supervise agent work without reading raw MCP responses.
 
 Implementation progress on PR #277: block safety first slice now exposes `wp_validate_blocks` and `POST /site-pilot-ai/v1/blocks/validate`, adds safety reports to parse/serialize responses, and makes `wp_set_blocks` reject classic HTML, `core/html`, inline script/style tags, and unsafe iframes by default unless an explicit approval note is supplied. Internal graph first slice now exposes `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph` with nodes, content links, parent/child edges, inbound/outbound counts, anchors, headings, menu presence, and orphan candidates.
 
