@@ -925,6 +925,40 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// SEO site audit summary.
+		register_rest_route(
+			$this->namespace,
+			'/seo/audit',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'audit_seo_site' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'post_types' => array(
+							'description' => __( 'Comma-separated post types to include.', 'mumega-mcp' ),
+							'type'        => 'string',
+							'default'     => 'page,post',
+						),
+						'limit' => array(
+							'description'       => __( 'Maximum number of URLs to audit.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 25,
+							'minimum'           => 1,
+							'maximum'           => 50,
+							'sanitize_callback' => 'absint',
+						),
+						'include_drafts' => array(
+							'description'       => __( 'Include draft/private content.', 'mumega-mcp' ),
+							'type'              => 'boolean',
+							'default'           => false,
+							'sanitize_callback' => 'rest_sanitize_boolean',
+						),
+					),
+				),
+			)
+		);
+
 		// Structured data inventory and validation.
 		register_rest_route(
 			$this->namespace,
@@ -2042,6 +2076,134 @@ class Spai_REST_Site extends Spai_REST_API {
 	}
 
 	/**
+	 * Run a read-only SEO site audit summary.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function audit_seo_site( $request ) {
+		$this->log_activity( 'audit_seo_site', $request );
+
+		$post_types     = $this->parse_graph_post_types( (string) $request->get_param( 'post_types' ) );
+		$limit          = min( 50, max( 1, absint( $request->get_param( 'limit' ) ) ) );
+		$include_drafts = rest_sanitize_boolean( $request->get_param( 'include_drafts' ) );
+		$statuses       = $include_drafts ? array( 'publish', 'draft', 'private' ) : array( 'publish' );
+		$posts          = get_posts(
+			array(
+				'post_type'      => $post_types,
+				'post_status'    => $statuses,
+				'posts_per_page' => $limit,
+				'orderby'        => 'modified',
+				'order'          => 'DESC',
+				'fields'         => 'ids',
+			)
+		);
+
+		$urls             = array();
+		$issue_codes      = array();
+		$category_counts  = array(
+			'readiness'       => 0,
+			'structured_data' => 0,
+			'media'           => 0,
+		);
+		$total_errors     = 0;
+		$total_warnings   = 0;
+		$total_info       = 0;
+		$critical_urls    = 0;
+		$needs_review     = 0;
+
+		foreach ( $posts as $post_id ) {
+			$readiness       = $this->run_post_validator( 'validate_seo_readiness', $post_id, '/seo/readiness/' );
+			$structured_data = $this->run_post_validator( 'validate_structured_data', $post_id, '/seo/structured-data/' );
+			$media           = $this->run_post_validator( 'audit_media_seo', $post_id, '/seo/media/' );
+			$combined_issues = array_merge(
+				$this->tag_seo_audit_issues( $readiness['issues'], 'readiness' ),
+				$this->tag_seo_audit_issues( $structured_data['issues'], 'structured_data' ),
+				$this->tag_seo_audit_issues( $media['issues'], 'media' )
+			);
+			$counts          = $this->count_issues_by_severity( $combined_issues );
+			$score           = ( $counts['error'] * 100 ) + ( $counts['warning'] * 20 ) + ( $counts['info'] * 5 );
+			$post            = get_post( $post_id );
+
+			if ( $counts['error'] > 0 ) {
+				$critical_urls++;
+			} elseif ( $counts['warning'] > 0 ) {
+				$needs_review++;
+			}
+
+			$total_errors   += $counts['error'];
+			$total_warnings += $counts['warning'];
+			$total_info     += $counts['info'];
+
+			foreach ( $combined_issues as $issue ) {
+				$code = $issue['code'];
+				if ( ! isset( $issue_codes[ $code ] ) ) {
+					$issue_codes[ $code ] = array(
+						'code'     => $code,
+						'count'    => 0,
+						'severity' => $issue['severity'],
+					);
+				}
+				$issue_codes[ $code ]['count']++;
+
+				if ( isset( $issue['category'], $category_counts[ $issue['category'] ] ) ) {
+					$category_counts[ $issue['category'] ]++;
+				}
+			}
+
+			$urls[] = array(
+				'id'           => (int) $post_id,
+				'title'        => get_the_title( $post_id ),
+				'type'         => $post ? $post->post_type : '',
+				'status'       => $post ? $post->post_status : '',
+				'url'          => get_permalink( $post_id ),
+				'score'        => $score,
+				'status_label' => $this->seo_audit_status_label( $counts ),
+				'counts'       => $counts,
+				'top_issues'   => array_slice( $combined_issues, 0, 8 ),
+			);
+		}
+
+		usort(
+			$urls,
+			static function ( $a, $b ) {
+				return (int) $b['score'] <=> (int) $a['score'];
+			}
+		);
+
+		$top_issue_codes = array_values( $issue_codes );
+		usort(
+			$top_issue_codes,
+			static function ( $a, $b ) {
+				return (int) $b['count'] <=> (int) $a['count'];
+			}
+		);
+
+		return $this->success_response(
+			array(
+				'summary' => array(
+					'status'         => $total_errors > 0 ? 'fail' : ( $total_warnings > 0 ? 'warn' : 'pass' ),
+					'audited_count'  => count( $urls ),
+					'critical_urls'  => $critical_urls,
+					'needs_review'   => $needs_review,
+					'pass_urls'      => max( 0, count( $urls ) - $critical_urls - $needs_review ),
+					'error_count'    => $total_errors,
+					'warning_count'  => $total_warnings,
+					'info_count'     => $total_info,
+				),
+				'category_counts' => $category_counts,
+				'top_issue_codes' => array_slice( $top_issue_codes, 0, 12 ),
+				'urls'            => $urls,
+				'workflow'        => array(
+					'read'  => 'Use to prioritize URLs before running targeted per-page SEO tools.',
+					'fix'   => 'Open the highest-scoring URLs and fix issues through approval-first Gutenberg, media, or SEO metadata edits.',
+					'guard' => 'This endpoint is read-only and does not mutate content, media, or SEO settings.',
+				),
+			)
+		);
+	}
+
+	/**
 	 * Validate structured data for a single post/page without mutating content.
 	 *
 	 * @param WP_REST_Request $request Request object.
@@ -2835,6 +2997,86 @@ class Spai_REST_Site extends Spai_REST_API {
 			'warning_count' => $warning_count,
 			'info_count'    => $info_count,
 		);
+	}
+
+	/**
+	 * Run a post-level validator and return its payload.
+	 *
+	 * @param string $method Method name.
+	 * @param int    $post_id Post ID.
+	 * @param string $route_prefix Route prefix.
+	 * @return array Payload.
+	 */
+	private function run_post_validator( $method, $post_id, $route_prefix ) {
+		$request = new WP_REST_Request( 'GET', '/site-pilot-ai/v1' . $route_prefix . $post_id );
+		$request->set_param( 'id', $post_id );
+
+		$response = $this->$method( $request );
+		if ( is_wp_error( $response ) ) {
+			return array( 'issues' => array() );
+		}
+
+		$data = $response->get_data();
+		return is_array( $data ) ? $data : array( 'issues' => array() );
+	}
+
+	/**
+	 * Attach a category to audit issues.
+	 *
+	 * @param array  $issues Issues.
+	 * @param string $category Category.
+	 * @return array Tagged issues.
+	 */
+	private function tag_seo_audit_issues( $issues, $category ) {
+		$tagged = array();
+
+		foreach ( $issues as $issue ) {
+			$issue['category'] = $category;
+			$tagged[]          = $issue;
+		}
+
+		return $tagged;
+	}
+
+	/**
+	 * Count issues by severity.
+	 *
+	 * @param array $issues Issues.
+	 * @return array Counts.
+	 */
+	private function count_issues_by_severity( $issues ) {
+		$counts = array(
+			'error'   => 0,
+			'warning' => 0,
+			'info'    => 0,
+			'total'   => count( $issues ),
+		);
+
+		foreach ( $issues as $issue ) {
+			if ( isset( $counts[ $issue['severity'] ] ) ) {
+				$counts[ $issue['severity'] ]++;
+			}
+		}
+
+		return $counts;
+	}
+
+	/**
+	 * Convert issue counts to a URL audit status.
+	 *
+	 * @param array $counts Counts.
+	 * @return string Status.
+	 */
+	private function seo_audit_status_label( $counts ) {
+		if ( $counts['error'] > 0 ) {
+			return 'critical';
+		}
+
+		if ( $counts['warning'] > 0 ) {
+			return 'needs_review';
+		}
+
+		return 'pass';
 	}
 
 	/**

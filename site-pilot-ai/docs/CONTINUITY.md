@@ -12,13 +12,13 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.16`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.16.zip`
+- Version: `2.8.17`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.17.zip`
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
 - WP.org Plugin Check baseline: `0 ERROR`, `352 WARNING`.
 - WP.org free ZIP contents: 101 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`.
-- WP.org ZIP SHA256: `aebadfa9f67359bacbe3045dbd390018d88ca85b1d17ca498d64c0bcda9636c9`.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`.
+- WP.org ZIP SHA256: `501f720d4a904aade39647a41da48f642dc826eb328e4a188621059b46943b54`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
 
@@ -155,3 +155,5 @@ SEO readiness progress: `wp_validate_seo_readiness` and `GET /site-pilot-ai/v1/s
 Structured data progress: `wp_validate_structured_data` and `GET /site-pilot-ai/v1/seo/structured-data/{id}` now inventory JSON-LD, microdata, and schema.org hints; report invalid JSON-LD, missing `@context`/`@type`, basic Article/FAQ/Product shape issues, and page-appropriate schema recommendations without mutating content.
 
 Media SEO progress: `wp_audit_media_seo` and `GET /site-pilot-ai/v1/seo/media/{id}` now inspect featured images and content images, reporting missing alt text, generic filenames, large local files, missing dimensions, missing lazy-loading hints, duplicate image reuse, and external image counts without mutating media.
+
+Site SEO audit progress: `wp_seo_audit_site` and `GET /site-pilot-ai/v1/seo/audit` now aggregate readiness, structured data, and media SEO issues across recent posts/pages into prioritized URL rows, category counts, and top issue codes without mutating content.

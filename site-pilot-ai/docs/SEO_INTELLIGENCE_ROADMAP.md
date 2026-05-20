@@ -152,6 +152,7 @@ Reporting should show:
 
 Free should include enough SEO value to make the WP.org version credible:
 
+- Site-level SEO triage through `wp_seo_audit_site`.
 - Per-page Gutenberg SEO checks through `wp_validate_seo_readiness`.
 - Crawlability/indexability checks.
 - Basic weighted internal graph and orphan detection.

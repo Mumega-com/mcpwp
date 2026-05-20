@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.16
+Stable tag: 2.8.17
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,10 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
+= 2.8.17 =
+* New: Add read-only SEO site audit summary for posts and pages.
+* New: Aggregate readiness, structured data, and media SEO issues into prioritized URL-level recommendations.
+
 = 2.8.16 =
 * New: Add read-only media SEO audit for posts and pages.
 * New: Check featured images, content images, alt text, filenames, dimensions, file size, lazy-loading hints, and duplicate image use.
@@ -205,6 +209,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.17 =
+Adds a site-level SEO audit summary so agents can prioritize URLs and fixes.
 
 = 2.8.16 =
 Adds media SEO checks so agents can catch image issues before publishing.
