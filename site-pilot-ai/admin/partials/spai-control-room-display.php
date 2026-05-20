@@ -16,12 +16,15 @@ $control_room    = is_array( $control_room ) ? $control_room : array();
 $approval_counts = isset( $control_room['approval_counts'] ) && is_array( $control_room['approval_counts'] ) ? $control_room['approval_counts'] : array();
 $seo_summary     = isset( $control_room['seo_summary'] ) && is_array( $control_room['seo_summary'] ) ? $control_room['seo_summary'] : array();
 $pending_items   = isset( $control_room['pending_approvals'] ) && is_array( $control_room['pending_approvals'] ) ? $control_room['pending_approvals'] : array();
+$approved_items  = isset( $control_room['approved_approvals'] ) && is_array( $control_room['approved_approvals'] ) ? $control_room['approved_approvals'] : array();
 $rollback_items  = isset( $control_room['rollback_ready'] ) && is_array( $control_room['rollback_ready'] ) ? $control_room['rollback_ready'] : array();
 $seo_issues      = isset( $control_room['open_seo_issues'] ) && is_array( $control_room['open_seo_issues'] ) ? $control_room['open_seo_issues'] : array();
+$seo_filters     = isset( $control_room['seo_filters'] ) && is_array( $control_room['seo_filters'] ) ? $control_room['seo_filters'] : array();
 $activity_rows   = isset( $control_room['recent_activity'] ) && is_array( $control_room['recent_activity'] ) ? $control_room['recent_activity'] : array();
 $recommendations = isset( $control_room['recommendations'] ) && is_array( $control_room['recommendations'] ) ? $control_room['recommendations'] : array();
 
 $pending_count  = (int) ( $approval_counts['pending'] ?? 0 );
+$approved_count = (int) ( $approval_counts['approved'] ?? 0 );
 $applied_count  = (int) ( $approval_counts['applied'] ?? 0 );
 $seo_open_count = (int) ( $seo_summary['open'] ?? 0 );
 $seo_error_count = (int) ( $seo_summary['error'] ?? 0 );
@@ -39,6 +42,8 @@ $seo_error_count = (int) ( $seo_summary['error'] ?? 0 );
 	<p class="description">
 		<?php esc_html_e( 'Review agent work, SEO findings, recent activity, and rollback-ready changes from one supervised WordPress screen.', 'mumega-mcp' ); ?>
 	</p>
+
+	<?php settings_errors( 'spai_messages' ); ?>
 
 	<div class="spai-control-summary">
 		<div class="spai-library-stat spai-control-stat <?php echo esc_attr( $pending_count > 0 ? 'is-warning' : 'is-good' ); ?>">
@@ -104,9 +109,23 @@ $seo_error_count = (int) ( $seo_summary['error'] ?? 0 );
 							<span class="spai-control-list__icon dashicons dashicons-clock"></span>
 							<strong><?php echo esc_html( $item['title'] ?? $item['id'] ?? '' ); ?></strong>
 							<span><?php echo esc_html( $item['tool'] ?? $item['action'] ?? '' ); ?></span>
-							<?php if ( $edit_url ) : ?>
-								<a href="<?php echo esc_url( $edit_url ); ?>"><?php esc_html_e( 'Open resource', 'mumega-mcp' ); ?></a>
-							<?php endif; ?>
+							<div class="spai-control-actions">
+								<form method="post">
+									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
+									<input type="hidden" name="spai_control_room_action" value="approve">
+									<input type="hidden" name="spai_approval_id" value="<?php echo esc_attr( $item['id'] ?? '' ); ?>">
+									<button type="submit" class="button button-primary"><?php esc_html_e( 'Approve', 'mumega-mcp' ); ?></button>
+								</form>
+								<form method="post">
+									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
+									<input type="hidden" name="spai_control_room_action" value="reject">
+									<input type="hidden" name="spai_approval_id" value="<?php echo esc_attr( $item['id'] ?? '' ); ?>">
+									<button type="submit" class="button"><?php esc_html_e( 'Reject', 'mumega-mcp' ); ?></button>
+								</form>
+								<?php if ( $edit_url ) : ?>
+									<a class="button" href="<?php echo esc_url( $edit_url ); ?>"><?php esc_html_e( 'Open resource', 'mumega-mcp' ); ?></a>
+								<?php endif; ?>
+							</div>
 						</li>
 					<?php endforeach; ?>
 				</ul>
@@ -117,9 +136,93 @@ $seo_error_count = (int) ( $seo_summary['error'] ?? 0 );
 	<div class="spai-control-grid">
 		<div class="spai-card">
 			<h2>
-				<span class="dashicons dashicons-search"></span>
-				<?php esc_html_e( 'Open SEO Issues', 'mumega-mcp' ); ?>
+				<span class="dashicons dashicons-saved"></span>
+				<?php esc_html_e( 'Approved Changes', 'mumega-mcp' ); ?>
 			</h2>
+			<p class="description">
+				<?php
+				printf(
+					/* translators: %d: number of approved approvals */
+					esc_html( _n( '%d approved change is ready to apply.', '%d approved changes are ready to apply.', $approved_count, 'mumega-mcp' ) ),
+					esc_html( (string) $approved_count )
+				);
+				?>
+			</p>
+			<?php if ( empty( $approved_items ) ) : ?>
+				<div class="spai-control-empty is-muted">
+					<span class="dashicons dashicons-shield"></span>
+					<p><?php esc_html_e( 'No approved approval requests are waiting to apply.', 'mumega-mcp' ); ?></p>
+				</div>
+			<?php else : ?>
+				<ul class="spai-control-list">
+					<?php foreach ( $approved_items as $item ) : ?>
+						<li class="spai-control-list__item is-info">
+							<span class="spai-control-list__icon dashicons dashicons-saved"></span>
+							<strong><?php echo esc_html( $item['title'] ?? $item['id'] ?? '' ); ?></strong>
+							<span><?php echo esc_html( $item['approved_at'] ?? '' ); ?></span>
+							<div class="spai-control-actions">
+								<form method="post">
+									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
+									<input type="hidden" name="spai_control_room_action" value="apply">
+									<input type="hidden" name="spai_approval_id" value="<?php echo esc_attr( $item['id'] ?? '' ); ?>">
+									<button type="submit" class="button button-primary"><?php esc_html_e( 'Apply', 'mumega-mcp' ); ?></button>
+								</form>
+								<form method="post">
+									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
+									<input type="hidden" name="spai_control_room_action" value="reject">
+									<input type="hidden" name="spai_approval_id" value="<?php echo esc_attr( $item['id'] ?? '' ); ?>">
+									<button type="submit" class="button"><?php esc_html_e( 'Reject', 'mumega-mcp' ); ?></button>
+								</form>
+							</div>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			<?php endif; ?>
+		</div>
+
+		<div class="spai-card">
+			<div class="spai-control-card-header">
+				<h2>
+					<span class="dashicons dashicons-search"></span>
+					<?php esc_html_e( 'Stored SEO Issues', 'mumega-mcp' ); ?>
+				</h2>
+				<form method="post">
+					<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
+					<input type="hidden" name="spai_control_room_action" value="run_seo_audit">
+					<button type="submit" class="button button-primary"><?php esc_html_e( 'Run SEO Audit', 'mumega-mcp' ); ?></button>
+				</form>
+			</div>
+			<form method="get" class="spai-control-filters">
+				<input type="hidden" name="page" value="<?php echo esc_attr( Spai_Admin::CONTROL_ROOM_PAGE_SLUG ); ?>">
+				<label>
+					<span><?php esc_html_e( 'Status', 'mumega-mcp' ); ?></span>
+					<select name="spai_seo_status">
+						<option value="open" <?php selected( $seo_filters['status'] ?? 'open', 'open' ); ?>><?php esc_html_e( 'Open', 'mumega-mcp' ); ?></option>
+						<option value="resolved" <?php selected( $seo_filters['status'] ?? '', 'resolved' ); ?>><?php esc_html_e( 'Resolved', 'mumega-mcp' ); ?></option>
+						<option value="" <?php selected( $seo_filters['status'] ?? '', '' ); ?>><?php esc_html_e( 'Any', 'mumega-mcp' ); ?></option>
+					</select>
+				</label>
+				<label>
+					<span><?php esc_html_e( 'Severity', 'mumega-mcp' ); ?></span>
+					<select name="spai_seo_severity">
+						<option value="" <?php selected( $seo_filters['severity'] ?? '', '' ); ?>><?php esc_html_e( 'Any', 'mumega-mcp' ); ?></option>
+						<option value="error" <?php selected( $seo_filters['severity'] ?? '', 'error' ); ?>><?php esc_html_e( 'Error', 'mumega-mcp' ); ?></option>
+						<option value="warning" <?php selected( $seo_filters['severity'] ?? '', 'warning' ); ?>><?php esc_html_e( 'Warning', 'mumega-mcp' ); ?></option>
+						<option value="info" <?php selected( $seo_filters['severity'] ?? '', 'info' ); ?>><?php esc_html_e( 'Info', 'mumega-mcp' ); ?></option>
+					</select>
+				</label>
+				<label>
+					<span><?php esc_html_e( 'Category', 'mumega-mcp' ); ?></span>
+					<select name="spai_seo_category">
+						<option value="" <?php selected( $seo_filters['category'] ?? '', '' ); ?>><?php esc_html_e( 'Any', 'mumega-mcp' ); ?></option>
+						<option value="readiness" <?php selected( $seo_filters['category'] ?? '', 'readiness' ); ?>><?php esc_html_e( 'Readiness', 'mumega-mcp' ); ?></option>
+						<option value="structured_data" <?php selected( $seo_filters['category'] ?? '', 'structured_data' ); ?>><?php esc_html_e( 'Structured data', 'mumega-mcp' ); ?></option>
+						<option value="media" <?php selected( $seo_filters['category'] ?? '', 'media' ); ?>><?php esc_html_e( 'Media', 'mumega-mcp' ); ?></option>
+						<option value="content_quality" <?php selected( $seo_filters['category'] ?? '', 'content_quality' ); ?>><?php esc_html_e( 'Content quality', 'mumega-mcp' ); ?></option>
+					</select>
+				</label>
+				<button type="submit" class="button"><?php esc_html_e( 'Filter', 'mumega-mcp' ); ?></button>
+			</form>
 			<?php if ( empty( $seo_issues ) ) : ?>
 				<div class="spai-control-empty is-good">
 					<span class="dashicons dashicons-chart-line"></span>
@@ -168,6 +271,14 @@ $seo_error_count = (int) ( $seo_summary['error'] ?? 0 );
 							<span class="spai-control-list__icon dashicons dashicons-backup"></span>
 							<strong><?php echo esc_html( $item['title'] ?? $item['id'] ?? '' ); ?></strong>
 							<span><?php echo esc_html( $item['applied_at'] ?? '' ); ?></span>
+							<div class="spai-control-actions">
+								<form method="post">
+									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
+									<input type="hidden" name="spai_control_room_action" value="rollback">
+									<input type="hidden" name="spai_approval_id" value="<?php echo esc_attr( $item['id'] ?? '' ); ?>">
+									<button type="submit" class="button"><?php esc_html_e( 'Rollback', 'mumega-mcp' ); ?></button>
+								</form>
+							</div>
 						</li>
 					<?php endforeach; ?>
 				</ul>

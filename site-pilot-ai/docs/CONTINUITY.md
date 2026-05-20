@@ -6,19 +6,19 @@ This file captures the current state so work can continue after context compacti
 
 - Branch: `feature/gutenberg-agent-design-system`
 - Draft PR: https://github.com/Mumega-com/mcp-for-wp/pull/257
-- Commit in PR: `77554c1`
-- Latest docs commit in PR: `4e68822`
-- Latest WP.org-free packaging commit: `d500952`
+- Latest working commit in PR: this commit.
+- Latest docs update in PR: this commit.
+- Latest WP.org-free packaging update: this commit.
 
 ## Current Release Candidate
 
-- Version: `2.8.21`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.21.zip`
+- Version: `2.8.22`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.22.zip`
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
-- WP.org Plugin Check baseline: `0 ERROR` on packaged `mumega-mcp` ZIP for `2.8.21`.
+- WP.org Plugin Check baseline: `0 ERROR` on packaged `mumega-mcp` ZIP for `2.8.22`.
 - WP.org free ZIP contents: 103 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`.
-- WP.org ZIP SHA256: `67f9a0fff6c6902d014546a2733f840e65ecc4ada308b5e566ca1784b9feb8c7`.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`; Control Room action smoke passed on version `2.8.22`.
+- WP.org ZIP SHA256: `d9704dfba32f838598b0d79c3f3d34c78ef9168cfc4386aa3522eabb4d62f069`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
 
@@ -141,7 +141,7 @@ Deep SEO roadmap lives in `docs/SEO_INTELLIGENCE_ROADMAP.md`. Product direction:
 
 Gap register lives in `docs/GAP_REGISTER.md`. Highest-priority gaps before serious agent autonomy: approval/diff/rollback pipeline, section-level Gutenberg patching, internal content graph, compact router, capability registry, block safety validator, SEO data model, repeatable local WP E2E tests, performance controls for audits/graphs, and admin UX for approvals/rollback.
 
-Human control room backlog: #309 tracks the next WordPress admin layer. It should combine pending approvals, stored SEO issues, recommended next actions, recent agent activity, and rollback-ready changes so humans can supervise agent work without reading raw MCP responses.
+Human control room progress: #309 now has the first admin implementation. The Control Room combines pending approvals, approved changes ready to apply, rollback-ready changes, stored SEO issues, filters, recommended next actions, recent agent activity, and a stored SEO audit action so humans can supervise agent work without reading raw MCP responses.
 
 SEO provider backlog: #304 covers Search Console/Bing imports, #297 covers keyword/topic inventory, #310 covers optional Apify trend/SERP provider imports, and #311 covers WooCommerce SEO intelligence. Keep the sequencing SEO-first: core issue model and control room, then keyword/search imports, then WooCommerce as a revenue-focused vertical, then Apify as an optional Pro/provider evidence source.
 

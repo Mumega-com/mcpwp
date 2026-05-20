@@ -123,4 +123,4 @@ The painful jobs to optimize first:
 
 ## Human Control Room
 
-The next admin UX backlog item is #309. The goal is one WordPress screen where humans can see pending approvals, stored SEO issues, recent agent activity, recommended next actions, and rollback-ready changes. Agents should continue to expose deterministic data, but humans should not need to read raw MCP responses to supervise production work.
+The admin Control Room is now the human supervision screen for production agent work. It shows pending approvals, approved changes ready to apply, stored SEO issues with filters, recent activity, recommended next actions, and rollback-ready changes. Humans can approve, reject, apply, roll back, and run a stored SEO audit from wp-admin while agents continue to expose deterministic REST/MCP data.

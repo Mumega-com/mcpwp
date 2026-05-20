@@ -187,6 +187,61 @@
 	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
+.spai-control-card-header {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+
+.spai-control-card-header h2 {
+	margin-bottom: 0;
+}
+
+.spai-control-card-header form,
+.spai-control-actions form {
+	margin: 0;
+}
+
+.spai-control-filters {
+	align-items: end;
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) auto;
+	margin-bottom: 14px;
+	padding: 10px;
+}
+
+.spai-control-filters label,
+.spai-control-filters label span,
+.spai-control-filters select {
+	display: block;
+	width: 100%;
+}
+
+.spai-control-filters label span {
+	color: #50575e;
+	font-size: 12px;
+	font-weight: 600;
+	margin-bottom: 4px;
+}
+
+.spai-control-actions {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 10px;
+}
+
+.spai-control-actions .button {
+	margin-top: 0;
+}
+
 .spai-control-action {
 	align-items: flex-start;
 	border-bottom: 1px solid #f0f0f1;

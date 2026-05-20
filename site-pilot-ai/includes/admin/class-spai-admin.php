@@ -388,9 +388,135 @@ class Spai_Admin {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'mumega-mcp' ) );
 		}
 
+		$this->handle_control_room_actions();
+
 		$control_room = $this->get_control_room_data();
 
 		include SPAI_PLUGIN_DIR . 'admin/partials/spai-control-room-display.php';
+	}
+
+	/**
+	 * Handle control room form actions.
+	 *
+	 * @return void
+	 */
+	private function handle_control_room_actions() {
+		if ( empty( $_POST['spai_control_room_action'] ) ) {
+			return;
+		}
+
+		check_admin_referer( 'spai_control_room_actions', 'spai_control_room_nonce' );
+
+		$action = sanitize_key( wp_unslash( $_POST['spai_control_room_action'] ) );
+		$result = null;
+
+		if ( 'run_seo_audit' === $action ) {
+			$result = $this->run_control_room_seo_audit();
+		} else {
+			$approval_id = isset( $_POST['spai_approval_id'] ) ? sanitize_key( wp_unslash( $_POST['spai_approval_id'] ) ) : '';
+			$result      = $this->handle_control_room_approval_action( $action, $approval_id );
+		}
+
+		if ( is_wp_error( $result ) ) {
+			add_settings_error(
+				'spai_messages',
+				'spai_control_room_error',
+				$result->get_error_message(),
+				'error'
+			);
+			return;
+		}
+
+		if ( is_string( $result ) && '' !== $result ) {
+			add_settings_error(
+				'spai_messages',
+				'spai_control_room_updated',
+				$result,
+				'updated'
+			);
+		}
+	}
+
+	/**
+	 * Handle an approval transition from the control room.
+	 *
+	 * @param string $action      Action slug.
+	 * @param string $approval_id Approval request ID.
+	 * @return string|WP_Error Message on success.
+	 */
+	private function handle_control_room_approval_action( $action, $approval_id ) {
+		if ( ! class_exists( 'Spai_Approvals' ) ) {
+			return new WP_Error( 'spai_approvals_unavailable', __( 'Approval storage is unavailable.', 'mumega-mcp' ) );
+		}
+
+		if ( '' === $approval_id ) {
+			return new WP_Error( 'spai_missing_approval_id', __( 'Approval request ID is required.', 'mumega-mcp' ) );
+		}
+
+		switch ( $action ) {
+			case 'approve':
+				$result = Spai_Approvals::approve_request( $approval_id );
+				$message = __( 'Approval request approved.', 'mumega-mcp' );
+				break;
+			case 'reject':
+				$result = Spai_Approvals::reject_request( $approval_id );
+				$message = __( 'Approval request rejected.', 'mumega-mcp' );
+				break;
+			case 'apply':
+				$result = Spai_Approvals::apply_request( $approval_id );
+				$message = __( 'Approved change applied.', 'mumega-mcp' );
+				break;
+			case 'rollback':
+				$result = Spai_Approvals::rollback_request( $approval_id );
+				$message = __( 'Applied change rolled back.', 'mumega-mcp' );
+				break;
+			default:
+				return new WP_Error( 'spai_unknown_control_action', __( 'Unknown control room action.', 'mumega-mcp' ) );
+		}
+
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		return $message;
+	}
+
+	/**
+	 * Run and store a compact SEO audit from the control room.
+	 *
+	 * @return string|WP_Error Message on success.
+	 */
+	private function run_control_room_seo_audit() {
+		if ( ! class_exists( 'Spai_REST_Site' ) || ! class_exists( 'WP_REST_Request' ) ) {
+			return new WP_Error( 'spai_seo_audit_unavailable', __( 'SEO audit tools are unavailable.', 'mumega-mcp' ) );
+		}
+
+		$request = new WP_REST_Request( 'GET', '/mumega-mcp/v1/seo/audit-site' );
+		$request->set_param( 'post_types', 'post,page' );
+		$request->set_param( 'limit', 20 );
+		$request->set_param( 'include_drafts', false );
+		$request->set_param( 'store', true );
+
+		$response = ( new Spai_REST_Site() )->audit_seo_site( $request );
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		$data = $response instanceof WP_REST_Response ? $response->get_data() : array();
+		if ( isset( $data['success'] ) && empty( $data['success'] ) ) {
+			$message = isset( $data['message'] ) ? (string) $data['message'] : __( 'SEO audit failed.', 'mumega-mcp' );
+			return new WP_Error( 'spai_seo_audit_failed', $message );
+		}
+
+		$payload = isset( $data['data'] ) && is_array( $data['data'] ) ? $data['data'] : $data;
+		$summary = isset( $payload['summary'] ) && is_array( $payload['summary'] ) ? $payload['summary'] : array();
+		$count   = isset( $summary['audited_count'] ) ? absint( $summary['audited_count'] ) : 0;
+
+		return sprintf(
+			/* translators: %d: number of audited URLs */
+			_n( 'Stored SEO audit completed for %d URL.', 'Stored SEO audit completed for %d URLs.', $count, 'mumega-mcp' ),
+			$count
+		);
 	}
 
 	/**
@@ -400,6 +526,7 @@ class Spai_Admin {
 	 */
 	public function get_control_room_data() {
 		$approvals = class_exists( 'Spai_Approvals' ) ? Spai_Approvals::list_requests( '', 100 ) : array();
+		$seo_filters = $this->get_control_room_seo_filters();
 		$approval_counts = array(
 			'pending'     => 0,
 			'approved'    => 0,
@@ -416,7 +543,12 @@ class Spai_Admin {
 		}
 
 		$seo_open = class_exists( 'Spai_SEO_Audit_Store' )
-			? Spai_SEO_Audit_Store::list_issues( array( 'status' => 'open', 'limit' => 8 ) )
+			? Spai_SEO_Audit_Store::list_issues(
+				array_merge(
+					$seo_filters,
+					array( 'limit' => 8 )
+				)
+			)
 			: array(
 				'summary' => array( 'total' => 0, 'open' => 0, 'resolved' => 0, 'error' => 0, 'warning' => 0, 'info' => 0 ),
 				'issues'  => array(),
@@ -431,6 +563,7 @@ class Spai_Admin {
 		$data = array(
 			'approval_counts'  => $approval_counts,
 			'pending_approvals' => class_exists( 'Spai_Approvals' ) ? Spai_Approvals::list_requests( 'pending', 5 ) : array(),
+			'approved_approvals' => class_exists( 'Spai_Approvals' ) ? Spai_Approvals::list_requests( 'approved', 5 ) : array(),
 			'rollback_ready'   => array_slice(
 				array_values(
 					array_filter(
@@ -445,12 +578,42 @@ class Spai_Admin {
 			),
 			'seo_summary'      => isset( $seo_all['summary'] ) && is_array( $seo_all['summary'] ) ? $seo_all['summary'] : array(),
 			'open_seo_issues'  => isset( $seo_open['issues'] ) && is_array( $seo_open['issues'] ) ? $seo_open['issues'] : array(),
+			'seo_filters'      => $seo_filters,
 			'recent_activity'  => $recent_activity,
 		);
 
 		$data['recommendations'] = $this->get_control_room_recommendations( $data );
 
 		return $data;
+	}
+
+	/**
+	 * Read and sanitize control room SEO filters.
+	 *
+	 * @return array
+	 */
+	private function get_control_room_seo_filters() {
+		$status   = isset( $_GET['spai_seo_status'] ) ? sanitize_key( wp_unslash( $_GET['spai_seo_status'] ) ) : 'open';
+		$severity = isset( $_GET['spai_seo_severity'] ) ? sanitize_key( wp_unslash( $_GET['spai_seo_severity'] ) ) : '';
+		$category = isset( $_GET['spai_seo_category'] ) ? sanitize_key( wp_unslash( $_GET['spai_seo_category'] ) ) : '';
+
+		if ( ! in_array( $status, array( 'open', 'resolved', '' ), true ) ) {
+			$status = 'open';
+		}
+
+		if ( ! in_array( $severity, array( 'error', 'warning', 'info', '' ), true ) ) {
+			$severity = '';
+		}
+
+		if ( ! in_array( $category, array( 'readiness', 'structured_data', 'media', 'content_quality', '' ), true ) ) {
+			$category = '';
+		}
+
+		return array(
+			'status'   => $status,
+			'severity' => $severity,
+			'category' => $category,
+		);
 	}
 
 	/**

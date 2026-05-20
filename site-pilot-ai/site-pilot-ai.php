@@ -14,7 +14,7 @@
  * Plugin Name:       Mumega MCP
  * Plugin URI:        https://sitepilotai.mumega.com/
  * Description:       Connect WordPress to AI assistants via the Model Context Protocol (MCP). Manage posts, pages, media, and Elementor through natural language.
- * Version:           2.8.21
+ * Version:           2.8.22
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            Mumega
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin version.
  */
-define( 'SPAI_VERSION', '2.8.21' );
+define( 'SPAI_VERSION', '2.8.22' );
 
 /**
  * Plugin directory path.
