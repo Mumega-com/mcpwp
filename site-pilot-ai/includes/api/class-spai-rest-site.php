@@ -946,6 +946,27 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// Media SEO audit.
+		register_rest_route(
+			$this->namespace,
+			'/seo/media/(?P<id>\d+)',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'audit_media_seo' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'id' => array(
+							'description'       => __( 'Post or page ID to audit.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'required'          => true,
+							'sanitize_callback' => 'absint',
+						),
+					),
+				),
+			)
+		);
+
 		// Theme info
 		register_rest_route(
 			$this->namespace,
@@ -2126,6 +2147,86 @@ class Spai_REST_Site extends Spai_REST_API {
 	}
 
 	/**
+	 * Audit media SEO for a single post/page without mutating content.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function audit_media_seo( $request ) {
+		$post_id = absint( $request->get_param( 'id' ) );
+		$post    = get_post( $post_id );
+
+		if ( ! $post ) {
+			return $this->error_response( 'not_found', 'Post not found.', 404 );
+		}
+
+		$this->log_activity( 'audit_media_seo', $request, array( 'post_id' => $post_id ) );
+
+		$content       = (string) $post->post_content;
+		$featured_id   = get_post_thumbnail_id( $post );
+		$content_media = $this->extract_content_image_inventory( $content );
+		$media_items   = array();
+		$issues        = array();
+		$seen_ids      = array();
+
+		if ( $featured_id ) {
+			$featured_item = $this->build_media_seo_item( (int) $featured_id, 'featured_image', null );
+			$media_items[] = $featured_item;
+			$issues        = array_merge( $issues, $this->validate_media_seo_item( $featured_item ) );
+			$seen_ids[]    = (int) $featured_id;
+		} elseif ( in_array( $post->post_type, array( 'post', 'page' ), true ) ) {
+			$issues[] = $this->make_media_seo_issue( 'missing_featured_image', 'info', __( 'No featured image is set.', 'mumega-mcp' ), __( 'Set a featured image when the content needs social/search previews.', 'mumega-mcp' ) );
+		}
+
+		foreach ( $content_media as $content_item ) {
+			$attachment_id = (int) $content_item['attachment_id'];
+			$item          = $attachment_id > 0 ? $this->build_media_seo_item( $attachment_id, 'content_image', $content_item ) : $this->build_external_media_seo_item( $content_item );
+			$media_items[] = $item;
+			$issues        = array_merge( $issues, $this->validate_media_seo_item( $item ) );
+
+			if ( $attachment_id > 0 ) {
+				if ( in_array( $attachment_id, $seen_ids, true ) ) {
+					$issues[] = $this->make_media_seo_issue( 'duplicate_image_use', 'info', __( 'An image is reused on this page.', 'mumega-mcp' ), __( 'Confirm repeated image use is intentional and not a duplicated block.', 'mumega-mcp' ), array( 'attachment_id' => $attachment_id ) );
+				}
+				$seen_ids[] = $attachment_id;
+			}
+		}
+
+		if ( empty( $media_items ) ) {
+			$issues[] = $this->make_media_seo_issue( 'no_images_found', 'info', __( 'No images were found in the post content.', 'mumega-mcp' ), __( 'No action is required unless the page needs visual search, social, or conversion media.', 'mumega-mcp' ) );
+		}
+
+		$summary = $this->summarize_media_seo_issues( $issues );
+
+		return $this->success_response(
+			array(
+				'post'       => array(
+					'id'     => $post_id,
+					'title'  => get_the_title( $post ),
+					'type'   => $post->post_type,
+					'status' => $post->post_status,
+					'url'    => get_permalink( $post ),
+				),
+				'summary'    => $summary,
+				'inventory'  => array(
+					'image_count'          => count( $media_items ),
+					'content_image_count'  => count( $content_media ),
+					'featured_image_id'    => $featured_id ? (int) $featured_id : 0,
+					'attachment_id_count'  => count( array_unique( array_filter( array_map( 'absint', wp_list_pluck( $media_items, 'attachment_id' ) ) ) ) ),
+					'external_image_count' => count( array_filter( $media_items, static function ( $item ) { return empty( $item['attachment_id'] ); } ) ),
+				),
+				'media'      => $media_items,
+				'issues'     => $issues,
+				'workflow'   => array(
+					'read'  => 'Use before publishing or after image-heavy agent edits.',
+					'fix'   => 'Fix alt text, filenames, image choice, and large media through approved media or block edits.',
+					'guard' => 'This endpoint is read-only and does not mutate media or content.',
+				),
+			)
+		);
+	}
+
+	/**
 	 * Build internal content graph data.
 	 *
 	 * @param array $post_types     Post types.
@@ -3026,6 +3127,220 @@ class Spai_REST_Site extends Spai_REST_API {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Create a normalized media SEO issue.
+	 *
+	 * @param string $code           Issue code.
+	 * @param string $severity       Severity.
+	 * @param string $message        Message.
+	 * @param string $recommendation Recommendation.
+	 * @param array  $extra          Extra fields.
+	 * @return array Issue.
+	 */
+	private function make_media_seo_issue( $code, $severity, $message, $recommendation, $extra = array() ) {
+		return array_merge(
+			array(
+				'code'              => $code,
+				'severity'          => $severity,
+				'message'           => $message,
+				'recommendation'    => $recommendation,
+				'approval_required' => in_array( $severity, array( 'error', 'warning' ), true ),
+			),
+			$extra
+		);
+	}
+
+	/**
+	 * Summarize media SEO issues.
+	 *
+	 * @param array $issues Issues.
+	 * @return array Summary.
+	 */
+	private function summarize_media_seo_issues( $issues ) {
+		$error_count   = 0;
+		$warning_count = 0;
+		$info_count    = 0;
+
+		foreach ( $issues as $issue ) {
+			if ( 'error' === $issue['severity'] ) {
+				$error_count++;
+			} elseif ( 'warning' === $issue['severity'] ) {
+				$warning_count++;
+			} elseif ( 'info' === $issue['severity'] ) {
+				$info_count++;
+			}
+		}
+
+		return array(
+			'status'        => 0 === $error_count ? ( $warning_count > 0 ? 'warn' : 'pass' ) : 'fail',
+			'issue_count'   => count( $issues ),
+			'error_count'   => $error_count,
+			'warning_count' => $warning_count,
+			'info_count'    => $info_count,
+		);
+	}
+
+	/**
+	 * Extract image inventory from Gutenberg image blocks and rendered image tags.
+	 *
+	 * @param string $content Content.
+	 * @return array Image inventory.
+	 */
+	private function extract_content_image_inventory( $content ) {
+		$items = array();
+
+		if ( preg_match_all( '/<img\b[^>]*>/i', $content, $matches ) ) {
+			foreach ( $matches[0] as $img_tag ) {
+				$attrs = $this->parse_html_tag_attributes( $img_tag );
+				$id    = 0;
+
+				if ( ! empty( $attrs['class'] ) && preg_match( '/wp-image-(\d+)/i', $attrs['class'], $id_match ) ) {
+					$id = absint( $id_match[1] );
+				}
+
+				$items[] = array(
+					'attachment_id' => $id,
+					'source'        => 'img_tag',
+					'src'           => isset( $attrs['src'] ) ? esc_url_raw( $attrs['src'] ) : '',
+					'alt'           => isset( $attrs['alt'] ) ? trim( wp_strip_all_tags( $attrs['alt'] ) ) : '',
+					'loading'       => isset( $attrs['loading'] ) ? sanitize_key( $attrs['loading'] ) : '',
+					'width'         => isset( $attrs['width'] ) ? absint( $attrs['width'] ) : 0,
+					'height'        => isset( $attrs['height'] ) ? absint( $attrs['height'] ) : 0,
+				);
+			}
+		}
+
+		if ( preg_match_all( '/<!--\s+wp:image\s+({.*?})\s+-->/is', $content, $matches ) ) {
+			foreach ( $matches[1] as $json ) {
+				$attrs = json_decode( html_entity_decode( $json, ENT_QUOTES, get_bloginfo( 'charset' ) ), true );
+				if ( ! empty( $attrs['id'] ) ) {
+					$items[] = array(
+						'attachment_id' => absint( $attrs['id'] ),
+						'source'        => 'image_block',
+						'src'           => '',
+						'alt'           => '',
+						'loading'       => '',
+						'width'         => 0,
+						'height'        => 0,
+					);
+				}
+			}
+		}
+
+		return array_values( array_unique( $items, SORT_REGULAR ) );
+	}
+
+	/**
+	 * Parse simple HTML tag attributes.
+	 *
+	 * @param string $tag HTML tag.
+	 * @return array Attributes.
+	 */
+	private function parse_html_tag_attributes( $tag ) {
+		$attrs = array();
+
+		if ( preg_match_all( '/([a-zA-Z_:][-a-zA-Z0-9_:.]*)\s*=\s*(["\'])(.*?)\2/s', $tag, $matches, PREG_SET_ORDER ) ) {
+			foreach ( $matches as $match ) {
+				$attrs[ strtolower( $match[1] ) ] = html_entity_decode( $match[3], ENT_QUOTES, get_bloginfo( 'charset' ) );
+			}
+		}
+
+		return $attrs;
+	}
+
+	/**
+	 * Build media SEO item for a WordPress attachment.
+	 *
+	 * @param int        $attachment_id Attachment ID.
+	 * @param string     $role          Media role.
+	 * @param array|null $content_item  Optional content image item.
+	 * @return array Media item.
+	 */
+	private function build_media_seo_item( $attachment_id, $role, $content_item = null ) {
+		$metadata = wp_get_attachment_metadata( $attachment_id );
+		$file     = get_attached_file( $attachment_id );
+		$url      = wp_get_attachment_url( $attachment_id );
+		$alt      = trim( (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) );
+
+		if ( '' === $alt && is_array( $content_item ) && '' !== $content_item['alt'] ) {
+			$alt = $content_item['alt'];
+		}
+
+		return array(
+			'attachment_id' => $attachment_id,
+			'role'          => $role,
+			'url'           => $url ? esc_url_raw( $url ) : '',
+			'filename'      => $file ? basename( $file ) : '',
+			'alt'           => $alt,
+			'title'         => get_the_title( $attachment_id ),
+			'mime_type'     => get_post_mime_type( $attachment_id ),
+			'width'         => is_array( $metadata ) && ! empty( $metadata['width'] ) ? absint( $metadata['width'] ) : ( is_array( $content_item ) ? absint( $content_item['width'] ) : 0 ),
+			'height'        => is_array( $metadata ) && ! empty( $metadata['height'] ) ? absint( $metadata['height'] ) : ( is_array( $content_item ) ? absint( $content_item['height'] ) : 0 ),
+			'filesize'      => $file && file_exists( $file ) ? filesize( $file ) : 0,
+			'loading'       => is_array( $content_item ) ? $content_item['loading'] : '',
+			'source'        => is_array( $content_item ) ? $content_item['source'] : 'attachment',
+		);
+	}
+
+	/**
+	 * Build media SEO item for a non-attachment image.
+	 *
+	 * @param array $content_item Content item.
+	 * @return array Media item.
+	 */
+	private function build_external_media_seo_item( $content_item ) {
+		return array(
+			'attachment_id' => 0,
+			'role'          => 'content_image',
+			'url'           => $content_item['src'],
+			'filename'      => '' !== $content_item['src'] ? basename( wp_parse_url( $content_item['src'], PHP_URL_PATH ) ) : '',
+			'alt'           => $content_item['alt'],
+			'title'         => '',
+			'mime_type'     => '',
+			'width'         => absint( $content_item['width'] ),
+			'height'        => absint( $content_item['height'] ),
+			'filesize'      => 0,
+			'loading'       => $content_item['loading'],
+			'source'        => $content_item['source'],
+		);
+	}
+
+	/**
+	 * Validate one media SEO item.
+	 *
+	 * @param array $item Media item.
+	 * @return array Issues.
+	 */
+	private function validate_media_seo_item( $item ) {
+		$issues = array();
+
+		if ( 'content_image' === $item['role'] && '' === trim( (string) $item['alt'] ) ) {
+			$issues[] = $this->make_media_seo_issue( 'missing_image_alt', 'warning', __( 'A content image is missing alt text.', 'mumega-mcp' ), __( 'Add useful alt text, or mark the image decorative in an approved workflow.', 'mumega-mcp' ), array( 'attachment_id' => $item['attachment_id'], 'url' => $item['url'] ) );
+		}
+
+		if ( 'featured_image' === $item['role'] && '' === trim( (string) $item['alt'] ) ) {
+			$issues[] = $this->make_media_seo_issue( 'featured_image_missing_alt', 'warning', __( 'The featured image is missing alt text.', 'mumega-mcp' ), __( 'Add alt text if the featured image conveys meaning.', 'mumega-mcp' ), array( 'attachment_id' => $item['attachment_id'] ) );
+		}
+
+		if ( '' !== $item['filename'] && preg_match( '/^(image|img|photo|screenshot|untitled|dsc)[-_]?\d*\./i', $item['filename'] ) ) {
+			$issues[] = $this->make_media_seo_issue( 'weak_image_filename', 'info', __( 'An image filename is generic.', 'mumega-mcp' ), __( 'Use descriptive filenames before upload when practical; do not rename live media blindly.', 'mumega-mcp' ), array( 'attachment_id' => $item['attachment_id'], 'filename' => $item['filename'] ) );
+		}
+
+		if ( $item['filesize'] > 0 && $item['filesize'] > 512000 ) {
+			$issues[] = $this->make_media_seo_issue( 'large_image_file', 'warning', __( 'An image file is large.', 'mumega-mcp' ), __( 'Compress or replace oversized images to improve page experience.', 'mumega-mcp' ), array( 'attachment_id' => $item['attachment_id'], 'filesize' => $item['filesize'] ) );
+		}
+
+		if ( 'content_image' === $item['role'] && ( 0 === (int) $item['width'] || 0 === (int) $item['height'] ) ) {
+			$issues[] = $this->make_media_seo_issue( 'missing_image_dimensions', 'info', __( 'A content image is missing explicit dimensions.', 'mumega-mcp' ), __( 'Use WordPress image blocks or markup that preserves width and height to reduce layout shift.', 'mumega-mcp' ), array( 'attachment_id' => $item['attachment_id'], 'url' => $item['url'] ) );
+		}
+
+		if ( 'content_image' === $item['role'] && '' === $item['loading'] ) {
+			$issues[] = $this->make_media_seo_issue( 'missing_lazy_loading_hint', 'info', __( 'A content image has no loading attribute in markup.', 'mumega-mcp' ), __( 'Confirm WordPress or the theme adds lazy loading, especially for below-the-fold images.', 'mumega-mcp' ), array( 'attachment_id' => $item['attachment_id'], 'url' => $item['url'] ) );
+		}
+
+		return $issues;
 	}
 
 	/**

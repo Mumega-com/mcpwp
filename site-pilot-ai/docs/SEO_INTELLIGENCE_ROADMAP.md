@@ -156,7 +156,7 @@ Free should include enough SEO value to make the WP.org version credible:
 - Crawlability/indexability checks.
 - Basic weighted internal graph and orphan detection.
 - Basic structured data inventory and recommendations through `wp_validate_structured_data`.
-- Basic media/alt text checks.
+- Basic media/alt text checks through `wp_audit_media_seo`.
 
 Pro can carry heavier workflows:
 

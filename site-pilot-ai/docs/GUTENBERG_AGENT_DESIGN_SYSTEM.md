@@ -141,7 +141,7 @@ Backlog capabilities:
 - Page experience and media SEO checks before publish.
 - Search Console/Bing Webmaster status notes or integrations where credentials/export data are available.
 
-Agents should treat these checks as a pre-publish gate. `wp_validate_seo_readiness` returns a clear report with `pass`, `warn`, `fail`, and approval-required items rather than silently rewriting SEO-sensitive settings. `wp_validate_structured_data` adds read-only schema inventory, validation, and recommendations; agents must not inject schema unless visible content supports it and the human approves.
+Agents should treat these checks as a pre-publish gate. `wp_validate_seo_readiness` returns a clear report with `pass`, `warn`, `fail`, and approval-required items rather than silently rewriting SEO-sensitive settings. `wp_validate_structured_data` adds read-only schema inventory, validation, and recommendations; agents must not inject schema unless visible content supports it and the human approves. `wp_audit_media_seo` checks images before publishing without rewriting media.
 
 ## Internal Content Graph
 
@@ -209,7 +209,7 @@ Issues to create or track:
 - #285 Add structured data recommendation and validation workflow. Status: first read-only validator implemented.
 - #286 Add content quality and entity coverage audit for AI search.
 - #287 Add sitemap freshness and IndexNow workflow.
-- #288 Add page experience and media SEO checks for Gutenberg pages.
+- #288 Add page experience and media SEO checks for Gutenberg pages. Status: first media SEO audit implemented.
 - #289 Add Search Console and webmaster verification notes.
 - Add admin documentation that explains Gutenberg-first workflows without exposing internal MCP complexity.
 
@@ -223,7 +223,7 @@ Backlog:
 - #296 Build SEO issue model and scoring system.
 - #290 Build internal link graph with PageRank-style signals.
 - #293 Build structured data inventory and validator. Status: first read-only validator implemented.
-- #294 Build page experience and media audit engine.
+- #294 Build page experience and media audit engine. Status: first media SEO audit implemented.
 
 ### Sprint 9 - Keyword And Content Strategy
 

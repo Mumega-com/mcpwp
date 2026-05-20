@@ -74,6 +74,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_validate_internal_links' => 'content',
 			'wp_validate_seo_readiness'  => 'seo',
 			'wp_validate_structured_data' => 'seo',
+			'wp_audit_media_seo'        => 'seo',
 			'wp_get_custom_css'          => 'site',
 			'wp_set_custom_css'          => 'site',
 			'wp_delete_custom_css'       => 'site',
@@ -638,6 +639,18 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'id' => array(
 					'type'        => 'number',
 					'description' => 'Post or page ID to validate.',
+					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_audit_media_seo',
+			'Audit media SEO for a post or page without mutating content. Checks featured image coverage, content image alt text, filenames, dimensions, file size, lazy-loading hints, and duplicate image use.',
+			array(
+				'id' => array(
+					'type'        => 'number',
+					'description' => 'Post or page ID to audit.',
 					'required'    => true,
 				),
 			)
@@ -2802,6 +2815,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_validate_structured_data' => array(
 				'method' => 'GET',
 				'route'  => '/seo/structured-data/{id}',
+			),
+			'wp_audit_media_seo' => array(
+				'method' => 'GET',
+				'route'  => '/seo/media/{id}',
 			),
 			'wp_get_custom_css' => array(
 				'method' => 'GET',
