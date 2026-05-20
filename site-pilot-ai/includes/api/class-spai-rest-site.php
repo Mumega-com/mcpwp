@@ -870,6 +870,40 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// Read-only internal link validation for SEO and publishing checks.
+		register_rest_route(
+			$this->namespace,
+			'/content-graph/validate-links',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'validate_internal_links' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'post_types' => array(
+							'description' => __( 'Comma-separated post types to include.', 'mumega-mcp' ),
+							'type'        => 'string',
+							'default'     => 'page,post',
+						),
+						'limit' => array(
+							'description'       => __( 'Maximum number of content nodes to inspect.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 100,
+							'minimum'           => 1,
+							'maximum'           => 500,
+							'sanitize_callback' => 'absint',
+						),
+						'include_drafts' => array(
+							'description'       => __( 'Include draft/private source content.', 'mumega-mcp' ),
+							'type'              => 'boolean',
+							'default'           => false,
+							'sanitize_callback' => 'rest_sanitize_boolean',
+						),
+					),
+				),
+			)
+		);
+
 		// Theme info
 		register_rest_route(
 			$this->namespace,
@@ -1704,6 +1738,106 @@ class Spai_REST_Site extends Spai_REST_API {
 	}
 
 	/**
+	 * Validate existing internal links without mutating content.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function validate_internal_links( $request ) {
+		$this->log_activity( 'validate_internal_links', $request );
+
+		$post_types     = $this->parse_graph_post_types( (string) $request->get_param( 'post_types' ) );
+		$limit          = min( 500, max( 1, absint( $request->get_param( 'limit' ) ) ) );
+		$include_drafts = rest_sanitize_boolean( $request->get_param( 'include_drafts' ) );
+		$graph          = $this->build_content_graph_data( $post_types, $limit, $include_drafts );
+		$url_to_id      = array();
+		$nodes_by_id    = array();
+		$issues         = array();
+
+		foreach ( $graph['nodes'] as $node ) {
+			$nodes_by_id[ (int) $node['id'] ] = $node;
+			$url_to_id[ $this->normalize_internal_graph_url( $node['url'] ) ] = (int) $node['id'];
+		}
+
+		foreach ( array_keys( $nodes_by_id ) as $source_id ) {
+			$source = get_post( $source_id );
+			if ( ! $source ) {
+				continue;
+			}
+
+			$seen_targets = array();
+			$links        = $this->extract_raw_anchor_links( $source->post_content );
+
+			foreach ( $links as $link ) {
+				$resolved = $this->resolve_internal_link_for_validation( $link['href'], $url_to_id );
+				if ( null === $resolved ) {
+					continue;
+				}
+
+				$target_id = (int) $resolved['target_id'];
+				$target    = $target_id ? get_post( $target_id ) : null;
+
+				if ( '' === trim( $link['anchor'] ) ) {
+					$issues[] = $this->make_internal_link_issue( 'empty_anchor', 'warning', $source_id, $target_id, $link, __( 'Use descriptive anchor text for internal links.', 'mumega-mcp' ) );
+				} elseif ( $this->is_weak_internal_link_anchor( $link['anchor'] ) ) {
+					$issues[] = $this->make_internal_link_issue( 'weak_anchor', 'warning', $source_id, $target_id, $link, __( 'Replace generic anchor text with a descriptive phrase.', 'mumega-mcp' ) );
+				}
+
+				if ( ! $target ) {
+					$issues[] = $this->make_internal_link_issue( 'missing_target', 'error', $source_id, 0, $link, __( 'Link points to an internal URL that does not resolve to known content.', 'mumega-mcp' ) );
+					continue;
+				}
+
+				if ( $source_id === $target_id ) {
+					$issues[] = $this->make_internal_link_issue( 'self_link', 'warning', $source_id, $target_id, $link, __( 'Remove self-links unless they point to a useful in-page anchor.', 'mumega-mcp' ) );
+				}
+
+				if ( 'publish' !== $target->post_status ) {
+					$issues[] = $this->make_internal_link_issue( 'unpublished_target', 'error', $source_id, $target_id, $link, __( 'Link target is not published.', 'mumega-mcp' ) );
+				}
+
+				if ( isset( $seen_targets[ $target_id ] ) ) {
+					$issues[] = $this->make_internal_link_issue( 'duplicate_target', 'warning', $source_id, $target_id, $link, __( 'Source content links to the same internal target more than once.', 'mumega-mcp' ) );
+				}
+				$seen_targets[ $target_id ] = true;
+
+				$canonical = get_permalink( $target );
+				if ( $canonical && $this->normalize_internal_graph_url( $canonical ) !== $this->normalize_internal_graph_url( $resolved['absolute'] ) ) {
+					$issues[] = $this->make_internal_link_issue( 'non_canonical_url', 'warning', $source_id, $target_id, $link, __( 'Use the canonical permalink for this internal target.', 'mumega-mcp' ), array( 'canonical_url' => $canonical ) );
+				}
+			}
+		}
+
+		$error_count   = 0;
+		$warning_count = 0;
+		foreach ( $issues as $issue ) {
+			if ( 'error' === $issue['severity'] ) {
+				$error_count++;
+			} elseif ( 'warning' === $issue['severity'] ) {
+				$warning_count++;
+			}
+		}
+
+		return $this->success_response(
+			array(
+				'summary' => array(
+					'status'        => 0 === $error_count ? ( $warning_count > 0 ? 'warn' : 'pass' ) : 'fail',
+					'issue_count'   => count( $issues ),
+					'error_count'   => $error_count,
+					'warning_count' => $warning_count,
+					'node_count'    => count( $nodes_by_id ),
+				),
+				'issues'  => $issues,
+				'workflow' => array(
+					'read'  => 'Use before publishing or applying internal link suggestions.',
+					'fix'   => 'Use approval-first Gutenberg edits to fix accepted issues.',
+					'guard' => 'This endpoint is read-only and does not mutate content.',
+				),
+			)
+		);
+	}
+
+	/**
 	 * Build internal content graph data.
 	 *
 	 * @param array $post_types     Post types.
@@ -1923,6 +2057,110 @@ class Spai_REST_Site extends Spai_REST_API {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Extract raw anchor links from content.
+	 *
+	 * @param string $content Post content.
+	 * @return array Links.
+	 */
+	private function extract_raw_anchor_links( $content ) {
+		$links = array();
+
+		if ( preg_match_all( '/<a\s[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)<\/a>/is', $content, $matches, PREG_SET_ORDER ) ) {
+			foreach ( $matches as $match ) {
+				$links[] = array(
+					'href'   => trim( html_entity_decode( $match[1], ENT_QUOTES, get_bloginfo( 'charset' ) ) ),
+					'anchor' => trim( wp_strip_all_tags( $match[2] ) ),
+				);
+			}
+		}
+
+		return $links;
+	}
+
+	/**
+	 * Resolve an internal link for validation.
+	 *
+	 * @param string $href      Raw href.
+	 * @param array  $url_to_id Normalized URL map.
+	 * @return array|null Resolved link, null for external/non-content links.
+	 */
+	private function resolve_internal_link_for_validation( $href, $url_to_id ) {
+		$href = trim( $href );
+		if ( '' === $href || 0 === strpos( $href, '#' ) || preg_match( '/^(mailto|tel|sms|javascript):/i', $href ) ) {
+			return null;
+		}
+
+		$absolute = wp_http_validate_url( $href ) ? $href : home_url( $href );
+		$home     = wp_parse_url( home_url() );
+		$target   = wp_parse_url( $absolute );
+
+		if ( empty( $target['host'] ) || empty( $home['host'] ) || strtolower( $target['host'] ) !== strtolower( $home['host'] ) ) {
+			return null;
+		}
+
+		$normalized = $this->normalize_internal_graph_url( $absolute );
+		$target_id  = isset( $url_to_id[ $normalized ] ) ? (int) $url_to_id[ $normalized ] : url_to_postid( $absolute );
+
+		return array(
+			'target_id'  => $target_id,
+			'absolute'   => $absolute,
+			'normalized' => $normalized,
+		);
+	}
+
+	/**
+	 * Determine whether anchor text is too generic.
+	 *
+	 * @param string $anchor Anchor text.
+	 * @return bool True when weak.
+	 */
+	private function is_weak_internal_link_anchor( $anchor ) {
+		$anchor = strtolower( trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( $anchor ) ) ) );
+		return in_array(
+			$anchor,
+			array(
+				'click here',
+				'here',
+				'learn more',
+				'read more',
+				'more',
+				'this',
+				'link',
+				'page',
+			),
+			true
+		);
+	}
+
+	/**
+	 * Create a normalized internal link issue.
+	 *
+	 * @param string $code           Issue code.
+	 * @param string $severity       Severity.
+	 * @param int    $source_id      Source post ID.
+	 * @param int    $target_id      Target post ID.
+	 * @param array  $link           Link data.
+	 * @param string $recommendation Recommendation.
+	 * @param array  $extra          Extra fields.
+	 * @return array Issue.
+	 */
+	private function make_internal_link_issue( $code, $severity, $source_id, $target_id, $link, $recommendation, $extra = array() ) {
+		return array_merge(
+			array(
+				'code'              => $code,
+				'severity'          => $severity,
+				'source_id'         => (int) $source_id,
+				'target_id'         => (int) $target_id,
+				'url'               => (string) $link['href'],
+				'anchor'            => (string) $link['anchor'],
+				'recommendation'    => $recommendation,
+				'approval_required' => true,
+			),
+			$extra
+		);
 	}
 
 	/**

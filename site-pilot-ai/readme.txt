@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.11
+Stable tag: 2.8.12
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,10 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
+= 2.8.12 =
+* New: Add read-only internal link validation for SEO and agent publishing workflows.
+* New: Detect self-links, duplicate internal targets, weak anchors, missing targets, unpublished targets, and non-canonical internal URLs.
+
 = 2.8.11 =
 * New: Add approval-first internal link application from content graph targets.
 * New: Internal link application builds native Gutenberg link paragraphs and refuses invented or duplicate target links.
@@ -184,6 +188,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.12 =
+Adds internal link validation for safer SEO and publishing workflows.
 
 = 2.8.11 =
 Adds approval-first internal link application using existing content graph targets.

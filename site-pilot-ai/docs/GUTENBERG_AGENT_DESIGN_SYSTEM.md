@@ -145,9 +145,9 @@ Agents should treat these checks as a pre-publish gate. The plugin should return
 
 ## Internal Content Graph
 
-Current state: the first read-only graph slice is implemented through `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph`. It returns content nodes, content-link edges, parent/child edges, inbound/outbound counts, menu presence, headings, anchor text, and orphan candidates. Link workflows now include `wp_suggest_internal_links` for graph-based, approval-ready link ideas and `wp_apply_internal_link` for approval-first insertion of accepted graph targets.
+Current state: the first read-only graph slice is implemented through `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph`. It returns content nodes, content-link edges, parent/child edges, inbound/outbound counts, menu presence, headings, anchor text, and orphan candidates. Link workflows now include `wp_suggest_internal_links` for graph-based, approval-ready link ideas, `wp_apply_internal_link` for approval-first insertion of accepted graph targets, and `wp_validate_internal_links` for read-only link QA.
 
-Not implemented yet: PageRank-style scoring, taxonomy edge weights, broken-link validation, and richer contextual link placement.
+Not implemented yet: PageRank-style scoring, taxonomy edge weights, automated link fixes, and richer contextual link placement.
 
 Needed graph primitives:
 
@@ -161,6 +161,7 @@ Proposed MCP/REST tools:
 - `wp_get_content_graph` - implemented first read-only slice.
 - `wp_suggest_internal_links` - implemented first read-only suggestion slice.
 - `wp_apply_internal_link` - implemented first approval-first application slice.
+- `wp_validate_internal_links` - implemented first read-only validation slice.
 - `wp_find_orphan_content`
 - `wp_validate_internal_links`
 
