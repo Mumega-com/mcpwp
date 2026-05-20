@@ -133,6 +133,6 @@ Outbound events can notify Telegram, Slack, OpenClaw, Hermes, n8n, Make, Zapier,
 
 ## Site State And Playbooks
 
-Coming sprint work also includes #313, #315, and #316. Agents should start meaningful work by reading a compact site-state snapshot, then selecting a deterministic playbook instead of improvising tool order. The site-state snapshot should summarize content, graph, SEO, approvals, activity, capabilities, and recommended next actions. Playbooks should return required tools, validation gates, approval gates, and rollback paths for common jobs.
+#313 first slice is implemented through `wp_get_site_state` and REST `GET /site-pilot-ai/v1/site-state`. Agents should start meaningful work by reading this compact site-state snapshot, then selecting a deterministic playbook instead of improvising tool order. The snapshot summarizes content, graph, SEO, approvals, events, capabilities, and recommended next actions. Coming sprint work for #315 should make playbooks return required tools, validation gates, approval gates, and rollback paths for common jobs.
 
 The customer-facing value is the content coherence score: a prioritized view of whether the WordPress site is connected, understandable, fresh, crawlable, and ready for human and AI search. Agents should use that score to propose focused work, not broad rewrites.

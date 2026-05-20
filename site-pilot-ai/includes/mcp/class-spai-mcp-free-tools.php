@@ -68,6 +68,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_update_options'          => 'site',
 			'wp_get_site_context'        => 'site',
 			'wp_set_site_context'        => 'site',
+			'wp_get_site_state'          => 'site',
 			'wp_get_content_graph'       => 'content',
 			'wp_suggest_internal_links'  => 'content',
 			'wp_apply_internal_link'     => 'content',
@@ -2814,6 +2815,33 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			array()
 		);
 
+		$tools[] = $this->define_tool(
+			'wp_get_site_state',
+			'Get the compact AI-first site-state snapshot agents should read before multi-step work. Includes content, graph, SEO, approvals, events, capabilities, and recommended next actions.',
+			array(
+				'graph_limit' => array(
+					'type'        => 'number',
+					'description' => 'Maximum content records to inspect for graph health.',
+					'default'     => 100,
+				),
+				'event_limit' => array(
+					'type'        => 'number',
+					'description' => 'Maximum recent events to include.',
+					'default'     => 20,
+				),
+				'include_drafts' => array(
+					'type'        => 'boolean',
+					'description' => 'Include draft/private content in graph health.',
+					'default'     => false,
+				),
+				'include_plugins' => array(
+					'type'        => 'boolean',
+					'description' => 'Include active plugin file names in capability output.',
+					'default'     => false,
+				),
+			)
+		);
+
 		// Guides & Workflows
 		$tools[] = $this->define_tool(
 			'wp_get_guide',
@@ -2884,6 +2912,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_set_site_context' => array(
 				'method' => 'POST',
 				'route'  => '/site-context',
+			),
+			'wp_get_site_state' => array(
+				'method' => 'GET',
+				'route'  => '/site-state',
 			),
 			'wp_get_content_graph' => array(
 				'method' => 'GET',

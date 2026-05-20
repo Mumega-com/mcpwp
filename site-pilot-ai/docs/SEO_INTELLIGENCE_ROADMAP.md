@@ -153,7 +153,7 @@ AI-first content model:
 - Treat WordPress as one coherent content system, not isolated posts and pages.
 - Event payloads should identify the resource, related graph nodes, current risk level, approval state, SEO state, and recommended next action.
 - Agents should react to events by reading current state and creating approval requests, not by blindly mutating content from a chat message.
-- A compact site-state snapshot should be the first read before multi-step work.
+- `wp_get_site_state` is now the compact first read before multi-step work.
 - Playbooks should encode safe tool order, validation gates, approval gates, and rollback paths.
 - Coherence scoring should translate graph/SEO/content data into customer-facing priorities.
 

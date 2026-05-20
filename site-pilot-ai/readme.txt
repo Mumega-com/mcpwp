@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.23
+Stable tag: 2.8.24
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,10 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
+= 2.8.24 =
+* New: Add compact site-state snapshot for deterministic agent starts across content, graph, SEO, approvals, events, and capabilities.
+* New: Add MCP and REST access for agents to read recommended next actions before mutating WordPress content.
+
 = 2.8.23 =
 * New: Add AI-first event store and WordPress hooks for approval lifecycle and stored SEO audit events.
 * New: Add event schema and recent event listing endpoints for agents and webhook subscribers.
@@ -232,6 +236,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.24 =
+Adds a coherent site-state snapshot so agents can read the whole WordPress system before choosing a playbook or proposing changes.
 
 = 2.8.23 =
 Adds normalized event hooks and recent event history so external agents and automations can react to supervised WordPress state changes.

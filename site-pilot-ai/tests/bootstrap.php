@@ -18,6 +18,10 @@ if (! defined('SPAI_VERSION')) {
     define('SPAI_VERSION', 'test');
 }
 
+if (! defined('DAY_IN_SECONDS')) {
+    define('DAY_IN_SECONDS', 86400);
+}
+
 $GLOBALS['spai_test_options'] = array();
 $GLOBALS['spai_test_transients'] = array();
 $GLOBALS['spai_test_current_user'] = 0;
@@ -395,6 +399,17 @@ function get_site_url()
     return 'https://example.com';
 }
 
+function get_bloginfo($show = '')
+{
+    if ('version' === $show) {
+        return '6.9.4';
+    }
+    if ('name' === $show) {
+        return 'Example Site';
+    }
+    return '';
+}
+
 function wp_generate_uuid4()
 {
     return '00000000-0000-4000-8000-' . str_pad((string) mt_rand(1, 999999999999), 12, '0', STR_PAD_LEFT);
@@ -439,11 +454,104 @@ function rest_do_request()
 
 $GLOBALS['_spai_test_posts'] = array();
 $GLOBALS['_spai_test_meta']  = array();
+$GLOBALS['_spai_test_menu_page_ids'] = array();
 
 function get_post($id)
 {
     $id = (int) $id;
     return isset($GLOBALS['_spai_test_posts'][ $id ]) ? $GLOBALS['_spai_test_posts'][ $id ] : null;
+}
+
+function get_posts($args = array())
+{
+    $posts = array_values($GLOBALS['_spai_test_posts']);
+    $types = isset($args['post_type']) ? (array) $args['post_type'] : array();
+    $statuses = isset($args['post_status']) ? (array) $args['post_status'] : array();
+
+    $posts = array_values(array_filter($posts, function ($post) use ($types, $statuses) {
+        if (! empty($types) && ! in_array($post->post_type, $types, true)) {
+            return false;
+        }
+        if (! empty($statuses) && ! in_array($post->post_status, $statuses, true)) {
+            return false;
+        }
+        return true;
+    }));
+
+    $limit = isset($args['posts_per_page']) ? (int) $args['posts_per_page'] : -1;
+    if ($limit > -1) {
+        $posts = array_slice($posts, 0, $limit);
+    }
+
+    if (isset($args['fields']) && 'ids' === $args['fields']) {
+        return array_map(function ($post) {
+            return (int) $post->ID;
+        }, $posts);
+    }
+
+    return $posts;
+}
+
+function wp_count_posts($type)
+{
+    $counts = array(
+        'publish' => 0,
+        'draft'   => 0,
+        'private' => 0,
+        'trash'   => 0,
+    );
+
+    foreach ($GLOBALS['_spai_test_posts'] as $post) {
+        if ($post->post_type === $type && isset($counts[ $post->post_status ])) {
+            $counts[ $post->post_status ]++;
+        }
+    }
+
+    return (object) $counts;
+}
+
+function wp_strip_all_tags($value)
+{
+    return strip_tags((string) $value);
+}
+
+function get_post_modified_time($format, $gmt, $post)
+{
+    $timestamp = isset($post->modified_ts) ? (int) $post->modified_ts : time();
+    if ('U' === $format) {
+        return $timestamp;
+    }
+    return gmdate('c', $timestamp);
+}
+
+function get_the_title($post)
+{
+    if (is_object($post)) {
+        return isset($post->post_title) ? $post->post_title : '';
+    }
+    $post = get_post($post);
+    return $post ? $post->post_title : '';
+}
+
+function get_permalink($post)
+{
+    $post_id = is_object($post) ? (int) $post->ID : (int) $post;
+    return 'https://example.com/?p=' . $post_id;
+}
+
+function wp_get_nav_menus()
+{
+    return empty($GLOBALS['_spai_test_menu_page_ids']) ? array() : array((object) array( 'term_id' => 1 ));
+}
+
+function wp_get_nav_menu_items($term_id)
+{
+    return array_map(function ($post_id) {
+        return (object) array(
+            'object'    => 'page',
+            'object_id' => (int) $post_id,
+        );
+    }, $GLOBALS['_spai_test_menu_page_ids']);
 }
 
 function get_post_meta($post_id, $key = '', $single = false)
@@ -481,6 +589,7 @@ require_once dirname(__DIR__) . '/includes/traits/trait-spai-sanitization.php';
 require_once dirname(__DIR__) . '/includes/traits/trait-spai-logging.php';
 require_once dirname(__DIR__) . '/includes/class-spai-rate-limiter.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-event-store.php';
+require_once dirname(__DIR__) . '/includes/core/class-spai-site-state.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-api.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-tool-registry.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-free-tools.php';

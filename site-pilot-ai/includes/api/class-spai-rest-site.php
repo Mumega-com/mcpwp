@@ -747,6 +747,49 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// Coherent site-state snapshot for deterministic agent starts.
+		register_rest_route(
+			$this->namespace,
+			'/site-state',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_site_state' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'graph_limit' => array(
+							'description'       => __( 'Maximum content records to inspect for graph health.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 100,
+							'minimum'           => 1,
+							'maximum'           => 250,
+							'sanitize_callback' => 'absint',
+						),
+						'event_limit' => array(
+							'description'       => __( 'Maximum recent events to include.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 20,
+							'minimum'           => 1,
+							'maximum'           => 50,
+							'sanitize_callback' => 'absint',
+						),
+						'include_drafts' => array(
+							'description'       => __( 'Include draft/private content in graph health.', 'mumega-mcp' ),
+							'type'              => 'boolean',
+							'default'           => false,
+							'sanitize_callback' => 'rest_sanitize_boolean',
+						),
+						'include_plugins' => array(
+							'description'       => __( 'Include active plugin file names in capability output.', 'mumega-mcp' ),
+							'type'              => 'boolean',
+							'default'           => false,
+							'sanitize_callback' => 'rest_sanitize_boolean',
+						),
+					),
+				),
+			)
+		);
+
 		// Internal content graph for SEO and internal linking workflows.
 		register_rest_route(
 			$this->namespace,
@@ -1664,6 +1707,29 @@ class Spai_REST_Site extends Spai_REST_API {
 		$graph      = $this->build_content_graph_data( $post_types, $limit, rest_sanitize_boolean( $request->get_param( 'include_drafts' ) ) );
 
 		return $this->success_response( $graph );
+	}
+
+	/**
+	 * Get coherent site state for deterministic agent starts.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function get_site_state( $request ) {
+		$this->log_activity( 'get_site_state', $request );
+
+		$snapshot = class_exists( 'Spai_Site_State' )
+			? Spai_Site_State::get_snapshot(
+				array(
+					'graph_limit'     => min( 250, max( 1, absint( $request->get_param( 'graph_limit' ) ) ) ),
+					'event_limit'     => min( 50, max( 1, absint( $request->get_param( 'event_limit' ) ) ) ),
+					'include_drafts'  => rest_sanitize_boolean( $request->get_param( 'include_drafts' ) ),
+					'include_plugins' => rest_sanitize_boolean( $request->get_param( 'include_plugins' ) ),
+				)
+			)
+			: array();
+
+		return $this->success_response( $snapshot );
 	}
 
 	/**
