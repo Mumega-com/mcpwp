@@ -370,10 +370,11 @@ Needed:
 Relevant issues:
 
 - #312 Add AI-first event hooks and outbound webhooks.
+- #314 Add Control Room event inbox and escalation rules.
 - #263 Implement deterministic MCP router.
 - #309 Build human control room for approvals and SEO issues.
 
-Status: added to the coming Sprint 10 track. First slice should emit approval lifecycle and stored SEO audit events before adding broader graph/content events.
+Status: added to the coming Sprint 10 track. First slice should emit approval lifecycle and stored SEO audit events before adding broader graph/content events. Second slice should show normalized events in the Control Room with escalation filters.
 
 ### Coherent WordPress Content System
 
@@ -388,13 +389,31 @@ Needed:
 
 Relevant issues:
 
+- #313 Add coherent site state snapshot for agents and Control Room.
 - #290 Build internal link graph with PageRank-style signals.
 - #296 Build SEO issue model and scoring system.
 - #302 Add topical cluster and hub page planner.
 - #305 Add SEO dashboard and scheduled recommendations.
 - #312 Add AI-first event hooks and outbound webhooks.
+- #315 Define deterministic agent playbook contracts.
+- #316 Add content coherence scoring and recommendations.
 
-Status: content graph, stored SEO issues, approvals, and Control Room now exist as separate slices. Next work should connect them through event hooks and a shared state summary.
+Status: content graph, stored SEO issues, approvals, and Control Room now exist as separate slices. Next work should connect them through event hooks, a shared state summary, deterministic playbooks, and a content coherence score.
+
+### Coming Sprint Sequence
+
+Priority order:
+
+1. #312 Event hooks and outbound webhooks.
+2. #313 Coherent site state snapshot.
+3. #314 Control Room event inbox and escalation rules.
+4. #315 Deterministic agent playbook contracts.
+5. #316 Content coherence scoring and recommendations.
+6. #307 Approval-safe SEO autofix workflows.
+7. #304 Search Console/Bing data imports.
+8. #311 WooCommerce SEO intelligence.
+
+Reasoning: first make state changes observable, then make site state compact, then make human supervision richer, then give agents safe playbooks, then turn the whole system into prioritized customer value.
 
 ### Agent Playbooks
 

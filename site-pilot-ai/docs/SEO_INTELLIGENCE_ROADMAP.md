@@ -122,6 +122,10 @@ Issues:
 - #310 Add Apify trend and SERP import provider.
 - #311 Add WooCommerce SEO intelligence workflows.
 - #312 Add AI-first event hooks and outbound webhooks.
+- #313 Add coherent site state snapshot for agents and Control Room.
+- #314 Add Control Room event inbox and escalation rules.
+- #315 Define deterministic agent playbook contracts.
+- #316 Add content coherence scoring and recommendations.
 
 Expected MCP/REST surfaces:
 
@@ -129,8 +133,13 @@ Expected MCP/REST surfaces:
 - `wp_get_seo_trends`
 - `wp_import_search_performance`
 - `wp_import_rank_tracking`
+- `wp_get_ai_visibility_report`
+- `wp_run_seo_autofix_plan`
 - `wp_get_event_schema`
 - `wp_list_event_deliveries`
+- `wp_get_site_state`
+- `wp_get_agent_playbook`
+- `wp_get_content_coherence_report`
 
 Event surfaces:
 
@@ -144,8 +153,9 @@ AI-first content model:
 - Treat WordPress as one coherent content system, not isolated posts and pages.
 - Event payloads should identify the resource, related graph nodes, current risk level, approval state, SEO state, and recommended next action.
 - Agents should react to events by reading current state and creating approval requests, not by blindly mutating content from a chat message.
-- `wp_get_ai_visibility_report`
-- `wp_run_seo_autofix_plan`
+- A compact site-state snapshot should be the first read before multi-step work.
+- Playbooks should encode safe tool order, validation gates, approval gates, and rollback paths.
+- Coherence scoring should translate graph/SEO/content data into customer-facing priorities.
 
 Reporting should show:
 

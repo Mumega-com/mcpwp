@@ -109,6 +109,10 @@ Issues created:
 - #310 Add Apify trend and SERP import provider
 - #311 Add WooCommerce SEO intelligence workflows
 - #312 Add AI-first event hooks and outbound webhooks
+- #313 Add coherent site state snapshot for agents and Control Room
+- #314 Add Control Room event inbox and escalation rules
+- #315 Define deterministic agent playbook contracts
+- #316 Add content coherence scoring and recommendations
 
 ## SOS Bus
 
@@ -149,6 +153,8 @@ SEO provider backlog: #304 covers Search Console/Bing imports, #297 covers keywo
 AI-first hooks backlog: #312 tracks harness-neutral WordPress hooks plus signed outbound webhooks. First slice should emit approval lifecycle and stored SEO audit events, then broaden to SEO issue, content graph, activity, and Control Room alert events. Outbound notifications are safe first; inbound mutating commands must be scoped, signed, logged, and approval-first.
 
 Coherent content-system frame: treat WordPress as one connected state model across posts, pages, Gutenberg blocks, media, taxonomies, menus, internal links, SEO metadata, approvals, activity, commerce, and templates. Agents should respond to current site state and graph relationships instead of seeing disconnected tools or pushing raw page edits.
+
+Coming sprint sequence: #312 event hooks, #313 site-state snapshot, #314 Control Room event inbox, #315 deterministic playbooks, #316 content coherence score, then #307 SEO autofix, #304 Search Console/Bing imports, and #311 WooCommerce SEO intelligence. The sequence makes the system observable before it becomes more autonomous.
 
 Implementation progress on PR #277: block safety first slice now exposes `wp_validate_blocks` and `POST /site-pilot-ai/v1/blocks/validate`, adds safety reports to parse/serialize responses, and makes `wp_set_blocks` reject classic HTML, `core/html`, inline script/style tags, and unsafe iframes by default unless an explicit approval note is supplied. Internal graph first slice now exposes `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph` with nodes, content links, parent/child edges, inbound/outbound counts, anchors, headings, menu presence, and orphan candidates.
 

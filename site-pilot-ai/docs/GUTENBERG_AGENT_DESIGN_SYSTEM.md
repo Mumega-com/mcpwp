@@ -254,6 +254,10 @@ Backlog:
 - #310 Add Apify trend and SERP import provider.
 - #311 Add WooCommerce SEO intelligence workflows.
 - #312 Add AI-first event hooks and outbound webhooks.
+- #313 Add coherent site state snapshot for agents and Control Room.
+- #314 Add Control Room event inbox and escalation rules.
+- #315 Define deterministic agent playbook contracts.
+- #316 Add content coherence scoring and recommendations.
 
 ## Guardrails
 
@@ -266,6 +270,8 @@ Backlog:
 - Treat SEO checks as part of the save/publish workflow, not a separate afterthought.
 - Treat WordPress as a coherent content system. Agent-facing events should connect blocks, posts, media, taxonomies, menus, internal links, SEO issues, approvals, and activity into one state model.
 - Notify external agents and chat channels through signed outbound events, but keep mutating actions approval-first.
+- Start multi-step agent work from the site-state snapshot and a playbook, not from raw tool discovery alone.
+- Turn graph, SEO, approval, and activity signals into a content coherence score before recommending broad changes.
 
 ## Local WordPress Validation
 

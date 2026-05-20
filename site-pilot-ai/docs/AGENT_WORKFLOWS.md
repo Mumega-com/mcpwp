@@ -130,3 +130,9 @@ The admin Control Room is now the human supervision screen for production agent 
 Coming sprint work is #312: a harness-neutral event layer. External agents, chat channels, dashboards, and automation tools should subscribe to WordPress state changes instead of polling or relying on a specific runtime. First events should cover approval lifecycle and stored SEO audits, then SEO issues, content graph updates, activity logs, and Control Room alerts.
 
 Outbound events can notify Telegram, Slack, OpenClaw, Hermes, n8n, Make, Zapier, Codex CLI, or custom workers. Inbound mutating commands remain approval-first: the agent reads current state, creates an approval request, and lets the human approve/apply through the Control Room or a signed confirmation flow.
+
+## Site State And Playbooks
+
+Coming sprint work also includes #313, #315, and #316. Agents should start meaningful work by reading a compact site-state snapshot, then selecting a deterministic playbook instead of improvising tool order. The site-state snapshot should summarize content, graph, SEO, approvals, activity, capabilities, and recommended next actions. Playbooks should return required tools, validation gates, approval gates, and rollback paths for common jobs.
+
+The customer-facing value is the content coherence score: a prioritized view of whether the WordPress site is connected, understandable, fresh, crawlable, and ready for human and AI search. Agents should use that score to propose focused work, not broad rewrites.
