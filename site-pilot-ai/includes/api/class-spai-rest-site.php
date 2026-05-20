@@ -5903,7 +5903,9 @@ class Spai_REST_Site extends Spai_REST_API {
 
 		$current_version = defined( 'SPAI_VERSION' ) ? SPAI_VERSION : '0.0.0';
 		$option_version  = null;
+		$option_package  = null;
 		$remote_version  = null;
+		$remote_package  = null;
 		$selected_source = null;
 
 		$option_data = get_option( 'spai_update_info' );
@@ -5912,6 +5914,9 @@ class Spai_REST_Site extends Spai_REST_API {
 		}
 		if ( is_array( $option_data ) && ! empty( $option_data['version'] ) ) {
 			$option_version = (string) $option_data['version'];
+			if ( ! empty( $option_data['download_url'] ) ) {
+				$option_package = esc_url_raw( $option_data['download_url'] );
+			}
 		}
 
 		$version_url = get_option( 'spai_version_url', 'https://mumega.com/mcp-updates/version.json' );
@@ -5931,6 +5936,9 @@ class Spai_REST_Site extends Spai_REST_API {
 			$remote_body = json_decode( wp_remote_retrieve_body( $remote_response ), true );
 			if ( is_array( $remote_body ) && ! empty( $remote_body['version'] ) ) {
 				$remote_version = (string) $remote_body['version'];
+				if ( ! empty( $remote_body['download_url'] ) ) {
+					$remote_package = esc_url_raw( $remote_body['download_url'] );
+				}
 			}
 		}
 
@@ -5970,12 +5978,21 @@ class Spai_REST_Site extends Spai_REST_API {
 			}
 		}
 
+		$selected_package = $package;
+		if ( empty( $selected_package ) ) {
+			if ( 'remote' === $selected_source ) {
+				$selected_package = $remote_package;
+			} elseif ( 'option' === $selected_source ) {
+				$selected_package = $option_package;
+			}
+		}
+
 		return $this->success_response(
 			array(
 				'current_version'  => $current_version,
 				'update_available' => $update_available,
 				'new_version'      => $new_version,
-				'has_package'      => ! empty( $package ),
+				'has_package'      => ! empty( $selected_package ),
 				'source'           => $selected_source,
 				'option_version'   => $option_version,
 				'remote_version'   => $remote_version,
@@ -6012,6 +6029,7 @@ class Spai_REST_Site extends Spai_REST_API {
 
 		$clear_update_state = static function () {
 			delete_option( 'spai_update_info' );
+			delete_transient( 'spai_capabilities_cache' );
 			delete_transient( 'spai_update_check' );
 			delete_site_transient( 'update_plugins' );
 		};

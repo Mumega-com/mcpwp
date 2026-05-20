@@ -61,7 +61,18 @@ rm -rf "$DEST/includes/pro"
 
 # ── Inject SPAI_WPORG_BUILD constant for WP.org compliance ─────
 echo "    Injecting SPAI_WPORG_BUILD constant..."
-sed -i "s|define( 'SPAI_VERSION'|define( 'SPAI_WPORG_BUILD', true );\ndefine( 'SPAI_VERSION'|" "$DEST/$PLUGIN_MAIN"
+python3 - "$DEST/$PLUGIN_MAIN" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+content = path.read_text(encoding="utf-8")
+needle = "define( 'SPAI_VERSION'"
+replacement = "define( 'SPAI_WPORG_BUILD', true );\n" + needle
+if "define( 'SPAI_WPORG_BUILD'" not in content:
+    content = content.replace(needle, replacement, 1)
+path.write_text(content, encoding="utf-8")
+PY
 
 # ── Apply .distignore exclusions ────────────────────────────────
 echo "    Applying .distignore..."

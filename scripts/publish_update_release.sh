@@ -103,7 +103,12 @@ if [[ ! -f "$ZIP_PATH" ]]; then
 	exit 1
 fi
 
-ZIP_VERSION="$(unzip -p "$ZIP_PATH" site-pilot-ai/site-pilot-ai.php | grep -m1 'Version:' | sed 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')"
+ZIP_MAIN_FILE="site-pilot-ai/site-pilot-ai.php"
+if ! unzip -Z1 "$ZIP_PATH" | grep -qx "$ZIP_MAIN_FILE"; then
+	ZIP_MAIN_FILE="mumega-mcp/site-pilot-ai.php"
+fi
+
+ZIP_VERSION="$(unzip -p "$ZIP_PATH" "$ZIP_MAIN_FILE" | grep -m1 'Version:' | sed 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')"
 if [[ "$ZIP_VERSION" != "$VERSION" ]]; then
 	echo "ZIP version mismatch: expected $VERSION, got $ZIP_VERSION" >&2
 	exit 1

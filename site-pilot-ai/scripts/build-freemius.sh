@@ -60,7 +60,18 @@ rm -f "$DEST"/assets/screenshot-*.png
 rm -f "$DEST"/assets/icon.svg
 
 echo "    Injecting SPAI_FREEMIUS_BUILD constant..."
-sed -i "s|define( 'SPAI_VERSION'|define( 'SPAI_FREEMIUS_BUILD', true );\ndefine( 'SPAI_VERSION'|" "$DEST/$PLUGIN_MAIN"
+python3 - "$DEST/$PLUGIN_MAIN" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+content = path.read_text(encoding="utf-8")
+needle = "define( 'SPAI_VERSION'"
+replacement = "define( 'SPAI_FREEMIUS_BUILD', true );\n" + needle
+if "define( 'SPAI_FREEMIUS_BUILD'" not in content:
+    content = content.replace(needle, replacement, 1)
+path.write_text(content, encoding="utf-8")
+PY
 
 echo "    Applying .distignore with Freemius exceptions..."
 if [[ -f "$DEST/.distignore" ]]; then

@@ -68,7 +68,11 @@ class Spai_Core {
 	public function get_capabilities() {
 		$cached = get_transient( 'spai_capabilities_cache' );
 		if ( false !== $cached ) {
-			return $cached;
+			if ( $this->capabilities_cache_matches_license( $cached ) ) {
+				return $cached;
+			}
+
+			delete_transient( 'spai_capabilities_cache' );
 		}
 
 		$rankmath_active = defined( 'RANK_MATH_VERSION' )
@@ -132,6 +136,36 @@ class Spai_Core {
 		set_transient( 'spai_capabilities_cache', $capabilities, HOUR_IN_SECONDS );
 
 		return $capabilities;
+	}
+
+	/**
+	 * Check whether cached capabilities still match the current license state.
+	 *
+	 * @param mixed $cached Cached capabilities.
+	 * @return bool True when cache can be reused.
+	 */
+	private function capabilities_cache_matches_license( $cached ) {
+		if ( ! is_array( $cached ) || ! class_exists( 'Spai_License' ) ) {
+			return true;
+		}
+
+		$license = Spai_License::get_instance();
+		if ( ! $license ) {
+			return true;
+		}
+
+		$current_plan   = $license->get_plan();
+		$current_is_pro = $license->is_pro();
+
+		if ( isset( $cached['plan'] ) && $cached['plan'] !== $current_plan ) {
+			return false;
+		}
+
+		if ( isset( $cached['pro_active'] ) && (bool) $cached['pro_active'] !== (bool) $current_is_pro ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
