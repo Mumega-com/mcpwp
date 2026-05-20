@@ -229,7 +229,7 @@ Relevant issues:
 - #287 Add sitemap freshness and IndexNow workflow.
 - #288 Add page experience and media SEO checks for Gutenberg pages.
 
-Status: first pre-publish slice adds `wp_validate_seo_readiness` and `GET /site-pilot-ai/v1/seo/readiness/{id}`. It checks title, slug, thin content, H1, heading order, meta description, image alt text, internal links, orphan state, noindex, canonical overrides, robots.txt, sitemap hints, and schema hints without mutating content. Structured data first slice adds `wp_validate_structured_data` and `GET /site-pilot-ai/v1/seo/structured-data/{id}`. Media SEO first slice adds `wp_audit_media_seo` and `GET /site-pilot-ai/v1/seo/media/{id}`. Site audit first slice adds `wp_seo_audit_site` and `GET /site-pilot-ai/v1/seo/audit`.
+Status: first pre-publish slice adds `wp_validate_seo_readiness` and `GET /site-pilot-ai/v1/seo/readiness/{id}`. It checks title, slug, thin content, H1, heading order, meta description, image alt text, internal links, orphan state, noindex, canonical overrides, robots.txt, sitemap hints, and schema hints without mutating content. Structured data first slice adds `wp_validate_structured_data` and `GET /site-pilot-ai/v1/seo/structured-data/{id}`. Media SEO first slice adds `wp_audit_media_seo` and `GET /site-pilot-ai/v1/seo/media/{id}`. Site audit first slice adds `wp_seo_audit_site` and `GET /site-pilot-ai/v1/seo/audit`. Content quality first slice adds `wp_audit_content_quality` and `GET /site-pilot-ai/v1/seo/content-quality/{id}`.
 
 ### Keyword, Topic, And Content Strategy
 

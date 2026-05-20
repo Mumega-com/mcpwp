@@ -141,7 +141,7 @@ Backlog capabilities:
 - Page experience and media SEO checks before publish.
 - Search Console/Bing Webmaster status notes or integrations where credentials/export data are available.
 
-Agents should treat these checks as a pre-publish gate. `wp_seo_audit_site` gives a site-level triage view. `wp_validate_seo_readiness` returns a clear report with `pass`, `warn`, `fail`, and approval-required items rather than silently rewriting SEO-sensitive settings. `wp_validate_structured_data` adds read-only schema inventory, validation, and recommendations; agents must not inject schema unless visible content supports it and the human approves. `wp_audit_media_seo` checks images before publishing without rewriting media.
+Agents should treat these checks as a pre-publish gate. `wp_seo_audit_site` gives a site-level triage view. `wp_validate_seo_readiness` returns a clear report with `pass`, `warn`, `fail`, and approval-required items rather than silently rewriting SEO-sensitive settings. `wp_validate_structured_data` adds read-only schema inventory, validation, and recommendations; agents must not inject schema unless visible content supports it and the human approves. `wp_audit_media_seo` checks images before publishing without rewriting media. `wp_audit_content_quality` checks answerability and citation readiness without inventing entities or sources.
 
 ## Internal Content Graph
 
@@ -207,7 +207,7 @@ Issues to create or track:
 - #282 Add internal link validation to Gutenberg publishing checks.
 - #284 Add search and AI crawler visibility audit.
 - #285 Add structured data recommendation and validation workflow. Status: first read-only validator implemented.
-- #286 Add content quality and entity coverage audit for AI search.
+- #286 Add content quality and entity coverage audit for AI search. Status: first read-only content quality audit implemented.
 - #287 Add sitemap freshness and IndexNow workflow.
 - #288 Add page experience and media SEO checks for Gutenberg pages. Status: first media SEO audit implemented.
 - #289 Add Search Console and webmaster verification notes.

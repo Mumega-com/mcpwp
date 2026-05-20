@@ -76,6 +76,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_validate_structured_data' => 'seo',
 			'wp_audit_media_seo'         => 'seo',
 			'wp_seo_audit_site'          => 'seo',
+			'wp_audit_content_quality'   => 'seo',
 			'wp_get_custom_css'          => 'site',
 			'wp_set_custom_css'          => 'site',
 			'wp_delete_custom_css'       => 'site',
@@ -659,7 +660,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_seo_audit_site',
-			'Run a read-only SEO site audit summary across recent posts and pages. Aggregates SEO readiness, structured data, and media SEO issues into prioritized URL-level recommendations.',
+			'Run a read-only SEO site audit summary across recent posts and pages. Aggregates SEO readiness, structured data, media SEO, and content quality issues into prioritized URL-level recommendations.',
 			array(
 				'post_types' => array(
 					'type'        => 'string',
@@ -672,6 +673,18 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'include_drafts' => array(
 					'type'        => 'boolean',
 					'description' => 'Include draft/private content. Defaults to false.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_audit_content_quality',
+			'Audit content quality and AI-search citation readiness for a post or page without mutating content. Checks answer depth, summaries, FAQ/question coverage, entity-like names, freshness, trust signals, and reference hints.',
+			array(
+				'id' => array(
+					'type'        => 'number',
+					'description' => 'Post or page ID to audit.',
+					'required'    => true,
 				),
 			)
 		);
@@ -2843,6 +2856,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_seo_audit_site' => array(
 				'method' => 'GET',
 				'route'  => '/seo/audit',
+			),
+			'wp_audit_content_quality' => array(
+				'method' => 'GET',
+				'route'  => '/seo/content-quality/{id}',
 			),
 			'wp_get_custom_css' => array(
 				'method' => 'GET',

@@ -49,6 +49,7 @@ Expected MCP/REST surfaces:
 - `wp_get_internal_link_opportunities`
 - `wp_validate_structured_data`
 - `wp_audit_media_seo`
+- `wp_audit_content_quality`
 
 Audit categories:
 
@@ -158,6 +159,7 @@ Free should include enough SEO value to make the WP.org version credible:
 - Basic weighted internal graph and orphan detection.
 - Basic structured data inventory and recommendations through `wp_validate_structured_data`.
 - Basic media/alt text checks through `wp_audit_media_seo`.
+- Basic answerability/entity/trust checks through `wp_audit_content_quality`.
 
 Pro can carry heavier workflows:
 
