@@ -417,7 +417,9 @@ Reasoning: first make state changes observable, then make site state compact, th
 
 ### Agent Playbooks
 
-Gap: docs explain direction, but concise agent playbooks are needed.
+Status: first implementation added `wp_get_agent_playbook` and REST `GET /site-pilot-ai/v1/agent-playbooks` with deterministic contracts for Gutenberg page creation, one-section updates, SEO audit triage, internal link improvements, and rollback.
+
+Remaining gap: playbooks are read-only contracts. Future slices should add playbook execution tracking, per-step status, and Control Room visibility.
 
 Needed playbooks:
 

@@ -389,6 +389,26 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// Deterministic agent playbook contracts.
+		register_rest_route(
+			$this->namespace,
+			'/agent-playbooks',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_agent_playbook' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'name' => array(
+							'description'       => __( 'Optional playbook name.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_key',
+						),
+					),
+				),
+			)
+		);
+
 		// Categories
 		register_rest_route(
 			$this->namespace,
@@ -7253,6 +7273,25 @@ class Spai_REST_Site extends Spai_REST_API {
 		}
 
 		return $this->success_response( $workflow );
+	}
+
+	/**
+	 * Get deterministic agent playbook contract.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response object.
+	 */
+	public function get_agent_playbook( $request ) {
+		$name     = $request->get_param( 'name' );
+		$playbook = class_exists( 'Spai_Agent_Playbooks' ) ? Spai_Agent_Playbooks::get_playbook( $name ) : array();
+
+		if ( is_wp_error( $playbook ) ) {
+			return $playbook;
+		}
+
+		$this->log_activity( 'get_agent_playbook', $request, array( 'name' => sanitize_key( (string) $name ) ) );
+
+		return $this->success_response( $playbook );
 	}
 
 	/**

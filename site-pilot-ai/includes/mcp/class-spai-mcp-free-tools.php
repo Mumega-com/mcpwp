@@ -222,6 +222,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			// Guides & Workflows
 			'wp_get_guide'               => 'site',
 			'wp_get_workflow'            => 'site',
+			'wp_get_agent_playbook'      => 'site',
 		);
 
 		// Remove custom CSS tool categories in WP.org build.
@@ -2866,6 +2867,17 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			)
 		);
 
+		$tools[] = $this->define_tool(
+			'wp_get_agent_playbook',
+			'Get a deterministic agent playbook contract with required reads, tool order, validation gates, approval gates, rollback path, and stop conditions. Call with no name to list playbooks.',
+			array(
+				'name' => array(
+					'type'        => 'string',
+					'description' => 'Playbook name such as build_gutenberg_page, update_gutenberg_section, seo_audit_triage, internal_link_improvement, or rollback_change. Omit to list all playbooks.',
+				),
+			)
+		);
+
 		return $tools;
 	}
 
@@ -3484,6 +3496,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_workflow'        => array(
 				'method' => 'GET',
 				'route'  => '/workflows/{name}',
+			),
+			'wp_get_agent_playbook'  => array(
+				'method' => 'GET',
+				'route'  => '/agent-playbooks',
 			),
 		);
 

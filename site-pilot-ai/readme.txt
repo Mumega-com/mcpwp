@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.25
+Stable tag: 2.8.26
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,10 @@ Each site needs its own plugin installation and API key.
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.26 =
+* New: Add deterministic agent playbook contracts for Gutenberg, SEO, internal links, and rollback workflows.
+* New: Add REST and MCP access to playbook gates, stop conditions, and rollback paths.
 
 = 2.8.25 =
 * New: Add Control Room event inbox with event type and risk filters.
@@ -240,6 +244,9 @@ Each site needs its own plugin installation and API key.
 * Fix SQL escaping in activity log for WordPress.org scanner.
 
 == Upgrade Notice ==
+
+= 2.8.26 =
+Adds deterministic playbook contracts so agents can follow safe tool order, validation gates, approval gates, and rollback paths.
 
 = 2.8.25 =
 Adds an event inbox in the Control Room so humans can see and filter recent agent-relevant events.
