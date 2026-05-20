@@ -1,8 +1,8 @@
 # Release Checklist
 
-Current release flow for Site Pilot AI.
+Current release flow for Mumega MCP.
 
-This project no longer uses GitHub releases, Freemius, or the Cloudflare worker as the source of truth for plugin updates. The canonical update path is:
+This project uses Freemius for paid licensing and can still publish self-hosted update artifacts when needed. The canonical self-hosted update path is:
 
 - Static manifest: `https://mumega.com/spai-updates/version.json`
 - Download ZIP: `https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip`
@@ -21,10 +21,10 @@ This project no longer uses GitHub releases, Freemius, or the Cloudflare worker 
 
 Update these locations together:
 
-1. [site-pilot-ai.php](/home/mumega/projects/sitepilotai/wp-ai-operator/site-pilot-ai/site-pilot-ai.php)
+1. [site-pilot-ai.php](/home/mumega/projects/mcp-for-wp/site-pilot-ai/site-pilot-ai.php)
    - plugin header `Version`
    - `SPAI_VERSION`
-2. [version.json](/home/mumega/projects/sitepilotai/wp-ai-operator/version.json)
+2. [version.json](/home/mumega/projects/mcp-for-wp/version.json)
    - `version`
    - `download_url`
    - compatibility fields

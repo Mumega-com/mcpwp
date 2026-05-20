@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 #
-# Build script for Site Pilot AI WordPress plugin
+# Build script for Mumega MCP WordPress plugin
 #
-# Creates two distribution zips:
-#   1. site-pilot-ai-free.zip - Free version (without includes/pro/)
-#   2. site-pilot-ai.zip - Premium version (with includes/pro/)
+# Creates two local distribution zips:
+#   1. site-pilot-ai.zip - paid/self-hosted package with licensed modules
+#   2. site-pilot-ai-wporg.zip - WP.org-compatible package without licensed modules
 #
 # Both zips exclude patterns defined in .distignore
 #
@@ -30,7 +30,7 @@ PLUGIN_FILE="${PLUGIN_DIR}/site-pilot-ai.php"
 # Distignore file
 DISTIGNORE="${REPO_ROOT}/.distignore"
 
-echo -e "${GREEN}=== Site Pilot AI Build Script ===${NC}"
+echo -e "${GREEN}=== Mumega MCP Build Script ===${NC}"
 echo ""
 
 # Step 1: Extract version from plugin main file
@@ -40,7 +40,7 @@ if [ ! -f "$PLUGIN_FILE" ]; then
     exit 1
 fi
 
-VERSION=$(grep -m 1 "Version:" "$PLUGIN_FILE" | sed -E 's/.*Version:\s*([0-9.]+).*/\1/')
+VERSION=$(grep -m 1 "Version:" "$PLUGIN_FILE" | sed -E 's/.*Version:[[:space:]]*([0-9.]+).*/\1/')
 
 if [ -z "$VERSION" ]; then
     echo -e "${RED}Error: Could not extract version from ${PLUGIN_FILE}${NC}"
@@ -67,7 +67,7 @@ echo ""
 copy_plugin_files() {
     local src="$1"
     local dest="$2"
-    local exclude_pro="$3"  # "yes" or "no"
+    local exclude_pro="$3"  # "yes" for WP.org-compatible package, "no" for paid/self-hosted package
 
     echo "  Copying files from ${src} to ${dest}..."
 
@@ -104,41 +104,41 @@ copy_plugin_files() {
         done < "$DISTIGNORE"
     fi
 
-    # Remove pro directory if building free version
+    # Remove licensed modules if building the WP.org-compatible package.
     if [ "$exclude_pro" = "yes" ]; then
-        echo "  Removing includes/pro/ directory (free version)..."
+        echo "  Removing includes/pro/ directory (WP.org-compatible package)..."
         rm -rf "$dest/site-pilot-ai/includes/pro"
     fi
 }
 
-# Step 4: Build premium version (with pro)
-echo -e "${YELLOW}[4/6] Building premium version (site-pilot-ai.zip)...${NC}"
-PREMIUM_BUILD_DIR="${BUILD_DIR}/premium"
-mkdir -p "$PREMIUM_BUILD_DIR"
-copy_plugin_files "$PLUGIN_DIR" "$PREMIUM_BUILD_DIR" "no"
+# Step 4: Build paid/self-hosted package (with licensed modules)
+echo -e "${YELLOW}[4/6] Building paid/self-hosted package (site-pilot-ai.zip)...${NC}"
+PAID_BUILD_DIR="${BUILD_DIR}/paid"
+mkdir -p "$PAID_BUILD_DIR"
+copy_plugin_files "$PLUGIN_DIR" "$PAID_BUILD_DIR" "no"
 
-# Create premium zip
-PREMIUM_ZIP="${DIST_DIR}/site-pilot-ai.zip"
-cd "$PREMIUM_BUILD_DIR"
-zip -r -q "$PREMIUM_ZIP" site-pilot-ai/
+# Create paid/self-hosted zip
+PAID_ZIP="${DIST_DIR}/site-pilot-ai.zip"
+cd "$PAID_BUILD_DIR"
+zip -r -q "$PAID_ZIP" site-pilot-ai/
 cd "$REPO_ROOT"
 
-echo -e "${GREEN}Created: ${PREMIUM_ZIP}${NC}"
+echo -e "${GREEN}Created: ${PAID_ZIP}${NC}"
 echo ""
 
-# Step 5: Build free version (without pro)
-echo -e "${YELLOW}[5/6] Building free version (site-pilot-ai-free.zip)...${NC}"
-FREE_BUILD_DIR="${BUILD_DIR}/free"
-mkdir -p "$FREE_BUILD_DIR"
-copy_plugin_files "$PLUGIN_DIR" "$FREE_BUILD_DIR" "yes"
+# Step 5: Build WP.org-compatible package (without licensed modules)
+echo -e "${YELLOW}[5/6] Building WP.org-compatible package (site-pilot-ai-wporg.zip)...${NC}"
+WPORG_BUILD_DIR="${BUILD_DIR}/wporg"
+mkdir -p "$WPORG_BUILD_DIR"
+copy_plugin_files "$PLUGIN_DIR" "$WPORG_BUILD_DIR" "yes"
 
-# Create free zip
-FREE_ZIP="${DIST_DIR}/site-pilot-ai-free.zip"
-cd "$FREE_BUILD_DIR"
-zip -r -q "$FREE_ZIP" site-pilot-ai/
+# Create WP.org-compatible zip
+WPORG_ZIP="${DIST_DIR}/site-pilot-ai-wporg.zip"
+cd "$WPORG_BUILD_DIR"
+zip -r -q "$WPORG_ZIP" site-pilot-ai/
 cd "$REPO_ROOT"
 
-echo -e "${GREEN}Created: ${FREE_ZIP}${NC}"
+echo -e "${GREEN}Created: ${WPORG_ZIP}${NC}"
 echo ""
 
 # Step 6: Clean up build temp directory
@@ -153,17 +153,17 @@ echo ""
 echo "Version: ${VERSION}"
 echo ""
 echo "Output files:"
-echo "  Premium: ${PREMIUM_ZIP}"
-echo "  Free:    ${FREE_ZIP}"
+echo "  Paid/self-hosted: ${PAID_ZIP}"
+echo "  WP.org-compatible: ${WPORG_ZIP}"
 echo ""
 
 # Show file sizes
 if command -v du &> /dev/null; then
-    PREMIUM_SIZE=$(du -h "$PREMIUM_ZIP" | cut -f1)
-    FREE_SIZE=$(du -h "$FREE_ZIP" | cut -f1)
+    PAID_SIZE=$(du -h "$PAID_ZIP" | cut -f1)
+    WPORG_SIZE=$(du -h "$WPORG_ZIP" | cut -f1)
     echo "File sizes:"
-    echo "  Premium: ${PREMIUM_SIZE}"
-    echo "  Free:    ${FREE_SIZE}"
+    echo "  Paid/self-hosted: ${PAID_SIZE}"
+    echo "  WP.org-compatible: ${WPORG_SIZE}"
     echo ""
 fi
 

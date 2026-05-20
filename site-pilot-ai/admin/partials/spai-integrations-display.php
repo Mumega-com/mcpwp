@@ -93,7 +93,7 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 
 				<?php if ( $locked ) : ?>
 					<p style="color:#666;font-style:italic;">
-						<?php esc_html_e( 'Upgrade to Pro to use this integration.', 'mumega-mcp' ); ?>
+						<?php esc_html_e( 'Upgrade your plan to use this integration.', 'mumega-mcp' ); ?>
 						<?php if ( function_exists( 'spai_license' ) ) : ?>
 							<a href="<?php echo esc_url( admin_url( 'admin.php?page=site-pilot-ai-pricing' ) ); ?>">
 								<?php esc_html_e( 'Upgrade', 'mumega-mcp' ); ?>
@@ -219,18 +219,18 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 				</tr>
 			</thead>
 			<tbody>
-				<tr><td><code>wp_screenshot_url</code></td><td>Screenshot Worker</td><td>Free</td></tr>
-				<tr><td><code>wp_search_stock_photos</code></td><td>Pexels</td><td>Free</td></tr>
-				<tr><td><code>wp_download_stock_photo</code></td><td>Pexels</td><td>Free</td></tr>
-				<tr><td><code>wp_generate_image</code></td><td>OpenAI / Gemini</td><td>Pro</td></tr>
-				<tr><td><code>wp_generate_featured_image</code></td><td>OpenAI / Gemini</td><td>Pro</td></tr>
-				<tr><td><code>wp_generate_alt_text</code></td><td>OpenAI / Gemini</td><td>Pro</td></tr>
-				<tr><td><code>wp_describe_image</code></td><td>OpenAI / Gemini</td><td>Pro</td></tr>
-				<tr><td><code>wp_generate_excerpt</code></td><td>OpenAI / Gemini</td><td>Pro</td></tr>
-				<tr><td><code>wp_text_to_speech</code></td><td>ElevenLabs</td><td>Pro</td></tr>
-				<tr><td><code>wp_figma_status</code></td><td>Figma</td><td>Pro</td></tr>
-				<tr><td><code>wp_get_figma_file</code></td><td>Figma</td><td>Pro</td></tr>
-				<tr><td><code>wp_get_figma_node</code></td><td>Figma</td><td>Pro</td></tr>
+				<tr><td><code>wp_screenshot_url</code></td><td>Screenshot Worker</td><td>Core</td></tr>
+				<tr><td><code>wp_search_stock_photos</code></td><td>Pexels</td><td>Core</td></tr>
+				<tr><td><code>wp_download_stock_photo</code></td><td>Pexels</td><td>Core</td></tr>
+				<tr><td><code>wp_generate_image</code></td><td>OpenAI / Gemini</td><td>Paid</td></tr>
+				<tr><td><code>wp_generate_featured_image</code></td><td>OpenAI / Gemini</td><td>Paid</td></tr>
+				<tr><td><code>wp_generate_alt_text</code></td><td>OpenAI / Gemini</td><td>Paid</td></tr>
+				<tr><td><code>wp_describe_image</code></td><td>OpenAI / Gemini</td><td>Paid</td></tr>
+				<tr><td><code>wp_generate_excerpt</code></td><td>OpenAI / Gemini</td><td>Paid</td></tr>
+				<tr><td><code>wp_text_to_speech</code></td><td>ElevenLabs</td><td>Paid</td></tr>
+				<tr><td><code>wp_figma_status</code></td><td>Figma</td><td>Paid</td></tr>
+				<tr><td><code>wp_get_figma_file</code></td><td>Figma</td><td>Paid</td></tr>
+				<tr><td><code>wp_get_figma_node</code></td><td>Figma</td><td>Paid</td></tr>
 			</tbody>
 		</table>
 		<h4 style="margin:15px 0 8px;"><?php esc_html_e( 'Integration Management Tools', 'mumega-mcp' ); ?></h4>

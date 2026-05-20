@@ -1,7 +1,7 @@
 # Phase 2: Mumega Operator Dashboard
 
 **Status:** Planning
-**Depends on:** Phase 1 (Site Pilot AI v1.0.15 — SHIPPED)
+**Depends on:** Phase 1 (Mumega MCP v1.0.15 — SHIPPED)
 **Target:** After mumega.com launch
 **Stack:** Cloudflare Pages + Workers + D1 + KV | Future: Rust backend
 
@@ -9,7 +9,7 @@
 
 ## Vision
 
-Phase 1 gave AI agents "hands" (Site Pilot AI — a WordPress operator).
+Phase 1 gave AI agents "hands" (Mumega MCP — a WordPress operator).
 Phase 2 gives humans "eyes" — a dashboard to see what the operators are doing, across all their sites, from one place.
 
 ```
@@ -25,7 +25,7 @@ npm: site-pilot-ai (CLI)         ← Node.js (EXISTS)
 
 ### 1.1 Site Management
 
-Users connect their WordPress sites. Each site has Site Pilot AI installed.
+Users connect their WordPress sites. Each site has Mumega MCP installed.
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -330,9 +330,9 @@ These posts drive traffic to the dashboard:
 | 4 | "Building a Dashboard on Cloudflare in a Weekend" | Dev log |
 | 5 | "From Dental Marketplace to AI Platform" | Founder journey |
 | 6 | "The Operator Model: Why Vertical SaaS is Dead" | Hot take |
-| 7 | "Site Pilot AI: Give Claude Hands for WordPress" | Product launch |
+| 7 | "Mumega MCP: Give Claude Hands for WordPress" | Product launch |
 
-Each post ends with: "Try Site Pilot AI free → Connect your dashboard at app.mumega.com"
+Each post ends with: "Try Mumega MCP → Connect your dashboard at app.mumega.com"
 
 ---
 
@@ -351,10 +351,10 @@ Each post ends with: "Try Site Pilot AI free → Connect your dashboard at app.m
 
 ## Summary
 
-**Phase 1 (DONE):** Site Pilot AI — the WordPress operator. Shipped on Freemius, GitHub, native MCP.
+**Phase 1 (DONE):** Mumega MCP — the WordPress operator. Shipped on Freemius, GitHub, native MCP.
 
 **Phase 2 (NEXT):** Mumega Dashboard — the operator control center. Cloudflare-native, multi-site, activity feed, quick actions.
 
 **Phase 3 (FUTURE):** Rust backend — high-performance operator orchestration. SOS integration, AI chat, 100+ site management.
 
-The brand is **mumega.com**. The product is **operators**. Site Pilot AI is the first one.
+The brand is **mumega.com**. The product is **operators**. Mumega MCP is the first one.

@@ -10,10 +10,10 @@ function ask(question: string): Promise<string> {
 }
 
 export async function runSetup(): Promise<void> {
-  console.log('\n🔧 Site Pilot AI - Setup Wizard\n');
+  console.log('\n🔧 Mumega MCP - Setup Wizard\n');
 
   const url = await ask('WordPress site URL: ');
-  const apiKey = await ask('API Key (from WP Admin > Site Pilot AI > Settings): ');
+  const apiKey = await ask('API Key (from WP Admin > Mumega MCP > Setup): ');
   const name = await ask('Site name (optional, press Enter to skip): ');
 
   if (!url || !apiKey) {
@@ -26,7 +26,7 @@ export async function runSetup(): Promise<void> {
   const cleanUrl = url.replace(/\/+$/, '');
   const siteName = name || 'default';
 
-  const configDir = join(homedir(), '.wp-ai-operator');
+  const configDir = join(homedir(), '.mumega-mcp');
   const configPath = join(configDir, 'config.json');
 
   // Load existing config or create new
@@ -68,7 +68,7 @@ export async function runSetup(): Promise<void> {
       const data = await response.json() as any;
       console.log(`✅ Connected! ${data.site_name || 'WordPress'} (v${data.wordpress_version || 'unknown'})`);
       console.log(`   Theme: ${data.theme || 'unknown'}`);
-      console.log(`   Plugin: Site Pilot AI v${data.plugin_version || 'unknown'}`);
+      console.log(`   Plugin: Mumega MCP v${data.plugin_version || 'unknown'}`);
     } else {
       console.log(`⚠️  Connection failed (HTTP ${response.status}). Check your URL and API key.`);
     }

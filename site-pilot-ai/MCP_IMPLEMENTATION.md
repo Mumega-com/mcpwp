@@ -1,8 +1,8 @@
-# Native MCP Implementation for Site Pilot AI
+# Native MCP Implementation for Mumega MCP
 
 ## Summary
 
-Added a native Model Context Protocol (MCP) endpoint to Site Pilot AI WordPress plugin, enabling direct connection from Claude Desktop and other AI assistants without requiring external middleware (Cloudflare Worker or npm package).
+Added a native Model Context Protocol (MCP) endpoint to Mumega MCP WordPress plugin, enabling direct connection from Claude Desktop and other AI assistants without requiring external middleware (Cloudflare Worker or npm package).
 
 ## What Was Added
 
@@ -92,7 +92,7 @@ POST https://yoursite.com/wp-json/site-pilot-ai/v1/mcp
 
 ## Authentication
 
-Same as other Site Pilot AI endpoints - use `X-API-Key` header:
+Same as other Mumega MCP endpoints - use `X-API-Key` header:
 
 ```bash
 curl -X POST "https://yoursite.com/wp-json/site-pilot-ai/v1/mcp" \
@@ -126,7 +126,7 @@ Add to `claude_desktop_config.json`:
 Run the test script:
 
 ```bash
-cd /home/mumega/projects/themusicalunicorn/wp-ai-operator/site-pilot-ai
+cd /home/mumega/projects/mcp-for-wp/site-pilot-ai
 ./tests/test-mcp-endpoint.sh https://musicalunicornfarm.com spai_xxx
 ```
 
@@ -206,7 +206,7 @@ return [
 2. **Consistent Auth** - Same API key as other endpoints
 3. **Automatic Updates** - Plugin updates include MCP improvements
 4. **Better Performance** - No external HTTP calls, internal dispatch only
-5. **Unified Logging** - All activity logged in Site Pilot AI logs
+5. **Unified Logging** - All activity logged in Mumega MCP logs
 6. **Type Safety** - JSON Schema for all tool inputs
 7. **CORS Support** - Browser-based AI clients can connect
 
@@ -288,13 +288,13 @@ site-pilot-ai/
 ## Support
 
 For issues or questions:
-- GitHub: https://github.com/Digidinc/site-pilot-ai
-- Email: support@digid.ca
+- GitHub: https://github.com/Mumega-com/mcp-for-wp
+- Email: support@mumega.com
 - Documentation: See `docs/MCP_NATIVE_ENDPOINT.md`
 
 ## License
 
-GPL v2 or later (same as Site Pilot AI plugin)
+GPL v2 or later (same as Mumega MCP plugin)
 
 ---
 

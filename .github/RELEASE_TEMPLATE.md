@@ -4,7 +4,7 @@ Use this template when creating manual releases or documenting release notes.
 
 ---
 
-## Site Pilot AI vX.X.X
+## Mumega MCP vX.X.X
 
 **Release Date:** YYYY-MM-DD
 
@@ -36,8 +36,8 @@ Example:
 - Modified endpoint: `GET /wp-json/site-pilot-ai/v1/existing-endpoint` now accepts `param_name`
 - Deprecated: `old_parameter` (will be removed in v2.0.0)
 
-#### Pro Features (Premium Only)
-- List any features exclusive to the premium version
+#### Licensed Features
+- List any features exclusive to paid plans
 - These require a valid Freemius license
 
 ### Upgrade Notes
@@ -59,25 +59,25 @@ Example:
 
 ### Installation
 
-#### Free Version
-1. Download `site-pilot-ai-X.X.X-free.zip`
+#### WP.org-Compatible Version
+1. Download `site-pilot-ai-X.X.X-wporg.zip`
 2. Go to WordPress Admin > Plugins > Add New > Upload
 3. Upload the zip file and activate
-4. Configure API keys in Tools > Site Pilot AI
+4. Configure API keys in Mumega MCP > Setup
 
 **Limitations:**
-- No Pro features (forms, users, SEO, WooCommerce, etc.)
+- Licensed modules are not included (forms, users, SEO, WooCommerce, etc.)
 - Basic MCP endpoints only
 
-#### Premium Version
+#### Paid/Self-Hosted Version
 1. Download `site-pilot-ai-X.X.X.zip`
-2. Ensure you have a valid Freemius license
+2. Ensure you have a valid Freemius license or trial
 3. Go to WordPress Admin > Plugins > Add New > Upload
 4. Upload the zip file and activate
 5. Enter your license key when prompted
 
 **Includes:**
-- All Pro features
+- All licensed features
 - Priority support
 - Automatic updates via Freemius
 
@@ -127,14 +127,14 @@ Thanks to the following contributors for this release:
 
 ### Links
 
-- [Documentation](https://github.com/Digidinc/site-pilot-ai/wiki)
-- [API Reference](https://github.com/Digidinc/site-pilot-ai/wiki/API-Reference)
-- [Changelog](https://github.com/Digidinc/site-pilot-ai/blob/main/CHANGELOG.md)
-- [Support](https://github.com/Digidinc/site-pilot-ai/issues)
+- [Documentation](https://github.com/Mumega-com/mcp-for-wp/wiki)
+- [API Reference](https://github.com/Mumega-com/mcp-for-wp/wiki/API-Reference)
+- [Changelog](https://github.com/Mumega-com/mcp-for-wp/blob/main/CHANGELOG.md)
+- [Support](https://github.com/Mumega-com/mcp-for-wp/issues)
 
 ---
 
-🤖 Built with [Site Pilot AI](https://github.com/Digidinc/site-pilot-ai) - Control WordPress with AI via MCP
+Built with [Mumega MCP](https://github.com/Mumega-com/mcp-for-wp) - Control WordPress with AI via MCP
 
 ---
 
@@ -144,13 +144,13 @@ Below is an example of a completed release note:
 
 ---
 
-## Site Pilot AI v1.0.44
+## Mumega MCP v1.0.44
 
 **Release Date:** 2026-02-10
 
 ### Summary
 
-This release adds comprehensive Elementor template CRUD operations and improves license validation for Pro features.
+This release adds comprehensive Elementor template CRUD operations and improves license validation for paid features.
 
 ### Changes
 
@@ -176,11 +176,11 @@ This is a backward-compatible release. All existing API endpoints continue to wo
 
 ### Installation
 
-#### Free Version
-Download `site-pilot-ai-1.0.44-free.zip` and install via WordPress Admin > Plugins > Add New > Upload.
+#### WP.org-Compatible Version
+Download `site-pilot-ai-1.0.44-wporg.zip` and install via WordPress Admin > Plugins > Add New > Upload.
 
-#### Premium Version
-Download `site-pilot-ai-1.0.44.zip`. Requires valid Freemius license for Pro features.
+#### Paid/Self-Hosted Version
+Download `site-pilot-ai-1.0.44.zip`. Requires valid Freemius license for paid features.
 
 ### Requirements
 
@@ -194,4 +194,4 @@ Tested with WordPress 6.4.x, PHP 7.4-8.2, Elementor 3.x.
 
 ---
 
-🤖 Built with [Site Pilot AI](https://github.com/Digidinc/site-pilot-ai)
+Built with [Mumega MCP](https://github.com/Mumega-com/mcp-for-wp)

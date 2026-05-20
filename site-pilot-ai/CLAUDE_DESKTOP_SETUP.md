@@ -1,8 +1,8 @@
-# Connecting AI Assistants to Site Pilot AI
+# Connecting AI Assistants to Mumega MCP
 
 ## Quick Start
 
-Site Pilot AI exposes your WordPress site as an MCP server. Any MCP-compatible client (Claude Desktop, Claude Code, Cursor, Windsurf, etc.) can connect directly over HTTP.
+Mumega MCP exposes your WordPress site as an MCP server. Any MCP-compatible client (Claude Desktop, Claude Code, Cursor, Windsurf, etc.) can connect directly over HTTP.
 
 ```
 AI Client → POST /wp-json/site-pilot-ai/v1/mcp → WordPress Plugin → 200+ tools
@@ -10,8 +10,8 @@ AI Client → POST /wp-json/site-pilot-ai/v1/mcp → WordPress Plugin → 200+ t
 
 ## Prerequisites
 
-1. Site Pilot AI plugin installed and activated (v1.5.2+)
-2. API key generated (WordPress Admin → Tools → Site Pilot AI)
+1. Mumega MCP plugin installed and activated (v2.8.31+)
+2. API key generated (WordPress Admin → Mumega MCP → Setup)
 3. An MCP-compatible AI client
 
 ## Setup by Client
@@ -95,24 +95,24 @@ Should return a number (100+). Or just ask your AI: *"What WordPress tools do yo
 
 ## Tool Categories (200+)
 
-| Category | Examples | Tier |
+| Category | Examples | Plan scope |
 |----------|----------|------|
-| **Site & Settings** | wp_site_info, wp_onboard, wp_get_options, wp_get_custom_css, wp_set_custom_css | Free |
-| **Content** | wp_list_posts, wp_create_post, wp_list_pages, wp_create_page, wp_search, wp_bulk_create_posts | Free |
-| **Media** | wp_upload_media, wp_upload_media_from_url, wp_list_media | Free |
-| **Menus** | wp_list_menus, wp_setup_menu, wp_add_menu_item, wp_reorder_menu_items | Free |
-| **Elementor** | wp_get_elementor, wp_set_elementor, wp_edit_section, wp_get_elementor_summary, wp_preview_elementor, wp_build_page | Free |
-| **Widgets & Sidebars** | wp_list_sidebars, wp_add_widget, wp_update_widget, wp_reorder_widgets | Free |
-| **Webhooks & API Keys** | wp_create_webhook, wp_list_webhooks, wp_create_api_key | Free |
-| **AI Education** | wp_get_guide, wp_widget_help, wp_get_error_hint, wp_list_workflows | Free |
-| **SEO** | wp_get_seo, wp_set_seo, wp_analyze_seo, wp_bulk_seo, wp_seo_scan, wp_seo_report | Pro |
-| **Forms** | wp_list_forms, wp_get_form, wp_get_form_entries | Pro |
-| **Elementor Pro** | wp_list_elementor_templates, wp_apply_elementor_template, wp_create_theme_template, wp_clone_elementor_page | Pro |
-| **Theme Builder** | wp_theme_builder_status, wp_list_theme_templates, wp_set_template_conditions | Pro |
-| **LearnPress** | wp_list_courses, wp_create_course, wp_list_lessons, wp_list_quizzes (18 tools) | Pro |
-| **WooCommerce** | wp_list_products, wp_create_product, wp_list_orders, wp_list_coupons (17 tools) | Pro |
-| **Events** | wp_list_events, wp_create_event, wp_event_bookings | Pro |
-| **AI Integrations** | wp_search_stock_photos, wp_generate_image, wp_generate_alt_text, wp_text_to_speech | Pro |
+| **Site & Settings** | wp_site_info, wp_onboard, wp_get_options, wp_get_custom_css, wp_set_custom_css | Core |
+| **Content** | wp_list_posts, wp_create_post, wp_list_pages, wp_create_page, wp_search, wp_bulk_create_posts | Core |
+| **Media** | wp_upload_media, wp_upload_media_from_url, wp_list_media | Core |
+| **Menus** | wp_list_menus, wp_setup_menu, wp_add_menu_item, wp_reorder_menu_items | Core |
+| **Elementor** | wp_get_elementor, wp_set_elementor, wp_edit_section, wp_get_elementor_summary, wp_preview_elementor, wp_build_page | Core |
+| **Widgets & Sidebars** | wp_list_sidebars, wp_add_widget, wp_update_widget, wp_reorder_widgets | Core |
+| **Webhooks & API Keys** | wp_create_webhook, wp_list_webhooks, wp_create_api_key | Core |
+| **AI Education** | wp_get_guide, wp_widget_help, wp_get_error_hint, wp_list_workflows | Core |
+| **SEO** | wp_get_seo, wp_set_seo, wp_analyze_seo, wp_bulk_seo, wp_seo_scan, wp_seo_report | Paid |
+| **Forms** | wp_list_forms, wp_get_form, wp_get_form_entries | Paid |
+| **Elementor Pro** | wp_list_elementor_templates, wp_apply_elementor_template, wp_create_theme_template, wp_clone_elementor_page | Paid |
+| **Theme Builder** | wp_theme_builder_status, wp_list_theme_templates, wp_set_template_conditions | Paid |
+| **LearnPress** | wp_list_courses, wp_create_course, wp_list_lessons, wp_list_quizzes (18 tools) | Paid |
+| **WooCommerce** | wp_list_products, wp_create_product, wp_list_orders, wp_list_coupons (17 tools) | Paid |
+| **Events** | wp_list_events, wp_create_event, wp_event_bookings | Paid |
+| **AI Integrations** | wp_search_stock_photos, wp_generate_image, wp_generate_alt_text, wp_text_to_speech | Paid |
 | **Multilanguage** | wp_languages, wp_set_language, wp_get_translations, wp_create_translation | Pro |
 | **Multisite** | wp_network_sites, wp_network_switch, wp_network_stats | Pro |
 
@@ -120,7 +120,7 @@ Tools are auto-detected based on installed plugins. If Elementor isn't active, E
 
 ## Design Workflow Best Practices
 
-These patterns come from real-world experience using AI assistants with Site Pilot AI:
+These patterns come from real-world experience using AI assistants with Mumega MCP:
 
 ### Start Every Session with Onboarding
 
@@ -189,7 +189,7 @@ Always create as `draft` first. Review via preview, then publish when satisfied.
 ### Tools list seems small
 
 1. Update plugin to v1.5.2+ (earlier versions had fewer tools)
-2. Pro tools require a Freemius license
+2. Paid tools require a Freemius license or active trial
 3. Integration tools (WooCommerce, LearnPress) only appear when those plugins are active
 
 ### Elementor data saves but editor shows empty
@@ -205,7 +205,7 @@ Always create as `draft` first. Review via preview, then publish when satisfied.
 
 ### Rate limited
 
-Go to WordPress Admin → Tools → Site Pilot AI and increase rate limits.
+Go to WordPress Admin → Mumega MCP → Settings and increase rate limits.
 
 ## Security
 
@@ -220,7 +220,7 @@ Go to WordPress Admin → Tools → Site Pilot AI and increase rate limits.
 - [MCP Protocol Reference](docs/MCP_NATIVE_ENDPOINT.md)
 - [Elementor Widget Reference](docs/ELEMENTOR_WIDGET_REFERENCE.md)
 - [REST API Reference](docs/API.md)
-- GitHub: https://github.com/Digidinc/wp-ai-operator
+- GitHub: https://github.com/Mumega-com/mcp-for-wp
 
 ---
 

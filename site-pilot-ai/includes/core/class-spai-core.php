@@ -53,7 +53,7 @@ class Spai_Core {
 		$license = class_exists( 'Spai_License' ) ? Spai_License::get_instance() : null;
 
 		$info['license'] = array(
-			'plan'   => $license ? $license->get_plan() : 'free',
+			'plan'   => $license ? $license->get_plan() : 'unlicensed',
 			'is_pro' => $license ? $license->is_pro() : false,
 		);
 

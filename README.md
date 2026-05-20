@@ -1,37 +1,37 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/site-pilot-ai/assets/banner-1544x500.png" alt="mumcp — 239 MCP tools for WordPress" width="100%">
+  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/site-pilot-ai/assets/banner-1544x500.png" alt="Mumega MCP — AI operations for WordPress" width="100%">
 </p>
 
-<h1 align="center">mumcp</h1>
+<h1 align="center">Mumega MCP</h1>
 
 <p align="center">
-  <strong>239 MCP tools for WordPress. Every AI model. Free.</strong>
+  <strong>AI operations for WordPress through MCP. Built for agencies, builders, and site operators.</strong>
 </p>
 
 <p align="center">
   <a href="#install">Install</a> •
   <a href="#how-it-works">How It Works</a> •
-  <a href="#tools">239 Tools</a> •
+  <a href="#tools">Tools</a> •
   <a href="#examples">Examples</a> •
   <a href="#blueprints">24 Blueprints</a> •
-  <a href="https://mucp.mumega.com">Website</a>
+  <a href="https://sitepilotai.mumega.com">Website</a>
 </p>
 
 <p align="center">
   <a href="https://github.com/Mumega-com/mcp-for-wp/stargazers"><img src="https://img.shields.io/github/stars/Mumega-com/mcp-for-wp?style=flat-square" alt="Stars"></a>
   <a href="https://github.com/Mumega-com/mcp-for-wp/releases"><img src="https://img.shields.io/github/v/release/Mumega-com/mcp-for-wp?style=flat-square" alt="Release"></a>
-  <img src="https://img.shields.io/badge/tools-239-blue?style=flat-square" alt="Tools">
+  <img src="https://img.shields.io/badge/tools-up%20to%20239-blue?style=flat-square" alt="Tools">
   <img src="https://img.shields.io/badge/blueprints-24-blue?style=flat-square" alt="Blueprints">
   <img src="https://img.shields.io/badge/MCP-compatible-brightgreen?style=flat-square" alt="MCP">
   <img src="https://img.shields.io/badge/WordPress-5.0%2B-21759b?style=flat-square" alt="WordPress">
   <img src="https://img.shields.io/badge/Elementor-4.x-92003B?style=flat-square" alt="Elementor">
   <img src="https://img.shields.io/badge/license-GPL--2.0-orange?style=flat-square" alt="License">
-  <img src="https://img.shields.io/badge/price-free-brightgreen?style=flat-square" alt="Free">
+  <img src="https://img.shields.io/badge/plans-paid%20%2B%20trial-blue?style=flat-square" alt="Paid plans and trial">
 </p>
 
 ---
 
-mumcp turns any WordPress site into an MCP server. AI assistants (Claude, Gemini, GPT, Cursor, Windsurf) manage your entire site through natural language — pages, Elementor layouts, WooCommerce products, media, SEO, menus, and more.
+Mumega MCP turns a WordPress site into an MCP server. AI assistants (Claude, Gemini, GPT, Cursor, Windsurf) can manage site operations through natural language — pages, Elementor layouts, WooCommerce products, media, SEO, menus, and more. Tool availability depends on the active plugins and the current license plan.
 
 ```
 You: "Build a landing page with a hero, 3 feature cards, and a CTA"
@@ -48,7 +48,7 @@ AI:  wp_build_page → full Elementor page with styled sections, flex grid, shad
 
 ```mermaid
 graph LR
-    A[🤖 AI Assistant] -->|MCP JSON-RPC| B[mumcp Plugin]
+    A[🤖 AI Assistant] -->|MCP JSON-RPC| B[Mumega MCP Plugin]
     B -->|REST API| C[WordPress]
     B -->|Document API| D[Elementor]
     B -->|WC API| E[WooCommerce]
@@ -71,11 +71,11 @@ graph LR
     end
 ```
 
-## Why mumcp?
+## Why Mumega MCP?
 
-| | mumcp | WordPress MCP Adapter | Royal MCP | InstaWP mcp-wp |
+| | Mumega MCP | WordPress MCP Adapter | Royal MCP | InstaWP mcp-wp |
 |---|---|---|---|---|
-| **MCP Tools** | **239** | ~20 | 37 | ~30 |
+| **MCP Tools** | **Up to 239** | ~20 | 37 | ~30 |
 | **Blueprints** | **24 types** | 0 | 0 | 0 |
 | **Elementor** | Full (build + edit + templates + theme) | No | No | No |
 | **WooCommerce** | 21 tools | No | No | No |
@@ -83,7 +83,7 @@ graph LR
 | **Role-scoped keys** | 5 roles | No | No | No |
 | **Validation** | Auto-fix IDs, keys, nesting | No | No | No |
 | **Install** | WordPress plugin | Requires Abilities API | WordPress plugin | External Node.js |
-| **Price** | **Free** | Free | Free | Free |
+| **Commercial model** | Paid plans + trial | Free | Free | Free |
 
 ## Install
 
@@ -91,7 +91,7 @@ graph LR
 wp plugin install https://mumega.com/mcp-updates/mumega-mcp-latest.zip --activate
 ```
 
-Or download from [mucp.mumega.com](https://mucp.mumega.com) and upload via WP Admin > Plugins > Add New.
+Or download from [sitepilotai.mumega.com](https://sitepilotai.mumega.com) and upload via WP Admin > Plugins > Add New.
 
 ## Connect
 
@@ -99,7 +99,7 @@ Or download from [mucp.mumega.com](https://mucp.mumega.com) and upload via WP Ad
 ```json
 {
   "mcpServers": {
-    "mumcp": {
+    "mumega-mcp": {
       "url": "https://your-site.com/wp-json/site-pilot-ai/v1/mcp",
       "headers": { "X-API-Key": "spai_your_key_here" }
     }
@@ -119,7 +119,7 @@ Adds `/mumcp:setup`, `/mumcp:tools`, `/mumcp:elementor`, `/mumcp:design` skills 
 
 ## Tools
 
-239 tools across 15 categories:
+Mumega MCP exposes up to 239 tools across 15 categories. `tools/list` is dynamic: inactive integrations, disabled categories, WP.org builds, and role-scoped API keys reduce the live count for a given site.
 
 | Category | Tools | What |
 |----------|-------|------|
@@ -144,14 +144,14 @@ Adds `/mumcp:setup`, `/mumcp:tools`, `/mumcp:elementor`, `/mumcp:design` skills 
 ```mermaid
 graph TD
     A[API Key] -->|role| B{Role}
-    B -->|admin| C["🔓 239 tools — full access"]
+    B -->|admin| C["🔓 all licensed tools — full access"]
     B -->|designer| D["🎨 82 tools — Elementor + media + site"]
     B -->|editor| E["✏️ 99 tools — content + design + SEO"]
     B -->|author| F["📝 40 tools — content + media"]
     B -->|custom| G["⚙️ pick categories"]
 ```
 
-Create keys via WP Admin > mumcp > Setup, or `wp_create_api_key(label, role)`.
+Create keys via WP Admin > Mumega MCP > Setup, or `wp_create_api_key(label, role)`.
 
 ## Blueprints
 
@@ -225,7 +225,7 @@ wc_create_product(name: "T-Shirt", regular_price: "29.99", type: "simple")
 
 ## Roadmap
 
-- [x] 239 MCP tools across 15 categories
+- [x] Up to 239 MCP tools across 15 categories
 - [x] 24 page blueprints
 - [x] Role-scoped API keys (5 roles)
 - [x] Elementor validation + auto-fix
@@ -248,7 +248,7 @@ See [SECURITY.md](SECURITY.md) for our vulnerability disclosure policy.
 
 ## Links
 
-- **Website:** [mucp.mumega.com](https://mucp.mumega.com)
+- **Website:** [sitepilotai.mumega.com](https://sitepilotai.mumega.com)
 - **Claude Code Plugin:** [Mumega-com/mumcp-claude-plugin](https://github.com/Mumega-com/mumcp-claude-plugin)
 - **MCP Proxy:** [Mumega-com/mumcp-proxy](https://github.com/Mumega-com/mumcp-proxy)
 - **WordPress.org:** pending approval (slug: mumega-mcp)
@@ -256,7 +256,7 @@ See [SECURITY.md](SECURITY.md) for our vulnerability disclosure policy.
 
 ## License
 
-GPL v2 or later. All 239 tools are free. No paywalls, no locked features.
+GPL v2 or later. Paid plans and trials are managed through Freemius; check the product website for current pricing and plan terms.
 
 ---
 

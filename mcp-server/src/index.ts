@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Site Pilot AI - MCP Server (Proxy Mode)
+ * Mumega MCP - MCP Server (Proxy Mode)
  *
  * Thin stdio-to-HTTP proxy: forwards all MCP requests to the PHP plugin's
  * /wp-json/site-pilot-ai/v1/mcp endpoint. Tools are always in sync with
@@ -42,7 +42,7 @@ if (args.includes("--version") || args.includes("-v")) {
 
 if (args.includes("--help") || args.includes("-h")) {
   console.log(`
-site-pilot-ai - MCP Server for WordPress (proxy mode)
+site-pilot-ai - Mumega MCP Server for WordPress (proxy mode)
 
 Usage:
   site-pilot-ai              Start MCP server (stdio transport)
@@ -52,14 +52,14 @@ Usage:
 
 Environment Variables:
   WP_URL        WordPress site URL
-  WP_API_KEY    Site Pilot AI API key
+  WP_API_KEY    Mumega MCP API key
   WP_SITE_NAME  Site name (for multi-site configs)
 
 Config File:
-  ~/.wp-ai-operator/config.json
+  ~/.mumega-mcp/config.json
 
 Documentation:
-  https://github.com/Digidinc/wp-ai-operator
+  https://github.com/Mumega-com/mcp-for-wp
 `);
   process.exit(0);
 }
@@ -91,9 +91,9 @@ if (args.includes("--test")) {
       const data = (await response.json()) as any;
       const cap = data.capabilities || {};
       console.log(`✅ Connected! ${data.name} (WordPress ${data.wp_version})`);
-      console.log(`   Plugin:      Site Pilot AI v${data.plugin?.version}`);
+      console.log(`   Plugin:      Mumega MCP v${data.plugin?.version}`);
       console.log(`   Theme:       ${data.theme?.name || "unknown"} ${data.theme?.version || ""}`);
-      console.log(`   Plan:        ${cap.plan || "free"}${cap.pro_active ? " (Pro active)" : ""}`);
+      console.log(`   Plan:        ${cap.plan || data.license?.plan || "unlicensed"}${cap.pro_active ? " (licensed features active)" : ""}`);
       console.log(`   Elementor:   ${cap.elementor ? "yes" : "no"}${cap.elementor_pro ? " + Pro" : ""}${cap.elementor_layout_mode ? ` (${cap.elementor_layout_mode})` : ""}`);
       const extras: string[] = [];
       if (cap.woocommerce) extras.push("WooCommerce");
@@ -119,8 +119,8 @@ if (args.includes("--test")) {
       } catch {}
     } else {
       console.log(`❌ HTTP ${response.status}: Check your API key`);
-      if (response.status === 401) console.log("   Regenerate your API key in WP Admin > Site Pilot AI");
-      if (response.status === 404) console.log("   Make sure the Site Pilot AI plugin is activated");
+      if (response.status === 401) console.log("   Regenerate your API key in WP Admin > Mumega MCP");
+      if (response.status === 404) console.log("   Make sure the Mumega MCP plugin is activated");
     }
   } catch (e: any) {
     console.log(`❌ Connection failed: ${e.message}`);
@@ -227,7 +227,7 @@ async function main() {
   try {
     const transport = new StdioServerTransport();
     await server.connect(transport);
-    log("info", `Site Pilot AI MCP Server v${VERSION} running as "${serverName}" (proxy mode)`);
+    log("info", `Mumega MCP Server v${VERSION} running as "${serverName}" (proxy mode)`);
     log("info", `Proxying to: ${site.url}`);
   } catch (error: any) {
     console.error("Failed to start server:", error.message);

@@ -1,4 +1,4 @@
-name: Validate Site Pilot AI
+name: Validate Mumega MCP
 
 on:
   pull_request:
@@ -123,7 +123,7 @@ jobs:
             "site-pilot-ai/index.php"
             "site-pilot-ai/readme.txt"
             "site-pilot-ai/includes/api/class-spai-rest-mcp.php"
-            "site-pilot-ai/includes/core/class-spai-plugin.php"
+            "site-pilot-ai/includes/core/class-spai-core.php"
             "site-pilot-ai/includes/admin/class-spai-admin.php"
           )
 

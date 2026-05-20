@@ -1,12 +1,12 @@
-# 239 Free MCP Tools for WordPress — Connect Claude, Gemini, GPT to Your Site in 2 Minutes
+# Mumega MCP for WordPress — Connect Claude, Gemini, GPT to Your Site in 2 Minutes
 
 WordPress has 43% of the web. AI agents are the future of site management. But until now, connecting the two required custom code, fragile REST API wrappers, or expensive SaaS tools.
 
-**mumcp** changes that. One plugin, 239 MCP tools, every AI model, completely free.
+**Mumega MCP** changes that. One plugin, up to 239 MCP tools, every major MCP client, and paid plans with a trial for production teams.
 
 ## What is it?
 
-mumcp is a WordPress plugin that turns your site into an MCP (Model Context Protocol) server. Once installed, any MCP-compatible AI assistant — Claude, Gemini, GPT, Cursor, Windsurf, or your local Ollama — can manage your entire site through natural language.
+Mumega MCP is a WordPress plugin that turns your site into an MCP (Model Context Protocol) server. Once installed, any MCP-compatible AI assistant — Claude, Gemini, GPT, Cursor, Windsurf, or your local Ollama — can manage your entire site through natural language.
 
 ```
 You: "Build a landing page with a hero, 3 feature cards, and a CTA"
@@ -17,22 +17,22 @@ No code. No Elementor JSON. No WordPress admin.
 
 ## The numbers
 
-- **239 MCP tools** across 15 categories
+- **Up to 239 MCP tools** across 15 categories
 - **14 page blueprints** (hero, features, pricing, FAQ, testimonials, stats, and more)
 - **Elementor 4 support** with validation that auto-fixes your AI's mistakes
 - **Role-scoped API keys** — give your designer bot 82 tools, your content writer 40
-- **All free** — no premium tier, no locked features, no trial periods
+- **Paid plans and trial access** — managed through Freemius, with live tools scoped by plan, integrations, and API-key role
 
 ## How it compares
 
-The closest competitor is Royal MCP with 37 tools. We have 239. Elementor's Angie is in beta with credit limits. We're production-ready with no limits.
+The closest competitor is Royal MCP with 37 tools. Mumega MCP exposes up to 239 tools. Elementor's Angie is in beta with credit limits. We're production-ready for agencies and operators who need broader WordPress coverage.
 
-| Feature | mumcp | Royal MCP | Elementor Angie |
+| Feature | Mumega MCP | Royal MCP | Elementor Angie |
 |---------|-------|-----------|-----------------|
-| MCP tools | 239 | 37 | Unknown |
+| MCP tools | Up to 239 | 37 | Unknown |
 | Elementor support | Full (build + edit + templates) | No | Yes (limited) |
 | WooCommerce | 21 tools | No | No |
-| Price | Free | Free | Free (beta credits) |
+| Price | Paid plans + trial | Free | Free (beta credits) |
 | Role-scoped keys | Yes (5 roles) | No | No |
 | Page blueprints | 14 types | No | No |
 
@@ -44,7 +44,7 @@ wp plugin install https://mumega.com/mcp-updates/mumega-mcp-latest.zip --activat
 ```
 
 **Step 2: Generate an API key**
-WP Admin → mumcp → Setup → Generate API Key
+WP Admin → Mumega MCP → Setup → Generate API Key
 
 **Step 3: Connect your AI**
 ```json
@@ -86,7 +86,7 @@ wc_create_product(name: "T-Shirt", regular_price: "29.99", type: "simple")
 ```
 
 ### SEO, media, menus, taxonomies, courses, and more
-All 239 tools documented. Your AI discovers them automatically via `wp_introspect()`.
+The available tools are documented by the live MCP endpoint. Your AI discovers them automatically via `wp_introspect()`.
 
 ## For Claude Code users
 
@@ -96,14 +96,14 @@ claude plugin marketplace add https://github.com/Mumega-com/mumcp-claude-plugin.
 claude plugin install mumcp@mumcp
 ```
 
-## Why we made it free
+## Why we built it
 
-We're Mumega — a small AI agency building tools for the WordPress ecosystem. We believe the MCP layer should be free infrastructure, not a monetized gateway. Revenue comes from managed hosting, support, and custom development — not from locking tools behind paywalls.
+We're Mumega — an AI agency building tools for the WordPress ecosystem. Mumega MCP packages the operational layer agencies need: site context, API keys, role scopes, WordPress actions, Elementor workflows, and integrations behind one MCP endpoint.
 
-239 tools. Every AI model. Your WordPress site. Free forever.
+Up to 239 tools. Every major MCP client. Your WordPress site, controlled through a paid product with trial access.
 
 **Links:**
-- Website: https://mucp.mumega.com
+- Website: https://sitepilotai.mumega.com
 - GitHub (plugin): https://github.com/Mumega-com/mcp-for-wp
 - GitHub (Claude Code plugin): https://github.com/Mumega-com/mumcp-claude-plugin
 - Download: https://mumega.com/mcp-updates/mumega-mcp-latest.zip

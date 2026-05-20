@@ -1,12 +1,12 @@
 {
-  "version": "2.8.2",
+  "version": "2.8.31",
   "download_url": "https://mumega.com/mcp-updates/mumega-mcp-latest.zip",
   "requires": "5.0",
   "requires_php": "7.4",
   "tested": "6.9",
   "name": "mumcp",
-  "homepage": "https://mucp.mumega.com",
+  "homepage": "https://sitepilotai.mumega.com",
   "author": "Mumega",
   "author_homepage": "https://mumega.com/",
-  "changelog": "<h4>2.8.2</h4><ul><li>Fix: API key creation form now defaults all scopes (Read, Write, Admin) checked — new keys were read-only by default</li></ul>"
+  "changelog": "<h4>2.8.31</h4><ul><li>Fix: refresh Freemius update state after plugin updates.</li></ul>"
 }

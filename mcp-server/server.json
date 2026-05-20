@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.Mumega-com/mumcp",
-  "description": "Connect any WordPress site to AI assistants via MCP. 239 tools for pages, Elementor, WooCommerce, media, SEO, and more.",
+  "description": "Connect WordPress sites to AI assistants via MCP. Tool availability is dynamic by license, active integrations, and role-scoped API keys.",
   "repository": {
     "url": "https://github.com/Mumega-com/mcp-for-wp",
     "source": "github",
@@ -25,7 +25,7 @@
           "name": "WP_URL"
         },
         {
-          "description": "Site Pilot AI API key generated in WordPress admin",
+          "description": "Mumega MCP API key generated in WordPress admin",
           "isRequired": true,
           "format": "string",
           "isSecret": true,

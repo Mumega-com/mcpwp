@@ -2,9 +2,7 @@
 /**
  * Pro Module Bootstrap
  *
- * Loads additional endpoints/features for Pro users.
- *
- * All features are free — no Pro/premium split.
+ * Loads additional endpoints/features for licensed paid plans and trials.
  *
  * @package MumegaMCP
  */
@@ -109,8 +107,9 @@ class Spai_Pro_Bootstrap {
 	 * @return array
 	 */
 	public static function add_pro_capabilities( $capabilities ) {
-		$capabilities['pro_active']  = true;
-		$capabilities['plan']        = 'free';
+		$license = class_exists( 'Spai_License' ) ? Spai_License::get_instance() : null;
+		$capabilities['pro_active']  = $license ? $license->is_pro() : false;
+		$capabilities['plan']        = $license ? $license->get_plan() : 'unlicensed';
 		$capabilities['learnpress']  = class_exists( 'LearnPress' ) || post_type_exists( 'lp_course' );
 		$capabilities['tp_events']   = post_type_exists( 'tp_event' );
 		return $capabilities;

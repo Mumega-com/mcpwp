@@ -1,6 +1,6 @@
 # Screenshot Worker Setup
 
-Site Pilot AI can capture screenshots of any public URL using a Cloudflare Worker with Browser Rendering. This guide walks through deploying and configuring the screenshot service.
+Mumega MCP can capture screenshots of any public URL using a Cloudflare Worker with Browser Rendering. This guide walks through deploying and configuring the screenshot service.
 
 ## Prerequisites
 
@@ -45,7 +45,7 @@ Save this token — you'll need it for the plugin configuration.
 
 In your WordPress admin:
 
-1. Go to **Site Pilot AI → Settings**
+1. Go to **Mumega MCP → Settings**
 2. Find **Screenshot Worker URL** and enter the worker URL (e.g. `https://spai-screenshot.your-subdomain.workers.dev`)
 3. Find **Screenshot Worker Token** and enter the auth token you set above
 4. Click **Save**
@@ -137,7 +137,7 @@ The worker includes `Access-Control-Allow-Origin: *` headers. If you're calling 
 ## Architecture
 
 ```
-AI Assistant → Site Pilot AI Plugin → Cloudflare Worker → Headless Chromium → Screenshot
+AI Assistant → Mumega MCP Plugin → Cloudflare Worker → Headless Chromium → Screenshot
                  (WordPress)           (spai-screenshot)    (Browser Rendering)
 ```
 

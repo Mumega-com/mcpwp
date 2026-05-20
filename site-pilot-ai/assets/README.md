@@ -40,7 +40,7 @@ Screenshots should be numbered and match the readme.txt descriptions:
 
 ## Branding Guidelines
 
-**Name:** Site Pilot AI
+**Name:** Mumega MCP
 **Tagline:** Control WordPress with AI
 **Colors:**
 - Primary: #2271b1 (WordPress blue)

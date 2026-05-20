@@ -1,5 +1,5 @@
 /**
- * Site Pilot AI - MCP Proxy
+ * Mumega MCP - MCP Proxy
  * Forwards JSON-RPC requests from stdio to the PHP MCP endpoint over HTTP.
  */
 

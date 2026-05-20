@@ -1,4 +1,4 @@
-# Elementor Widget Reference for Site Pilot AI
+# Elementor Widget Reference for Mumega MCP
 
 Correct control keys for building pages via the API. Using wrong keys causes silent rendering failures.
 
@@ -476,7 +476,7 @@ Where `{control}` is the prefix like `title`, `description`, `button`, etc.
 ## Testing Workflow
 
 ```bash
-# 1. Edit PHP in wp-ai-operator/site-pilot-ai/ (changes are live instantly via Docker volume)
+# 1. Edit PHP in mcp-for-wp/site-pilot-ai/ (changes are live instantly via Docker volume)
 
 # 2. Test locally (no rate limits, no cache, no deploy wait)
 curl -s -X POST "http://localhost:8080/wp-json/site-pilot-ai/v1/elementor/PAGE_ID" \

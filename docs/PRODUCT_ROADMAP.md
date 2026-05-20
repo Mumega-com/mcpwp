@@ -3,7 +3,7 @@
 Status: Active
 Updated: 2026-04-01
 
-This roadmap tracks the operator-focused polish work for Site Pilot AI. The target user is a founder, marketer, or agency operator who needs AI to produce WordPress pages and products quickly without losing structure, brand consistency, or control.
+This roadmap tracks the operator-focused polish work for Mumega MCP. The target user is a founder, marketer, or agency operator who needs AI to produce WordPress pages and products quickly without losing structure, brand consistency, or control.
 
 ## Progress Snapshot
 
@@ -74,7 +74,7 @@ This roadmap tracks the operator-focused polish work for Site Pilot AI. The targ
 - Keep customer trust even when shared hosting blocks unattended plugin replacement.
 
 ### Issue: Sharpen operator-facing messaging
-- Position Site Pilot AI as a reusable AI production system for WordPress.
+- Position Mumega MCP as a reusable AI production system for WordPress.
 - Focus on speed, consistency, memory, and reusable structures rather than generic “AI for WordPress” messaging.
 - Status: In progress. README and plugin readme now emphasize operators, reusable structure, site character, and design-reference workflows.
 

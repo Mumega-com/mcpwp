@@ -14,6 +14,10 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$license       = class_exists( 'Spai_License' ) ? Spai_License::get_instance() : null;
+$license_plan  = $license ? $license->get_plan() : 'unlicensed';
+$license_label = ucwords( str_replace( '_', ' ', $license_plan ) );
 ?>
 
 <div class="wrap spai-admin">
@@ -35,7 +39,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php esc_html_e( 'About', 'mumega-mcp' ); ?>
 			</h2>
 			<p class="description">
-				<?php esc_html_e( 'All features are included for free. Mumega MCP connects your WordPress site to AI assistants via the Model Context Protocol (MCP).', 'mumega-mcp' ); ?>
+				<?php
+				printf(
+					/* translators: %s: active plan name */
+					esc_html__( 'Mumega MCP connects your WordPress site to AI assistants via the Model Context Protocol (MCP). Current plan: %s.', 'mumega-mcp' ),
+					esc_html( $license_label )
+				);
+				?>
 			</p>
 			<p style="margin-top:10px;">
 				<a href="https://mumega.com/" target="_blank" class="button">

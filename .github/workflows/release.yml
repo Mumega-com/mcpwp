@@ -1,4 +1,4 @@
-name: Release Site Pilot AI
+name: Release Mumega MCP
 
 on:
   push:
@@ -47,12 +47,12 @@ jobs:
             exit 1
           fi
 
-      - name: Create free distribution
-        id: create_free
+      - name: Create WP.org-compatible distribution
+        id: create_wporg
         run: |
           VERSION="${{ steps.version.outputs.version }}"
-          FREE_ZIP="site-pilot-ai-${VERSION}-free.zip"
-          TEMP_DIR="site-pilot-ai-free"
+          WPORG_ZIP="site-pilot-ai-${VERSION}-wporg.zip"
+          TEMP_DIR="site-pilot-ai-wporg"
 
           # Copy plugin to temp directory
           cp -r site-pilot-ai "${TEMP_DIR}"
@@ -81,22 +81,22 @@ jobs:
           mv "${TEMP_DIR}" site-pilot-ai-temp
 
           # Create zip
-          zip -r "${FREE_ZIP}" site-pilot-ai-temp
+          zip -r "${WPORG_ZIP}" site-pilot-ai-temp
           mv site-pilot-ai-temp/readme.txt . 2>/dev/null || true
 
           # Clean up
           rm -rf site-pilot-ai-temp
 
-          echo "free_zip=${FREE_ZIP}" >> $GITHUB_OUTPUT
-          echo "Free distribution created: ${FREE_ZIP}"
-          ls -lh "${FREE_ZIP}"
+          echo "wporg_zip=${WPORG_ZIP}" >> $GITHUB_OUTPUT
+          echo "WP.org-compatible distribution created: ${WPORG_ZIP}"
+          ls -lh "${WPORG_ZIP}"
 
-      - name: Create premium distribution
-        id: create_premium
+      - name: Create paid/self-hosted distribution
+        id: create_paid
         run: |
           VERSION="${{ steps.version.outputs.version }}"
-          PREMIUM_ZIP="site-pilot-ai-${VERSION}.zip"
-          TEMP_DIR="site-pilot-ai-premium"
+          PAID_ZIP="site-pilot-ai-${VERSION}.zip"
+          TEMP_DIR="site-pilot-ai-paid"
 
           # Copy plugin to temp directory
           cp -r site-pilot-ai "${TEMP_DIR}"
@@ -122,14 +122,14 @@ jobs:
           mv "${TEMP_DIR}" site-pilot-ai-temp
 
           # Create zip
-          zip -r "${PREMIUM_ZIP}" site-pilot-ai-temp
+          zip -r "${PAID_ZIP}" site-pilot-ai-temp
 
           # Clean up
           rm -rf site-pilot-ai-temp
 
-          echo "premium_zip=${PREMIUM_ZIP}" >> $GITHUB_OUTPUT
-          echo "Premium distribution created: ${PREMIUM_ZIP}"
-          ls -lh "${PREMIUM_ZIP}"
+          echo "paid_zip=${PAID_ZIP}" >> $GITHUB_OUTPUT
+          echo "Paid/self-hosted distribution created: ${PAID_ZIP}"
+          ls -lh "${PAID_ZIP}"
 
       - name: Generate release notes
         id: release_notes
@@ -148,7 +148,7 @@ jobs:
 
           # Create release notes
           cat > release_notes.md << 'EOF'
-          ## Site Pilot AI v${{ steps.version.outputs.version }}
+          ## Mumega MCP v${{ steps.version.outputs.version }}
 
           ### Changes
 
@@ -162,15 +162,15 @@ jobs:
 
           ### Installation
 
-          **Free Version:**
-          - Download `site-pilot-ai-${{ steps.version.outputs.version }}-free.zip`
+          **WP.org-Compatible Version:**
+          - Download `site-pilot-ai-${{ steps.version.outputs.version }}-wporg.zip`
           - Upload to WordPress via Plugins > Add New > Upload
-          - No Pro features included
+          - Licensed modules are not included
 
-          **Premium Version:**
+          **Paid/Self-Hosted Version:**
           - Download `site-pilot-ai-${{ steps.version.outputs.version }}.zip`
-          - Requires valid Freemius license
-          - Includes all Pro features (forms, users, SEO, WooCommerce, etc.)
+          - Requires a valid Freemius license or trial for licensed features
+          - Includes licensed modules (forms, users, SEO, WooCommerce, etc.)
 
           ### Requirements
 
@@ -179,7 +179,7 @@ jobs:
 
           ---
 
-          🤖 Generated with [Site Pilot AI](https://github.com/Digidinc/site-pilot-ai)
+          Generated with [Mumega MCP](https://github.com/Mumega-com/mcp-for-wp)
           EOF
 
           cat release_notes.md
@@ -187,11 +187,11 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: "Site Pilot AI v${{ steps.version.outputs.version }}"
+          name: "Mumega MCP v${{ steps.version.outputs.version }}"
           body_path: release_notes.md
           files: |
-            ${{ steps.create_free.outputs.free_zip }}
-            ${{ steps.create_premium.outputs.premium_zip }}
+            ${{ steps.create_wporg.outputs.wporg_zip }}
+            ${{ steps.create_paid.outputs.paid_zip }}
           draft: false
           prerelease: false
         env:
@@ -204,7 +204,7 @@ jobs:
           echo "**Version:** ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Artifacts:**" >> $GITHUB_STEP_SUMMARY
-          echo "- Free: \`${{ steps.create_free.outputs.free_zip }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Premium: \`${{ steps.create_premium.outputs.premium_zip }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- WP.org-compatible: \`${{ steps.create_wporg.outputs.wporg_zip }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Paid/self-hosted: \`${{ steps.create_paid.outputs.paid_zip }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "[View Release](https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }})" >> $GITHUB_STEP_SUMMARY

@@ -491,5 +491,5 @@ GPL v2 or later (same as Mumega MCP plugin)
 ## Support
 
 For issues or questions:
-- GitHub: https://github.com/Digidinc/site-pilot-ai
-- Email: support@digid.ca
+- GitHub: https://github.com/Mumega-com/mcp-for-wp
+- Email: support@mumega.com

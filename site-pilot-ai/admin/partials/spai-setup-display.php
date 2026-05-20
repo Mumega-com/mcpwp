@@ -22,6 +22,9 @@ $mcp_url         = rest_url( 'site-pilot-ai/v1/mcp' );
 $site_name       = get_bloginfo( 'name' );
 $site_slug       = sanitize_title( $site_name );
 $update_channel  = $admin->get_update_channel_status();
+$license         = class_exists( 'Spai_License' ) ? Spai_License::get_instance() : null;
+$license_plan    = $license ? $license->get_plan() : 'unlicensed';
+$license_label   = ucwords( str_replace( '_', ' ', $license_plan ) );
 
 // Non-Latin site names (Persian, Arabic, CJK) produce URL-encoded slugs — fall back to hostname.
 if ( empty( $site_slug ) || false !== strpos( $site_slug, '%' ) ) {
@@ -103,9 +106,17 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 	<div class="spai-license-banner spai-license-active">
 		<div class="spai-license-content">
 			<span class="dashicons dashicons-yes-alt"></span>
-			<strong><?php esc_html_e( 'All features included', 'mumega-mcp' ); ?></strong>
+			<strong>
+				<?php
+				printf(
+					/* translators: %s: active plan name */
+					esc_html__( 'Plan: %s', 'mumega-mcp' ),
+					esc_html( $license_label )
+				);
+				?>
+			</strong>
 			&mdash;
-			<a href="https://mumega.com/" target="_blank"><?php esc_html_e( 'Powered by Mumega', 'mumega-mcp' ); ?></a>
+			<a href="https://sitepilotai.mumega.com/pricing/" target="_blank"><?php esc_html_e( 'Manage pricing and license', 'mumega-mcp' ); ?></a>
 		</div>
 	</div>
 

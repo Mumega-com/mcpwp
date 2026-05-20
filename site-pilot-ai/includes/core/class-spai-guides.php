@@ -1027,7 +1027,7 @@ class Spai_Guides {
 					'heading' => 'Tool Not Found',
 					'content' => "**\"Unknown tool\" error:**\n"
 						. "- Tool may require a plugin that is not active (e.g., Elementor tools need Elementor)\n"
-						. "- Tool may be a Pro feature — check `wp_introspect()` for available tools\n"
+						. "- Tool may require a paid plan or trial — check `wp_introspect()` for available tools\n"
 						. "- Tool category may be disabled by admin\n"
 						. "- Use `wp_introspect()` to see all available tools",
 				),

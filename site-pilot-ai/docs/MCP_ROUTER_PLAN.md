@@ -98,7 +98,7 @@ For multi-step work, the router should prefer `wp_run_workflow` over expanding t
 
 ## Current Exposure/Gating
 
-Free/pro is currently collapsed in the codebase. `Spai_REST_MCP::is_pro_active()` returns true, `Spai_Pro_Bootstrap` registers former Pro REST routes, and site info reports Pro active even when the plan is shown as free.
+Paid-plan gating is being restored across REST, MCP, and admin surfaces. `Spai_Pro_Bootstrap` should report the active Freemius plan/trial state instead of forcing paid features active for every install.
 
 Current effective gates are:
 

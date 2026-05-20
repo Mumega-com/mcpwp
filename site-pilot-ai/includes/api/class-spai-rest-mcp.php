@@ -1284,9 +1284,9 @@ class Spai_REST_MCP extends Spai_REST_API {
 			);
 		}
 
-		// Pro Features (conditional)
+		// Licensed features (conditional).
 		if ( $is_pro ) {
-			$workflows['Pro Features'] = array(
+			$workflows['Licensed Features'] = array(
 				'Use multilanguage tools for WPML/Polylang integrations.',
 				'Manage Contact Form 7, WPForms, Gravity Forms, and Ninja Forms.',
 				'Control widgets, sidebars, and theme customizations.',
@@ -1310,7 +1310,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 	}
 
 	/**
-	 * Check if Pro features are active.
+	 * Check if licensed features are active.
 	 *
 	 * @return bool True when a non-WP.org build has an active entitlement.
 	 */

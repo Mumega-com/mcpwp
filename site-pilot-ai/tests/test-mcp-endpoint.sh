@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Test script for Site Pilot AI MCP endpoint
+# Test script for Mumega MCP MCP endpoint
 #
 # Usage: ./test-mcp-endpoint.sh <site-url> <api-key>
 #
@@ -97,7 +97,7 @@ if [ -z "$API_KEY" ]; then
 fi
 
 echo "=========================================="
-echo "Site Pilot AI MCP Endpoint Tests"
+echo "Mumega MCP MCP Endpoint Tests"
 echo "=========================================="
 echo "Endpoint: ${MCP_ENDPOINT}"
 echo ""

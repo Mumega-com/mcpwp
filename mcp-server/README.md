@@ -1,9 +1,9 @@
-# Site Pilot AI
+# Mumega MCP
 
 [![npm version](https://img.shields.io/npm/v/site-pilot-ai.svg)](https://www.npmjs.com/package/site-pilot-ai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-**MCP Server for WordPress** — 200+ tools for posts, pages, Elementor, WooCommerce, LearnPress, SEO, forms & more. Works with Claude Desktop, Cursor, Windsurf and any MCP client.
+**MCP Server for WordPress** — dynamic tools for posts, pages, Elementor, WooCommerce, LearnPress, SEO, forms & more. Works with Claude Desktop, Cursor, Windsurf and any MCP client.
 
 A thin stdio-to-HTTP proxy that forwards all MCP requests to your WordPress site's built-in MCP endpoint. Tools are always in sync with the plugin — zero local definitions, zero maintenance.
 
@@ -15,7 +15,7 @@ MCP Client (stdio) → site-pilot-ai (proxy) → WordPress Plugin (JSON-RPC over
 
 The WordPress plugin exposes a complete MCP endpoint at `/wp-json/site-pilot-ai/v1/mcp`. This npm package connects to it and proxies `tools/list`, `tools/call`, `resources/list`, and `resources/read` — so every tool the plugin provides is automatically available to your AI client.
 
-- **200+ tools** — content, Elementor, WooCommerce, LearnPress, SEO, forms, media, theme builder, and more
+- **Dynamic tool discovery** — content, Elementor, WooCommerce, LearnPress, SEO, forms, media, theme builder, and more
 - **Zero dependencies** — single-file bundle, runs on Node 18+
 - **Always in sync** — update the plugin, tools appear instantly
 - **AI-native** — built-in onboarding, guides, error hints, and widget help teach AI models how to use your site
@@ -24,10 +24,10 @@ The WordPress plugin exposes a complete MCP endpoint at `/wp-json/site-pilot-ai/
 
 ### 1. Install WordPress Plugin
 
-Install **Site Pilot AI** on your WordPress site:
-1. Download from [GitHub releases](https://github.com/Digidinc/wp-ai-operator/releases)
+Install **Mumega MCP** on your WordPress site:
+1. Download from [GitHub releases](https://github.com/Mumega-com/mcp-for-wp/releases) or your Freemius account
 2. Upload to WordPress: **WP Admin > Plugins > Add New > Upload Plugin**
-3. Activate and copy your API key from **Site Pilot AI** (top-level admin menu)
+3. Activate and copy your API key from **Mumega MCP** (top-level admin menu)
 
 ### 2. Run Setup Wizard
 
@@ -38,7 +38,7 @@ npx -y site-pilot-ai --setup
 This will:
 - Prompt for your WordPress URL and API key
 - Test the connection
-- Save configuration to `~/.wp-ai-operator/config.json`
+- Save configuration to `~/.mumega-mcp/config.json`
 - Show Claude Desktop config snippet
 
 ### 3. Configure Your MCP Client
@@ -121,7 +121,7 @@ Tools appear automatically. Try: *"Show me my site info"* or *"Onboard me to thi
 
 All tools come from the WordPress plugin. Update the plugin to get new tools — no npm update needed.
 
-### Core (Free)
+### Core
 
 **Content** — `wp_list_posts`, `wp_create_post`, `wp_update_post`, `wp_delete_post`, `wp_list_pages`, `wp_create_page`, `wp_update_page`, `wp_delete_page`, `wp_search`, `wp_list_drafts`, `wp_delete_all_drafts`
 
@@ -163,14 +163,14 @@ All tools come from the WordPress plugin. Update the plugin to get new tools —
 
 ```bash
 WP_URL=https://your-site.com       # WordPress site URL
-WP_API_KEY=spai_...                 # Site Pilot AI API key
+WP_API_KEY=spai_...                 # Mumega MCP API key
 WP_SITE_NAME=default                # Optional, for multi-site configs
 WP_CONFIG_PATH=~/custom/config.json # Optional, custom config path
 ```
 
 ### Config File
 
-Location: `~/.wp-ai-operator/config.json`
+Location: `~/.mumega-mcp/config.json`
 
 ```json
 {
@@ -207,14 +207,14 @@ npx site-pilot-ai --test
 
 Verify:
 1. WordPress site is accessible
-2. Site Pilot AI plugin is activated
+2. Mumega MCP plugin is activated
 3. API key is correct (regenerate in WP Admin if needed)
 4. REST API is not blocked by firewall or security plugin
 
 ### No Tools Appearing
 
 1. Restart your MCP client
-2. Check config: `cat ~/.wp-ai-operator/config.json`
+2. Check config: `cat ~/.mumega-mcp/config.json`
 3. Test connection: `WP_URL=... WP_API_KEY=... npx site-pilot-ai --test`
 4. Check client logs for MCP errors
 
@@ -222,7 +222,7 @@ Verify:
 
 **Required:**
 - WordPress 5.9+
-- Site Pilot AI plugin (v1.5.0+)
+- Mumega MCP plugin (v2.8.31+)
 
 **Optional (enables more tools):**
 - **Elementor** / Elementor Pro — page builder & theme builder tools
@@ -235,8 +235,8 @@ Verify:
 ## Development
 
 ```bash
-git clone https://github.com/Digidinc/wp-ai-operator.git
-cd wp-ai-operator/mcp-server
+git clone https://github.com/Mumega-com/mcp-for-wp.git
+cd mcp-for-wp/mcp-server
 bun install
 bun run build       # Single-file bundle to dist/index.js
 node dist/index.js --test
@@ -244,10 +244,10 @@ node dist/index.js --test
 
 ## License
 
-MIT © DigID
+MIT © Mumega
 
 ---
 
 **Documentation:** https://sitepilotai.mumega.com
-**Issues:** https://github.com/Digidinc/wp-ai-operator/issues
-**WordPress Plugin:** https://github.com/Digidinc/wp-ai-operator/releases
+**Issues:** https://github.com/Mumega-com/mcp-for-wp/issues
+**WordPress Plugin:** https://github.com/Mumega-com/mcp-for-wp/releases

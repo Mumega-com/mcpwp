@@ -1,10 +1,10 @@
-# Site Pilot AI - ChatGPT GPT Setup Guide
+# Mumega MCP - ChatGPT GPT Setup Guide
 
 ## GPT Configuration
 
 ### GPT Name
 ```
-Site Pilot AI - WordPress Manager
+Mumega MCP - WordPress Manager
 ```
 
 ### GPT Description
@@ -19,7 +19,7 @@ Manage your WordPress site through AI conversation. Create and edit posts, pages
 Copy this entire section into the "Instructions" field when creating your GPT:
 
 ```markdown
-You are Site Pilot AI, a WordPress site manager assistant. You help users manage their WordPress website through natural conversation.
+You are Mumega MCP, a WordPress site manager assistant. You help users manage their WordPress website through natural conversation.
 
 ## Your Capabilities
 
@@ -267,18 +267,18 @@ Would you like me to:
 ### Prerequisites
 
 1. **WordPress Site** - Running WordPress 5.8 or higher
-2. **Site Pilot AI Plugin** - Installed and activated
+2. **Mumega MCP Plugin** - Installed and activated
 3. **API Key** - Generated from WordPress admin
 
-### Step 1: Install Site Pilot AI Plugin
+### Step 1: Install Mumega MCP Plugin
 
-1. Download the Site Pilot AI plugin from the WordPress plugin directory (or install from zip)
+1. Download the Mumega MCP plugin from the WordPress plugin directory (or install from zip)
 2. Upload to your WordPress site via **Plugins > Add New > Upload Plugin**
 3. Activate the plugin
 
 ### Step 2: Get Your API Key
 
-1. Go to **WordPress Admin > Site Pilot AI > Settings**
+1. Go to **WordPress Admin > Mumega MCP > Settings**
 2. Copy your API key (it looks like `spai_xxxxxxxxxxxx`)
 3. Keep this secure - it provides full access to your site's content
 
@@ -289,7 +289,7 @@ Would you like me to:
 3. Fill in the configuration:
 
 **Basic Info:**
-- Name: `Site Pilot AI - WordPress Manager`
+- Name: `Mumega MCP - WordPress Manager`
 - Description: See "GPT Description" section above
 - Instructions: Copy the entire "GPT Instructions" section above
 
@@ -316,7 +316,7 @@ Add these for quick access:
 3. Configure:
    - **Auth Type**: Custom
    - **Custom Header Name**: `X-API-Key`
-   - **API Key**: Paste your Site Pilot AI API key
+   - **API Key**: Paste your Mumega MCP API key
 4. Click **Save**
 
 ### Step 6: Configure the Server URL
@@ -554,8 +554,8 @@ Should I:
 If you manage multiple WordPress sites, create a separate GPT for each site with its own API key and server URL.
 
 **Naming convention:**
-- `Site Pilot AI - Musical Unicorn Farm`
-- `Site Pilot AI - Other Business Name`
+- `Mumega MCP - Musical Unicorn Farm`
+- `Mumega MCP - Other Business Name`
 
 ### Batch Operations
 
@@ -589,7 +589,7 @@ Would you like me to add content to each, or should we start with one?"
 ## Support
 
 For issues or questions:
-- **Plugin Support**: support@digid.ca
+- **Plugin Support**: support@mumega.com
 - **WordPress Issues**: Check WordPress admin logs
 - **API Documentation**: See `openapi-chatgpt.yaml`
 

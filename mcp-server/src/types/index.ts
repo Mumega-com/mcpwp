@@ -1,5 +1,5 @@
 /**
- * Site Pilot AI - Type Definitions
+ * Mumega MCP - Type Definitions
  * Minimal types for proxy mode
  */
 

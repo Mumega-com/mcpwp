@@ -1,10 +1,10 @@
 openapi: 3.0.3
 info:
-  title: Site Pilot AI
+  title: Mumega MCP
   description: |
     Control WordPress with AI through a powerful REST API.
 
-    Site Pilot AI provides a comprehensive API for managing WordPress sites,
+    Mumega MCP provides a comprehensive API for managing WordPress sites,
     including content management, Elementor page building, SEO optimization,
     form management, and more.
 
@@ -13,9 +13,9 @@ info:
     or `Authorization: Bearer` header.
   version: 1.0.4
   contact:
-    name: DigID Inc
-    url: https://digid.ca
-    email: support@digid.ca
+    name: Mumega
+    url: https://sitepilotai.mumega.com
+    email: support@mumega.com
   license:
     name: GPL v2
     url: https://www.gnu.org/licenses/gpl-2.0.html
@@ -42,21 +42,21 @@ tags:
   - name: Media
     description: Media library management
   - name: Elementor
-    description: Elementor page builder (Free)
+    description: Elementor page builder (Core)
   - name: Elementor Pro
-    description: Advanced Elementor features (Pro)
+    description: Advanced Elementor features (Paid)
   - name: SEO
-    description: SEO management (Pro)
+    description: SEO management (Paid)
   - name: Forms
-    description: Form plugin integration (Pro)
+    description: Form plugin integration (Paid)
   - name: Users
-    description: User management (Pro)
+    description: User management (Paid)
   - name: Menus
-    description: Navigation menu management (Pro)
+    description: Navigation menu management (Paid)
   - name: Settings
-    description: Site settings (Pro)
+    description: Site settings (Paid)
   - name: Options
-    description: Reading and front page options (Pro)
+    description: Reading and front page options (Paid)
   - name: Favicon
     description: Site icon management (Pro)
   - name: Widgets

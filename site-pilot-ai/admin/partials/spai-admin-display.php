@@ -27,6 +27,9 @@ $llms_url             = $admin->get_llms_url();
 $llms_preview         = $admin->get_llms_preview();
 $update_channel       = $admin->get_update_channel_status();
 $onboarding_status    = $admin->get_onboarding_status();
+$license              = class_exists( 'Spai_License' ) ? Spai_License::get_instance() : null;
+$license_plan         = $license ? $license->get_plan() : 'unlicensed';
+$license_label        = ucwords( str_replace( '_', ' ', $license_plan ) );
 // Non-Latin site names (Persian, Arabic, CJK) produce URL-encoded slugs — fall back to hostname.
 if ( empty( $site_slug ) || false !== strpos( $site_slug, '%' ) ) {
 	$site_slug = preg_replace( '/^www\./', '', wp_parse_url( home_url(), PHP_URL_HOST ) );
@@ -95,9 +98,17 @@ if ( isset( $new_key ) && $new_key ) {
 	<div class="spai-license-banner spai-license-active">
 		<div class="spai-license-content">
 			<span class="dashicons dashicons-yes-alt"></span>
-			<strong><?php esc_html_e( 'All features included', 'mumega-mcp' ); ?></strong>
+			<strong>
+				<?php
+				printf(
+					/* translators: %s: active plan name */
+					esc_html__( 'Plan: %s', 'mumega-mcp' ),
+					esc_html( $license_label )
+				);
+				?>
+			</strong>
 			&mdash;
-			<a href="https://mumega.com/" target="_blank"><?php esc_html_e( 'Powered by Mumega', 'mumega-mcp' ); ?></a>
+			<a href="https://sitepilotai.mumega.com/pricing/" target="_blank"><?php esc_html_e( 'Manage pricing and license', 'mumega-mcp' ); ?></a>
 		</div>
 	</div>
 
@@ -561,7 +572,7 @@ if ( isset( $new_key ) && $new_key ) {
 						<td>
 							<?php
 							if ( isset( $cap['pro'] ) && $cap['pro'] ) {
-								echo '<span class="spai-badge spai-badge-pro">Pro</span> ';
+								echo '<span class="spai-badge spai-badge-pro">Paid</span> ';
 							}
 							if ( isset( $cap['name'] ) && $cap['name'] ) {
 								echo esc_html( $cap['name'] );
@@ -860,7 +871,7 @@ if ( isset( $new_key ) && $new_key ) {
 				<?php esc_html_e( 'About', 'mumega-mcp' ); ?>
 			</h2>
 			<p class="description">
-				<?php esc_html_e( 'All features are included for free. Mumega MCP connects your WordPress site to AI assistants via the Model Context Protocol (MCP).', 'mumega-mcp' ); ?>
+				<?php esc_html_e( 'Mumega MCP connects your WordPress site to AI assistants via the Model Context Protocol (MCP). Paid plans and trials are managed through your Mumega account.', 'mumega-mcp' ); ?>
 			</p>
 			<p style="margin-top: 10px;">
 				<a href="https://mumega.com/" target="_blank" class="button">
@@ -1863,12 +1874,12 @@ if ( isset( $new_key ) && $new_key ) {
 					<tr><td>POST</td><td>/elementor/page</td><td><?php esc_html_e( 'Create Elementor page', 'mumega-mcp' ); ?></td></tr>
 
 					<?php if ( $is_pro ) : ?>
-					<tr class="spai-endpoint-section"><td colspan="3"><strong><?php esc_html_e( 'Pro: SEO', 'mumega-mcp' ); ?> <span class="spai-badge spai-badge-pro">PRO</span></strong></td></tr>
+					<tr class="spai-endpoint-section"><td colspan="3"><strong><?php esc_html_e( 'Paid: SEO', 'mumega-mcp' ); ?> <span class="spai-badge spai-badge-pro">PAID</span></strong></td></tr>
 					<tr><td>GET/POST</td><td>/seo/{id}</td><td><?php esc_html_e( 'Get/set SEO metadata', 'mumega-mcp' ); ?></td></tr>
 					<tr><td>GET</td><td>/seo/{id}/analyze</td><td><?php esc_html_e( 'SEO analysis', 'mumega-mcp' ); ?></td></tr>
 					<tr><td>GET</td><td>/seo/status</td><td><?php esc_html_e( 'SEO plugin status', 'mumega-mcp' ); ?></td></tr>
 
-					<tr class="spai-endpoint-section"><td colspan="3"><strong><?php esc_html_e( 'Pro: Forms', 'mumega-mcp' ); ?> <span class="spai-badge spai-badge-pro">PRO</span></strong></td></tr>
+					<tr class="spai-endpoint-section"><td colspan="3"><strong><?php esc_html_e( 'Paid: Forms', 'mumega-mcp' ); ?> <span class="spai-badge spai-badge-pro">PAID</span></strong></td></tr>
 					<tr><td>GET</td><td>/forms</td><td><?php esc_html_e( 'List forms', 'mumega-mcp' ); ?></td></tr>
 					<tr><td>GET</td><td>/forms/{plugin}/{id}</td><td><?php esc_html_e( 'Get form details', 'mumega-mcp' ); ?></td></tr>
 					<tr><td>GET</td><td>/forms/status</td><td><?php esc_html_e( 'Forms plugin status', 'mumega-mcp' ); ?></td></tr>

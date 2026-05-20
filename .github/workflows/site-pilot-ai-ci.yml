@@ -1,4 +1,4 @@
-name: Site Pilot AI CI
+name: Mumega MCP CI
 
 on:
   pull_request:

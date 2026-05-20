@@ -2,7 +2,7 @@
 
 ## Vision
 
-Agencies install mumcp on client sites, connect their branded AI, charge clients for "AI site management." We power the backend. The plugin stays free. Revenue comes from agency subscriptions.
+Agencies install Mumega MCP on client sites, connect their branded AI, charge clients for "AI site management." We power the backend. Paid plans and trials are managed through Freemius today, with agency subscriptions expanding the model.
 
 ## The Product Stack
 
@@ -13,7 +13,7 @@ Client WordPress Sites (each has mumcp installed)
     ↓ powered by
 AI Chat (OpenAI/Gemini via agency's key, or our CF Workers AI)
     ↓ executes
-239 MCP Tools → WordPress/Elementor/WooCommerce
+Up to 239 MCP Tools → WordPress/Elementor/WooCommerce
 ```
 
 ## V3 Milestones
@@ -32,7 +32,7 @@ AI Chat (OpenAI/Gemini via agency's key, or our CF Workers AI)
 ### Phase 2: Agency Dashboard (v2.10)
 **Goal:** One place for agencies to manage all client sites.
 
-- [ ] Agency registration page on mucp.mumega.com
+- [ ] Agency registration page on sitepilotai.mumega.com
 - [ ] Dashboard: list all connected sites, status, last activity, version
 - [ ] Site health monitoring: is the plugin active, is the MCP endpoint responding
 - [ ] Centralized API key management: create/revoke keys for all sites
@@ -96,7 +96,7 @@ Conversation logs → anonymized → train better models → everyone benefits
 
 | Tier | Price | Includes |
 |------|-------|----------|
-| **Free** | $0 | Plugin + 239 tools + MCP + free Llama chat |
+| **Trial** | $0 trial | Plugin + MCP endpoint + trial access to licensed features |
 | **Agency Starter** | $49/mo | 5 sites, dashboard, white-label chat, proxy |
 | **Agency Pro** | $149/mo | 25 sites, custom domain, priority support |
 | **Agency Scale** | $399/mo | Unlimited sites, API access, dedicated proxy |
@@ -157,10 +157,10 @@ Conversation logs → anonymized → train better models → everyone benefits
 
 ## What We Already Have
 
-- [x] 239 MCP tools (most complete WordPress MCP server)
+- [x] Up to 239 MCP tools (most complete WordPress MCP server)
 - [x] 24 page blueprints
 - [x] Chat tab with OpenAI integration
-- [x] Cloudflare Workers AI (free Llama fallback)
+- [x] Cloudflare Workers AI fallback
 - [x] Role-scoped API keys (5 roles)
 - [x] mumcp-proxy worker (built, needs deployment)
 - [x] Claude Code plugin (6 skills + wp-builder agent)

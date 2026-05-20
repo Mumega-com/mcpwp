@@ -11,6 +11,10 @@ dist/
 .env
 .env.local
 .mcp.json
+userpassword
+userpassword.*
+credentials
+credentials.*
 
 # IDE
 .vscode/

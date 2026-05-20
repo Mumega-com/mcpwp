@@ -1,5 +1,5 @@
 /**
- * Site Pilot AI - Configuration Loader
+ * Mumega MCP - Configuration Loader
  * Loads site config from environment variables and/or config file
  */
 
@@ -28,7 +28,7 @@ export function loadConfig(): Config {
   // 1. Load from config file
   const configPath =
     process.env.WP_CONFIG_PATH ||
-    join(homedir(), ".wp-ai-operator", "config.json");
+    join(homedir(), ".mumega-mcp", "config.json");
 
   if (existsSync(configPath)) {
     try {
@@ -67,7 +67,7 @@ export function getActiveSite(config: Config): SiteConfig & { _key: string } {
 
   if (!siteKey || !config.sites[siteKey]) {
     throw new Error(
-      "No WordPress sites configured. Set WP_URL and WP_API_KEY environment variables, run site-pilot-ai --setup, or create ~/.wp-ai-operator/config.json"
+      "No WordPress sites configured. Set WP_URL and WP_API_KEY environment variables, run site-pilot-ai --setup, or create ~/.mumega-mcp/config.json"
     );
   }
 

@@ -2,11 +2,8 @@
 /**
  * License management for Mumega MCP.
  *
- * Free core: 70 tools (pages, posts, media, menus, settings, Gutenberg, taxonomy, admin)
- * Pro: All 239 tools (adds Elementor, WooCommerce, LearnPress, SEO, Theme Builder, Forms)
- *
- * License validation via Lemon Squeezy API or local override.
- * 14-day free trial on first activation (no credit card required).
+ * Paid plans and trials are managed through Freemius in the production build.
+ * A legacy local license store remains for backwards compatibility.
  *
  * @package MumegaMCP
  */
@@ -73,7 +70,7 @@ class Spai_License {
 	private function __construct() {}
 
 	/**
-	 * Check if Pro features are active.
+	 * Check if licensed features are active.
 	 *
 	 * Pro is active when:
 	 * 1. Valid license key is stored and not expired, OR
@@ -136,6 +133,9 @@ class Spai_License {
 		}
 		if ( function_exists( 'spai_get_fs_instance' ) ) {
 			$fs = spai_get_fs_instance();
+			if ( is_object( $fs ) && method_exists( $fs, 'is_trial' ) && $fs->is_trial() ) {
+				return true;
+			}
 			if ( is_object( $fs ) && method_exists( $fs, 'is_paying' ) && $fs->is_paying() ) {
 				return true;
 			}
@@ -150,24 +150,89 @@ class Spai_License {
 	 * @return bool
 	 */
 	public function is_agency() {
-		$license = $this->get_license_data();
-		return ! empty( $license['plan'] ) && 'agency' === $license['plan'];
+		return 'agency' === $this->get_plan();
 	}
 
 	/**
 	 * Get current plan.
 	 *
-	 * @return string 'free', 'pro', 'agency', or 'trial'
+	 * @return string 'unlicensed', 'pro', 'agency', or 'trial'
 	 */
 	public function get_plan() {
 		if ( ! $this->is_pro() ) {
-			return 'free';
+			return 'unlicensed';
 		}
+
 		if ( $this->is_trial_active() && ! $this->is_paying() ) {
 			return 'trial';
 		}
+
+		$freemius_plan = $this->get_freemius_plan();
+		if ( '' !== $freemius_plan ) {
+			return $freemius_plan;
+		}
+
 		$license = $this->get_license_data();
 		return ! empty( $license['plan'] ) ? $license['plan'] : 'pro';
+	}
+
+	/**
+	 * Get the normalized Freemius plan slug when available.
+	 *
+	 * @return string Plan slug, or empty string when unknown.
+	 */
+	private function get_freemius_plan() {
+		if ( ! function_exists( 'spai_get_fs_instance' ) ) {
+			return '';
+		}
+
+		$fs = spai_get_fs_instance();
+		if ( ! is_object( $fs ) ) {
+			return '';
+		}
+
+		if ( method_exists( $fs, 'is_trial' ) && $fs->is_trial() && ( ! method_exists( $fs, 'is_paying' ) || ! $fs->is_paying() ) ) {
+			return 'trial';
+		}
+
+		$raw_plan = '';
+		if ( method_exists( $fs, 'get_plan' ) ) {
+			$plan = $fs->get_plan();
+			if ( is_object( $plan ) ) {
+				foreach ( array( 'name', 'title', 'slug' ) as $property ) {
+					if ( isset( $plan->{$property} ) && is_scalar( $plan->{$property} ) ) {
+						$raw_plan = (string) $plan->{$property};
+						break;
+					}
+				}
+				foreach ( array( 'get_name', 'get_title', 'get_slug' ) as $method ) {
+					if ( '' === $raw_plan && method_exists( $plan, $method ) ) {
+						$value = $plan->{$method}();
+						if ( is_scalar( $value ) ) {
+							$raw_plan = (string) $value;
+						}
+					}
+				}
+			} elseif ( is_string( $plan ) ) {
+				$raw_plan = $plan;
+			}
+		}
+
+		$raw_plan = strtolower( sanitize_key( $raw_plan ) );
+		if ( false !== strpos( $raw_plan, 'agency' ) ) {
+			return 'agency';
+		}
+		if ( false !== strpos( $raw_plan, 'trial' ) ) {
+			return 'trial';
+		}
+		if ( '' !== $raw_plan ) {
+			return $raw_plan;
+		}
+		if ( method_exists( $fs, 'is_paying' ) && $fs->is_paying() ) {
+			return 'pro';
+		}
+
+		return '';
 	}
 
 	/**
@@ -404,7 +469,7 @@ class Spai_License {
 
 		return array(
 			'success' => true,
-			'message' => __( 'License deactivated. Pro features disabled.', 'mumega-mcp' ),
+			'message' => __( 'License deactivated. Paid features disabled.', 'mumega-mcp' ),
 		);
 	}
 

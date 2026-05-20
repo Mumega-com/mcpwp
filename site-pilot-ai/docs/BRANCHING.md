@@ -6,7 +6,7 @@ Mumega MCP uses two long-lived release branches plus short-lived feature branche
 
 ### `free/wporg`
 
-WordPress.org free distribution source.
+WordPress.org-compatible distribution source.
 
 - Builds `scripts/mumega-mcp-VERSION.zip`.
 - Package root is `mumega-mcp/`.
@@ -49,7 +49,7 @@ Stable identifiers:
 
 - WP.org slug: `mumega-mcp`
 - Text domain: `mumega-mcp`
-- Free package root: `mumega-mcp/`
+- WP.org-compatible package root: `mumega-mcp/`
 - Existing REST namespace: `site-pilot-ai/v1`
 - Existing PHP prefixes/classes: `spai_*`, `Spai_*`
 

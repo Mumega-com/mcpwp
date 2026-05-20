@@ -1,6 +1,6 @@
 # CI/CD Guide - GitHub Actions Automation
 
-This guide explains the automated release and validation workflows for Site Pilot AI.
+This guide explains the automated release and validation workflows for Mumega MCP.
 
 ## Overview
 
@@ -28,9 +28,9 @@ git push origin v1.0.45
    - Verifies `SPAI_VERSION` constant matches tag
    - Fails if any mismatch detected
 
-2. **Free Distribution Build**
+2. **WP.org-Compatible Distribution Build**
    - Copies `site-pilot-ai/` directory
-   - **Removes** `includes/pro/` (Pro features stripped)
+   - **Removes** `includes/pro/` (licensed features stripped)
    - **Removes** development files:
      - `.git`, `.github`, `tests/`
      - `node_modules/`, `dist/`
@@ -38,12 +38,12 @@ git push origin v1.0.45
      - `composer.json`, `package.json`
      - `README.md`, `CHANGELOG.md`
      - Build scripts
-   - Creates: `site-pilot-ai-{version}-free.zip`
+   - Creates: `site-pilot-ai-{version}-wporg.zip`
 
-3. **Premium Distribution Build**
+3. **Paid/Self-Hosted Distribution Build**
    - Copies `site-pilot-ai/` directory
-   - **Keeps** `includes/pro/` (all Pro features)
-   - **Removes** same development files as free
+   - **Keeps** `includes/pro/` (licensed features included)
+   - **Removes** same development files as the WP.org-compatible build
    - Creates: `site-pilot-ai-{version}.zip`
 
 4. **Release Notes Generation**
@@ -60,8 +60,8 @@ git push origin v1.0.45
 
 ### File Naming
 
-- **Free:** `site-pilot-ai-1.0.45-free.zip`
-- **Premium:** `site-pilot-ai-1.0.45.zip`
+- **WP.org-compatible:** `site-pilot-ai-1.0.45-wporg.zip`
+- **Paid/self-hosted:** `site-pilot-ai-1.0.45.zip`
 
 ### Usage Example
 
@@ -83,7 +83,7 @@ git tag v1.0.45
 git push origin v1.0.45
 
 # 5. GitHub Actions will:
-#    - Build free and premium zips
+#    - Build WP.org-compatible and paid/self-hosted zips
 #    - Create GitHub release
 #    - Attach both files
 #    - Generate release notes
@@ -93,10 +93,10 @@ git push origin v1.0.45
 
 After the workflow runs, you'll have:
 
-- GitHub Release at: `https://github.com/themusicalunicorn/wp-ai-operator/releases/tag/v1.0.45`
+- GitHub Release at: `https://github.com/Mumega-com/mcp-for-wp/releases/tag/v1.0.45`
 - Two downloadable assets:
-  - `site-pilot-ai-1.0.45-free.zip` (no Pro features)
-  - `site-pilot-ai-1.0.45.zip` (full Pro features)
+  - `site-pilot-ai-1.0.45-wporg.zip` (licensed modules removed)
+  - `site-pilot-ai-1.0.45.zip` (licensed modules included)
 
 ## Validate Workflow
 
@@ -211,7 +211,7 @@ git push origin feature/new-endpoint
 3. Tag the commit
 4. Push tag (triggers release)
 5. Verify release on GitHub
-6. Test both free and premium zips
+6. Test both WP.org-compatible and paid/self-hosted zips
 
 ### Pull Requests
 

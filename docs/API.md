@@ -1,4 +1,4 @@
-# Site Pilot AI - API Documentation
+# Mumega MCP - API Documentation
 
 > Control WordPress with AI through a powerful REST API
 
@@ -17,7 +17,7 @@
   - [Pages](#pages)
   - [Post Meta](#post-meta)
   - [Media](#media)
-  - [Elementor (Free)](#elementor-free)
+  - [Elementor (Core)](#elementor-core)
   - [Elementor Pro](#elementor-pro)
   - [Gutenberg Blocks](#gutenberg-blocks)
   - [SEO](#seo)
@@ -145,7 +145,7 @@ All API requests require authentication via API key.
 
 ### Getting Your API Key
 
-1. Go to **WordPress Admin → Tools → Site Pilot AI**
+1. Go to **WordPress Admin → Mumega MCP → Setup**
 2. Copy your API key or generate a new one
 
 ### Authentication Methods
@@ -323,7 +323,7 @@ Returns WordPress site details and detected capabilities.
     "ai_configured_providers": ["openai", "pexels"]
   },
   "plugin": {
-    "name": "Site Pilot AI",
+    "name": "Mumega MCP",
     "version": "1.1.0"
   }
 }
@@ -721,7 +721,7 @@ curl -X DELETE -H "X-API-Key: spai_xxx" \
 
 ---
 
-### Elementor (Free)
+### Elementor (Core)
 
 #### Get Elementor Status
 
@@ -988,7 +988,7 @@ Build a complete Elementor page from semantic section definitions. No raw Elemen
       "heading": "Frequently Asked Questions",
       "items": [
         {"question": "How does it work?", "answer": "Install the plugin, connect your AI assistant, and start building."},
-        {"question": "Is it free?", "answer": "The core plugin is free. Pro features require a license."}
+        {"question": "Is there a trial?", "answer": "Paid plans and trials are managed through Freemius."}
       ]
     },
     {
@@ -1487,7 +1487,7 @@ GET /users/{id}/capabilities
 
 ### Menus
 
-Basic menu CRUD is available in the free tier. Pro adds `GET /menus/{id}`, `POST /menus`, and `PUT /menus/{id}`.
+Basic menu CRUD is available in the core tool set. Paid plans add `GET /menus/{id}`, `POST /menus`, and `PUT /menus/{id}`.
 
 #### List Menus
 
@@ -2235,7 +2235,7 @@ If a host WAF such as HostGator `ModSecurity` rejects nested JSON bodies on Elem
 
 Full WooCommerce integration for AI-powered e-commerce management.
 
-> **Pro Feature:** Requires Site Pilot AI Pro with valid license.
+> **Paid Feature:** Requires Mumega MCP with a valid Freemius license or trial.
 
 #### WooCommerce Status
 
@@ -2606,7 +2606,7 @@ GET /woocommerce/analytics
 
 Full multilingual site support for WPML, Polylang, and TranslatePress.
 
-> **Pro Feature:** Requires Site Pilot AI Pro with valid license.
+> **Paid Feature:** Requires Mumega MCP with a valid Freemius license or trial.
 
 #### Supported Plugins
 
@@ -2907,7 +2907,7 @@ GET /webhooks/{id}/logs
 
 #### Webhook Payload Format
 
-When an event triggers, Site Pilot AI sends a POST request with:
+When an event triggers, Mumega MCP sends a POST request with:
 
 **Headers:**
 
@@ -2951,9 +2951,9 @@ if (hash_equals($expected, $signature)) {
 
 ### AI Integrations
 
-*New in v1.1.0.* Third-party AI services and design sources (OpenAI, Gemini, ElevenLabs, Pexels, Figma) integrate directly into Site Pilot AI. Configure API keys via **WP Admin → Site Pilot AI → Integrations**. Generated assets are auto-uploaded to the WordPress media library, while Figma is used as approved design context for archetypes and reusable parts.
+*New in v1.1.0.* Third-party AI services and design sources (OpenAI, Gemini, ElevenLabs, Pexels, Figma) integrate directly into Mumega MCP. Configure API keys via **WP Admin → Mumega MCP → Integrations**. Generated assets are auto-uploaded to the WordPress media library, while Figma is used as approved design context for archetypes and reusable parts.
 
-**Tier gating:** Stock photo tools are free. All AI generation tools require Pro.
+**Tier gating:** Stock photo search is available as a core integration. AI generation tools require a paid plan or trial.
 
 #### Provider Management (Admin)
 
@@ -3045,7 +3045,7 @@ POST /integrations/providers/{provider}/test
 }
 ```
 
-#### Stock Photos (Free)
+#### Stock Photos (Core)
 
 ##### Search Stock Photos
 
@@ -3377,7 +3377,7 @@ When `provider` is omitted, the plugin auto-selects the first configured provide
 
 ## Auto-Updates
 
-Site Pilot AI uses a self-hosted updater.
+Mumega MCP can use a self-hosted updater for non-Freemius builds.
 
 ### Canonical Sources
 
@@ -3441,9 +3441,9 @@ The current release artifacts are:
 
 The current Elementor save path is hardened for Elementor 4 behavior:
 
-- Site Pilot AI no longer assumes `Document::save()` means the data was persisted
+- Mumega MCP no longer assumes `Document::save()` means the data was persisted
 - after calling `Document::save()`, it verifies the stored `_elementor_data`
-- if Elementor reports success but stores zero sections, Site Pilot AI automatically falls back to direct meta write plus CSS regeneration
+- if Elementor reports success but stores zero sections, Mumega MCP automatically falls back to direct meta write plus CSS regeneration
 
 Local validation completed on:
 
@@ -3456,7 +3456,7 @@ Landing page generation was also verified on the local Elementor 4 test stack.
 
 ## MCP Server Configuration
 
-Site Pilot AI includes a built-in MCP (Model Context Protocol) server. The MCP endpoint is at `/wp-json/site-pilot-ai/v1/mcp` — no external server needed.
+Mumega MCP includes a built-in MCP (Model Context Protocol) server. The MCP endpoint is at `/wp-json/site-pilot-ai/v1/mcp` — no external server needed.
 
 ### Server Info
 
@@ -3511,7 +3511,7 @@ Claude Code connects directly via the Streamable HTTP transport — no proxy or 
 
 ### Available MCP Tools
 
-#### Free Tier
+#### Core Tools
 
 | Tool | Description |
 |------|-------------|
@@ -3599,7 +3599,7 @@ Claude Code connects directly via the Streamable HTTP transport — no proxy or 
 | `wp_test_webhook` | Test webhook delivery |
 | `wp_submit_feedback` | Submit bug report or feature request |
 | `wp_list_feedback` | List feedback entries |
-| **AI Integrations (Free)** | |
+| **AI Integrations (Core)** | |
 | `wp_search_stock_photos` | Search Pexels for free stock photos (returns IDs, URLs, dimensions, photographer) |
 | `wp_download_stock_photo` | Download a Pexels photo to the WordPress media library |
 
@@ -3667,7 +3667,7 @@ Claude Code connects directly via the Streamable HTTP transport — no proxy or 
 ```
 Human: Create a new blog post about AI trends in 2024
 
-Claude: I'll create that blog post for you using the Site Pilot AI API.
+Claude: I'll create that blog post for you using the Mumega MCP API.
 
 [Uses wp_create_post tool with title "AI Trends Shaping 2024" and content...]
 
@@ -3770,10 +3770,10 @@ curl -X PUT -H "X-API-Key: spai_xxx" -H "Content-Type: application/json" \
 
 ## Support
 
-- **Documentation:** https://labs.digid.ca/site-pilot-ai/docs
-- **GitHub Issues:** https://github.com/Digidinc/wp-ai-operator/issues
-- **Email:** support@digid.ca
+- **Documentation:** https://sitepilotai.mumega.com/docs
+- **GitHub Issues:** https://github.com/Mumega-com/mcp-for-wp/issues
+- **Email:** support@mumega.com
 
 ---
 
-*Site Pilot AI is developed by [DigID Inc](https://digid.ca)*
+*Mumega MCP is developed by [Mumega](https://mumega.com)*
