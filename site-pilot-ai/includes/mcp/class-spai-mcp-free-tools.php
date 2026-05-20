@@ -80,6 +80,8 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_audit_content_quality'   => 'seo',
 			'wp_get_seo_issues'          => 'seo',
 			'wp_run_seo_autofix_plan'    => 'seo',
+			'wp_import_search_performance' => 'seo',
+			'wp_get_seo_trends'          => 'seo',
 			'wp_get_custom_css'          => 'site',
 			'wp_set_custom_css'          => 'site',
 			'wp_delete_custom_css'       => 'site',
@@ -746,6 +748,53 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'limit' => array(
 					'type'        => 'number',
 					'description' => 'Maximum issues to inspect, 1-200. Defaults to 50.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_import_search_performance',
+			'Import provider-neutral search performance rows from Google Search Console, Bing Webmaster Tools, rank trackers, or a manual export. Stores evidence only; does not fetch external APIs or mutate SEO content.',
+			array(
+				'provider' => array(
+					'type'        => 'string',
+					'description' => 'Provider slug: google_search_console, bing_webmaster, or manual.',
+				),
+				'source' => array(
+					'type'        => 'string',
+					'description' => 'Optional source label such as export filename, date range, or connector name.',
+				),
+				'rows' => array(
+					'type'        => 'array',
+					'description' => 'Rows with date, url or page, query, clicks, impressions, ctr, and position.',
+					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_get_seo_trends',
+			'Read stored search performance trends from imported Search Console/Bing/manual rows. Returns summary, top queries, top URLs, daily aggregates, and import history as read-only SEO evidence.',
+			array(
+				'provider' => array(
+					'type'        => 'string',
+					'description' => 'Optional provider filter.',
+				),
+				'url' => array(
+					'type'        => 'string',
+					'description' => 'Optional exact URL filter.',
+				),
+				'query' => array(
+					'type'        => 'string',
+					'description' => 'Optional search query contains filter.',
+				),
+				'days' => array(
+					'type'        => 'number',
+					'description' => 'Lookback window in days, 1-365. Defaults to 90.',
+				),
+				'limit' => array(
+					'type'        => 'number',
+					'description' => 'Maximum grouped rows to return, 1-100. Defaults to 20.',
 				),
 			)
 		);
@@ -3007,6 +3056,14 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_run_seo_autofix_plan' => array(
 				'method' => 'GET',
 				'route'  => '/seo/autofix-plan',
+			),
+			'wp_import_search_performance' => array(
+				'method' => 'POST',
+				'route'  => '/seo/search-performance/import',
+			),
+			'wp_get_seo_trends' => array(
+				'method' => 'GET',
+				'route'  => '/seo/search-performance',
 			),
 			'wp_audit_content_quality' => array(
 				'method' => 'GET',

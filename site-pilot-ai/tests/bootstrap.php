@@ -599,6 +599,7 @@ require_once dirname(__DIR__) . '/includes/core/class-spai-agent-playbooks.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-content-coherence.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-seo-audit-store.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-seo-autofix.php';
+require_once dirname(__DIR__) . '/includes/core/class-spai-search-performance.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-api.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-tool-registry.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-free-tools.php';

@@ -1137,6 +1137,78 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// Search Console/Bing/manual search performance import.
+		register_rest_route(
+			$this->namespace,
+			'/seo/search-performance/import',
+			array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'import_search_performance' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'provider' => array(
+							'description'       => __( 'Provider slug such as google_search_console, bing_webmaster, or manual.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'default'           => 'manual',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'source' => array(
+							'description'       => __( 'Optional source label for the export or import.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+						),
+					),
+				),
+			)
+		);
+
+		// Search performance trends and reporting.
+		register_rest_route(
+			$this->namespace,
+			'/seo/search-performance',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_search_performance' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'provider' => array(
+							'description'       => __( 'Provider filter.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'url' => array(
+							'description'       => __( 'Exact URL filter.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'esc_url_raw',
+						),
+						'query' => array(
+							'description'       => __( 'Search query contains filter.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+						),
+						'days' => array(
+							'description'       => __( 'Lookback window in days.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 90,
+							'minimum'           => 1,
+							'maximum'           => 365,
+							'sanitize_callback' => 'absint',
+						),
+						'limit' => array(
+							'description'       => __( 'Maximum grouped rows to return.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 20,
+							'minimum'           => 1,
+							'maximum'           => 100,
+							'sanitize_callback' => 'absint',
+						),
+					),
+				),
+			)
+		);
+
 		// Content quality and AI-search citation readiness audit.
 		register_rest_route(
 			$this->namespace,
@@ -2700,6 +2772,74 @@ class Spai_REST_Site extends Spai_REST_API {
 		);
 
 		return $this->success_response( $plan );
+	}
+
+	/**
+	 * Import provider-neutral search performance rows.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function import_search_performance( $request ) {
+		$this->log_activity( 'import_search_performance', $request );
+
+		$params = $request->get_json_params();
+		if ( ! is_array( $params ) ) {
+			$params = $request->get_params();
+		}
+
+		$result = class_exists( 'Spai_Search_Performance' ) ? Spai_Search_Performance::import_rows(
+			array(
+				'provider' => $params['provider'] ?? $request->get_param( 'provider' ),
+				'source'   => $params['source'] ?? $request->get_param( 'source' ),
+				'rows'     => isset( $params['rows'] ) && is_array( $params['rows'] ) ? $params['rows'] : array(),
+			)
+		) : array(
+			'id'          => '',
+			'provider'    => sanitize_key( (string) $request->get_param( 'provider' ) ),
+			'source'      => sanitize_text_field( (string) $request->get_param( 'source' ) ),
+			'imported_at' => gmdate( 'c' ),
+			'row_count'   => 0,
+			'ignored'     => 0,
+		);
+
+		return $this->success_response( $result, 201 );
+	}
+
+	/**
+	 * Get search performance trends.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response Response.
+	 */
+	public function get_search_performance( $request ) {
+		$this->log_activity( 'get_search_performance', $request );
+
+		$report = class_exists( 'Spai_Search_Performance' ) ? Spai_Search_Performance::get_report(
+			array(
+				'provider' => $request->get_param( 'provider' ),
+				'url'      => $request->get_param( 'url' ),
+				'query'    => $request->get_param( 'query' ),
+				'days'     => $request->get_param( 'days' ),
+				'limit'    => $request->get_param( 'limit' ),
+			)
+		) : array(
+			'schema_version' => '2026-05-20',
+			'summary'        => array(
+				'rows'        => 0,
+				'clicks'      => 0,
+				'impressions' => 0,
+				'ctr'         => 0,
+				'position'    => 0,
+				'providers'   => array(),
+			),
+			'imports'        => array(),
+			'top_queries'    => array(),
+			'top_urls'       => array(),
+			'daily'          => array(),
+		);
+
+		return $this->success_response( $report );
 	}
 
 	/**

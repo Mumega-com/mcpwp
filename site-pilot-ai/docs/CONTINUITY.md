@@ -12,12 +12,12 @@ This file captures the current state so work can continue after context compacti
 
 ## Current Release Candidate
 
-- Version: `2.8.28`
-- WP.org ZIP: `scripts/mumega-mcp-2.8.28.zip`.
+- Version: `2.8.29`
+- WP.org ZIP: `scripts/mumega-mcp-2.8.29.zip`.
 - Freemius ZIP: pending rebuild on `freemius/pro-packaging`.
-- WP.org Plugin Check baseline: `0 ERROR`, `402 WARNING` on packaged `mumega-mcp` ZIP for `2.8.28`.
+- WP.org Plugin Check baseline: `0 ERROR`, `402 WARNING` on packaged `mumega-mcp` ZIP for `2.8.29`.
 - WP.org free ZIP contents: 107 files, no Freemius SDK, no Pro modules, no legacy updater.
-- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`; Control Room action smoke passed on version `2.8.22`; event store and REST event smoke passed on version `2.8.23`; site-state snapshot smoke passed on version `2.8.24`; Control Room event inbox smoke passed on version `2.8.25`; agent playbook contract smoke passed on version `2.8.26`; content coherence report smoke passed on version `2.8.27`; SEO autofix plan smoke passed on version `2.8.28`.
+- Local WordPress approval/apply/rollback smoke test: passed on version `2.8.8`; section patch smoke passed on version `2.8.9`; internal link suggestion smoke passed on version `2.8.10`; internal link application smoke passed on version `2.8.11`; internal link validation smoke passed on version `2.8.12`; weighted content graph smoke passed on version `2.8.13`; SEO readiness smoke passed on version `2.8.14`; structured data smoke passed on version `2.8.15`; combined E2E and media SEO smoke passed on version `2.8.16`; site SEO audit smoke passed on version `2.8.17`; content quality smoke passed on version `2.8.18`; stored SEO issue smoke passed on version `2.8.19`; control room smoke passed on version `2.8.20`; state visual smoke passed on version `2.8.21`; Control Room action smoke passed on version `2.8.22`; event store and REST event smoke passed on version `2.8.23`; site-state snapshot smoke passed on version `2.8.24`; Control Room event inbox smoke passed on version `2.8.25`; agent playbook contract smoke passed on version `2.8.26`; content coherence report smoke passed on version `2.8.27`; SEO autofix plan smoke passed on version `2.8.28`; search performance import smoke passed on version `2.8.29`.
 - WP.org ZIP SHA256: `5b2bc0a7649bc83cb3b238d58c2981bfa805e9eef4dfb3a0dcdb9d134d9d9018`.
 - Freemius ZIP SHA256: pending rebuild on `freemius/pro-packaging`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-6e8bf6009d0eb8c5ddac
@@ -166,7 +166,9 @@ Content coherence progress: #316 first slice adds `Spai_Content_Coherence`, REST
 
 SEO autofix progress: #307 first slice adds `Spai_SEO_Autofix`, REST `GET /site-pilot-ai/v1/seo/autofix-plan`, and MCP `wp_run_seo_autofix_plan`. It is intentionally read-only: it maps stored open SEO issues to deterministic strategies, tools, playbooks, approval requirements, and manual-review boundaries. `can_auto_apply` is false for every action until a dedicated approval adapter exists for the target mutation type.
 
-Coming sprint sequence: #312 event hooks, #313 site-state snapshot, #314 Control Room event inbox, #315 deterministic playbooks, #316 content coherence score, #307 SEO autofix, then #304 Search Console/Bing imports, and #311 WooCommerce SEO intelligence. The sequence makes the system observable before it becomes more autonomous.
+Search performance progress: #304 first slice adds `Spai_Search_Performance`, REST `POST /site-pilot-ai/v1/seo/search-performance/import`, REST `GET /site-pilot-ai/v1/seo/search-performance`, MCP `wp_import_search_performance`, and MCP `wp_get_seo_trends`. It stores explicit Search Console, Bing, rank tracker, or manual rows and reports top queries, top URLs, daily aggregates, CTR, average position, provider mix, and import history without external API fetching.
+
+Coming sprint sequence: #312 event hooks, #313 site-state snapshot, #314 Control Room event inbox, #315 deterministic playbooks, #316 content coherence score, #307 SEO autofix, #304 Search Console/Bing imports, then #311 WooCommerce SEO intelligence. The sequence makes the system observable before it becomes more autonomous.
 
 Implementation progress on PR #277: block safety first slice now exposes `wp_validate_blocks` and `POST /site-pilot-ai/v1/blocks/validate`, adds safety reports to parse/serialize responses, and makes `wp_set_blocks` reject classic HTML, `core/html`, inline script/style tags, and unsafe iframes by default unless an explicit approval note is supplied. Internal graph first slice now exposes `wp_get_content_graph` and `GET /site-pilot-ai/v1/content-graph` with nodes, content links, parent/child edges, inbound/outbound counts, anchors, headings, menu presence, and orphan candidates.
 
