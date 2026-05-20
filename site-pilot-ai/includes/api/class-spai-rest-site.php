@@ -829,6 +829,47 @@ class Spai_REST_Site extends Spai_REST_API {
 			)
 		);
 
+		// Approval-first internal link application from graph targets.
+		register_rest_route(
+			$this->namespace,
+			'/content-graph/apply-link',
+			array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'apply_internal_link' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'source_id' => array(
+							'description'       => __( 'Source post or page ID to update.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'required'          => true,
+							'sanitize_callback' => 'absint',
+						),
+						'target_id' => array(
+							'description'       => __( 'Existing graph target post or page ID.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'required'          => true,
+							'sanitize_callback' => 'absint',
+						),
+						'anchor' => array(
+							'description' => __( 'Optional link anchor text. Defaults to target title.', 'mumega-mcp' ),
+							'type'        => 'string',
+						),
+						'approval_required' => array(
+							'description'       => __( 'Create an approval request instead of saving immediately. Defaults to true.', 'mumega-mcp' ),
+							'type'              => 'boolean',
+							'default'           => true,
+							'sanitize_callback' => 'rest_sanitize_boolean',
+						),
+						'approval_note' => array(
+							'description' => __( 'Optional human review note.', 'mumega-mcp' ),
+							'type'        => 'string',
+						),
+					),
+				),
+			)
+		);
+
 		// Theme info
 		register_rest_route(
 			$this->namespace,
@@ -1536,6 +1577,133 @@ class Spai_REST_Site extends Spai_REST_API {
 	}
 
 	/**
+	 * Apply an accepted internal link suggestion through approval-first content update.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function apply_internal_link( $request ) {
+		$source_id = absint( $request->get_param( 'source_id' ) );
+		$target_id = absint( $request->get_param( 'target_id' ) );
+		$source    = get_post( $source_id );
+		$target    = get_post( $target_id );
+
+		if ( ! $source ) {
+			return $this->error_response( 'not_found', 'Source post not found.', 404 );
+		}
+
+		if ( ! $target || 'publish' !== $target->post_status ) {
+			return $this->error_response( 'target_not_found', 'Target post must be an existing published graph node.', 404 );
+		}
+
+		if ( $source_id === $target_id ) {
+			return $this->error_response( 'self_link_rejected', 'Internal link target cannot be the source post.', 400 );
+		}
+
+		$target_url = get_permalink( $target );
+		if ( ! $target_url ) {
+			return $this->error_response( 'target_url_unavailable', 'Target post does not have a permalink.', 400 );
+		}
+
+		$url_to_id = array(
+			$this->normalize_internal_graph_url( $target_url ) => $target_id,
+		);
+		$existing_links = $this->extract_internal_links_from_content( $source->post_content, $url_to_id );
+		if ( ! empty( $existing_links ) ) {
+			return $this->error_response( 'duplicate_internal_link', 'Source post already links to this target.', 409 );
+		}
+
+		$anchor = trim( (string) $request->get_param( 'anchor' ) );
+		if ( '' === $anchor ) {
+			$anchor = get_the_title( $target );
+		}
+
+		$anchor = wp_strip_all_tags( $anchor );
+		if ( '' === $anchor ) {
+			return $this->error_response( 'missing_anchor', 'Internal link anchor cannot be empty.', 400 );
+		}
+
+		$link_block       = $this->build_internal_link_paragraph_block( $target_url, $anchor );
+		$patched_content = rtrim( (string) $source->post_content ) . "\n\n" . $link_block;
+		$approval_required = null === $request->get_param( 'approval_required' )
+			? true
+			: rest_sanitize_boolean( $request->get_param( 'approval_required' ) );
+		$approval_note = (string) $request->get_param( 'approval_note' );
+
+		if ( $approval_required ) {
+			if ( ! class_exists( 'Spai_Approvals' ) ) {
+				return $this->error_response( 'approvals_unavailable', 'Approval pipeline is not available.', 500 );
+			}
+
+			$approval = Spai_Approvals::create_post_content_request(
+				$source_id,
+				$patched_content,
+				array(
+					'title'    => sprintf( 'Add internal link from #%d to #%d', (int) $source_id, (int) $target_id ),
+					'note'     => $approval_note,
+					'tool'     => 'wp_apply_internal_link',
+					'metadata' => array(
+						'source_id' => $source_id,
+						'target_id' => $target_id,
+						'target_url' => $target_url,
+						'anchor'    => $anchor,
+						'placement' => 'append_related_paragraph',
+					),
+				)
+			);
+
+			if ( is_wp_error( $approval ) ) {
+				return $approval;
+			}
+
+			$this->log_activity( 'request_internal_link_approval', $request, array( 'source_id' => $source_id, 'target_id' => $target_id, 'approval_id' => $approval['id'] ) );
+
+			return $this->success_response(
+				array(
+					'success'  => true,
+					'status'   => 'approval_required',
+					'source_id' => $source_id,
+					'target_id' => $target_id,
+					'link'      => array(
+						'url'    => $target_url,
+						'anchor' => $anchor,
+						'html'   => sprintf( '<a href="%s">%s</a>', esc_url( $target_url ), esc_html( $anchor ) ),
+					),
+					'approval' => $approval,
+				),
+				202
+			);
+		}
+
+		$result = wp_update_post(
+			array(
+				'ID'           => $source_id,
+				'post_content' => $patched_content,
+			),
+			true
+		);
+
+		if ( is_wp_error( $result ) ) {
+			return $this->error_response( 'update_failed', $result->get_error_message(), 500 );
+		}
+
+		$this->log_activity( 'apply_internal_link', $request, array( 'source_id' => $source_id, 'target_id' => $target_id ) );
+
+		return $this->success_response(
+			array(
+				'success'  => true,
+				'source_id' => $source_id,
+				'target_id' => $target_id,
+				'link'      => array(
+					'url'    => $target_url,
+					'anchor' => $anchor,
+					'html'   => sprintf( '<a href="%s">%s</a>', esc_url( $target_url ), esc_html( $anchor ) ),
+				),
+			)
+		);
+	}
+
+	/**
 	 * Build internal content graph data.
 	 *
 	 * @param array $post_types     Post types.
@@ -1842,6 +2010,22 @@ class Spai_REST_Site extends Spai_REST_API {
 		}
 
 		return trim( (string) ( $candidate['slug'] ?? __( 'Related content', 'mumega-mcp' ) ) );
+	}
+
+	/**
+	 * Build a native Gutenberg paragraph containing a deterministic internal link.
+	 *
+	 * @param string $url    Target URL.
+	 * @param string $anchor Anchor text.
+	 * @return string Block markup.
+	 */
+	private function build_internal_link_paragraph_block( $url, $anchor ) {
+		$link = sprintf( '<a href="%s">%s</a>', esc_url( $url ), esc_html( $anchor ) );
+		return sprintf(
+			'<!-- wp:paragraph --><p>%s %s</p><!-- /wp:paragraph -->',
+			esc_html__( 'Related:', 'mumega-mcp' ),
+			$link
+		);
 	}
 
 	/**

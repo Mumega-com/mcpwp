@@ -70,6 +70,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_set_site_context'        => 'site',
 			'wp_get_content_graph'       => 'content',
 			'wp_suggest_internal_links'  => 'content',
+			'wp_apply_internal_link'     => 'content',
 			'wp_get_custom_css'          => 'site',
 			'wp_set_custom_css'          => 'site',
 			'wp_delete_custom_css'       => 'site',
@@ -563,6 +564,35 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'include_drafts' => array(
 					'type'        => 'boolean',
 					'description' => 'Include draft/private candidates. Defaults to false.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_apply_internal_link',
+			'Apply an accepted internal link suggestion using an existing graph target. Creates an approval request by default and appends a native Gutenberg Related paragraph.',
+			array(
+				'source_id' => array(
+					'type'        => 'number',
+					'description' => 'Source post or page ID to update.',
+					'required'    => true,
+				),
+				'target_id' => array(
+					'type'        => 'number',
+					'description' => 'Existing published target post or page ID from the content graph.',
+					'required'    => true,
+				),
+				'anchor' => array(
+					'type'        => 'string',
+					'description' => 'Optional link anchor text. Defaults to target title.',
+				),
+				'approval_required' => array(
+					'type'        => 'boolean',
+					'description' => 'Defaults to true. Set false only for explicitly approved immediate saves.',
+				),
+				'approval_note' => array(
+					'type'        => 'string',
+					'description' => 'Optional human review note for the pending link insertion.',
 				),
 			)
 		);
@@ -2710,6 +2740,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_suggest_internal_links' => array(
 				'method' => 'GET',
 				'route'  => '/content-graph/suggestions',
+			),
+			'wp_apply_internal_link' => array(
+				'method' => 'POST',
+				'route'  => '/content-graph/apply-link',
 			),
 			'wp_get_custom_css' => array(
 				'method' => 'GET',
