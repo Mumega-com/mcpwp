@@ -874,7 +874,7 @@ class Spai_REST_Integrations extends Spai_REST_API {
 				'provider_not_configured',
 				sprintf(
 					/* translators: %s: Provider name */
-					__( '%s API key not configured. Go to Mumega MCP > Integrations to add it.', 'mumega-mcp' ),
+					__( '%s API key not configured. Go to MCPWP > Integrations to add it.', 'mumega-mcp' ),
 					$name
 				),
 				400
@@ -901,7 +901,7 @@ class Spai_REST_Integrations extends Spai_REST_API {
 					'provider_not_configured',
 					sprintf(
 						/* translators: %s: Provider name */
-						__( '%s API key not configured. Go to Mumega MCP > Integrations to add it.', 'mumega-mcp' ),
+						__( '%s API key not configured. Go to MCPWP > Integrations to add it.', 'mumega-mcp' ),
 						$requested
 					),
 					400
@@ -916,7 +916,7 @@ class Spai_REST_Integrations extends Spai_REST_API {
 				'no_provider_available',
 				sprintf(
 					/* translators: %s: Capability name */
-					__( 'No AI provider configured for %s. Go to Mumega MCP > Integrations to add one.', 'mumega-mcp' ),
+					__( 'No AI provider configured for %s. Go to MCPWP > Integrations to add one.', 'mumega-mcp' ),
 					$capability
 				),
 				400

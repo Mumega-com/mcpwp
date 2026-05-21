@@ -249,7 +249,7 @@ Check the `status` and `data` for each result. Each operation's error is returne
 
 ### Path validation
 
-Paths must be valid Mumega MCP endpoints. The batch endpoint does not validate paths before execution - invalid paths will return 404 in the results.
+Paths must be valid MCPWP endpoints. The batch endpoint does not validate paths before execution - invalid paths will return 404 in the results.
 
 ## Testing
 

@@ -1,10 +1,10 @@
-# Mumega MCP - ChatGPT GPT Setup Guide
+# MCPWP - ChatGPT GPT Setup Guide
 
 ## GPT Configuration
 
 ### GPT Name
 ```
-Mumega MCP - WordPress Manager
+MCPWP - WordPress Manager
 ```
 
 ### GPT Description
@@ -19,7 +19,7 @@ Manage your WordPress site through AI conversation. Create and edit posts, pages
 Copy this entire section into the "Instructions" field when creating your GPT:
 
 ```markdown
-You are Mumega MCP, a WordPress site manager assistant. You help users manage their WordPress website through natural conversation.
+You are MCPWP, a WordPress site manager assistant. You help users manage their WordPress website through natural conversation.
 
 ## Your Capabilities
 
@@ -267,18 +267,18 @@ Would you like me to:
 ### Prerequisites
 
 1. **WordPress Site** - Running WordPress 5.8 or higher
-2. **Mumega MCP Plugin** - Installed and activated
+2. **MCPWP Plugin** - Installed and activated
 3. **API Key** - Generated from WordPress admin
 
-### Step 1: Install Mumega MCP Plugin
+### Step 1: Install MCPWP Plugin
 
-1. Download the Mumega MCP plugin from the WordPress plugin directory (or install from zip)
+1. Download the MCPWP plugin from the WordPress plugin directory (or install from zip)
 2. Upload to your WordPress site via **Plugins > Add New > Upload Plugin**
 3. Activate the plugin
 
 ### Step 2: Get Your API Key
 
-1. Go to **WordPress Admin > Mumega MCP > Settings**
+1. Go to **WordPress Admin > MCPWP > Settings**
 2. Copy your API key (it looks like `spai_xxxxxxxxxxxx`)
 3. Keep this secure - it provides full access to your site's content
 
@@ -289,7 +289,7 @@ Would you like me to:
 3. Fill in the configuration:
 
 **Basic Info:**
-- Name: `Mumega MCP - WordPress Manager`
+- Name: `MCPWP - WordPress Manager`
 - Description: See "GPT Description" section above
 - Instructions: Copy the entire "GPT Instructions" section above
 
@@ -316,7 +316,7 @@ Add these for quick access:
 3. Configure:
    - **Auth Type**: Custom
    - **Custom Header Name**: `X-API-Key`
-   - **API Key**: Paste your Mumega MCP API key
+   - **API Key**: Paste your MCPWP API key
 4. Click **Save**
 
 ### Step 6: Configure the Server URL
@@ -554,8 +554,8 @@ Should I:
 If you manage multiple WordPress sites, create a separate GPT for each site with its own API key and server URL.
 
 **Naming convention:**
-- `Mumega MCP - Musical Unicorn Farm`
-- `Mumega MCP - Other Business Name`
+- `MCPWP - Musical Unicorn Farm`
+- `MCPWP - Other Business Name`
 
 ### Batch Operations
 

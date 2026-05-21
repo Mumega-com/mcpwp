@@ -1,6 +1,6 @@
-=== Mumega MCP ===
+=== MCPWP ===
 Contributors: mumega
-Donate link: https://sitepilotai.mumega.com/
+Donate link: https://mcpwp.net/
 Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
@@ -13,7 +13,7 @@ Connect WordPress to Claude and other MCP clients for safe AI-assisted posts, pa
 
 == Description ==
 
-Mumega MCP connects your WordPress site to AI assistants like Claude using the Model Context Protocol (MCP). It gives approved AI clients a scoped, auditable way to read site context and help manage core WordPress content through natural language.
+MCPWP connects your WordPress site to AI assistants like Claude using the Model Context Protocol (MCP). It gives approved AI clients a scoped, auditable way to read site context and help manage core WordPress content through natural language.
 
 The WordPress.org package is the free core: API keys, scoped access, activity logging, posts, pages, media, drafts, menus, site context, and basic Elementor operations when Elementor is installed.
 
@@ -32,7 +32,7 @@ The WordPress.org package is the free core: API keys, scoped access, activity lo
 = How It Works =
 
 1. Install and activate the plugin
-2. Copy your API key from Mumega MCP in the admin menu
+2. Copy your API key from MCPWP in the admin menu
 3. Configure your MCP server with the API key
 4. Review enabled tool categories and scopes
 5. Start creating drafts and managing WordPress content with natural language
@@ -50,9 +50,9 @@ The WordPress.org package is the free core: API keys, scoped access, activity lo
 = From WordPress Admin =
 
 1. Go to Plugins → Add New
-2. Search for "Mumega MCP"
+2. Search for "MCPWP"
 3. Click Install Now, then Activate
-4. Go to Mumega MCP in the admin menu to get your API key
+4. Go to MCPWP in the admin menu to get your API key
 
 = Manual Installation =
 
@@ -60,7 +60,7 @@ The WordPress.org package is the free core: API keys, scoped access, activity lo
 2. Go to Plugins → Add New → Upload Plugin
 3. Select the ZIP file and click Install Now
 4. Activate the plugin
-5. Go to Mumega MCP in the admin menu to get your API key
+5. Go to MCPWP in the admin menu to get your API key
 
 = MCP Server Setup =
 
@@ -83,7 +83,7 @@ Add to your `~/.claude.json`:
 
 = What is MCP? =
 
-Model Context Protocol (MCP) is an open protocol that enables AI assistants like Claude to interact with external tools and services. Mumega MCP exposes your WordPress site as an MCP-compatible tool.
+Model Context Protocol (MCP) is an open protocol that enables AI assistants like Claude to interact with external tools and services. MCPWP exposes your WordPress site as an MCP-compatible tool.
 
 = Is this secure? =
 
@@ -91,7 +91,7 @@ Yes. All requests require a unique API key. Keys are hashed using WordPress pass
 
 = Does it work with any AI? =
 
-Mumega MCP works with any AI assistant that supports the MCP protocol. Currently, this includes Claude Code and Claude Desktop. More integrations are planned.
+MCPWP works with any AI assistant that supports the MCP protocol. Currently, this includes Claude Code and Claude Desktop. More integrations are planned.
 
 = Do I need coding skills? =
 
@@ -103,11 +103,11 @@ Basic Elementor page read/write support is included when Elementor is installed.
 
 = Who is this for? =
 
-Mumega MCP is best for site owners, developers, agencies, and content teams that want AI assistants to help operate WordPress while keeping API keys, scopes, and activity logs under site-owner control.
+MCPWP is best for site owners, developers, agencies, and content teams that want AI assistants to help operate WordPress while keeping API keys, scopes, and activity logs under site-owner control.
 
 = Does it support Elementor 4? =
 
-Yes. Mumega MCP includes fallback handling for Elementor page data saves.
+Yes. MCPWP includes fallback handling for Elementor page data saves.
 
 = Can I use this on multiple sites? =
 
@@ -226,7 +226,7 @@ Each site needs its own plugin installation and API key.
 * Fix: Stabilize MCP endpoint buffering and endpoint test coverage.
 
 = 2.8.6 =
-* Fix: Rename public display brand to Mumega MCP for WordPress.org packaging.
+* Fix: Rename public display brand to MCPWP for WordPress.org packaging.
 * Docs: Keep technical identifiers documented as stable while updating user-facing naming.
 
 = 2.8.5 =
@@ -341,7 +341,7 @@ Adds approval requests with apply and rollback support for safer AI-assisted Wor
 Adds Gutenberg safety checks and a read-only content graph for safer AI-assisted WordPress editing.
 
 = 2.8.6 =
-Public display brand is now Mumega MCP. Slug, text domain, and REST namespace remain stable.
+Public display brand is now MCPWP. Slug, text domain, and REST namespace remain stable.
 
 == Disclaimer ==
 
@@ -349,7 +349,7 @@ This plugin is provided "as is" without warranty of any kind, express or implied
 
 == Privacy Policy ==
 
-Mumega MCP stores API keys, settings, and activity logs locally in WordPress. The plugin does not transmit site content to external services unless you configure an optional integration or ask an AI client connected to your site to send that data.
+MCPWP stores API keys, settings, and activity logs locally in WordPress. The plugin does not transmit site content to external services unless you configure an optional integration or ask an AI client connected to your site to send that data.
 
 == External Services ==
 
@@ -366,8 +366,8 @@ Used as a fallback for generating website screenshot thumbnails when no Cloudfla
 When a user submits feedback via the wp_submit_feedback tool, the feedback is relayed to a central endpoint so plugin developers receive bug reports. This can be disabled by defining `SPAI_DISABLE_FEEDBACK_RELAY` as true.
 * Data sent: Feedback text, site URL, site name, plugin version
 * When: Only when the wp_submit_feedback MCP tool is explicitly called
-* Endpoint: https://sitepilotai.mumega.com/wp-json/site-pilot-ai/v1/feedback/relay
-* Privacy Policy: https://sitepilotai.mumega.com/privacy
+* Endpoint: https://mcpwp.net/wp-json/site-pilot-ai/v1/feedback/relay
+* Privacy Policy: https://mcpwp.net/privacy
 
 = GitHub API (optional) =
 If configured in settings, feedback can be automatically posted as GitHub issues.
@@ -444,6 +444,6 @@ Powers the built-in Chat assistant when no OpenAI key is configured.
 
 == Support ==
 
-* Documentation: [Mumega MCP docs](https://sitepilotai.mumega.com/docs/)
+* Documentation: [MCPWP docs](https://mcpwp.net/docs/)
 * Support Forum: [wordpress.org/support/plugin/mumega-mcp](https://wordpress.org/support/plugin/mumega-mcp)
 * GitHub: [github.com/Mumega-com/mcp-for-wp](https://github.com/Mumega-com/mcp-for-wp)

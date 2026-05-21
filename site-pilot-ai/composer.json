@@ -1,6 +1,6 @@
 {
   "name": "mumega/mumega-mcp-dev",
-  "description": "Development dependencies for Mumega MCP plugin quality checks",
+  "description": "Development dependencies for MCPWP plugin quality checks",
   "type": "project",
   "require-dev": {
     "phpunit/phpunit": "^9.6",

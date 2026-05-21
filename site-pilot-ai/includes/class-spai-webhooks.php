@@ -585,7 +585,7 @@ class Spai_Webhooks {
 
 		$payload = array(
 			'test'    => true,
-			'message' => __( 'This is a test webhook delivery from Mumega MCP.', 'mumega-mcp' ),
+			'message' => __( 'This is a test webhook delivery from MCPWP.', 'mumega-mcp' ),
 		);
 
 		$body = wp_json_encode( $payload );

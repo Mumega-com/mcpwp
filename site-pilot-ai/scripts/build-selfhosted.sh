@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Build a self-hosted distribution zip of Mumega MCP.
+# Build a self-hosted distribution zip of MCPWP.
 #
 # Unlike build-wporg.sh, this INCLUDES the auto-updater so sites
 # can receive future updates via the mumega.com manifest.

@@ -78,7 +78,7 @@ Tests API key authentication and required permissions.
 | Flag | Env Var | Description |
 |------|---------|-------------|
 | `--url URL` | `SPAI_URL` | WordPress site URL |
-| `--key KEY` | `SPAI_API_KEY` | Mumega MCP API key |
+| `--key KEY` | `SPAI_API_KEY` | MCPWP API key |
 | `--dir DIR` | — | Data directory (default: `site-data`) |
 | `--dry-run` | — | Show what would happen, no changes |
 | `--skip-elementor` | — | Skip Elementor data pull/push |
@@ -140,7 +140,7 @@ git push  # CI deploys to production via SPAI_URL secret
 ### Fresh Install Setup
 
 ```bash
-# On a fresh WordPress with Mumega MCP + Elementor installed:
+# On a fresh WordPress with MCPWP + Elementor installed:
 bash scripts/site-sync.sh push \
   --url http://localhost:8080 \
   --key spai_local_key \

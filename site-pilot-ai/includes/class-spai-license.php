@@ -1,6 +1,6 @@
 <?php
 /**
- * License management for Mumega MCP.
+ * License management for MCPWP.
  *
  * Paid plans and trials are managed through Freemius in the production build.
  * A legacy local license store remains for backwards compatibility.
@@ -351,7 +351,7 @@ class Spai_License {
 	 * @return string
 	 */
 	public function get_upgrade_url() {
-		return 'https://sitepilotai.mumega.com/pricing/';
+		return 'https://mcpwp.net/pricing/';
 	}
 
 	/**
@@ -360,7 +360,7 @@ class Spai_License {
 	 * @return string
 	 */
 	public function get_account_url() {
-		return 'https://sitepilotai.mumega.com/account/';
+		return 'https://mcpwp.net/account/';
 	}
 
 	/**

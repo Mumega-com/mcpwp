@@ -2,7 +2,7 @@
 
 ## Product Frame
 
-Mumega MCP should give agents enough SEO intelligence to plan, build, audit, and improve native WordPress content without turning the site into an opaque automation box.
+MCPWP should give agents enough SEO intelligence to plan, build, audit, and improve native WordPress content without turning the site into an opaque automation box.
 
 The model is Semrush-like in breadth, but WordPress-native in execution:
 

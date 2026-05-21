@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Build the Freemius/Pro distribution zip of Mumega MCP.
+# Build the Freemius/Pro distribution zip of MCPWP.
 #
 # This package includes the Freemius SDK and Freemius bootstrap, excludes the
 # WordPress.org-only updater, and injects SPAI_FREEMIUS_BUILD.

@@ -1,4 +1,4 @@
-=== Site Pilot AI Pro ===
+=== MCPWP Pro ===
 Contributors: digidinc
 Tags: ai, api, rest-api, elementor, seo, forms, woocommerce, multilang
 Requires at least: 5.0
@@ -8,11 +8,11 @@ Stable tag: 1.0.25
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Pro add-on for Site Pilot AI. Adds advanced Elementor integration, SEO tools, and forms support.
+Pro add-on for MCPWP. Adds advanced Elementor integration, SEO tools, and forms support.
 
 == Description ==
 
-Site Pilot AI Pro extends the free Site Pilot AI plugin with advanced features:
+MCPWP Pro extends the free MCPWP plugin with advanced features:
 
 = Elementor Pro Features =
 * Template management (create, list, apply)
@@ -60,7 +60,7 @@ Site Pilot AI Pro extends the free Site Pilot AI plugin with advanced features:
 
 == Installation ==
 
-1. Ensure Site Pilot AI (free) is installed and activated
+1. Ensure MCPWP (free) is installed and activated
 2. Upload the plugin files to `/wp-content/plugins/site-pilot-ai-pro`
 3. Activate the plugin through the 'Plugins' screen in WordPress
 4. Pro features will be automatically available via the REST API

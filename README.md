@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/site-pilot-ai/assets/banner-1544x500.png" alt="Mumega MCP — AI operations for WordPress" width="100%">
+  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/site-pilot-ai/assets/banner-1544x500.png" alt="MCPWP — AI operations for WordPress" width="100%">
 </p>
 
-<h1 align="center">Mumega MCP</h1>
+<h1 align="center">MCPWP</h1>
 
 <p align="center">
   <strong>AI operations for WordPress through MCP. Built for agencies, builders, and site operators.</strong>
@@ -14,7 +14,7 @@
   <a href="#tools">Tools</a> •
   <a href="#examples">Examples</a> •
   <a href="#blueprints">24 Blueprints</a> •
-  <a href="https://sitepilotai.mumega.com">Website</a>
+  <a href="https://mcpwp.net">Website</a>
 </p>
 
 <p align="center">
@@ -31,7 +31,7 @@
 
 ---
 
-Mumega MCP turns a WordPress site into an MCP server. AI assistants (Claude, Gemini, GPT, Cursor, Windsurf) can manage site operations through natural language — pages, Elementor layouts, WooCommerce products, media, SEO, menus, and more. Tool availability depends on the active plugins and the current license plan.
+MCPWP turns a WordPress site into an MCP server. AI assistants (Claude, Gemini, GPT, Cursor, Windsurf) can manage site operations through natural language — pages, Elementor layouts, WooCommerce products, media, SEO, menus, and more. Tool availability depends on the active plugins and the current license plan.
 
 ```
 You: "Build a landing page with a hero, 3 feature cards, and a CTA"
@@ -48,7 +48,7 @@ AI:  wp_build_page → full Elementor page with styled sections, flex grid, shad
 
 ```mermaid
 graph LR
-    A[🤖 AI Assistant] -->|MCP JSON-RPC| B[Mumega MCP Plugin]
+    A[🤖 AI Assistant] -->|MCP JSON-RPC| B[MCPWP Plugin]
     B -->|REST API| C[WordPress]
     B -->|Document API| D[Elementor]
     B -->|WC API| E[WooCommerce]
@@ -71,9 +71,9 @@ graph LR
     end
 ```
 
-## Why Mumega MCP?
+## Why MCPWP?
 
-| | Mumega MCP | WordPress MCP Adapter | Royal MCP | InstaWP mcp-wp |
+| | MCPWP | WordPress MCP Adapter | Royal MCP | InstaWP mcp-wp |
 |---|---|---|---|---|
 | **MCP Tools** | **Up to 239** | ~20 | 37 | ~30 |
 | **Blueprints** | **24 types** | 0 | 0 | 0 |
@@ -91,7 +91,7 @@ graph LR
 wp plugin install https://mumega.com/mcp-updates/mumega-mcp-latest.zip --activate
 ```
 
-Or download from [sitepilotai.mumega.com](https://sitepilotai.mumega.com) and upload via WP Admin > Plugins > Add New.
+Or download from [mcpwp.net](https://mcpwp.net) and upload via WP Admin > Plugins > Add New.
 
 ## Connect
 
@@ -119,7 +119,7 @@ Adds `/mumcp:setup`, `/mumcp:tools`, `/mumcp:elementor`, `/mumcp:design` skills 
 
 ## Tools
 
-Mumega MCP exposes up to 239 tools across 15 categories. `tools/list` is dynamic: inactive integrations, disabled categories, WP.org builds, and role-scoped API keys reduce the live count for a given site.
+MCPWP exposes up to 239 tools across 15 categories. `tools/list` is dynamic: inactive integrations, disabled categories, WP.org builds, and role-scoped API keys reduce the live count for a given site.
 
 | Category | Tools | What |
 |----------|-------|------|
@@ -151,7 +151,7 @@ graph TD
     B -->|custom| G["⚙️ pick categories"]
 ```
 
-Create keys via WP Admin > Mumega MCP > Setup, or `wp_create_api_key(label, role)`.
+Create keys via WP Admin > MCPWP > Setup, or `wp_create_api_key(label, role)`.
 
 ## Blueprints
 
@@ -248,7 +248,7 @@ See [SECURITY.md](SECURITY.md) for our vulnerability disclosure policy.
 
 ## Links
 
-- **Website:** [sitepilotai.mumega.com](https://sitepilotai.mumega.com)
+- **Website:** [mcpwp.net](https://mcpwp.net)
 - **Claude Code Plugin:** [Mumega-com/mumcp-claude-plugin](https://github.com/Mumega-com/mumcp-claude-plugin)
 - **MCP Proxy:** [Mumega-com/mumcp-proxy](https://github.com/Mumega-com/mumcp-proxy)
 - **WordPress.org:** pending approval (slug: mumega-mcp)

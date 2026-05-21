@@ -1,21 +1,21 @@
 <?php
 /**
- * Site Pilot AI Pro
+ * MCPWP Pro
  *
  * @package           SitePilotAI_Pro
- * @author            DigID Inc
- * @copyright         2024 DigID Inc
+ * @author            Mumega
+ * @copyright         2026 Mumega
  * @license           GPL-2.0-or-later
  *
  * @wordpress-plugin
- * Plugin Name:       Site Pilot AI Pro
- * Plugin URI:        https://sitepilot.ai/pro
- * Description:       Pro add-on for Site Pilot AI. Adds advanced Elementor integration, SEO tools, and forms support.
+ * Plugin Name:       MCPWP Pro
+ * Plugin URI:        https://mcpwp.net/pro
+ * Description:       Pro add-on for MCPWP. Adds advanced Elementor integration, SEO tools, and forms support.
  * Version:           1.0.25
  * Requires at least: 5.0
  * Requires PHP:      7.4
- * Author:            DigID Inc
- * Author URI:        https://sitepilot.ai
+ * Author:            Mumega
+ * Author URI:        https://mcpwp.net
  * Text Domain:       site-pilot-ai-pro
  * Domain Path:       /languages
  * License:           GPL v2 or later
@@ -33,7 +33,7 @@ define( 'SPAI_PRO_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'SPAI_PRO_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 /**
- * Check if Site Pilot AI (free) is active.
+ * Check if MCPWP (free) is active.
  *
  * @return bool
  */
@@ -48,10 +48,10 @@ function spai_pro_base_required_notice() {
 	?>
 	<div class="notice notice-error">
 		<p>
-			<strong><?php esc_html_e( 'Site Pilot AI Pro requires Site Pilot AI', 'site-pilot-ai-pro' ); ?></strong>
+			<strong><?php esc_html_e( 'MCPWP Pro requires MCPWP', 'site-pilot-ai-pro' ); ?></strong>
 		</p>
 		<p>
-			<?php esc_html_e( 'Please install and activate the free Site Pilot AI plugin to use Pro features.', 'site-pilot-ai-pro' ); ?>
+			<?php esc_html_e( 'Please install and activate the free MCPWP plugin to use Pro features.', 'site-pilot-ai-pro' ); ?>
 		</p>
 	</div>
 	<?php
@@ -69,7 +69,7 @@ function spai_pro_bootstrap_error_notice() {
 	?>
 	<div class="notice notice-error">
 		<p>
-			<strong><?php esc_html_e( 'Site Pilot AI Pro failed to initialize.', 'site-pilot-ai-pro' ); ?></strong>
+			<strong><?php esc_html_e( 'MCPWP Pro failed to initialize.', 'site-pilot-ai-pro' ); ?></strong>
 		</p>
 		<p><?php echo esc_html( $error ); ?></p>
 	</div>
@@ -94,7 +94,7 @@ function spai_pro_safe_require( $relative_path ) {
 			),
 			MINUTE_IN_SECONDS * 10
 		);
-		error_log( 'Site Pilot AI Pro bootstrap missing file: ' . $file );
+		error_log( 'MCPWP Pro bootstrap missing file: ' . $file );
 		return false;
 	}
 	require_once $file;
@@ -117,11 +117,11 @@ function spai_pro_has_license() {
  * Admin notice when license is not valid.
  */
 function spai_pro_license_required_notice() {
-	$upgrade_url = function_exists( 'spai_license' ) ? spai_license()->get_upgrade_url() : 'https://sitepilot.ai/pricing/';
+	$upgrade_url = function_exists( 'spai_license' ) ? spai_license()->get_upgrade_url() : 'https://mcpwp.net/pricing/';
 	?>
 	<div class="notice notice-warning">
 		<p>
-			<strong><?php esc_html_e( 'Site Pilot AI Pro - License Required', 'site-pilot-ai-pro' ); ?></strong>
+			<strong><?php esc_html_e( 'MCPWP Pro - License Required', 'site-pilot-ai-pro' ); ?></strong>
 		</p>
 		<p>
 			<?php esc_html_e( 'Please activate your Pro license to unlock all features.', 'site-pilot-ai-pro' ); ?>
@@ -219,7 +219,7 @@ function spai_pro_init() {
 	} catch ( Throwable $e ) {
 		set_transient( 'spai_pro_bootstrap_error', $e->getMessage(), MINUTE_IN_SECONDS * 10 );
 		add_action( 'admin_notices', 'spai_pro_bootstrap_error_notice' );
-		error_log( 'Site Pilot AI Pro bootstrap fatal: ' . $e->getMessage() );
+		error_log( 'MCPWP Pro bootstrap fatal: ' . $e->getMessage() );
 	}
 }
 add_action( 'plugins_loaded', 'spai_pro_init', 20 );
@@ -234,7 +234,7 @@ function spai_pro_activate() {
 	if ( ! defined( 'SPAI_VERSION' ) ) {
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 		wp_die(
-			esc_html__( 'Site Pilot AI Pro requires the free Site Pilot AI plugin to be installed and activated.', 'site-pilot-ai-pro' ),
+			esc_html__( 'MCPWP Pro requires the free MCPWP plugin to be installed and activated.', 'site-pilot-ai-pro' ),
 			esc_html__( 'Plugin Activation Error', 'site-pilot-ai-pro' ),
 			array( 'back_link' => true )
 		);
@@ -244,7 +244,7 @@ function spai_pro_activate() {
 		if ( ! spai_pro_safe_require( 'includes/class-spai-pro-activator.php' ) || ! class_exists( 'Spai_Pro_Activator' ) ) {
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 			wp_die(
-				esc_html__( 'Site Pilot AI Pro activation failed because required files are missing. Please reinstall the Pro package.', 'site-pilot-ai-pro' ),
+				esc_html__( 'MCPWP Pro activation failed because required files are missing. Please reinstall the Pro package.', 'site-pilot-ai-pro' ),
 				esc_html__( 'Plugin Activation Error', 'site-pilot-ai-pro' ),
 				array( 'back_link' => true )
 			);

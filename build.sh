@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Build script for Mumega MCP WordPress plugin
+# Build script for MCPWP WordPress plugin
 #
 # Creates two local distribution zips:
 #   1. site-pilot-ai.zip - paid/self-hosted package with licensed modules
@@ -30,7 +30,7 @@ PLUGIN_FILE="${PLUGIN_DIR}/site-pilot-ai.php"
 # Distignore file
 DISTIGNORE="${REPO_ROOT}/.distignore"
 
-echo -e "${GREEN}=== Mumega MCP Build Script ===${NC}"
+echo -e "${GREEN}=== MCPWP Build Script ===${NC}"
 echo ""
 
 # Step 1: Extract version from plugin main file

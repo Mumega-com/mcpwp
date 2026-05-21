@@ -1,12 +1,12 @@
 openapi: 3.1.0
 info:
-  title: Mumega MCP - WordPress Manager
+  title: MCPWP - WordPress Manager
   description: |
     Manage your WordPress site through AI conversation. Create posts, pages, optimize SEO,
     and build Elementor landing pages - all through natural language.
 
     This API allows ChatGPT to manage content on your WordPress site. All endpoints require
-    authentication via API key (found in WordPress Admin > Mumega MCP > Settings).
+    authentication via API key (found in WordPress Admin > MCPWP > Settings).
   version: 1.0.60
   contact:
     name: Mumega
@@ -909,7 +909,7 @@ paths:
         Get all saved Elementor templates (sections, pages, etc.) from the template library.
         Templates can be applied to pages to quickly build consistent layouts.
 
-        Paid feature — requires a Mumega MCP Freemius license or trial.
+        Paid feature — requires a MCPWP Freemius license or trial.
       parameters:
         - name: type
           in: query
@@ -951,7 +951,7 @@ paths:
         Apply a saved Elementor template to a page. This copies the template's
         Elementor data to the target page, replacing its current content.
 
-        Paid feature — requires a Mumega MCP Freemius license or trial.
+        Paid feature — requires a MCPWP Freemius license or trial.
       parameters:
         - name: id
           in: path
@@ -1003,7 +1003,7 @@ paths:
         Create a copy of an Elementor page with all its design and content.
         The clone is created as a draft with "(Copy)" appended to the title.
 
-        Paid feature — requires a Mumega MCP Freemius license or trial.
+        Paid feature — requires a MCPWP Freemius license or trial.
       parameters:
         - $ref: '#/components/parameters/PostId'
       requestBody:
@@ -1100,7 +1100,7 @@ components:
       in: header
       name: X-API-Key
       description: |
-        Mumega MCP API key. Get this from WordPress Admin > Mumega MCP > Settings.
+        MCPWP API key. Get this from WordPress Admin > MCPWP > Settings.
 
         You can also use Authorization: Bearer {api-key} header.
 

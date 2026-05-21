@@ -1,8 +1,8 @@
-# Connecting AI Assistants to Mumega MCP
+# Connecting AI Assistants to MCPWP
 
 ## Quick Start
 
-Mumega MCP exposes your WordPress site as an MCP server. Any MCP-compatible client (Claude Desktop, Claude Code, Cursor, Windsurf, etc.) can connect directly over HTTP.
+MCPWP exposes your WordPress site as an MCP server. Any MCP-compatible client (Claude Desktop, Claude Code, Cursor, Windsurf, etc.) can connect directly over HTTP.
 
 ```
 AI Client → POST /wp-json/site-pilot-ai/v1/mcp → WordPress Plugin → 200+ tools
@@ -10,8 +10,8 @@ AI Client → POST /wp-json/site-pilot-ai/v1/mcp → WordPress Plugin → 200+ t
 
 ## Prerequisites
 
-1. Mumega MCP plugin installed and activated (v2.8.31+)
-2. API key generated (WordPress Admin → Mumega MCP → Setup)
+1. MCPWP plugin installed and activated (v2.8.31+)
+2. API key generated (WordPress Admin → MCPWP → Setup)
 3. An MCP-compatible AI client
 
 ## Setup by Client
@@ -120,7 +120,7 @@ Tools are auto-detected based on installed plugins. If Elementor isn't active, E
 
 ## Design Workflow Best Practices
 
-These patterns come from real-world experience using AI assistants with Mumega MCP:
+These patterns come from real-world experience using AI assistants with MCPWP:
 
 ### Start Every Session with Onboarding
 
@@ -205,7 +205,7 @@ Always create as `draft` first. Review via preview, then publish when satisfied.
 
 ### Rate limited
 
-Go to WordPress Admin → Mumega MCP → Settings and increase rate limits.
+Go to WordPress Admin → MCPWP → Settings and increase rate limits.
 
 ## Security
 

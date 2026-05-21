@@ -1,4 +1,4 @@
-# Mumega MCP - API Documentation
+# MCPWP - API Documentation
 
 > Control WordPress with AI through a powerful REST API
 
@@ -145,7 +145,7 @@ All API requests require authentication via API key.
 
 ### Getting Your API Key
 
-1. Go to **WordPress Admin → Mumega MCP → Setup**
+1. Go to **WordPress Admin → MCPWP → Setup**
 2. Copy your API key or generate a new one
 
 ### Authentication Methods
@@ -323,7 +323,7 @@ Returns WordPress site details and detected capabilities.
     "ai_configured_providers": ["openai", "pexels"]
   },
   "plugin": {
-    "name": "Mumega MCP",
+    "name": "MCPWP",
     "version": "1.1.0"
   }
 }
@@ -2235,7 +2235,7 @@ If a host WAF such as HostGator `ModSecurity` rejects nested JSON bodies on Elem
 
 Full WooCommerce integration for AI-powered e-commerce management.
 
-> **Paid Feature:** Requires Mumega MCP with a valid Freemius license or trial.
+> **Paid Feature:** Requires MCPWP with a valid Freemius license or trial.
 
 #### WooCommerce Status
 
@@ -2606,7 +2606,7 @@ GET /woocommerce/analytics
 
 Full multilingual site support for WPML, Polylang, and TranslatePress.
 
-> **Paid Feature:** Requires Mumega MCP with a valid Freemius license or trial.
+> **Paid Feature:** Requires MCPWP with a valid Freemius license or trial.
 
 #### Supported Plugins
 
@@ -2907,7 +2907,7 @@ GET /webhooks/{id}/logs
 
 #### Webhook Payload Format
 
-When an event triggers, Mumega MCP sends a POST request with:
+When an event triggers, MCPWP sends a POST request with:
 
 **Headers:**
 
@@ -2951,7 +2951,7 @@ if (hash_equals($expected, $signature)) {
 
 ### AI Integrations
 
-*New in v1.1.0.* Third-party AI services and design sources (OpenAI, Gemini, ElevenLabs, Pexels, Figma) integrate directly into Mumega MCP. Configure API keys via **WP Admin → Mumega MCP → Integrations**. Generated assets are auto-uploaded to the WordPress media library, while Figma is used as approved design context for archetypes and reusable parts.
+*New in v1.1.0.* Third-party AI services and design sources (OpenAI, Gemini, ElevenLabs, Pexels, Figma) integrate directly into MCPWP. Configure API keys via **WP Admin → MCPWP → Integrations**. Generated assets are auto-uploaded to the WordPress media library, while Figma is used as approved design context for archetypes and reusable parts.
 
 **Tier gating:** Stock photo search is available as a core integration. AI generation tools require a paid plan or trial.
 
@@ -3377,7 +3377,7 @@ When `provider` is omitted, the plugin auto-selects the first configured provide
 
 ## Auto-Updates
 
-Mumega MCP can use a self-hosted updater for non-Freemius builds.
+MCPWP can use a self-hosted updater for non-Freemius builds.
 
 ### Canonical Sources
 
@@ -3441,9 +3441,9 @@ The current release artifacts are:
 
 The current Elementor save path is hardened for Elementor 4 behavior:
 
-- Mumega MCP no longer assumes `Document::save()` means the data was persisted
+- MCPWP no longer assumes `Document::save()` means the data was persisted
 - after calling `Document::save()`, it verifies the stored `_elementor_data`
-- if Elementor reports success but stores zero sections, Mumega MCP automatically falls back to direct meta write plus CSS regeneration
+- if Elementor reports success but stores zero sections, MCPWP automatically falls back to direct meta write plus CSS regeneration
 
 Local validation completed on:
 
@@ -3456,7 +3456,7 @@ Landing page generation was also verified on the local Elementor 4 test stack.
 
 ## MCP Server Configuration
 
-Mumega MCP includes a built-in MCP (Model Context Protocol) server. The MCP endpoint is at `/wp-json/site-pilot-ai/v1/mcp` — no external server needed.
+MCPWP includes a built-in MCP (Model Context Protocol) server. The MCP endpoint is at `/wp-json/site-pilot-ai/v1/mcp` — no external server needed.
 
 ### Server Info
 
@@ -3667,7 +3667,7 @@ Claude Code connects directly via the Streamable HTTP transport — no proxy or 
 ```
 Human: Create a new blog post about AI trends in 2024
 
-Claude: I'll create that blog post for you using the Mumega MCP API.
+Claude: I'll create that blog post for you using the MCPWP API.
 
 [Uses wp_create_post tool with title "AI Trends Shaping 2024" and content...]
 
@@ -3770,10 +3770,10 @@ curl -X PUT -H "X-API-Key: spai_xxx" -H "Content-Type: application/json" \
 
 ## Support
 
-- **Documentation:** https://sitepilotai.mumega.com/docs
+- **Documentation:** https://mcpwp.net/docs
 - **GitHub Issues:** https://github.com/Mumega-com/mcp-for-wp/issues
 - **Email:** support@mumega.com
 
 ---
 
-*Mumega MCP is developed by [Mumega](https://mumega.com)*
+*MCPWP is developed by [Mumega](https://mumega.com)*

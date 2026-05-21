@@ -1575,7 +1575,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			return $this->success_response(
 				array(
 					'plugin'  => array(
-						'name'    => 'Mumega MCP',
+						'name'    => 'MCPWP',
 						'version' => defined( 'SPAI_VERSION' ) ? SPAI_VERSION : null,
 					),
 					'message' => 'MCP controller not available.',
@@ -1588,7 +1588,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			return $this->success_response(
 				array(
 					'plugin'  => array(
-						'name'    => 'Mumega MCP',
+						'name'    => 'MCPWP',
 						'version' => defined( 'SPAI_VERSION' ) ? SPAI_VERSION : null,
 					),
 					'message' => 'Introspection is not supported in this version.',
@@ -1635,7 +1635,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			'wp_version'  => $site_info['wp_version'] ?? $GLOBALS['wp_version'],
 			'theme'       => $site_info['theme'] ?? array(),
 			'plugin'      => $site_info['plugin'] ?? array(
-				'name'    => 'Mumega MCP',
+				'name'    => 'MCPWP',
 				'version' => defined( 'SPAI_VERSION' ) ? SPAI_VERSION : null,
 			),
 		);
@@ -5210,7 +5210,7 @@ class Spai_REST_Site extends Spai_REST_API {
 	}
 
 	/**
-	 * Get Mumega MCP plugin settings.
+	 * Get MCPWP plugin settings.
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response Response.
@@ -5238,7 +5238,7 @@ class Spai_REST_Site extends Spai_REST_API {
 	}
 
 	/**
-	 * Update Mumega MCP plugin settings.
+	 * Update MCPWP plugin settings.
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response|WP_Error Response.
@@ -6418,7 +6418,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			// Theme settings (hyphenated keys that don't match prefix rules).
 			'astra-settings',
 			'generate_settings',
-			// Mumega MCP.
+			// MCPWP.
 			'spai_site_context',
 			'spai_site_context_updated',
 			// Elementor.
@@ -7710,7 +7710,7 @@ class Spai_REST_Site extends Spai_REST_API {
 				'has_api_key'  => $has_key,
 				'hint'         => $has_key
 					? 'Connect to the MCP endpoint above with the site\'s API key.'
-					: 'This site needs an API key. Generate one from WP Admin > Mumega MCP.',
+					: 'This site needs an API key. Generate one from WP Admin > MCPWP.',
 			)
 		);
 	}

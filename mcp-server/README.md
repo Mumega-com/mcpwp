@@ -1,4 +1,4 @@
-# Mumega MCP
+# MCPWP
 
 [![npm version](https://img.shields.io/npm/v/site-pilot-ai.svg)](https://www.npmjs.com/package/site-pilot-ai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -24,10 +24,10 @@ The WordPress plugin exposes a complete MCP endpoint at `/wp-json/site-pilot-ai/
 
 ### 1. Install WordPress Plugin
 
-Install **Mumega MCP** on your WordPress site:
+Install **MCPWP** on your WordPress site:
 1. Download from [GitHub releases](https://github.com/Mumega-com/mcp-for-wp/releases) or your Freemius account
 2. Upload to WordPress: **WP Admin > Plugins > Add New > Upload Plugin**
-3. Activate and copy your API key from **Mumega MCP** (top-level admin menu)
+3. Activate and copy your API key from **MCPWP** (top-level admin menu)
 
 ### 2. Run Setup Wizard
 
@@ -163,7 +163,7 @@ All tools come from the WordPress plugin. Update the plugin to get new tools —
 
 ```bash
 WP_URL=https://your-site.com       # WordPress site URL
-WP_API_KEY=spai_...                 # Mumega MCP API key
+WP_API_KEY=spai_...                 # MCPWP API key
 WP_SITE_NAME=default                # Optional, for multi-site configs
 WP_CONFIG_PATH=~/custom/config.json # Optional, custom config path
 ```
@@ -207,7 +207,7 @@ npx site-pilot-ai --test
 
 Verify:
 1. WordPress site is accessible
-2. Mumega MCP plugin is activated
+2. MCPWP plugin is activated
 3. API key is correct (regenerate in WP Admin if needed)
 4. REST API is not blocked by firewall or security plugin
 
@@ -222,7 +222,7 @@ Verify:
 
 **Required:**
 - WordPress 5.9+
-- Mumega MCP plugin (v2.8.31+)
+- MCPWP plugin (v2.8.31+)
 
 **Optional (enables more tools):**
 - **Elementor** / Elementor Pro — page builder & theme builder tools
@@ -248,6 +248,6 @@ MIT © Mumega
 
 ---
 
-**Documentation:** https://sitepilotai.mumega.com
+**Documentation:** https://mcpwp.net
 **Issues:** https://github.com/Mumega-com/mcp-for-wp/issues
 **WordPress Plugin:** https://github.com/Mumega-com/mcp-for-wp/releases

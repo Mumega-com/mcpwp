@@ -56,7 +56,7 @@ class Spai_Event_Store {
 		);
 
 		/**
-		 * Filter a normalized Mumega MCP event before storage and dispatch.
+		 * Filter a normalized MCPWP event before storage and dispatch.
 		 *
 		 * @param array  $event Event record.
 		 * @param string $type  Event type.
@@ -69,7 +69,7 @@ class Spai_Event_Store {
 		self::store( $event );
 
 		/**
-		 * Fires for every normalized Mumega MCP event.
+		 * Fires for every normalized MCPWP event.
 		 *
 		 * @param array $event Event record.
 		 */

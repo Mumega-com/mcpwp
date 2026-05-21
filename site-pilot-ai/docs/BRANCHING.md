@@ -1,6 +1,6 @@
 # Branching Model
 
-Mumega MCP uses two long-lived release branches plus short-lived feature branches.
+MCPWP uses two long-lived release branches plus short-lived feature branches.
 
 ## Long-Lived Branches
 
@@ -43,7 +43,7 @@ Pro-only work should target `freemius/pro`. Shared abstractions should be merged
 
 ## Naming Rules
 
-Public product name: `Mumega MCP`.
+Public product name: `MCPWP`.
 
 Stable identifiers:
 

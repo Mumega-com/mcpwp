@@ -1,6 +1,6 @@
 # Release Checklist
 
-Current release flow for Mumega MCP.
+Current release flow for MCPWP.
 
 This project uses Freemius for paid licensing and can still publish self-hosted update artifacts when needed. The canonical self-hosted update path is:
 
@@ -202,7 +202,7 @@ Do not roll back by leaving mismatched manifests or stale `spai_update_info` on 
 
 ## Notes From 2026-03-31
 
-- Live site `sitepilotai.mumega.com` was manually updated from `1.7.4` to `1.8.2`
+- Live site `mcpwp.net` was manually updated from `1.7.4` to `1.8.2`
 - The site had a stale `spai_update_info` pinned to `1.7.6`
 - Clearing `spai_update_info` restored normal worker-based update detection
 - The permanent fix is to default all sites to `https://mumega.com/spai-updates/version.json` so the worker is no longer required for auto-updates

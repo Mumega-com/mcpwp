@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Build a WordPress.org-compliant zip of Mumega MCP for WordPress.
+# Build a WordPress.org-compliant zip of MCPWP for WordPress.
 #
 # Builds the free WP.org package.
 # Freemius, the legacy updater, and Pro modules are excluded.

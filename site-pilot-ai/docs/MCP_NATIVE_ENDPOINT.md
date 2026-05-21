@@ -1,8 +1,8 @@
-# Native MCP Endpoint for Mumega MCP
+# Native MCP Endpoint for MCPWP
 
 ## Overview
 
-Mumega MCP now includes a native **Model Context Protocol (MCP)** endpoint that allows AI assistants like Claude Desktop to connect directly to your WordPress site without needing external middleware (npm package or Cloudflare Worker).
+MCPWP now includes a native **Model Context Protocol (MCP)** endpoint that allows AI assistants like Claude Desktop to connect directly to your WordPress site without needing external middleware (npm package or Cloudflare Worker).
 
 ## Architecture
 
@@ -20,7 +20,7 @@ POST https://yoursite.com/wp-json/site-pilot-ai/v1/mcp
 
 ## Authentication
 
-Use the same `X-API-Key` header as other Mumega MCP endpoints:
+Use the same `X-API-Key` header as other MCPWP endpoints:
 
 ```bash
 curl -X POST "https://yoursite.com/wp-json/site-pilot-ai/v1/mcp" \
@@ -166,7 +166,7 @@ Notifications (methods starting with `notifications/`) have no `id` and receive 
 
 ### PRO Tools (13 additional)
 
-Conditionally available when Mumega MCP PRO is active:
+Conditionally available when MCPWP PRO is active:
 
 **SEO (5 tools):**
 - `wp_get_seo` - Get SEO metadata
@@ -350,11 +350,11 @@ Add this to your Claude Desktop MCP config:
 3. **Unified Auth** - Same API key as other endpoints
 4. **Better Performance** - One less hop
 5. **Automatic Updates** - Plugin updates include MCP improvements
-6. **Integrated Logging** - Uses Mumega MCP's built-in logging
+6. **Integrated Logging** - Uses MCPWP's built-in logging
 
 ## Security
 
-- Uses the same authentication as other Mumega MCP endpoints
+- Uses the same authentication as other MCPWP endpoints
 - Rate limiting is enforced (if enabled)
 - Activity is logged (if logging is enabled)
 - All WordPress capabilities are respected
@@ -366,7 +366,7 @@ Add this to your Claude Desktop MCP config:
 
 Check that:
 - API key is correct
-- API key is set in Mumega MCP settings
+- API key is set in MCPWP settings
 - Header name is `X-API-Key` (case-sensitive)
 
 ### 404 Not Found
@@ -387,7 +387,7 @@ Verify:
 
 If you see rate limit errors:
 - Check rate limit status with `/rate-limit` endpoint
-- Adjust rate limits in Mumega MCP settings
+- Adjust rate limits in MCPWP settings
 - Disable rate limiting if needed
 
 ## Implementation Details
@@ -486,7 +486,7 @@ curl -X POST "https://yoursite.com/wp-json/site-pilot-ai/v1/mcp" \
 
 ## License
 
-GPL v2 or later (same as Mumega MCP plugin)
+GPL v2 or later (same as MCPWP plugin)
 
 ## Support
 

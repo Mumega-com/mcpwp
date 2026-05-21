@@ -63,7 +63,7 @@ class Spai_Integration_Manager {
 		),
 		'screenshot' => array(
 			'name'        => 'Screenshot Worker',
-			'url'         => 'https://sitepilotai.mumega.com/docs/screenshot-worker/',
+			'url'         => 'https://mcpwp.net/docs/screenshot-worker/',
 			'key_prefix'  => '',
 			'tier'        => 'free',
 			'description' => 'Cloudflare Browser Rendering for high-quality headless Chromium screenshots. Without this, screenshots use WordPress mshots (lower quality, delayed).',
@@ -99,7 +99,7 @@ class Spai_Integration_Manager {
 			'url'         => 'https://developers.figma.com/docs/figma-mcp-server/',
 			'key_prefix'  => '',
 			'tier'        => 'pro',
-			'description' => 'Read Figma design context into Mumega MCP so models can inspect approved frames and then turn them into archetypes, parts, and site briefs. Supports either a personal access token or a Figma OAuth app.',
+			'description' => 'Read Figma design context into MCPWP so models can inspect approved frames and then turn them into archetypes, parts, and site briefs. Supports either a personal access token or a Figma OAuth app.',
 			'fields'      => array(
 				'personal_access_token' => array(
 					'label'       => 'Personal Access Token',

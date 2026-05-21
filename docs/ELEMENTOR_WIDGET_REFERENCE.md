@@ -1,4 +1,4 @@
-# Elementor Widget Reference for Mumega MCP
+# Elementor Widget Reference for MCPWP
 
 Correct control keys for building pages via the API. Using wrong keys causes silent rendering failures.
 
@@ -493,7 +493,7 @@ curl -s "http://localhost:8080/?page_id=PAGE_ID" | grep -c 'elementor-section'
 
 Pre-built section templates saved in the Elementor library. Use these to maintain consistent design across pages.
 
-### Available Templates (sitepilotai.mumega.com)
+### Available Templates (mcpwp.net)
 
 | ID | Name | Widgets | Use For |
 |----|------|---------|---------|

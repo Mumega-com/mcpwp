@@ -195,7 +195,7 @@ class Spai_Feedback {
 	 *
 	 * @var string
 	 */
-	const RELAY_URL = 'https://sitepilotai.mumega.com/wp-json/site-pilot-ai/v1/feedback/relay';
+	const RELAY_URL = 'https://mcpwp.net/wp-json/site-pilot-ai/v1/feedback/relay';
 
 	/**
 	 * Route feedback to the central relay and optionally to a local GitHub repo.
@@ -261,7 +261,7 @@ class Spai_Feedback {
 			array(
 				'headers' => array(
 					'Content-Type' => 'application/json',
-					'User-Agent'   => 'Mumega MCP/' . ( defined( 'SPAI_VERSION' ) ? SPAI_VERSION : '0' ),
+					'User-Agent'   => 'MCPWP/' . ( defined( 'SPAI_VERSION' ) ? SPAI_VERSION : '0' ),
 				),
 				'body'    => wp_json_encode( $payload ),
 				'timeout' => 10,
@@ -315,7 +315,7 @@ class Spai_Feedback {
 					'Authorization' => "Bearer {$token}",
 					'Accept'        => 'application/vnd.github+json',
 					'Content-Type'  => 'application/json',
-					'User-Agent'    => 'Mumega MCP/' . SPAI_VERSION,
+					'User-Agent'    => 'MCPWP/' . SPAI_VERSION,
 				),
 				'body'    => wp_json_encode( array(
 					'title'  => "[{$type}] {$title}",
@@ -376,7 +376,7 @@ class Spai_Feedback {
 			}
 		}
 
-		$body .= "\n---\n*Submitted via Mumega MCP feedback system*";
+		$body .= "\n---\n*Submitted via MCPWP feedback system*";
 
 		return $body;
 	}

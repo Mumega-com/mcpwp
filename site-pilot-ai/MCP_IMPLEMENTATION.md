@@ -1,8 +1,8 @@
-# Native MCP Implementation for Mumega MCP
+# Native MCP Implementation for MCPWP
 
 ## Summary
 
-Added a native Model Context Protocol (MCP) endpoint to Mumega MCP WordPress plugin, enabling direct connection from Claude Desktop and other AI assistants without requiring external middleware (Cloudflare Worker or npm package).
+Added a native Model Context Protocol (MCP) endpoint to MCPWP WordPress plugin, enabling direct connection from Claude Desktop and other AI assistants without requiring external middleware (Cloudflare Worker or npm package).
 
 ## What Was Added
 
@@ -92,7 +92,7 @@ POST https://yoursite.com/wp-json/site-pilot-ai/v1/mcp
 
 ## Authentication
 
-Same as other Mumega MCP endpoints - use `X-API-Key` header:
+Same as other MCPWP endpoints - use `X-API-Key` header:
 
 ```bash
 curl -X POST "https://yoursite.com/wp-json/site-pilot-ai/v1/mcp" \
@@ -206,7 +206,7 @@ return [
 2. **Consistent Auth** - Same API key as other endpoints
 3. **Automatic Updates** - Plugin updates include MCP improvements
 4. **Better Performance** - No external HTTP calls, internal dispatch only
-5. **Unified Logging** - All activity logged in Mumega MCP logs
+5. **Unified Logging** - All activity logged in MCPWP logs
 6. **Type Safety** - JSON Schema for all tool inputs
 7. **CORS Support** - Browser-based AI clients can connect
 
@@ -294,7 +294,7 @@ For issues or questions:
 
 ## License
 
-GPL v2 or later (same as Mumega MCP plugin)
+GPL v2 or later (same as MCPWP plugin)
 
 ---
 

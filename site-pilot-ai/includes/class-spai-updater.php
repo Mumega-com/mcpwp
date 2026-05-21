@@ -261,7 +261,7 @@ class Spai_Updater {
 			$update->slug        = $this->plugin_slug;
 			$update->plugin      = $this->plugin_basename;
 			$update->new_version = $remote->version;
-			$update->url         = isset( $remote->homepage ) ? $remote->homepage : 'https://sitepilotai.mumega.com/';
+			$update->url         = isset( $remote->homepage ) ? $remote->homepage : 'https://mcpwp.net/';
 			$update->package     = $remote->download_url;
 			$update->tested      = isset( $remote->tested ) ? $remote->tested : '';
 			$update->requires    = isset( $remote->requires ) ? $remote->requires : '';
@@ -325,7 +325,7 @@ class Spai_Updater {
 		}
 
 		$info                = new stdClass();
-		$info->name          = isset( $remote->name ) ? $remote->name : 'Mumega MCP';
+		$info->name          = isset( $remote->name ) ? $remote->name : 'MCPWP';
 		$info->slug          = $this->plugin_slug;
 		$info->version       = $remote->version;
 		$info->author        = isset( $remote->author ) ? sprintf( '<a href="%s">%s</a>', esc_url( isset( $remote->author_homepage ) ? $remote->author_homepage : '' ), esc_html( $remote->author ) ) : '';

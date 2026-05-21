@@ -1,5 +1,5 @@
 /**
- * Mumega MCP - Configuration Loader
+ * MCPWP - Configuration Loader
  * Loads site config from environment variables and/or config file
  */
 

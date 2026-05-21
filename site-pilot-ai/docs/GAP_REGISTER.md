@@ -133,7 +133,7 @@ Needed:
 Relevant issues:
 
 - #265 Assess official WordPress MCP and Abilities integration.
-- #266 Map Mumega MCP workflows onto WordPress Abilities where practical.
+- #266 Map MCPWP workflows onto WordPress Abilities where practical.
 
 ## WordPress Native Editing Gaps
 

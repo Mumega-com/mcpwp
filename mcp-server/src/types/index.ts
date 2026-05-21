@@ -1,5 +1,5 @@
 /**
- * Mumega MCP - Type Definitions
+ * MCPWP - Type Definitions
  * Minimal types for proxy mode
  */
 

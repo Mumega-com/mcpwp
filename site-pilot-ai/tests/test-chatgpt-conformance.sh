@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ChatGPT + MCP conformance checks for Mumega MCP.
+# ChatGPT + MCP conformance checks for MCPWP.
 #
 # Usage:
 #   ./test-chatgpt-conformance.sh <site-url> <api-key>
@@ -71,7 +71,7 @@ cleanup_response() {
 }
 
 echo "=============================================="
-echo "Mumega MCP ChatGPT Conformance Checks"
+echo "MCPWP ChatGPT Conformance Checks"
 echo "=============================================="
 echo "Endpoint: ${MCP_ENDPOINT}"
 echo

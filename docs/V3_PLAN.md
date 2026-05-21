@@ -2,7 +2,7 @@
 
 ## Vision
 
-Agencies install Mumega MCP on client sites, connect their branded AI, charge clients for "AI site management." We power the backend. Paid plans and trials are managed through Freemius today, with agency subscriptions expanding the model.
+Agencies install MCPWP on client sites, connect their branded AI, charge clients for "AI site management." We power the backend. Paid plans and trials are managed through Freemius today, with agency subscriptions expanding the model.
 
 ## The Product Stack
 
@@ -32,7 +32,7 @@ Up to 239 MCP Tools → WordPress/Elementor/WooCommerce
 ### Phase 2: Agency Dashboard (v2.10)
 **Goal:** One place for agencies to manage all client sites.
 
-- [ ] Agency registration page on sitepilotai.mumega.com
+- [ ] Agency registration page on mcpwp.net
 - [ ] Dashboard: list all connected sites, status, last activity, version
 - [ ] Site health monitoring: is the plugin active, is the MCP endpoint responding
 - [ ] Centralized API key management: create/revoke keys for all sites

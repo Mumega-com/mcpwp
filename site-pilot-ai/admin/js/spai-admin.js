@@ -1,5 +1,5 @@
 /**
- * Mumega MCP Admin JavaScript
+ * MCPWP Admin JavaScript
  *
  * @package MumegaMCP
  */

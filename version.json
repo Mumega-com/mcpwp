@@ -4,8 +4,8 @@
   "requires": "5.0",
   "requires_php": "7.4",
   "tested": "6.9",
-  "name": "Mumega MCP",
-  "homepage": "https://sitepilotai.mumega.com/",
+  "name": "MCPWP",
+  "homepage": "https://mcpwp.net/",
   "author": "Mumega",
   "author_homepage": "https://mumega.com/",
   "changelog": "<h4>2.8.31</h4><ul><li>Fix: Harden Freemius update checks so admin update pages reliably refresh the update cache.</li><li>Fix: Avoid Freemius SDK host warnings during WP-CLI activation and update checks.</li></ul><h4>2.8.30</h4><ul><li>New: Add read-only WooCommerce SEO intelligence report for product content, commerce evidence, and search performance.</li><li>New: Add REST and MCP product SEO report with approval-safe next steps.</li></ul>"

@@ -2,7 +2,7 @@
 # This file is distributed under the GPL v2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Site Pilot AI 1.0.0\n"
+"Project-Id-Version: MCPWP 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/site-pilot-ai\n"
 "POT-Creation-Date: 2024-01-01 00:00:00+00:00\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
 #: site-pilot-ai.php:1
-msgid "Site Pilot AI"
+msgid "MCPWP"
 msgstr ""
 
 #: includes/admin/class-spai-admin.php
@@ -21,7 +21,7 @@ msgid "Settings"
 msgstr ""
 
 #: includes/admin/class-spai-admin.php
-msgid "Site Pilot AI Settings"
+msgid "MCPWP Settings"
 msgstr ""
 
 #: includes/admin/class-spai-admin.php

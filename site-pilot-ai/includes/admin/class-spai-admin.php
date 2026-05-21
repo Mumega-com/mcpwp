@@ -63,10 +63,10 @@ class Spai_Admin {
 	 */
 	public function add_admin_menu() {
 		// Top-level menu + default submenu (Setup) share the same slug so
-		// clicking "Mumega MCP" always lands on the Setup page.
+		// clicking "MCPWP" always lands on the Setup page.
 		add_menu_page(
-			__( 'Mumega MCP', 'mumega-mcp' ),
-			__( 'Mumega MCP', 'mumega-mcp' ),
+			__( 'MCPWP', 'mumega-mcp' ),
+			__( 'MCPWP', 'mumega-mcp' ),
 			'activate_plugins',
 			self::PAGE_SLUG,
 			array( $this, 'render_setup_page' ),
@@ -841,7 +841,7 @@ class Spai_Admin {
 			'Site: ' . get_bloginfo( 'name' ),
 			'URL: ' . home_url(),
 			'Description: ' . get_bloginfo( 'description' ),
-			'Plugin: Mumega MCP v' . SPAI_VERSION,
+			'Plugin: MCPWP v' . SPAI_VERSION,
 		);
 
 		// Add site character/context if configured.
@@ -878,7 +878,7 @@ class Spai_Admin {
 		$site_context = implode( "\n", $site_context_parts );
 
 		// Build the system prompt with site context.
-		$system_prompt = "You are Mumega MCP, an AI assistant embedded in a WordPress site. Help the user manage their site.\n\n"
+		$system_prompt = "You are MCPWP, an AI assistant embedded in a WordPress site. Help the user manage their site.\n\n"
 			. "When the user asks you to DO something (build, edit, create, delete, update), respond with a JSON tool call:\n"
 			. "{\"tool\": \"tool_name\", \"arguments\": {\"key\": \"value\"}}\n\n"
 			. "Available tools: wp_build_page, wp_edit_widget, wp_edit_section, wp_add_section, wp_create_page, wp_update_page, "
@@ -3004,8 +3004,8 @@ class Spai_Admin {
 	 */
 	public function add_network_admin_menu() {
 		add_menu_page(
-			__( 'Mumega MCP — Network', 'mumega-mcp' ),
-			__( 'Mumega MCP', 'mumega-mcp' ),
+			__( 'MCPWP — Network', 'mumega-mcp' ),
+			__( 'MCPWP', 'mumega-mcp' ),
 			'manage_network_plugins',
 			'site-pilot-ai-network',
 			array( $this, 'render_network_admin_page' ),
@@ -3045,7 +3045,7 @@ class Spai_Admin {
 			'spai_network_setup_done',
 			sprintf(
 				/* translators: %d: number of sites */
-				__( 'Mumega MCP activated on %d site(s).', 'mumega-mcp' ),
+				__( 'MCPWP activated on %d site(s).', 'mumega-mcp' ),
 				$count
 			),
 			'updated'
@@ -3102,7 +3102,7 @@ class Spai_Admin {
 		settings_errors( 'spai_network_messages' );
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Mumega MCP — Network Overview', 'mumega-mcp' ); ?></h1>
+			<h1><?php esc_html_e( 'MCPWP — Network Overview', 'mumega-mcp' ); ?></h1>
 
 			<form method="post">
 				<?php wp_nonce_field( 'spai_network_setup_all', 'spai_network_nonce' ); ?>

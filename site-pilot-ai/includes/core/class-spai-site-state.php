@@ -76,7 +76,7 @@ class Spai_Site_State {
 			'url'           => get_site_url(),
 			'admin_url'     => admin_url(),
 			'wp_version'    => get_bloginfo( 'version' ),
-			'plugin_name'   => 'Mumega MCP',
+			'plugin_name'   => 'MCPWP',
 			'plugin_version' => defined( 'SPAI_VERSION' ) ? SPAI_VERSION : '',
 		);
 	}

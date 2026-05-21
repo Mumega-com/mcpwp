@@ -2,7 +2,7 @@
 
 ## Product Direction
 
-Mumega MCP should make Gutenberg feel like a structured page DOM for agents. The user is not a person dragging blocks; the primary user is an external coding/design agent such as Claude Code, Codex CLI/Desktop, OpenClaw, Hermes, Claude Desktop, or another MCP client.
+MCPWP should make Gutenberg feel like a structured page DOM for agents. The user is not a person dragging blocks; the primary user is an external coding/design agent such as Claude Code, Codex CLI/Desktop, OpenClaw, Hermes, Claude Desktop, or another MCP client.
 
 The agent should be able to:
 

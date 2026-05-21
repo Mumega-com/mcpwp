@@ -2,7 +2,7 @@
 
 ## Positioning
 
-Mumega MCP should not compete with WordPress native MCP plumbing. WordPress MCP and the WordPress Abilities API are the platform layer. Mumega MCP is the operator layer that makes WordPress safe, repeatable, and production-oriented for AI agents.
+MCPWP should not compete with WordPress native MCP plumbing. WordPress MCP and the WordPress Abilities API are the platform layer. MCPWP is the operator layer that makes WordPress safe, repeatable, and production-oriented for AI agents.
 
 - Free: make self-hosted WordPress AI-ready through MCP with safe core site operations.
 - Pro: turn WordPress into a reusable AI site production system with commerce, design memory, advanced integrations, and agency workflows.

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="bootstrap.php" colors="true">
   <testsuites>
-    <testsuite name="Mumega MCP Tests">
+    <testsuite name="MCPWP Tests">
       <directory>./</directory>
     </testsuite>
   </testsuites>

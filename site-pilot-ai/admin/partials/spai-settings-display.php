@@ -42,7 +42,7 @@ $license_label = ucwords( str_replace( '_', ' ', $license_plan ) );
 				<?php
 				printf(
 					/* translators: %s: active plan name */
-					esc_html__( 'Mumega MCP connects your WordPress site to AI assistants via the Model Context Protocol (MCP). Current plan: %s.', 'mumega-mcp' ),
+					esc_html__( 'MCPWP connects your WordPress site to AI assistants via the Model Context Protocol (MCP). Current plan: %s.', 'mumega-mcp' ),
 					esc_html( $license_label )
 				);
 				?>

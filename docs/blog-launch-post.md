@@ -1,12 +1,12 @@
-# Mumega MCP for WordPress — Connect Claude, Gemini, GPT to Your Site in 2 Minutes
+# MCPWP for WordPress — Connect Claude, Gemini, GPT to Your Site in 2 Minutes
 
 WordPress has 43% of the web. AI agents are the future of site management. But until now, connecting the two required custom code, fragile REST API wrappers, or expensive SaaS tools.
 
-**Mumega MCP** changes that. One plugin, up to 239 MCP tools, every major MCP client, and paid plans with a trial for production teams.
+**MCPWP** changes that. One plugin, up to 239 MCP tools, every major MCP client, and paid plans with a trial for production teams.
 
 ## What is it?
 
-Mumega MCP is a WordPress plugin that turns your site into an MCP (Model Context Protocol) server. Once installed, any MCP-compatible AI assistant — Claude, Gemini, GPT, Cursor, Windsurf, or your local Ollama — can manage your entire site through natural language.
+MCPWP is a WordPress plugin that turns your site into an MCP (Model Context Protocol) server. Once installed, any MCP-compatible AI assistant — Claude, Gemini, GPT, Cursor, Windsurf, or your local Ollama — can manage your entire site through natural language.
 
 ```
 You: "Build a landing page with a hero, 3 feature cards, and a CTA"
@@ -25,9 +25,9 @@ No code. No Elementor JSON. No WordPress admin.
 
 ## How it compares
 
-The closest competitor is Royal MCP with 37 tools. Mumega MCP exposes up to 239 tools. Elementor's Angie is in beta with credit limits. We're production-ready for agencies and operators who need broader WordPress coverage.
+The closest competitor is Royal MCP with 37 tools. MCPWP exposes up to 239 tools. Elementor's Angie is in beta with credit limits. We're production-ready for agencies and operators who need broader WordPress coverage.
 
-| Feature | Mumega MCP | Royal MCP | Elementor Angie |
+| Feature | MCPWP | Royal MCP | Elementor Angie |
 |---------|-------|-----------|-----------------|
 | MCP tools | Up to 239 | 37 | Unknown |
 | Elementor support | Full (build + edit + templates) | No | Yes (limited) |
@@ -44,7 +44,7 @@ wp plugin install https://mumega.com/mcp-updates/mumega-mcp-latest.zip --activat
 ```
 
 **Step 2: Generate an API key**
-WP Admin → Mumega MCP → Setup → Generate API Key
+WP Admin → MCPWP → Setup → Generate API Key
 
 **Step 3: Connect your AI**
 ```json
@@ -98,12 +98,12 @@ claude plugin install mumcp@mumcp
 
 ## Why we built it
 
-We're Mumega — an AI agency building tools for the WordPress ecosystem. Mumega MCP packages the operational layer agencies need: site context, API keys, role scopes, WordPress actions, Elementor workflows, and integrations behind one MCP endpoint.
+We're Mumega — an AI agency building tools for the WordPress ecosystem. MCPWP packages the operational layer agencies need: site context, API keys, role scopes, WordPress actions, Elementor workflows, and integrations behind one MCP endpoint.
 
 Up to 239 tools. Every major MCP client. Your WordPress site, controlled through a paid product with trial access.
 
 **Links:**
-- Website: https://sitepilotai.mumega.com
+- Website: https://mcpwp.net
 - GitHub (plugin): https://github.com/Mumega-com/mcp-for-wp
 - GitHub (Claude Code plugin): https://github.com/Mumega-com/mumcp-claude-plugin
 - Download: https://mumega.com/mcp-updates/mumega-mcp-latest.zip

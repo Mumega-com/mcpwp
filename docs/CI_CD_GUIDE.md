@@ -1,6 +1,6 @@
 # CI/CD Guide - GitHub Actions Automation
 
-This guide explains the automated release and validation workflows for Mumega MCP.
+This guide explains the automated release and validation workflows for MCPWP.
 
 ## Overview
 

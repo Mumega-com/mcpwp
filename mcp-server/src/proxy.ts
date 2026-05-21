@@ -1,5 +1,5 @@
 /**
- * Mumega MCP - MCP Proxy
+ * MCPWP - MCP Proxy
  * Forwards JSON-RPC requests from stdio to the PHP MCP endpoint over HTTP.
  */
 

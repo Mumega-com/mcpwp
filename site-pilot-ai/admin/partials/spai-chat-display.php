@@ -17,7 +17,7 @@ $plugin_ver    = SPAI_VERSION;
 <div class="wrap">
 	<h1>
 		<span class="dashicons dashicons-format-chat"></span>
-		<?php esc_html_e( 'Mumega MCP Chat', 'mumega-mcp' ); ?>
+		<?php esc_html_e( 'MCPWP Chat', 'mumega-mcp' ); ?>
 	</h1>
 	<p class="description"><?php esc_html_e( 'Talk to your site. Ask it to build pages, edit content, manage products — all through natural language.', 'mumega-mcp' ); ?></p>
 
@@ -32,7 +32,7 @@ $plugin_ver    = SPAI_VERSION;
 			margin-bottom: 12px;
 		">
 			<div class="spai-chat-msg spai-chat-assistant" style="margin-bottom:16px;">
-				<strong style="color:#2271b1;">Mumega MCP</strong>
+				<strong style="color:#2271b1;">MCPWP</strong>
 				<p style="margin:4px 0 0;">
 						<?php
 						printf(
@@ -80,7 +80,7 @@ $plugin_ver    = SPAI_VERSION;
 		div.style.marginBottom = '16px';
 
 		const name = document.createElement('strong');
-		name.textContent = role === 'user' ? 'You' : 'Mumega MCP';
+		name.textContent = role === 'user' ? 'You' : 'MCPWP';
 		name.style.color = role === 'user' ? '#1d2327' : '#2271b1';
 
 		const p = document.createElement('p');

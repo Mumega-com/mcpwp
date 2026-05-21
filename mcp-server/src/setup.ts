@@ -10,10 +10,10 @@ function ask(question: string): Promise<string> {
 }
 
 export async function runSetup(): Promise<void> {
-  console.log('\n🔧 Mumega MCP - Setup Wizard\n');
+  console.log('\n🔧 MCPWP - Setup Wizard\n');
 
   const url = await ask('WordPress site URL: ');
-  const apiKey = await ask('API Key (from WP Admin > Mumega MCP > Setup): ');
+  const apiKey = await ask('API Key (from WP Admin > MCPWP > Setup): ');
   const name = await ask('Site name (optional, press Enter to skip): ');
 
   if (!url || !apiKey) {
@@ -68,7 +68,7 @@ export async function runSetup(): Promise<void> {
       const data = await response.json() as any;
       console.log(`✅ Connected! ${data.site_name || 'WordPress'} (v${data.wordpress_version || 'unknown'})`);
       console.log(`   Theme: ${data.theme || 'unknown'}`);
-      console.log(`   Plugin: Mumega MCP v${data.plugin_version || 'unknown'}`);
+      console.log(`   Plugin: MCPWP v${data.plugin_version || 'unknown'}`);
     } else {
       console.log(`⚠️  Connection failed (HTTP ${response.status}). Check your URL and API key.`);
     }
