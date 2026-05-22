@@ -1,7 +1,7 @@
 # .distignore - Patterns to exclude from distribution zips
 #
 # This file is used by build.sh to determine which files/directories
-# should NOT be included in the site-pilot-ai.zip and site-pilot-ai-free.zip
+# should NOT be included in the paid/self-hosted and WP.org-compatible
 # distribution packages.
 
 # Version control
