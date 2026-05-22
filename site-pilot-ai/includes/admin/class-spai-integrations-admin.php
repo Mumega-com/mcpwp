@@ -81,8 +81,10 @@ class Spai_Integrations_Admin {
 			'spai-integrations',
 			'spaiIntegrations',
 			array(
-				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-				'nonce'   => wp_create_nonce( 'spai_integrations_nonce' ),
+				'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
+				'nonce'        => wp_create_nonce( 'spai_integrations_nonce' ),
+				'posthogToken' => SPAI_POSTHOG_TOKEN,
+				'posthogHost'  => SPAI_POSTHOG_HOST,
 				'strings' => array(
 					'saving'     => __( 'Saving...', 'mumega-mcp' ),
 					'saved'      => __( 'Saved!', 'mumega-mcp' ),

@@ -61,6 +61,58 @@ define( 'SPAI_MIN_WP_VERSION', '5.0' );
 define( 'SPAI_MIN_PHP_VERSION', '7.4' );
 
 /**
+ * Default PostHog values.
+ */
+if ( ! defined( 'SPAI_POSTHOG_DEFAULT_TOKEN' ) ) {
+	define( 'SPAI_POSTHOG_DEFAULT_TOKEN', 'phc_vdyUDJrQpNCCfHyi3EFUPDq9avBfZ87tUTYqNC6CiXwX' );
+}
+
+if ( ! defined( 'SPAI_POSTHOG_DEFAULT_HOST' ) ) {
+	define( 'SPAI_POSTHOG_DEFAULT_HOST', 'https://us.i.posthog.com' );
+}
+
+/**
+ * Read an environment variable with fallback.
+ *
+ * @param string $name    Environment key.
+ * @param string $default Fallback value.
+ * @return string
+ */
+if ( ! function_exists( 'spai_env_var' ) ) {
+	function spai_env_var( $name, $default = '' ) {
+		$source = array( getenv( $name ) );
+		if ( isset( $_ENV[ $name ] ) ) {
+			$source[] = $_ENV[ $name ];
+		}
+		if ( isset( $_SERVER[ $name ] ) ) {
+			$source[] = $_SERVER[ $name ];
+		}
+
+		foreach ( $source as $value ) {
+			if ( is_string( $value ) ) {
+				$value = trim( $value );
+				if ( '' !== $value ) {
+					return $value;
+				}
+			}
+		}
+
+		return $default;
+	}
+}
+
+/**
+ * PostHog configuration.
+ */
+if ( ! defined( 'SPAI_POSTHOG_TOKEN' ) ) {
+	define( 'SPAI_POSTHOG_TOKEN', spai_env_var( 'POSTHOG_PUBLIC_TOKEN', SPAI_POSTHOG_DEFAULT_TOKEN ) );
+}
+
+if ( ! defined( 'SPAI_POSTHOG_HOST' ) ) {
+	define( 'SPAI_POSTHOG_HOST', spai_env_var( 'POSTHOG_HOST', SPAI_POSTHOG_DEFAULT_HOST ) );
+}
+
+/**
  * Check requirements before loading.
  *
  * @return bool True if requirements met.

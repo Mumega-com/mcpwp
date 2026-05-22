@@ -212,10 +212,12 @@ class Spai_Admin {
 			'spai-admin',
 			'spaiAdmin',
 			array(
-				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-				'nonce'   => wp_create_nonce( 'spai_admin_nonce' ),
-				'restUrl' => rest_url( 'site-pilot-ai/v1/' ),
-				'siteUrl' => site_url(),
+				'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
+				'nonce'        => wp_create_nonce( 'spai_admin_nonce' ),
+				'restUrl'      => rest_url( 'site-pilot-ai/v1/' ),
+				'siteUrl'      => site_url(),
+				'posthogToken' => SPAI_POSTHOG_TOKEN,
+				'posthogHost'  => SPAI_POSTHOG_HOST,
 				'strings' => array(
 					'copied'      => __( 'Copied!', 'mumega-mcp' ),
 					'copyFailed'  => __( 'Copy failed', 'mumega-mcp' ),
