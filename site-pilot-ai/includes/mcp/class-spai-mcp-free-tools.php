@@ -32,7 +32,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_delete_menu_item',
 			'wp_revoke_api_key',
 			'wp_reset_rate_limit',
-			'wp_delete_webhook',
 			'wp_delete_media',
 		);
 	}
@@ -46,7 +45,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 		return array(
 			'wp_upload_media_from_url',
 			'wp_upload_design_reference',
-			'wp_test_webhook',
 			'wp_screenshot_url',
 		);
 	}
@@ -68,21 +66,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_update_options'          => 'site',
 			'wp_get_site_context'        => 'site',
 			'wp_set_site_context'        => 'site',
-			'wp_get_site_state'          => 'site',
 			'wp_get_content_graph'       => 'content',
 			'wp_suggest_internal_links'  => 'content',
 			'wp_apply_internal_link'     => 'content',
 			'wp_validate_internal_links' => 'content',
-			'wp_validate_seo_readiness'  => 'seo',
-			'wp_validate_structured_data' => 'seo',
-			'wp_audit_media_seo'         => 'seo',
-			'wp_seo_audit_site'          => 'seo',
-			'wp_audit_content_quality'   => 'seo',
-			'wp_get_seo_issues'          => 'seo',
-			'wp_run_seo_autofix_plan'    => 'seo',
-			'wp_import_search_performance' => 'seo',
-			'wp_get_seo_trends'          => 'seo',
-			'wp_get_woocommerce_seo_report' => 'seo',
 			'wp_get_custom_css'          => 'site',
 			'wp_set_custom_css'          => 'site',
 			'wp_delete_custom_css'       => 'site',
@@ -179,12 +166,8 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_patch_block_section'     => 'gutenberg',
 			'wp_list_block_types'        => 'gutenberg',
 			'wp_list_block_patterns'     => 'gutenberg',
-			'wp_list_approvals'          => 'admin',
-			'wp_get_approval'            => 'admin',
 			'wp_approve_request'         => 'admin',
 			'wp_reject_request'          => 'admin',
-			'wp_apply_approval'          => 'admin',
-			'wp_rollback_approval'       => 'admin',
 
 			// API Keys & Rate Limiting
 			'wp_list_api_keys'           => 'admin',
@@ -208,17 +191,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_test_integration'        => 'admin',
 			'wp_remove_integration'      => 'admin',
 
-			// Webhooks
-			'wp_list_webhook_events'     => 'webhooks',
-			'wp_get_event_schema'        => 'webhooks',
-			'wp_list_mcp_events'         => 'webhooks',
-			'wp_list_webhooks'           => 'webhooks',
-			'wp_create_webhook'          => 'webhooks',
-			'wp_update_webhook'          => 'webhooks',
-			'wp_delete_webhook'          => 'webhooks',
-			'wp_test_webhook'            => 'webhooks',
-			'wp_list_webhook_logs'       => 'webhooks',
-
 			// Feedback
 			'wp_submit_feedback'         => 'admin',
 			'wp_list_feedback'           => 'admin',
@@ -227,7 +199,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_guide'               => 'site',
 			'wp_get_workflow'            => 'site',
 			'wp_get_agent_playbook'      => 'site',
-			'wp_get_content_coherence_report' => 'seo',
 		);
 
 		// Remove custom CSS tool categories in WP.org build.
@@ -628,201 +599,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'include_drafts' => array(
 					'type'        => 'boolean',
 					'description' => 'Include draft/private source content. Defaults to false.',
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_validate_seo_readiness',
-			'Validate SEO pre-publish readiness for a post or page without mutating content. Checks title, slug, H1, heading order, meta description, image alt text, internal links, indexability, canonical, robots, sitemap, and schema hints.',
-			array(
-				'id' => array(
-					'type'        => 'number',
-					'description' => 'Post or page ID to validate.',
-					'required'    => true,
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_validate_structured_data',
-			'Validate structured data for a post or page without mutating content. Inventories JSON-LD, microdata, and schema.org hints, reports parse/shape issues, and recommends schema types that match visible WordPress content.',
-			array(
-				'id' => array(
-					'type'        => 'number',
-					'description' => 'Post or page ID to validate.',
-					'required'    => true,
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_audit_media_seo',
-			'Audit media SEO for a post or page without mutating content. Checks featured image coverage, content image alt text, filenames, dimensions, file size, lazy-loading hints, and duplicate image use.',
-			array(
-				'id' => array(
-					'type'        => 'number',
-					'description' => 'Post or page ID to audit.',
-					'required'    => true,
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_seo_audit_site',
-			'Run a read-only SEO site audit summary across recent posts and pages. Aggregates SEO readiness, structured data, media SEO, and content quality issues into prioritized URL-level recommendations.',
-			array(
-				'post_types' => array(
-					'type'        => 'string',
-					'description' => 'Comma-separated post types to include. Defaults to page,post.',
-				),
-				'limit' => array(
-					'type'        => 'number',
-					'description' => 'Maximum URLs to audit, 1-50. Defaults to 25.',
-				),
-				'include_drafts' => array(
-					'type'        => 'boolean',
-					'description' => 'Include draft/private content. Defaults to false.',
-				),
-				'store' => array(
-					'type'        => 'boolean',
-					'description' => 'Store this run and normalized issues. Defaults to false.',
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_get_seo_issues',
-			'List stored SEO issue records from stored audit runs. Filter by status, severity, category, post ID, or run ID.',
-			array(
-				'status' => array(
-					'type'        => 'string',
-					'description' => 'Issue status: open or resolved.',
-				),
-				'severity' => array(
-					'type'        => 'string',
-					'description' => 'Severity: error, warning, or info.',
-				),
-				'category' => array(
-					'type'        => 'string',
-					'description' => 'Category such as readiness, structured_data, media, or content_quality.',
-				),
-				'post_id' => array(
-					'type'        => 'number',
-					'description' => 'Filter issues for a post/page ID.',
-				),
-				'run_id' => array(
-					'type'        => 'string',
-					'description' => 'Filter issues first or last seen in a stored audit run.',
-				),
-				'limit' => array(
-					'type'        => 'number',
-					'description' => 'Maximum issues to return, 1-200. Defaults to 50.',
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_run_seo_autofix_plan',
-			'Build an approval-safe SEO autofix plan from stored SEO issues. This is read-only: it tells agents which fixes can be prepared, which tool/playbook to use, and why every publish-facing change still needs approval.',
-			array(
-				'severity' => array(
-					'type'        => 'string',
-					'description' => 'Filter by severity: error, warning, or info.',
-				),
-				'category' => array(
-					'type'        => 'string',
-					'description' => 'Filter by issue category such as readiness, structured_data, media, or content_quality.',
-				),
-				'post_id' => array(
-					'type'        => 'number',
-					'description' => 'Filter issues for a post/page ID.',
-				),
-				'run_id' => array(
-					'type'        => 'string',
-					'description' => 'Filter issues first or last seen in a stored audit run.',
-				),
-				'issue_id' => array(
-					'type'        => 'string',
-					'description' => 'Plan a single stored issue by ID.',
-				),
-				'limit' => array(
-					'type'        => 'number',
-					'description' => 'Maximum issues to inspect, 1-200. Defaults to 50.',
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_import_search_performance',
-			'Import provider-neutral search performance rows from Google Search Console, Bing Webmaster Tools, rank trackers, or a manual export. Stores evidence only; does not fetch external APIs or mutate SEO content.',
-			array(
-				'provider' => array(
-					'type'        => 'string',
-					'description' => 'Provider slug: google_search_console, bing_webmaster, or manual.',
-				),
-				'source' => array(
-					'type'        => 'string',
-					'description' => 'Optional source label such as export filename, date range, or connector name.',
-				),
-				'rows' => array(
-					'type'        => 'array',
-					'description' => 'Rows with date, url or page, query, clicks, impressions, ctr, and position.',
-					'required'    => true,
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_get_seo_trends',
-			'Read stored search performance trends from imported Search Console/Bing/manual rows. Returns summary, top queries, top URLs, daily aggregates, and import history as read-only SEO evidence.',
-			array(
-				'provider' => array(
-					'type'        => 'string',
-					'description' => 'Optional provider filter.',
-				),
-				'url' => array(
-					'type'        => 'string',
-					'description' => 'Optional exact URL filter.',
-				),
-				'query' => array(
-					'type'        => 'string',
-					'description' => 'Optional search query contains filter.',
-				),
-				'days' => array(
-					'type'        => 'number',
-					'description' => 'Lookback window in days, 1-365. Defaults to 90.',
-				),
-				'limit' => array(
-					'type'        => 'number',
-					'description' => 'Maximum grouped rows to return, 1-100. Defaults to 20.',
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_get_woocommerce_seo_report',
-			'Get a read-only WooCommerce SEO intelligence report for products. Inspects product content depth, short descriptions, category evidence, images, price/schema signals, stock review opportunities, and imported search performance evidence.',
-			array(
-				'status' => array(
-					'type'        => 'string',
-					'description' => 'Product status: publish, draft, private, or any. Defaults to publish.',
-				),
-				'limit' => array(
-					'type'        => 'number',
-					'description' => 'Maximum products to inspect, 1-100. Defaults to 25.',
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_audit_content_quality',
-			'Audit content quality and AI-search citation readiness for a post or page without mutating content. Checks answer depth, summaries, FAQ/question coverage, entity-like names, freshness, trust signals, and reference hints.',
-			array(
-				'id' => array(
-					'type'        => 'number',
-					'description' => 'Post or page ID to audit.',
-					'required'    => true,
 				),
 			)
 		);
@@ -2263,160 +2039,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			)
 		);
 
-		// Webhooks
-		$tools[] = $this->define_tool(
-			'wp_list_webhook_events',
-			'List available webhook event names',
-			array()
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_get_event_schema',
-			'Get normalized AI-first event schema with WordPress hook names for agents and webhook subscribers',
-			array()
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_list_mcp_events',
-			'List recent normalized MCPWP events emitted by approvals, SEO audits, and other agent workflows',
-			array(
-				'type'  => array(
-					'type'        => 'string',
-					'description' => 'Optional event type filter, for example approval.created or seo.audit_completed',
-				),
-				'limit' => array(
-					'type'        => 'number',
-					'description' => 'Maximum events to return',
-					'default'     => 50,
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_list_webhooks',
-			'List webhooks with optional filters',
-			array(
-				'status'   => array(
-					'type'        => 'string',
-					'description' => 'Status filter (active, disabled, all)',
-				),
-				'per_page' => array(
-					'type'        => 'number',
-					'description' => 'Results per page',
-					'default'     => 50,
-				),
-				'page'     => array(
-					'type'        => 'number',
-					'description' => 'Page number',
-					'default'     => 1,
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_create_webhook',
-			'Create a webhook endpoint subscription',
-			array(
-				'name'   => array(
-					'type'        => 'string',
-					'description' => 'Webhook display name',
-					'required'    => true,
-				),
-				'url'    => array(
-					'type'        => 'string',
-					'description' => 'Webhook target URL',
-					'required'    => true,
-				),
-				'events' => array(
-					'type'        => 'array',
-					'description' => 'Events to subscribe to',
-					'required'    => true,
-				),
-				'secret' => array(
-					'type'        => 'string',
-					'description' => 'Optional signing secret',
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_update_webhook',
-			'Update an existing webhook',
-			array(
-				'id'     => array(
-					'type'        => 'number',
-					'description' => 'Webhook ID',
-					'required'    => true,
-				),
-				'name'   => array(
-					'type'        => 'string',
-					'description' => 'Webhook display name',
-				),
-				'url'    => array(
-					'type'        => 'string',
-					'description' => 'Webhook target URL',
-				),
-				'events' => array(
-					'type'        => 'array',
-					'description' => 'Updated event list',
-				),
-				'status' => array(
-					'type'        => 'string',
-					'description' => 'Webhook status (active or disabled)',
-				),
-				'secret' => array(
-					'type'        => 'string',
-					'description' => 'Webhook signing secret',
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_delete_webhook',
-			'Permanently delete a webhook subscription and stop all future deliveries.',
-			array(
-				'id' => array(
-					'type'        => 'number',
-					'description' => 'Webhook ID',
-					'required'    => true,
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_test_webhook',
-			'Send a test delivery for a webhook',
-			array(
-				'id' => array(
-					'type'        => 'number',
-					'description' => 'Webhook ID',
-					'required'    => true,
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_list_webhook_logs',
-			'List delivery logs for a webhook',
-			array(
-				'id'       => array(
-					'type'        => 'number',
-					'description' => 'Webhook ID',
-					'required'    => true,
-				),
-				'per_page' => array(
-					'type'        => 'number',
-					'description' => 'Results per page',
-					'default'     => 50,
-				),
-				'page'     => array(
-					'type'        => 'number',
-					'description' => 'Page number',
-					'default'     => 1,
-				),
-			)
-		);
-
 		// Feedback
 		$tools[] = $this->define_tool(
 			'wp_submit_feedback',
@@ -2653,33 +2275,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 		);
 
 		$tools[] = $this->define_tool(
-			'wp_list_approvals',
-			'List pending, approved, applied, rejected, or rolled-back approval requests for agent mutations.',
-			array(
-				'status' => array(
-					'type'        => 'string',
-					'description' => 'Optional status filter: pending, approved, applied, rejected, or rolled_back.',
-				),
-				'limit' => array(
-					'type'        => 'number',
-					'description' => 'Maximum requests to return. Defaults to 50.',
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_get_approval',
-			'Get one approval request with diff metadata and rollback status.',
-			array(
-				'id' => array(
-					'type'        => 'string',
-					'description' => 'Approval request ID.',
-					'required'    => true,
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
 			'wp_approve_request',
 			'Approve a pending mutation request so it can be applied.',
 			array(
@@ -2707,30 +2302,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'note' => array(
 					'type'        => 'string',
 					'description' => 'Optional human review note.',
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_apply_approval',
-			'Apply an approved mutation request. First slice supports approved Gutenberg post-content updates.',
-			array(
-				'id' => array(
-					'type'        => 'string',
-					'description' => 'Approval request ID.',
-					'required'    => true,
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_rollback_approval',
-			'Roll back an applied mutation request using its stored before-state.',
-			array(
-				'id' => array(
-					'type'        => 'string',
-					'description' => 'Approval request ID.',
-					'required'    => true,
 				),
 			)
 		);
@@ -2914,33 +2485,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			array()
 		);
 
-		$tools[] = $this->define_tool(
-			'wp_get_site_state',
-			'Get the compact AI-first site-state snapshot agents should read before multi-step work. Includes content, graph, SEO, approvals, events, capabilities, and recommended next actions.',
-			array(
-				'graph_limit' => array(
-					'type'        => 'number',
-					'description' => 'Maximum content records to inspect for graph health.',
-					'default'     => 100,
-				),
-				'event_limit' => array(
-					'type'        => 'number',
-					'description' => 'Maximum recent events to include.',
-					'default'     => 20,
-				),
-				'include_drafts' => array(
-					'type'        => 'boolean',
-					'description' => 'Include draft/private content in graph health.',
-					'default'     => false,
-				),
-				'include_plugins' => array(
-					'type'        => 'boolean',
-					'description' => 'Include active plugin file names in capability output.',
-					'default'     => false,
-				),
-			)
-		);
-
 		// Guides & Workflows
 		$tools[] = $this->define_tool(
 			'wp_get_guide',
@@ -2974,12 +2518,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 					'description' => 'Playbook name such as build_gutenberg_page, update_gutenberg_section, seo_audit_triage, internal_link_improvement, or rollback_change. Omit to list all playbooks.',
 				),
 			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_get_content_coherence_report',
-			'Get a read-only content coherence score and prioritized recommendations across site context, graph, content depth, SEO, approvals, and events.',
-			array()
 		);
 
 		return $tools;
@@ -3029,10 +2567,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'method' => 'POST',
 				'route'  => '/site-context',
 			),
-			'wp_get_site_state' => array(
-				'method' => 'GET',
-				'route'  => '/site-state',
-			),
 			'wp_get_content_graph' => array(
 				'method' => 'GET',
 				'route'  => '/content-graph',
@@ -3048,46 +2582,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_validate_internal_links' => array(
 				'method' => 'GET',
 				'route'  => '/content-graph/validate-links',
-			),
-			'wp_validate_seo_readiness' => array(
-				'method' => 'GET',
-				'route'  => '/seo/readiness/{id}',
-			),
-			'wp_validate_structured_data' => array(
-				'method' => 'GET',
-				'route'  => '/seo/structured-data/{id}',
-			),
-			'wp_audit_media_seo' => array(
-				'method' => 'GET',
-				'route'  => '/seo/media/{id}',
-			),
-			'wp_seo_audit_site' => array(
-				'method' => 'GET',
-				'route'  => '/seo/audit',
-			),
-			'wp_get_seo_issues' => array(
-				'method' => 'GET',
-				'route'  => '/seo/issues',
-			),
-			'wp_run_seo_autofix_plan' => array(
-				'method' => 'GET',
-				'route'  => '/seo/autofix-plan',
-			),
-			'wp_import_search_performance' => array(
-				'method' => 'POST',
-				'route'  => '/seo/search-performance/import',
-			),
-			'wp_get_seo_trends' => array(
-				'method' => 'GET',
-				'route'  => '/seo/search-performance',
-			),
-			'wp_get_woocommerce_seo_report' => array(
-				'method' => 'GET',
-				'route'  => '/seo/woocommerce',
-			),
-			'wp_audit_content_quality' => array(
-				'method' => 'GET',
-				'route'  => '/seo/content-quality/{id}',
 			),
 			'wp_get_custom_css' => array(
 				'method' => 'GET',
@@ -3430,44 +2924,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'route'  => '/integrations/remove',
 			),
 
-			// Webhooks
-			'wp_list_webhook_events'  => array(
-				'method' => 'GET',
-				'route'  => '/webhooks/events',
-			),
-			'wp_get_event_schema'        => array(
-				'method' => 'GET',
-				'route'  => '/events/schema',
-			),
-			'wp_list_mcp_events'         => array(
-				'method' => 'GET',
-				'route'  => '/events',
-			),
-			'wp_list_webhooks'        => array(
-				'method' => 'GET',
-				'route'  => '/webhooks',
-			),
-			'wp_create_webhook'       => array(
-				'method' => 'POST',
-				'route'  => '/webhooks',
-			),
-			'wp_update_webhook'       => array(
-				'method' => 'POST',
-				'route'  => '/webhooks/{id}',
-			),
-			'wp_delete_webhook'       => array(
-				'method' => 'DELETE',
-				'route'  => '/webhooks/{id}',
-			),
-			'wp_test_webhook'         => array(
-				'method' => 'POST',
-				'route'  => '/webhooks/{id}/test',
-			),
-			'wp_list_webhook_logs'    => array(
-				'method' => 'GET',
-				'route'  => '/webhooks/{id}/logs',
-			),
-
 			// Gutenberg Blocks
 			'wp_get_blocks'          => array(
 				'method' => 'GET',
@@ -3505,14 +2961,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'method' => 'GET',
 				'route'  => '/blocks/design-system',
 			),
-			'wp_list_approvals'     => array(
-				'method' => 'GET',
-				'route'  => '/approvals',
-			),
-			'wp_get_approval'       => array(
-				'method' => 'GET',
-				'route'  => '/approvals/{id}',
-			),
 			'wp_approve_request'    => array(
 				'method' => 'POST',
 				'route'  => '/approvals/{id}/approve',
@@ -3520,14 +2968,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_reject_request'     => array(
 				'method' => 'POST',
 				'route'  => '/approvals/{id}/reject',
-			),
-			'wp_apply_approval'     => array(
-				'method' => 'POST',
-				'route'  => '/approvals/{id}/apply',
-			),
-			'wp_rollback_approval'  => array(
-				'method' => 'POST',
-				'route'  => '/approvals/{id}/rollback',
 			),
 
 			// Post Meta
@@ -3620,10 +3060,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_agent_playbook'  => array(
 				'method' => 'GET',
 				'route'  => '/agent-playbooks',
-			),
-			'wp_get_content_coherence_report' => array(
-				'method' => 'GET',
-				'route'  => '/content-coherence',
 			),
 		);
 

@@ -458,6 +458,11 @@ function register_rest_route()
     return true;
 }
 
+function is_multisite()
+{
+    return ! empty($GLOBALS['spai_test_is_multisite']);
+}
+
 function rest_do_request()
 {
     return new WP_REST_Response(array( 'ok' => true ), 200);
