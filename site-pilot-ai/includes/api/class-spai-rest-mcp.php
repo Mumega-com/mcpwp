@@ -811,6 +811,33 @@ class Spai_REST_MCP extends Spai_REST_API {
 			);
 		}
 
+		// Enforce admin global disabled-categories option. This gate applies to
+		// every key (even unrestricted/admin keys): an admin-disabled category is
+		// off for everyone, and must be rejected on tools/call to stay consistent
+		// with the get_all_tools() discovery filter.
+		$disabled_categories = get_option( 'spai_disabled_tool_categories', array() );
+		if ( ! empty( $disabled_categories ) && is_array( $disabled_categories ) ) {
+			$all_categories = $this->get_all_tool_categories();
+			$tool_category  = isset( $all_categories[ $tool_name ] ) ? $all_categories[ $tool_name ] : 'site';
+			if ( in_array( $tool_category, $disabled_categories, true ) ) {
+				return $this->jsonrpc_error(
+					$id,
+					-32003,
+					sprintf(
+						'Tool "%s" is in the "%s" category, which has been disabled by the site administrator.',
+						$tool_name,
+						$tool_category
+					),
+					array(
+						'hint' => sprintf(
+							'The "%s" tool category is turned off site-wide. A site admin can re-enable it under WP Admin > MCPWP > Tools.',
+							$tool_category
+						),
+					)
+				);
+			}
+		}
+
 		// Check if the API key's role allows this tool's category.
 		$key_record = $this->get_current_api_key_record();
 		if ( $key_record ) {
