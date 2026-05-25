@@ -6,6 +6,10 @@
  * Verifies that plan and pro_active are always mutually consistent across the
  * single source of truth (Spai_License::get_license_info) and the capabilities
  * builder (Spai_Core::get_capabilities), for every plan state.
+ *
+ * Freemius is the single source of truth, so every state is simulated by
+ * stubbing the Freemius instance (spai_get_fs_instance()) rather than any
+ * local option store.
  */
 
 use PHPUnit\Framework\TestCase;
@@ -19,18 +23,20 @@ final class LicenseCapabilitiesTest extends TestCase
         $GLOBALS['spai_test_post_types'] = array();
         $GLOBALS['spai_test_is_multisite'] = false;
         $GLOBALS['spai_test_filters']    = array();
+        $GLOBALS['spai_test_fs']         = null;
 
         $this->reset_license_singleton();
     }
 
     protected function tearDown(): void
     {
+        $GLOBALS['spai_test_fs'] = null;
         $this->reset_license_singleton();
     }
 
     /**
-     * Reset the Spai_License singleton and its cached license data so each test
-     * starts from a clean entitlement state.
+     * Reset the Spai_License singleton so each test starts from a clean
+     * entitlement state.
      */
     private function reset_license_singleton(): void
     {
@@ -41,19 +47,39 @@ final class LicenseCapabilitiesTest extends TestCase
     }
 
     /**
-     * Store a Lemon Squeezy style local license.
+     * Install a Freemius double reporting a paying plan.
      *
-     * @param string      $plan       Plan slug.
-     * @param string|null $expires_at Expiration date or null for lifetime.
+     * @param string $plan Plan slug Freemius would report ('pro', 'agency', ...).
      */
-    private function store_license(string $plan, ?string $expires_at = null): void
+    private function stub_paying(string $plan): void
     {
-        update_option(Spai_License::OPTION_KEY, array(
-            'key'        => 'TEST-LICENSE-KEY-1234',
-            'valid'      => true,
-            'plan'       => $plan,
-            'expires_at' => $expires_at,
-        ));
+        $GLOBALS['spai_test_fs'] = new Spai_Test_Fs_Stub(
+            true,   // can_use_premium_code
+            true,   // is_paying
+            false,  // is_trial
+            $plan
+        );
+    }
+
+    /**
+     * Install a Freemius double reporting an active trial (not paying).
+     */
+    private function stub_trial(): void
+    {
+        $GLOBALS['spai_test_fs'] = new Spai_Test_Fs_Stub(
+            true,   // can_use_premium_code
+            false,  // is_paying
+            true,   // is_trial
+            ''
+        );
+    }
+
+    /**
+     * Install a Freemius double reporting no entitlement (free / expired).
+     */
+    private function stub_unlicensed(): void
+    {
+        $GLOBALS['spai_test_fs'] = new Spai_Test_Fs_Stub(false, false, false, '');
     }
 
     /**
@@ -91,6 +117,7 @@ final class LicenseCapabilitiesTest extends TestCase
 
     public function test_unlicensed_is_consistent(): void
     {
+        // No Freemius instance at all.
         $info = Spai_License::get_instance()->get_license_info();
         $this->assertSame('unlicensed', $info['plan']);
         $this->assertFalse($info['is_pro']);
@@ -101,7 +128,7 @@ final class LicenseCapabilitiesTest extends TestCase
 
     public function test_trial_is_consistent(): void
     {
-        update_option(Spai_License::TRIAL_KEY, time());
+        $this->stub_trial();
 
         $info = Spai_License::get_instance()->get_license_info();
         $this->assertSame('trial', $info['plan']);
@@ -113,7 +140,7 @@ final class LicenseCapabilitiesTest extends TestCase
 
     public function test_pro_is_consistent(): void
     {
-        $this->store_license('pro');
+        $this->stub_paying('pro');
 
         $info = Spai_License::get_instance()->get_license_info();
         $this->assertSame('pro', $info['plan']);
@@ -125,7 +152,7 @@ final class LicenseCapabilitiesTest extends TestCase
 
     public function test_agency_is_consistent(): void
     {
-        $this->store_license('agency');
+        $this->stub_paying('agency');
 
         $info = Spai_License::get_instance()->get_license_info();
         $this->assertSame('agency', $info['plan']);
@@ -137,8 +164,8 @@ final class LicenseCapabilitiesTest extends TestCase
 
     public function test_expired_license_is_consistent(): void
     {
-        // Expired one day ago.
-        $this->store_license('agency', gmdate('Y-m-d H:i:s', time() - DAY_IN_SECONDS));
+        // "Expired" now means Freemius reports neither paying nor trial.
+        $this->stub_unlicensed();
 
         $info = Spai_License::get_instance()->get_license_info();
         $this->assertSame('unlicensed', $info['plan']);
@@ -150,14 +177,10 @@ final class LicenseCapabilitiesTest extends TestCase
 
     public function test_partial_license_does_not_report_free_plan(): void
     {
-        // A stored license marked valid/paying but with a missing/free plan slug
-        // (the legacy-key / partial-state case from #319). The accessor must
-        // coerce this to a sane paid plan rather than reporting a contradiction.
-        update_option(Spai_License::OPTION_KEY, array(
-            'key'   => 'TEST-LICENSE-KEY-1234',
-            'valid' => true,
-            'plan'  => 'free',
-        ));
+        // A paying Freemius entitlement that reports a missing/free plan slug.
+        // The accessor must coerce this to a sane paid plan rather than
+        // reporting a contradiction.
+        $this->stub_paying('free');
 
         $info = Spai_License::get_instance()->get_license_info();
         $this->assertTrue($info['is_pro']);
@@ -177,7 +200,7 @@ final class LicenseCapabilitiesTest extends TestCase
 
     public function test_capabilities_pro_is_consistent(): void
     {
-        $this->store_license('pro');
+        $this->stub_paying('pro');
         $caps = $this->capabilities();
         $this->assertSame('pro', $caps['plan']);
         $this->assertTrue($caps['pro_active']);
@@ -186,7 +209,7 @@ final class LicenseCapabilitiesTest extends TestCase
 
     public function test_capabilities_agency_is_consistent(): void
     {
-        $this->store_license('agency');
+        $this->stub_paying('agency');
         $caps = $this->capabilities();
         $this->assertSame('agency', $caps['plan']);
         $this->assertTrue($caps['pro_active']);
@@ -195,7 +218,7 @@ final class LicenseCapabilitiesTest extends TestCase
 
     public function test_capabilities_trial_is_consistent(): void
     {
-        update_option(Spai_License::TRIAL_KEY, time());
+        $this->stub_trial();
         $caps = $this->capabilities();
         $this->assertSame('trial', $caps['plan']);
         $this->assertTrue($caps['pro_active']);
@@ -204,7 +227,7 @@ final class LicenseCapabilitiesTest extends TestCase
 
     public function test_capabilities_expired_is_consistent(): void
     {
-        $this->store_license('agency', gmdate('Y-m-d H:i:s', time() - DAY_IN_SECONDS));
+        $this->stub_unlicensed();
         $caps = $this->capabilities();
         $this->assertSame('unlicensed', $caps['plan']);
         $this->assertFalse($caps['pro_active']);
@@ -218,7 +241,7 @@ final class LicenseCapabilitiesTest extends TestCase
      */
     public function test_pro_bootstrap_filter_does_not_override_canonical_plan(): void
     {
-        $this->store_license('agency');
+        $this->stub_paying('agency');
         add_filter('spai_site_capabilities', array('Spai_Pro_Bootstrap', 'add_pro_capabilities'));
 
         $caps = $this->capabilities();
@@ -235,7 +258,7 @@ final class LicenseCapabilitiesTest extends TestCase
 
     /**
      * WP.org build: licensing is always off, so plan/pro_active must report the
-     * free/unlicensed state consistently regardless of stored data.
+     * free/unlicensed state consistently regardless of any Freemius state.
      *
      * Runs in a separate process because SPAI_WPORG_BUILD is a constant.
      *
@@ -246,12 +269,8 @@ final class LicenseCapabilitiesTest extends TestCase
     {
         define('SPAI_WPORG_BUILD', true);
 
-        // Even with a stored agency license, the WP.org build must report free.
-        update_option(Spai_License::OPTION_KEY, array(
-            'key'   => 'TEST-LICENSE-KEY-1234',
-            'valid' => true,
-            'plan'  => 'agency',
-        ));
+        // Even with a paying Freemius entitlement, the WP.org build reports free.
+        $GLOBALS['spai_test_fs'] = new Spai_Test_Fs_Stub(true, true, false, 'agency');
 
         $info = Spai_License::get_instance()->get_license_info();
         $this->assertFalse($info['is_pro']);

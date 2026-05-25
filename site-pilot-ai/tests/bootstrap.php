@@ -652,6 +652,62 @@ class Spai_Test_Theme
     }
 }
 
+// -------------------------------------------------------------------------
+// Freemius stub. The license layer treats Freemius as the single source of
+// truth via spai_get_fs_instance(). Tests drive entitlement state by setting
+// $GLOBALS['spai_test_fs'] to a Spai_Test_Fs_Stub (or null for "no Freemius").
+// -------------------------------------------------------------------------
+
+$GLOBALS['spai_test_fs'] = null;
+
+function spai_get_fs_instance()
+{
+    return isset($GLOBALS['spai_test_fs']) ? $GLOBALS['spai_test_fs'] : null;
+}
+
+/**
+ * Configurable Freemius double exposing the methods the license layer calls.
+ */
+class Spai_Test_Fs_Stub
+{
+    private $is_paying;
+    private $is_trial;
+    private $can_use_premium_code;
+    private $plan;
+
+    public function __construct(
+        bool $can_use_premium_code = false,
+        bool $is_paying = false,
+        bool $is_trial = false,
+        $plan = ''
+    ) {
+        $this->can_use_premium_code = $can_use_premium_code;
+        $this->is_paying            = $is_paying;
+        $this->is_trial             = $is_trial;
+        $this->plan                 = $plan;
+    }
+
+    public function can_use_premium_code()
+    {
+        return $this->can_use_premium_code;
+    }
+
+    public function is_paying()
+    {
+        return $this->is_paying;
+    }
+
+    public function is_trial()
+    {
+        return $this->is_trial;
+    }
+
+    public function get_plan()
+    {
+        return $this->plan;
+    }
+}
+
 require_once dirname(__DIR__) . '/includes/traits/trait-spai-api-auth.php';
 require_once dirname(__DIR__) . '/includes/traits/trait-spai-sanitization.php';
 require_once dirname(__DIR__) . '/includes/traits/trait-spai-logging.php';
