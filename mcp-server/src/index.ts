@@ -93,7 +93,7 @@ if (args.includes("--test")) {
       console.log(`✅ Connected! ${data.name} (WordPress ${data.wp_version})`);
       console.log(`   Plugin:      MCPWP v${data.plugin?.version}`);
       console.log(`   Theme:       ${data.theme?.name || "unknown"} ${data.theme?.version || ""}`);
-      console.log(`   Plan:        ${cap.plan || data.license?.plan || "unlicensed"}${cap.pro_active ? " (licensed features active)" : ""}`);
+      console.log(`   Plan:        ${cap.plan || "unlicensed"}${cap.pro_active ? " (Pro active)" : ""}`);
       console.log(`   Elementor:   ${cap.elementor ? "yes" : "no"}${cap.elementor_pro ? " + Pro" : ""}${cap.elementor_layout_mode ? ` (${cap.elementor_layout_mode})` : ""}`);
       const extras: string[] = [];
       if (cap.woocommerce) extras.push("WooCommerce");

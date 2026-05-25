@@ -1319,7 +1319,10 @@ class Spai_REST_MCP extends Spai_REST_API {
 			return false;
 		}
 
-		return class_exists( 'Spai_License' ) && Spai_License::get_instance()->is_pro();
+		// Consume the canonical entitlement state so tool gating and the
+		// introspection pro_active flag stay consistent with capabilities (#319).
+		return class_exists( 'Spai_License' )
+			&& ! empty( Spai_License::get_instance()->get_license_info()['is_pro'] );
 	}
 
 	/**

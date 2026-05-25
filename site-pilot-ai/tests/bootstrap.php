@@ -22,6 +22,14 @@ if (! defined('DAY_IN_SECONDS')) {
     define('DAY_IN_SECONDS', 86400);
 }
 
+if (! defined('HOUR_IN_SECONDS')) {
+    define('HOUR_IN_SECONDS', 3600);
+}
+
+if (! defined('SPAI_PLUGIN_DIR')) {
+    define('SPAI_PLUGIN_DIR', dirname(__DIR__) . '/');
+}
+
 $GLOBALS['spai_test_options'] = array();
 $GLOBALS['spai_test_transients'] = array();
 $GLOBALS['spai_test_current_user'] = 0;
@@ -589,6 +597,61 @@ function wp_slash($value)
     return is_string($value) ? addslashes($value) : $value;
 }
 
+function home_url($path = '')
+{
+    return 'https://example.com/' . ltrim((string) $path, '/');
+}
+
+function post_type_exists($type)
+{
+    $types = isset($GLOBALS['spai_test_post_types']) ? $GLOBALS['spai_test_post_types'] : array();
+    return in_array($type, $types, true);
+}
+
+function is_multisite()
+{
+    return ! empty($GLOBALS['spai_test_is_multisite']);
+}
+
+function get_blog_count()
+{
+    return isset($GLOBALS['spai_test_blog_count']) ? (int) $GLOBALS['spai_test_blog_count'] : 1;
+}
+
+function is_rtl()
+{
+    return false;
+}
+
+function get_locale()
+{
+    return 'en_US';
+}
+
+function wp_timezone_string()
+{
+    return 'UTC';
+}
+
+function wp_get_theme()
+{
+    return new Spai_Test_Theme();
+}
+
+class Spai_Test_Theme
+{
+    public function get($key)
+    {
+        if ('Name' === $key) {
+            return 'Test Theme';
+        }
+        if ('Version' === $key) {
+            return '1.0';
+        }
+        return '';
+    }
+}
+
 require_once dirname(__DIR__) . '/includes/traits/trait-spai-api-auth.php';
 require_once dirname(__DIR__) . '/includes/traits/trait-spai-sanitization.php';
 require_once dirname(__DIR__) . '/includes/traits/trait-spai-logging.php';
@@ -609,3 +672,6 @@ require_once dirname(__DIR__) . '/includes/mcp/class-spai-integration.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-mcp.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-menus.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-elementor-basic.php';
+require_once dirname(__DIR__) . '/includes/class-spai-license.php';
+require_once dirname(__DIR__) . '/includes/core/class-spai-core.php';
+require_once dirname(__DIR__) . '/includes/pro/class-spai-pro-bootstrap.php';
