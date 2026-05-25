@@ -613,11 +613,6 @@ function post_type_exists($type)
     return in_array($type, $types, true);
 }
 
-function is_multisite()
-{
-    return ! empty($GLOBALS['spai_test_is_multisite']);
-}
-
 function get_blog_count()
 {
     return isset($GLOBALS['spai_test_blog_count']) ? (int) $GLOBALS['spai_test_blog_count'] : 1;
