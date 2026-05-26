@@ -192,6 +192,6 @@ Conversation logs → anonymized → train better models → everyone benefits
 - [ ] Agency dashboard (Next.js)
 - [ ] White-label settings + rendering
 - [ ] Chat shortcode + Elementor widget
-- [ ] Stripe billing integration
+- [ ] Hosted-dashboard billing (Freemius for plugin plans; Stripe metered only for the SaaS dashboard)
 - [ ] Conversation logging pipeline
 - [ ] LoRA fine-tuning pipeline
