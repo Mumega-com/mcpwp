@@ -17,7 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * - Check Elementor status
  * - Create Elementor-enabled page
  *
- * PRO endpoints registered via site-pilot-ai-pro plugin.
+ * PRO Elementor endpoints are registered by includes/pro/ when a Pro
+ * license is active (single-distribution build; stripped from the WP.org build).
  */
 class Spai_REST_Elementor extends Spai_REST_API {
 
