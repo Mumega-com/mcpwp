@@ -108,6 +108,10 @@ copy_plugin_files() {
     if [ "$exclude_pro" = "yes" ]; then
         echo "  Removing includes/pro/ directory (WP.org-compatible package)..."
         rm -rf "$dest/site-pilot-ai/includes/pro"
+        # WordPress.org handles updates for the free build, so the self-hosted
+        # updater must not ship there (its load is guarded by file_exists).
+        echo "  Removing self-hosted updater (WP.org handles updates)..."
+        rm -f "$dest/site-pilot-ai/includes/class-spai-updater.php"
     fi
 }
 
@@ -117,8 +121,9 @@ PAID_BUILD_DIR="${BUILD_DIR}/paid"
 mkdir -p "$PAID_BUILD_DIR"
 copy_plugin_files "$PLUGIN_DIR" "$PAID_BUILD_DIR" "no"
 
-# Create paid/self-hosted zip
+# Create paid/self-hosted zip (remove any stale zip first; zip -r appends).
 PAID_ZIP="${DIST_DIR}/site-pilot-ai.zip"
+rm -f "$PAID_ZIP"
 cd "$PAID_BUILD_DIR"
 zip -r -q "$PAID_ZIP" site-pilot-ai/
 cd "$REPO_ROOT"
@@ -132,8 +137,9 @@ WPORG_BUILD_DIR="${BUILD_DIR}/wporg"
 mkdir -p "$WPORG_BUILD_DIR"
 copy_plugin_files "$PLUGIN_DIR" "$WPORG_BUILD_DIR" "yes"
 
-# Create WP.org-compatible zip
+# Create WP.org-compatible zip (remove any stale zip first; zip -r appends).
 WPORG_ZIP="${DIST_DIR}/site-pilot-ai-wporg.zip"
+rm -f "$WPORG_ZIP"
 cd "$WPORG_BUILD_DIR"
 zip -r -q "$WPORG_ZIP" site-pilot-ai/
 cd "$REPO_ROOT"

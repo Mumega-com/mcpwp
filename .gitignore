@@ -20,6 +20,9 @@ credentials.*
 .vscode/
 .idea/
 
+# Agent/harness scratch (worktrees, local agent state)
+.claude/
+
 # OS
 .DS_Store
 Thumbs.db

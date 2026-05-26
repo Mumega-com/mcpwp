@@ -1,9 +1,19 @@
 # Product Roadmap
 
 Status: Active
-Updated: 2026-04-01
+Updated: 2026-05-26
 
 This roadmap tracks the operator-focused polish work for MCPWP. The target user is a founder, marketer, or agency operator who needs AI to produce WordPress pages and products quickly without losing structure, brand consistency, or control.
+
+## Monetization & Paid Launch (2026-05)
+
+This operator-polish roadmap is the **free funnel** half of the strategy; the **paid** half is the monetization plan, now unified here. The defensible, recurring value is the agent-safety layer (approvals/rollback, event store + webhooks, site-state, content coherence) and the SEO-intelligence layer (audits, autofix, Search Console import, WooCommerce SEO). Raw content/media/Elementor execution stays free to drive installs.
+
+Tiers (billed via Freemius): **Free** funnel → **Operator** (the paid moat) → **Agency** (multi-site). See `V3_PLAN.md` for the agency/white-label direction.
+
+**Shipped:** entitlement single source of truth (#319), tool-category gating enforced on execution (#328), Freemius-only licensing (Lemon Squeezy removed), agent-safety + SEO gated to Pro (#327), upgrade prompt on Pro tools.
+
+**Open paid-launch issues:** packaging epic #327, GTM copy contradictions #317/#318, tool-count accuracy #322 (~250+ tools, not "239"), outcome-led positioning #331, runtime-neutrality docs #330, thin-integration cleanup #329.
 
 ## Progress Snapshot
 
@@ -102,6 +112,8 @@ This roadmap tracks the operator-focused polish work for MCPWP. The target user 
 
 ## Current Execution Order
 
-1. Validate the full operator loop on real sites
-2. Tighten remaining release surfaces and website/version consistency
-3. Continue Library preview and operational quick-action polish
+1. Resolve GTM contradictions before charging: free-vs-paid copy (#317/#318), tool-count accuracy (#322)
+2. Finalize the Operator tier packaging/pricing (#327) and outcome-led positioning (#331)
+3. Validate the full operator loop on real sites
+4. Tighten remaining release surfaces and website/version consistency
+5. Continue Library preview and operational quick-action polish

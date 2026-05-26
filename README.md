@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/site-pilot-ai/assets/banner-1544x500.png" alt="MCPWP — AI operations for WordPress" width="100%">
+  <img src="https://raw.githubusercontent.com/mumega-com/mcpwp/main/site-pilot-ai/assets/banner-1544x500.png" alt="MCPWP — AI operations for WordPress" width="100%">
 </p>
 
 <h1 align="center">MCPWP</h1>
 
 <p align="center">
-  <strong>AI operations for WordPress through MCP. Built for agencies, builders, and site operators.</strong>
+  <strong>Approval-safe AI operations for WordPress through MCP. Built for agencies, builders, and site operators.</strong>
 </p>
 
 <p align="center">
@@ -18,20 +18,24 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Mumega-com/mcp-for-wp/stargazers"><img src="https://img.shields.io/github/stars/Mumega-com/mcp-for-wp?style=flat-square" alt="Stars"></a>
-  <a href="https://github.com/Mumega-com/mcp-for-wp/releases"><img src="https://img.shields.io/github/v/release/Mumega-com/mcp-for-wp?style=flat-square" alt="Release"></a>
-  <img src="https://img.shields.io/badge/tools-up%20to%20239-blue?style=flat-square" alt="Tools">
+  <a href="https://github.com/mumega-com/mcpwp/stargazers"><img src="https://img.shields.io/github/stars/mumega-com/mcpwp?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/mumega-com/mcpwp/releases"><img src="https://img.shields.io/github/v/release/mumega-com/mcpwp?style=flat-square" alt="Release"></a>
+  <img src="https://img.shields.io/badge/tools-250%2B-blue?style=flat-square" alt="Tools">
   <img src="https://img.shields.io/badge/blueprints-24-blue?style=flat-square" alt="Blueprints">
   <img src="https://img.shields.io/badge/MCP-compatible-brightgreen?style=flat-square" alt="MCP">
   <img src="https://img.shields.io/badge/WordPress-5.0%2B-21759b?style=flat-square" alt="WordPress">
   <img src="https://img.shields.io/badge/Elementor-4.x-92003B?style=flat-square" alt="Elementor">
   <img src="https://img.shields.io/badge/license-GPL--2.0-orange?style=flat-square" alt="License">
-  <img src="https://img.shields.io/badge/plans-paid%20%2B%20trial-blue?style=flat-square" alt="Paid plans and trial">
+  <img src="https://img.shields.io/badge/plans-free%20%2B%20paid-blue?style=flat-square" alt="Free and paid plans">
 </p>
 
 ---
 
-MCPWP turns a WordPress site into an MCP server. AI assistants (Claude, Gemini, GPT, Cursor, Windsurf) can manage site operations through natural language — pages, Elementor layouts, WooCommerce products, media, SEO, menus, and more. Tool availability depends on the active plugins and the current license plan.
+MCPWP turns a WordPress site into an MCP server so AI agents can operate it safely. It gives you **approval-safe AI edits with rollback**, **SEO intelligence** (audits, autofix planning, search performance), **content-coherence reports**, **site-state snapshots** that let agents start from a known-good picture, and a **Control Room** for supervising everything a human or agent does. AI assistants (Claude, Gemini, GPT, Cursor, Windsurf) manage pages, Elementor layouts, WooCommerce products, media, SEO, and menus through natural language — with the guardrails an agent needs.
+
+It speaks MCP, so it works with **250+ tools across the free and Pro builds**. Tool availability depends on the active plugins and the current license plan.
+
+**Free vs paid:** Core execution is **free** — content/posts/pages, media, menus, taxonomy, and Elementor & Gutenberg editing. The paid **Operator** tier adds the agent-safety layer (approval/rollback workflows, event store + outbound webhooks, site-state snapshots, content-coherence reports) and the SEO-intelligence layer (SEO audits, autofix planning, Search Console/Bing performance import, SEO trends, WooCommerce SEO). The **Agency** tier extends this across multiple sites. WooCommerce CRUD, Elementor Pro/blueprints, forms, multilingual, and Google Indexing are also paid. The WordPress.org build ships the free core; the distributed build adds the paid tiers.
 
 ```
 You: "Build a landing page with a hero, 3 feature cards, and a CTA"
@@ -40,7 +44,7 @@ AI:  wp_build_page → full Elementor page with styled sections, flex grid, shad
 
 <!-- TODO: Replace with actual demo GIF
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/docs/demo.gif" alt="mumcp demo" width="800">
+  <img src="https://raw.githubusercontent.com/mumega-com/mcpwp/main/docs/demo.gif" alt="mumcp demo" width="800">
 </p>
 -->
 
@@ -71,11 +75,15 @@ graph LR
     end
 ```
 
+## Works With Any Agent Runtime
+
+MCPWP speaks MCP, so it is runtime-neutral. Connect it to **Claude, GPT, Codex, Gemini**, or any MCP client. It also works as a **supplier to agent platforms** that speak MCP — including AWS Bedrock AgentCore, Google Antigravity, Claude Managed Agents, OpenClaw, Hermes, and n8n. No vendor lock-in: if it speaks MCP, it can drive your WordPress site.
+
 ## Why MCPWP?
 
 | | MCPWP | WordPress MCP Adapter | Royal MCP | InstaWP mcp-wp |
 |---|---|---|---|---|
-| **MCP Tools** | **Up to 239** | ~20 | 37 | ~30 |
+| **MCP Tools** | **250+ (free + Pro)** | ~20 | 37 | ~30 |
 | **Blueprints** | **24 types** | 0 | 0 | 0 |
 | **Elementor** | Full (build + edit + templates + theme) | No | No | No |
 | **WooCommerce** | 21 tools | No | No | No |
@@ -83,7 +91,7 @@ graph LR
 | **Role-scoped keys** | 5 roles | No | No | No |
 | **Validation** | Auto-fix IDs, keys, nesting | No | No | No |
 | **Install** | WordPress plugin | Requires Abilities API | WordPress plugin | External Node.js |
-| **Commercial model** | Paid plans + trial | Free | Free | Free |
+| **Commercial model** | Free core + paid Operator/Agency tiers | Free | Free | Free |
 
 ## Install
 
@@ -119,7 +127,7 @@ Adds `/mumcp:setup`, `/mumcp:tools`, `/mumcp:elementor`, `/mumcp:design` skills 
 
 ## Tools
 
-MCPWP exposes up to 239 tools across 15 categories. `tools/list` is dynamic: inactive integrations, disabled categories, WP.org builds, and role-scoped API keys reduce the live count for a given site.
+MCPWP exposes 250+ tools across 15 categories — roughly 119 in the free core and 137 more in the Pro build. `tools/list` is dynamic: inactive integrations, disabled categories, WP.org builds, and role-scoped API keys reduce the live count for a given site.
 
 | Category | Tools | What |
 |----------|-------|------|
@@ -225,7 +233,7 @@ wc_create_product(name: "T-Shirt", regular_price: "29.99", type: "simple")
 
 ## Roadmap
 
-- [x] Up to 239 MCP tools across 15 categories
+- [x] 250+ MCP tools across 15 categories (free core + Pro)
 - [x] 24 page blueprints
 - [x] Role-scoped API keys (5 roles)
 - [x] Elementor validation + auto-fix

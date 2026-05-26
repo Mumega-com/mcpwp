@@ -36,13 +36,13 @@ function log(level: string, message: string, data?: any): void {
 const args = process.argv.slice(2);
 
 if (args.includes("--version") || args.includes("-v")) {
-  console.log(`site-pilot-ai v${VERSION}`);
+  console.log(`MCPWP v${VERSION}`);
   process.exit(0);
 }
 
 if (args.includes("--help") || args.includes("-h")) {
   console.log(`
-site-pilot-ai - MCPWP Server for WordPress (proxy mode)
+MCPWP - MCP Server for WordPress (proxy mode)
 
 Usage:
   site-pilot-ai              Start MCP server (stdio transport)
@@ -59,7 +59,7 @@ Config File:
   ~/.mumega-mcp/config.json
 
 Documentation:
-  https://github.com/Mumega-com/mcp-for-wp
+  https://mcpwp.net
 `);
   process.exit(0);
 }
@@ -93,7 +93,7 @@ if (args.includes("--test")) {
       console.log(`✅ Connected! ${data.name} (WordPress ${data.wp_version})`);
       console.log(`   Plugin:      MCPWP v${data.plugin?.version}`);
       console.log(`   Theme:       ${data.theme?.name || "unknown"} ${data.theme?.version || ""}`);
-      console.log(`   Plan:        ${cap.plan || data.license?.plan || "unlicensed"}${cap.pro_active ? " (licensed features active)" : ""}`);
+      console.log(`   Plan:        ${cap.plan || "unlicensed"}${cap.pro_active ? " (Pro active)" : ""}`);
       console.log(`   Elementor:   ${cap.elementor ? "yes" : "no"}${cap.elementor_pro ? " + Pro" : ""}${cap.elementor_layout_mode ? ` (${cap.elementor_layout_mode})` : ""}`);
       const extras: string[] = [];
       if (cap.woocommerce) extras.push("WooCommerce");

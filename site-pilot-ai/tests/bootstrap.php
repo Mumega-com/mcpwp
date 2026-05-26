@@ -22,6 +22,14 @@ if (! defined('DAY_IN_SECONDS')) {
     define('DAY_IN_SECONDS', 86400);
 }
 
+if (! defined('HOUR_IN_SECONDS')) {
+    define('HOUR_IN_SECONDS', 3600);
+}
+
+if (! defined('SPAI_PLUGIN_DIR')) {
+    define('SPAI_PLUGIN_DIR', dirname(__DIR__) . '/');
+}
+
 $GLOBALS['spai_test_options'] = array();
 $GLOBALS['spai_test_transients'] = array();
 $GLOBALS['spai_test_current_user'] = 0;
@@ -450,6 +458,11 @@ function register_rest_route()
     return true;
 }
 
+function is_multisite()
+{
+    return ! empty($GLOBALS['spai_test_is_multisite']);
+}
+
 function rest_do_request()
 {
     return new WP_REST_Response(array( 'ok' => true ), 200);
@@ -589,6 +602,112 @@ function wp_slash($value)
     return is_string($value) ? addslashes($value) : $value;
 }
 
+function home_url($path = '')
+{
+    return 'https://example.com/' . ltrim((string) $path, '/');
+}
+
+function post_type_exists($type)
+{
+    $types = isset($GLOBALS['spai_test_post_types']) ? $GLOBALS['spai_test_post_types'] : array();
+    return in_array($type, $types, true);
+}
+
+function get_blog_count()
+{
+    return isset($GLOBALS['spai_test_blog_count']) ? (int) $GLOBALS['spai_test_blog_count'] : 1;
+}
+
+function is_rtl()
+{
+    return false;
+}
+
+function get_locale()
+{
+    return 'en_US';
+}
+
+function wp_timezone_string()
+{
+    return 'UTC';
+}
+
+function wp_get_theme()
+{
+    return new Spai_Test_Theme();
+}
+
+class Spai_Test_Theme
+{
+    public function get($key)
+    {
+        if ('Name' === $key) {
+            return 'Test Theme';
+        }
+        if ('Version' === $key) {
+            return '1.0';
+        }
+        return '';
+    }
+}
+
+// -------------------------------------------------------------------------
+// Freemius stub. The license layer treats Freemius as the single source of
+// truth via spai_get_fs_instance(). Tests drive entitlement state by setting
+// $GLOBALS['spai_test_fs'] to a Spai_Test_Fs_Stub (or null for "no Freemius").
+// -------------------------------------------------------------------------
+
+$GLOBALS['spai_test_fs'] = null;
+
+function spai_get_fs_instance()
+{
+    return isset($GLOBALS['spai_test_fs']) ? $GLOBALS['spai_test_fs'] : null;
+}
+
+/**
+ * Configurable Freemius double exposing the methods the license layer calls.
+ */
+class Spai_Test_Fs_Stub
+{
+    private $is_paying;
+    private $is_trial;
+    private $can_use_premium_code;
+    private $plan;
+
+    public function __construct(
+        bool $can_use_premium_code = false,
+        bool $is_paying = false,
+        bool $is_trial = false,
+        $plan = ''
+    ) {
+        $this->can_use_premium_code = $can_use_premium_code;
+        $this->is_paying            = $is_paying;
+        $this->is_trial             = $is_trial;
+        $this->plan                 = $plan;
+    }
+
+    public function can_use_premium_code()
+    {
+        return $this->can_use_premium_code;
+    }
+
+    public function is_paying()
+    {
+        return $this->is_paying;
+    }
+
+    public function is_trial()
+    {
+        return $this->is_trial;
+    }
+
+    public function get_plan()
+    {
+        return $this->plan;
+    }
+}
+
 require_once dirname(__DIR__) . '/includes/traits/trait-spai-api-auth.php';
 require_once dirname(__DIR__) . '/includes/traits/trait-spai-sanitization.php';
 require_once dirname(__DIR__) . '/includes/traits/trait-spai-logging.php';
@@ -609,3 +728,6 @@ require_once dirname(__DIR__) . '/includes/mcp/class-spai-integration.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-mcp.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-menus.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-elementor-basic.php';
+require_once dirname(__DIR__) . '/includes/class-spai-license.php';
+require_once dirname(__DIR__) . '/includes/core/class-spai-core.php';
+require_once dirname(__DIR__) . '/includes/pro/class-spai-pro-bootstrap.php';

@@ -25,7 +25,7 @@ The WordPress plugin exposes a complete MCP endpoint at `/wp-json/site-pilot-ai/
 ### 1. Install WordPress Plugin
 
 Install **MCPWP** on your WordPress site:
-1. Download from [GitHub releases](https://github.com/Mumega-com/mcp-for-wp/releases) or your Freemius account
+1. Download from [GitHub releases](https://github.com/mumega-com/mcpwp/releases) or your Freemius account
 2. Upload to WordPress: **WP Admin > Plugins > Add New > Upload Plugin**
 3. Activate and copy your API key from **MCPWP** (top-level admin menu)
 
@@ -117,7 +117,7 @@ For multiple sites, add separate entries with unique names:
 
 Tools appear automatically. Try: *"Show me my site info"* or *"Onboard me to this site"*
 
-## Available Tools (200+)
+## Available Tools (250+)
 
 All tools come from the WordPress plugin. Update the plugin to get new tools — no npm update needed.
 
@@ -235,8 +235,8 @@ Verify:
 ## Development
 
 ```bash
-git clone https://github.com/Mumega-com/mcp-for-wp.git
-cd mcp-for-wp/mcp-server
+git clone https://github.com/mumega-com/mcpwp.git
+cd mcpwp/mcp-server
 bun install
 bun run build       # Single-file bundle to dist/index.js
 node dist/index.js --test
@@ -249,5 +249,5 @@ MIT © Mumega
 ---
 
 **Documentation:** https://mcpwp.net
-**Issues:** https://github.com/Mumega-com/mcp-for-wp/issues
-**WordPress Plugin:** https://github.com/Mumega-com/mcp-for-wp/releases
+**Issues:** https://github.com/mumega-com/mcpwp/issues
+**WordPress Plugin:** https://github.com/mumega-com/mcpwp/releases

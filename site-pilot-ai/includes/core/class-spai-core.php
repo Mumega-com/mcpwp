@@ -50,11 +50,13 @@ class Spai_Core {
 			),
 		);
 
-		$license = class_exists( 'Spai_License' ) ? Spai_License::get_instance() : null;
+		$license_info = class_exists( 'Spai_License' )
+			? Spai_License::get_instance()->get_license_info()
+			: array( 'plan' => 'unlicensed', 'is_pro' => false );
 
 		$info['license'] = array(
-			'plan'   => $license ? $license->get_plan() : 'unlicensed',
-			'is_pro' => $license ? $license->is_pro() : false,
+			'plan'   => $license_info['plan'],
+			'is_pro' => $license_info['is_pro'],
 		);
 
 		return $info;
@@ -120,9 +122,21 @@ class Spai_Core {
 			'network_site_count'  => is_multisite() ? get_blog_count() : null,
 		);
 
-		// Allow premium package to extend capabilities (e.g., Pro status).
+		// Allow premium package to extend capabilities (e.g., pro-module-only flags).
 		if ( function_exists( 'apply_filters' ) ) {
 			$capabilities = apply_filters( 'spai_site_capabilities', $capabilities );
+		}
+
+		// Single source of truth for plan / pro_active. Derive these from the
+		// canonical license accessor AFTER the filter so they cannot be made
+		// inconsistent by other consumers (see issue #319).
+		if ( class_exists( 'Spai_License' ) ) {
+			$license_info               = Spai_License::get_instance()->get_license_info();
+			$capabilities['plan']       = $license_info['plan'];
+			$capabilities['pro_active'] = $license_info['is_pro'];
+		} else {
+			$capabilities['plan']       = 'unlicensed';
+			$capabilities['pro_active'] = false;
 		}
 
 		// Merge capabilities from third-party integrations.
@@ -154,8 +168,9 @@ class Spai_Core {
 			return true;
 		}
 
-		$current_plan   = $license->get_plan();
-		$current_is_pro = $license->is_pro();
+		$license_info   = $license->get_license_info();
+		$current_plan   = $license_info['plan'];
+		$current_is_pro = $license_info['is_pro'];
 
 		if ( isset( $cached['plan'] ) && $cached['plan'] !== $current_plan ) {
 			return false;

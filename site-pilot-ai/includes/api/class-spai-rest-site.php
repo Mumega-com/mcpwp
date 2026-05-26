@@ -1760,7 +1760,8 @@ class Spai_REST_Site extends Spai_REST_API {
 			);
 		}
 
-		$is_pro = class_exists( 'Spai_License' ) && Spai_License::get_instance()->is_pro();
+		$is_pro = class_exists( 'Spai_License' )
+			&& ! empty( Spai_License::get_instance()->get_license_info()['is_pro'] );
 
 		// 4. Available tools grouped by category.
 		$tools_by_category = array();

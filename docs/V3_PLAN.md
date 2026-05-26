@@ -4,6 +4,18 @@
 
 Agencies install MCPWP on client sites, connect their branded AI, charge clients for "AI site management." We power the backend. Paid plans and trials are managed through Freemius today, with agency subscriptions expanding the model.
 
+## Status (2026-05) — reconciled with the monetization plan
+
+This plan has been reconciled with the current product strategy and codebase. Corrections to the older draft below:
+
+- **Billing is Freemius, not Stripe.** Plugin plans (Free / Operator / Agency) are managed entirely through Freemius. The legacy Lemon Squeezy path has been removed. A separate metered SaaS billing system (e.g. Stripe) is only relevant once the hosted agency dashboard/proxy ships (Phase 3+); it is not used for plugin licensing.
+- **Tool count is ~250+, not "239".** Exact accounting is tracked in #322. Lead with outcomes, not the count (#331).
+- **The paid moat is the agent-safety + SEO-intelligence layers**, now gated to Pro (#327): approvals/rollback, event store + webhooks, site-state, content coherence, SEO audits/autofix/Search Console import/WooCommerce SEO. Core content/media/Elementor CRUD stays free as the funnel.
+
+**Already shipped toward paid launch:** single source of truth for entitlement (#319), admin tool-category gating enforced on execution (#328), Freemius-only licensing, the #327 Pro gating, and an upgrade prompt when free users call Pro tools.
+
+The agency dashboard / white-label vision below remains the V3 direction; the revenue model is updated to Freemius-managed tiers.
+
 ## The Product Stack
 
 ```
@@ -13,7 +25,7 @@ Client WordPress Sites (each has mumcp installed)
     ↓ powered by
 AI Chat (OpenAI/Gemini via agency's key, or our CF Workers AI)
     ↓ executes
-Up to 239 MCP Tools → WordPress/Elementor/WooCommerce
+250+ MCP Tools → WordPress/Elementor/WooCommerce
 ```
 
 ## V3 Milestones
@@ -47,7 +59,7 @@ Up to 239 MCP Tools → WordPress/Elementor/WooCommerce
 - [ ] Custom domain: agency's MCP proxy at `ai.agencyname.com`
 - [ ] Client-facing chat widget: end clients talk to AI on their own site
 - [ ] Embeddable chat for any page (shortcode + Elementor widget)
-- [ ] Agency billing: Stripe integration, per-site pricing, auto-invoicing
+- [ ] Agency billing: Freemius-managed plugin plans; hosted-SaaS metered billing (e.g. Stripe) only if/when the dashboard becomes a hosted service
 
 ### Phase 4: Intelligence (v3.1)
 **Goal:** The AI gets smarter with every interaction.
@@ -107,6 +119,8 @@ Conversation logs → anonymized → train better models → everyone benefits
 - 20 agencies on Scale: $7,980/mo
 - **Total: $20,330/mo ($243,960/yr ARR)**
 
+> Note: All plans are billed through **Freemius**. The Free / Operator / Agency split from the monetization plan governs feature gating today (agent-safety + SEO-intelligence = paid). The agency $/mo tiers above describe the hosted-dashboard offering and apply once Phase 2–3 ships.
+
 ## Technical Requirements
 
 ### Chat Tab (v2.9)
@@ -131,7 +145,7 @@ Conversation logs → anonymized → train better models → everyone benefits
 - Shortcode: `[mumcp_chat]`
 - Elementor widget: drag-and-drop chat
 - Custom domain via Cloudflare for SaaS (CF for Platforms)
-- Stripe Billing integration with metered usage
+- Billing via Freemius for plugin plans; metered SaaS billing (e.g. Stripe) only for the hosted dashboard
 
 ### Intelligence (v3.1)
 - Conversation logging to D1 database (opt-in, privacy-first)
@@ -157,7 +171,7 @@ Conversation logs → anonymized → train better models → everyone benefits
 
 ## What We Already Have
 
-- [x] Up to 239 MCP tools (most complete WordPress MCP server)
+- [x] 250+ MCP tools (most complete WordPress MCP server; exact count tracked in #322)
 - [x] 24 page blueprints
 - [x] Chat tab with OpenAI integration
 - [x] Cloudflare Workers AI fallback
@@ -178,6 +192,6 @@ Conversation logs → anonymized → train better models → everyone benefits
 - [ ] Agency dashboard (Next.js)
 - [ ] White-label settings + rendering
 - [ ] Chat shortcode + Elementor widget
-- [ ] Stripe billing integration
+- [ ] Hosted-dashboard billing (Freemius for plugin plans; Stripe metered only for the SaaS dashboard)
 - [ ] Conversation logging pipeline
 - [ ] LoRA fine-tuning pipeline

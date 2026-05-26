@@ -789,6 +789,24 @@ class Spai_REST_MCP extends Spai_REST_API {
 		// Build tool map from all registries.
 		$tool_map = $this->get_all_tool_map();
 
+		// If a non-Pro site calls a Pro tool, return an upgrade prompt rather than a
+		// generic "unknown tool" error -- this is the conversion surface (#327).
+		if ( ! isset( $tool_map[ $tool_name ] ) && ! $this->is_pro_active()
+			&& isset( $this->pro_registry->get_tool_map()[ $tool_name ] ) ) {
+			$upgrade_url = class_exists( 'Spai_License' )
+				? Spai_License::get_instance()->get_upgrade_url()
+				: 'https://mcpwp.net/pricing/';
+			return $this->jsonrpc_error(
+				$id,
+				-32003,
+				sprintf( 'Tool "%s" requires a Pro license.', $tool_name ),
+				array(
+					'hint'        => sprintf( 'This tool is part of the Pro plan (agent-safety + SEO intelligence). Upgrade to unlock it: %s', $upgrade_url ),
+					'upgrade_url' => $upgrade_url,
+				)
+			);
+		}
+
 		if ( ! isset( $tool_map[ $tool_name ] ) ) {
 			// Fuzzy-match for "did you mean?" suggestion.
 			$available = array_keys( $tool_map );
@@ -809,6 +827,33 @@ class Spai_REST_MCP extends Spai_REST_API {
 				'Unknown tool: ' . $tool_name,
 				array( 'hint' => 'Tool "' . $tool_name . '" does not exist.' . $suggestion . ' Call tools/list to see all available tools.' )
 			);
+		}
+
+		// Enforce admin global disabled-categories option. This gate applies to
+		// every key (even unrestricted/admin keys): an admin-disabled category is
+		// off for everyone, and must be rejected on tools/call to stay consistent
+		// with the get_all_tools() discovery filter.
+		$disabled_categories = get_option( 'spai_disabled_tool_categories', array() );
+		if ( ! empty( $disabled_categories ) && is_array( $disabled_categories ) ) {
+			$all_categories = $this->get_all_tool_categories();
+			$tool_category  = isset( $all_categories[ $tool_name ] ) ? $all_categories[ $tool_name ] : 'site';
+			if ( in_array( $tool_category, $disabled_categories, true ) ) {
+				return $this->jsonrpc_error(
+					$id,
+					-32003,
+					sprintf(
+						'Tool "%s" is in the "%s" category, which has been disabled by the site administrator.',
+						$tool_name,
+						$tool_category
+					),
+					array(
+						'hint' => sprintf(
+							'The "%s" tool category is turned off site-wide. A site admin can re-enable it under WP Admin > MCPWP > Tools.',
+							$tool_category
+						),
+					)
+				);
+			}
 		}
 
 		// Check if the API key's role allows this tool's category.
@@ -1319,7 +1364,10 @@ class Spai_REST_MCP extends Spai_REST_API {
 			return false;
 		}
 
-		return class_exists( 'Spai_License' ) && Spai_License::get_instance()->is_pro();
+		// Consume the canonical entitlement state so tool gating and the
+		// introspection pro_active flag stay consistent with capabilities (#319).
+		return class_exists( 'Spai_License' )
+			&& ! empty( Spai_License::get_instance()->get_license_info()['is_pro'] );
 	}
 
 	/**
