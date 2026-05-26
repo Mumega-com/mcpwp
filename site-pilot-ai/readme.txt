@@ -9,13 +9,21 @@ Stable tag: 2.8.31
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Connect WordPress to Claude and other MCP clients for safe AI-assisted posts, pages, media, drafts, and Elementor basics.
+Approval-safe AI operations for WordPress over MCP. Free core for content, media, menus, taxonomy, Elementor and Gutenberg editing.
 
 == Description ==
 
-MCPWP connects your WordPress site to AI assistants like Claude using the Model Context Protocol (MCP). It gives approved AI clients a scoped, auditable way to read site context and help manage core WordPress content through natural language.
+MCPWP turns your WordPress site into an MCP server so AI agents can operate it safely. It gives approved MCP clients a scoped, auditable way to read site context and manage core WordPress content through natural language, with the guardrails an agent needs.
 
-The WordPress.org package is the free core: API keys, scoped access, activity logging, posts, pages, media, drafts, menus, site context, and basic Elementor operations when Elementor is installed.
+The WordPress.org package is the **free core**: API keys, scoped access, activity logging, posts, pages, media, drafts, menus, taxonomy, site context, and Elementor and Gutenberg editing when those editors are installed.
+
+= Free vs Paid =
+
+Core execution stays free. The paid Operator tier (available in the distributed build) adds the agent-safety layer — approval and rollback workflows, an event store with outbound webhooks, site-state snapshots, and content-coherence reports — plus the SEO-intelligence layer: SEO audits, autofix planning, Search Console and Bing performance import, SEO trends, and WooCommerce SEO. The Agency tier extends this across multiple sites. WooCommerce CRUD, Elementor Pro and blueprints, forms, multilingual, and Google Indexing are also paid. Billing is handled through Freemius.
+
+= Works With Any Agent Runtime =
+
+MCPWP speaks MCP, so it is runtime-neutral. It works with Claude, GPT, Codex, Gemini, and any MCP client, and as a supplier to agent platforms that speak MCP such as AWS Bedrock AgentCore, Google Antigravity, Claude Managed Agents, OpenClaw, Hermes, and n8n.
 
 = Key Features =
 
@@ -91,7 +99,7 @@ Yes. All requests require a unique API key. Keys are hashed using WordPress pass
 
 = Does it work with any AI? =
 
-MCPWP works with any AI assistant that supports the MCP protocol. Currently, this includes Claude Code and Claude Desktop. More integrations are planned.
+MCPWP works with any AI assistant or agent runtime that supports the MCP protocol — including Claude, GPT, Codex, and Gemini clients, and agent platforms such as AWS Bedrock AgentCore, Google Antigravity, Claude Managed Agents, OpenClaw, Hermes, and n8n. Because it speaks standard MCP, there is no vendor lock-in.
 
 = Do I need coding skills? =
 

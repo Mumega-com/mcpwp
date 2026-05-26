@@ -8,11 +8,29 @@ Stable tag: 1.0.25
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Pro add-on for MCPWP. Adds advanced Elementor integration, SEO tools, and forms support.
+Pro add-on for MCPWP. Unlocks the agent-safety and SEO-intelligence layers, plus WooCommerce, Elementor Pro, forms, and multilingual.
 
 == Description ==
 
-MCPWP Pro extends the free MCPWP plugin with advanced features:
+MCPWP Pro extends the free MCPWP core with the paid Operator and Agency tiers. On top of free core execution (content, media, menus, taxonomy, Elementor and Gutenberg editing), Pro unlocks the two layers agents need to operate a site safely and intelligently:
+
+= Agent-Safety Layer =
+* Approval and rollback workflows for agent mutations
+* Event store with outbound webhooks
+* Site-state snapshots for deterministic agent starts
+* Content-coherence reports
+* Control Room for supervising approvals, rollbacks, and agent activity
+
+= SEO-Intelligence Layer =
+* SEO audits and stored issue tracking
+* Approval-safe SEO autofix planning
+* Search Console and Bing search-performance import
+* SEO trend reporting
+* WooCommerce SEO intelligence
+
+The Operator tier is single-site; the Agency tier extends these capabilities across multiple sites. Billing is handled through Freemius.
+
+Pro also adds these integrations:
 
 = Elementor Pro Features =
 * Template management (create, list, apply)
@@ -57,6 +75,10 @@ MCPWP Pro extends the free MCPWP plugin with advanced features:
 * Widget management
 * User management
 * Site-wide settings
+
+= Works With Any Agent Runtime =
+
+Like the free core, Pro speaks standard MCP. It works with Claude, GPT, Codex, Gemini, and any MCP client, and as a supplier to agent platforms that speak MCP such as AWS Bedrock AgentCore, Google Antigravity, Claude Managed Agents, OpenClaw, Hermes, and n8n.
 
 == Installation ==
 
