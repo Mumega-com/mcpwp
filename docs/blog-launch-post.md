@@ -2,7 +2,7 @@
 
 WordPress has 43% of the web. AI agents are the future of site management. But until now, connecting the two required custom code, fragile REST API wrappers, or expensive SaaS tools.
 
-**MCPWP** changes that. One plugin, up to 239 MCP tools, every major MCP client, and paid plans with a trial for production teams.
+**MCPWP** changes that. One plugin, up to 250+ MCP tools depending on installed integrations, every major MCP client, and paid plans with a trial for production teams.
 
 ## What is it?
 
@@ -17,7 +17,7 @@ No code. No Elementor JSON. No WordPress admin.
 
 ## The numbers
 
-- **Up to 239 MCP tools** across 15 categories
+- **~119 free MCP tools** in the core plugin; **250+ total** across free + Pro depending on active integrations
 - **14 page blueprints** (hero, features, pricing, FAQ, testimonials, stats, and more)
 - **Elementor 4 support** with validation that auto-fixes your AI's mistakes
 - **Role-scoped API keys** — give your designer bot 82 tools, your content writer 40
@@ -25,11 +25,11 @@ No code. No Elementor JSON. No WordPress admin.
 
 ## How it compares
 
-The closest competitor is Royal MCP with 37 tools. MCPWP exposes up to 239 tools. Elementor's Angie is in beta with credit limits. We're production-ready for agencies and operators who need broader WordPress coverage.
+The closest competitor is Royal MCP with 37 tools. MCPWP exposes 250+ tools across free and Pro depending on active integrations. Elementor's Angie is in beta with credit limits. We're production-ready for agencies and operators who need broader WordPress coverage.
 
 | Feature | MCPWP | Royal MCP | Elementor Angie |
 |---------|-------|-----------|-----------------|
-| MCP tools | Up to 239 | 37 | Unknown |
+| MCP tools | ~119 free / 250+ with Pro integrations | 37 | Unknown |
 | Elementor support | Full (build + edit + templates) | No | Yes (limited) |
 | WooCommerce | 21 tools | No | No |
 | Price | Paid plans + trial | Free | Free (beta credits) |
@@ -100,7 +100,7 @@ claude plugin install mumcp@mumcp
 
 We're Mumega — an AI agency building tools for the WordPress ecosystem. MCPWP packages the operational layer agencies need: site context, API keys, role scopes, WordPress actions, Elementor workflows, and integrations behind one MCP endpoint.
 
-Up to 239 tools. Every major MCP client. Your WordPress site, controlled through a paid product with trial access.
+250+ tools depending on installed integrations. Every major MCP client. Your WordPress site, controlled through a paid product with trial access.
 
 **Links:**
 - Website: https://mcpwp.net
