@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/site-pilot-ai/assets/banner-1544x500.png" alt="MCPWP — AI operations for WordPress" width="100%">
+  <img src="https://raw.githubusercontent.com/mumega-com/mcpwp/main/site-pilot-ai/assets/banner-1544x500.png" alt="MCPWP — AI operations for WordPress" width="100%">
 </p>
 
 <h1 align="center">MCPWP</h1>
@@ -18,8 +18,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Mumega-com/mcp-for-wp/stargazers"><img src="https://img.shields.io/github/stars/Mumega-com/mcp-for-wp?style=flat-square" alt="Stars"></a>
-  <a href="https://github.com/Mumega-com/mcp-for-wp/releases"><img src="https://img.shields.io/github/v/release/Mumega-com/mcp-for-wp?style=flat-square" alt="Release"></a>
+  <a href="https://github.com/mumega-com/mcpwp/stargazers"><img src="https://img.shields.io/github/stars/mumega-com/mcpwp?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/mumega-com/mcpwp/releases"><img src="https://img.shields.io/github/v/release/mumega-com/mcpwp?style=flat-square" alt="Release"></a>
   <img src="https://img.shields.io/badge/tools-250%2B-blue?style=flat-square" alt="Tools">
   <img src="https://img.shields.io/badge/blueprints-24-blue?style=flat-square" alt="Blueprints">
   <img src="https://img.shields.io/badge/MCP-compatible-brightgreen?style=flat-square" alt="MCP">
@@ -44,7 +44,7 @@ AI:  wp_build_page → full Elementor page with styled sections, flex grid, shad
 
 <!-- TODO: Replace with actual demo GIF
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/docs/demo.gif" alt="mumcp demo" width="800">
+  <img src="https://raw.githubusercontent.com/mumega-com/mcpwp/main/docs/demo.gif" alt="mumcp demo" width="800">
 </p>
 -->
 
