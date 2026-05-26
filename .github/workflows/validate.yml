@@ -107,7 +107,7 @@ jobs:
             exit 1
           fi
 
-          if [ "${MANIFEST_URL}" != "https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip" ]; then
+          if [ "${MANIFEST_URL}" != "https://mumega.com/mcp-updates/mumega-mcp-latest.zip" ]; then
             echo "::error::version.json download_url must point at the canonical mumega.com ZIP"
             exit 1
           fi
