@@ -215,6 +215,8 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_approval'                    => 'admin',
 			'wp_apply_approval'                  => 'admin',
 			'wp_rollback_approval'               => 'admin',
+			'wp_approve_request'                 => 'admin',
+			'wp_reject_request'                  => 'admin',
 
 			// Site-state snapshot (agent-safety, gated to Pro, issue #327)
 			'wp_get_site_state'                  => 'site',
@@ -3172,6 +3174,38 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 			)
 		);
 
+		$pro_tools[] = $this->define_tool(
+			'wp_approve_request',
+			'Approve a pending mutation request so it can be applied.',
+			array(
+				'id' => array(
+					'type'        => 'string',
+					'description' => 'Approval request ID.',
+					'required'    => true,
+				),
+				'note' => array(
+					'type'        => 'string',
+					'description' => 'Optional human review note.',
+				),
+			)
+		);
+
+		$pro_tools[] = $this->define_tool(
+			'wp_reject_request',
+			'Reject a pending mutation request.',
+			array(
+				'id' => array(
+					'type'        => 'string',
+					'description' => 'Approval request ID.',
+					'required'    => true,
+				),
+				'note' => array(
+					'type'        => 'string',
+					'description' => 'Optional human review note.',
+				),
+			)
+		);
+
 		// Site-state snapshot (agent-safety, gated to Pro, issue #327).
 		$pro_tools[] = $this->define_tool(
 			'wp_get_site_state',
@@ -3778,6 +3812,14 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 			'wp_rollback_approval'  => array(
 				'method' => 'POST',
 				'route'  => '/approvals/{id}/rollback',
+			),
+			'wp_approve_request'    => array(
+				'method' => 'POST',
+				'route'  => '/approvals/{id}/approve',
+			),
+			'wp_reject_request'     => array(
+				'method' => 'POST',
+				'route'  => '/approvals/{id}/reject',
 			),
 
 			// Site-state snapshot (agent-safety, gated to Pro, issue #327)

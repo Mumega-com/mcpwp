@@ -219,16 +219,20 @@ class McpProGatingTest extends PHPUnit\Framework\TestCase
         }
     }
 
-    // ── Approval workflow split: approve/reject stay free ──────────
+    // ── Approval workflow: approve/reject are gated to Pro ─────────
 
-    public function test_approve_and_reject_request_remain_free()
+    public function test_approve_and_reject_request_gated_to_pro()
     {
         $freeNames = array_column($this->free->get_tools(), 'name');
         $freeMap   = $this->free->get_tool_map();
+        $proNames  = array_column($this->pro->get_tools(), 'name');
+        $proMap    = $this->pro->get_tool_map();
 
         foreach (array('wp_approve_request', 'wp_reject_request') as $tool) {
-            $this->assertContains($tool, $freeNames, "{$tool} should remain in the free registry.");
-            $this->assertArrayHasKey($tool, $freeMap, "{$tool} route should remain in the free registry.");
+            $this->assertNotContains($tool, $freeNames, "{$tool} should be gated to Pro, not free.");
+            $this->assertArrayNotHasKey($tool, $freeMap, "{$tool} route should be gated to Pro, not free.");
+            $this->assertContains($tool, $proNames, "{$tool} should be in the pro registry.");
+            $this->assertArrayHasKey($tool, $proMap, "{$tool} route should be in the pro registry.");
         }
     }
 

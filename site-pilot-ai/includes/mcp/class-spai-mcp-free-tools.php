@@ -166,8 +166,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_patch_block_section'     => 'gutenberg',
 			'wp_list_block_types'        => 'gutenberg',
 			'wp_list_block_patterns'     => 'gutenberg',
-			'wp_approve_request'         => 'admin',
-			'wp_reject_request'          => 'admin',
 
 			// API Keys & Rate Limiting
 			'wp_list_api_keys'           => 'admin',
@@ -2274,38 +2272,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			)
 		);
 
-		$tools[] = $this->define_tool(
-			'wp_approve_request',
-			'Approve a pending mutation request so it can be applied.',
-			array(
-				'id' => array(
-					'type'        => 'string',
-					'description' => 'Approval request ID.',
-					'required'    => true,
-				),
-				'note' => array(
-					'type'        => 'string',
-					'description' => 'Optional human review note.',
-				),
-			)
-		);
-
-		$tools[] = $this->define_tool(
-			'wp_reject_request',
-			'Reject a pending mutation request.',
-			array(
-				'id' => array(
-					'type'        => 'string',
-					'description' => 'Approval request ID.',
-					'required'    => true,
-				),
-				'note' => array(
-					'type'        => 'string',
-					'description' => 'Optional human review note.',
-				),
-			)
-		);
-
 		// Option Management
 		$tools[] = $this->define_tool(
 			'wp_get_option',
@@ -2960,14 +2926,6 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_block_design_system' => array(
 				'method' => 'GET',
 				'route'  => '/blocks/design-system',
-			),
-			'wp_approve_request'    => array(
-				'method' => 'POST',
-				'route'  => '/approvals/{id}/approve',
-			),
-			'wp_reject_request'     => array(
-				'method' => 'POST',
-				'route'  => '/approvals/{id}/reject',
 			),
 
 			// Post Meta
