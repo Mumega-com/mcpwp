@@ -22,7 +22,7 @@ class Spai_Themes {
 	 * @var array
 	 */
 	private $supported_themes = array(
-		'astra'        => array(
+		'astra'         => array(
 			'option_key' => 'astra-settings',
 			'name'       => 'Astra',
 		),
@@ -30,33 +30,13 @@ class Spai_Themes {
 			'option_key' => 'generate_settings',
 			'name'       => 'GeneratePress',
 		),
-		'kadence'      => array(
+		'kadence'       => array(
 			'option_key' => 'theme_mods_kadence',
 			'name'       => 'Kadence',
 		),
-		'oceanwp'      => array(
-			'option_key' => 'theme_mods_flavor', // OceanWP uses theme_mods
+		'oceanwp'       => array(
+			'option_key' => 'ocean_options', // OceanWP stores its panel settings in the ocean_options option.
 			'name'       => 'OceanWP',
-		),
-		'flavor'       => array(
-			'option_key' => 'flavor_options',
-			'name'       => 'flavor Theme',
-		),
-		'flavflavor'       => array(
-			'option_key' => 'flavor_options',
-			'name'       => 'flavor Theme',
-		),
-		'flavor'       => array(
-			'option_key' => 'flavor_flavor',
-			'name'       => 'flavor',
-		),
-		'flavor'           => array(
-			'option_key' => 'flavor_flavor',
-			'name'       => 'flavor',
-		),
-		'flavor'           => array(
-			'option_key' => 'flavor_flavor',
-			'name'       => 'flavor',
 		),
 	);
 
