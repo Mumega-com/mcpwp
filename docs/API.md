@@ -32,7 +32,7 @@
   - [Themes](#themes)
   - [Theme Builder](#theme-builder)
   - [WooCommerce (Pro)](#woocommerce-pro)
-  - [Multilanguage (Pro)](#multilanguage-pro)
+  - [Multilanguage (Experimental)](#multilanguage-experimental)
   - [Webhooks](#webhooks)
   - [AI Integrations](#ai-integrations)
 - [Rate Limiting](#rate-limiting)
@@ -1338,7 +1338,7 @@ Returns SEO analysis and recommendations.
 
 ### Forms
 
-*Requires Pro license. Supports CF7, WPForms, Gravity Forms, Ninja Forms*
+*Experimental (Pro build). Read-only — list/read forms and entries only; no create/update/delete. Supports CF7, WPForms, Gravity Forms, Ninja Forms.*
 
 #### Get Forms Status
 
@@ -2602,11 +2602,11 @@ GET /woocommerce/analytics
 
 ---
 
-### Multilanguage (Pro)
+### Multilanguage (Experimental)
 
-Full multilingual site support for WPML, Polylang, and TranslatePress.
+Multilingual support for WPML, Polylang, and TranslatePress. **Experimental and partial:** detection and reads are broad, but translation **writes are limited to WPML and Polylang** — TranslatePress is detection-only. Ships in the Pro build but is not counted as core Pro value.
 
-> **Paid Feature:** Requires MCPWP with a valid Freemius license or trial.
+> **Experimental:** Ships in the Pro build (requires a valid Freemius license or trial), but scope is limited — see [#329](https://github.com/Mumega-com/mcpwp/issues/329).
 
 #### Supported Plugins
 

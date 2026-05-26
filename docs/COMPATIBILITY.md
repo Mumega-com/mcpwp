@@ -2,6 +2,8 @@
 
 mumcp auto-detects installed plugins and adapts its toolset accordingly. Here's what we support and how deep the integration goes.
 
+> **Pro value vs. experimental.** The paid Pro tiers are defined by the agent-safety layer (approvals/rollback, event store + webhooks, site-state, content coherence) and the SEO-intelligence layer (audits, autofix, Search Console/Bing import, WooCommerce SEO), plus the deep **WooCommerce**, **Elementor Pro**, and **LearnPress** integrations. The **Forms**, **Events (ThimPress)**, and **Multilingual** integrations are **experimental** — narrow in scope, still maturing, and **not counted as core Pro value** (see [#329](https://github.com/Mumega-com/mcpwp/issues/329)).
+
 ## Compatibility Matrix
 
 ### Page Builders
@@ -40,15 +42,35 @@ mumcp auto-detects installed plugins and adapts its toolset accordingly. Here's 
 | **LearnDash** | Not yet | 0 | Planned |
 | **Tutor LMS** | Not yet | 0 | Community request |
 
-### Forms
+### Forms (Experimental)
+
+Read-only across all supported form plugins — list forms, read a form, read entries, and check status. There is **no create/update/delete**, so agents cannot build or modify forms. Treated as experimental, not core Pro value.
 
 | Plugin | Status | Tools | What mumcp can do |
 |--------|--------|-------|-------------------|
-| **Contact Form 7** | Read | 4 | List forms, get form, get entries, status |
-| **WPForms** | Read | 4 | Same |
-| **Gravity Forms** | Read | 4 | Same |
-| **Ninja Forms** | Read | 4 | Same |
-| **Elementor Pro Forms** | Read | 4 | Via Elementor Pro forms integration |
+| **Contact Form 7** | Read-only (experimental) | 4 | List forms, get form, get entries, status |
+| **WPForms** | Read-only (experimental) | 4 | Same |
+| **Gravity Forms** | Read-only (experimental) | 4 | Same |
+| **Ninja Forms** | Read-only (experimental) | 4 | Same |
+| **Elementor Pro Forms** | Read-only (experimental) | 4 | Via Elementor Pro forms integration |
+
+### Multilingual (Experimental)
+
+Partial coverage — detection and reads are broad, but translation **writes are limited to WPML and Polylang**. Treated as experimental, not core Pro value.
+
+| Plugin | Status | What mumcp can do |
+|--------|--------|-------------------|
+| **WPML** | Read + create translation (experimental) | Detect languages, list translations, create a post translation |
+| **Polylang** | Read + create translation (experimental) | Same as WPML |
+| **TranslatePress** | Detection only | Languages detected; translation writes not supported |
+
+### Events (Experimental)
+
+A thin wrapper over the ThimPress `tp_event` post type — create/update events as posts with a flat meta map. **No ticketing, registration, or attendee management.** Treated as experimental, not core Pro value.
+
+| Plugin | Status | What mumcp can do |
+|--------|--------|-------------------|
+| **ThimPress Events** | Basic CRUD (experimental) | Create/update/query `tp_event` posts and their meta |
 
 ### Media & AI
 
