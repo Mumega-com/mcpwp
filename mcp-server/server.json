@@ -3,7 +3,7 @@
   "name": "io.github.Mumega-com/mumcp",
   "description": "Connect WordPress sites to AI assistants via MCP. Tool availability is dynamic by license, active integrations, and role-scoped API keys.",
   "repository": {
-    "url": "https://github.com/Mumega-com/mcp-for-wp",
+    "url": "https://github.com/mumega-com/mcpwp",
     "source": "github",
     "subfolder": "mcp-server"
   },
