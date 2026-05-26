@@ -82,6 +82,8 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_add_menu_item'           => 'site',
 			'wp_update_menu_item'        => 'site',
 			'wp_delete_menu_item'        => 'site',
+			'wp_update_menu_item_auto'   => 'site',
+			'wp_delete_menu_item_auto'   => 'site',
 			'wp_reorder_menu_items'      => 'site',
 			'wp_delete_menu'             => 'site',
 			'wp_assign_menu_location'    => 'site',
@@ -166,6 +168,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_patch_block_section'     => 'gutenberg',
 			'wp_list_block_types'        => 'gutenberg',
 			'wp_list_block_patterns'     => 'gutenberg',
+			'wp_parse_blocks'            => 'gutenberg',
+			'wp_serialize_blocks'        => 'gutenberg',
+			'wp_validate_blocks'         => 'gutenberg',
+			'wp_get_block_design_system' => 'gutenberg',
 
 			// API Keys & Rate Limiting
 			'wp_list_api_keys'           => 'admin',
