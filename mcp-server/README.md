@@ -236,7 +236,7 @@ Verify:
 
 ```bash
 git clone https://github.com/mumega-com/mcpwp.git
-cd mcp-for-wp/mcp-server
+cd mcpwp/mcp-server
 bun install
 bun run build       # Single-file bundle to dist/index.js
 node dist/index.js --test
