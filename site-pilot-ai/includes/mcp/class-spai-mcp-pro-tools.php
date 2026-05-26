@@ -341,7 +341,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 		$pro_tools = array();
 
 		// Google Indexing API Tools.
-		$tools[] = $this->define_tool(
+		$pro_tools[] = $this->define_tool(
 			'wp_submit_to_google_index',
 			'Submit one or more URLs to Google for indexing via the Indexing API. Requires Google Indexing API integration to be configured. Use action URL_UPDATED for new/updated pages and URL_DELETED for removed pages. Limited to 200 URLs per day by Google.',
 			array(
@@ -358,7 +358,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 			)
 		);
 
-		$tools[] = $this->define_tool(
+		$pro_tools[] = $this->define_tool(
 			'wp_google_index_status',
 			'Check Google indexing status for a URL. Returns the latest update and removal notification times from the Indexing API. Requires Google Indexing API integration to be configured.',
 			array(

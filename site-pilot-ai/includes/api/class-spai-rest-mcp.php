@@ -789,6 +789,24 @@ class Spai_REST_MCP extends Spai_REST_API {
 		// Build tool map from all registries.
 		$tool_map = $this->get_all_tool_map();
 
+		// If a non-Pro site calls a Pro tool, return an upgrade prompt rather than a
+		// generic "unknown tool" error -- this is the conversion surface (#327).
+		if ( ! isset( $tool_map[ $tool_name ] ) && ! $this->is_pro_active()
+			&& isset( $this->pro_registry->get_tool_map()[ $tool_name ] ) ) {
+			$upgrade_url = class_exists( 'Spai_License' )
+				? Spai_License::get_instance()->get_upgrade_url()
+				: 'https://mcpwp.net/pricing/';
+			return $this->jsonrpc_error(
+				$id,
+				-32003,
+				sprintf( 'Tool "%s" requires a Pro license.', $tool_name ),
+				array(
+					'hint'        => sprintf( 'This tool is part of the Pro plan (agent-safety + SEO intelligence). Upgrade to unlock it: %s', $upgrade_url ),
+					'upgrade_url' => $upgrade_url,
+				)
+			);
+		}
+
 		if ( ! isset( $tool_map[ $tool_name ] ) ) {
 			// Fuzzy-match for "did you mean?" suggestion.
 			$available = array_keys( $tool_map );
