@@ -24,18 +24,22 @@ class Spai_Themes {
 	private $supported_themes = array(
 		'astra'         => array(
 			'option_key' => 'astra-settings',
+			'storage'    => 'custom_option',
 			'name'       => 'Astra',
 		),
 		'generatepress' => array(
 			'option_key' => 'generate_settings',
+			'storage'    => 'custom_option',
 			'name'       => 'GeneratePress',
 		),
 		'kadence'       => array(
-			'option_key' => 'theme_mods_kadence',
+			'option_key' => '', // Kadence stores its settings in theme_mods, not a dedicated option.
+			'storage'    => 'theme_mods',
 			'name'       => 'Kadence',
 		),
 		'oceanwp'       => array(
 			'option_key' => 'ocean_options', // OceanWP stores its panel settings in the ocean_options option.
+			'storage'    => 'custom_option',
 			'name'       => 'OceanWP',
 		),
 	);
@@ -79,8 +83,8 @@ class Spai_Themes {
 	 * @return string Settings type.
 	 */
 	private function get_settings_type( $theme_slug ) {
-		if ( isset( $this->supported_themes[ $theme_slug ] ) ) {
-			return 'custom_option';
+		if ( isset( $this->supported_themes[ $theme_slug ]['storage'] ) ) {
+			return $this->supported_themes[ $theme_slug ]['storage'];
 		}
 		return 'theme_mods';
 	}
@@ -711,6 +715,48 @@ class Spai_Themes {
 		delete_transient( 'kadence_dynamic_css' );
 
 		return $this->get_kadence_settings();
+	}
+
+	// =========================================================================
+	// OCEANWP THEME
+	// =========================================================================
+
+	/**
+	 * Get OceanWP theme settings.
+	 *
+	 * OceanWP stores its panel settings in the ocean_options option.
+	 *
+	 * @return array OceanWP settings.
+	 */
+	private function get_oceanwp_settings() {
+		$settings = get_option( 'ocean_options', array() );
+
+		return array(
+			'type'     => 'oceanwp',
+			'settings' => is_array( $settings ) ? $settings : array(),
+			'raw'      => $settings,
+		);
+	}
+
+	/**
+	 * Update OceanWP theme settings.
+	 *
+	 * @param array $settings Settings to update (merged into ocean_options).
+	 * @return array Updated settings.
+	 */
+	private function update_oceanwp_settings( $settings ) {
+		$options = get_option( 'ocean_options', array() );
+		if ( ! is_array( $options ) ) {
+			$options = array();
+		}
+
+		foreach ( $settings as $key => $value ) {
+			$options[ $key ] = $value;
+		}
+
+		update_option( 'ocean_options', $options );
+
+		return $this->get_oceanwp_settings();
 	}
 
 	// =========================================================================
