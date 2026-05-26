@@ -47,89 +47,21 @@ jobs:
             exit 1
           fi
 
-      - name: Create WP.org-compatible distribution
-        id: create_wporg
+      # Single source of truth: build.sh produces both zips (paid keeps
+      # includes/pro/; WP.org strips includes/pro/ and the self-hosted updater)
+      # with the correct top-level site-pilot-ai/ folder name.
+      - name: Build distribution zips
+        id: build
         run: |
           VERSION="${{ steps.version.outputs.version }}"
-          WPORG_ZIP="site-pilot-ai-${VERSION}-wporg.zip"
-          TEMP_DIR="site-pilot-ai-wporg"
-
-          # Copy plugin to temp directory
-          cp -r site-pilot-ai "${TEMP_DIR}"
-
-          # Remove pro directory
-          rm -rf "${TEMP_DIR}/includes/pro"
-
-          # Remove development files
-          rm -rf "${TEMP_DIR}/.git"
-          rm -rf "${TEMP_DIR}/.github"
-          rm -rf "${TEMP_DIR}/tests"
-          rm -rf "${TEMP_DIR}/node_modules"
-          rm -rf "${TEMP_DIR}/dist"
-          rm -f "${TEMP_DIR}/.gitignore"
-          rm -f "${TEMP_DIR}/.distignore"
-          rm -f "${TEMP_DIR}/composer.json"
-          rm -f "${TEMP_DIR}/composer.lock"
-          rm -f "${TEMP_DIR}/package.json"
-          rm -f "${TEMP_DIR}/package-lock.json"
-          rm -f "${TEMP_DIR}/phpunit.xml"
-          rm -f "${TEMP_DIR}/README.md"
-          rm -f "${TEMP_DIR}/CONTRIBUTING.md"
-          rm -f "${TEMP_DIR}/CHANGELOG.md"
-
-          # Rename directory back to site-pilot-ai for WordPress
-          mv "${TEMP_DIR}" site-pilot-ai-temp
-
-          # Create zip
-          zip -r "${WPORG_ZIP}" site-pilot-ai-temp
-          mv site-pilot-ai-temp/readme.txt . 2>/dev/null || true
-
-          # Clean up
-          rm -rf site-pilot-ai-temp
-
-          echo "wporg_zip=${WPORG_ZIP}" >> $GITHUB_OUTPUT
-          echo "WP.org-compatible distribution created: ${WPORG_ZIP}"
-          ls -lh "${WPORG_ZIP}"
-
-      - name: Create paid/self-hosted distribution
-        id: create_paid
-        run: |
-          VERSION="${{ steps.version.outputs.version }}"
+          bash build.sh
           PAID_ZIP="site-pilot-ai-${VERSION}.zip"
-          TEMP_DIR="site-pilot-ai-paid"
-
-          # Copy plugin to temp directory
-          cp -r site-pilot-ai "${TEMP_DIR}"
-
-          # Remove development files (keep pro)
-          rm -rf "${TEMP_DIR}/.git"
-          rm -rf "${TEMP_DIR}/.github"
-          rm -rf "${TEMP_DIR}/tests"
-          rm -rf "${TEMP_DIR}/node_modules"
-          rm -rf "${TEMP_DIR}/dist"
-          rm -f "${TEMP_DIR}/.gitignore"
-          rm -f "${TEMP_DIR}/.distignore"
-          rm -f "${TEMP_DIR}/composer.json"
-          rm -f "${TEMP_DIR}/composer.lock"
-          rm -f "${TEMP_DIR}/package.json"
-          rm -f "${TEMP_DIR}/package-lock.json"
-          rm -f "${TEMP_DIR}/phpunit.xml"
-          rm -f "${TEMP_DIR}/README.md"
-          rm -f "${TEMP_DIR}/CONTRIBUTING.md"
-          rm -f "${TEMP_DIR}/CHANGELOG.md"
-
-          # Rename directory back to site-pilot-ai for WordPress
-          mv "${TEMP_DIR}" site-pilot-ai-temp
-
-          # Create zip
-          zip -r "${PAID_ZIP}" site-pilot-ai-temp
-
-          # Clean up
-          rm -rf site-pilot-ai-temp
-
+          WPORG_ZIP="site-pilot-ai-${VERSION}-wporg.zip"
+          cp dist/site-pilot-ai.zip "${PAID_ZIP}"
+          cp dist/site-pilot-ai-wporg.zip "${WPORG_ZIP}"
           echo "paid_zip=${PAID_ZIP}" >> $GITHUB_OUTPUT
-          echo "Paid/self-hosted distribution created: ${PAID_ZIP}"
-          ls -lh "${PAID_ZIP}"
+          echo "wporg_zip=${WPORG_ZIP}" >> $GITHUB_OUTPUT
+          ls -lh "${PAID_ZIP}" "${WPORG_ZIP}"
 
       - name: Generate release notes
         id: release_notes
@@ -190,12 +122,44 @@ jobs:
           name: "Mumega MCP v${{ steps.version.outputs.version }}"
           body_path: release_notes.md
           files: |
-            ${{ steps.create_wporg.outputs.wporg_zip }}
-            ${{ steps.create_paid.outputs.paid_zip }}
+            ${{ steps.build.outputs.wporg_zip }}
+            ${{ steps.build.outputs.paid_zip }}
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # DRAFT (disabled by default): publishes the paid build to Freemius.
+      # No-ops unless the FREEMIUS_BEARER_TOKEN repository secret is set, so it
+      # cannot publish until you explicitly add the secret. See #324.
+      - name: Upload to Freemius (if configured)
+        env:
+          FREEMIUS_BEARER_TOKEN: ${{ secrets.FREEMIUS_BEARER_TOKEN }}
+        run: |
+          if [ -z "${FREEMIUS_BEARER_TOKEN}" ]; then
+            echo "FREEMIUS_BEARER_TOKEN not set — skipping Freemius upload."
+            echo "To enable: add the FREEMIUS_BEARER_TOKEN repository secret."
+            exit 0
+          fi
+          bash scripts/release_freemius.sh --version "${{ steps.version.outputs.version }}" --skip-bump
+
+      # DRAFT (disabled by default): deploys the WP.org build to the plugin SVN.
+      # Intentionally a no-op until the plugin slug is confirmed (#321) and a
+      # deploy is wired (recommended: 10up/action-wordpress-plugin-deploy). See #325.
+      - name: Deploy to WordPress.org SVN (if configured)
+        env:
+          WPORG_SVN_USERNAME: ${{ secrets.WPORG_SVN_USERNAME }}
+          WPORG_SVN_PASSWORD: ${{ secrets.WPORG_SVN_PASSWORD }}
+        run: |
+          if [ -z "${WPORG_SVN_USERNAME}" ] || [ -z "${WPORG_SVN_PASSWORD}" ]; then
+            echo "WP.org SVN credentials not set — skipping WordPress.org deploy."
+            echo "To enable: add WPORG_SVN_USERNAME and WPORG_SVN_PASSWORD secrets,"
+            echo "confirm the WP.org plugin slug (#321), and wire the deploy step."
+            exit 0
+          fi
+          echo "::warning::WP.org SVN deploy is drafted but not yet implemented (no-op)."
+          echo "Credentials are present, but the SVN push is intentionally a no-op until the"
+          echo "plugin slug is confirmed (#321) and the deploy action is wired (#325)."
 
       - name: Release summary
         run: |
@@ -204,7 +168,7 @@ jobs:
           echo "**Version:** ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Artifacts:**" >> $GITHUB_STEP_SUMMARY
-          echo "- WP.org-compatible: \`${{ steps.create_wporg.outputs.wporg_zip }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Paid/self-hosted: \`${{ steps.create_paid.outputs.paid_zip }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- WP.org-compatible: \`${{ steps.build.outputs.wporg_zip }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Paid/self-hosted: \`${{ steps.build.outputs.paid_zip }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "[View Release](https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }})" >> $GITHUB_STEP_SUMMARY
