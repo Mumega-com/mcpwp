@@ -42,11 +42,21 @@ replace_or_fail() {
 	local file="$1"
 	local pattern="$2"
 	local replacement="$3"
-	if ! grep -Eq "$pattern" "$file"; then
-		echo "Pattern not found in $file: $pattern" >&2
-		exit 1
-	fi
-	sed -E -i "s|$pattern|$replacement|" "$file"
+	python3 - "$file" "$pattern" "$replacement" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+path = Path(sys.argv[1])
+pattern = sys.argv[2]
+replacement = sys.argv[3]
+content = path.read_text(encoding="utf-8")
+updated, count = re.subn(pattern, replacement, content, count=1, flags=re.MULTILINE)
+if count == 0:
+    print(f"Pattern not found in {path}: {pattern}", file=sys.stderr)
+    sys.exit(1)
+path.write_text(updated, encoding="utf-8")
+PY
 }
 
 VERSION=""
@@ -126,7 +136,6 @@ fi
 
 require_cmd zip
 require_cmd curl
-require_cmd sed
 require_cmd grep
 require_cmd python3
 
@@ -135,53 +144,46 @@ if [[ "$DRY_RUN" -eq 0 && -z "$TOKEN" ]]; then
 	exit 1
 fi
 
-FREE_MAIN_FILE="site-pilot-ai/site-pilot-ai.php"
-FREE_README_FILE="site-pilot-ai/readme.txt"
-FREE_CHANGELOG_FILE="site-pilot-ai/CHANGELOG.md"
-FREE_FS_INIT_FILE="site-pilot-ai/includes/freemius-init.php"
-FREE_LICENSE_FILE="site-pilot-ai/includes/class-spai-license.php"
+PLUGIN_MAIN_FILE="site-pilot-ai/site-pilot-ai.php"
+PLUGIN_README_FILE="site-pilot-ai/readme.txt"
+PLUGIN_CHANGELOG_FILE="site-pilot-ai/CHANGELOG.md"
 
 if [[ "$SKIP_BUMP" -eq 0 ]]; then
 	echo "Bumping plugin versions to $VERSION"
 
-	replace_or_fail "$FREE_MAIN_FILE" "^ \\* Version:[[:space:]]+.*$" " * Version:           $VERSION"
-	replace_or_fail "$FREE_MAIN_FILE" "^define\( 'SPAI_VERSION', '[^']+' \);$" "define( 'SPAI_VERSION', '$VERSION' );"
-	replace_or_fail "$FREE_README_FILE" "^Stable tag: .*$" "Stable tag: $VERSION"
+	replace_or_fail "$PLUGIN_MAIN_FILE" "^ \\* Version:\\s+.*$" " * Version:           $VERSION"
+	replace_or_fail "$PLUGIN_MAIN_FILE" "^define\( 'SPAI_VERSION', '[^']+' \);$" "define( 'SPAI_VERSION', '$VERSION' );"
+	replace_or_fail "$PLUGIN_README_FILE" "^Stable tag: .*$" "Stable tag: $VERSION"
 
-	if ! grep -q "^## \[$VERSION\]" "$FREE_CHANGELOG_FILE"; then
+	if ! grep -q "^## \[$VERSION\]" "$PLUGIN_CHANGELOG_FILE"; then
 		DATE_TODAY="$(date +%Y-%m-%d)"
-		sed -i "0,/^## \[/s//## [$VERSION] - $DATE_TODAY\\n\\n### Changed\\n- Release automation update.\\n\\n## [/" "$FREE_CHANGELOG_FILE"
+		python3 - "$PLUGIN_CHANGELOG_FILE" "$VERSION" "$DATE_TODAY" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+path = Path(sys.argv[1])
+version = sys.argv[2]
+date_today = sys.argv[3]
+content = path.read_text(encoding="utf-8")
+entry = f"## [{version}] - {date_today}\n\n### Changed\n- Release automation update.\n\n"
+updated, count = re.subn(r"^## \[", entry + "## [", content, count=1, flags=re.MULTILINE)
+if count == 0:
+    print(f"Could not find changelog insertion point in {path}", file=sys.stderr)
+    sys.exit(1)
+path.write_text(updated, encoding="utf-8")
+PY
 	fi
 fi
 
-FREE_ZIP="site-pilot-ai-$VERSION.zip"
+FREEMIUS_ZIP="site-pilot-ai/scripts/site-pilot-ai-freemius-$VERSION.zip"
 PREMIUM_ZIP="site-pilot-ai-premium-$VERSION.zip"
 
-echo "Building zip package"
-(
-	BUILD_DIR="$(mktemp -d)"
-	DISTIGNORE="site-pilot-ai/.distignore"
-
-	# Build rsync exclude list from .distignore
-	RSYNC_EXCLUDES=()
-	if [[ -f "$DISTIGNORE" ]]; then
-		while IFS= read -r line; do
-			line="$(echo "$line" | sed 's/#.*//' | xargs)"
-			[[ -z "$line" ]] && continue
-			RSYNC_EXCLUDES+=("--exclude=$line")
-		done < "$DISTIGNORE"
-	fi
-	# Always exclude .sh files (test scripts) and hidden files
-	RSYNC_EXCLUDES+=("--exclude=*.sh" "--exclude=.git" "--exclude=.github")
-
-	rsync -a "${RSYNC_EXCLUDES[@]}" "site-pilot-ai/" "$BUILD_DIR/site-pilot-ai/"
-	cd "$BUILD_DIR"
-	zip -qr "$ROOT_DIR/$FREE_ZIP" "site-pilot-ai"
-	rm -rf "$BUILD_DIR" || true
-)
+echo "Building Freemius paid/trial zip package"
+bash site-pilot-ai/scripts/build-freemius.sh --version "$VERSION"
 
 if [[ "$UPLOAD_PREMIUM_ZIP" -eq 1 ]]; then
-	echo "Building premium zip package"
+	echo "Building legacy premium zip package"
 	(
 		BUILD_DIR="$(mktemp -d)"
 		cp -R "site-pilot-ai" "$BUILD_DIR/site-pilot-ai-premium"
@@ -193,9 +195,9 @@ fi
 
 if [[ "$DRY_RUN" -eq 1 ]]; then
 	echo "Dry run complete."
-	echo "- Free zip: $FREE_ZIP"
+	echo "- Freemius zip: $FREEMIUS_ZIP"
 	if [[ "$UPLOAD_PREMIUM_ZIP" -eq 1 ]]; then
-		echo "- Premium zip: $PREMIUM_ZIP"
+		echo "- Legacy premium zip: $PREMIUM_ZIP"
 	fi
 	echo "- API calls skipped"
 	exit 0
@@ -205,7 +207,7 @@ echo "Uploading $VERSION to Freemius product $PRODUCT_ID"
 CREATE_RESPONSE="$(
 	curl -sS -X POST "https://api.freemius.com/v1/products/$PRODUCT_ID/tags.json" \
 		-H "Authorization: Bearer $TOKEN" \
-		-F "file=@$FREE_ZIP;type=application/zip" \
+		-F "file=@$FREEMIUS_ZIP;type=application/zip" \
 		-F "add_contributor_to_rel=false"
 )"
 
@@ -283,7 +285,7 @@ echo "- tag_id:       $TAG_ID"
 echo "- release_mode: $FINAL_MODE"
 
 if [[ "$KEEP_ZIPS" -eq 0 ]]; then
-	rm -f "$FREE_ZIP"
+	rm -f "$FREEMIUS_ZIP"
 	if [[ "$UPLOAD_PREMIUM_ZIP" -eq 1 ]]; then
 		rm -f "$PREMIUM_ZIP"
 	fi
