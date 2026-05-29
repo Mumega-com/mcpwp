@@ -233,6 +233,18 @@ class Spai_Loader {
 		$site_controller = new Spai_REST_Site();
 		$site_controller->register_routes();
 
+		// Content graph and internal links
+		$content_graph_controller = new Spai_REST_Content_Graph();
+		$content_graph_controller->register_routes();
+
+		// SEO audit
+		$seo_audit_controller = new Spai_REST_SEO_Audit();
+		$seo_audit_controller->register_routes();
+
+		// Content quality
+		$content_quality_controller = new Spai_REST_Content_Quality();
+		$content_quality_controller->register_routes();
+
 		// Posts
 		$posts_controller = new Spai_REST_Posts();
 		$posts_controller->register_routes();

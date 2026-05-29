@@ -271,6 +271,9 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-pages.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-media.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-site.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-content-graph.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-seo-audit.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-content-quality.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-menus.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-content.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-elementor.php';
