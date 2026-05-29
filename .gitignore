@@ -47,3 +47,6 @@ scripts/*.sh
 
 # Test caches
 site-pilot-ai/tests/.phpunit.result.cache
+.claude/
+.claude/
+.claude/
