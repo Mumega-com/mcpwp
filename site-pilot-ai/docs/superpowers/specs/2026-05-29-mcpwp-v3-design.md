@@ -1,8 +1,19 @@
 # MCPWP v3 — Architecture Design
 **Date:** 2026-05-29  
-**Status:** Draft  
+**Status:** Draft — updated after full session  
 **Owner:** Product (Hadi / Mumega)  
 **Target:** mcpwp.net v3 — clean break from v2
+
+---
+
+## Context
+
+MCPWP v2 (`site-pilot-ai`, 2.8.31) is a mature WordPress MCP plugin with ~200 tools, approval gates, content graph, SEO intelligence, and WooCommerce support. It's used internally on 5 sites. v3 is a clean break — new slug, new architecture, new capabilities.
+
+**The three architectural problems v3 solves:**
+1. **Fat MCP** — 200+ tool schemas sent to the AI at connect time, burning thousands of tokens
+2. **No extensibility** — only tools Mumega ships are available; no way for site owners or other plugins to add tools
+3. **External data is blind** — the agent can only see what's in WordPress; can't pull GSC, GA, external APIs, or navigate the live site
 
 ---
 
@@ -14,123 +25,147 @@
 | REST namespace | `site-pilot-ai/v1` | `mcpwp/v3` |
 | Option prefix | `spai_` | `mcpwp_` |
 | Class prefix | `Spai_` | `MCPWP_` |
-| MCP transport | Node.js stdio proxy → PHP REST | PHP native (HTTP + stdio proxy) |
-| Tool list size | ~200 tools at connect | 2 meta-tools at connect, groups on demand |
+| MCP transport | Node.js stdio proxy → PHP REST | PHP-native HTTP + stdio proxy kept |
+| Tool list at connect | ~200 tools | 2 meta-tools |
+| Tool loading | Eager (all upfront) | Lazy (by category, on demand) |
 | Custom tools | Not possible | Admin UI + plugin hooks |
-| Node.js proxy | 240-line pass-through | Kept, renamed `mcpwp` on npm |
+| External data | None | API key integrations (GSC, GA, custom) |
+| Browser navigation | Screenshot only | Full browser agent (Pro) |
+| Messaging channel | None | Telegram alerts + commands (Pro) |
+| Node.js proxy | `site-pilot-ai` on npm | `mcpwp` on npm |
 
-**Migration:** Internal only (5 sites). Reinstall. No compatibility shim.
+**Migration:** Internal only (5 sites). Reinstall fresh. No compatibility shim.
 
 ---
 
-## Three Bets
+## Three Core Bets
 
 ### Bet 1 — Thin MCP (Dynamic Tool Loading)
 
-**Problem:** Every MCP connection sends all 200+ tool schemas to the AI client upfront. On a 200k-context model that's thousands of tokens wasted before the agent does anything.
+**Problem:** Every session sends all 200+ tool schemas upfront. Wasted tokens every time.
 
-**Solution:** Lazy category loading. At connect time the agent sees exactly 2 tools:
+**Solution:** At connect time the agent sees 2 tools only:
 
 ```
-mcpwp.list_categories  → returns: ["content", "seo", "elementor", "woocommerce", "custom", ...]
-mcpwp.use_category     → loads full tool schemas for one category into context
+mcpwp.list_categories  → ["content", "seo", "elementor", "woocommerce", "custom", ...]
+mcpwp.use_category     → loads full schemas for one category, returns them as tool result
 ```
 
-The agent calls `use_category("seo")` when doing SEO work. It never pays for WooCommerce or Elementor schemas in that session.
+Agent calls `use_category("seo")` when doing SEO work. Never pays for Elementor or WooCommerce schemas in that session. **Estimated savings: 80% token reduction at connect.**
 
-**Implementation:** PHP-side. `tools/list` returns only the 2 meta-tools by default. `mcpwp.use_category` is a real MCP tool that calls `tools/list` internally and returns the schemas as its result — the agent reads them and knows the tools exist. This works within the MCP spec without any proxy tricks.
+**Implementation:** PHP-side. `tools/list` returns only 2 meta-tools. `use_category` returns the full schema array as its response content — the agent reads and uses them within the session. Works within MCP spec, no proxy tricks.
 
-**Opt-out:** Sites can set `mcpwp_tool_loading: eager` to get the full list upfront (backwards-compatible mode).
+**Opt-out:** `mcpwp_tool_loading: eager` option for clients that want everything upfront.
 
 ---
 
 ### Bet 2 — PHP-Native HTTP Transport
 
-**Problem:** Claude Desktop requires stdio. Streamable HTTP clients (Claude Code, Cursor, Windsurf) don't. The Node.js proxy exists only to bridge stdio → HTTP. For HTTP clients, it's unnecessary overhead.
+**Problem:** Node.js proxy exists only to bridge stdio → HTTP. HTTP clients don't need it.
 
-**Solution:** Expose a proper MCP HTTP endpoint at `/wp-json/mcpwp/v3/mcp` that handles the full MCP protocol natively:
+**Solution:** PHP MCP endpoint at `/wp-json/mcpwp/v3/mcp`:
+- `POST` — handles `initialize`, `tools/list`, `tools/call`
+- `GET` — SSE stream for server-initiated messages
+- Auth: `X-API-Key` header (same as REST API)
 
-- `POST /wp-json/mcpwp/v3/mcp` — handles `initialize`, `tools/list`, `tools/call`
-- `GET /wp-json/mcpwp/v3/mcp` — SSE stream for server-initiated messages
-- Auth: existing `X-API-Key` header
-
-**Node.js proxy:** Keep it, rename npm package to `mcpwp`, version to match plugin. It stays as the stdio bridge for Claude Desktop. Zero new logic — it already just passes through. Update `--help` strings and the config file path to `~/.mcpwp/config.json`.
-
-**Result:** Streamable HTTP clients connect directly to WordPress. Claude Desktop uses the proxy. Same PHP tool registry serves both.
+**Node.js proxy:** Keep it, rename npm package to `mcpwp`. Pure pass-through, no logic change. Config path moves to `~/.mcpwp/config.json`. Claude Desktop uses the proxy; Claude Code and Cursor connect directly.
 
 ---
 
 ### Bet 3 — Custom Tools Platform
 
-**Problem:** MCPWP ships 200 tools. Every other plugin's functionality is invisible to AI agents.
+**Three layers:**
 
-**Solution:** Three layers of extensibility:
+#### Layer 1 — Admin UI (no code required)
+**MCPWP → Custom Tools** admin screen. Site owner defines:
+- Tool name, description, category
+- Input schema (guided form)
+- Handler: REST endpoint + method + parameter mapping
+- Whether it requires human approval
 
-#### Layer 1 — Admin UI (site owner, no code)
-New admin screen: **MCPWP → Custom Tools**
-
-Site owner defines a tool:
-- Name, description, category
-- Input schema (JSON schema builder)
-- Handler: REST endpoint URL + method + parameter mapping
-
-Stored in `wp_options` as `mcpwp_custom_tools`. Appears in the tool list immediately.
+Stored in `mcpwp_custom_tools` option. Appears in tool list immediately.
 
 #### Layer 2 — Plugin Hook (developer)
-Any WordPress plugin registers tools via filter:
-
 ```php
 add_filter( 'mcpwp_register_tools', function( $registry ) {
-    $registry->add( 'my_plugin.do_thing', [
-        'description' => 'Does a thing in My Plugin',
-        'category'    => 'my_plugin',
+    $registry->add( 'my_plugin.action', [
+        'description'  => 'Does something in My Plugin',
+        'category'     => 'my_plugin',
         'input_schema' => [ 'type' => 'object', 'properties' => [] ],
-        'handler'     => [ My_Plugin_Handler::class, 'do_thing' ],
-        'tier'        => 'free',
+        'handler'      => [ My_Plugin::class, 'handle' ],
+        'tier'         => 'free',
     ] );
     return $registry;
 } );
 ```
 
+Any WordPress plugin can become AI-accessible without touching MCPWP code.
+
 #### Layer 3 — WordPress Abilities Bridge (automatic)
-WordPress 6.x ships the Abilities API (`WordPress/mcp-adapter`). Any plugin that registers a WordPress Ability gets auto-bridged into MCPWP's tool list. No configuration needed.
+WordPress 6.x ships the Abilities API (`WordPress/mcp-adapter`). Any registered WordPress Ability auto-bridges into MCPWP's tool list. No config needed.
+
+---
+
+## v3 Pro Features (beyond current v2 Pro)
+
+### External Data Ingestion
+Site owner provides API keys for external sources:
+- **Google Search Console** — search performance already partially built in v2; formalize as a tool category
+- **Google Analytics** — traffic data, conversion data
+- **Custom REST APIs** — any endpoint with an API key becomes a readable resource
+- **WooCommerce analytics** — revenue, top products, abandoned carts (pulling from WC directly)
+
+Pattern: each integration is a `MCPWP_Data_Source` that registers read-only MCP resources (not tools — they're data, not actions).
+
+### Browser Navigation Agent
+Playwright/Puppeteer via the existing screenshot worker integration. Tools:
+- `mcpwp.navigate(url)` — load a page, return rendered HTML + screenshot
+- `mcpwp.click(selector)` — click an element
+- `mcpwp.check_links(url)` — crawl and find 404s
+- `mcpwp.checkout_test()` — run through WooCommerce checkout flow
+
+Requires screenshot worker endpoint (already in Pro integrations). Store owners can test their own UX.
+
+### Telegram Channel (and Discord)
+Store owner connects their Telegram bot token. MCPWP:
+- **Pushes alerts** — low stock, failed orders, SEO drops, approval requests
+- **Accepts commands** — owner replies "approve" or "fix it" → MCPWP routes to the agent
+- **Status reports** — daily summary of store health
+
+Architecture: WordPress cron pushes to Telegram. Incoming messages handled via webhook → MCP tool call. The mumega-bus integration already exists internally; this surfaces it as a user-facing feature.
 
 ---
 
 ## Architecture
 
 ```
-MCP Client (Claude Code, Cursor)
+Claude Code / Cursor / Windsurf
         │  Streamable HTTP
         ▼
-/wp-json/mcpwp/v3/mcp  ←── WordPress REST API
+/wp-json/mcpwp/v3/mcp
         │
         ▼
 MCPWP_MCP_Server (PHP)
-  ├── MCPWP_Tool_Registry        ← central tool store
-  │     ├── Built-in tools       ← content, seo, elementor, woocommerce...
-  │     ├── Custom tools         ← from wp_options (admin UI)
-  │     ├── Plugin tools         ← from mcpwp_register_tools filter
-  │     └── WP Abilities bridge  ← auto-discovered
-  ├── MCPWP_Tool_Loader          ← lazy category loading
-  ├── MCPWP_Auth                 ← API key + scope validation
-  └── MCPWP_Approval_Gate        ← human approval for destructive ops
+  ├── MCPWP_Tool_Registry
+  │     ├── Built-in tools (content, seo, elementor, woocommerce, site)
+  │     ├── Custom tools (from admin UI → mcpwp_custom_tools option)
+  │     ├── Plugin tools (from mcpwp_register_tools filter)
+  │     └── WP Abilities bridge (auto-discovered)
+  ├── MCPWP_Tool_Loader        ← lazy category loading
+  ├── MCPWP_Data_Sources       ← GSC, GA, custom APIs (resources)
+  ├── MCPWP_Auth               ← API key + scope
+  ├── MCPWP_Approval_Gate      ← human approval for destructive ops
+  └── MCPWP_Notification       ← Telegram / Discord push
 
-
-MCP Client (Claude Desktop)
+Claude Desktop
         │  stdio
         ▼
-mcpwp (npm, Node.js proxy)
-        │  HTTP
-        ▼
-/wp-json/mcpwp/v3/mcp  (same endpoint)
+mcpwp (npm proxy) → /wp-json/mcpwp/v3/mcp (same endpoint)
 ```
 
 ---
 
-## Tool Registry Interface
-
-Every tool in v3 implements a single contract:
+## Tool Interface
 
 ```php
 interface MCPWP_Tool {
@@ -138,14 +173,12 @@ interface MCPWP_Tool {
     public function get_description(): string;
     public function get_category(): string;
     public function get_input_schema(): array;
-    public function get_tier(): string;          // 'free' | 'pro'
+    public function get_tier(): string;           // 'free' | 'pro'
     public function get_required_scope(): string; // 'read' | 'write' | 'admin'
     public function requires_approval(): bool;
     public function execute( array $params, WP_REST_Request $request ): array;
 }
 ```
-
-The registry is a singleton: `MCPWP_Tool_Registry::get_instance()`. Built-in tools are PHP classes. Custom tools from the admin UI are `MCPWP_Custom_Tool` instances hydrated from `wp_options`. Plugin tools are registered at `init` via the filter.
 
 ---
 
@@ -153,111 +186,69 @@ The registry is a singleton: `MCPWP_Tool_Registry::get_instance()`. Built-in too
 
 ```
 mcpwp/
-├── mcpwp.php                          # Bootstrap, MCPWP_VERSION constant
+├── mcpwp.php
 ├── includes/
 │   ├── mcp/
-│   │   ├── class-mcpwp-server.php     # MCP protocol handler (initialize, tools/*)
-│   │   ├── class-mcpwp-transport.php  # HTTP + SSE transport
-│   │   └── class-mcpwp-tool-loader.php # Lazy category loading
+│   │   ├── class-mcpwp-server.php          # MCP protocol: initialize, tools/*
+│   │   ├── class-mcpwp-transport.php       # HTTP + SSE
+│   │   └── class-mcpwp-tool-loader.php     # Lazy category loading
 │   ├── core/
-│   │   ├── class-mcpwp-tool-registry.php  # Central tool registry
-│   │   ├── class-mcpwp-tool.php           # Interface
-│   │   ├── class-mcpwp-custom-tool.php    # Custom tool from admin UI
-│   │   └── class-mcpwp-abilities-bridge.php # WP Abilities → MCPWP tools
-│   ├── tools/                         # Built-in tool implementations
-│   │   ├── content/                   # Posts, pages, media, drafts, menus
-│   │   ├── seo/                       # SEO audit, readiness, autofix
-│   │   ├── elementor/                 # Elementor basic + pro
-│   │   ├── woocommerce/               # Products, orders, SEO
-│   │   └── site/                      # Site info, state, approvals
-│   ├── admin/
-│   │   ├── class-mcpwp-admin.php
-│   │   └── class-mcpwp-custom-tools-admin.php  # Custom tools UI
-│   └── api/
-│       └── class-mcpwp-rest-api.php   # REST route registration
-├── admin/
-│   ├── js/mcpwp-admin.js
-│   └── partials/
-│       ├── mcpwp-dashboard.php
-│       └── mcpwp-custom-tools.php
+│   │   ├── class-mcpwp-tool-registry.php   # Singleton tool store
+│   │   ├── class-mcpwp-tool.php            # Interface
+│   │   ├── class-mcpwp-custom-tool.php     # Hydrated from options
+│   │   ├── class-mcpwp-data-source.php     # Interface for external data
+│   │   ├── class-mcpwp-abilities-bridge.php
+│   │   └── class-mcpwp-notification.php    # Telegram/Discord push
+│   ├── tools/
+│   │   ├── content/                        # Posts, pages, media, drafts, menus
+│   │   ├── seo/                            # Audit, readiness, autofix, search perf
+│   │   ├── elementor/                      # Basic + Pro
+│   │   ├── woocommerce/                    # Products, orders, SEO, analytics
+│   │   ├── site/                           # Info, state, approvals, playbooks
+│   │   └── browser/                        # Navigate, click, crawl (Pro)
+│   ├── sources/
+│   │   ├── class-mcpwp-source-gsc.php      # Google Search Console
+│   │   ├── class-mcpwp-source-ga.php       # Google Analytics
+│   │   └── class-mcpwp-source-custom.php   # Custom REST API
+│   └── admin/
+│       ├── class-mcpwp-admin.php
+│       └── class-mcpwp-custom-tools-admin.php
 └── readme.txt
 ```
 
 ---
 
-## Build Modules (Implementation Order)
+## Build Modules
 
-### Module A — Core scaffold (agents)
-New plugin bootstrap, constants, loader, options migration from `spai_` → `mcpwp_`. Empty tool registry. Admin menu shell.
+Hybrid approach: you + PM design the hard parts; agents build the mechanical parts.
 
-### Module B — MCP protocol handler (you + me)
-`MCPWP_MCP_Server` implementing `initialize`, `tools/list` (meta-tools only), `tools/call`. HTTP transport. Auth. This is the architectural core — we design the protocol handling together.
-
-### Module C — Tool registry + built-in tools (agents)
-Port all existing v2 tools into the new `MCPWP_Tool` interface. Group into categories. One class per tool is verbose — group related operations into handler classes (e.g. `MCPWP_Content_Tools` handles posts, pages, media).
-
-### Module D — Dynamic tool loader (you + me)
-`mcpwp.list_categories` and `mcpwp.use_category` meta-tools. The `use_category` tool returns tool schemas as its response — agent reads and uses them. Edge case: what happens when agent tries to call a tool it loaded dynamically but isn't in the `tools/list`? We design the fallback together.
-
-### Module E — Custom tools platform (agents)
-Admin UI for creating/editing custom tools. `MCPWP_Custom_Tool_Store` backed by `wp_options`. `mcpwp_register_tools` filter. REST endpoint → MCP tool mapper.
-
-### Module F — WordPress Abilities bridge (agents)
-Auto-discover registered WordPress Abilities and bridge them into the tool registry. Requires `WordPress/mcp-adapter` to be installed (graceful degradation if not).
-
-### Module G — Node.js proxy rename (agents)
-Rename npm package to `mcpwp`. Update config path to `~/.mcpwp/config.json`. Update `--help` strings. Bump version to `3.0.0`. Publish to npm.
-
-### Module H — `.mcpb` Desktop Extension (agents)
-Create `manifest.json`. Package `dist/index.js` into `.mcpb` bundle. Submit to Claude Desktop extensions directory.
-
----
-
-## Custom Tools Admin UI (sketch)
-
-```
-MCPWP → Custom Tools
-
-  [ + New Tool ]
-
-  ┌─────────────────────────────────────────────────────┐
-  │ Name:         get_active_clients                     │
-  │ Description:  Returns active clients from CRM        │
-  │ Category:     custom                                 │
-  │                                                      │
-  │ Handler type: ● REST Endpoint  ○ WordPress Hook      │
-  │                                                      │
-  │ URL:          /wp-json/my-crm/v1/clients             │
-  │ Method:       GET                                    │
-  │                                                      │
-  │ Input parameters:                                    │
-  │   status (string, optional) → query param ?status=  │
-  │                                                      │
-  │ Requires approval: ☐                                 │
-  │ Tier:              Free                              │
-  │                                          [ Save ]   │
-  └─────────────────────────────────────────────────────┘
-```
-
----
-
-## What We Don't Build in v3
-
-- Agency dashboard (v3.1)
-- Figma OAuth (stays as-is from v2)
-- Multi-language (stays as-is)
-- Centralised capability registry enforcement (tracked, not blocking launch)
+| Module | Owner | Description |
+|--------|-------|-------------|
+| A — Core scaffold | Agents | New plugin bootstrap, constants, options prefix, loader |
+| B — MCP protocol handler | You + PM | `MCPWP_MCP_Server`: initialize, tools/list, tools/call, HTTP transport |
+| C — Tool registry + built-in tools | Agents | Port all v2 tools into `MCPWP_Tool` interface, grouped by category |
+| D — Dynamic tool loader | You + PM | Meta-tools, lazy loading, fallback design |
+| E — Custom tools platform | Agents | Admin UI, store, REST mapper, plugin filter |
+| F — WordPress Abilities bridge | Agents | Auto-discover + bridge to registry |
+| G — External data sources | Agents | GSC, GA, custom API integrations |
+| H — Browser navigation | Agents | Playwright wrapper via screenshot worker |
+| I — Telegram/Discord channel | Agents | Push alerts + command routing |
+| J — npm rename + publish | Agents | `site-pilot-ai` → `mcpwp`, config path update |
+| K — `.mcpb` Desktop Extension | Agents | `manifest.json` + bundle + submit |
 
 ---
 
 ## Definition of Done
 
-- [ ] `mcpwp` npm package published
+- [ ] `mcpwp` npm package published at v3.0.0
 - [ ] Plugin installs from ZIP, activates without errors
 - [ ] MCP `initialize` + `tools/list` + `tools/call` work via HTTP
 - [ ] Claude Desktop connects via stdio proxy
 - [ ] Dynamic loading: agent loads a category, calls a tool in that category
 - [ ] Custom tool created in admin UI appears in MCP tool list
-- [ ] Third-party plugin registers a tool via `mcpwp_register_tools` filter
-- [ ] All v2 capabilities accessible via v3 tool names
+- [ ] Third-party plugin registers a tool via filter
+- [ ] External data source (GSC) returns data as MCP resource
+- [ ] Telegram alert fires on WooCommerce low-stock event
+- [ ] Browser navigation returns screenshot + HTML for a given URL
+- [ ] All v2 capabilities accessible via v3
 - [ ] Plugin Check passes (0 errors) on WP.org build
