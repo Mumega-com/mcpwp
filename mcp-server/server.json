@@ -1,9 +1,9 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.Mumega-com/mumcp",
-  "description": "Connect WordPress sites to AI assistants via MCP. Tool availability is dynamic by license, active integrations, and role-scoped API keys.",
+  "name": "io.github.Mumega-com/mcpwp",
+  "description": "MCP operator layer for WordPress. Connect Claude, Codex, Cursor, or Windsurf to any WordPress site — posts, pages, Elementor, WooCommerce, SEO, media, approvals, and more.",
   "repository": {
-    "url": "https://github.com/Mumega-com/mcp-for-wp",
+    "url": "https://github.com/Mumega-com/mcpwp",
     "source": "github",
     "subfolder": "mcp-server"
   },
@@ -11,25 +11,25 @@
   "packages": [
     {
       "registryType": "npm",
-      "identifier": "site-pilot-ai",
+      "identifier": "mcpwp",
       "version": "3.0.0",
       "transport": {
         "type": "stdio"
       },
       "environmentVariables": [
         {
+          "name": "WP_URL",
           "description": "WordPress site URL (e.g. https://example.com)",
           "isRequired": true,
-          "format": "uri",
-          "isSecret": false,
-          "name": "WP_URL"
+          "format": "string",
+          "isSecret": false
         },
         {
-          "description": "MCPWP API key generated in WordPress admin",
+          "name": "WP_API_KEY",
+          "description": "MCPWP API key — generate in WP Admin → MCPWP → Setup",
           "isRequired": true,
           "format": "string",
-          "isSecret": true,
-          "name": "WP_API_KEY"
+          "isSecret": true
         }
       ]
     }
