@@ -251,6 +251,40 @@ Hybrid approach: you + PM design the hard parts; agents build the mechanical par
 | I — Telegram/Discord channel | Agents | Push alerts + command routing |
 | J — npm rename + publish | Agents | `site-pilot-ai` → `mcpwp`, config path update |
 | K — `.mcpb` Desktop Extension | Agents | `manifest.json` + bundle + submit |
+| M — Multi-site per connection | Agents | `wp_switch_site` tool + multi-site config UI |
+
+---
+
+## Module M — Multi-Site Per Connection
+
+**Problem:** Claude Desktop has no project-scoped MCPs. An agency managing 10 client sites either runs 10 simultaneous MCP connections (data leakage risk, context dilution) or manually adds/removes them between sessions.
+
+**Solution:** One MCPWP connection holds all client credentials. The agent switches context mid-session.
+
+**Two tools added to the `site` category:**
+
+```
+mcpwp.list_sites   → returns all configured sites (name, url, active flag)
+mcpwp.switch_site  → sets the active site for this session; all subsequent tool calls route there
+```
+
+**Config file** (`~/.mumega-mcp/config.json`) — already supports multi-site, just needs the switching tools:
+
+```json
+{
+  "sites": {
+    "acme-corp":  { "url": "https://acme.com",    "apiKey": "spai_...", "name": "Acme Corp" },
+    "client-b":   { "url": "https://clientb.com", "apiKey": "spai_...", "name": "Client B" }
+  },
+  "defaultSite": "acme-corp"
+}
+```
+
+**Agency UI (admin):** Generate per-site API keys from the MCPWP dashboard, export the full `config.json` for the npm proxy in one click.
+
+**Security:** Each site's API key is role-scoped. Switching sites doesn't carry permissions across — the new site's key governs what's allowed.
+
+**Note:** This is the MCPWP-level solution. Anthropic has also been asked to add project-scoped MCPs natively to Claude Desktop (filed as product feedback May 2026). When they ship it, this feature becomes even more powerful — project folder + per-site config in the folder.
 
 ---
 
@@ -264,6 +298,8 @@ Hybrid approach: you + PM design the hard parts; agents build the mechanical par
 - [ ] Custom tool created in admin UI appears in MCP tool list
 - [ ] Third-party plugin registers a tool via filter
 - [ ] External data source (GSC) returns data as MCP resource
+- [ ] `wp_list_sites` returns all configured sites
+- [ ] `wp_switch_site` routes subsequent calls to the selected site
 - [ ] Telegram alert fires on WooCommerce low-stock event
 - [ ] Browser navigation returns screenshot + HTML for a given URL
 - [ ] All v2 capabilities accessible via v3

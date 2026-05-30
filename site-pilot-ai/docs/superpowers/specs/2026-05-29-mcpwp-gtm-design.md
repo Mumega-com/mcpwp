@@ -116,7 +116,35 @@ Agency tier holds until agency dashboard ships.
 > *Your store's SEO dropped. Claude found 12 product pages missing meta descriptions. Reply 'fix it' in Telegram to approve.*
 
 **For agencies:**
-> *Connect all your client sites to one dashboard. Let Claude audit, fix, and report across all of them.*
+> *One MCP connection, all your clients. Tell Claude "switch to acme-corp and audit their SEO" — it only touches that site. No data mixing between clients, no manual config switching.*
+
+---
+
+## Agency Positioning — Multi-Site Per Connection
+
+**The problem Claude Desktop has today:** MCPs are global. An agency managing 10 client WordPress sites must add and remove MCPs between sessions. Two simultaneous WordPress MCPs risk context dilution (Claude operates on the wrong site) and data leakage between clients.
+
+**What MCPWP does about it:** One MCPWP connection supports multiple sites. The config file (`~/.mumega-mcp/config.json`) holds all client credentials. The agent calls `wp_switch_site("client-name")` to change context. No adding/removing MCPs. No client data mixing.
+
+```json
+{
+  "sites": {
+    "acme-corp":    { "url": "https://acme.com",    "apiKey": "spai_..." },
+    "client-b":     { "url": "https://clientb.com", "apiKey": "spai_..." },
+    "client-c":     { "url": "https://clientc.com", "apiKey": "spai_..." }
+  },
+  "defaultSite": "acme-corp"
+}
+```
+
+Claude says: *"Switch to client-b and run an SEO audit."* MCPWP routes all subsequent calls to that site until switched again.
+
+**The Agency tier pitch:**
+> *One MCP connection. All your client sites. Tell Claude which client you're working on and it only touches that site. No data mixing. No manual config switching.*
+
+**v3 addition (Module E):** Admin UI to manage multi-site configs without editing JSON. Each site gets its own API key with role-scoped permissions.
+
+**Feedback sent to Anthropic:** Claude Desktop itself needs project-scoped MCPs (activate different MCPs per folder, same model as Claude Code's `.mcp.json`). Filed as product feedback. MCPWP's multi-site config is the workaround until Claude Desktop ships this natively.
 
 ---
 
@@ -134,6 +162,7 @@ Agency tier holds until agency dashboard ships.
 | Browser navigation | ✅ v3 | Some |
 | Dynamic tool loading | ✅ v3 | ❌ |
 | WordPress Abilities bridge | ✅ v3 | Partial |
+| Multi-site per connection | ✅ v3 | ❌ |
 
 ---
 
