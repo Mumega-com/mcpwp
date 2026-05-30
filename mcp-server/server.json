@@ -1,18 +1,18 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.Mumega-com/mcpwp",
+  "name": "io.github.mumega848/mcpwp",
   "description": "MCP for WordPress — connect Claude, Cursor, or Windsurf to any WordPress site.",
   "repository": {
     "url": "https://github.com/Mumega-com/mcpwp",
     "source": "github",
     "subfolder": "mcp-server"
   },
-  "version": "3.0.0",
+  "version": "3.0.1",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@mcpwp.net/mcpwp",
-      "version": "3.0.0",
+      "version": "3.0.1",
       "transport": {
         "type": "stdio"
       },
