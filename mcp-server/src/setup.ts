@@ -82,7 +82,7 @@ export async function runSetup(): Promise<void> {
     mcpServers: {
       wordpress: {
         command: 'npx',
-        args: ['-y', 'mcpwp'],
+        args: ['-y', '@mcpwp.net/mcpwp'],
         env: {
           WP_URL: cleanUrl,
           WP_API_KEY: apiKey,

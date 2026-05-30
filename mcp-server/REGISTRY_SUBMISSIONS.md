@@ -146,7 +146,7 @@ Add entry to the marketplace JSON. Format matches existing entries.
 
 **npm install:**
 ```bash
-npx mcpwp --setup
+npx @mcpwp.net/mcpwp --setup
 ```
 
 **GitHub:** https://github.com/Mumega-com/mcpwp  

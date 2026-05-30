@@ -32,7 +32,7 @@ Install **MCPWP** on your WordPress site:
 ### 2. Run Setup Wizard
 
 ```bash
-npx -y mcpwp --setup
+npx -y @mcpwp.net/mcpwp --setup
 ```
 
 This will:
@@ -155,7 +155,7 @@ All tools come from the WordPress plugin. Update the plugin to get new tools —
 
 **AI Tools** — `wp_search_stock_photos`, `wp_download_stock_photo`, `wp_generate_image`, `wp_generate_featured_image`, `wp_generate_alt_text`, `wp_describe_image`, `wp_generate_excerpt`, `wp_text_to_speech`
 
-**...and more.** Run `npx mcpwp --test` to see the full count for your site.
+**...and more.** Run `npx @mcpwp.net/mcpwp --test` to see the full count for your site.
 
 ## Configuration
 
@@ -190,11 +190,11 @@ Environment variables take priority over the config file.
 ## CLI Commands
 
 ```bash
-npx mcpwp              # Start MCP server (stdio transport)
-npx mcpwp --setup      # Interactive setup wizard
-npx mcpwp --test       # Test WordPress connection
-npx mcpwp --version    # Show version
-npx mcpwp --help       # Show help
+npx @mcpwp.net/mcpwp              # Start MCP server (stdio transport)
+npx @mcpwp.net/mcpwp --setup      # Interactive setup wizard
+npx @mcpwp.net/mcpwp --test       # Test WordPress connection
+npx @mcpwp.net/mcpwp --version    # Show version
+npx @mcpwp.net/mcpwp --help       # Show help
 ```
 
 ## Troubleshooting
@@ -202,7 +202,7 @@ npx mcpwp --help       # Show help
 ### Connection Failed
 
 ```bash
-npx mcpwp --test
+npx @mcpwp.net/mcpwp --test
 ```
 
 Verify:
@@ -215,7 +215,7 @@ Verify:
 
 1. Restart your MCP client
 2. Check config: `cat ~/.mumega-mcp/config.json`
-3. Test connection: `WP_URL=... WP_API_KEY=... npx mcpwp --test`
+3. Test connection: `WP_URL=... WP_API_KEY=... npx @mcpwp.net/mcpwp --test`
 4. Check client logs for MCP errors
 
 ### Plugin Requirements
