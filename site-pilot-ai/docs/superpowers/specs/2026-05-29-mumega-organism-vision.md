@@ -118,6 +118,28 @@ The organism model changes the pitch entirely. It's not "AI helps manage your st
 
 ---
 
+## Why WordPress Needs Inkwell (Structural Gaps)
+
+WordPress has content, users, commerce, and ecosystem — 43% of the web.  
+Inkwell has the intelligence infrastructure WordPress structurally cannot build.
+
+These are not missing features. They are architectural impossibilities given WordPress's PHP/MySQL/origin-server model.
+
+| Capability | Inkwell | WordPress | Why WordPress Can't |
+|---|---|---|---|
+| **Cross-site knowledge graph** | Native `GraphPort`, `queryNetwork()` across all tenants, network learning via Mirror | Multi-site = isolated prefixed tables, no edges, no cross-site query | No graph DB; multi-site is relational, not networked |
+| **Edge delivery** | Pre-compiled HTML in Cloudflare KV, zero origin hits, global latency | Every request = PHP render + MySQL query on origin server | Architecture is server-centric; caching plugins are a workaround, not a fix |
+| **A/B testing at edge** | KV-stored variants, resolved per-request before render, chi-squared in SQL, Telegram approval | Server-side, post-render, plugin-hook-based | Cannot intercept before PHP boots; no edge compute |
+| **Real financial ledger** | Three immutable D1 tables: transactions, royalties, metering. Deterministic SQL. | WooCommerce orders are WordPress posts in `wp_posts` with meta fields | Order model is wrong; no real-time metering; no budget gate |
+| **MCP from manifests** | Plugins declare `mcpTools[]`; kernel collects at startup; auto-exposed at `/api/mcp` | No native MCP; no manifest system; MCPWP builds this from scratch | No MCP integration; plugin registration is implicit |
+| **Swappable infrastructure** | 12+ port interfaces; swap DB/search/storage via config | Hardcoded to MySQL via `$wpdb`; every plugin assumes `wp_posts` exists | Monolithic coupling; no adapter pattern |
+| **Network-level learning** | A/B winners pushed to Mirror memory; inform other tenants in same industry | No cross-site learning; no shared intelligence | Isolated architecture; no shared memory layer |
+| **Forkable** | `git clone` + edit `inkwell.config.ts`; zero code changes; upstream merges cleanly | Fork = edit plugin code + manage hook conflicts + reconcile core updates | Monolithic hooks; no manifest/contract system |
+
+**The organism model only works because of this gap.** WordPress provides the substrate (content, users, commerce). Inkwell provides the nervous system (graph, edge, learning, ledger). MCPWP is the mycelium that connects them. The store owner keeps their WP admin. Their site is now at the edge. Their A/B tests run without a plugin. Their content is a node in the network. The organism absorbed them and they didn't feel a thing.
+
+---
+
 ## What We Don't Say Publicly
 
 We don't use the slime mold metaphor in marketing. We say:

@@ -218,6 +218,22 @@ mcpwp/
 
 ---
 
+## Why Inkwell + MCPWP (Not Just MCPWP Alone)
+
+MCPWP makes WordPress AI-manageable. Inkwell makes it part of the organism. They are not competing — they are the two halves of the same system.
+
+WordPress structurally cannot do what Inkwell does natively:
+- **Knowledge graph across sites** — Inkwell's `GraphPort` + `queryNetwork()`. WordPress multi-site is isolated tables.
+- **Edge delivery** — Inkwell pre-compiles to Cloudflare KV. WordPress renders PHP from an origin server on every request.
+- **A/B testing at edge** — Inkwell resolves KV variants before the page renders. WordPress cannot intercept before PHP boots.
+- **Real financial ledger** — Inkwell's GLASS uses immutable D1 tables. WooCommerce orders are WordPress posts.
+- **Network learning** — A/B test winners in Inkwell push to Mirror memory and inform other connected sites. WordPress has no cross-site intelligence.
+- **MCP from manifests** — Inkwell plugins declare `mcpTools[]`; kernel collects them automatically. MCPWP is building this from scratch for WordPress because WP has no native equivalent.
+
+**Module L is therefore not optional.** It is the bridge that makes MCPWP more than a WordPress plugin — it makes each WordPress install a node in the organism.
+
+---
+
 ## Build Modules
 
 Hybrid approach: you + PM design the hard parts; agents build the mechanical parts.
