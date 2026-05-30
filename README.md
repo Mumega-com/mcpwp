@@ -83,10 +83,12 @@ graph LR
 ## Install
 
 ```bash
-wp plugin install https://mumega.com/mcp-updates/mumega-mcp-latest.zip --activate
+wp plugin install https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip --activate
 ```
 
-Or download from [mcpwp.net](https://mcpwp.net) and upload via WP Admin > Plugins > Add New.
+Or download from [mcpwp.net](https://mcpwp.net) and upload via **WP Admin > Plugins > Add New > Upload Plugin**.
+
+Free tier is available on WordPress.org. Pro and Agency plans at [mcpwp.net/pricing](https://mcpwp.net/pricing) — 14-day free trial, no credit card required.
 
 ## Connect
 
@@ -218,6 +220,16 @@ wc_create_product(name: "T-Shirt", regular_price: "29.99", type: "simple")
 - **CSS regeneration** — auto-rebuilds CSS, purges SiteGround/WP Rocket/LiteSpeed
 - **Container + classic mode** — works with both Elementor layout modes
 
+## Pricing
+
+| Plan | Price | Sites | What's included |
+|------|-------|-------|-----------------|
+| **Free** | $0 | 1 | Core MCP, posts, pages, media, menus, basic Elementor, approval gates, activity log |
+| **Pro** | $79/year | 1 | All free + SEO, WooCommerce, Elementor Pro, design references, archetypes, agent workflows, AI tools, Telegram, multi-site |
+| **Agency** | $249/year | Unlimited | All Pro + agency dashboard, centralized key management |
+
+14-day free trial on Pro. → [mcpwp.net/pricing](https://mcpwp.net/pricing)
+
 ## Roadmap
 
 - [x] Up to 239 MCP tools across 15 categories
@@ -226,7 +238,7 @@ wc_create_product(name: "T-Shirt", regular_price: "29.99", type: "simple")
 - [x] Elementor validation + auto-fix
 - [x] Admin UI (Setup, Library, Tools, Settings)
 - [x] Claude Code plugin with 6 skills
-- [ ] WordPress.org listing (submitted, pending)
+- [ ] WordPress.org listing (submission in progress)
 - [ ] Managed MCP proxy for agencies
 - [ ] 30+ blueprint types
 - [ ] Visual diff — show what changed after MCP edits
