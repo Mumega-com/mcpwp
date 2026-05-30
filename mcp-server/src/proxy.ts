@@ -22,23 +22,28 @@ export interface JsonRpcResponse {
 export class McpProxy {
   private endpoint: string;
   private apiKey: string;
+  private sessionId: string;
 
-  constructor(site: SiteConfig) {
+  constructor(site: SiteConfig, sessionId = "") {
     const base = site.url.replace(/\/+$/, "");
     this.endpoint = `${base}/wp-json/site-pilot-ai/v1/mcp`;
     this.apiKey = site.apiKey;
+    this.sessionId = sessionId;
   }
 
   /**
    * Forward a JSON-RPC request to the PHP MCP endpoint.
    */
   async forward(request: JsonRpcRequest): Promise<JsonRpcResponse> {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      "X-API-Key": this.apiKey,
+    };
+    if (this.sessionId) headers["X-SPAI-Session-ID"] = this.sessionId;
+
     const response = await fetch(this.endpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-Key": this.apiKey,
-      },
+      headers,
       body: JSON.stringify(request),
     });
 

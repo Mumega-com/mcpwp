@@ -7,6 +7,11 @@
  * the WordPress plugin — zero local tool definitions needed.
  */
 
+import { randomBytes } from "crypto";
+import { appendFileSync } from "fs";
+import { homedir } from "os";
+import { join } from "path";
+
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
@@ -59,7 +64,7 @@ Config File:
   ~/.mumega-mcp/config.json
 
 Documentation:
-  https://github.com/Mumega-com/mcp-for-wp
+  https://github.com/Mumega-com/mcpwp
 `);
   process.exit(0);
 }
@@ -133,7 +138,123 @@ if (args.includes("--test")) {
 
 const config = loadConfig();
 const site = getActiveSite(config);
-const proxy = new McpProxy(site);
+
+// Session ID propagated to WP as X-SPAI-Session-ID for audit trail
+const sessionId = randomBytes(8).toString("hex");
+
+// When WP_URL is set via env, site switching is disabled
+const envLocked = !!(process.env.WP_URL && process.env.WP_API_KEY);
+
+// Module M — mutable site state
+let currentSiteKey = site._key;
+let activeProxy = new McpProxy(site, sessionId);
+
+// Two-step switch confirmation state (prevents prompt injection)
+let pendingSwitch: { siteKey: string; token: string; expiresAt: number } | null = null;
+
+function auditLog(event: string, data: Record<string, unknown>): void {
+  try {
+    const line = JSON.stringify({ ts: new Date().toISOString(), session: sessionId, event, ...data });
+    const logDir = join(homedir(), ".mumega-mcp");
+    appendFileSync(join(logDir, `audit-${sessionId}.jsonl`), line + "\n");
+  } catch {}
+}
+
+// Module M tool definitions injected into tools/list
+const MODULE_M_TOOLS = [
+  {
+    name: "wp_list_sites",
+    description: "List all configured WordPress sites. Never exposes API keys.",
+    inputSchema: { type: "object", properties: {}, required: [] },
+  },
+  {
+    name: "wp_switch_site",
+    description: envLocked
+      ? "Site switching is disabled when WP_URL is set via environment variable."
+      : "Switch the active WordPress site. Two-step: call with site_name to get a token, then call again with site_name + confirm_token to apply.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        site_name: { type: "string", description: "Key of the site to switch to (from wp_list_sites)" },
+        confirm_token: { type: "string", description: "Confirmation token from step 1 (step 2 only)" },
+      },
+      required: ["site_name"],
+    },
+  },
+];
+
+function handleWpListSites(): object {
+  const freshConfig = loadConfig();
+  const sites = Object.entries(freshConfig.sites).map(([key, s]) => ({
+    key,
+    url: s.url,
+    name: s.name || key,
+    active: key === currentSiteKey,
+  }));
+  return {
+    content: [{ type: "text", text: JSON.stringify({ sites, active_site: currentSiteKey }, null, 2) }],
+  };
+}
+
+function handleWpSwitchSite(args: Record<string, unknown>): object {
+  if (envLocked) {
+    return {
+      content: [{ type: "text", text: "Site switching is disabled: WP_URL is set via environment variable." }],
+      isError: true,
+    };
+  }
+
+  const siteName = String(args.site_name ?? "");
+  const confirmToken = args.confirm_token ? String(args.confirm_token) : undefined;
+  const freshConfig = loadConfig();
+
+  if (!freshConfig.sites[siteName]) {
+    return {
+      content: [{ type: "text", text: `Unknown site "${siteName}". Available: ${Object.keys(freshConfig.sites).join(", ")}` }],
+      isError: true,
+    };
+  }
+
+  if (siteName === currentSiteKey) {
+    return { content: [{ type: "text", text: `Already connected to "${siteName}".` }] };
+  }
+
+  // Step 2: validate token and apply switch
+  if (confirmToken) {
+    if (!pendingSwitch || pendingSwitch.token !== confirmToken || pendingSwitch.siteKey !== siteName || Date.now() > pendingSwitch.expiresAt) {
+      pendingSwitch = null;
+      return {
+        content: [{ type: "text", text: "Invalid or expired confirmation token. Start over with wp_switch_site." }],
+        isError: true,
+      };
+    }
+
+    const prevKey = currentSiteKey;
+    currentSiteKey = siteName;
+    activeProxy = new McpProxy({ ...freshConfig.sites[siteName] }, sessionId);
+    pendingSwitch = null;
+    auditLog("site_switch", { from: prevKey, to: siteName });
+
+    return {
+      content: [{
+        type: "text",
+        text: `Switched to "${siteName}" (${freshConfig.sites[siteName].url}).\n⚠️  Context notice: data from "${prevKey}" is still in your context window — do not apply it to this site.`,
+      }],
+    };
+  }
+
+  // Step 1: issue confirmation token (60s TTL)
+  const token = randomBytes(4).toString("hex").toUpperCase();
+  pendingSwitch = { siteKey: siteName, token, expiresAt: Date.now() + 60_000 };
+  auditLog("site_switch_requested", { from: currentSiteKey, to: siteName });
+
+  return {
+    content: [{
+      type: "text",
+      text: `To switch to "${siteName}", call wp_switch_site again with:\n  site_name: "${siteName}"\n  confirm_token: "${token}"\n\nToken expires in 60 seconds.`,
+    }],
+  };
+}
 
 // Derive server name: "mcpwp-<sitename>" (slug from site name, key, or URL hostname).
 function deriveServerName(site: { name?: string; _key: string; url: string }): string {
@@ -152,30 +273,35 @@ function deriveServerName(site: { name?: string; _key: string; url: string }): s
 }
 
 const serverName = deriveServerName(site);
+log("info", `Session ID: ${sessionId} | Active site: ${currentSiteKey}${envLocked ? " (env-locked)" : ""}`);
 
 const server = new Server(
   { name: serverName, version: VERSION },
   { capabilities: { tools: {}, resources: {} } }
 );
 
-// tools/list → proxy
+// tools/list → proxy + inject Module M tools
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   try {
-    const result = await proxy.call("tools/list");
-    return { tools: result?.tools ?? [] };
+    const result = await activeProxy.call("tools/list");
+    const wpTools = result?.tools ?? [];
+    return { tools: [...wpTools, ...MODULE_M_TOOLS] };
   } catch (error: any) {
     log("error", "tools/list failed", error.message);
-    return { tools: [] };
+    return { tools: [...MODULE_M_TOOLS] };
   }
 });
 
-// tools/call → proxy
+// tools/call → intercept Module M tools, proxy everything else
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: toolArgs } = request.params;
 
+  // Module M — handled locally, never forwarded to WordPress
+  if (name === "wp_list_sites") return handleWpListSites();
+  if (name === "wp_switch_site") return handleWpSwitchSite((toolArgs ?? {}) as Record<string, unknown>);
+
   try {
-    const result = await proxy.call("tools/call", { name, arguments: toolArgs ?? {} });
-    // The PHP endpoint returns { content: [...] } or a raw result
+    const result = await activeProxy.call("tools/call", { name, arguments: toolArgs ?? {} });
     if (result?.content) {
       return result;
     }
@@ -194,7 +320,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 // resources/list → proxy
 server.setRequestHandler(ListResourcesRequestSchema, async () => {
   try {
-    const result = await proxy.call("resources/list");
+    const result = await activeProxy.call("resources/list");
     return { resources: result?.resources ?? [] };
   } catch (error: any) {
     log("error", "resources/list failed", error.message);
@@ -207,7 +333,7 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
   const { uri } = request.params;
 
   try {
-    const result = await proxy.call("resources/read", { uri });
+    const result = await activeProxy.call("resources/read", { uri });
     if (result?.contents) {
       return result;
     }
@@ -228,7 +354,7 @@ async function main() {
     const transport = new StdioServerTransport();
     await server.connect(transport);
     log("info", `MCPWP Server v${VERSION} running as "${serverName}" (proxy mode)`);
-    log("info", `Proxying to: ${site.url}`);
+    log("info", `Proxying to: ${site.url} | session: ${sessionId}`);
   } catch (error: any) {
     console.error("Failed to start server:", error.message);
     process.exit(1);

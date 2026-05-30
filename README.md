@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/site-pilot-ai/assets/banner-1544x500.png" alt="MCPWP — AI operations for WordPress" width="100%">
+  <img src="https://raw.githubusercontent.com/Mumega-com/mcpwp/main/site-pilot-ai/assets/banner-1544x500.png" alt="MCPWP — AI operations for WordPress" width="100%">
 </p>
 
 <h1 align="center">MCPWP</h1>
@@ -18,8 +18,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Mumega-com/mcp-for-wp/stargazers"><img src="https://img.shields.io/github/stars/Mumega-com/mcp-for-wp?style=flat-square" alt="Stars"></a>
-  <a href="https://github.com/Mumega-com/mcp-for-wp/releases"><img src="https://img.shields.io/github/v/release/Mumega-com/mcp-for-wp?style=flat-square" alt="Release"></a>
+  <a href="https://github.com/Mumega-com/mcpwp/stargazers"><img src="https://img.shields.io/github/stars/Mumega-com/mcpwp?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/Mumega-com/mcpwp/releases"><img src="https://img.shields.io/github/v/release/Mumega-com/mcpwp?style=flat-square" alt="Release"></a>
   <img src="https://img.shields.io/badge/tools-up%20to%20239-blue?style=flat-square" alt="Tools">
   <img src="https://img.shields.io/badge/blueprints-24-blue?style=flat-square" alt="Blueprints">
   <img src="https://img.shields.io/badge/MCP-compatible-brightgreen?style=flat-square" alt="MCP">
@@ -38,11 +38,6 @@ You: "Build a landing page with a hero, 3 feature cards, and a CTA"
 AI:  wp_build_page → full Elementor page with styled sections, flex grid, shadows, hover effects
 ```
 
-<!-- TODO: Replace with actual demo GIF
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/docs/demo.gif" alt="mumcp demo" width="800">
-</p>
--->
 
 ## How It Works
 
@@ -99,7 +94,7 @@ Or download from [mcpwp.net](https://mcpwp.net) and upload via WP Admin > Plugin
 ```json
 {
   "mcpServers": {
-    "mumega-mcp": {
+    "mcpwp": {
       "url": "https://your-site.com/wp-json/site-pilot-ai/v1/mcp",
       "headers": { "X-API-Key": "spai_your_key_here" }
     }
@@ -251,8 +246,8 @@ See [SECURITY.md](SECURITY.md) for our vulnerability disclosure policy.
 - **Website:** [mcpwp.net](https://mcpwp.net)
 - **Claude Code Plugin:** [Mumega-com/mumcp-claude-plugin](https://github.com/Mumega-com/mumcp-claude-plugin)
 - **MCP Proxy:** [Mumega-com/mumcp-proxy](https://github.com/Mumega-com/mumcp-proxy)
-- **WordPress.org:** pending approval (slug: mumega-mcp)
-- **Download:** [mumega-mcp-latest.zip](https://mumega.com/mcp-updates/mumega-mcp-latest.zip)
+- **WordPress.org:** pending approval (slug: site-pilot-ai)
+- **Download:** [mumega-site-pilot-ai-latest.zip](https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip)
 
 ## License
 
