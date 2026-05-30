@@ -67,7 +67,7 @@ export function getActiveSite(config: Config): SiteConfig & { _key: string } {
 
   if (!siteKey || !config.sites[siteKey]) {
     throw new Error(
-      "No WordPress sites configured. Set WP_URL and WP_API_KEY environment variables, run site-pilot-ai --setup, or create ~/.mumega-mcp/config.json"
+      "No WordPress sites configured. Set WP_URL and WP_API_KEY environment variables, run mcpwp --setup, or create ~/.mumega-mcp/config.json"
     );
   }
 

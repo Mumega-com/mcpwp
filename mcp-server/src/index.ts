@@ -36,19 +36,19 @@ function log(level: string, message: string, data?: any): void {
 const args = process.argv.slice(2);
 
 if (args.includes("--version") || args.includes("-v")) {
-  console.log(`site-pilot-ai v${VERSION}`);
+  console.log(`mcpwp v${VERSION}`);
   process.exit(0);
 }
 
 if (args.includes("--help") || args.includes("-h")) {
   console.log(`
-site-pilot-ai - MCPWP Server for WordPress (proxy mode)
+mcpwp - MCPWP Server for WordPress (proxy mode)
 
 Usage:
-  site-pilot-ai              Start MCP server (stdio transport)
-  site-pilot-ai --setup      Interactive setup wizard
-  site-pilot-ai --test       Test WordPress connection
-  site-pilot-ai --version    Show version
+  mcpwp              Start MCP server (stdio transport)
+  mcpwp --setup      Interactive setup wizard
+  mcpwp --test       Test WordPress connection
+  mcpwp --version    Show version
 
 Environment Variables:
   WP_URL        WordPress site URL
@@ -76,7 +76,7 @@ if (args.includes("--test")) {
   try {
     site = getActiveSite(config);
   } catch {
-    console.log("❌ No configuration found. Run: site-pilot-ai --setup");
+    console.log("❌ No configuration found. Run: mcpwp --setup");
     process.exit(1);
   }
 
@@ -135,19 +135,19 @@ const config = loadConfig();
 const site = getActiveSite(config);
 const proxy = new McpProxy(site);
 
-// Derive server name: "sitepilotai-<sitename>" (slug from site name, key, or URL hostname).
+// Derive server name: "mcpwp-<sitename>" (slug from site name, key, or URL hostname).
 function deriveServerName(site: { name?: string; _key: string; url: string }): string {
   const raw = site.name || (site._key !== "default" ? site._key : "");
   if (raw) {
     const slug = raw.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-    if (slug) return `sitepilotai-${slug}`;
+    if (slug) return `mcpwp-${slug}`;
   }
   // Fallback: use hostname from URL.
   try {
     const hostname = new URL(site.url).hostname.replace(/\./g, "-");
-    return `sitepilotai-${hostname}`;
+    return `mcpwp-${hostname}`;
   } catch {
-    return "sitepilotai";
+    return "mcpwp";
   }
 }
 

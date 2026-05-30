@@ -74,7 +74,7 @@ export async function runSetup(): Promise<void> {
     }
   } catch (e: any) {
     console.log(`⚠️  Could not connect: ${e.message}`);
-    console.log('   Config saved anyway. You can test later with: site-pilot-ai --test');
+    console.log('   Config saved anyway. You can test later with: mcpwp --test');
   }
 
   console.log('\n📋 Claude Desktop config (add to claude_desktop_config.json):\n');
@@ -82,7 +82,7 @@ export async function runSetup(): Promise<void> {
     mcpServers: {
       wordpress: {
         command: 'npx',
-        args: ['-y', 'site-pilot-ai'],
+        args: ['-y', 'mcpwp'],
         env: {
           WP_URL: cleanUrl,
           WP_API_KEY: apiKey,

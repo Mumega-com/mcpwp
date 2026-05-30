@@ -1,6 +1,6 @@
 # MCPWP
 
-[![npm version](https://img.shields.io/npm/v/site-pilot-ai.svg)](https://www.npmjs.com/package/site-pilot-ai)
+[![npm version](https://img.shields.io/npm/v/mcpwp.svg)](https://www.npmjs.com/package/mcpwp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 **MCP Server for WordPress** — dynamic tools for posts, pages, Elementor, WooCommerce, LearnPress, SEO, forms & more. Works with Claude Desktop, Cursor, Windsurf and any MCP client.
@@ -10,7 +10,7 @@ A thin stdio-to-HTTP proxy that forwards all MCP requests to your WordPress site
 ## How It Works
 
 ```
-MCP Client (stdio) → site-pilot-ai (proxy) → WordPress Plugin (JSON-RPC over HTTP)
+MCP Client (stdio) → mcpwp (proxy) → WordPress Plugin (JSON-RPC over HTTP)
 ```
 
 The WordPress plugin exposes a complete MCP endpoint at `/wp-json/site-pilot-ai/v1/mcp`. This npm package connects to it and proxies `tools/list`, `tools/call`, `resources/list`, and `resources/read` — so every tool the plugin provides is automatically available to your AI client.
@@ -32,7 +32,7 @@ Install **MCPWP** on your WordPress site:
 ### 2. Run Setup Wizard
 
 ```bash
-npx -y site-pilot-ai --setup
+npx -y mcpwp --setup
 ```
 
 This will:
@@ -48,9 +48,9 @@ This will:
 ```json
 {
   "mcpServers": {
-    "sitepilotai-mysite": {
+    "mcpwp-mysite": {
       "command": "npx",
-      "args": ["-y", "site-pilot-ai"],
+      "args": ["-y", "mcpwp"],
       "env": {
         "WP_URL": "https://your-site.com",
         "WP_API_KEY": "spai_your_key"
@@ -67,7 +67,7 @@ This will:
   "mcpServers": {
     "wordpress": {
       "command": "npx",
-      "args": ["-y", "site-pilot-ai"],
+      "args": ["-y", "mcpwp"],
       "env": {
         "WP_URL": "https://your-site.com",
         "WP_API_KEY": "spai_your_key"
@@ -97,14 +97,14 @@ For multiple sites, add separate entries with unique names:
 ```json
 {
   "mcpServers": {
-    "sitepilotai-production": {
+    "mcpwp-production": {
       "command": "npx",
-      "args": ["-y", "site-pilot-ai"],
+      "args": ["-y", "mcpwp"],
       "env": { "WP_URL": "https://example.com", "WP_API_KEY": "spai_..." }
     },
-    "sitepilotai-staging": {
+    "mcpwp-staging": {
       "command": "npx",
-      "args": ["-y", "site-pilot-ai"],
+      "args": ["-y", "mcpwp"],
       "env": { "WP_URL": "https://staging.example.com", "WP_API_KEY": "spai_..." }
     }
   }
@@ -155,7 +155,7 @@ All tools come from the WordPress plugin. Update the plugin to get new tools —
 
 **AI Tools** — `wp_search_stock_photos`, `wp_download_stock_photo`, `wp_generate_image`, `wp_generate_featured_image`, `wp_generate_alt_text`, `wp_describe_image`, `wp_generate_excerpt`, `wp_text_to_speech`
 
-**...and more.** Run `npx site-pilot-ai --test` to see the full count for your site.
+**...and more.** Run `npx mcpwp --test` to see the full count for your site.
 
 ## Configuration
 
@@ -190,11 +190,11 @@ Environment variables take priority over the config file.
 ## CLI Commands
 
 ```bash
-npx site-pilot-ai              # Start MCP server (stdio transport)
-npx site-pilot-ai --setup      # Interactive setup wizard
-npx site-pilot-ai --test       # Test WordPress connection
-npx site-pilot-ai --version    # Show version
-npx site-pilot-ai --help       # Show help
+npx mcpwp              # Start MCP server (stdio transport)
+npx mcpwp --setup      # Interactive setup wizard
+npx mcpwp --test       # Test WordPress connection
+npx mcpwp --version    # Show version
+npx mcpwp --help       # Show help
 ```
 
 ## Troubleshooting
@@ -202,7 +202,7 @@ npx site-pilot-ai --help       # Show help
 ### Connection Failed
 
 ```bash
-npx site-pilot-ai --test
+npx mcpwp --test
 ```
 
 Verify:
@@ -215,7 +215,7 @@ Verify:
 
 1. Restart your MCP client
 2. Check config: `cat ~/.mumega-mcp/config.json`
-3. Test connection: `WP_URL=... WP_API_KEY=... npx site-pilot-ai --test`
+3. Test connection: `WP_URL=... WP_API_KEY=... npx mcpwp --test`
 4. Check client logs for MCP errors
 
 ### Plugin Requirements

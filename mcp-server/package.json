@@ -1,12 +1,12 @@
 {
-  "name": "site-pilot-ai",
+  "name": "mcpwp",
   "version": "3.0.0",
   "mcpName": "io.github.Mumega-com/mumcp",
   "description": "MCPWP proxy for WordPress - dynamic MCP tools for posts, pages, Elementor, WooCommerce, LearnPress, SEO, forms & more. Works with Claude Desktop, Cursor, Windsurf and any MCP client.",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
-    "site-pilot-ai": "./dist/index.js"
+    "mcpwp": "./dist/index.js"
   },
   "scripts": {
     "build": "bun build src/index.ts --target=node --outfile=dist/index.js --format=esm",
