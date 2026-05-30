@@ -1,0 +1,86 @@
+{
+  "manifest_version": "0.3",
+  "name": "mcpwp",
+  "display_name": "MCPWP — MCP for WordPress",
+  "version": "3.0.0",
+  "description": "Connect Claude Desktop to any WordPress site. Manage posts, pages, Elementor, WooCommerce, SEO, media, and more — with human approval gates.",
+  "long_description": "MCPWP is the MCP operator layer for WordPress. It connects Claude Desktop to your WordPress sites via the Model Context Protocol, giving Claude 200+ tools to read and write content, manage Elementor pages, run SEO audits, handle WooCommerce products and orders, upload media, and more.\n\n**Key features:**\n- 200+ WordPress tools across content, Elementor, WooCommerce, SEO, media, menus, and settings\n- Human approval gates — destructive actions require explicit confirmation before executing\n- Agent playbooks — reusable multi-step workflows (full-site audit, SEO fix, page build)\n- Elementor page builder support — read and write visual page data\n- WooCommerce — products, orders, customers, analytics\n- SEO integrations — Yoast, RankMath, AIOSEO, SEOPress\n- Forms — Contact Form 7, WPForms, Gravity Forms\n- AI-native onboarding — Claude learns your site on first connect\n\n**Requirements:** WordPress 5.9+ with the MCPWP plugin installed and activated.\n\nGet the plugin: https://mcpwp.net",
+  "author": {
+    "name": "Mumega",
+    "email": "hadi@mumega.com",
+    "url": "https://mcpwp.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mumega-com/mcpwp.git"
+  },
+  "homepage": "https://mcpwp.net",
+  "documentation": "https://mcpwp.net/docs",
+  "support": "https://github.com/Mumega-com/mcpwp/issues",
+  "keywords": [
+    "wordpress",
+    "mcp",
+    "woocommerce",
+    "elementor",
+    "seo",
+    "cms",
+    "content-management",
+    "claude"
+  ],
+  "license": "MIT",
+  "privacy_policies": ["https://mcpwp.net/privacy"],
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/index.js"],
+      "env": {
+        "WP_URL": "${user_config.wp_url}",
+        "WP_API_KEY": "${user_config.wp_api_key}"
+      }
+    }
+  },
+  "user_config": {
+    "wp_url": {
+      "type": "string",
+      "title": "WordPress Site URL",
+      "description": "The URL of your WordPress site (e.g. https://example.com)",
+      "required": true
+    },
+    "wp_api_key": {
+      "type": "string",
+      "title": "MCPWP API Key",
+      "description": "Generate your API key in WP Admin → MCPWP → Setup",
+      "required": true,
+      "sensitive": true
+    }
+  },
+  "tools_generated": true,
+  "prompts": [
+    {
+      "name": "onboard_site",
+      "description": "Get a full overview of the connected WordPress site",
+      "arguments": [],
+      "text": "Please onboard me to this WordPress site. Call wp_onboard to get a complete site briefing including content inventory, active integrations, and recommended first actions."
+    },
+    {
+      "name": "seo_audit",
+      "description": "Run a full SEO audit on the connected site",
+      "arguments": [],
+      "text": "Run a full SEO audit on this WordPress site. Check all pages and posts for SEO issues, missing meta descriptions, and optimization opportunities. Use wp_seo_audit_site and wp_get_seo_issues."
+    },
+    {
+      "name": "content_graph",
+      "description": "Map internal linking opportunities across the site",
+      "arguments": [],
+      "text": "Analyze the internal linking structure of this WordPress site. Use wp_get_content_graph and wp_suggest_internal_links to find linking opportunities that can improve SEO and user navigation."
+    }
+  ]
+}

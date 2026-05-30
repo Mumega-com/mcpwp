@@ -50,3 +50,4 @@ site-pilot-ai/tests/.phpunit.result.cache
 .claude/
 .claude/
 .claude/
+mcp-server/*.mcpb
