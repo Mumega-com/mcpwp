@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.Mumega-com/mcpwp",
-  "description": "MCP operator layer for WordPress. Connect Claude, Codex, Cursor, or Windsurf to any WordPress site — posts, pages, Elementor, WooCommerce, SEO, media, approvals, and more.",
+  "description": "MCP for WordPress — connect Claude, Cursor, or Windsurf to any WordPress site.",
   "repository": {
     "url": "https://github.com/Mumega-com/mcpwp",
     "source": "github",
