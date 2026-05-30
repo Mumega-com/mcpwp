@@ -79,7 +79,7 @@ class Spai_Search_Performance {
 					),
 					'risk_level'         => 'low',
 					'seo_state'          => 'evidence_imported',
-					'recommended_action' => __( 'Review search performance trends before changing SEO content.', 'mumega-mcp' ),
+					'recommended_action' => __( 'Review search performance trends before changing SEO content.', 'site-pilot-ai' ),
 				)
 			);
 		}

@@ -29,7 +29,7 @@ class Spai_Integrations_Admin {
 	 */
 	public function render() {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'mumega-mcp' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'site-pilot-ai' ) );
 		}
 
 		$manager   = Spai_Integration_Manager::get_instance();
@@ -86,15 +86,15 @@ class Spai_Integrations_Admin {
 				'posthogToken' => SPAI_POSTHOG_TOKEN,
 				'posthogHost'  => SPAI_POSTHOG_HOST,
 				'strings' => array(
-					'saving'     => __( 'Saving...', 'mumega-mcp' ),
-					'saved'      => __( 'Saved!', 'mumega-mcp' ),
-					'saveFailed' => __( 'Save failed', 'mumega-mcp' ),
-					'testing'    => __( 'Testing...', 'mumega-mcp' ),
-					'connected'  => __( 'Connected!', 'mumega-mcp' ),
-					'testFailed' => __( 'Connection failed', 'mumega-mcp' ),
-					'removing'   => __( 'Removing...', 'mumega-mcp' ),
-					'removed'    => __( 'Removed!', 'mumega-mcp' ),
-					'confirmRemove' => __( 'Are you sure you want to remove this API key?', 'mumega-mcp' ),
+					'saving'     => __( 'Saving...', 'site-pilot-ai' ),
+					'saved'      => __( 'Saved!', 'site-pilot-ai' ),
+					'saveFailed' => __( 'Save failed', 'site-pilot-ai' ),
+					'testing'    => __( 'Testing...', 'site-pilot-ai' ),
+					'connected'  => __( 'Connected!', 'site-pilot-ai' ),
+					'testFailed' => __( 'Connection failed', 'site-pilot-ai' ),
+					'removing'   => __( 'Removing...', 'site-pilot-ai' ),
+					'removed'    => __( 'Removed!', 'site-pilot-ai' ),
+					'confirmRemove' => __( 'Are you sure you want to remove this API key?', 'site-pilot-ai' ),
 				),
 			)
 		);
@@ -112,7 +112,7 @@ class Spai_Integrations_Admin {
 
 		$provider = isset( $_POST['provider'] ) ? sanitize_key( wp_unslash( $_POST['provider'] ) ) : '';
 		if ( empty( $provider ) ) {
-			wp_send_json_error( array( 'message' => __( 'Provider is required.', 'mumega-mcp' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Provider is required.', 'site-pilot-ai' ) ) );
 		}
 
 		$manager = Spai_Integration_Manager::get_instance();
@@ -121,7 +121,7 @@ class Spai_Integrations_Admin {
 		if ( $manager->is_multi_field_provider( $provider ) ) {
 			$config = isset( $_POST['config'] ) ? array_map( 'sanitize_text_field', wp_unslash( (array) $_POST['config'] ) ) : array();
 			if ( empty( $config ) ) {
-				wp_send_json_error( array( 'message' => __( 'Configuration fields are required.', 'mumega-mcp' ) ) );
+				wp_send_json_error( array( 'message' => __( 'Configuration fields are required.', 'site-pilot-ai' ) ) );
 			}
 			// Sanitize URL field specifically.
 			if ( isset( $config['url'] ) ) {
@@ -131,15 +131,15 @@ class Spai_Integrations_Admin {
 		} else {
 			$key = isset( $_POST['key'] ) ? sanitize_text_field( wp_unslash( $_POST['key'] ) ) : '';
 			if ( empty( $key ) ) {
-				wp_send_json_error( array( 'message' => __( 'API key is required.', 'mumega-mcp' ) ) );
+				wp_send_json_error( array( 'message' => __( 'API key is required.', 'site-pilot-ai' ) ) );
 			}
 			$result = $manager->set_provider_key( $provider, $key );
 		}
 
 		if ( $result ) {
-			wp_send_json_success( array( 'message' => __( 'Configuration saved.', 'mumega-mcp' ) ) );
+			wp_send_json_success( array( 'message' => __( 'Configuration saved.', 'site-pilot-ai' ) ) );
 		} else {
-			wp_send_json_error( array( 'message' => __( 'Failed to save configuration.', 'mumega-mcp' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Failed to save configuration.', 'site-pilot-ai' ) ) );
 		}
 	}
 
@@ -155,13 +155,13 @@ class Spai_Integrations_Admin {
 
 		$provider = isset( $_POST['provider'] ) ? sanitize_key( wp_unslash( $_POST['provider'] ) ) : '';
 		if ( empty( $provider ) ) {
-			wp_send_json_error( array( 'message' => __( 'Provider is required.', 'mumega-mcp' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Provider is required.', 'site-pilot-ai' ) ) );
 		}
 
 		$manager = Spai_Integration_Manager::get_instance();
 		$manager->remove_provider_key( $provider );
 
-		wp_send_json_success( array( 'message' => __( 'API key removed.', 'mumega-mcp' ) ) );
+		wp_send_json_success( array( 'message' => __( 'API key removed.', 'site-pilot-ai' ) ) );
 	}
 
 	/**
@@ -176,7 +176,7 @@ class Spai_Integrations_Admin {
 
 		$provider = isset( $_POST['provider'] ) ? sanitize_key( wp_unslash( $_POST['provider'] ) ) : '';
 		if ( empty( $provider ) ) {
-			wp_send_json_error( array( 'message' => __( 'Provider is required.', 'mumega-mcp' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Provider is required.', 'site-pilot-ai' ) ) );
 		}
 
 		$manager = Spai_Integration_Manager::get_instance();
@@ -196,7 +196,7 @@ class Spai_Integrations_Admin {
 	 */
 	public function handle_figma_oauth_start() {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'mumega-mcp' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'site-pilot-ai' ) );
 		}
 
 		check_admin_referer( 'spai_figma_oauth_start', 'spai_nonce' );

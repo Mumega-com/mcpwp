@@ -103,14 +103,14 @@ abstract class Spai_REST_API {
 	protected function get_pagination_args() {
 		return array(
 			'per_page' => array(
-				'description' => __( 'Maximum number of items per page.', 'mumega-mcp' ),
+				'description' => __( 'Maximum number of items per page.', 'site-pilot-ai' ),
 				'type'        => 'integer',
 				'default'     => 10,
 				'minimum'     => 1,
 				'maximum'     => 100,
 			),
 			'page'     => array(
-				'description' => __( 'Current page number.', 'mumega-mcp' ),
+				'description' => __( 'Current page number.', 'site-pilot-ai' ),
 				'type'        => 'integer',
 				'default'     => 1,
 				'minimum'     => 1,
@@ -126,23 +126,23 @@ abstract class Spai_REST_API {
 	protected function get_post_args() {
 		return array(
 			'title'   => array(
-				'description' => __( 'Post title.', 'mumega-mcp' ),
+				'description' => __( 'Post title.', 'site-pilot-ai' ),
 				'type'        => 'string',
 				'required'    => true,
 			),
 			'content' => array(
-				'description' => __( 'Post content.', 'mumega-mcp' ),
+				'description' => __( 'Post content.', 'site-pilot-ai' ),
 				'type'        => 'string',
 				'default'     => '',
 			),
 			'status'  => array(
-				'description' => __( 'Post status.', 'mumega-mcp' ),
+				'description' => __( 'Post status.', 'site-pilot-ai' ),
 				'type'        => 'string',
 				'enum'        => array( 'publish', 'draft', 'pending', 'private' ),
 				'default'     => 'draft',
 			),
 			'excerpt' => array(
-				'description' => __( 'Post excerpt.', 'mumega-mcp' ),
+				'description' => __( 'Post excerpt.', 'site-pilot-ai' ),
 				'type'        => 'string',
 				'default'     => '',
 			),

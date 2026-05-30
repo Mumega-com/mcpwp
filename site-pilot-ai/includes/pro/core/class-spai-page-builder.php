@@ -60,11 +60,11 @@ class Spai_Page_Builder {
 	 */
 	public function build( $title, $sections, $status = 'draft' ) {
 		if ( empty( $title ) ) {
-			return new WP_Error( 'missing_title', __( 'Page title is required.', 'mumega-mcp' ) );
+			return new WP_Error( 'missing_title', __( 'Page title is required.', 'site-pilot-ai' ) );
 		}
 
 		if ( empty( $sections ) || ! is_array( $sections ) ) {
-			return new WP_Error( 'missing_sections', __( 'At least one section is required.', 'mumega-mcp' ) );
+			return new WP_Error( 'missing_sections', __( 'At least one section is required.', 'site-pilot-ai' ) );
 		}
 
 		// Detect layout mode.
@@ -96,7 +96,7 @@ class Spai_Page_Builder {
 		}
 
 		if ( empty( $elements ) ) {
-			return new WP_Error( 'no_valid_sections', __( 'No valid sections to build.', 'mumega-mcp' ) );
+			return new WP_Error( 'no_valid_sections', __( 'No valid sections to build.', 'site-pilot-ai' ) );
 		}
 
 		// Create the page.

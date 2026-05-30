@@ -53,7 +53,7 @@ class Spai_Widgets {
 		global $wp_registered_sidebars;
 
 		if ( ! isset( $wp_registered_sidebars[ $sidebar_id ] ) ) {
-			return new WP_Error( 'not_found', __( 'Sidebar not found.', 'mumega-mcp' ) );
+			return new WP_Error( 'not_found', __( 'Sidebar not found.', 'site-pilot-ai' ) );
 		}
 
 		$sidebar = $wp_registered_sidebars[ $sidebar_id ];
@@ -106,14 +106,14 @@ class Spai_Widgets {
 		global $wp_registered_widgets;
 
 		if ( ! isset( $wp_registered_widgets[ $widget_id ] ) ) {
-			return new WP_Error( 'not_found', __( 'Widget not found.', 'mumega-mcp' ) );
+			return new WP_Error( 'not_found', __( 'Widget not found.', 'site-pilot-ai' ) );
 		}
 
 		$widget = $wp_registered_widgets[ $widget_id ];
 		$parsed = $this->parse_widget_id( $widget_id );
 
 		if ( ! $parsed ) {
-			return new WP_Error( 'invalid_widget', __( 'Invalid widget ID format.', 'mumega-mcp' ) );
+			return new WP_Error( 'invalid_widget', __( 'Invalid widget ID format.', 'site-pilot-ai' ) );
 		}
 
 		$settings = $this->get_widget_settings( $parsed['type'], $parsed['number'] );
@@ -166,7 +166,7 @@ class Spai_Widgets {
 
 		// Validate sidebar exists.
 		if ( ! isset( $wp_registered_sidebars[ $sidebar_id ] ) ) {
-			return new WP_Error( 'invalid_sidebar', __( 'Sidebar not found.', 'mumega-mcp' ) );
+			return new WP_Error( 'invalid_sidebar', __( 'Sidebar not found.', 'site-pilot-ai' ) );
 		}
 
 		// Validate widget type exists.
@@ -179,7 +179,7 @@ class Spai_Widgets {
 		}
 
 		if ( ! $widget_class ) {
-			return new WP_Error( 'invalid_widget_type', __( 'Widget type not found.', 'mumega-mcp' ) );
+			return new WP_Error( 'invalid_widget_type', __( 'Widget type not found.', 'site-pilot-ai' ) );
 		}
 
 		// Get next widget number.
@@ -222,13 +222,13 @@ class Spai_Widgets {
 		$parsed = $this->parse_widget_id( $widget_id );
 
 		if ( ! $parsed ) {
-			return new WP_Error( 'invalid_widget', __( 'Invalid widget ID format.', 'mumega-mcp' ) );
+			return new WP_Error( 'invalid_widget', __( 'Invalid widget ID format.', 'site-pilot-ai' ) );
 		}
 
 		$all_settings = get_option( 'widget_' . $parsed['type'], array() );
 
 		if ( ! isset( $all_settings[ $parsed['number'] ] ) ) {
-			return new WP_Error( 'not_found', __( 'Widget not found.', 'mumega-mcp' ) );
+			return new WP_Error( 'not_found', __( 'Widget not found.', 'site-pilot-ai' ) );
 		}
 
 		// Merge existing settings with new settings.
@@ -253,7 +253,7 @@ class Spai_Widgets {
 		$parsed = $this->parse_widget_id( $widget_id );
 
 		if ( ! $parsed ) {
-			return new WP_Error( 'invalid_widget', __( 'Invalid widget ID format.', 'mumega-mcp' ) );
+			return new WP_Error( 'invalid_widget', __( 'Invalid widget ID format.', 'site-pilot-ai' ) );
 		}
 
 		// Remove from sidebar.
@@ -295,7 +295,7 @@ class Spai_Widgets {
 
 		// Validate sidebar exists.
 		if ( ! isset( $wp_registered_sidebars[ $sidebar_id ] ) ) {
-			return new WP_Error( 'invalid_sidebar', __( 'Sidebar not found.', 'mumega-mcp' ) );
+			return new WP_Error( 'invalid_sidebar', __( 'Sidebar not found.', 'site-pilot-ai' ) );
 		}
 
 		// Validate widget exists.
@@ -345,7 +345,7 @@ class Spai_Widgets {
 
 		// Validate sidebar exists.
 		if ( ! isset( $wp_registered_sidebars[ $sidebar_id ] ) ) {
-			return new WP_Error( 'invalid_sidebar', __( 'Sidebar not found.', 'mumega-mcp' ) );
+			return new WP_Error( 'invalid_sidebar', __( 'Sidebar not found.', 'site-pilot-ai' ) );
 		}
 
 		$sidebars_widgets = get_option( 'sidebars_widgets', array() );
@@ -358,7 +358,7 @@ class Spai_Widgets {
 				return new WP_Error(
 					'invalid_widget',
 					/* translators: %s: widget ID */
-					sprintf( __( 'Widget %s is not in this sidebar.', 'mumega-mcp' ), $widget_id )
+					sprintf( __( 'Widget %s is not in this sidebar.', 'site-pilot-ai' ), $widget_id )
 				);
 			}
 		}

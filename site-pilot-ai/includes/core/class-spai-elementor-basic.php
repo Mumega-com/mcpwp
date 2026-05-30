@@ -75,7 +75,7 @@ class Spai_Elementor_Basic {
 			);
 			return new WP_Error(
 				'not_found',
-				__( 'Post not found or unsupported type.', 'mumega-mcp' ),
+				__( 'Post not found or unsupported type.', 'site-pilot-ai' ),
 				array(
 					'status' => 404,
 					'hint'   => $hint,
@@ -96,7 +96,7 @@ class Spai_Elementor_Basic {
 		if ( ! $this->is_active() ) {
 			return new WP_Error(
 				'elementor_not_active',
-				__( 'Elementor is not installed or active.', 'mumega-mcp' ),
+				__( 'Elementor is not installed or active.', 'site-pilot-ai' ),
 				array(
 					'status' => 400,
 					'hint'   => 'Elementor is not installed or active on this site. Use wp_introspect to check available page builders. For content editing without Elementor, use wp_update_page with HTML content, or wp_set_blocks for Gutenberg.',
@@ -176,7 +176,7 @@ class Spai_Elementor_Basic {
 		if ( ! $this->is_active() ) {
 			return new WP_Error(
 				'elementor_not_active',
-				__( 'Elementor is not installed or active.', 'mumega-mcp' ),
+				__( 'Elementor is not installed or active.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -345,7 +345,7 @@ class Spai_Elementor_Basic {
 		if ( ! $this->is_active() ) {
 			return new WP_Error(
 				'elementor_not_active',
-				__( 'Elementor is not installed or active.', 'mumega-mcp' ),
+				__( 'Elementor is not installed or active.', 'site-pilot-ai' ),
 				array(
 					'status' => 400,
 					'hint'   => 'Elementor is not installed or active on this site. Use wp_introspect to check available page builders. For content editing without Elementor, use wp_update_page with HTML content, or wp_set_blocks for Gutenberg.',
@@ -380,7 +380,7 @@ class Spai_Elementor_Basic {
 			if ( false === $raw_decoded ) {
 				return new WP_Error(
 					'invalid_base64',
-					__( 'Invalid base64 encoding in elementor_data_base64.', 'mumega-mcp' ),
+					__( 'Invalid base64 encoding in elementor_data_base64.', 'site-pilot-ai' ),
 					array(
 						'status' => 400,
 						'hint'   => 'The elementor_data_base64 value is not valid base64. Encode your JSON string with base64_encode() or btoa() before sending.',
@@ -391,7 +391,7 @@ class Spai_Elementor_Basic {
 			if ( null === $decoded && json_last_error() !== JSON_ERROR_NONE ) {
 				return new WP_Error(
 					'invalid_json',
-					__( 'Base64-decoded data is not valid JSON.', 'mumega-mcp' ),
+					__( 'Base64-decoded data is not valid JSON.', 'site-pilot-ai' ),
 					array(
 						'status' => 400,
 						'hint'   => 'The base64 payload decoded successfully but the resulting string is not valid JSON. Error: ' . json_last_error_msg(),
@@ -402,7 +402,7 @@ class Spai_Elementor_Basic {
 			if ( ! is_array( $decoded ) ) {
 				return new WP_Error(
 					'invalid_structure',
-					__( 'Elementor data must decode to an array.', 'mumega-mcp' ),
+					__( 'Elementor data must decode to an array.', 'site-pilot-ai' ),
 					array(
 						'status' => 400,
 						'hint'   => $structure_hint,
@@ -417,7 +417,7 @@ class Spai_Elementor_Basic {
 				if ( ! $this->is_valid_elementor_structure( $data['elementor_data'] ) ) {
 					return new WP_Error(
 						'invalid_structure',
-						__( 'Elementor data must be an array of element objects.', 'mumega-mcp' ),
+						__( 'Elementor data must be an array of element objects.', 'site-pilot-ai' ),
 						array(
 							'status' => 400,
 							'hint'   => $structure_hint,
@@ -432,7 +432,7 @@ class Spai_Elementor_Basic {
 				if ( null === $decoded ) {
 					return new WP_Error(
 						'invalid_json',
-						__( 'Invalid Elementor JSON data.', 'mumega-mcp' ),
+						__( 'Invalid Elementor JSON data.', 'site-pilot-ai' ),
 						array(
 							'status' => 400,
 							'hint'   => 'The provided string is not valid JSON even after recovery attempts (stripslashes, double-encoding unwrap). Error: ' . json_last_error_msg() . '. Consider using elementor_data_base64 to avoid quoting issues — base64-encode your JSON before sending.',
@@ -443,7 +443,7 @@ class Spai_Elementor_Basic {
 				if ( ! is_array( $decoded ) ) {
 					return new WP_Error(
 						'invalid_structure',
-						__( 'Elementor data must decode to an array.', 'mumega-mcp' ),
+						__( 'Elementor data must decode to an array.', 'site-pilot-ai' ),
 						array(
 							'status' => 400,
 							'hint'   => $structure_hint,
@@ -460,7 +460,7 @@ class Spai_Elementor_Basic {
 			if ( null === $decoded ) {
 				return new WP_Error(
 					'invalid_json',
-					__( 'Invalid Elementor JSON data.', 'mumega-mcp' ),
+					__( 'Invalid Elementor JSON data.', 'site-pilot-ai' ),
 					array(
 						'status' => 400,
 						'hint'   => 'The provided string is not valid JSON even after recovery attempts. Error: ' . json_last_error_msg() . '. Consider using elementor_data_base64 to avoid quoting issues.',
@@ -471,7 +471,7 @@ class Spai_Elementor_Basic {
 			if ( ! is_array( $decoded ) ) {
 				return new WP_Error(
 					'invalid_structure',
-					__( 'Elementor data must decode to an array.', 'mumega-mcp' ),
+					__( 'Elementor data must decode to an array.', 'site-pilot-ai' ),
 					array(
 						'status' => 400,
 						'hint'   => $structure_hint,
@@ -494,7 +494,7 @@ class Spai_Elementor_Basic {
 		if ( empty( $elementor_json ) ) {
 			return new WP_Error(
 				'no_data',
-				__( 'No Elementor data provided.', 'mumega-mcp' ),
+				__( 'No Elementor data provided.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -530,7 +530,7 @@ class Spai_Elementor_Basic {
 				'success'  => true,
 				'dry_run'  => true,
 				'page_id'  => (string) $page_id,
-				'message'  => __( 'Validation complete — no changes saved.', 'mumega-mcp' ),
+				'message'  => __( 'Validation complete — no changes saved.', 'site-pilot-ai' ),
 			);
 
 			if ( ! empty( $all_warnings ) ) {
@@ -606,7 +606,7 @@ class Spai_Elementor_Basic {
 		if ( ! is_array( $post_validation_decoded ) ) {
 			return new WP_Error(
 				'validation_corrupted',
-				__( 'Elementor data was corrupted during validation. Please retry with elementor_data_base64.', 'mumega-mcp' ),
+				__( 'Elementor data was corrupted during validation. Please retry with elementor_data_base64.', 'site-pilot-ai' ),
 				array( 'status' => 500, 'sections_submitted' => $input_count )
 			);
 		}
@@ -616,7 +616,7 @@ class Spai_Elementor_Basic {
 					'validation_data_loss',
 					sprintf(
 						/* translators: 1: submitted section count, 2: section count after validation */
-						__( 'Validation changed section count from %1$d to %2$d. Aborting to prevent data loss.', 'mumega-mcp' ),
+						__( 'Validation changed section count from %1$d to %2$d. Aborting to prevent data loss.', 'site-pilot-ai' ),
 						$input_count,
 						$post_validation_count
 					),
@@ -708,7 +708,7 @@ class Spai_Elementor_Basic {
 					'meta_write_truncated',
 					sprintf(
 						/* translators: 1: submitted section count, 2: stored section count */
-						__( 'Data truncated during save: %1$d sections submitted but only %2$d stored. Try using elementor_data_base64 for large payloads.', 'mumega-mcp' ),
+						__( 'Data truncated during save: %1$d sections submitted but only %2$d stored. Try using elementor_data_base64 for large payloads.', 'site-pilot-ai' ),
 						$input_count,
 						$stored_count
 					),
@@ -832,7 +832,7 @@ class Spai_Elementor_Basic {
 		$result = array(
 			'success'            => true,
 			'page_id'            => (string) $page_id,
-			'message'            => __( 'Elementor data updated.', 'mumega-mcp' ),
+			'message'            => __( 'Elementor data updated.', 'site-pilot-ai' ),
 			'sections_saved'     => $save_debug['sections_saved'],
 			'sections_submitted' => $save_debug['sections_submitted'],
 			'save_method'        => $save_method,
@@ -860,7 +860,7 @@ class Spai_Elementor_Basic {
 		if ( ! $this->is_active() ) {
 			return new WP_Error(
 				'elementor_not_active',
-				__( 'Elementor is not installed or active.', 'mumega-mcp' ),
+				__( 'Elementor is not installed or active.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -868,7 +868,7 @@ class Spai_Elementor_Basic {
 		// Create page
 		$page_data = array(
 			'post_type'    => 'page',
-			'post_title'   => isset( $data['title'] ) ? sanitize_text_field( $data['title'] ) : __( 'New Page', 'mumega-mcp' ),
+			'post_title'   => isset( $data['title'] ) ? sanitize_text_field( $data['title'] ) : __( 'New Page', 'site-pilot-ai' ),
 			'post_status'  => isset( $data['status'] ) ? sanitize_key( $data['status'] ) : 'draft',
 			'post_content' => '',
 		);
@@ -1529,7 +1529,7 @@ class Spai_Elementor_Basic {
 		if ( ! $this->is_active() ) {
 			return new WP_Error(
 				'elementor_not_active',
-				__( 'Elementor is not installed or active.', 'mumega-mcp' ),
+				__( 'Elementor is not installed or active.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -1537,7 +1537,7 @@ class Spai_Elementor_Basic {
 		if ( ! class_exists( '\Elementor\Plugin' ) || empty( \Elementor\Plugin::$instance->widgets_manager ) ) {
 			return new WP_Error(
 				'elementor_not_loaded',
-				__( 'Elementor widget manager not available.', 'mumega-mcp' ),
+				__( 'Elementor widget manager not available.', 'site-pilot-ai' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -1574,10 +1574,10 @@ class Spai_Elementor_Basic {
 			if ( ! isset( $types[ $widget_type ] ) ) {
 				$suggestion = $this->find_closest_widget( $widget_type, array_keys( $types ) );
 				/* translators: %s: Elementor widget type */
-				$msg        = sprintf( __( "Unknown widget type '%s'.", 'mumega-mcp' ), $widget_type );
+				$msg        = sprintf( __( "Unknown widget type '%s'.", 'site-pilot-ai' ), $widget_type );
 				if ( $suggestion ) {
 					/* translators: %s: suggested Elementor widget type */
-					$msg .= sprintf( __( " Did you mean '%s'?", 'mumega-mcp' ), $suggestion );
+					$msg .= sprintf( __( " Did you mean '%s'?", 'site-pilot-ai' ), $suggestion );
 				}
 				return new WP_Error(
 				'unknown_widget',
@@ -1658,7 +1658,7 @@ class Spai_Elementor_Basic {
 		if ( ! $this->is_active() ) {
 			return new WP_Error(
 				'elementor_not_active',
-				__( 'Elementor is not installed or active.', 'mumega-mcp' ),
+				__( 'Elementor is not installed or active.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -1666,7 +1666,7 @@ class Spai_Elementor_Basic {
 		if ( ! class_exists( '\Elementor\Plugin' ) ) {
 			return new WP_Error(
 				'elementor_not_loaded',
-				__( 'Elementor plugin class not available.', 'mumega-mcp' ),
+				__( 'Elementor plugin class not available.', 'site-pilot-ai' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -1682,7 +1682,7 @@ class Spai_Elementor_Basic {
 			if ( ! $page ) {
 				return new WP_Error(
 					'not_found',
-					__( 'Page not found.', 'mumega-mcp' ),
+					__( 'Page not found.', 'site-pilot-ai' ),
 					array( 'status' => 404 )
 				);
 			}
@@ -1753,7 +1753,7 @@ class Spai_Elementor_Basic {
 			if ( 'css_regenerated' === $method ) {
 				$result['regenerated'] = array( $page_id );
 				$result['skipped']     = array();
-				$result['message']     = __( 'CSS regenerated for page.', 'mumega-mcp' );
+				$result['message']     = __( 'CSS regenerated for page.', 'site-pilot-ai' );
 			} else {
 				$result['regenerated'] = array();
 				$reason = ! $has_elementor_data ? 'no_elementor_data' : 'document_not_found';
@@ -1763,7 +1763,7 @@ class Spai_Elementor_Basic {
 						'reason'  => $reason,
 					),
 				);
-				$result['message'] = __( 'Elementor cache cleared (document not found, CSS will regenerate on next page load).', 'mumega-mcp' );
+				$result['message'] = __( 'Elementor cache cleared (document not found, CSS will regenerate on next page load).', 'site-pilot-ai' );
 			}
 
 			return $result;
@@ -1903,7 +1903,7 @@ class Spai_Elementor_Basic {
 			'failed'                 => $failed,
 			'message'                => sprintf(
 				/* translators: 1: regenerated count 2: total found 3: skipped count 4: failed count 5: global kit status */
-				__( 'CSS regenerated for %1$d of %2$d Elementor pages (%3$d skipped, %4$d failed). Global kit CSS: %5$s. Cache cleared.', 'mumega-mcp' ),
+				__( 'CSS regenerated for %1$d of %2$d Elementor pages (%3$d skipped, %4$d failed). Global kit CSS: %5$s. Cache cleared.', 'site-pilot-ai' ),
 				count( $regenerated ),
 				count( $elementor_posts ),
 				count( $skipped ),
@@ -1935,7 +1935,7 @@ class Spai_Elementor_Basic {
 		if ( ! $this->is_active() ) {
 			return new WP_Error(
 				'elementor_not_active',
-				__( 'Elementor is not installed or active.', 'mumega-mcp' ),
+				__( 'Elementor is not installed or active.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -1949,7 +1949,7 @@ class Spai_Elementor_Basic {
 		if ( empty( $elementor_data ) ) {
 			return new WP_Error(
 				'no_elementor_data',
-				__( 'This page has no Elementor data.', 'mumega-mcp' ),
+				__( 'This page has no Elementor data.', 'site-pilot-ai' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -1958,7 +1958,7 @@ class Spai_Elementor_Basic {
 		if ( ! is_array( $elements ) ) {
 			return new WP_Error(
 				'invalid_elementor_data',
-				__( 'Elementor data is not valid JSON.', 'mumega-mcp' ),
+				__( 'Elementor data is not valid JSON.', 'site-pilot-ai' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -1987,7 +1987,7 @@ class Spai_Elementor_Basic {
 		} else {
 			return new WP_Error(
 				'no_selector',
-				__( 'Provide element_id, section_index, or find criteria to locate the target element.', 'mumega-mcp' ),
+				__( 'Provide element_id, section_index, or find criteria to locate the target element.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -1995,7 +1995,7 @@ class Spai_Elementor_Basic {
 		if ( null === $found ) {
 			return new WP_Error(
 				'element_not_found',
-				__( 'No matching element found in the Elementor tree.', 'mumega-mcp' ),
+				__( 'No matching element found in the Elementor tree.', 'site-pilot-ai' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -2028,7 +2028,7 @@ class Spai_Elementor_Basic {
 		if ( empty( $changes ) ) {
 			return new WP_Error(
 				'no_changes',
-				__( 'No settings or delete_settings provided — nothing to change.', 'mumega-mcp' ),
+				__( 'No settings or delete_settings provided — nothing to change.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -2101,7 +2101,7 @@ class Spai_Elementor_Basic {
 		if ( ! $this->is_active() ) {
 			return new WP_Error(
 				'elementor_not_active',
-				__( 'Elementor is not installed or active.', 'mumega-mcp' ),
+				__( 'Elementor is not installed or active.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -2114,7 +2114,7 @@ class Spai_Elementor_Basic {
 		if ( empty( $widget_id ) ) {
 			return new WP_Error(
 				'missing_widget_id',
-				__( 'widget_id is required.', 'mumega-mcp' ),
+				__( 'widget_id is required.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -2122,7 +2122,7 @@ class Spai_Elementor_Basic {
 		if ( empty( $settings ) && empty( $delete_settings ) ) {
 			return new WP_Error(
 				'no_changes',
-				__( 'No settings or delete_settings provided.', 'mumega-mcp' ),
+				__( 'No settings or delete_settings provided.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -2131,7 +2131,7 @@ class Spai_Elementor_Basic {
 		if ( empty( $elementor_data ) ) {
 			return new WP_Error(
 				'no_elementor_data',
-				__( 'This page has no Elementor data.', 'mumega-mcp' ),
+				__( 'This page has no Elementor data.', 'site-pilot-ai' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -2140,7 +2140,7 @@ class Spai_Elementor_Basic {
 		if ( ! is_array( $elements ) ) {
 			return new WP_Error(
 				'invalid_elementor_data',
-				__( 'Elementor data is not valid JSON.', 'mumega-mcp' ),
+				__( 'Elementor data is not valid JSON.', 'site-pilot-ai' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -2154,7 +2154,7 @@ class Spai_Elementor_Basic {
 				'widget_not_found',
 				sprintf(
 					/* translators: %s: widget ID */
-					__( 'No element with ID "%s" found in the Elementor tree.', 'mumega-mcp' ),
+					__( 'No element with ID "%s" found in the Elementor tree.', 'site-pilot-ai' ),
 					$widget_id
 				),
 				array( 'status' => 404 )
@@ -2168,7 +2168,7 @@ class Spai_Elementor_Basic {
 				'not_a_widget',
 				sprintf(
 					/* translators: 1: element ID, 2: actual elType */
-					__( 'Element "%1$s" is a %2$s, not a widget. Use wp_edit_section for non-widget elements.', 'mumega-mcp' ),
+					__( 'Element "%1$s" is a %2$s, not a widget. Use wp_edit_section for non-widget elements.', 'site-pilot-ai' ),
 					$widget_id,
 					$el_type
 				),
@@ -3055,7 +3055,7 @@ class Spai_Elementor_Basic {
 		if ( ! $this->is_active() ) {
 			return new WP_Error(
 				'elementor_not_active',
-				__( 'Elementor is not installed or active.', 'mumega-mcp' ),
+				__( 'Elementor is not installed or active.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -3068,7 +3068,7 @@ class Spai_Elementor_Basic {
 		if ( ! class_exists( '\Elementor\Plugin' ) ) {
 			return new WP_Error(
 				'elementor_not_loaded',
-				__( 'Elementor plugin class not available.', 'mumega-mcp' ),
+				__( 'Elementor plugin class not available.', 'site-pilot-ai' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -3078,7 +3078,7 @@ class Spai_Elementor_Basic {
 		if ( empty( $elementor_data_raw ) ) {
 			return new WP_Error(
 				'no_elementor_data',
-				__( 'This page has no Elementor data.', 'mumega-mcp' ),
+				__( 'This page has no Elementor data.', 'site-pilot-ai' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -3111,7 +3111,7 @@ class Spai_Elementor_Basic {
 				'text'        => $fallback_text ? mb_substr( $fallback_text, 0, 500 ) : '',
 				'stats'       => $stats,
 				'preview_url' => $preview_url,
-				'message'     => __( 'Elementor returned empty HTML. Text extracted from raw data instead. The page may need to be saved in the Elementor editor first.', 'mumega-mcp' ),
+				'message'     => __( 'Elementor returned empty HTML. Text extracted from raw data instead. The page may need to be saved in the Elementor editor first.', 'site-pilot-ai' ),
 			);
 
 			return $response;

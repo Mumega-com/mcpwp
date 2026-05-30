@@ -100,7 +100,7 @@ class Spai_REST_WooCommerce extends Spai_REST_API {
 						'force' => array(
 							'type'        => 'boolean',
 							'default'     => false,
-							'description' => __( 'Permanently delete the product.', 'mumega-mcp' ),
+							'description' => __( 'Permanently delete the product.', 'site-pilot-ai' ),
 						),
 					),
 				),
@@ -218,16 +218,16 @@ class Spai_REST_WooCommerce extends Spai_REST_API {
 					'args'                => array(
 						'status' => array(
 							'type'        => 'string',
-							'description' => __( 'Order status.', 'mumega-mcp' ),
+							'description' => __( 'Order status.', 'site-pilot-ai' ),
 						),
 						'note' => array(
 							'type'        => 'string',
-							'description' => __( 'Order note to add.', 'mumega-mcp' ),
+							'description' => __( 'Order note to add.', 'site-pilot-ai' ),
 						),
 						'note_customer' => array(
 							'type'        => 'boolean',
 							'default'     => false,
-							'description' => __( 'Send note to customer.', 'mumega-mcp' ),
+							'description' => __( 'Send note to customer.', 'site-pilot-ai' ),
 						),
 					),
 				),
@@ -295,57 +295,57 @@ class Spai_REST_WooCommerce extends Spai_REST_API {
 				'default'     => 50,
 				'minimum'     => 1,
 				'maximum'     => 100,
-				'description' => __( 'Items per page.', 'mumega-mcp' ),
+				'description' => __( 'Items per page.', 'site-pilot-ai' ),
 			),
 			'page'         => array(
 				'type'        => 'integer',
 				'default'     => 1,
 				'minimum'     => 1,
-				'description' => __( 'Page number.', 'mumega-mcp' ),
+				'description' => __( 'Page number.', 'site-pilot-ai' ),
 			),
 			'status'       => array(
 				'type'        => 'string',
 				'default'     => 'publish',
 				'enum'        => array( 'publish', 'draft', 'pending', 'private', 'any' ),
-				'description' => __( 'Product status.', 'mumega-mcp' ),
+				'description' => __( 'Product status.', 'site-pilot-ai' ),
 			),
 			'type'         => array(
 				'type'        => 'string',
 				'enum'        => array( 'simple', 'variable', 'grouped', 'external' ),
-				'description' => __( 'Product type.', 'mumega-mcp' ),
+				'description' => __( 'Product type.', 'site-pilot-ai' ),
 			),
 			'category'     => array(
 				'type'        => 'string',
-				'description' => __( 'Category slug.', 'mumega-mcp' ),
+				'description' => __( 'Category slug.', 'site-pilot-ai' ),
 			),
 			'tag'          => array(
 				'type'        => 'string',
-				'description' => __( 'Tag slug.', 'mumega-mcp' ),
+				'description' => __( 'Tag slug.', 'site-pilot-ai' ),
 			),
 			'search'       => array(
 				'type'        => 'string',
-				'description' => __( 'Search term.', 'mumega-mcp' ),
+				'description' => __( 'Search term.', 'site-pilot-ai' ),
 			),
 			'sku'          => array(
 				'type'        => 'string',
-				'description' => __( 'Exact SKU match.', 'mumega-mcp' ),
+				'description' => __( 'Exact SKU match.', 'site-pilot-ai' ),
 			),
 			'stock_status' => array(
 				'type'        => 'string',
 				'enum'        => array( 'instock', 'outofstock', 'onbackorder' ),
-				'description' => __( 'Stock status.', 'mumega-mcp' ),
+				'description' => __( 'Stock status.', 'site-pilot-ai' ),
 			),
 			'orderby'      => array(
 				'type'        => 'string',
 				'default'     => 'date',
 				'enum'        => array( 'date', 'title', 'price', 'popularity', 'rating' ),
-				'description' => __( 'Order by field.', 'mumega-mcp' ),
+				'description' => __( 'Order by field.', 'site-pilot-ai' ),
 			),
 			'order'        => array(
 				'type'        => 'string',
 				'default'     => 'DESC',
 				'enum'        => array( 'ASC', 'DESC' ),
-				'description' => __( 'Sort order.', 'mumega-mcp' ),
+				'description' => __( 'Sort order.', 'site-pilot-ai' ),
 			),
 		);
 	}
@@ -360,82 +360,82 @@ class Spai_REST_WooCommerce extends Spai_REST_API {
 			'name'              => array(
 				'type'        => 'string',
 				'required'    => true,
-				'description' => __( 'Product name.', 'mumega-mcp' ),
+				'description' => __( 'Product name.', 'site-pilot-ai' ),
 			),
 			'type'              => array(
 				'type'        => 'string',
 				'default'     => 'simple',
 				'enum'        => array( 'simple', 'variable', 'grouped', 'external' ),
-				'description' => __( 'Product type.', 'mumega-mcp' ),
+				'description' => __( 'Product type.', 'site-pilot-ai' ),
 			),
 			'status'            => array(
 				'type'        => 'string',
 				'default'     => 'publish',
 				'enum'        => array( 'publish', 'draft', 'pending', 'private' ),
-				'description' => __( 'Product status.', 'mumega-mcp' ),
+				'description' => __( 'Product status.', 'site-pilot-ai' ),
 			),
 			'description'       => array(
 				'type'        => 'string',
-				'description' => __( 'Product description.', 'mumega-mcp' ),
+				'description' => __( 'Product description.', 'site-pilot-ai' ),
 			),
 			'short_description' => array(
 				'type'        => 'string',
-				'description' => __( 'Short description.', 'mumega-mcp' ),
+				'description' => __( 'Short description.', 'site-pilot-ai' ),
 			),
 			'sku'               => array(
 				'type'        => 'string',
-				'description' => __( 'Product SKU.', 'mumega-mcp' ),
+				'description' => __( 'Product SKU.', 'site-pilot-ai' ),
 			),
 			'regular_price'     => array(
 				'type'        => 'string',
-				'description' => __( 'Regular price.', 'mumega-mcp' ),
+				'description' => __( 'Regular price.', 'site-pilot-ai' ),
 			),
 			'sale_price'        => array(
 				'type'        => 'string',
-				'description' => __( 'Sale price.', 'mumega-mcp' ),
+				'description' => __( 'Sale price.', 'site-pilot-ai' ),
 			),
 			'manage_stock'      => array(
 				'type'        => 'boolean',
 				'default'     => false,
-				'description' => __( 'Manage stock.', 'mumega-mcp' ),
+				'description' => __( 'Manage stock.', 'site-pilot-ai' ),
 			),
 			'stock_quantity'    => array(
 				'type'        => 'integer',
-				'description' => __( 'Stock quantity.', 'mumega-mcp' ),
+				'description' => __( 'Stock quantity.', 'site-pilot-ai' ),
 			),
 			'stock_status'      => array(
 				'type'        => 'string',
 				'enum'        => array( 'instock', 'outofstock', 'onbackorder' ),
-				'description' => __( 'Stock status.', 'mumega-mcp' ),
+				'description' => __( 'Stock status.', 'site-pilot-ai' ),
 			),
 			'categories'        => array(
 				'type'        => 'array',
 				'items'       => array( 'type' => 'string' ),
-				'description' => __( 'Category names or IDs.', 'mumega-mcp' ),
+				'description' => __( 'Category names or IDs.', 'site-pilot-ai' ),
 			),
 			'tags'              => array(
 				'type'        => 'array',
 				'items'       => array( 'type' => 'string' ),
-				'description' => __( 'Tag names or IDs.', 'mumega-mcp' ),
+				'description' => __( 'Tag names or IDs.', 'site-pilot-ai' ),
 			),
 			'image_id'          => array(
 				'type'        => 'integer',
-				'description' => __( 'Main image attachment ID.', 'mumega-mcp' ),
+				'description' => __( 'Main image attachment ID.', 'site-pilot-ai' ),
 			),
 			'gallery_image_ids' => array(
 				'type'        => 'array',
 				'items'       => array( 'type' => 'integer' ),
-				'description' => __( 'Gallery image attachment IDs.', 'mumega-mcp' ),
+				'description' => __( 'Gallery image attachment IDs.', 'site-pilot-ai' ),
 			),
 			'virtual'           => array(
 				'type'        => 'boolean',
 				'default'     => false,
-				'description' => __( 'Virtual product.', 'mumega-mcp' ),
+				'description' => __( 'Virtual product.', 'site-pilot-ai' ),
 			),
 			'downloadable'      => array(
 				'type'        => 'boolean',
 				'default'     => false,
-				'description' => __( 'Downloadable product.', 'mumega-mcp' ),
+				'description' => __( 'Downloadable product.', 'site-pilot-ai' ),
 			),
 		);
 	}
@@ -452,32 +452,32 @@ class Spai_REST_WooCommerce extends Spai_REST_API {
 				'default'     => 50,
 				'minimum'     => 1,
 				'maximum'     => 100,
-				'description' => __( 'Items per page.', 'mumega-mcp' ),
+				'description' => __( 'Items per page.', 'site-pilot-ai' ),
 			),
 			'page'     => array(
 				'type'        => 'integer',
 				'default'     => 1,
 				'minimum'     => 1,
-				'description' => __( 'Page number.', 'mumega-mcp' ),
+				'description' => __( 'Page number.', 'site-pilot-ai' ),
 			),
 			'status'   => array(
 				'type'        => 'string',
 				'default'     => 'any',
-				'description' => __( 'Order status.', 'mumega-mcp' ),
+				'description' => __( 'Order status.', 'site-pilot-ai' ),
 			),
 			'customer' => array(
 				'type'        => 'integer',
-				'description' => __( 'Customer ID.', 'mumega-mcp' ),
+				'description' => __( 'Customer ID.', 'site-pilot-ai' ),
 			),
 			'after'    => array(
 				'type'        => 'string',
 				'format'      => 'date-time',
-				'description' => __( 'Orders after date (ISO 8601).', 'mumega-mcp' ),
+				'description' => __( 'Orders after date (ISO 8601).', 'site-pilot-ai' ),
 			),
 			'before'   => array(
 				'type'        => 'string',
 				'format'      => 'date-time',
-				'description' => __( 'Orders before date (ISO 8601).', 'mumega-mcp' ),
+				'description' => __( 'Orders before date (ISO 8601).', 'site-pilot-ai' ),
 			),
 		);
 	}
@@ -494,29 +494,29 @@ class Spai_REST_WooCommerce extends Spai_REST_API {
 				'default'     => 50,
 				'minimum'     => 1,
 				'maximum'     => 100,
-				'description' => __( 'Items per page.', 'mumega-mcp' ),
+				'description' => __( 'Items per page.', 'site-pilot-ai' ),
 			),
 			'page'     => array(
 				'type'        => 'integer',
 				'default'     => 1,
 				'minimum'     => 1,
-				'description' => __( 'Page number.', 'mumega-mcp' ),
+				'description' => __( 'Page number.', 'site-pilot-ai' ),
 			),
 			'search'   => array(
 				'type'        => 'string',
-				'description' => __( 'Search term.', 'mumega-mcp' ),
+				'description' => __( 'Search term.', 'site-pilot-ai' ),
 			),
 			'orderby'  => array(
 				'type'        => 'string',
 				'default'     => 'registered',
 				'enum'        => array( 'registered', 'display_name', 'user_login', 'user_email' ),
-				'description' => __( 'Order by field.', 'mumega-mcp' ),
+				'description' => __( 'Order by field.', 'site-pilot-ai' ),
 			),
 			'order'    => array(
 				'type'        => 'string',
 				'default'     => 'DESC',
 				'enum'        => array( 'ASC', 'DESC' ),
-				'description' => __( 'Sort order.', 'mumega-mcp' ),
+				'description' => __( 'Sort order.', 'site-pilot-ai' ),
 			),
 		);
 	}
@@ -530,23 +530,23 @@ class Spai_REST_WooCommerce extends Spai_REST_API {
 		return array(
 			'name'        => array(
 				'type'        => 'string',
-				'description' => __( 'Category name.', 'mumega-mcp' ),
+				'description' => __( 'Category name.', 'site-pilot-ai' ),
 			),
 			'slug'        => array(
 				'type'        => 'string',
-				'description' => __( 'Category slug.', 'mumega-mcp' ),
+				'description' => __( 'Category slug.', 'site-pilot-ai' ),
 			),
 			'description' => array(
 				'type'        => 'string',
-				'description' => __( 'Category description.', 'mumega-mcp' ),
+				'description' => __( 'Category description.', 'site-pilot-ai' ),
 			),
 			'parent'      => array(
 				'type'        => 'integer',
-				'description' => __( 'Parent category ID.', 'mumega-mcp' ),
+				'description' => __( 'Parent category ID.', 'site-pilot-ai' ),
 			),
 			'image_id'    => array(
 				'type'        => 'integer',
-				'description' => __( 'Category thumbnail image attachment ID.', 'mumega-mcp' ),
+				'description' => __( 'Category thumbnail image attachment ID.', 'site-pilot-ai' ),
 			),
 		);
 	}
@@ -562,17 +562,17 @@ class Spai_REST_WooCommerce extends Spai_REST_API {
 				'type'        => 'string',
 				'default'     => 'month',
 				'enum'        => array( 'day', 'week', 'month', 'year' ),
-				'description' => __( 'Time period.', 'mumega-mcp' ),
+				'description' => __( 'Time period.', 'site-pilot-ai' ),
 			),
 			'date_min' => array(
 				'type'        => 'string',
 				'format'      => 'date-time',
-				'description' => __( 'Start date (ISO 8601).', 'mumega-mcp' ),
+				'description' => __( 'Start date (ISO 8601).', 'site-pilot-ai' ),
 			),
 			'date_max' => array(
 				'type'        => 'string',
 				'format'      => 'date-time',
-				'description' => __( 'End date (ISO 8601).', 'mumega-mcp' ),
+				'description' => __( 'End date (ISO 8601).', 'site-pilot-ai' ),
 			),
 		);
 	}
@@ -839,7 +839,7 @@ class Spai_REST_WooCommerce extends Spai_REST_API {
 		$index = $this->find_product_archetype_index( $items, $id );
 
 		if ( -1 === $index ) {
-			return new WP_Error( 'not_found', __( 'Product archetype not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Product archetype not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
 		}
 
 		$current = $items[ $index ];
@@ -890,7 +890,7 @@ class Spai_REST_WooCommerce extends Spai_REST_API {
 		}
 
 		if ( empty( $payload['name'] ) ) {
-			return new WP_Error( 'missing_name', __( 'Applying a product archetype to a new product requires a name.', 'mumega-mcp' ), array( 'status' => 400 ) );
+			return new WP_Error( 'missing_name', __( 'Applying a product archetype to a new product requires a name.', 'site-pilot-ai' ), array( 'status' => 400 ) );
 		}
 
 		if ( empty( $payload['status'] ) ) {
@@ -1055,7 +1055,7 @@ class Spai_REST_WooCommerce extends Spai_REST_API {
 		$index = $this->find_product_archetype_index( $items, $id );
 
 		if ( -1 === $index ) {
-			return new WP_Error( 'not_found', __( 'Product archetype not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Product archetype not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
 		}
 
 		return $items[ $index ];
@@ -1088,7 +1088,7 @@ class Spai_REST_WooCommerce extends Spai_REST_API {
 	private function normalize_product_archetype_payload( $data, $partial = false ) {
 		$name = isset( $data['name'] ) ? sanitize_text_field( (string) $data['name'] ) : '';
 		if ( ! $partial && '' === $name ) {
-			return new WP_Error( 'missing_name', __( 'Archetype name is required.', 'mumega-mcp' ), array( 'status' => 400 ) );
+			return new WP_Error( 'missing_name', __( 'Archetype name is required.', 'site-pilot-ai' ), array( 'status' => 400 ) );
 		}
 
 		$product_type = isset( $data['product_type'] ) ? sanitize_key( (string) $data['product_type'] ) : 'simple';

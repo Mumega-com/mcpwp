@@ -55,7 +55,7 @@ class Spai_Settings {
 		// General section
 		add_settings_section(
 			'spai_general_section',
-			__( 'General Settings', 'mumega-mcp' ),
+			__( 'General Settings', 'site-pilot-ai' ),
 			array( $this, 'render_general_section' ),
 			'spai_settings'
 		);
@@ -63,93 +63,93 @@ class Spai_Settings {
 		// Logging
 		add_settings_field(
 			'enable_logging',
-			__( 'Activity Logging', 'mumega-mcp' ),
+			__( 'Activity Logging', 'site-pilot-ai' ),
 			array( $this, 'render_checkbox_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'enable_logging',
-				'description' => __( 'Log API requests for analytics and debugging.', 'mumega-mcp' ),
+				'description' => __( 'Log API requests for analytics and debugging.', 'site-pilot-ai' ),
 			)
 		);
 
 		// Log retention
 		add_settings_field(
 			'log_retention_days',
-			__( 'Log Retention', 'mumega-mcp' ),
+			__( 'Log Retention', 'site-pilot-ai' ),
 			array( $this, 'render_number_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'log_retention_days',
-				'description' => __( 'Number of days to keep activity logs.', 'mumega-mcp' ),
+				'description' => __( 'Number of days to keep activity logs.', 'site-pilot-ai' ),
 				'min'         => 1,
 				'max'         => 365,
-				'suffix'      => __( 'days', 'mumega-mcp' ),
+				'suffix'      => __( 'days', 'site-pilot-ai' ),
 			)
 		);
 
 		add_settings_field(
 			'log_store_response_data',
-			__( 'Store Response Data', 'mumega-mcp' ),
+			__( 'Store Response Data', 'site-pilot-ai' ),
 			array( $this, 'render_checkbox_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'log_store_response_data',
-				'description' => __( 'Store small response bodies for debugging (redacted). Disable for privacy.', 'mumega-mcp' ),
+				'description' => __( 'Store small response bodies for debugging (redacted). Disable for privacy.', 'site-pilot-ai' ),
 			)
 		);
 
 		add_settings_field(
 			'log_redaction_keys',
-			__( 'Redaction Keys', 'mumega-mcp' ),
+			__( 'Redaction Keys', 'site-pilot-ai' ),
 			array( $this, 'render_textarea_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'log_redaction_keys',
-				'description' => __( 'Comma or newline-separated keys to redact from logged request/response data.', 'mumega-mcp' ),
+				'description' => __( 'Comma or newline-separated keys to redact from logged request/response data.', 'site-pilot-ai' ),
 				'placeholder' => "api_key\nauthorization\ntoken",
 			)
 		);
 
 		add_settings_field(
 			'alerts_enabled',
-			__( 'Enable Alerts', 'mumega-mcp' ),
+			__( 'Enable Alerts', 'site-pilot-ai' ),
 			array( $this, 'render_checkbox_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'alerts_enabled',
-				'description' => __( 'Send webhook alerts on API error spikes (requires a configured webhook subscribed to api.alert.* events).', 'mumega-mcp' ),
+				'description' => __( 'Send webhook alerts on API error spikes (requires a configured webhook subscribed to api.alert.* events).', 'site-pilot-ai' ),
 			)
 		);
 
 		add_settings_field(
 			'alerts_window_minutes',
-			__( 'Alert Window', 'mumega-mcp' ),
+			__( 'Alert Window', 'site-pilot-ai' ),
 			array( $this, 'render_number_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'alerts_window_minutes',
-				'description' => __( 'Time window for counting errors.', 'mumega-mcp' ),
+				'description' => __( 'Time window for counting errors.', 'site-pilot-ai' ),
 				'min'         => 1,
 				'max'         => 120,
-				'suffix'      => __( 'minutes', 'mumega-mcp' ),
+				'suffix'      => __( 'minutes', 'site-pilot-ai' ),
 			)
 		);
 
 		add_settings_field(
 			'alerts_5xx_threshold',
-			__( '5xx Threshold', 'mumega-mcp' ),
+			__( '5xx Threshold', 'site-pilot-ai' ),
 			array( $this, 'render_number_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'alerts_5xx_threshold',
-				'description' => __( 'Trigger api.alert.5xx_spike when 5xx count meets or exceeds this value.', 'mumega-mcp' ),
+				'description' => __( 'Trigger api.alert.5xx_spike when 5xx count meets or exceeds this value.', 'site-pilot-ai' ),
 				'min'         => 1,
 				'max'         => 10000,
 			)
@@ -157,13 +157,13 @@ class Spai_Settings {
 
 		add_settings_field(
 			'alerts_auth_threshold',
-			__( '401/403 Threshold', 'mumega-mcp' ),
+			__( '401/403 Threshold', 'site-pilot-ai' ),
 			array( $this, 'render_number_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'alerts_auth_threshold',
-				'description' => __( 'Trigger api.alert.auth_spike when 401/403 count meets or exceeds this value.', 'mumega-mcp' ),
+				'description' => __( 'Trigger api.alert.auth_spike when 401/403 count meets or exceeds this value.', 'site-pilot-ai' ),
 				'min'         => 1,
 				'max'         => 10000,
 			)
@@ -171,107 +171,107 @@ class Spai_Settings {
 
 		add_settings_field(
 			'alerts_cooldown_minutes',
-			__( 'Alert Cooldown', 'mumega-mcp' ),
+			__( 'Alert Cooldown', 'site-pilot-ai' ),
 			array( $this, 'render_number_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'alerts_cooldown_minutes',
-				'description' => __( 'Minimum time between repeated alerts of the same type.', 'mumega-mcp' ),
+				'description' => __( 'Minimum time between repeated alerts of the same type.', 'site-pilot-ai' ),
 				'min'         => 1,
 				'max'         => 1440,
-				'suffix'      => __( 'minutes', 'mumega-mcp' ),
+				'suffix'      => __( 'minutes', 'site-pilot-ai' ),
 			)
 		);
 
 		// Allowed origins (CORS)
 		add_settings_field(
 			'allowed_origins',
-			__( 'Allowed Origins', 'mumega-mcp' ),
+			__( 'Allowed Origins', 'site-pilot-ai' ),
 			array( $this, 'render_textarea_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'allowed_origins',
-				'description' => __( 'Comma-separated list of allowed origins for CORS. Leave empty to allow all.', 'mumega-mcp' ),
+				'description' => __( 'Comma-separated list of allowed origins for CORS. Leave empty to allow all.', 'site-pilot-ai' ),
 				'placeholder' => 'https://example.com, https://app.example.com',
 			)
 		);
 
 		add_settings_field(
 			'oauth_enabled',
-			__( 'OAuth Token Endpoint', 'mumega-mcp' ),
+			__( 'OAuth Token Endpoint', 'site-pilot-ai' ),
 			array( $this, 'render_checkbox_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'oauth_enabled',
-				'description' => __( 'Enable OAuth2 client credentials at /wp-json/site-pilot-ai/v1/oauth/token.', 'mumega-mcp' ),
+				'description' => __( 'Enable OAuth2 client credentials at /wp-json/site-pilot-ai/v1/oauth/token.', 'site-pilot-ai' ),
 			)
 		);
 
 		add_settings_field(
 			'oauth_client_id',
-			__( 'OAuth Client ID', 'mumega-mcp' ),
+			__( 'OAuth Client ID', 'site-pilot-ai' ),
 			array( $this, 'render_text_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'oauth_client_id',
-				'description' => __( 'Client ID used for token requests.', 'mumega-mcp' ),
+				'description' => __( 'Client ID used for token requests.', 'site-pilot-ai' ),
 				'placeholder' => 'site_pilot_ai',
 			)
 		);
 
 		add_settings_field(
 			'oauth_client_secret',
-			__( 'OAuth Client Secret', 'mumega-mcp' ),
+			__( 'OAuth Client Secret', 'site-pilot-ai' ),
 			array( $this, 'render_secret_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'oauth_client_secret',
-				'description' => __( 'Set a new secret. Leave empty to keep the existing value.', 'mumega-mcp' ),
+				'description' => __( 'Set a new secret. Leave empty to keep the existing value.', 'site-pilot-ai' ),
 			)
 		);
 
 		add_settings_field(
 			'oauth_token_ttl',
-			__( 'OAuth Token TTL', 'mumega-mcp' ),
+			__( 'OAuth Token TTL', 'site-pilot-ai' ),
 			array( $this, 'render_number_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'oauth_token_ttl',
-				'description' => __( 'Token lifetime in seconds.', 'mumega-mcp' ),
+				'description' => __( 'Token lifetime in seconds.', 'site-pilot-ai' ),
 				'min'         => 300,
 				'max'         => 86400,
-				'suffix'      => __( 'seconds', 'mumega-mcp' ),
+				'suffix'      => __( 'seconds', 'site-pilot-ai' ),
 			)
 		);
 
 		// GitHub Integration.
 		add_settings_field(
 			'github_token',
-			__( 'GitHub Token', 'mumega-mcp' ),
+			__( 'GitHub Token', 'site-pilot-ai' ),
 			array( $this, 'render_secret_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'github_token',
-				'description' => __( 'Personal access token with repo scope. Used to auto-create issues from AI feedback. Leave empty to keep existing value.', 'mumega-mcp' ),
+				'description' => __( 'Personal access token with repo scope. Used to auto-create issues from AI feedback. Leave empty to keep existing value.', 'site-pilot-ai' ),
 			)
 		);
 
 		add_settings_field(
 			'github_repo',
-			__( 'GitHub Repo', 'mumega-mcp' ),
+			__( 'GitHub Repo', 'site-pilot-ai' ),
 			array( $this, 'render_text_field' ),
 			'spai_settings',
 			'spai_general_section',
 			array(
 				'id'          => 'github_repo',
-				'description' => __( 'Repository in owner/repo format (e.g., Mumega-com/mcp-for-wp). Leave empty to disable GitHub integration.', 'mumega-mcp' ),
+				'description' => __( 'Repository in owner/repo format (e.g., Mumega-com/mcp-for-wp). Leave empty to disable GitHub integration.', 'site-pilot-ai' ),
 				'placeholder' => 'owner/repo',
 			)
 		);
@@ -291,14 +291,14 @@ class Spai_Settings {
 
 		add_settings_section(
 			'spai_site_context_section',
-			__( 'AI Site Context', 'mumega-mcp' ),
+			__( 'AI Site Context', 'site-pilot-ai' ),
 			array( $this, 'render_site_context_section' ),
 			'spai_site_context_settings'
 		);
 
 		add_settings_field(
 			'spai_site_context',
-			__( 'Site Context / AI Brief', 'mumega-mcp' ),
+			__( 'Site Context / AI Brief', 'site-pilot-ai' ),
 			array( $this, 'render_site_context_field' ),
 			'spai_site_context_settings',
 			'spai_site_context_section'
@@ -307,34 +307,34 @@ class Spai_Settings {
 		// Rate-limiting section.
 		add_settings_section(
 			'spai_rate_limit_section',
-			__( 'Rate Limiting', 'mumega-mcp' ),
+			__( 'Rate Limiting', 'site-pilot-ai' ),
 			array( $this, 'render_rate_limit_section' ),
 			'spai_rate_limit_settings'
 		);
 
 		add_settings_field(
 			'enabled',
-			__( 'Enable Rate Limiting', 'mumega-mcp' ),
+			__( 'Enable Rate Limiting', 'site-pilot-ai' ),
 			array( $this, 'render_checkbox_field' ),
 			'spai_rate_limit_settings',
 			'spai_rate_limit_section',
 			array(
 				'option_name' => self::RATE_LIMIT_OPTION_NAME,
 				'id'          => 'enabled',
-				'description' => __( 'Apply request limits per identifier.', 'mumega-mcp' ),
+				'description' => __( 'Apply request limits per identifier.', 'site-pilot-ai' ),
 			)
 		);
 
 		add_settings_field(
 			'requests_per_minute',
-			__( 'Requests Per Minute', 'mumega-mcp' ),
+			__( 'Requests Per Minute', 'site-pilot-ai' ),
 			array( $this, 'render_number_field' ),
 			'spai_rate_limit_settings',
 			'spai_rate_limit_section',
 			array(
 				'option_name' => self::RATE_LIMIT_OPTION_NAME,
 				'id'          => 'requests_per_minute',
-				'description' => __( 'Maximum requests allowed per minute.', 'mumega-mcp' ),
+				'description' => __( 'Maximum requests allowed per minute.', 'site-pilot-ai' ),
 				'min'         => 1,
 				'max'         => 100000,
 			)
@@ -342,14 +342,14 @@ class Spai_Settings {
 
 		add_settings_field(
 			'requests_per_hour',
-			__( 'Requests Per Hour', 'mumega-mcp' ),
+			__( 'Requests Per Hour', 'site-pilot-ai' ),
 			array( $this, 'render_number_field' ),
 			'spai_rate_limit_settings',
 			'spai_rate_limit_section',
 			array(
 				'option_name' => self::RATE_LIMIT_OPTION_NAME,
 				'id'          => 'requests_per_hour',
-				'description' => __( 'Maximum requests allowed per hour.', 'mumega-mcp' ),
+				'description' => __( 'Maximum requests allowed per hour.', 'site-pilot-ai' ),
 				'min'         => 1,
 				'max'         => 100000,
 			)
@@ -357,14 +357,14 @@ class Spai_Settings {
 
 		add_settings_field(
 			'burst_limit',
-			__( 'Burst Limit (10s)', 'mumega-mcp' ),
+			__( 'Burst Limit (10s)', 'site-pilot-ai' ),
 			array( $this, 'render_number_field' ),
 			'spai_rate_limit_settings',
 			'spai_rate_limit_section',
 			array(
 				'option_name' => self::RATE_LIMIT_OPTION_NAME,
 				'id'          => 'burst_limit',
-				'description' => __( 'Maximum requests allowed in a short burst window.', 'mumega-mcp' ),
+				'description' => __( 'Maximum requests allowed in a short burst window.', 'site-pilot-ai' ),
 				'min'         => 1,
 				'max'         => 100000,
 			)
@@ -372,14 +372,14 @@ class Spai_Settings {
 
 		add_settings_field(
 			'whitelist',
-			__( 'Whitelist', 'mumega-mcp' ),
+			__( 'Whitelist', 'site-pilot-ai' ),
 			array( $this, 'render_textarea_field' ),
 			'spai_rate_limit_settings',
 			'spai_rate_limit_section',
 			array(
 				'option_name' => self::RATE_LIMIT_OPTION_NAME,
 				'id'          => 'whitelist',
-				'description' => __( 'Comma or newline-separated identifiers that bypass limits.', 'mumega-mcp' ),
+				'description' => __( 'Comma or newline-separated identifiers that bypass limits.', 'site-pilot-ai' ),
 				'placeholder' => "127.0.0.1\nkey:example-id",
 			)
 		);
@@ -604,14 +604,14 @@ class Spai_Settings {
 	 * Render general section.
 	 */
 	public function render_general_section() {
-		echo '<p>' . esc_html__( 'Configure general plugin settings.', 'mumega-mcp' ) . '</p>';
+		echo '<p>' . esc_html__( 'Configure general plugin settings.', 'site-pilot-ai' ) . '</p>';
 	}
 
 	/**
 	 * Render rate-limit section.
 	 */
 	public function render_rate_limit_section() {
-		echo '<p>' . esc_html__( 'Configure request throttling and bypass identifiers.', 'mumega-mcp' ) . '</p>';
+		echo '<p>' . esc_html__( 'Configure request throttling and bypass identifiers.', 'site-pilot-ai' ) . '</p>';
 	}
 
 	/**
@@ -736,7 +736,7 @@ class Spai_Settings {
 		}
 
 		if ( $has_secret ) {
-			printf( '<p class="description">%s</p>', esc_html__( 'A value is already configured.', 'mumega-mcp' ) );
+			printf( '<p class="description">%s</p>', esc_html__( 'A value is already configured.', 'site-pilot-ai' ) );
 		}
 	}
 
@@ -744,8 +744,8 @@ class Spai_Settings {
 	 * Render site context section.
 	 */
 	public function render_site_context_section() {
-		echo '<p>' . esc_html__( 'Define your site\'s design rules, style guide, and page structure. This is served to AI assistants when they connect, so they know how to build pages that match your brand.', 'mumega-mcp' ) . '</p>';
-		echo '<p>' . esc_html__( 'This same context is also published publicly at /llms.txt so external AI crawlers and assistants can pick up the site\'s character, key pages, and preferred framing.', 'mumega-mcp' ) . '</p>';
+		echo '<p>' . esc_html__( 'Define your site\'s design rules, style guide, and page structure. This is served to AI assistants when they connect, so they know how to build pages that match your brand.', 'site-pilot-ai' ) . '</p>';
+		echo '<p>' . esc_html__( 'This same context is also published publicly at /llms.txt so external AI crawlers and assistants can pick up the site\'s character, key pages, and preferred framing.', 'site-pilot-ai' ) . '</p>';
 	}
 
 	/**
@@ -762,13 +762,13 @@ class Spai_Settings {
 		);
 
 		echo '<p class="description">';
-		esc_html_e( 'Write in Markdown. This text is included in the wp_introspect response, available via wp_get_site_context, and published in a public llms.txt summary. AI assistants will use this as their design reference when building or editing pages.', 'mumega-mcp' );
+		esc_html_e( 'Write in Markdown. This text is included in the wp_introspect response, available via wp_get_site_context, and published in a public llms.txt summary. AI assistants will use this as their design reference when building or editing pages.', 'site-pilot-ai' );
 		echo '</p>';
 
 		if ( '' !== $updated ) {
 			printf(
 				'<p class="description">%s %s</p>',
-				esc_html__( 'Last updated:', 'mumega-mcp' ),
+				esc_html__( 'Last updated:', 'site-pilot-ai' ),
 				esc_html( $updated )
 			);
 		}

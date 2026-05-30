@@ -219,27 +219,27 @@ class Spai_REST_LearnPress extends Spai_REST_API {
 				'default'     => 50,
 				'minimum'     => 1,
 				'maximum'     => 100,
-				'description' => __( 'Items per page.', 'mumega-mcp' ),
+				'description' => __( 'Items per page.', 'site-pilot-ai' ),
 			),
 			'page'     => array(
 				'type'        => 'integer',
 				'default'     => 1,
 				'minimum'     => 1,
-				'description' => __( 'Page number.', 'mumega-mcp' ),
+				'description' => __( 'Page number.', 'site-pilot-ai' ),
 			),
 			'status'   => array(
 				'type'        => 'string',
 				'default'     => 'publish',
 				'enum'        => array( 'publish', 'draft', 'pending', 'private', 'any' ),
-				'description' => __( 'Course status.', 'mumega-mcp' ),
+				'description' => __( 'Course status.', 'site-pilot-ai' ),
 			),
 			'search'   => array(
 				'type'        => 'string',
-				'description' => __( 'Search term.', 'mumega-mcp' ),
+				'description' => __( 'Search term.', 'site-pilot-ai' ),
 			),
 			'category' => array(
 				'type'        => 'string',
-				'description' => __( 'Category slug or ID.', 'mumega-mcp' ),
+				'description' => __( 'Category slug or ID.', 'site-pilot-ai' ),
 			),
 		);
 	}
@@ -256,21 +256,21 @@ class Spai_REST_LearnPress extends Spai_REST_API {
 				'default'     => 50,
 				'minimum'     => 1,
 				'maximum'     => 100,
-				'description' => __( 'Items per page.', 'mumega-mcp' ),
+				'description' => __( 'Items per page.', 'site-pilot-ai' ),
 			),
 			'page'      => array(
 				'type'        => 'integer',
 				'default'     => 1,
 				'minimum'     => 1,
-				'description' => __( 'Page number.', 'mumega-mcp' ),
+				'description' => __( 'Page number.', 'site-pilot-ai' ),
 			),
 			'course_id' => array(
 				'type'        => 'integer',
-				'description' => __( 'Filter by course ID.', 'mumega-mcp' ),
+				'description' => __( 'Filter by course ID.', 'site-pilot-ai' ),
 			),
 			'search'    => array(
 				'type'        => 'string',
-				'description' => __( 'Search term.', 'mumega-mcp' ),
+				'description' => __( 'Search term.', 'site-pilot-ai' ),
 			),
 		);
 	}
@@ -287,21 +287,21 @@ class Spai_REST_LearnPress extends Spai_REST_API {
 				'default'     => 50,
 				'minimum'     => 1,
 				'maximum'     => 100,
-				'description' => __( 'Items per page.', 'mumega-mcp' ),
+				'description' => __( 'Items per page.', 'site-pilot-ai' ),
 			),
 			'page'      => array(
 				'type'        => 'integer',
 				'default'     => 1,
 				'minimum'     => 1,
-				'description' => __( 'Page number.', 'mumega-mcp' ),
+				'description' => __( 'Page number.', 'site-pilot-ai' ),
 			),
 			'course_id' => array(
 				'type'        => 'integer',
-				'description' => __( 'Filter by course ID.', 'mumega-mcp' ),
+				'description' => __( 'Filter by course ID.', 'site-pilot-ai' ),
 			),
 			'search'    => array(
 				'type'        => 'string',
-				'description' => __( 'Search term.', 'mumega-mcp' ),
+				'description' => __( 'Search term.', 'site-pilot-ai' ),
 			),
 		);
 	}

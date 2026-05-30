@@ -111,33 +111,33 @@ class Spai_WooCommerce_SEO {
 		$opportunities = array();
 
 		if ( '' === trim( $title ) ) {
-			$issues[] = self::issue( 'missing_product_title', 'error', __( 'Product title is missing.', 'mumega-mcp' ), __( 'Add a clear product name before indexing or promotion.', 'mumega-mcp' ) );
+			$issues[] = self::issue( 'missing_product_title', 'error', __( 'Product title is missing.', 'site-pilot-ai' ), __( 'Add a clear product name before indexing or promotion.', 'site-pilot-ai' ) );
 		}
 		if ( $content_words < 120 ) {
-			$issues[] = self::issue( 'thin_product_description', 'warning', __( 'Product description is thin.', 'mumega-mcp' ), __( 'Add useful product details, use cases, specs, materials, fit, compatibility, or comparison guidance.', 'mumega-mcp' ) );
+			$issues[] = self::issue( 'thin_product_description', 'warning', __( 'Product description is thin.', 'site-pilot-ai' ), __( 'Add useful product details, use cases, specs, materials, fit, compatibility, or comparison guidance.', 'site-pilot-ai' ) );
 		}
 		if ( $excerpt_words < 12 ) {
-			$issues[] = self::issue( 'missing_short_description', 'warning', __( 'Short product description is missing or too short.', 'mumega-mcp' ), __( 'Add a concise benefit-led summary for product listings and product-page scanning.', 'mumega-mcp' ) );
+			$issues[] = self::issue( 'missing_short_description', 'warning', __( 'Short product description is missing or too short.', 'site-pilot-ai' ), __( 'Add a concise benefit-led summary for product listings and product-page scanning.', 'site-pilot-ai' ) );
 		}
 		if ( '' === $meta['price'] ) {
-			$issues[] = self::issue( 'missing_price_signal', 'warning', __( 'Product price signal is missing.', 'mumega-mcp' ), __( 'Confirm product price data before relying on Product schema or shopping search surfaces.', 'mumega-mcp' ) );
+			$issues[] = self::issue( 'missing_price_signal', 'warning', __( 'Product price signal is missing.', 'site-pilot-ai' ), __( 'Confirm product price data before relying on Product schema or shopping search surfaces.', 'site-pilot-ai' ) );
 		}
 		if ( '' === $meta['sku'] ) {
-			$opportunities[] = self::opportunity( 'add_sku', __( 'Add SKU or product identifier where appropriate.', 'mumega-mcp' ), 'seo_audit_triage' );
+			$opportunities[] = self::opportunity( 'add_sku', __( 'Add SKU or product identifier where appropriate.', 'site-pilot-ai' ), 'seo_audit_triage' );
 		}
 		if ( empty( $meta['categories'] ) ) {
-			$issues[] = self::issue( 'missing_product_category', 'warning', __( 'Product has no category evidence.', 'mumega-mcp' ), __( 'Assign a relevant product category so shoppers, crawlers, and agents understand the catalog structure.', 'mumega-mcp' ) );
+			$issues[] = self::issue( 'missing_product_category', 'warning', __( 'Product has no category evidence.', 'site-pilot-ai' ), __( 'Assign a relevant product category so shoppers, crawlers, and agents understand the catalog structure.', 'site-pilot-ai' ) );
 		}
 		if ( ! $meta['has_featured_image'] ) {
-			$issues[] = self::issue( 'missing_product_image', 'warning', __( 'Product has no featured image.', 'mumega-mcp' ), __( 'Add a descriptive product image before promotion.', 'mumega-mcp' ) );
+			$issues[] = self::issue( 'missing_product_image', 'warning', __( 'Product has no featured image.', 'site-pilot-ai' ), __( 'Add a descriptive product image before promotion.', 'site-pilot-ai' ) );
 		}
 		if ( 'outofstock' === $meta['stock_status'] ) {
-			$opportunities[] = self::opportunity( 'out_of_stock_seo_review', __( 'Review whether out-of-stock product pages need alternatives, internal links, or noindex strategy.', 'mumega-mcp' ), 'seo_audit_triage' );
+			$opportunities[] = self::opportunity( 'out_of_stock_seo_review', __( 'Review whether out-of-stock product pages need alternatives, internal links, or noindex strategy.', 'site-pilot-ai' ), 'seo_audit_triage' );
 		}
 
 		$search = self::search_performance_for_url( $url );
 		if ( empty( $search['clicks'] ) && ! empty( $search['impressions'] ) ) {
-			$opportunities[] = self::opportunity( 'high_impression_low_click_product', __( 'Search impressions exist but clicks are weak; review title, description, price, image, and internal links.', 'mumega-mcp' ), 'seo_audit_triage' );
+			$opportunities[] = self::opportunity( 'high_impression_low_click_product', __( 'Search impressions exist but clicks are weak; review title, description, price, image, and internal links.', 'site-pilot-ai' ), 'seo_audit_triage' );
 		}
 
 		$score = ( count( $issues ) * 20 ) + ( count( $opportunities ) * 8 ) + min( 30, (int) floor( (int) ( $search['impressions'] ?? 0 ) / 25 ) );
@@ -260,14 +260,14 @@ class Spai_WooCommerce_SEO {
 			$steps[] = array(
 				'tool'     => 'wp_run_seo_autofix_plan',
 				'playbook' => 'seo_audit_triage',
-				'action'   => __( 'Resolve product SEO issues through approval-first content, media, metadata, or internal-link changes.', 'mumega-mcp' ),
+				'action'   => __( 'Resolve product SEO issues through approval-first content, media, metadata, or internal-link changes.', 'site-pilot-ai' ),
 			);
 		}
 		if ( ! empty( $opportunities ) ) {
 			$steps[] = array(
 				'tool'     => 'wp_get_seo_trends',
 				'playbook' => 'seo_audit_triage',
-				'action'   => __( 'Use search evidence to decide whether a product page needs copy refresh, internal links, or category cleanup.', 'mumega-mcp' ),
+				'action'   => __( 'Use search evidence to decide whether a product page needs copy refresh, internal links, or category cleanup.', 'site-pilot-ai' ),
 			);
 		}
 		return $steps;

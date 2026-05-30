@@ -15,9 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="wrap spai-wrap">
-	<h1><?php esc_html_e( 'MCP Tools', 'mumega-mcp' ); ?></h1>
+	<h1><?php esc_html_e( 'MCP Tools', 'site-pilot-ai' ); ?></h1>
 	<p class="description">
-		<?php esc_html_e( 'Enable or disable tool categories exposed to AI assistants via MCP. Disabled categories are hidden from tools/list to reduce context noise.', 'mumega-mcp' ); ?>
+		<?php esc_html_e( 'Enable or disable tool categories exposed to AI assistants via MCP. Disabled categories are hidden from tools/list to reduce context noise.', 'site-pilot-ai' ); ?>
 	</p>
 
 	<div class="spai-tools-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:20px;">
@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php
 						printf(
 							/* translators: %d: number of tools */
-							esc_html( _n( '%d tool', '%d tools', $count, 'mumega-mcp' ) ),
+							esc_html( _n( '%d tool', '%d tools', $count, 'site-pilot-ai' ) ),
 							absint( $count )
 						);
 					?>

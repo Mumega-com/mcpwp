@@ -85,12 +85,12 @@ class Spai_Events {
 	 */
 	public function get_event( $id ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'events_not_active', __( 'TP Events is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
+			return new WP_Error( 'events_not_active', __( 'TP Events is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
 		}
 
 		$post = get_post( $id );
 		if ( ! $post || 'tp_event' !== $post->post_type ) {
-			return new WP_Error( 'not_found', __( 'Event not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Event not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
 		}
 
 		return $this->format_event( $post, true );
@@ -104,7 +104,7 @@ class Spai_Events {
 	 */
 	public function create_event( $data ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'events_not_active', __( 'TP Events is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
+			return new WP_Error( 'events_not_active', __( 'TP Events is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
 		}
 
 		$post_data = array(
@@ -141,12 +141,12 @@ class Spai_Events {
 	 */
 	public function update_event( $id, $data ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'events_not_active', __( 'TP Events is not active.', 'mumega-mcp' ), array( 'status' => 400 ) );
+			return new WP_Error( 'events_not_active', __( 'TP Events is not active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
 		}
 
 		$post = get_post( $id );
 		if ( ! $post || 'tp_event' !== $post->post_type ) {
-			return new WP_Error( 'not_found', __( 'Event not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Event not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
 		}
 
 		$post_data = array( 'ID' => $id );

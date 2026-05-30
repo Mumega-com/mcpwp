@@ -69,7 +69,7 @@ trait Spai_Api_Auth {
 
 			return new WP_Error(
 				'missing_api_key',
-				__( 'API key is required.', 'mumega-mcp' ),
+				__( 'API key is required.', 'site-pilot-ai' ),
 				array(
 					'status' => 401,
 					'hint'   => 'Include your API key in the X-API-Key header or Authorization: Bearer header. Generate keys in WP Admin > MCPWP > Settings, or call wp_create_api_key if you have admin access.',
@@ -106,7 +106,7 @@ trait Spai_Api_Auth {
 			if ( ! $has_configured_keys ) {
 				return new WP_Error(
 					'api_not_configured',
-					__( 'API key not configured. Please visit the MCPWP settings.', 'mumega-mcp' ),
+					__( 'API key not configured. Please visit the MCPWP settings.', 'site-pilot-ai' ),
 					array(
 						'status' => 500,
 						'hint'   => 'No API keys have been configured yet. The site admin needs to visit WP Admin > MCPWP > Settings to generate an API key.',
@@ -118,7 +118,7 @@ trait Spai_Api_Auth {
 
 			return new WP_Error(
 				'invalid_api_key',
-				__( 'Invalid API key.', 'mumega-mcp' ),
+				__( 'Invalid API key.', 'site-pilot-ai' ),
 				array(
 					'status' => 401,
 					'hint'   => 'The provided API key is not valid. Check for typos or whitespace. Keys start with "spai_". Generate a new key in WP Admin > MCPWP > Settings.',
@@ -142,7 +142,7 @@ trait Spai_Api_Auth {
 				'insufficient_scope',
 				sprintf(
 					/* translators: %s: scope name */
-					__( 'API key lacks required scope: %s', 'mumega-mcp' ),
+					__( 'API key lacks required scope: %s', 'site-pilot-ai' ),
 					$required_scope
 				),
 				array(
@@ -168,7 +168,7 @@ trait Spai_Api_Auth {
 		if ( ! $this->set_api_user_context() ) {
 			return new WP_Error(
 				'api_user_missing',
-				__( 'API user context is not configured. Re-activate MCPWP to provision the service account.', 'mumega-mcp' ),
+				__( 'API user context is not configured. Re-activate MCPWP to provision the service account.', 'site-pilot-ai' ),
 				array(
 					'status' => 500,
 					'hint'   => 'The plugin\'s internal service account is missing. Deactivate and reactivate the MCPWP plugin in WP Admin > Plugins to reprovision it.',
@@ -191,7 +191,7 @@ trait Spai_Api_Auth {
 		if ( empty( $api_key ) ) {
 			return new WP_Error(
 				'missing_api_key',
-				__( 'API key is required.', 'mumega-mcp' ),
+				__( 'API key is required.', 'site-pilot-ai' ),
 				array( 'status' => 401 )
 			);
 		}
@@ -206,7 +206,7 @@ trait Spai_Api_Auth {
 		if ( ! $matched_key ) {
 			return new WP_Error(
 				'invalid_api_key',
-				__( 'Invalid API key.', 'mumega-mcp' ),
+				__( 'Invalid API key.', 'site-pilot-ai' ),
 				array( 'status' => 401 )
 			);
 		}
@@ -217,7 +217,7 @@ trait Spai_Api_Auth {
 				'insufficient_scope',
 				sprintf(
 					/* translators: %s: scope name */
-					__( 'API key lacks required scope: %s', 'mumega-mcp' ),
+					__( 'API key lacks required scope: %s', 'site-pilot-ai' ),
 					$required_scope
 				),
 				array( 'status' => 403 )
@@ -227,7 +227,7 @@ trait Spai_Api_Auth {
 		if ( ! $this->set_api_user_context() ) {
 			return new WP_Error(
 				'api_user_missing',
-				__( 'API user context is not configured.', 'mumega-mcp' ),
+				__( 'API user context is not configured.', 'site-pilot-ai' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -306,7 +306,7 @@ trait Spai_Api_Auth {
 		if ( empty( $oauth_settings['oauth_enabled'] ) ) {
 			return new WP_Error(
 				'invalid_api_key',
-				__( 'Invalid API key.', 'mumega-mcp' ),
+				__( 'Invalid API key.', 'site-pilot-ai' ),
 				array( 'status' => 401 )
 			);
 		}
@@ -316,7 +316,7 @@ trait Spai_Api_Auth {
 			$this->log_auth_failure( $request );
 			return new WP_Error(
 				'invalid_api_key',
-				__( 'Invalid API key.', 'mumega-mcp' ),
+				__( 'Invalid API key.', 'site-pilot-ai' ),
 				array( 'status' => 401 )
 			);
 		}
@@ -336,7 +336,7 @@ trait Spai_Api_Auth {
 				'insufficient_scope',
 				sprintf(
 					/* translators: %s: scope name */
-					__( 'API key lacks required scope: %s', 'mumega-mcp' ),
+					__( 'API key lacks required scope: %s', 'site-pilot-ai' ),
 					$required_scope
 				),
 				array(
@@ -350,7 +350,7 @@ trait Spai_Api_Auth {
 		if ( ! $this->set_api_user_context() ) {
 			return new WP_Error(
 				'api_user_missing',
-				__( 'API user context is not configured. Re-activate MCPWP to provision the service account.', 'mumega-mcp' ),
+				__( 'API user context is not configured. Re-activate MCPWP to provision the service account.', 'site-pilot-ai' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -736,7 +736,7 @@ trait Spai_Api_Auth {
 
 		$record = array(
 			'id'              => sanitize_key( (string) $key_id ),
-			'label'           => '' !== $label ? sanitize_text_field( $label ) : __( 'API Key', 'mumega-mcp' ),
+			'label'           => '' !== $label ? sanitize_text_field( $label ) : __( 'API Key', 'site-pilot-ai' ),
 			'hash'            => wp_hash_password( $plain_key ),
 			'scopes'          => $scopes,
 			'role'            => $role,
@@ -866,7 +866,7 @@ trait Spai_Api_Auth {
 
 		$migrated = array(
 			'id'           => sanitize_key( function_exists( 'wp_generate_uuid4' ) ? wp_generate_uuid4() : uniqid( 'spai_', true ) ),
-			'label'        => __( 'Primary API Key (migrated)', 'mumega-mcp' ),
+			'label'        => __( 'Primary API Key (migrated)', 'site-pilot-ai' ),
 			'hash'         => $legacy_hash,
 			'scopes'       => $this->get_default_api_key_scopes(),
 			'created_at'   => current_time( 'mysql' ),
@@ -942,7 +942,7 @@ trait Spai_Api_Auth {
 
 		return array(
 			'id'              => isset( $record['id'] ) ? sanitize_key( (string) $record['id'] ) : '',
-			'label'           => isset( $record['label'] ) ? sanitize_text_field( (string) $record['label'] ) : __( 'API Key', 'mumega-mcp' ),
+			'label'           => isset( $record['label'] ) ? sanitize_text_field( (string) $record['label'] ) : __( 'API Key', 'site-pilot-ai' ),
 			'hash'            => isset( $record['hash'] ) ? (string) $record['hash'] : '',
 			'scopes'          => $this->sanitize_scopes( isset( $record['scopes'] ) ? (array) $record['scopes'] : array() ),
 			'role'            => $role,
@@ -1025,28 +1025,28 @@ trait Spai_Api_Auth {
 	public static function get_role_definitions() {
 		return array(
 			'admin'    => array(
-				'label'       => __( 'Admin', 'mumega-mcp' ),
-				'description' => __( 'Full access to all tool categories.', 'mumega-mcp' ),
+				'label'       => __( 'Admin', 'site-pilot-ai' ),
+				'description' => __( 'Full access to all tool categories.', 'site-pilot-ai' ),
 				'categories'  => array(), // Empty = all categories allowed.
 			),
 			'author'   => array(
-				'label'       => __( 'Author', 'mumega-mcp' ),
-				'description' => __( 'Content writing — pages, posts, media, taxonomy.', 'mumega-mcp' ),
+				'label'       => __( 'Author', 'site-pilot-ai' ),
+				'description' => __( 'Content writing — pages, posts, media, taxonomy.', 'site-pilot-ai' ),
 				'categories'  => array( 'content', 'media', 'taxonomy' ),
 			),
 			'designer' => array(
-				'label'       => __( 'Designer', 'mumega-mcp' ),
-				'description' => __( 'Visual building — Elementor, Gutenberg, media, site settings.', 'mumega-mcp' ),
+				'label'       => __( 'Designer', 'site-pilot-ai' ),
+				'description' => __( 'Visual building — Elementor, Gutenberg, media, site settings.', 'site-pilot-ai' ),
 				'categories'  => array( 'elementor', 'elementor-build', 'elementor-templates', 'elementor-theme', 'elementor-info', 'gutenberg', 'media', 'site' ),
 			),
 			'editor'   => array(
-				'label'       => __( 'Editor', 'mumega-mcp' ),
-				'description' => __( 'Content + SEO management.', 'mumega-mcp' ),
+				'label'       => __( 'Editor', 'site-pilot-ai' ),
+				'description' => __( 'Content + SEO management.', 'site-pilot-ai' ),
 				'categories'  => array( 'content', 'media', 'taxonomy', 'seo', 'elementor', 'elementor-build', 'elementor-templates', 'elementor-theme', 'elementor-info' ),
 			),
 			'custom'   => array(
-				'label'       => __( 'Custom', 'mumega-mcp' ),
-				'description' => __( 'Pick individual tool categories.', 'mumega-mcp' ),
+				'label'       => __( 'Custom', 'site-pilot-ai' ),
+				'description' => __( 'Pick individual tool categories.', 'site-pilot-ai' ),
 				'categories'  => array(), // User-defined.
 			),
 		);
@@ -1059,20 +1059,20 @@ trait Spai_Api_Auth {
 	 */
 	public static function get_all_tool_category_labels() {
 		return array(
-			'content'    => __( 'Content', 'mumega-mcp' ),
-			'media'      => __( 'Media', 'mumega-mcp' ),
-			'taxonomy'   => __( 'Taxonomy', 'mumega-mcp' ),
-			'elementor'           => __( 'Elementor', 'mumega-mcp' ),
-			'elementor-build'     => __( 'Elementor Build', 'mumega-mcp' ),
-			'elementor-templates' => __( 'Elementor Templates', 'mumega-mcp' ),
-			'elementor-theme'     => __( 'Elementor Theme', 'mumega-mcp' ),
-			'elementor-info'      => __( 'Elementor Info', 'mumega-mcp' ),
-			'gutenberg'  => __( 'Gutenberg', 'mumega-mcp' ),
-			'seo'        => __( 'SEO', 'mumega-mcp' ),
-			'forms'      => __( 'Forms', 'mumega-mcp' ),
-			'site'       => __( 'Site', 'mumega-mcp' ),
-			'admin'      => __( 'Admin', 'mumega-mcp' ),
-			'webhooks'   => __( 'Webhooks', 'mumega-mcp' ),
+			'content'    => __( 'Content', 'site-pilot-ai' ),
+			'media'      => __( 'Media', 'site-pilot-ai' ),
+			'taxonomy'   => __( 'Taxonomy', 'site-pilot-ai' ),
+			'elementor'           => __( 'Elementor', 'site-pilot-ai' ),
+			'elementor-build'     => __( 'Elementor Build', 'site-pilot-ai' ),
+			'elementor-templates' => __( 'Elementor Templates', 'site-pilot-ai' ),
+			'elementor-theme'     => __( 'Elementor Theme', 'site-pilot-ai' ),
+			'elementor-info'      => __( 'Elementor Info', 'site-pilot-ai' ),
+			'gutenberg'  => __( 'Gutenberg', 'site-pilot-ai' ),
+			'seo'        => __( 'SEO', 'site-pilot-ai' ),
+			'forms'      => __( 'Forms', 'site-pilot-ai' ),
+			'site'       => __( 'Site', 'site-pilot-ai' ),
+			'admin'      => __( 'Admin', 'site-pilot-ai' ),
+			'webhooks'   => __( 'Webhooks', 'site-pilot-ai' ),
 		);
 	}
 
@@ -1247,7 +1247,7 @@ trait Spai_Api_Auth {
 
 		update_option( $this->get_scoped_api_keys_option_name(), $keys );
 
-		$created = $this->create_scoped_api_key( __( 'Primary API Key', 'mumega-mcp' ), $this->get_default_api_key_scopes() );
+		$created = $this->create_scoped_api_key( __( 'Primary API Key', 'site-pilot-ai' ), $this->get_default_api_key_scopes() );
 		update_option( 'spai_api_key', wp_hash_password( $created['key'] ) );
 
 		return $created['key'];

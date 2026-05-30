@@ -54,11 +54,11 @@ class Spai_REST_Figma extends Spai_REST_API {
 				'args'                => array(
 					'file_key' => array(
 						'type'        => 'string',
-						'description' => __( 'Figma file key. Optional if a default file key is configured.', 'mumega-mcp' ),
+						'description' => __( 'Figma file key. Optional if a default file key is configured.', 'site-pilot-ai' ),
 					),
 					'depth'    => array(
 						'type'        => 'integer',
-						'description' => __( 'Outline depth to request from Figma.', 'mumega-mcp' ),
+						'description' => __( 'Outline depth to request from Figma.', 'site-pilot-ai' ),
 						'default'     => 2,
 					),
 				),
@@ -75,16 +75,16 @@ class Spai_REST_Figma extends Spai_REST_API {
 				'args'                => array(
 					'file_key' => array(
 						'type'        => 'string',
-						'description' => __( 'Figma file key. Optional if a default file key is configured.', 'mumega-mcp' ),
+						'description' => __( 'Figma file key. Optional if a default file key is configured.', 'site-pilot-ai' ),
 					),
 					'node_id'  => array(
 						'type'        => 'string',
-						'description' => __( 'Figma node ID to fetch, such as 12:34.', 'mumega-mcp' ),
+						'description' => __( 'Figma node ID to fetch, such as 12:34.', 'site-pilot-ai' ),
 						'required'    => true,
 					),
 					'depth'    => array(
 						'type'        => 'integer',
-						'description' => __( 'Subtree depth to request from Figma.', 'mumega-mcp' ),
+						'description' => __( 'Subtree depth to request from Figma.', 'site-pilot-ai' ),
 						'default'     => 2,
 					),
 				),

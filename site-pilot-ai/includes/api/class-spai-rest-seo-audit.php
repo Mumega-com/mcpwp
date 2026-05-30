@@ -36,7 +36,7 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'id' => array(
-							'description'       => __( 'Post or page ID to validate.', 'mumega-mcp' ),
+							'description'       => __( 'Post or page ID to validate.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'required'          => true,
 							'sanitize_callback' => 'absint',
@@ -57,12 +57,12 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'post_types' => array(
-							'description' => __( 'Comma-separated post types to include.', 'mumega-mcp' ),
+							'description' => __( 'Comma-separated post types to include.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'default'     => 'page,post',
 						),
 						'limit' => array(
-							'description'       => __( 'Maximum number of URLs to audit.', 'mumega-mcp' ),
+							'description'       => __( 'Maximum number of URLs to audit.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 25,
 							'minimum'           => 1,
@@ -70,13 +70,13 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 							'sanitize_callback' => 'absint',
 						),
 						'include_drafts' => array(
-							'description'       => __( 'Include draft/private content.', 'mumega-mcp' ),
+							'description'       => __( 'Include draft/private content.', 'site-pilot-ai' ),
 							'type'              => 'boolean',
 							'default'           => false,
 							'sanitize_callback' => 'rest_sanitize_boolean',
 						),
 						'store' => array(
-							'description'       => __( 'Store this audit run and normalized issue records.', 'mumega-mcp' ),
+							'description'       => __( 'Store this audit run and normalized issue records.', 'site-pilot-ai' ),
 							'type'              => 'boolean',
 							'default'           => false,
 							'sanitize_callback' => 'rest_sanitize_boolean',
@@ -97,32 +97,32 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'status' => array(
-							'description'       => __( 'Issue status filter: open or resolved.', 'mumega-mcp' ),
+							'description'       => __( 'Issue status filter: open or resolved.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_key',
 						),
 						'severity' => array(
-							'description'       => __( 'Severity filter: error, warning, or info.', 'mumega-mcp' ),
+							'description'       => __( 'Severity filter: error, warning, or info.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_key',
 						),
 						'category' => array(
-							'description'       => __( 'Issue category filter.', 'mumega-mcp' ),
+							'description'       => __( 'Issue category filter.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_key',
 						),
 						'post_id' => array(
-							'description'       => __( 'Post ID filter.', 'mumega-mcp' ),
+							'description'       => __( 'Post ID filter.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'sanitize_callback' => 'absint',
 						),
 						'run_id' => array(
-							'description'       => __( 'Audit run ID filter.', 'mumega-mcp' ),
+							'description'       => __( 'Audit run ID filter.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_key',
 						),
 						'limit' => array(
-							'description'       => __( 'Maximum issues to return.', 'mumega-mcp' ),
+							'description'       => __( 'Maximum issues to return.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 50,
 							'minimum'           => 1,
@@ -145,32 +145,32 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'severity' => array(
-							'description'       => __( 'Severity filter: error, warning, or info.', 'mumega-mcp' ),
+							'description'       => __( 'Severity filter: error, warning, or info.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_key',
 						),
 						'category' => array(
-							'description'       => __( 'Issue category filter.', 'mumega-mcp' ),
+							'description'       => __( 'Issue category filter.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_key',
 						),
 						'post_id' => array(
-							'description'       => __( 'Post ID filter.', 'mumega-mcp' ),
+							'description'       => __( 'Post ID filter.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'sanitize_callback' => 'absint',
 						),
 						'run_id' => array(
-							'description'       => __( 'Audit run ID filter.', 'mumega-mcp' ),
+							'description'       => __( 'Audit run ID filter.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_key',
 						),
 						'issue_id' => array(
-							'description'       => __( 'Specific stored issue ID.', 'mumega-mcp' ),
+							'description'       => __( 'Specific stored issue ID.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_key',
 						),
 						'limit' => array(
-							'description'       => __( 'Maximum issues to inspect.', 'mumega-mcp' ),
+							'description'       => __( 'Maximum issues to inspect.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 50,
 							'minimum'           => 1,
@@ -193,13 +193,13 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'provider' => array(
-							'description'       => __( 'Provider slug such as google_search_console, bing_webmaster, or manual.', 'mumega-mcp' ),
+							'description'       => __( 'Provider slug such as google_search_console, bing_webmaster, or manual.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'default'           => 'manual',
 							'sanitize_callback' => 'sanitize_key',
 						),
 						'source' => array(
-							'description'       => __( 'Optional source label for the export or import.', 'mumega-mcp' ),
+							'description'       => __( 'Optional source label for the export or import.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 						),
@@ -219,22 +219,22 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'provider' => array(
-							'description'       => __( 'Provider filter.', 'mumega-mcp' ),
+							'description'       => __( 'Provider filter.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_key',
 						),
 						'url' => array(
-							'description'       => __( 'Exact URL filter.', 'mumega-mcp' ),
+							'description'       => __( 'Exact URL filter.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'esc_url_raw',
 						),
 						'query' => array(
-							'description'       => __( 'Search query contains filter.', 'mumega-mcp' ),
+							'description'       => __( 'Search query contains filter.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 						),
 						'days' => array(
-							'description'       => __( 'Lookback window in days.', 'mumega-mcp' ),
+							'description'       => __( 'Lookback window in days.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 90,
 							'minimum'           => 1,
@@ -242,7 +242,7 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 							'sanitize_callback' => 'absint',
 						),
 						'limit' => array(
-							'description'       => __( 'Maximum grouped rows to return.', 'mumega-mcp' ),
+							'description'       => __( 'Maximum grouped rows to return.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 20,
 							'minimum'           => 1,
@@ -265,13 +265,13 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'status' => array(
-							'description'       => __( 'Product status filter: publish, draft, private, or any.', 'mumega-mcp' ),
+							'description'       => __( 'Product status filter: publish, draft, private, or any.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'default'           => 'publish',
 							'sanitize_callback' => 'sanitize_key',
 						),
 						'limit' => array(
-							'description'       => __( 'Maximum products to inspect.', 'mumega-mcp' ),
+							'description'       => __( 'Maximum products to inspect.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 25,
 							'minimum'           => 1,
@@ -294,7 +294,7 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'id' => array(
-							'description'       => __( 'Post or page ID to validate.', 'mumega-mcp' ),
+							'description'       => __( 'Post or page ID to validate.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'required'          => true,
 							'sanitize_callback' => 'absint',
@@ -315,7 +315,7 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'id' => array(
-							'description'       => __( 'Post or page ID to audit.', 'mumega-mcp' ),
+							'description'       => __( 'Post or page ID to audit.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'required'          => true,
 							'sanitize_callback' => 'absint',
@@ -351,17 +351,17 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 		$last_level   = 0;
 
 		if ( '' === $title ) {
-			$issues[] = $this->make_seo_readiness_issue( 'missing_title', 'error', __( 'Post title is missing.', 'mumega-mcp' ), __( 'Add a clear, descriptive title.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'missing_title', 'error', __( 'Post title is missing.', 'site-pilot-ai' ), __( 'Add a clear, descriptive title.', 'site-pilot-ai' ) );
 		} elseif ( strlen( $title ) < 10 ) {
-			$issues[] = $this->make_seo_readiness_issue( 'short_title', 'warning', __( 'Post title is very short.', 'mumega-mcp' ), __( 'Use a descriptive title that sets search intent clearly.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'short_title', 'warning', __( 'Post title is very short.', 'site-pilot-ai' ), __( 'Use a descriptive title that sets search intent clearly.', 'site-pilot-ai' ) );
 		}
 
 		if ( '' === trim( (string) $post->post_name ) ) {
-			$issues[] = $this->make_seo_readiness_issue( 'missing_slug', 'error', __( 'Slug is missing.', 'mumega-mcp' ), __( 'Set a readable URL slug before publishing.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'missing_slug', 'error', __( 'Slug is missing.', 'site-pilot-ai' ), __( 'Set a readable URL slug before publishing.', 'site-pilot-ai' ) );
 		}
 
 		if ( str_word_count( $text_content ) < 80 ) {
-			$issues[] = $this->make_seo_readiness_issue( 'thin_content', 'warning', __( 'Content is thin.', 'mumega-mcp' ), __( 'Add enough useful copy to answer the page intent.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'thin_content', 'warning', __( 'Content is thin.', 'site-pilot-ai' ), __( 'Add enough useful copy to answer the page intent.', 'site-pilot-ai' ) );
 		}
 
 		foreach ( $headings as $heading ) {
@@ -370,7 +370,7 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 			}
 
 			if ( $last_level > 0 && (int) $heading['level'] > $last_level + 1 ) {
-				$issues[] = $this->make_seo_readiness_issue( 'heading_order_skip', 'warning', __( 'Heading levels skip in the page outline.', 'mumega-mcp' ), __( 'Use a logical heading hierarchy without jumping levels.', 'mumega-mcp' ) );
+				$issues[] = $this->make_seo_readiness_issue( 'heading_order_skip', 'warning', __( 'Heading levels skip in the page outline.', 'site-pilot-ai' ), __( 'Use a logical heading hierarchy without jumping levels.', 'site-pilot-ai' ) );
 				break;
 			}
 
@@ -378,21 +378,21 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 		}
 
 		if ( 0 === $h1_count ) {
-			$issues[] = $this->make_seo_readiness_issue( 'missing_h1', 'warning', __( 'No H1 heading found in the content.', 'mumega-mcp' ), __( 'Add one visible H1 or confirm the theme renders the post title as H1.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'missing_h1', 'warning', __( 'No H1 heading found in the content.', 'site-pilot-ai' ), __( 'Add one visible H1 or confirm the theme renders the post title as H1.', 'site-pilot-ai' ) );
 		} elseif ( $h1_count > 1 ) {
-			$issues[] = $this->make_seo_readiness_issue( 'multiple_h1', 'warning', __( 'Multiple H1 headings found.', 'mumega-mcp' ), __( 'Use one primary H1 and demote secondary headings.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'multiple_h1', 'warning', __( 'Multiple H1 headings found.', 'site-pilot-ai' ), __( 'Use one primary H1 and demote secondary headings.', 'site-pilot-ai' ) );
 		}
 
 		$meta_description = $this->get_seo_meta_description( $post_id );
 		if ( '' === $meta_description ) {
-			$issues[] = $this->make_seo_readiness_issue( 'missing_meta_description', 'warning', __( 'Meta description is missing.', 'mumega-mcp' ), __( 'Add a concise meta description through the active SEO plugin or supported post meta.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'missing_meta_description', 'warning', __( 'Meta description is missing.', 'site-pilot-ai' ), __( 'Add a concise meta description through the active SEO plugin or supported post meta.', 'site-pilot-ai' ) );
 		} elseif ( strlen( $meta_description ) < 50 || strlen( $meta_description ) > 170 ) {
-			$issues[] = $this->make_seo_readiness_issue( 'meta_description_length', 'warning', __( 'Meta description length is outside the recommended range.', 'mumega-mcp' ), __( 'Aim for roughly 50-170 characters that summarize the page accurately.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'meta_description_length', 'warning', __( 'Meta description length is outside the recommended range.', 'site-pilot-ai' ), __( 'Aim for roughly 50-170 characters that summarize the page accurately.', 'site-pilot-ai' ) );
 		}
 
 		foreach ( $this->extract_image_ids_from_content( $content ) as $image_id ) {
 			if ( '' === trim( (string) get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) ) {
-				$issues[] = $this->make_seo_readiness_issue( 'missing_image_alt', 'warning', __( 'An image is missing alt text.', 'mumega-mcp' ), __( 'Add descriptive alt text or mark decorative images intentionally.', 'mumega-mcp' ), array( 'attachment_id' => $image_id ) );
+				$issues[] = $this->make_seo_readiness_issue( 'missing_image_alt', 'warning', __( 'An image is missing alt text.', 'site-pilot-ai' ), __( 'Add descriptive alt text or mark decorative images intentionally.', 'site-pilot-ai' ), array( 'attachment_id' => $image_id ) );
 			}
 		}
 
@@ -407,33 +407,33 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 		}
 
 		if ( $node && 0 === (int) $node['outbound_count'] ) {
-			$issues[] = $this->make_seo_readiness_issue( 'no_internal_outbound_links', 'warning', __( 'No internal outbound links found.', 'mumega-mcp' ), __( 'Add relevant internal links from the content graph where useful.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'no_internal_outbound_links', 'warning', __( 'No internal outbound links found.', 'site-pilot-ai' ), __( 'Add relevant internal links from the content graph where useful.', 'site-pilot-ai' ) );
 		}
 
 		if ( $node && 'publish' === $post->post_status && 'none' !== $node['orphan_severity'] ) {
-			$issues[] = $this->make_seo_readiness_issue( 'orphan_content', 'warning', __( 'Published content appears orphaned in the graph.', 'mumega-mcp' ), __( 'Link to this page from a relevant hub, menu, archive, or related page.', 'mumega-mcp' ), array( 'orphan_severity' => $node['orphan_severity'] ) );
+			$issues[] = $this->make_seo_readiness_issue( 'orphan_content', 'warning', __( 'Published content appears orphaned in the graph.', 'site-pilot-ai' ), __( 'Link to this page from a relevant hub, menu, archive, or related page.', 'site-pilot-ai' ), array( 'orphan_severity' => $node['orphan_severity'] ) );
 		}
 
 		if ( $this->is_post_noindex( $post_id ) ) {
-			$issues[] = $this->make_seo_readiness_issue( 'noindex_enabled', 'error', __( 'Post appears to be marked noindex.', 'mumega-mcp' ), __( 'Remove noindex before publishing content intended for search.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'noindex_enabled', 'error', __( 'Post appears to be marked noindex.', 'site-pilot-ai' ), __( 'Remove noindex before publishing content intended for search.', 'site-pilot-ai' ) );
 		}
 
 		$canonical = $this->get_seo_canonical_url( $post_id );
 		if ( '' !== $canonical && $this->normalize_internal_graph_url( $canonical ) !== $this->normalize_internal_graph_url( get_permalink( $post ) ) ) {
-			$issues[] = $this->make_seo_readiness_issue( 'canonical_override', 'warning', __( 'Canonical URL points somewhere other than this permalink.', 'mumega-mcp' ), __( 'Confirm this canonical is intentional before publishing.', 'mumega-mcp' ), array( 'canonical_url' => $canonical ) );
+			$issues[] = $this->make_seo_readiness_issue( 'canonical_override', 'warning', __( 'Canonical URL points somewhere other than this permalink.', 'site-pilot-ai' ), __( 'Confirm this canonical is intentional before publishing.', 'site-pilot-ai' ), array( 'canonical_url' => $canonical ) );
 		}
 
 		$robots_txt = $this->get_robots_txt();
 		if ( false !== stripos( $robots_txt, 'Disallow: /' ) ) {
-			$issues[] = $this->make_seo_readiness_issue( 'robots_disallow_root', 'error', __( 'robots.txt appears to disallow the whole site.', 'mumega-mcp' ), __( 'Review robots.txt before publishing search-facing content.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'robots_disallow_root', 'error', __( 'robots.txt appears to disallow the whole site.', 'site-pilot-ai' ), __( 'Review robots.txt before publishing search-facing content.', 'site-pilot-ai' ) );
 		}
 
 		if ( ! $this->site_has_sitemap_hint() ) {
-			$issues[] = $this->make_seo_readiness_issue( 'sitemap_not_detected', 'info', __( 'Sitemap endpoint was not detected locally.', 'mumega-mcp' ), __( 'Confirm XML sitemaps are enabled in WordPress or your SEO plugin.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'sitemap_not_detected', 'info', __( 'Sitemap endpoint was not detected locally.', 'site-pilot-ai' ), __( 'Confirm XML sitemaps are enabled in WordPress or your SEO plugin.', 'site-pilot-ai' ) );
 		}
 
 		if ( ! $this->content_has_schema_hint( $content ) ) {
-			$issues[] = $this->make_seo_readiness_issue( 'schema_hint_missing', 'info', __( 'No structured-data hint found in content.', 'mumega-mcp' ), __( 'Consider schema only when it accurately matches visible content.', 'mumega-mcp' ) );
+			$issues[] = $this->make_seo_readiness_issue( 'schema_hint_missing', 'info', __( 'No structured-data hint found in content.', 'site-pilot-ai' ), __( 'Consider schema only when it accurately matches visible content.', 'site-pilot-ai' ) );
 		}
 
 		$summary = $this->summarize_seo_readiness_issues( $issues );
@@ -678,8 +678,8 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 				$issues[] = $this->make_structured_data_issue(
 					'invalid_json_ld',
 					'error',
-					__( 'A JSON-LD block could not be parsed.', 'mumega-mcp' ),
-					__( 'Fix the JSON syntax or remove the invalid structured data block.', 'mumega-mcp' ),
+					__( 'A JSON-LD block could not be parsed.', 'site-pilot-ai' ),
+					__( 'Fix the JSON syntax or remove the invalid structured data block.', 'site-pilot-ai' ),
 					array(
 						'format' => 'json-ld',
 						'index'  => $index,
@@ -696,11 +696,11 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 				}
 
 				if ( empty( $entity['@context'] ) ) {
-					$issues[] = $this->make_structured_data_issue( 'missing_context', 'warning', __( 'JSON-LD entity is missing @context.', 'mumega-mcp' ), __( 'Use a schema.org @context for valid JSON-LD.', 'mumega-mcp' ), array( 'index' => $index ) );
+					$issues[] = $this->make_structured_data_issue( 'missing_context', 'warning', __( 'JSON-LD entity is missing @context.', 'site-pilot-ai' ), __( 'Use a schema.org @context for valid JSON-LD.', 'site-pilot-ai' ), array( 'index' => $index ) );
 				}
 
 				if ( '' === $type ) {
-					$issues[] = $this->make_structured_data_issue( 'missing_type', 'warning', __( 'JSON-LD entity is missing @type.', 'mumega-mcp' ), __( 'Add a concrete schema type that matches the visible content.', 'mumega-mcp' ), array( 'index' => $index ) );
+					$issues[] = $this->make_structured_data_issue( 'missing_type', 'warning', __( 'JSON-LD entity is missing @type.', 'site-pilot-ai' ), __( 'Add a concrete schema type that matches the visible content.', 'site-pilot-ai' ), array( 'index' => $index ) );
 				}
 
 				$issues = array_merge( $issues, $this->validate_schema_entity_shape( $entity, $type, $post ) );
@@ -718,11 +718,11 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 		$recommendations = $this->recommend_schema_types_for_post( $post, $content, $schema_types );
 
 		if ( empty( $json_ld_items ) && empty( $microdata_items ) ) {
-			$issues[] = $this->make_structured_data_issue( 'no_structured_data', 'info', __( 'No structured data was detected in the post content.', 'mumega-mcp' ), __( 'Add schema only when it accurately describes visible content or can be handled by the active SEO plugin.', 'mumega-mcp' ) );
+			$issues[] = $this->make_structured_data_issue( 'no_structured_data', 'info', __( 'No structured data was detected in the post content.', 'site-pilot-ai' ), __( 'Add schema only when it accurately describes visible content or can be handled by the active SEO plugin.', 'site-pilot-ai' ) );
 		}
 
 		if ( ! empty( $recommendations ) ) {
-			$issues[] = $this->make_structured_data_issue( 'schema_recommendation_available', 'info', __( 'Page-appropriate schema recommendations are available.', 'mumega-mcp' ), __( 'Review the recommendations and add schema through an SEO plugin or approved block-native workflow only when supported by visible content.', 'mumega-mcp' ) );
+			$issues[] = $this->make_structured_data_issue( 'schema_recommendation_available', 'info', __( 'Page-appropriate schema recommendations are available.', 'site-pilot-ai' ), __( 'Review the recommendations and add schema through an SEO plugin or approved block-native workflow only when supported by visible content.', 'site-pilot-ai' ) );
 		}
 
 		$summary = $this->summarize_structured_data_issues( $issues );
@@ -785,7 +785,7 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 			$issues        = array_merge( $issues, $this->validate_media_seo_item( $featured_item ) );
 			$seen_ids[]    = (int) $featured_id;
 		} elseif ( in_array( $post->post_type, array( 'post', 'page' ), true ) ) {
-			$issues[] = $this->make_media_seo_issue( 'missing_featured_image', 'info', __( 'No featured image is set.', 'mumega-mcp' ), __( 'Set a featured image when the content needs social/search previews.', 'mumega-mcp' ) );
+			$issues[] = $this->make_media_seo_issue( 'missing_featured_image', 'info', __( 'No featured image is set.', 'site-pilot-ai' ), __( 'Set a featured image when the content needs social/search previews.', 'site-pilot-ai' ) );
 		}
 
 		foreach ( $content_media as $content_item ) {
@@ -796,14 +796,14 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 
 			if ( $attachment_id > 0 ) {
 				if ( in_array( $attachment_id, $seen_ids, true ) ) {
-					$issues[] = $this->make_media_seo_issue( 'duplicate_image_use', 'info', __( 'An image is reused on this page.', 'mumega-mcp' ), __( 'Confirm repeated image use is intentional and not a duplicated block.', 'mumega-mcp' ), array( 'attachment_id' => $attachment_id ) );
+					$issues[] = $this->make_media_seo_issue( 'duplicate_image_use', 'info', __( 'An image is reused on this page.', 'site-pilot-ai' ), __( 'Confirm repeated image use is intentional and not a duplicated block.', 'site-pilot-ai' ), array( 'attachment_id' => $attachment_id ) );
 				}
 				$seen_ids[] = $attachment_id;
 			}
 		}
 
 		if ( empty( $media_items ) ) {
-			$issues[] = $this->make_media_seo_issue( 'no_images_found', 'info', __( 'No images were found in the post content.', 'mumega-mcp' ), __( 'No action is required unless the page needs visual search, social, or conversion media.', 'mumega-mcp' ) );
+			$issues[] = $this->make_media_seo_issue( 'no_images_found', 'info', __( 'No images were found in the post content.', 'site-pilot-ai' ), __( 'No action is required unless the page needs visual search, social, or conversion media.', 'site-pilot-ai' ) );
 		}
 
 		$summary = $this->summarize_media_seo_issues( $issues );
@@ -1318,23 +1318,23 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 
 		if ( in_array( $type, array( 'article', 'blogposting', 'newsarticle' ), true ) ) {
 			if ( empty( $entity['headline'] ) && empty( $entity['name'] ) ) {
-				$issues[] = $this->make_structured_data_issue( 'article_missing_headline', 'warning', __( 'Article schema is missing headline/name.', 'mumega-mcp' ), __( 'Use the visible post title as the schema headline.', 'mumega-mcp' ), array( 'schema_type' => $type ) );
+				$issues[] = $this->make_structured_data_issue( 'article_missing_headline', 'warning', __( 'Article schema is missing headline/name.', 'site-pilot-ai' ), __( 'Use the visible post title as the schema headline.', 'site-pilot-ai' ), array( 'schema_type' => $type ) );
 			}
 			if ( empty( $entity['datePublished'] ) ) {
-				$issues[] = $this->make_structured_data_issue( 'article_missing_date_published', 'warning', __( 'Article schema is missing datePublished.', 'mumega-mcp' ), __( 'Include the published date when Article schema is used.', 'mumega-mcp' ), array( 'schema_type' => $type ) );
+				$issues[] = $this->make_structured_data_issue( 'article_missing_date_published', 'warning', __( 'Article schema is missing datePublished.', 'site-pilot-ai' ), __( 'Include the published date when Article schema is used.', 'site-pilot-ai' ), array( 'schema_type' => $type ) );
 			}
 		}
 
 		if ( 'faqpage' === $type && empty( $entity['mainEntity'] ) ) {
-			$issues[] = $this->make_structured_data_issue( 'faq_missing_questions', 'warning', __( 'FAQPage schema is missing questions.', 'mumega-mcp' ), __( 'Only use FAQPage schema when the visible content contains matching questions and answers.', 'mumega-mcp' ), array( 'schema_type' => $type ) );
+			$issues[] = $this->make_structured_data_issue( 'faq_missing_questions', 'warning', __( 'FAQPage schema is missing questions.', 'site-pilot-ai' ), __( 'Only use FAQPage schema when the visible content contains matching questions and answers.', 'site-pilot-ai' ), array( 'schema_type' => $type ) );
 		}
 
 		if ( 'product' === $type && 'product' !== $post->post_type ) {
-			$issues[] = $this->make_structured_data_issue( 'product_schema_on_non_product', 'warning', __( 'Product schema appears on non-product content.', 'mumega-mcp' ), __( 'Use Product schema only for visible product detail pages.', 'mumega-mcp' ), array( 'schema_type' => $type ) );
+			$issues[] = $this->make_structured_data_issue( 'product_schema_on_non_product', 'warning', __( 'Product schema appears on non-product content.', 'site-pilot-ai' ), __( 'Use Product schema only for visible product detail pages.', 'site-pilot-ai' ), array( 'schema_type' => $type ) );
 		}
 
 		if ( in_array( $type, array( 'webpage', 'article', 'blogposting', 'newsarticle' ), true ) && empty( $entity['url'] ) && empty( $entity['mainEntityOfPage'] ) ) {
-			$issues[] = $this->make_structured_data_issue( 'schema_missing_url', 'info', __( 'Schema entity does not include URL/mainEntityOfPage.', 'mumega-mcp' ), __( 'Connect schema to the canonical page URL where supported.', 'mumega-mcp' ), array( 'schema_type' => $type ) );
+			$issues[] = $this->make_structured_data_issue( 'schema_missing_url', 'info', __( 'Schema entity does not include URL/mainEntityOfPage.', 'site-pilot-ai' ), __( 'Connect schema to the canonical page URL where supported.', 'site-pilot-ai' ), array( 'schema_type' => $type ) );
 		}
 
 		return $issues;
@@ -1577,27 +1577,27 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 		$issues = array();
 
 		if ( 'content_image' === $item['role'] && '' === trim( (string) $item['alt'] ) ) {
-			$issues[] = $this->make_media_seo_issue( 'missing_image_alt', 'warning', __( 'A content image is missing alt text.', 'mumega-mcp' ), __( 'Add useful alt text, or mark the image decorative in an approved workflow.', 'mumega-mcp' ), array( 'attachment_id' => $item['attachment_id'], 'url' => $item['url'] ) );
+			$issues[] = $this->make_media_seo_issue( 'missing_image_alt', 'warning', __( 'A content image is missing alt text.', 'site-pilot-ai' ), __( 'Add useful alt text, or mark the image decorative in an approved workflow.', 'site-pilot-ai' ), array( 'attachment_id' => $item['attachment_id'], 'url' => $item['url'] ) );
 		}
 
 		if ( 'featured_image' === $item['role'] && '' === trim( (string) $item['alt'] ) ) {
-			$issues[] = $this->make_media_seo_issue( 'featured_image_missing_alt', 'warning', __( 'The featured image is missing alt text.', 'mumega-mcp' ), __( 'Add alt text if the featured image conveys meaning.', 'mumega-mcp' ), array( 'attachment_id' => $item['attachment_id'] ) );
+			$issues[] = $this->make_media_seo_issue( 'featured_image_missing_alt', 'warning', __( 'The featured image is missing alt text.', 'site-pilot-ai' ), __( 'Add alt text if the featured image conveys meaning.', 'site-pilot-ai' ), array( 'attachment_id' => $item['attachment_id'] ) );
 		}
 
 		if ( '' !== $item['filename'] && preg_match( '/^(image|img|photo|screenshot|untitled|dsc)[-_]?\d*\./i', $item['filename'] ) ) {
-			$issues[] = $this->make_media_seo_issue( 'weak_image_filename', 'info', __( 'An image filename is generic.', 'mumega-mcp' ), __( 'Use descriptive filenames before upload when practical; do not rename live media blindly.', 'mumega-mcp' ), array( 'attachment_id' => $item['attachment_id'], 'filename' => $item['filename'] ) );
+			$issues[] = $this->make_media_seo_issue( 'weak_image_filename', 'info', __( 'An image filename is generic.', 'site-pilot-ai' ), __( 'Use descriptive filenames before upload when practical; do not rename live media blindly.', 'site-pilot-ai' ), array( 'attachment_id' => $item['attachment_id'], 'filename' => $item['filename'] ) );
 		}
 
 		if ( $item['filesize'] > 0 && $item['filesize'] > 512000 ) {
-			$issues[] = $this->make_media_seo_issue( 'large_image_file', 'warning', __( 'An image file is large.', 'mumega-mcp' ), __( 'Compress or replace oversized images to improve page experience.', 'mumega-mcp' ), array( 'attachment_id' => $item['attachment_id'], 'filesize' => $item['filesize'] ) );
+			$issues[] = $this->make_media_seo_issue( 'large_image_file', 'warning', __( 'An image file is large.', 'site-pilot-ai' ), __( 'Compress or replace oversized images to improve page experience.', 'site-pilot-ai' ), array( 'attachment_id' => $item['attachment_id'], 'filesize' => $item['filesize'] ) );
 		}
 
 		if ( 'content_image' === $item['role'] && ( 0 === (int) $item['width'] || 0 === (int) $item['height'] ) ) {
-			$issues[] = $this->make_media_seo_issue( 'missing_image_dimensions', 'info', __( 'A content image is missing explicit dimensions.', 'mumega-mcp' ), __( 'Use WordPress image blocks or markup that preserves width and height to reduce layout shift.', 'mumega-mcp' ), array( 'attachment_id' => $item['attachment_id'], 'url' => $item['url'] ) );
+			$issues[] = $this->make_media_seo_issue( 'missing_image_dimensions', 'info', __( 'A content image is missing explicit dimensions.', 'site-pilot-ai' ), __( 'Use WordPress image blocks or markup that preserves width and height to reduce layout shift.', 'site-pilot-ai' ), array( 'attachment_id' => $item['attachment_id'], 'url' => $item['url'] ) );
 		}
 
 		if ( 'content_image' === $item['role'] && '' === $item['loading'] ) {
-			$issues[] = $this->make_media_seo_issue( 'missing_lazy_loading_hint', 'info', __( 'A content image has no loading attribute in markup.', 'mumega-mcp' ), __( 'Confirm WordPress or the theme adds lazy loading, especially for below-the-fold images.', 'mumega-mcp' ), array( 'attachment_id' => $item['attachment_id'], 'url' => $item['url'] ) );
+			$issues[] = $this->make_media_seo_issue( 'missing_lazy_loading_hint', 'info', __( 'A content image has no loading attribute in markup.', 'site-pilot-ai' ), __( 'Confirm WordPress or the theme adds lazy loading, especially for below-the-fold images.', 'site-pilot-ai' ), array( 'attachment_id' => $item['attachment_id'], 'url' => $item['url'] ) );
 		}
 
 		return $issues;

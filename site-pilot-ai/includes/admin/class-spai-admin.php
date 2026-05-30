@@ -65,8 +65,8 @@ class Spai_Admin {
 		// Top-level menu + default submenu (Setup) share the same slug so
 		// clicking "MCPWP" always lands on the Setup page.
 		add_menu_page(
-			__( 'MCPWP', 'mumega-mcp' ),
-			__( 'MCPWP', 'mumega-mcp' ),
+			__( 'MCPWP', 'site-pilot-ai' ),
+			__( 'MCPWP', 'site-pilot-ai' ),
 			'activate_plugins',
 			self::PAGE_SLUG,
 			array( $this, 'render_setup_page' ),
@@ -77,8 +77,8 @@ class Spai_Admin {
 		// Setup — same slug as parent so it becomes the first visible item.
 		add_submenu_page(
 			self::PAGE_SLUG,
-			__( 'Setup', 'mumega-mcp' ),
-			__( 'Setup', 'mumega-mcp' ),
+			__( 'Setup', 'site-pilot-ai' ),
+			__( 'Setup', 'site-pilot-ai' ),
 			'activate_plugins',
 			self::PAGE_SLUG,
 			array( $this, 'render_setup_page' )
@@ -87,8 +87,8 @@ class Spai_Admin {
 		// Control Room - human supervision for agent work.
 		add_submenu_page(
 			self::PAGE_SLUG,
-			__( 'Control Room', 'mumega-mcp' ),
-			__( 'Control Room', 'mumega-mcp' ),
+			__( 'Control Room', 'site-pilot-ai' ),
+			__( 'Control Room', 'site-pilot-ai' ),
 			'activate_plugins',
 			self::CONTROL_ROOM_PAGE_SLUG,
 			array( $this, 'render_control_room_page' )
@@ -97,8 +97,8 @@ class Spai_Admin {
 		// Chat — AI assistant.
 		add_submenu_page(
 			self::PAGE_SLUG,
-			__( 'Chat', 'mumega-mcp' ),
-			__( 'Chat', 'mumega-mcp' ),
+			__( 'Chat', 'site-pilot-ai' ),
+			__( 'Chat', 'site-pilot-ai' ),
 			'edit_posts',
 			'site-pilot-ai-chat',
 			array( $this, 'render_chat_page' )
@@ -107,8 +107,8 @@ class Spai_Admin {
 		// Library.
 		add_submenu_page(
 			self::PAGE_SLUG,
-			__( 'Library', 'mumega-mcp' ),
-			__( 'Library', 'mumega-mcp' ),
+			__( 'Library', 'site-pilot-ai' ),
+			__( 'Library', 'site-pilot-ai' ),
 			'activate_plugins',
 			self::LIBRARY_PAGE_SLUG,
 			array( $this, 'render_library_page' )
@@ -117,8 +117,8 @@ class Spai_Admin {
 		// Integrations (already exists).
 		add_submenu_page(
 			self::PAGE_SLUG,
-			__( 'Integrations', 'mumega-mcp' ),
-			__( 'Integrations', 'mumega-mcp' ),
+			__( 'Integrations', 'site-pilot-ai' ),
+			__( 'Integrations', 'site-pilot-ai' ),
 			'activate_plugins',
 			Spai_Integrations_Admin::PAGE_SLUG,
 			array( new Spai_Integrations_Admin(), 'render' )
@@ -127,8 +127,8 @@ class Spai_Admin {
 		// Tools (renamed from "MCP Tools").
 		add_submenu_page(
 			self::PAGE_SLUG,
-			__( 'Tools', 'mumega-mcp' ),
-			__( 'Tools', 'mumega-mcp' ),
+			__( 'Tools', 'site-pilot-ai' ),
+			__( 'Tools', 'site-pilot-ai' ),
 			'activate_plugins',
 			Spai_Tools_Admin::PAGE_SLUG,
 			array( new Spai_Tools_Admin(), 'render' )
@@ -137,8 +137,8 @@ class Spai_Admin {
 		// Settings.
 		add_submenu_page(
 			self::PAGE_SLUG,
-			__( 'Settings', 'mumega-mcp' ),
-			__( 'Settings', 'mumega-mcp' ),
+			__( 'Settings', 'site-pilot-ai' ),
+			__( 'Settings', 'site-pilot-ai' ),
 			'activate_plugins',
 			self::SETTINGS_PAGE_SLUG,
 			array( $this, 'render_settings_page' )
@@ -147,8 +147,8 @@ class Spai_Admin {
 		// Activity Log.
 		add_submenu_page(
 			self::PAGE_SLUG,
-			__( 'Activity Log', 'mumega-mcp' ),
-			__( 'Activity Log', 'mumega-mcp' ),
+			__( 'Activity Log', 'site-pilot-ai' ),
+			__( 'Activity Log', 'site-pilot-ai' ),
 			'activate_plugins',
 			self::ACTIVITY_LOG_PAGE_SLUG,
 			array( $this, 'render_activity_log_page' )
@@ -219,12 +219,12 @@ class Spai_Admin {
 				'posthogToken' => SPAI_POSTHOG_TOKEN,
 				'posthogHost'  => SPAI_POSTHOG_HOST,
 				'strings' => array(
-					'copied'      => __( 'Copied!', 'mumega-mcp' ),
-					'copyFailed'  => __( 'Copy failed', 'mumega-mcp' ),
-					'confirm'     => __( 'Are you sure you want to regenerate the API key? The old key will stop working immediately.', 'mumega-mcp' ),
-					'testing'     => __( 'Testing...', 'mumega-mcp' ),
-					'connected'   => __( 'Connected!', 'mumega-mcp' ),
-					'testFailed'  => __( 'Connection failed', 'mumega-mcp' ),
+					'copied'      => __( 'Copied!', 'site-pilot-ai' ),
+					'copyFailed'  => __( 'Copy failed', 'site-pilot-ai' ),
+					'confirm'     => __( 'Are you sure you want to regenerate the API key? The old key will stop working immediately.', 'site-pilot-ai' ),
+					'testing'     => __( 'Testing...', 'site-pilot-ai' ),
+					'connected'   => __( 'Connected!', 'site-pilot-ai' ),
+					'testFailed'  => __( 'Connection failed', 'site-pilot-ai' ),
 				),
 			)
 		);
@@ -249,7 +249,7 @@ class Spai_Admin {
 		$stored_key = get_option( 'spai_api_key' );
 		if ( empty( $stored_key ) ) {
 			wp_send_json_error( array(
-				'message' => __( 'No API key configured. Please generate one on the Setup tab.', 'mumega-mcp' ),
+				'message' => __( 'No API key configured. Please generate one on the Setup tab.', 'site-pilot-ai' ),
 			) );
 		}
 
@@ -286,7 +286,7 @@ class Spai_Admin {
 	 */
 	public function render_setup_page() {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'mumega-mcp' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'site-pilot-ai' ) );
 		}
 
 		// Handle API key actions.
@@ -297,7 +297,7 @@ class Spai_Admin {
 			add_settings_error(
 				'spai_messages',
 				'spai_key_regenerated',
-				__( 'API key has been regenerated. Copy it now — it will not be shown again.', 'mumega-mcp' ),
+				__( 'API key has been regenerated. Copy it now — it will not be shown again.', 'site-pilot-ai' ),
 				'updated'
 			);
 		}
@@ -324,7 +324,7 @@ class Spai_Admin {
 				'spai_scoped_key_created',
 				sprintf(
 					/* translators: %s: role label */
-					__( 'API key created (role: %s). Copy it now — it will not be shown again.', 'mumega-mcp' ),
+					__( 'API key created (role: %s). Copy it now — it will not be shown again.', 'site-pilot-ai' ),
 					$role_label
 				),
 				'updated'
@@ -341,14 +341,14 @@ class Spai_Admin {
 					add_settings_error(
 						'spai_messages',
 						'spai_scoped_key_revoked',
-						__( 'Scoped API key revoked.', 'mumega-mcp' ),
+						__( 'Scoped API key revoked.', 'site-pilot-ai' ),
 						'updated'
 					);
 				} else {
 					add_settings_error(
 						'spai_messages',
 						'spai_scoped_key_revoke_failed',
-						__( 'Unable to revoke key (it may already be revoked).', 'mumega-mcp' ),
+						__( 'Unable to revoke key (it may already be revoked).', 'site-pilot-ai' ),
 						'error'
 					);
 				}
@@ -372,7 +372,7 @@ class Spai_Admin {
 			add_settings_error(
 				'spai_messages',
 				'spai_update_checked',
-				__( 'Update check complete.', 'mumega-mcp' ),
+				__( 'Update check complete.', 'site-pilot-ai' ),
 				'updated'
 			);
 		}
@@ -387,7 +387,7 @@ class Spai_Admin {
 	 */
 	public function render_control_room_page() {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'mumega-mcp' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'site-pilot-ai' ) );
 		}
 
 		$this->handle_control_room_actions();
@@ -448,32 +448,32 @@ class Spai_Admin {
 	 */
 	private function handle_control_room_approval_action( $action, $approval_id ) {
 		if ( ! class_exists( 'Spai_Approvals' ) ) {
-			return new WP_Error( 'spai_approvals_unavailable', __( 'Approval storage is unavailable.', 'mumega-mcp' ) );
+			return new WP_Error( 'spai_approvals_unavailable', __( 'Approval storage is unavailable.', 'site-pilot-ai' ) );
 		}
 
 		if ( '' === $approval_id ) {
-			return new WP_Error( 'spai_missing_approval_id', __( 'Approval request ID is required.', 'mumega-mcp' ) );
+			return new WP_Error( 'spai_missing_approval_id', __( 'Approval request ID is required.', 'site-pilot-ai' ) );
 		}
 
 		switch ( $action ) {
 			case 'approve':
 				$result = Spai_Approvals::approve_request( $approval_id );
-				$message = __( 'Approval request approved.', 'mumega-mcp' );
+				$message = __( 'Approval request approved.', 'site-pilot-ai' );
 				break;
 			case 'reject':
 				$result = Spai_Approvals::reject_request( $approval_id );
-				$message = __( 'Approval request rejected.', 'mumega-mcp' );
+				$message = __( 'Approval request rejected.', 'site-pilot-ai' );
 				break;
 			case 'apply':
 				$result = Spai_Approvals::apply_request( $approval_id );
-				$message = __( 'Approved change applied.', 'mumega-mcp' );
+				$message = __( 'Approved change applied.', 'site-pilot-ai' );
 				break;
 			case 'rollback':
 				$result = Spai_Approvals::rollback_request( $approval_id );
-				$message = __( 'Applied change rolled back.', 'mumega-mcp' );
+				$message = __( 'Applied change rolled back.', 'site-pilot-ai' );
 				break;
 			default:
-				return new WP_Error( 'spai_unknown_control_action', __( 'Unknown control room action.', 'mumega-mcp' ) );
+				return new WP_Error( 'spai_unknown_control_action', __( 'Unknown control room action.', 'site-pilot-ai' ) );
 		}
 
 		if ( is_wp_error( $result ) ) {
@@ -490,7 +490,7 @@ class Spai_Admin {
 	 */
 	private function run_control_room_seo_audit() {
 		if ( ! class_exists( 'Spai_REST_Site' ) || ! class_exists( 'WP_REST_Request' ) ) {
-			return new WP_Error( 'spai_seo_audit_unavailable', __( 'SEO audit tools are unavailable.', 'mumega-mcp' ) );
+			return new WP_Error( 'spai_seo_audit_unavailable', __( 'SEO audit tools are unavailable.', 'site-pilot-ai' ) );
 		}
 
 		$request = new WP_REST_Request( 'GET', '/mumega-mcp/v1/seo/audit-site' );
@@ -506,7 +506,7 @@ class Spai_Admin {
 
 		$data = $response instanceof WP_REST_Response ? $response->get_data() : array();
 		if ( isset( $data['success'] ) && empty( $data['success'] ) ) {
-			$message = isset( $data['message'] ) ? (string) $data['message'] : __( 'SEO audit failed.', 'mumega-mcp' );
+			$message = isset( $data['message'] ) ? (string) $data['message'] : __( 'SEO audit failed.', 'site-pilot-ai' );
 			return new WP_Error( 'spai_seo_audit_failed', $message );
 		}
 
@@ -516,7 +516,7 @@ class Spai_Admin {
 
 		return sprintf(
 			/* translators: %d: number of audited URLs */
-			_n( 'Stored SEO audit completed for %d URL.', 'Stored SEO audit completed for %d URLs.', $count, 'mumega-mcp' ),
+			_n( 'Stored SEO audit completed for %d URL.', 'Stored SEO audit completed for %d URLs.', $count, 'site-pilot-ai' ),
 			$count
 		);
 	}
@@ -718,8 +718,8 @@ class Spai_Admin {
 			return array(
 				'escalated' => true,
 				'level'     => 'high',
-				'label'     => __( 'Needs attention', 'mumega-mcp' ),
-				'reason'    => __( 'High-risk event or failing SEO state.', 'mumega-mcp' ),
+				'label'     => __( 'Needs attention', 'site-pilot-ai' ),
+				'reason'    => __( 'High-risk event or failing SEO state.', 'site-pilot-ai' ),
 			);
 		}
 
@@ -727,16 +727,16 @@ class Spai_Admin {
 			return array(
 				'escalated' => true,
 				'level'     => 'medium',
-				'label'     => __( 'Human decision', 'mumega-mcp' ),
-				'reason'    => __( 'Approval lifecycle event requires human awareness.', 'mumega-mcp' ),
+				'label'     => __( 'Human decision', 'site-pilot-ai' ),
+				'reason'    => __( 'Approval lifecycle event requires human awareness.', 'site-pilot-ai' ),
 			);
 		}
 
 		return array(
 			'escalated' => false,
 			'level'     => 'low',
-			'label'     => __( 'Informational', 'mumega-mcp' ),
-			'reason'    => __( 'No escalation rule matched.', 'mumega-mcp' ),
+			'label'     => __( 'Informational', 'site-pilot-ai' ),
+			'reason'    => __( 'No escalation rule matched.', 'site-pilot-ai' ),
 		);
 	}
 
@@ -754,10 +754,10 @@ class Spai_Admin {
 		if ( ! empty( $approval_counts['pending'] ) ) {
 			$recommendations[] = array(
 				'priority' => 'high',
-				'title'    => __( 'Review pending approvals', 'mumega-mcp' ),
+				'title'    => __( 'Review pending approvals', 'site-pilot-ai' ),
 				'detail'   => sprintf(
 					/* translators: %d: number of pending approvals */
-					_n( '%d agent change is waiting for human review.', '%d agent changes are waiting for human review.', (int) $approval_counts['pending'], 'mumega-mcp' ),
+					_n( '%d agent change is waiting for human review.', '%d agent changes are waiting for human review.', (int) $approval_counts['pending'], 'site-pilot-ai' ),
 					(int) $approval_counts['pending']
 				),
 			);
@@ -766,18 +766,18 @@ class Spai_Admin {
 		if ( ! empty( $approval_counts['applied'] ) ) {
 			$recommendations[] = array(
 				'priority' => 'medium',
-				'title'    => __( 'Keep rollback handles visible', 'mumega-mcp' ),
-				'detail'   => __( 'Applied approval requests can still be rolled back if production content needs to revert.', 'mumega-mcp' ),
+				'title'    => __( 'Keep rollback handles visible', 'site-pilot-ai' ),
+				'detail'   => __( 'Applied approval requests can still be rolled back if production content needs to revert.', 'site-pilot-ai' ),
 			);
 		}
 
 		if ( ! empty( $seo_summary['error'] ) ) {
 			$recommendations[] = array(
 				'priority' => 'high',
-				'title'    => __( 'Prioritize SEO errors', 'mumega-mcp' ),
+				'title'    => __( 'Prioritize SEO errors', 'site-pilot-ai' ),
 				'detail'   => sprintf(
 					/* translators: %d: number of SEO errors */
-					_n( '%d stored SEO error needs attention before lower-priority warnings.', '%d stored SEO errors need attention before lower-priority warnings.', (int) $seo_summary['error'], 'mumega-mcp' ),
+					_n( '%d stored SEO error needs attention before lower-priority warnings.', '%d stored SEO errors need attention before lower-priority warnings.', (int) $seo_summary['error'], 'site-pilot-ai' ),
 					(int) $seo_summary['error']
 				),
 			);
@@ -786,10 +786,10 @@ class Spai_Admin {
 		if ( ! empty( $data['event_inbox']['summary']['escalated'] ) ) {
 			$recommendations[] = array(
 				'priority' => 'high',
-				'title'    => __( 'Review escalated events', 'mumega-mcp' ),
+				'title'    => __( 'Review escalated events', 'site-pilot-ai' ),
 				'detail'   => sprintf(
 					/* translators: %d: number of escalated events */
-					_n( '%d recent event needs human attention.', '%d recent events need human attention.', (int) $data['event_inbox']['summary']['escalated'], 'mumega-mcp' ),
+					_n( '%d recent event needs human attention.', '%d recent events need human attention.', (int) $data['event_inbox']['summary']['escalated'], 'site-pilot-ai' ),
 					(int) $data['event_inbox']['summary']['escalated']
 				),
 			);
@@ -798,8 +798,8 @@ class Spai_Admin {
 		if ( empty( $recommendations ) ) {
 			$recommendations[] = array(
 				'priority' => 'low',
-				'title'    => __( 'Run the next supervised workflow', 'mumega-mcp' ),
-				'detail'   => __( 'No urgent approval or stored SEO issue is visible. Run a stored SEO audit or create an approval-required draft change to populate the control room.', 'mumega-mcp' ),
+				'title'    => __( 'Run the next supervised workflow', 'site-pilot-ai' ),
+				'detail'   => __( 'No urgent approval or stored SEO issue is visible. Run a stored SEO audit or create an approval-required draft change to populate the control room.', 'site-pilot-ai' ),
 			);
 		}
 
@@ -1021,7 +1021,7 @@ class Spai_Admin {
 	 */
 	public function render_library_page() {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'mumega-mcp' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'site-pilot-ai' ) );
 		}
 
 		// Handle library form actions.
@@ -1098,7 +1098,7 @@ class Spai_Admin {
 	 */
 	public function render_settings_page() {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'mumega-mcp' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'site-pilot-ai' ) );
 		}
 
 		if ( isset( $_POST['spai_save_site_profile'] ) ) {
@@ -1206,12 +1206,12 @@ class Spai_Admin {
 				}
 			}
 		} else {
-			$warning = __( 'The update manifest could not be reached from this site. Manual download is still available below.', 'mumega-mcp' );
+			$warning = __( 'The update manifest could not be reached from this site. Manual download is still available below.', 'site-pilot-ai' );
 		}
 
 		if ( $option_version && $remote_version && version_compare( $option_version, $remote_version, '!=' ) ) {
 			$source  = 'mixed';
-			$warning = __( 'A site-level update override is present and does not match the remote manifest. Clear stale override data if updates look wrong.', 'mumega-mcp' );
+			$warning = __( 'A site-level update override is present and does not match the remote manifest. Clear stale override data if updates look wrong.', 'site-pilot-ai' );
 		} elseif ( $option_version ) {
 			$source = 'option';
 		}
@@ -1226,9 +1226,9 @@ class Spai_Admin {
 			'update_available' => ( $remote_version && version_compare( $remote_version, $current_version, '>' ) ),
 			'warning'          => $warning,
 			'manual_steps'     => array(
-				__( 'Download the latest ZIP from the canonical package URL.', 'mumega-mcp' ),
-				__( 'In WordPress admin, go to Plugins -> Add Plugin -> Upload Plugin.', 'mumega-mcp' ),
-				__( 'Upload the ZIP and replace the installed version.', 'mumega-mcp' ),
+				__( 'Download the latest ZIP from the canonical package URL.', 'site-pilot-ai' ),
+				__( 'In WordPress admin, go to Plugins -> Add Plugin -> Upload Plugin.', 'site-pilot-ai' ),
+				__( 'Upload the ZIP and replace the installed version.', 'site-pilot-ai' ),
 			),
 		);
 	}
@@ -1249,39 +1249,39 @@ class Spai_Admin {
 
 		$steps = array(
 			array(
-				'title'       => __( 'Define site character', 'mumega-mcp' ),
-				'description' => __( 'Save the brand voice, audience, and page rules in Settings.', 'mumega-mcp' ),
+				'title'       => __( 'Define site character', 'site-pilot-ai' ),
+				'description' => __( 'Save the brand voice, audience, and page rules in Settings.', 'site-pilot-ai' ),
 				'done'        => $has_site_profile,
 				'url'         => admin_url( 'admin.php?page=' . self::SETTINGS_PAGE_SLUG ),
-				'cta'         => __( 'Open Settings', 'mumega-mcp' ),
+				'cta'         => __( 'Open Settings', 'site-pilot-ai' ),
 			),
 			array(
-				'title'       => __( 'Create an AI key', 'mumega-mcp' ),
-				'description' => __( 'Generate or copy an API key so models can connect to the site.', 'mumega-mcp' ),
+				'title'       => __( 'Create an AI key', 'site-pilot-ai' ),
+				'description' => __( 'Generate or copy an API key so models can connect to the site.', 'site-pilot-ai' ),
 				'done'        => $has_api_key,
 				'url'         => admin_url( 'admin.php?page=' . self::PAGE_SLUG ),
-				'cta'         => __( 'Manage Keys', 'mumega-mcp' ),
+				'cta'         => __( 'Manage Keys', 'site-pilot-ai' ),
 			),
 			array(
-				'title'       => __( 'Store a design reference', 'mumega-mcp' ),
-				'description' => __( 'Turn one approved screenshot or mockup into reusable design memory.', 'mumega-mcp' ),
+				'title'       => __( 'Store a design reference', 'site-pilot-ai' ),
+				'description' => __( 'Turn one approved screenshot or mockup into reusable design memory.', 'site-pilot-ai' ),
 				'done'        => $has_references,
 				'url'         => admin_url( 'admin.php?page=' . self::LIBRARY_PAGE_SLUG ),
-				'cta'         => __( 'Open Library', 'mumega-mcp' ),
+				'cta'         => __( 'Open Library', 'site-pilot-ai' ),
 			),
 			array(
-				'title'       => __( 'Create an archetype', 'mumega-mcp' ),
-				'description' => __( 'Save at least one page or product structure so models stop starting from zero.', 'mumega-mcp' ),
+				'title'       => __( 'Create an archetype', 'site-pilot-ai' ),
+				'description' => __( 'Save at least one page or product structure so models stop starting from zero.', 'site-pilot-ai' ),
 				'done'        => $has_archetypes,
 				'url'         => admin_url( 'admin.php?page=' . self::LIBRARY_PAGE_SLUG ),
-				'cta'         => __( 'Review Archetypes', 'mumega-mcp' ),
+				'cta'         => __( 'Review Archetypes', 'site-pilot-ai' ),
 			),
 			array(
-				'title'       => __( 'Build reusable parts', 'mumega-mcp' ),
-				'description' => __( 'Keep heroes, proof blocks, FAQs, and CTAs in the parts library for future pages.', 'mumega-mcp' ),
+				'title'       => __( 'Build reusable parts', 'site-pilot-ai' ),
+				'description' => __( 'Keep heroes, proof blocks, FAQs, and CTAs in the parts library for future pages.', 'site-pilot-ai' ),
 				'done'        => $has_parts,
 				'url'         => admin_url( 'admin.php?page=' . self::LIBRARY_PAGE_SLUG ),
-				'cta'         => __( 'Review Parts', 'mumega-mcp' ),
+				'cta'         => __( 'Review Parts', 'site-pilot-ai' ),
 			),
 		);
 
@@ -1318,7 +1318,7 @@ class Spai_Admin {
 			add_settings_error(
 				'spai_messages',
 				'spai_library_archetype_missing',
-				__( 'Elementor Pro handler is not available.', 'mumega-mcp' ),
+				__( 'Elementor Pro handler is not available.', 'site-pilot-ai' ),
 				'error'
 			);
 			return;
@@ -1335,7 +1335,7 @@ class Spai_Admin {
 			add_settings_error(
 				'spai_messages',
 				'spai_library_archetype_invalid_id',
-				__( 'Enter a valid Elementor template ID to promote as an archetype.', 'mumega-mcp' ),
+				__( 'Enter a valid Elementor template ID to promote as an archetype.', 'site-pilot-ai' ),
 				'error'
 			);
 			return;
@@ -1369,7 +1369,7 @@ class Spai_Admin {
 			'spai_library_archetype_saved',
 			sprintf(
 				/* translators: %s: template title */
-				__( 'Saved archetype: %s', 'mumega-mcp' ),
+				__( 'Saved archetype: %s', 'site-pilot-ai' ),
 				isset( $result['title'] ) ? $result['title'] : (string) $template_id
 			),
 			'updated'
@@ -1386,7 +1386,7 @@ class Spai_Admin {
 			add_settings_error(
 				'spai_messages',
 				'spai_library_part_missing',
-				__( 'Elementor Pro handler is not available.', 'mumega-mcp' ),
+				__( 'Elementor Pro handler is not available.', 'site-pilot-ai' ),
 				'error'
 			);
 			return;
@@ -1402,7 +1402,7 @@ class Spai_Admin {
 			add_settings_error(
 				'spai_messages',
 				'spai_library_part_invalid_id',
-				__( 'Enter a valid Elementor template ID to promote as a reusable part.', 'mumega-mcp' ),
+				__( 'Enter a valid Elementor template ID to promote as a reusable part.', 'site-pilot-ai' ),
 				'error'
 			);
 			return;
@@ -1435,7 +1435,7 @@ class Spai_Admin {
 			'spai_library_part_saved',
 			sprintf(
 				/* translators: %s: template title */
-				__( 'Saved reusable part: %s', 'mumega-mcp' ),
+				__( 'Saved reusable part: %s', 'site-pilot-ai' ),
 				isset( $result['title'] ) ? $result['title'] : (string) $template_id
 			),
 			'updated'
@@ -1452,7 +1452,7 @@ class Spai_Admin {
 			add_settings_error(
 				'spai_messages',
 				'spai_library_extract_missing',
-				__( 'Elementor Pro handler is not available.', 'mumega-mcp' ),
+				__( 'Elementor Pro handler is not available.', 'site-pilot-ai' ),
 				'error'
 			);
 			return;
@@ -1469,7 +1469,7 @@ class Spai_Admin {
 			add_settings_error(
 				'spai_messages',
 				'spai_library_extract_invalid',
-				__( 'Enter a valid source page ID and Elementor element ID to extract a reusable part.', 'mumega-mcp' ),
+				__( 'Enter a valid source page ID and Elementor element ID to extract a reusable part.', 'site-pilot-ai' ),
 				'error'
 			);
 			return;
@@ -1502,7 +1502,7 @@ class Spai_Admin {
 			'spai_library_extract_saved',
 			sprintf(
 				/* translators: %s: part title */
-				__( 'Extracted reusable part: %s', 'mumega-mcp' ),
+				__( 'Extracted reusable part: %s', 'site-pilot-ai' ),
 				isset( $result['title'] ) ? $result['title'] : ''
 			),
 			'updated'
@@ -1587,7 +1587,7 @@ class Spai_Admin {
 			'spai_library_archetype_page_created',
 			sprintf(
 				/* translators: 1: page title 2: edit URL */
-				__( 'Created draft page: %1$s. <a href="%2$s">Open in Elementor</a>.', 'mumega-mcp' ),
+				__( 'Created draft page: %1$s. <a href="%2$s">Open in Elementor</a>.', 'site-pilot-ai' ),
 				esc_html( isset( $result['title'] ) ? $result['title'] : '' ),
 				esc_url( isset( $result['edit_url'] ) ? $result['edit_url'] : admin_url() )
 			),
@@ -1640,7 +1640,7 @@ class Spai_Admin {
 			'spai_library_part_applied',
 			sprintf(
 				/* translators: 1: page title 2: edit URL */
-				__( 'Updated page: %1$s. <a href="%2$s">Open page</a>.', 'mumega-mcp' ),
+				__( 'Updated page: %1$s. <a href="%2$s">Open page</a>.', 'site-pilot-ai' ),
 				esc_html( $page_title ? $page_title : '#' . $page_id ),
 				esc_url( $page_edit )
 			),
@@ -1684,7 +1684,7 @@ class Spai_Admin {
 		add_settings_error(
 			'spai_messages',
 			'spai_library_archetype_demoted',
-			__( 'Archetype metadata removed from the template.', 'mumega-mcp' ),
+			__( 'Archetype metadata removed from the template.', 'site-pilot-ai' ),
 			'updated'
 		);
 	}
@@ -1727,7 +1727,7 @@ class Spai_Admin {
 		add_settings_error(
 			'spai_messages',
 			'spai_library_part_demoted',
-			__( 'Reusable part metadata removed from the template.', 'mumega-mcp' ),
+			__( 'Reusable part metadata removed from the template.', 'site-pilot-ai' ),
 			'updated'
 		);
 	}
@@ -1778,8 +1778,8 @@ class Spai_Admin {
 			'spai_library_product_archetype_created',
 			sprintf(
 				/* translators: %s: archetype name */
-				__( 'Saved product archetype: %s', 'mumega-mcp' ),
-				isset( $data['name'] ) ? $data['name'] : __( 'Untitled archetype', 'mumega-mcp' )
+				__( 'Saved product archetype: %s', 'site-pilot-ai' ),
+				isset( $data['name'] ) ? $data['name'] : __( 'Untitled archetype', 'site-pilot-ai' )
 			),
 			'updated'
 		);
@@ -1829,8 +1829,8 @@ class Spai_Admin {
 			'spai_library_product_created',
 			sprintf(
 				/* translators: 1: product name 2: edit URL */
-				__( 'Created draft product: %1$s. <a href="%2$s">Open product</a>.', 'mumega-mcp' ),
-				esc_html( isset( $product['name'] ) ? $product['name'] : __( 'New Product', 'mumega-mcp' ) ),
+				__( 'Created draft product: %1$s. <a href="%2$s">Open product</a>.', 'site-pilot-ai' ),
+				esc_html( isset( $product['name'] ) ? $product['name'] : __( 'New Product', 'site-pilot-ai' ) ),
 				esc_url( $edit_url )
 			),
 			'updated'
@@ -1874,7 +1874,7 @@ class Spai_Admin {
 		add_settings_error(
 			'spai_messages',
 			'spai_library_product_archetype_deleted',
-			__( 'Product archetype removed from the library.', 'mumega-mcp' ),
+			__( 'Product archetype removed from the library.', 'site-pilot-ai' ),
 			'updated'
 		);
 	}
@@ -1943,8 +1943,8 @@ class Spai_Admin {
 			'spai_library_design_reference_created',
 			sprintf(
 				/* translators: %s: design reference title */
-				__( 'Saved design reference: %s', 'mumega-mcp' ),
-				isset( $result['title'] ) ? $result['title'] : __( 'Untitled reference', 'mumega-mcp' )
+				__( 'Saved design reference: %s', 'site-pilot-ai' ),
+				isset( $result['title'] ) ? $result['title'] : __( 'Untitled reference', 'site-pilot-ai' )
 			),
 			'updated'
 		);
@@ -1984,7 +1984,7 @@ class Spai_Admin {
 		add_settings_error(
 			'spai_messages',
 			'spai_site_profile_saved',
-			__( 'Structured site profile saved and site context regenerated.', 'mumega-mcp' ),
+			__( 'Structured site profile saved and site context regenerated.', 'site-pilot-ai' ),
 			'updated'
 		);
 	}
@@ -2215,7 +2215,7 @@ class Spai_Admin {
 			'spai_library_design_reference_page_created',
 			sprintf(
 				/* translators: 1: page title 2: edit URL 3: reusable part count */
-				__( 'Created draft page from design reference: %1$s. <a href="%2$s">Open page</a>. Saved %3$d reusable parts.', 'mumega-mcp' ),
+				__( 'Created draft page from design reference: %1$s. <a href="%2$s">Open page</a>. Saved %3$d reusable parts.', 'site-pilot-ai' ),
 				esc_html( get_the_title( $page_id ) ),
 				esc_url( $edit_url ),
 				count( $linked_part_ids )
@@ -2399,7 +2399,7 @@ class Spai_Admin {
 	 */
 	public function render_activity_log_page() {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'mumega-mcp' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'site-pilot-ai' ) );
 		}
 
 		$page = new Spai_Activity_Log_Page();
@@ -2993,7 +2993,7 @@ class Spai_Admin {
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
 			admin_url( 'admin.php?page=' . self::PAGE_SLUG ),
-			__( 'Settings', 'mumega-mcp' )
+			__( 'Settings', 'site-pilot-ai' )
 		);
 
 		array_unshift( $links, $settings_link );
@@ -3006,8 +3006,8 @@ class Spai_Admin {
 	 */
 	public function add_network_admin_menu() {
 		add_menu_page(
-			__( 'MCPWP — Network', 'mumega-mcp' ),
-			__( 'MCPWP', 'mumega-mcp' ),
+			__( 'MCPWP — Network', 'site-pilot-ai' ),
+			__( 'MCPWP', 'site-pilot-ai' ),
 			'manage_network_plugins',
 			'site-pilot-ai-network',
 			array( $this, 'render_network_admin_page' ),
@@ -3047,7 +3047,7 @@ class Spai_Admin {
 			'spai_network_setup_done',
 			sprintf(
 				/* translators: %d: number of sites */
-				__( 'MCPWP activated on %d site(s).', 'mumega-mcp' ),
+				__( 'MCPWP activated on %d site(s).', 'site-pilot-ai' ),
 				$count
 			),
 			'updated'
@@ -3059,7 +3059,7 @@ class Spai_Admin {
 	 */
 	public function render_network_admin_page() {
 		if ( ! current_user_can( 'manage_network_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'mumega-mcp' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'site-pilot-ai' ) );
 		}
 
 		$this->handle_network_setup_all();
@@ -3104,28 +3104,28 @@ class Spai_Admin {
 		settings_errors( 'spai_network_messages' );
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'MCPWP — Network Overview', 'mumega-mcp' ); ?></h1>
+			<h1><?php esc_html_e( 'MCPWP — Network Overview', 'site-pilot-ai' ); ?></h1>
 
 			<form method="post">
 				<?php wp_nonce_field( 'spai_network_setup_all', 'spai_network_nonce' ); ?>
 				<p>
 					<input type="submit" name="spai_network_setup_all" class="button button-primary"
-						value="<?php esc_attr_e( 'Setup All Sites', 'mumega-mcp' ); ?>"
-						onclick="return confirm('<?php echo esc_js( __( 'Run activation (tables, options, bot user) on every site in the network?', 'mumega-mcp' ) ); ?>');" />
-					<span class="description"><?php esc_html_e( 'Runs activation on every site to ensure tables, options, and the bot user are provisioned.', 'mumega-mcp' ); ?></span>
+						value="<?php esc_attr_e( 'Setup All Sites', 'site-pilot-ai' ); ?>"
+						onclick="return confirm('<?php echo esc_js( __( 'Run activation (tables, options, bot user) on every site in the network?', 'site-pilot-ai' ) ); ?>');" />
+					<span class="description"><?php esc_html_e( 'Runs activation on every site to ensure tables, options, and the bot user are provisioned.', 'site-pilot-ai' ); ?></span>
 				</p>
 			</form>
 
 			<table class="widefat striped" style="margin-top:20px;">
 				<thead>
 					<tr>
-						<th><?php esc_html_e( 'ID', 'mumega-mcp' ); ?></th>
-						<th><?php esc_html_e( 'Site', 'mumega-mcp' ); ?></th>
-						<th><?php esc_html_e( 'URL', 'mumega-mcp' ); ?></th>
-						<th><?php esc_html_e( 'Version', 'mumega-mcp' ); ?></th>
-						<th><?php esc_html_e( 'API Key', 'mumega-mcp' ); ?></th>
-						<th><?php esc_html_e( 'Active Keys', 'mumega-mcp' ); ?></th>
-						<th><?php esc_html_e( 'Tools', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'ID', 'site-pilot-ai' ); ?></th>
+						<th><?php esc_html_e( 'Site', 'site-pilot-ai' ); ?></th>
+						<th><?php esc_html_e( 'URL', 'site-pilot-ai' ); ?></th>
+						<th><?php esc_html_e( 'Version', 'site-pilot-ai' ); ?></th>
+						<th><?php esc_html_e( 'API Key', 'site-pilot-ai' ); ?></th>
+						<th><?php esc_html_e( 'Active Keys', 'site-pilot-ai' ); ?></th>
+						<th><?php esc_html_e( 'Tools', 'site-pilot-ai' ); ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -3138,7 +3138,7 @@ class Spai_Admin {
 							<?php if ( $s['version'] ) : ?>
 								<?php echo esc_html( $s['version'] ); ?>
 							<?php else : ?>
-								<span style="color:#b32d2e;"><?php esc_html_e( 'Not activated', 'mumega-mcp' ); ?></span>
+								<span style="color:#b32d2e;"><?php esc_html_e( 'Not activated', 'site-pilot-ai' ); ?></span>
 							<?php endif; ?>
 						</td>
 						<td>
@@ -3171,7 +3171,7 @@ class Spai_Admin {
 
 		// Elementor
 		$display['elementor'] = array(
-			'label'  => __( 'Elementor', 'mumega-mcp' ),
+			'label'  => __( 'Elementor', 'site-pilot-ai' ),
 			'active' => $capabilities['elementor'],
 			'pro'    => $capabilities['elementor_pro'],
 		);
@@ -3189,7 +3189,7 @@ class Spai_Admin {
 			$seo_name = 'SEOPress';
 		}
 		$display['seo'] = array(
-			'label'  => __( 'SEO Plugin', 'mumega-mcp' ),
+			'label'  => __( 'SEO Plugin', 'site-pilot-ai' ),
 			'active' => $seo_active,
 			'name'   => $seo_name,
 		);
@@ -3210,14 +3210,14 @@ class Spai_Admin {
 			$forms[] = 'Ninja Forms';
 		}
 		$display['forms'] = array(
-			'label'  => __( 'Form Plugins', 'mumega-mcp' ),
+			'label'  => __( 'Form Plugins', 'site-pilot-ai' ),
 			'active' => $forms_active,
 			'names'  => $forms,
 		);
 
 		// WooCommerce
 		$display['woocommerce'] = array(
-			'label'  => __( 'WooCommerce', 'mumega-mcp' ),
+			'label'  => __( 'WooCommerce', 'site-pilot-ai' ),
 			'active' => $capabilities['woocommerce'],
 		);
 
@@ -3231,12 +3231,12 @@ class Spai_Admin {
 	 */
 	private function get_woocommerce_archetype_controller() {
 		if ( ! class_exists( 'Spai_REST_WooCommerce' ) || ! class_exists( 'Spai_WooCommerce' ) ) {
-			return new WP_Error( 'missing_woocommerce_controller', __( 'WooCommerce archetype tools are not available.', 'mumega-mcp' ) );
+			return new WP_Error( 'missing_woocommerce_controller', __( 'WooCommerce archetype tools are not available.', 'site-pilot-ai' ) );
 		}
 
 		$handler = new Spai_WooCommerce();
 		if ( ! $handler->is_active() ) {
-			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active on this site.', 'mumega-mcp' ) );
+			return new WP_Error( 'wc_not_active', __( 'WooCommerce is not active on this site.', 'site-pilot-ai' ) );
 		}
 
 		return new Spai_REST_WooCommerce( $handler );

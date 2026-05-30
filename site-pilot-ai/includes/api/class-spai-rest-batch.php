@@ -44,7 +44,7 @@ class Spai_REST_Batch extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'operations' => array(
-							'description' => __( 'Array of operations to execute.', 'mumega-mcp' ),
+							'description' => __( 'Array of operations to execute.', 'site-pilot-ai' ),
 							'type'        => 'array',
 							'required'    => true,
 							'items'       => array(
@@ -88,7 +88,7 @@ class Spai_REST_Batch extends Spai_REST_API {
 		if ( ! is_array( $operations ) || empty( $operations ) ) {
 			return $this->error_response(
 				'invalid_operations',
-				__( 'Operations must be a non-empty array.', 'mumega-mcp' ),
+				__( 'Operations must be a non-empty array.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -99,7 +99,7 @@ class Spai_REST_Batch extends Spai_REST_API {
 				'batch_too_large',
 				sprintf(
 					/* translators: %d: maximum number of operations */
-					__( 'Batch contains too many operations. Maximum %d allowed.', 'mumega-mcp' ),
+					__( 'Batch contains too many operations. Maximum %d allowed.', 'site-pilot-ai' ),
 					self::MAX_OPERATIONS
 				),
 				400
@@ -141,7 +141,7 @@ class Spai_REST_Batch extends Spai_REST_API {
 				'status' => 400,
 				'data'   => array(
 					'code'    => 'invalid_operation',
-					'message' => __( 'Operation must be an object.', 'mumega-mcp' ),
+					'message' => __( 'Operation must be an object.', 'site-pilot-ai' ),
 				),
 			);
 		}
@@ -157,7 +157,7 @@ class Spai_REST_Batch extends Spai_REST_API {
 				'status' => 400,
 				'data'   => array(
 					'code'    => 'invalid_method',
-					'message' => __( 'Method must be GET, POST, PUT, or DELETE.', 'mumega-mcp' ),
+					'message' => __( 'Method must be GET, POST, PUT, or DELETE.', 'site-pilot-ai' ),
 				),
 			);
 		}
@@ -169,7 +169,7 @@ class Spai_REST_Batch extends Spai_REST_API {
 				'status' => 400,
 				'data'   => array(
 					'code'    => 'invalid_path',
-					'message' => __( 'Path must be a non-empty string.', 'mumega-mcp' ),
+					'message' => __( 'Path must be a non-empty string.', 'site-pilot-ai' ),
 				),
 			);
 		}

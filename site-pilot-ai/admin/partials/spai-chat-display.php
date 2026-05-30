@@ -17,9 +17,9 @@ $plugin_ver    = SPAI_VERSION;
 <div class="wrap">
 	<h1>
 		<span class="dashicons dashicons-format-chat"></span>
-		<?php esc_html_e( 'MCPWP Chat', 'mumega-mcp' ); ?>
+		<?php esc_html_e( 'MCPWP Chat', 'site-pilot-ai' ); ?>
 	</h1>
-	<p class="description"><?php esc_html_e( 'Talk to your site. Ask it to build pages, edit content, manage products — all through natural language.', 'mumega-mcp' ); ?></p>
+	<p class="description"><?php esc_html_e( 'Talk to your site. Ask it to build pages, edit content, manage products — all through natural language.', 'site-pilot-ai' ); ?></p>
 
 	<div id="spai-chat-container" style="max-width:800px; margin-top:20px;">
 		<div id="spai-chat-messages" style="
@@ -37,7 +37,7 @@ $plugin_ver    = SPAI_VERSION;
 						<?php
 						printf(
 							/* translators: %s: site name */
-							esc_html__( 'Hi! I can help you manage %s. Try: "Build a services page" or "List all pages" or "Add a testimonials section to the homepage."', 'mumega-mcp' ),
+							esc_html__( 'Hi! I can help you manage %s. Try: "Build a services page" or "List all pages" or "Add a testimonials section to the homepage."', 'site-pilot-ai' ),
 							esc_html( $site_name )
 						);
 					?>
@@ -46,7 +46,7 @@ $plugin_ver    = SPAI_VERSION;
 		</div>
 
 		<div style="display:flex; gap:8px;">
-			<input type="text" id="spai-chat-input" placeholder="<?php esc_attr_e( 'Type a message...', 'mumega-mcp' ); ?>" style="
+			<input type="text" id="spai-chat-input" placeholder="<?php esc_attr_e( 'Type a message...', 'site-pilot-ai' ); ?>" style="
 				flex: 1;
 				padding: 10px 14px;
 				font-size: 14px;
@@ -54,12 +54,12 @@ $plugin_ver    = SPAI_VERSION;
 				border-radius: 6px;
 			" />
 			<button type="button" id="spai-chat-send" class="button button-primary" style="padding: 10px 20px;">
-				<?php esc_html_e( 'Send', 'mumega-mcp' ); ?>
+				<?php esc_html_e( 'Send', 'site-pilot-ai' ); ?>
 			</button>
 		</div>
 
 		<p class="description" style="margin-top:8px;">
-			<?php esc_html_e( 'Powered by Workers AI. Your data stays on Cloudflare edge + your WordPress site.', 'mumega-mcp' ); ?>
+			<?php esc_html_e( 'Powered by Workers AI. Your data stays on Cloudflare edge + your WordPress site.', 'site-pilot-ai' ); ?>
 		</p>
 	</div>
 </div>

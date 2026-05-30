@@ -92,23 +92,23 @@ class Spai_REST_Site extends Spai_REST_API {
 						$this->get_pagination_args(),
 						array(
 							'query' => array(
-								'description' => __( 'Optional text query.', 'mumega-mcp' ),
+								'description' => __( 'Optional text query.', 'site-pilot-ai' ),
 								'type'        => 'string',
 							),
 							'page_intent' => array(
-								'description' => __( 'Optional page intent filter.', 'mumega-mcp' ),
+								'description' => __( 'Optional page intent filter.', 'site-pilot-ai' ),
 								'type'        => 'string',
 							),
 							'archetype_class' => array(
-								'description' => __( 'Optional archetype class filter.', 'mumega-mcp' ),
+								'description' => __( 'Optional archetype class filter.', 'site-pilot-ai' ),
 								'type'        => 'string',
 							),
 							'style' => array(
-								'description' => __( 'Optional style filter.', 'mumega-mcp' ),
+								'description' => __( 'Optional style filter.', 'site-pilot-ai' ),
 								'type'        => 'string',
 							),
 							'source_type' => array(
-								'description' => __( 'Optional source type filter.', 'mumega-mcp' ),
+								'description' => __( 'Optional source type filter.', 'site-pilot-ai' ),
 								'type'        => 'string',
 							),
 						)
@@ -227,7 +227,7 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'days' => array(
-							'description' => __( 'Number of days.', 'mumega-mcp' ),
+							'description' => __( 'Number of days.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 							'default'     => 30,
 							'minimum'     => 1,
@@ -262,32 +262,32 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'query'    => array(
-							'description' => __( 'Search query string.', 'mumega-mcp' ),
+							'description' => __( 'Search query string.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'q'        => array(
-							'description' => __( 'Alias for query string.', 'mumega-mcp' ),
+							'description' => __( 'Alias for query string.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'type'     => array(
-							'description' => __( 'Content type filter (post, page, or any).', 'mumega-mcp' ),
+							'description' => __( 'Content type filter (post, page, or any).', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'default'     => 'any',
 						),
 						'status'   => array(
-							'description' => __( 'Post status filter.', 'mumega-mcp' ),
+							'description' => __( 'Post status filter.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'default'     => 'publish',
 						),
 						'per_page' => array(
-							'description' => __( 'Results per page.', 'mumega-mcp' ),
+							'description' => __( 'Results per page.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 							'default'     => 10,
 							'minimum'     => 1,
 							'maximum'     => 50,
 						),
 						'page'     => array(
-							'description' => __( 'Current page.', 'mumega-mcp' ),
+							'description' => __( 'Current page.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 							'default'     => 1,
 							'minimum'     => 1,
@@ -308,20 +308,20 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'id'              => array(
-							'description' => __( 'Post or page ID.', 'mumega-mcp' ),
+							'description' => __( 'Post or page ID.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 						),
 						'url'             => array(
-							'description' => __( 'Canonical post/page URL.', 'mumega-mcp' ),
+							'description' => __( 'Canonical post/page URL.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'type'            => array(
-							'description' => __( 'Expected content type (post, page, or any).', 'mumega-mcp' ),
+							'description' => __( 'Expected content type (post, page, or any).', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'default'     => 'any',
 						),
 						'include_content' => array(
-							'description' => __( 'Include full content body in response.', 'mumega-mcp' ),
+							'description' => __( 'Include full content body in response.', 'site-pilot-ai' ),
 							'type'        => 'boolean',
 							'default'     => true,
 						),
@@ -341,7 +341,7 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'topic' => array(
-							'description' => __( 'Guide topic slug. Omit to list all available topics.', 'mumega-mcp' ),
+							'description' => __( 'Guide topic slug. Omit to list all available topics.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 					),
@@ -360,7 +360,7 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'topic' => array(
-							'description' => __( 'Guide topic slug.', 'mumega-mcp' ),
+							'description' => __( 'Guide topic slug.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
@@ -380,7 +380,7 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'name' => array(
-							'description' => __( 'Workflow name.', 'mumega-mcp' ),
+							'description' => __( 'Workflow name.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
@@ -400,7 +400,7 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'name' => array(
-							'description'       => __( 'Optional playbook name.', 'mumega-mcp' ),
+							'description'       => __( 'Optional playbook name.', 'site-pilot-ai' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_key',
 						),
@@ -433,18 +433,18 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'per_page' => array(
-							'description' => __( 'Results per page.', 'mumega-mcp' ),
+							'description' => __( 'Results per page.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 							'default'     => 100,
 							'minimum'     => 1,
 							'maximum'     => 200,
 						),
 						'search'   => array(
-							'description' => __( 'Search term.', 'mumega-mcp' ),
+							'description' => __( 'Search term.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'parent'   => array(
-							'description' => __( 'Parent category ID.', 'mumega-mcp' ),
+							'description' => __( 'Parent category ID.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 						),
 					),
@@ -463,14 +463,14 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'per_page' => array(
-							'description' => __( 'Results per page.', 'mumega-mcp' ),
+							'description' => __( 'Results per page.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 							'default'     => 100,
 							'minimum'     => 1,
 							'maximum'     => 200,
 						),
 						'search'   => array(
-							'description' => __( 'Search term.', 'mumega-mcp' ),
+							'description' => __( 'Search term.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 					),
@@ -489,22 +489,22 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => '__return_true',
 					'args'                => array(
 						'grant_type'    => array(
-							'description' => __( 'OAuth grant type.', 'mumega-mcp' ),
+							'description' => __( 'OAuth grant type.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'default'     => 'client_credentials',
 						),
 						'client_id'     => array(
-							'description' => __( 'OAuth client ID.', 'mumega-mcp' ),
+							'description' => __( 'OAuth client ID.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'client_secret' => array(
-							'description' => __( 'OAuth client secret.', 'mumega-mcp' ),
+							'description' => __( 'OAuth client secret.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'scope'         => array(
-							'description' => __( 'Space-separated scopes (read write admin).', 'mumega-mcp' ),
+							'description' => __( 'Space-separated scopes (read write admin).', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 					),
@@ -528,26 +528,26 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'enabled'             => array(
-							'description' => __( 'Enable or disable rate limiting.', 'mumega-mcp' ),
+							'description' => __( 'Enable or disable rate limiting.', 'site-pilot-ai' ),
 							'type'        => 'boolean',
 						),
 						'requests_per_minute' => array(
-							'description' => __( 'Requests allowed per minute.', 'mumega-mcp' ),
+							'description' => __( 'Requests allowed per minute.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 							'minimum'     => 1,
 						),
 						'requests_per_hour'   => array(
-							'description' => __( 'Requests allowed per hour.', 'mumega-mcp' ),
+							'description' => __( 'Requests allowed per hour.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 							'minimum'     => 1,
 						),
 						'burst_limit'         => array(
-							'description' => __( 'Requests allowed in short burst window.', 'mumega-mcp' ),
+							'description' => __( 'Requests allowed in short burst window.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 							'minimum'     => 1,
 						),
 						'whitelist'           => array(
-							'description' => __( 'Identifiers to bypass rate limiting.', 'mumega-mcp' ),
+							'description' => __( 'Identifiers to bypass rate limiting.', 'site-pilot-ai' ),
 							'type'        => 'array',
 							'items'       => array(
 								'type' => 'string',
@@ -568,7 +568,7 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'identifier' => array(
-							'description' => __( 'Rate-limit identifier to reset (for example: key:<id> or IP).', 'mumega-mcp' ),
+							'description' => __( 'Rate-limit identifier to reset (for example: key:<id> or IP).', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
@@ -588,7 +588,7 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'include_revoked' => array(
-							'description' => __( 'Include revoked keys.', 'mumega-mcp' ),
+							'description' => __( 'Include revoked keys.', 'site-pilot-ai' ),
 							'type'        => 'boolean',
 							'default'     => false,
 						),
@@ -600,11 +600,11 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'label'  => array(
-							'description' => __( 'Key label.', 'mumega-mcp' ),
+							'description' => __( 'Key label.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'scopes' => array(
-							'description' => __( 'Scopes for key (read, write, admin).', 'mumega-mcp' ),
+							'description' => __( 'Scopes for key (read, write, admin).', 'site-pilot-ai' ),
 							'type'        => 'array',
 							'items'       => array(
 								'type' => 'string',
@@ -662,12 +662,12 @@ class Spai_REST_Site extends Spai_REST_API {
 						'permission_callback' => array( $this, 'check_permission' ),
 						'args'                => array(
 							'css'  => array(
-								'description' => __( 'CSS code to set or append.', 'mumega-mcp' ),
+								'description' => __( 'CSS code to set or append.', 'site-pilot-ai' ),
 								'type'        => 'string',
 								'required'    => true,
 							),
 							'mode' => array(
-								'description' => __( 'How to apply: "replace" overwrites all CSS, "append" adds to existing.', 'mumega-mcp' ),
+								'description' => __( 'How to apply: "replace" overwrites all CSS, "append" adds to existing.', 'site-pilot-ai' ),
 								'type'        => 'string',
 								'default'     => 'append',
 								'enum'        => array( 'replace', 'append' ),
@@ -707,12 +707,12 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'id'  => array(
-							'description' => __( 'Post or page ID.', 'mumega-mcp' ),
+							'description' => __( 'Post or page ID.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 							'required'    => true,
 						),
 						'key' => array(
-							'description' => __( 'Specific meta key to retrieve.', 'mumega-mcp' ),
+							'description' => __( 'Specific meta key to retrieve.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 					),
@@ -723,17 +723,17 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'id'    => array(
-							'description' => __( 'Post or page ID.', 'mumega-mcp' ),
+							'description' => __( 'Post or page ID.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 							'required'    => true,
 						),
 						'key'   => array(
-							'description' => __( 'Meta key to set.', 'mumega-mcp' ),
+							'description' => __( 'Meta key to set.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'value' => array(
-							'description' => __( 'Meta value to set.', 'mumega-mcp' ),
+							'description' => __( 'Meta value to set.', 'site-pilot-ai' ),
 							'required'    => true,
 						),
 					),
@@ -752,15 +752,15 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'scope' => array(
-							'description' => __( 'Optional context scope such as page or product.', 'mumega-mcp' ),
+							'description' => __( 'Optional context scope such as page or product.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'archetype_class' => array(
-							'description' => __( 'Optional archetype class for inherited context lookup.', 'mumega-mcp' ),
+							'description' => __( 'Optional archetype class for inherited context lookup.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'style' => array(
-							'description' => __( 'Optional archetype style for inherited context lookup.', 'mumega-mcp' ),
+							'description' => __( 'Optional archetype style for inherited context lookup.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 					),
@@ -771,7 +771,7 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'context' => array(
-							'description' => __( 'Site context markdown text (AI brief, style guide, rules).', 'mumega-mcp' ),
+							'description' => __( 'Site context markdown text (AI brief, style guide, rules).', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
@@ -791,7 +791,7 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'graph_limit' => array(
-							'description'       => __( 'Maximum content records to inspect for graph health.', 'mumega-mcp' ),
+							'description'       => __( 'Maximum content records to inspect for graph health.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 100,
 							'minimum'           => 1,
@@ -799,7 +799,7 @@ class Spai_REST_Site extends Spai_REST_API {
 							'sanitize_callback' => 'absint',
 						),
 						'event_limit' => array(
-							'description'       => __( 'Maximum recent events to include.', 'mumega-mcp' ),
+							'description'       => __( 'Maximum recent events to include.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 20,
 							'minimum'           => 1,
@@ -807,13 +807,13 @@ class Spai_REST_Site extends Spai_REST_API {
 							'sanitize_callback' => 'absint',
 						),
 						'include_drafts' => array(
-							'description'       => __( 'Include draft/private content in graph health.', 'mumega-mcp' ),
+							'description'       => __( 'Include draft/private content in graph health.', 'site-pilot-ai' ),
 							'type'              => 'boolean',
 							'default'           => false,
 							'sanitize_callback' => 'rest_sanitize_boolean',
 						),
 						'include_plugins' => array(
-							'description'       => __( 'Include active plugin file names in capability output.', 'mumega-mcp' ),
+							'description'       => __( 'Include active plugin file names in capability output.', 'site-pilot-ai' ),
 							'type'              => 'boolean',
 							'default'           => false,
 							'sanitize_callback' => 'rest_sanitize_boolean',
@@ -874,25 +874,25 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'taxonomy'    => array(
-							'description' => __( 'Taxonomy name.', 'mumega-mcp' ),
+							'description' => __( 'Taxonomy name.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'name'        => array(
-							'description' => __( 'Term name.', 'mumega-mcp' ),
+							'description' => __( 'Term name.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'slug'        => array(
-							'description' => __( 'Term slug.', 'mumega-mcp' ),
+							'description' => __( 'Term slug.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'description' => array(
-							'description' => __( 'Term description.', 'mumega-mcp' ),
+							'description' => __( 'Term description.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'parent'      => array(
-							'description' => __( 'Parent term ID.', 'mumega-mcp' ),
+							'description' => __( 'Parent term ID.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 						),
 					),
@@ -910,20 +910,20 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'taxonomy'    => array(
-							'description' => __( 'Taxonomy name.', 'mumega-mcp' ),
+							'description' => __( 'Taxonomy name.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'name'        => array(
-							'description' => __( 'New term name.', 'mumega-mcp' ),
+							'description' => __( 'New term name.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'slug'        => array(
-							'description' => __( 'New term slug.', 'mumega-mcp' ),
+							'description' => __( 'New term slug.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'description' => array(
-							'description' => __( 'New term description.', 'mumega-mcp' ),
+							'description' => __( 'New term description.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 					),
@@ -934,7 +934,7 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'taxonomy' => array(
-							'description' => __( 'Taxonomy name.', 'mumega-mcp' ),
+							'description' => __( 'Taxonomy name.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
@@ -954,19 +954,19 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'id'        => array(
-							'description' => __( 'Post or page ID to fetch rendered HTML for.', 'mumega-mcp' ),
+							'description' => __( 'Post or page ID to fetch rendered HTML for.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 						),
 						'url'       => array(
-							'description' => __( 'URL to fetch (same-host only for SSRF safety).', 'mumega-mcp' ),
+							'description' => __( 'URL to fetch (same-host only for SSRF safety).', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'selector'  => array(
-							'description' => __( 'CSS selector to extract (tag, .class, or #id).', 'mumega-mcp' ),
+							'description' => __( 'CSS selector to extract (tag, .class, or #id).', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'max_bytes' => array(
-							'description' => __( 'Maximum response size in bytes (default 51200, max 204800).', 'mumega-mcp' ),
+							'description' => __( 'Maximum response size in bytes (default 51200, max 204800).', 'site-pilot-ai' ),
 							'type'        => 'integer',
 							'default'     => 51200,
 						),
@@ -986,7 +986,7 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'key' => array(
-							'description' => __( 'Option key to retrieve.', 'mumega-mcp' ),
+							'description' => __( 'Option key to retrieve.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
@@ -998,12 +998,12 @@ class Spai_REST_Site extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'key'   => array(
-							'description' => __( 'Option key to update.', 'mumega-mcp' ),
+							'description' => __( 'Option key to update.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'value' => array(
-							'description' => __( 'Option value to set.', 'mumega-mcp' ),
+							'description' => __( 'Option value to set.', 'site-pilot-ai' ),
 							'required'    => true,
 						),
 					),
@@ -1023,14 +1023,14 @@ class Spai_REST_Site extends Spai_REST_API {
 						'permission_callback' => array( $this, 'check_permission' ),
 						'args'                => array(
 							'per_page' => array(
-								'description' => __( 'Results per page.', 'mumega-mcp' ),
+								'description' => __( 'Results per page.', 'site-pilot-ai' ),
 								'type'        => 'integer',
 								'default'     => 50,
 								'minimum'     => 1,
 								'maximum'     => 200,
 							),
 							'search'   => array(
-								'description' => __( 'Search term.', 'mumega-mcp' ),
+								'description' => __( 'Search term.', 'site-pilot-ai' ),
 								'type'        => 'string',
 							),
 						),
@@ -1048,7 +1048,7 @@ class Spai_REST_Site extends Spai_REST_API {
 						'permission_callback' => array( $this, 'check_permission' ),
 						'args'                => array(
 							'blog_id' => array(
-								'description' => __( 'Blog ID to switch to.', 'mumega-mcp' ),
+								'description' => __( 'Blog ID to switch to.', 'site-pilot-ai' ),
 								'type'        => 'integer',
 								'required'    => true,
 							),
@@ -1679,7 +1679,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! class_exists( 'WP_Query' ) ) {
 			return $this->error_response(
 				'search_unavailable',
-				__( 'Search is not available in this environment.', 'mumega-mcp' ),
+				__( 'Search is not available in this environment.', 'site-pilot-ai' ),
 				500
 			);
 		}
@@ -1693,7 +1693,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( '' === $query ) {
 			return $this->error_response(
 				'missing_query',
-				__( 'Search query is required.', 'mumega-mcp' ),
+				__( 'Search query is required.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -1763,7 +1763,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( 0 === $id && '' === $url ) {
 			return $this->error_response(
 				'missing_identifier',
-				__( 'Provide either id or url to fetch content.', 'mumega-mcp' ),
+				__( 'Provide either id or url to fetch content.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -1786,7 +1786,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! $post instanceof WP_Post ) {
 			return $this->error_response(
 				'not_found',
-				__( 'Content not found.', 'mumega-mcp' ),
+				__( 'Content not found.', 'site-pilot-ai' ),
 				404
 			);
 		}
@@ -1794,7 +1794,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( 'any' !== $type && $type !== $post->post_type ) {
 			return $this->error_response(
 				'not_found',
-				__( 'Content not found for the requested type.', 'mumega-mcp' ),
+				__( 'Content not found for the requested type.', 'site-pilot-ai' ),
 				404
 			);
 		}
@@ -1825,7 +1825,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( empty( $oauth_settings['oauth_enabled'] ) ) {
 			return $this->error_response(
 				'oauth_disabled',
-				__( 'OAuth token endpoint is disabled.', 'mumega-mcp' ),
+				__( 'OAuth token endpoint is disabled.', 'site-pilot-ai' ),
 				503
 			);
 		}
@@ -1834,7 +1834,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( 'client_credentials' !== $grant_type ) {
 			return $this->error_response(
 				'unsupported_grant_type',
-				__( 'Only client_credentials grant type is supported.', 'mumega-mcp' ),
+				__( 'Only client_credentials grant type is supported.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -1845,7 +1845,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! $this->verify_oauth_client_credentials( $client_id, $client_secret ) ) {
 			return $this->error_response(
 				'invalid_client',
-				__( 'Invalid OAuth client credentials.', 'mumega-mcp' ),
+				__( 'Invalid OAuth client credentials.', 'site-pilot-ai' ),
 				401
 			);
 		}
@@ -1903,7 +1903,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( empty( $params ) ) {
 			return $this->error_response(
 				'missing_settings',
-				__( 'Settings data is required.', 'mumega-mcp' ),
+				__( 'Settings data is required.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -1945,7 +1945,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( empty( $updated ) ) {
 			return $this->error_response(
 				'no_valid_settings',
-				__( 'No valid settings provided to update.', 'mumega-mcp' ),
+				__( 'No valid settings provided to update.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -2003,7 +2003,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( empty( $params ) ) {
 			return $this->error_response(
 				'missing_settings',
-				__( 'Settings data is required.', 'mumega-mcp' ),
+				__( 'Settings data is required.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -2134,7 +2134,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( empty( $params ) ) {
 			return $this->error_response(
 				'missing_options',
-				__( 'Options data is required.', 'mumega-mcp' ),
+				__( 'Options data is required.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -2196,7 +2196,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( empty( $updated ) ) {
 			return $this->error_response(
 				'no_valid_options',
-				__( 'No valid options provided to update.', 'mumega-mcp' ),
+				__( 'No valid options provided to update.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -2273,7 +2273,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			if ( ! $attachment || 'attachment' !== $attachment->post_type ) {
 				return $this->error_response(
 					'invalid_attachment',
-					__( 'Invalid media ID.', 'mumega-mcp' ),
+					__( 'Invalid media ID.', 'site-pilot-ai' ),
 					400
 				);
 			}
@@ -2282,7 +2282,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			if ( ! wp_attachment_is_image( $attachment_id ) ) {
 				return $this->error_response(
 					'not_image',
-					__( 'Attachment must be an image.', 'mumega-mcp' ),
+					__( 'Attachment must be an image.', 'site-pilot-ai' ),
 					400
 				);
 			}
@@ -2335,7 +2335,7 @@ class Spai_REST_Site extends Spai_REST_API {
 				'tmp_name' => $tmp,
 			);
 
-			$attachment_id = media_handle_sideload( $file_array, 0, __( 'Site Icon', 'mumega-mcp' ) );
+			$attachment_id = media_handle_sideload( $file_array, 0, __( 'Site Icon', 'site-pilot-ai' ) );
 
 			if ( is_wp_error( $attachment_id ) ) {
 				wp_delete_file( $tmp );
@@ -2360,7 +2360,7 @@ class Spai_REST_Site extends Spai_REST_API {
 
 		return $this->error_response(
 			'missing_param',
-			__( 'Provide either "id" (media ID) or "url" (image URL).', 'mumega-mcp' ),
+			__( 'Provide either "id" (media ID) or "url" (image URL).', 'site-pilot-ai' ),
 			400
 		);
 	}
@@ -2380,7 +2380,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			return $this->success_response(
 				array(
 					'deleted' => false,
-					'message' => __( 'No favicon was set.', 'mumega-mcp' ),
+					'message' => __( 'No favicon was set.', 'site-pilot-ai' ),
 				)
 			);
 		}
@@ -2408,7 +2408,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			return $this->success_response(
 				array(
 					'enabled' => false,
-					'message' => __( 'Rate limiting is not available.', 'mumega-mcp' ),
+					'message' => __( 'Rate limiting is not available.', 'site-pilot-ai' ),
 				)
 			);
 		}
@@ -2442,7 +2442,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! $this->can_manage_api_keys() ) {
 			return $this->error_response(
 				'forbidden',
-				__( 'You do not have permission to manage rate limiting.', 'mumega-mcp' ),
+				__( 'You do not have permission to manage rate limiting.', 'site-pilot-ai' ),
 				403
 			);
 		}
@@ -2450,7 +2450,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! class_exists( 'Spai_Rate_Limiter' ) ) {
 			return $this->error_response(
 				'rate_limiter_unavailable',
-				__( 'Rate limiting is not available.', 'mumega-mcp' ),
+				__( 'Rate limiting is not available.', 'site-pilot-ai' ),
 				500
 			);
 		}
@@ -2471,7 +2471,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( empty( $settings ) ) {
 			return $this->error_response(
 				'missing_settings',
-				__( 'No rate-limit settings provided.', 'mumega-mcp' ),
+				__( 'No rate-limit settings provided.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -2482,7 +2482,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! $updated ) {
 			return $this->error_response(
 				'update_failed',
-				__( 'Failed to update rate-limit settings.', 'mumega-mcp' ),
+				__( 'Failed to update rate-limit settings.', 'site-pilot-ai' ),
 				500
 			);
 		}
@@ -2507,7 +2507,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! $this->can_manage_api_keys() ) {
 			return $this->error_response(
 				'forbidden',
-				__( 'You do not have permission to reset rate limits.', 'mumega-mcp' ),
+				__( 'You do not have permission to reset rate limits.', 'site-pilot-ai' ),
 				403
 			);
 		}
@@ -2515,7 +2515,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! class_exists( 'Spai_Rate_Limiter' ) ) {
 			return $this->error_response(
 				'rate_limiter_unavailable',
-				__( 'Rate limiting is not available.', 'mumega-mcp' ),
+				__( 'Rate limiting is not available.', 'site-pilot-ai' ),
 				500
 			);
 		}
@@ -2524,7 +2524,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( '' === $identifier ) {
 			return $this->error_response(
 				'missing_identifier',
-				__( 'Identifier is required.', 'mumega-mcp' ),
+				__( 'Identifier is required.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -2551,7 +2551,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! $this->can_manage_api_keys() ) {
 			return $this->error_response(
 				'forbidden',
-				__( 'You do not have permission to manage API keys.', 'mumega-mcp' ),
+				__( 'You do not have permission to manage API keys.', 'site-pilot-ai' ),
 				403
 			);
 		}
@@ -2579,7 +2579,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! $this->can_manage_api_keys() ) {
 			return $this->error_response(
 				'forbidden',
-				__( 'You do not have permission to manage API keys.', 'mumega-mcp' ),
+				__( 'You do not have permission to manage API keys.', 'site-pilot-ai' ),
 				403
 			);
 		}
@@ -2617,7 +2617,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! $this->can_manage_api_keys() ) {
 			return $this->error_response(
 				'forbidden',
-				__( 'You do not have permission to manage API keys.', 'mumega-mcp' ),
+				__( 'You do not have permission to manage API keys.', 'site-pilot-ai' ),
 				403
 			);
 		}
@@ -2628,7 +2628,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! $revoked ) {
 			return $this->error_response(
 				'not_found',
-				__( 'API key not found or already revoked.', 'mumega-mcp' ),
+				__( 'API key not found or already revoked.', 'site-pilot-ai' ),
 				404
 			);
 		}
@@ -2761,7 +2761,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! $this->can_manage_api_keys() ) {
 			return $this->error_response(
 				'forbidden',
-				__( 'You do not have permission to update the plugin.', 'mumega-mcp' ),
+				__( 'You do not have permission to update the plugin.', 'site-pilot-ai' ),
 				403
 			);
 		}
@@ -2808,7 +2808,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			}
 
 			if ( true !== $result ) {
-				return $this->error_response( 'update_failed', __( 'Plugin update failed.', 'mumega-mcp' ), 500 );
+				return $this->error_response( 'update_failed', __( 'Plugin update failed.', 'site-pilot-ai' ), 500 );
 			}
 
 			if ( ! is_plugin_active( $plugin_file ) ) {
@@ -2821,7 +2821,7 @@ class Spai_REST_Site extends Spai_REST_API {
 				array(
 					'updated'     => true,
 					'source'      => 'package_url',
-					'message'     => __( 'Plugin updated from provided URL.', 'mumega-mcp' ),
+					'message'     => __( 'Plugin updated from provided URL.', 'site-pilot-ai' ),
 				)
 			);
 		}
@@ -2840,7 +2840,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			return $this->success_response(
 				array(
 					'updated' => false,
-					'message' => __( 'No update available.', 'mumega-mcp' ),
+					'message' => __( 'No update available.', 'site-pilot-ai' ),
 					'version' => defined( 'SPAI_VERSION' ) ? SPAI_VERSION : null,
 				)
 			);
@@ -2850,7 +2850,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( empty( $plugin_update->package ) ) {
 			return $this->error_response(
 				'no_package',
-				__( 'Update package URL is not available.', 'mumega-mcp' ),
+				__( 'Update package URL is not available.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -2869,7 +2869,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( true !== $result ) {
 			return $this->error_response(
 				'update_failed',
-				__( 'Plugin update failed.', 'mumega-mcp' ),
+				__( 'Plugin update failed.', 'site-pilot-ai' ),
 				500
 			);
 		}
@@ -2885,7 +2885,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			array(
 				'updated'     => true,
 				'new_version' => is_object( $plugin_update ) ? $plugin_update->new_version : null,
-				'message'     => __( 'Plugin updated successfully.', 'mumega-mcp' ),
+				'message'     => __( 'Plugin updated successfully.', 'site-pilot-ai' ),
 			)
 		);
 	}
@@ -2982,7 +2982,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		$post    = get_post( $post_id );
 
 		if ( ! $post instanceof WP_Post ) {
-			return $this->error_response( 'not_found', __( 'Post not found.', 'mumega-mcp' ), 404 );
+			return $this->error_response( 'not_found', __( 'Post not found.', 'site-pilot-ai' ), 404 );
 		}
 
 		$key = $request->get_param( 'key' );
@@ -2991,7 +2991,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			$key = sanitize_key( $key );
 
 			if ( $this->is_blocked_meta_key( $key ) ) {
-				return $this->error_response( 'forbidden_meta_key', __( 'This meta key is not accessible via API.', 'mumega-mcp' ), 403 );
+				return $this->error_response( 'forbidden_meta_key', __( 'This meta key is not accessible via API.', 'site-pilot-ai' ), 403 );
 			}
 
 			$value = get_post_meta( $post_id, $key, true );
@@ -3036,14 +3036,14 @@ class Spai_REST_Site extends Spai_REST_API {
 		$post    = get_post( $post_id );
 
 		if ( ! $post instanceof WP_Post ) {
-			return $this->error_response( 'not_found', __( 'Post not found.', 'mumega-mcp' ), 404 );
+			return $this->error_response( 'not_found', __( 'Post not found.', 'site-pilot-ai' ), 404 );
 		}
 
 		$key   = sanitize_key( (string) $request->get_param( 'key' ) );
 		$value = $request->get_param( 'value' );
 
 		if ( '' === $key ) {
-			return $this->error_response( 'missing_key', __( 'Meta key is required.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'missing_key', __( 'Meta key is required.', 'site-pilot-ai' ), 400 );
 		}
 
 		if ( $this->is_blocked_meta_key( $key ) ) {
@@ -3051,25 +3051,25 @@ class Spai_REST_Site extends Spai_REST_API {
 			if ( '_elementor_data' === $key ) {
 				return $this->error_response(
 					'use_elementor_endpoint',
-					__( 'Use wp_set_elementor (POST /elementor/{id}) to set Elementor page data.', 'mumega-mcp' ),
+					__( 'Use wp_set_elementor (POST /elementor/{id}) to set Elementor page data.', 'site-pilot-ai' ),
 					400
 				);
 			}
 			if ( '_elementor_page_settings' === $key ) {
 				return $this->error_response(
 					'use_elementor_endpoint',
-					__( 'Use wp_set_elementor with the page_settings parameter to update Elementor page settings.', 'mumega-mcp' ),
+					__( 'Use wp_set_elementor with the page_settings parameter to update Elementor page settings.', 'site-pilot-ai' ),
 					400
 				);
 			}
 			if ( 0 === strpos( $key, '_elementor' ) ) {
 				return $this->error_response(
 					'use_elementor_endpoint',
-					__( 'Elementor meta keys cannot be set via wp_set_post_meta. Use the /elementor/{id} endpoints instead.', 'mumega-mcp' ),
+					__( 'Elementor meta keys cannot be set via wp_set_post_meta. Use the /elementor/{id} endpoints instead.', 'site-pilot-ai' ),
 					400
 				);
 			}
-			return $this->error_response( 'forbidden_meta_key', __( 'This meta key is not accessible via API.', 'mumega-mcp' ), 403 );
+			return $this->error_response( 'forbidden_meta_key', __( 'This meta key is not accessible via API.', 'site-pilot-ai' ), 403 );
 		}
 
 		// Sanitize value — decode JSON objects/arrays to PHP arrays so WordPress
@@ -3277,7 +3277,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			return $this->error_response(
 				'forbidden_option',
 				/* translators: %s: option key */
-				sprintf( __( 'Option "%s" is not accessible via API. Allowed: core WP options and prefixes: elementor_*, wpseo_*, rank_math_*, astra_*, theme_mods_*, widget_*, woocommerce_*, spai_*. Sensitive keys (passwords, tokens, secrets) are always blocked.', 'mumega-mcp' ), $key ),
+				sprintf( __( 'Option "%s" is not accessible via API. Allowed: core WP options and prefixes: elementor_*, wpseo_*, rank_math_*, astra_*, theme_mods_*, widget_*, woocommerce_*, spai_*. Sensitive keys (passwords, tokens, secrets) are always blocked.', 'site-pilot-ai' ), $key ),
 				403
 			);
 		}
@@ -3308,7 +3308,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			return $this->error_response(
 				'forbidden_option',
 				/* translators: %s: option key */
-				sprintf( __( 'Option "%s" is not accessible via API. Allowed: core WP options and prefixes: elementor_*, wpseo_*, rank_math_*, astra_*, theme_mods_*, widget_*, woocommerce_*, spai_*. Sensitive keys (passwords, tokens, secrets) are always blocked.', 'mumega-mcp' ), $key ),
+				sprintf( __( 'Option "%s" is not accessible via API. Allowed: core WP options and prefixes: elementor_*, wpseo_*, rank_math_*, astra_*, theme_mods_*, widget_*, woocommerce_*, spai_*. Sensitive keys (passwords, tokens, secrets) are always blocked.', 'site-pilot-ai' ), $key ),
 				403
 			);
 		}
@@ -3317,7 +3317,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( 'admin_email' === $key ) {
 			$value = sanitize_email( $value );
 			if ( ! is_email( $value ) ) {
-				return $this->error_response( 'invalid_email', __( 'Invalid email address.', 'mumega-mcp' ), 400 );
+				return $this->error_response( 'invalid_email', __( 'Invalid email address.', 'site-pilot-ai' ), 400 );
 			}
 		} elseif ( in_array( $key, array( 'posts_per_page', 'posts_per_rss', 'page_on_front', 'page_for_posts', 'default_category', 'thumbnail_size_w', 'thumbnail_size_h', 'medium_size_w', 'medium_size_h', 'large_size_w', 'large_size_h', 'site_icon' ), true ) ) {
 			$value = absint( $value );
@@ -3540,7 +3540,7 @@ class Spai_REST_Site extends Spai_REST_API {
 	 */
 	public function set_custom_css( $request ) {
 		if ( defined( 'SPAI_WPORG_BUILD' ) ) {
-			return $this->error_response( 'not_available', __( 'This endpoint is not available in this build.', 'mumega-mcp' ), 403 );
+			return $this->error_response( 'not_available', __( 'This endpoint is not available in this build.', 'site-pilot-ai' ), 403 );
 		}
 		$this->log_activity( 'set_custom_css', $request );
 
@@ -3582,13 +3582,13 @@ class Spai_REST_Site extends Spai_REST_API {
 			$response['thim_custom_css_synced'] = true;
 			$theme_warning = sprintf(
 				/* translators: %s: theme name */
-				__( "Theme '%s' uses its own CSS system (thim_custom_css). CSS has been dual-written to both WordPress Customizer and Eduma's custom CSS option.", 'mumega-mcp' ),
+				__( "Theme '%s' uses its own CSS system (thim_custom_css). CSS has been dual-written to both WordPress Customizer and Eduma's custom CSS option.", 'site-pilot-ai' ),
 				$theme_name
 			);
 		} elseif ( false !== stripos( $theme_name, 'flavor' ) ) {
 			$theme_warning = sprintf(
 				/* translators: %s: theme name */
-				__( "Theme '%s' may use its own CSS system. CSS saved via WordPress Customizer but may not render. Check theme settings.", 'mumega-mcp' ),
+				__( "Theme '%s' may use its own CSS system. CSS saved via WordPress Customizer but may not render. Check theme settings.", 'site-pilot-ai' ),
 				$theme_name
 			);
 		}
@@ -3605,7 +3605,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( ! $css_callback_hooked ) {
 			$response['warning'] = __(
 				'CSS saved but may not render on this theme. The active theme does not have the wp_custom_css_cb callback hooked to wp_head, which means WordPress Additional CSS will not be output. Consider using Elementor Custom CSS or a code snippets plugin as an alternative.',
-				'mumega-mcp'
+				'site-pilot-ai'
 			);
 		}
 
@@ -3630,11 +3630,11 @@ class Spai_REST_Site extends Spai_REST_API {
 			$verification['verified']        = $verification['style_tag_found'] && $verification['snippet_found'];
 
 			if ( ! $verification['verified'] && $css_callback_hooked ) {
-				$verification['warning'] = __( 'CSS was saved but could not be confirmed in the rendered page. It may be overridden by theme or caching.', 'mumega-mcp' );
+				$verification['warning'] = __( 'CSS was saved but could not be confirmed in the rendered page. It may be overridden by theme or caching.', 'site-pilot-ai' );
 			} elseif ( ! $verification['verified'] && ! $css_callback_hooked ) {
 				$verification['warning'] = __(
 					'CSS saved but may not render on this theme. The active theme may not support WordPress Additional CSS (wp_custom_css_cb is not hooked). Consider using Elementor Custom CSS or a code snippets plugin as an alternative.',
-					'mumega-mcp'
+					'site-pilot-ai'
 				);
 			}
 		}
@@ -3737,7 +3737,7 @@ class Spai_REST_Site extends Spai_REST_API {
 	 */
 	public function delete_custom_css( $request ) {
 		if ( defined( 'SPAI_WPORG_BUILD' ) ) {
-			return $this->error_response( 'not_available', __( 'This endpoint is not available in this build.', 'mumega-mcp' ), 403 );
+			return $this->error_response( 'not_available', __( 'This endpoint is not available in this build.', 'site-pilot-ai' ), 403 );
 		}
 		$this->log_activity( 'delete_custom_css', $request );
 
@@ -3756,7 +3756,7 @@ class Spai_REST_Site extends Spai_REST_API {
 			array(
 				'deleted'         => true,
 				'previous_length' => $previous_length,
-				'message'         => __( 'All custom CSS has been removed.', 'mumega-mcp' ),
+				'message'         => __( 'All custom CSS has been removed.', 'site-pilot-ai' ),
 			)
 		);
 	}
@@ -3868,7 +3868,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		return $this->success_response(
 			array(
 				'success'   => true,
-				'message'   => __( 'Permalink rewrite rules flushed.', 'mumega-mcp' ),
+				'message'   => __( 'Permalink rewrite rules flushed.', 'site-pilot-ai' ),
 				'structure' => get_option( 'permalink_structure' ),
 			)
 		);
@@ -4000,7 +4000,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		$name     = sanitize_text_field( $request->get_param( 'name' ) );
 
 		if ( ! taxonomy_exists( $taxonomy ) ) {
-			return $this->error_response( 'invalid_taxonomy', __( 'Taxonomy does not exist.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'invalid_taxonomy', __( 'Taxonomy does not exist.', 'site-pilot-ai' ), 400 );
 		}
 
 		$args = array();
@@ -4049,12 +4049,12 @@ class Spai_REST_Site extends Spai_REST_API {
 		$taxonomy = sanitize_key( $request->get_param( 'taxonomy' ) );
 
 		if ( ! taxonomy_exists( $taxonomy ) ) {
-			return $this->error_response( 'invalid_taxonomy', __( 'Taxonomy does not exist.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'invalid_taxonomy', __( 'Taxonomy does not exist.', 'site-pilot-ai' ), 400 );
 		}
 
 		$term = get_term( $term_id, $taxonomy );
 		if ( ! $term || is_wp_error( $term ) ) {
-			return $this->error_response( 'not_found', __( 'Term not found.', 'mumega-mcp' ), 404 );
+			return $this->error_response( 'not_found', __( 'Term not found.', 'site-pilot-ai' ), 404 );
 		}
 
 		$args = array();
@@ -4069,7 +4069,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		}
 
 		if ( empty( $args ) ) {
-			return $this->error_response( 'no_changes', __( 'No fields to update.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'no_changes', __( 'No fields to update.', 'site-pilot-ai' ), 400 );
 		}
 
 		$result = wp_update_term( $term_id, $taxonomy, $args );
@@ -4106,12 +4106,12 @@ class Spai_REST_Site extends Spai_REST_API {
 		$taxonomy = sanitize_key( $request->get_param( 'taxonomy' ) );
 
 		if ( ! taxonomy_exists( $taxonomy ) ) {
-			return $this->error_response( 'invalid_taxonomy', __( 'Taxonomy does not exist.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'invalid_taxonomy', __( 'Taxonomy does not exist.', 'site-pilot-ai' ), 400 );
 		}
 
 		$term = get_term( $term_id, $taxonomy );
 		if ( ! $term || is_wp_error( $term ) ) {
-			return $this->error_response( 'not_found', __( 'Term not found.', 'mumega-mcp' ), 404 );
+			return $this->error_response( 'not_found', __( 'Term not found.', 'site-pilot-ai' ), 404 );
 		}
 
 		$result = wp_delete_term( $term_id, $taxonomy );
@@ -4121,7 +4121,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		}
 
 		if ( false === $result ) {
-			return $this->error_response( 'delete_failed', __( 'Failed to delete term.', 'mumega-mcp' ), 500 );
+			return $this->error_response( 'delete_failed', __( 'Failed to delete term.', 'site-pilot-ai' ), 500 );
 		}
 
 		return $this->success_response(
@@ -4150,7 +4150,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		if ( $post_id ) {
 			$post = get_post( absint( $post_id ) );
 			if ( ! $post ) {
-				return $this->error_response( 'not_found', __( 'Post not found.', 'mumega-mcp' ), 404 );
+				return $this->error_response( 'not_found', __( 'Post not found.', 'site-pilot-ai' ), 404 );
 			}
 			if ( 'publish' === $post->post_status ) {
 				$url = get_permalink( $post_id );
@@ -4161,7 +4161,7 @@ class Spai_REST_Site extends Spai_REST_API {
 		}
 
 		if ( empty( $url ) ) {
-			return $this->error_response( 'missing_param', __( 'Either id or url is required.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'missing_param', __( 'Either id or url is required.', 'site-pilot-ai' ), 400 );
 		}
 
 		// SSRF guard: only allow same-host URLs.
@@ -4173,7 +4173,7 @@ class Spai_REST_Site extends Spai_REST_API {
 				'ssrf_blocked',
 				sprintf(
 					/* translators: %s: allowed host */
-					__( 'Only same-host URLs are allowed. Expected host: %s', 'mumega-mcp' ),
+					__( 'Only same-host URLs are allowed. Expected host: %s', 'site-pilot-ai' ),
 					$site_host
 				),
 				403

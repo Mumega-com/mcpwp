@@ -149,7 +149,7 @@ class Spai_REST_SEO extends Spai_REST_API {
 				'permission_callback' => array( $this, 'check_permission' ),
 				'args'                => array(
 					'noindex' => array(
-						'description' => __( 'Whether to noindex the page.', 'mumega-mcp' ),
+						'description' => __( 'Whether to noindex the page.', 'site-pilot-ai' ),
 						'type'        => 'boolean',
 						'required'    => true,
 					),
@@ -184,7 +184,7 @@ class Spai_REST_SEO extends Spai_REST_API {
 				'permission_callback' => array( $this, 'check_permission' ),
 				'args'                => array(
 					'threshold' => array(
-						'description' => __( 'Minimum word count for thin content detection.', 'mumega-mcp' ),
+						'description' => __( 'Minimum word count for thin content detection.', 'site-pilot-ai' ),
 						'type'        => 'integer',
 						'default'     => 300,
 					),
@@ -202,11 +202,11 @@ class Spai_REST_SEO extends Spai_REST_API {
 				'permission_callback' => array( $this, 'check_permission' ),
 				'args'                => array(
 					'post_type' => array(
-						'description' => __( 'Filter by post type.', 'mumega-mcp' ),
+						'description' => __( 'Filter by post type.', 'site-pilot-ai' ),
 						'type'        => 'string',
 					),
 					'limit' => array(
-						'description' => __( 'Maximum number of posts to return.', 'mumega-mcp' ),
+						'description' => __( 'Maximum number of posts to return.', 'site-pilot-ai' ),
 						'type'        => 'integer',
 						'default'     => 100,
 					),
@@ -305,7 +305,7 @@ class Spai_REST_SEO extends Spai_REST_API {
 		$updates = $request->get_param( 'updates' );
 
 		if ( empty( $updates ) || ! is_array( $updates ) ) {
-			return $this->error_response( 'invalid_data', __( 'Updates array is required.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'invalid_data', __( 'Updates array is required.', 'site-pilot-ai' ), 400 );
 		}
 
 		// Normalize items: accept both MCP flat format {id, title, description, ...}
@@ -391,7 +391,7 @@ class Spai_REST_SEO extends Spai_REST_API {
 	 */
 	public function get_yoast_seo( $request ) {
 		if ( ! $this->seo->is_yoast_active() ) {
-			return $this->error_response( 'plugin_inactive', __( 'Yoast SEO is not active.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'plugin_inactive', __( 'Yoast SEO is not active.', 'site-pilot-ai' ), 400 );
 		}
 
 		$post_id = absint( $request->get_param( 'id' ) );
@@ -412,7 +412,7 @@ class Spai_REST_SEO extends Spai_REST_API {
 	 */
 	public function update_yoast_seo( $request ) {
 		if ( ! $this->seo->is_yoast_active() ) {
-			return $this->error_response( 'plugin_inactive', __( 'Yoast SEO is not active.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'plugin_inactive', __( 'Yoast SEO is not active.', 'site-pilot-ai' ), 400 );
 		}
 
 		return $this->update_post_seo_for_plugin( $request, 'yoast' );
@@ -426,7 +426,7 @@ class Spai_REST_SEO extends Spai_REST_API {
 	 */
 	public function get_rankmath_seo( $request ) {
 		if ( ! $this->seo->is_rankmath_active() ) {
-			return $this->error_response( 'plugin_inactive', __( 'RankMath is not active.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'plugin_inactive', __( 'RankMath is not active.', 'site-pilot-ai' ), 400 );
 		}
 
 		$post_id = absint( $request->get_param( 'id' ) );
@@ -447,7 +447,7 @@ class Spai_REST_SEO extends Spai_REST_API {
 	 */
 	public function update_rankmath_seo( $request ) {
 		if ( ! $this->seo->is_rankmath_active() ) {
-			return $this->error_response( 'plugin_inactive', __( 'RankMath is not active.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'plugin_inactive', __( 'RankMath is not active.', 'site-pilot-ai' ), 400 );
 		}
 
 		return $this->update_post_seo_for_plugin( $request, 'rankmath' );
@@ -461,7 +461,7 @@ class Spai_REST_SEO extends Spai_REST_API {
 	 */
 	public function get_aioseo_seo( $request ) {
 		if ( ! $this->seo->is_aioseo_active() ) {
-			return $this->error_response( 'plugin_inactive', __( 'AIOSEO is not active.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'plugin_inactive', __( 'AIOSEO is not active.', 'site-pilot-ai' ), 400 );
 		}
 
 		$post_id = absint( $request->get_param( 'id' ) );
@@ -482,7 +482,7 @@ class Spai_REST_SEO extends Spai_REST_API {
 	 */
 	public function update_aioseo_seo( $request ) {
 		if ( ! $this->seo->is_aioseo_active() ) {
-			return $this->error_response( 'plugin_inactive', __( 'AIOSEO is not active.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'plugin_inactive', __( 'AIOSEO is not active.', 'site-pilot-ai' ), 400 );
 		}
 
 		return $this->update_post_seo_for_plugin( $request, 'aioseo' );
@@ -496,7 +496,7 @@ class Spai_REST_SEO extends Spai_REST_API {
 	 */
 	public function get_seopress_seo( $request ) {
 		if ( ! $this->seo->is_seopress_active() ) {
-			return $this->error_response( 'plugin_inactive', __( 'SEOPress is not active.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'plugin_inactive', __( 'SEOPress is not active.', 'site-pilot-ai' ), 400 );
 		}
 
 		$post_id = absint( $request->get_param( 'id' ) );
@@ -517,7 +517,7 @@ class Spai_REST_SEO extends Spai_REST_API {
 	 */
 	public function update_seopress_seo( $request ) {
 		if ( ! $this->seo->is_seopress_active() ) {
-			return $this->error_response( 'plugin_inactive', __( 'SEOPress is not active.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'plugin_inactive', __( 'SEOPress is not active.', 'site-pilot-ai' ), 400 );
 		}
 
 		return $this->update_post_seo_for_plugin( $request, 'seopress' );
@@ -576,7 +576,7 @@ class Spai_REST_SEO extends Spai_REST_API {
 
 		$post = get_post( $post_id );
 		if ( ! $post ) {
-			return $this->error_response( 'not_found', __( 'Post not found.', 'mumega-mcp' ), 404 );
+			return $this->error_response( 'not_found', __( 'Post not found.', 'site-pilot-ai' ), 404 );
 		}
 
 		$data = array(

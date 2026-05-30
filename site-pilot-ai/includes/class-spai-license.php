@@ -274,7 +274,7 @@ class Spai_License {
 		if ( ! empty( $existing ) ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Trial already started.', 'mumega-mcp' ),
+				'message' => __( 'Trial already started.', 'site-pilot-ai' ),
 				'days_remaining' => $this->get_trial_days_remaining(),
 			);
 		}
@@ -282,7 +282,7 @@ class Spai_License {
 		return array(
 			'success' => true,
 			/* translators: %d: number of trial days */
-			'message' => sprintf( __( '%d-day Pro trial started. All integrations unlocked.', 'mumega-mcp' ), self::TRIAL_DAYS ),
+			'message' => sprintf( __( '%d-day Pro trial started. All integrations unlocked.', 'site-pilot-ai' ), self::TRIAL_DAYS ),
 			'days_remaining' => self::TRIAL_DAYS,
 		);
 	}
@@ -376,7 +376,7 @@ class Spai_License {
 		if ( empty( $license_key ) ) {
 			return array(
 				'success' => false,
-				'message' => __( 'License key is required.', 'mumega-mcp' ),
+				'message' => __( 'License key is required.', 'site-pilot-ai' ),
 			);
 		}
 
@@ -403,7 +403,7 @@ class Spai_License {
 
 			return array(
 				'success' => true,
-				'message' => __( 'License saved (offline validation — will verify on next check).', 'mumega-mcp' ),
+				'message' => __( 'License saved (offline validation — will verify on next check).', 'site-pilot-ai' ),
 				'plan'    => 'pro',
 			);
 		}
@@ -412,7 +412,7 @@ class Spai_License {
 		$valid = isset( $body['valid'] ) && $body['valid'];
 
 		if ( ! $valid ) {
-			$error = isset( $body['error'] ) ? $body['error'] : __( 'Invalid license key.', 'mumega-mcp' );
+			$error = isset( $body['error'] ) ? $body['error'] : __( 'Invalid license key.', 'site-pilot-ai' );
 			return array(
 				'success' => false,
 				'message' => $error,
@@ -441,7 +441,7 @@ class Spai_License {
 		return array(
 			'success' => true,
 			/* translators: %s: license plan name */
-			'message' => sprintf( __( 'License activated. Plan: %s', 'mumega-mcp' ), ucfirst( $plan ) ),
+			'message' => sprintf( __( 'License activated. Plan: %s', 'site-pilot-ai' ), ucfirst( $plan ) ),
 			'plan'    => $plan,
 		);
 	}
@@ -469,7 +469,7 @@ class Spai_License {
 
 		return array(
 			'success' => true,
-			'message' => __( 'License deactivated. Paid features disabled.', 'mumega-mcp' ),
+			'message' => __( 'License deactivated. Paid features disabled.', 'site-pilot-ai' ),
 		);
 	}
 

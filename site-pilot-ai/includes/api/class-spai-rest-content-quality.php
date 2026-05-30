@@ -36,7 +36,7 @@ class Spai_REST_Content_Quality extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'id' => array(
-							'description'       => __( 'Post or page ID to audit.', 'mumega-mcp' ),
+							'description'       => __( 'Post or page ID to audit.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'required'          => true,
 							'sanitize_callback' => 'absint',
@@ -76,31 +76,31 @@ class Spai_REST_Content_Quality extends Spai_REST_API {
 		$issues           = array();
 
 		if ( $word_count < 180 ) {
-			$issues[] = $this->make_content_quality_issue( 'low_answer_depth', 'warning', __( 'Content may not have enough depth to answer the topic.', 'mumega-mcp' ), __( 'Add clear, useful detail that satisfies the page intent before publishing.', 'mumega-mcp' ) );
+			$issues[] = $this->make_content_quality_issue( 'low_answer_depth', 'warning', __( 'Content may not have enough depth to answer the topic.', 'site-pilot-ai' ), __( 'Add clear, useful detail that satisfies the page intent before publishing.', 'site-pilot-ai' ) );
 		}
 
 		if ( ! $this->has_summary_intro( $text ) ) {
-			$issues[] = $this->make_content_quality_issue( 'missing_summary_intro', 'info', __( 'The page does not appear to open with a concise summary.', 'mumega-mcp' ), __( 'Add a short intro that states who the page is for and what it answers.', 'mumega-mcp' ) );
+			$issues[] = $this->make_content_quality_issue( 'missing_summary_intro', 'info', __( 'The page does not appear to open with a concise summary.', 'site-pilot-ai' ), __( 'Add a short intro that states who the page is for and what it answers.', 'site-pilot-ai' ) );
 		}
 
 		if ( 0 === $question_count ) {
-			$issues[] = $this->make_content_quality_issue( 'no_question_coverage', 'info', __( 'No explicit question coverage was detected.', 'mumega-mcp' ), __( 'Add question-style headings or FAQ content only when it matches real user intent.', 'mumega-mcp' ) );
+			$issues[] = $this->make_content_quality_issue( 'no_question_coverage', 'info', __( 'No explicit question coverage was detected.', 'site-pilot-ai' ), __( 'Add question-style headings or FAQ content only when it matches real user intent.', 'site-pilot-ai' ) );
 		}
 
 		if ( count( $entity_names ) < 3 ) {
-			$issues[] = $this->make_content_quality_issue( 'low_entity_coverage', 'info', __( 'Few entity-like names were detected.', 'mumega-mcp' ), __( 'Mention relevant products, people, organizations, places, standards, tools, or concepts naturally where useful.', 'mumega-mcp' ) );
+			$issues[] = $this->make_content_quality_issue( 'low_entity_coverage', 'info', __( 'Few entity-like names were detected.', 'site-pilot-ai' ), __( 'Mention relevant products, people, organizations, places, standards, tools, or concepts naturally where useful.', 'site-pilot-ai' ) );
 		}
 
 		if ( null !== $freshness_days && $freshness_days > 365 ) {
-			$issues[] = $this->make_content_quality_issue( 'stale_content', 'warning', __( 'Content has not been updated in over a year.', 'mumega-mcp' ), __( 'Review facts, screenshots, product names, and links before relying on this page.', 'mumega-mcp' ), array( 'freshness_days' => $freshness_days ) );
+			$issues[] = $this->make_content_quality_issue( 'stale_content', 'warning', __( 'Content has not been updated in over a year.', 'site-pilot-ai' ), __( 'Review facts, screenshots, product names, and links before relying on this page.', 'site-pilot-ai' ), array( 'freshness_days' => $freshness_days ) );
 		}
 
 		if ( 0 === count( $trust_signals ) ) {
-			$issues[] = $this->make_content_quality_issue( 'missing_trust_signals', 'info', __( 'No obvious trust signals were detected.', 'mumega-mcp' ), __( 'Add visible author, date, source, policy, contact, proof, or process details where appropriate.', 'mumega-mcp' ) );
+			$issues[] = $this->make_content_quality_issue( 'missing_trust_signals', 'info', __( 'No obvious trust signals were detected.', 'site-pilot-ai' ), __( 'Add visible author, date, source, policy, contact, proof, or process details where appropriate.', 'site-pilot-ai' ) );
 		}
 
 		if ( 0 === $external_links ) {
-			$issues[] = $this->make_content_quality_issue( 'no_reference_hints', 'info', __( 'No external reference links were detected.', 'mumega-mcp' ), __( 'Use references only when they help users verify claims; do not invent citations.', 'mumega-mcp' ) );
+			$issues[] = $this->make_content_quality_issue( 'no_reference_hints', 'info', __( 'No external reference links were detected.', 'site-pilot-ai' ), __( 'Use references only when they help users verify claims; do not invent citations.', 'site-pilot-ai' ) );
 		}
 
 		$score   = $this->calculate_content_quality_score( $word_count, $question_count, count( $entity_names ), count( $trust_signals ), $external_links, $freshness_days );

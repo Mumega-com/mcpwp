@@ -195,7 +195,7 @@ class Spai_Provider_Pexels {
 
 		return array(
 			'success' => true,
-			'message' => __( 'Pexels API connection successful.', 'mumega-mcp' ),
+			'message' => __( 'Pexels API connection successful.', 'site-pilot-ai' ),
 		);
 	}
 

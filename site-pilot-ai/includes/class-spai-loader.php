@@ -153,7 +153,7 @@ class Spai_Loader {
 		if ( ! isset( $schedules['spai_every_five_minutes'] ) ) {
 			$schedules['spai_every_five_minutes'] = array(
 				'interval' => 5 * MINUTE_IN_SECONDS,
-				'display'  => __( 'Every 5 Minutes (SPAI)', 'mumega-mcp' ),
+				'display'  => __( 'Every 5 Minutes (SPAI)', 'site-pilot-ai' ),
 			);
 		}
 

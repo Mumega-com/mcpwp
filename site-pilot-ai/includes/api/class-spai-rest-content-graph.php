@@ -36,12 +36,12 @@ class Spai_REST_Content_Graph extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'post_types' => array(
-							'description' => __( 'Comma-separated post types to include.', 'mumega-mcp' ),
+							'description' => __( 'Comma-separated post types to include.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'default'     => 'page,post',
 						),
 						'limit' => array(
-							'description'       => __( 'Maximum number of content nodes.', 'mumega-mcp' ),
+							'description'       => __( 'Maximum number of content nodes.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 100,
 							'minimum'           => 1,
@@ -49,7 +49,7 @@ class Spai_REST_Content_Graph extends Spai_REST_API {
 							'sanitize_callback' => 'absint',
 						),
 						'include_drafts' => array(
-							'description'       => __( 'Include draft/private content nodes.', 'mumega-mcp' ),
+							'description'       => __( 'Include draft/private content nodes.', 'site-pilot-ai' ),
 							'type'              => 'boolean',
 							'default'           => false,
 							'sanitize_callback' => 'rest_sanitize_boolean',
@@ -70,18 +70,18 @@ class Spai_REST_Content_Graph extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'source_id' => array(
-							'description'       => __( 'Source post or page ID that needs internal links.', 'mumega-mcp' ),
+							'description'       => __( 'Source post or page ID that needs internal links.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'required'          => true,
 							'sanitize_callback' => 'absint',
 						),
 						'post_types' => array(
-							'description' => __( 'Comma-separated post types to include.', 'mumega-mcp' ),
+							'description' => __( 'Comma-separated post types to include.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'default'     => 'page,post',
 						),
 						'limit' => array(
-							'description'       => __( 'Maximum number of graph nodes to inspect.', 'mumega-mcp' ),
+							'description'       => __( 'Maximum number of graph nodes to inspect.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 100,
 							'minimum'           => 1,
@@ -89,7 +89,7 @@ class Spai_REST_Content_Graph extends Spai_REST_API {
 							'sanitize_callback' => 'absint',
 						),
 						'max_suggestions' => array(
-							'description'       => __( 'Maximum suggestions to return.', 'mumega-mcp' ),
+							'description'       => __( 'Maximum suggestions to return.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 5,
 							'minimum'           => 1,
@@ -97,7 +97,7 @@ class Spai_REST_Content_Graph extends Spai_REST_API {
 							'sanitize_callback' => 'absint',
 						),
 						'include_drafts' => array(
-							'description'       => __( 'Include draft/private content candidates.', 'mumega-mcp' ),
+							'description'       => __( 'Include draft/private content candidates.', 'site-pilot-ai' ),
 							'type'              => 'boolean',
 							'default'           => false,
 							'sanitize_callback' => 'rest_sanitize_boolean',
@@ -118,29 +118,29 @@ class Spai_REST_Content_Graph extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'source_id' => array(
-							'description'       => __( 'Source post or page ID to update.', 'mumega-mcp' ),
+							'description'       => __( 'Source post or page ID to update.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'required'          => true,
 							'sanitize_callback' => 'absint',
 						),
 						'target_id' => array(
-							'description'       => __( 'Existing graph target post or page ID.', 'mumega-mcp' ),
+							'description'       => __( 'Existing graph target post or page ID.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'required'          => true,
 							'sanitize_callback' => 'absint',
 						),
 						'anchor' => array(
-							'description' => __( 'Optional link anchor text. Defaults to target title.', 'mumega-mcp' ),
+							'description' => __( 'Optional link anchor text. Defaults to target title.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'approval_required' => array(
-							'description'       => __( 'Create an approval request instead of saving immediately. Defaults to true.', 'mumega-mcp' ),
+							'description'       => __( 'Create an approval request instead of saving immediately. Defaults to true.', 'site-pilot-ai' ),
 							'type'              => 'boolean',
 							'default'           => true,
 							'sanitize_callback' => 'rest_sanitize_boolean',
 						),
 						'approval_note' => array(
-							'description' => __( 'Optional human review note.', 'mumega-mcp' ),
+							'description' => __( 'Optional human review note.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 					),
@@ -159,12 +159,12 @@ class Spai_REST_Content_Graph extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'post_types' => array(
-							'description' => __( 'Comma-separated post types to include.', 'mumega-mcp' ),
+							'description' => __( 'Comma-separated post types to include.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'default'     => 'page,post',
 						),
 						'limit' => array(
-							'description'       => __( 'Maximum number of content nodes to inspect.', 'mumega-mcp' ),
+							'description'       => __( 'Maximum number of content nodes to inspect.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 100,
 							'minimum'           => 1,
@@ -172,7 +172,7 @@ class Spai_REST_Content_Graph extends Spai_REST_API {
 							'sanitize_callback' => 'absint',
 						),
 						'include_drafts' => array(
-							'description'       => __( 'Include draft/private source content.', 'mumega-mcp' ),
+							'description'       => __( 'Include draft/private source content.', 'site-pilot-ai' ),
 							'type'              => 'boolean',
 							'default'           => false,
 							'sanitize_callback' => 'rest_sanitize_boolean',
@@ -483,32 +483,32 @@ class Spai_REST_Content_Graph extends Spai_REST_API {
 				$target    = $target_id ? get_post( $target_id ) : null;
 
 				if ( '' === trim( $link['anchor'] ) ) {
-					$issues[] = $this->make_internal_link_issue( 'empty_anchor', 'warning', $source_id, $target_id, $link, __( 'Use descriptive anchor text for internal links.', 'mumega-mcp' ) );
+					$issues[] = $this->make_internal_link_issue( 'empty_anchor', 'warning', $source_id, $target_id, $link, __( 'Use descriptive anchor text for internal links.', 'site-pilot-ai' ) );
 				} elseif ( $this->is_weak_internal_link_anchor( $link['anchor'] ) ) {
-					$issues[] = $this->make_internal_link_issue( 'weak_anchor', 'warning', $source_id, $target_id, $link, __( 'Replace generic anchor text with a descriptive phrase.', 'mumega-mcp' ) );
+					$issues[] = $this->make_internal_link_issue( 'weak_anchor', 'warning', $source_id, $target_id, $link, __( 'Replace generic anchor text with a descriptive phrase.', 'site-pilot-ai' ) );
 				}
 
 				if ( ! $target ) {
-					$issues[] = $this->make_internal_link_issue( 'missing_target', 'error', $source_id, 0, $link, __( 'Link points to an internal URL that does not resolve to known content.', 'mumega-mcp' ) );
+					$issues[] = $this->make_internal_link_issue( 'missing_target', 'error', $source_id, 0, $link, __( 'Link points to an internal URL that does not resolve to known content.', 'site-pilot-ai' ) );
 					continue;
 				}
 
 				if ( $source_id === $target_id ) {
-					$issues[] = $this->make_internal_link_issue( 'self_link', 'warning', $source_id, $target_id, $link, __( 'Remove self-links unless they point to a useful in-page anchor.', 'mumega-mcp' ) );
+					$issues[] = $this->make_internal_link_issue( 'self_link', 'warning', $source_id, $target_id, $link, __( 'Remove self-links unless they point to a useful in-page anchor.', 'site-pilot-ai' ) );
 				}
 
 				if ( 'publish' !== $target->post_status ) {
-					$issues[] = $this->make_internal_link_issue( 'unpublished_target', 'error', $source_id, $target_id, $link, __( 'Link target is not published.', 'mumega-mcp' ) );
+					$issues[] = $this->make_internal_link_issue( 'unpublished_target', 'error', $source_id, $target_id, $link, __( 'Link target is not published.', 'site-pilot-ai' ) );
 				}
 
 				if ( isset( $seen_targets[ $target_id ] ) ) {
-					$issues[] = $this->make_internal_link_issue( 'duplicate_target', 'warning', $source_id, $target_id, $link, __( 'Source content links to the same internal target more than once.', 'mumega-mcp' ) );
+					$issues[] = $this->make_internal_link_issue( 'duplicate_target', 'warning', $source_id, $target_id, $link, __( 'Source content links to the same internal target more than once.', 'site-pilot-ai' ) );
 				}
 				$seen_targets[ $target_id ] = true;
 
 				$canonical = get_permalink( $target );
 				if ( $canonical && $this->normalize_internal_graph_url( $canonical ) !== $this->normalize_internal_graph_url( $resolved['absolute'] ) ) {
-					$issues[] = $this->make_internal_link_issue( 'non_canonical_url', 'warning', $source_id, $target_id, $link, __( 'Use the canonical permalink for this internal target.', 'mumega-mcp' ), array( 'canonical_url' => $canonical ) );
+					$issues[] = $this->make_internal_link_issue( 'non_canonical_url', 'warning', $source_id, $target_id, $link, __( 'Use the canonical permalink for this internal target.', 'site-pilot-ai' ), array( 'canonical_url' => $canonical ) );
 				}
 			}
 		}
@@ -1189,7 +1189,7 @@ class Spai_REST_Content_Graph extends Spai_REST_API {
 			return implode( ' ', array_slice( $overlap, 0, 3 ) );
 		}
 
-		return trim( (string) ( $candidate['slug'] ?? __( 'Related content', 'mumega-mcp' ) ) );
+		return trim( (string) ( $candidate['slug'] ?? __( 'Related content', 'site-pilot-ai' ) ) );
 	}
 
 	/**
@@ -1203,7 +1203,7 @@ class Spai_REST_Content_Graph extends Spai_REST_API {
 		$link = sprintf( '<a href="%s">%s</a>', esc_url( $url ), esc_html( $anchor ) );
 		return sprintf(
 			'<!-- wp:paragraph --><p>%s %s</p><!-- /wp:paragraph -->',
-			esc_html__( 'Related:', 'mumega-mcp' ),
+			esc_html__( 'Related:', 'site-pilot-ai' ),
 			$link
 		);
 	}

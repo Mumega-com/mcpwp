@@ -157,7 +157,7 @@ class Spai_REST_Theme_Builder extends Spai_REST_API {
 		if ( ! $this->theme_builder->is_available() ) {
 			return $this->error_response(
 				'not_available',
-				__( 'Elementor Pro Theme Builder is not available.', 'mumega-mcp' ),
+				__( 'Elementor Pro Theme Builder is not available.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -195,7 +195,7 @@ class Spai_REST_Theme_Builder extends Spai_REST_API {
 		if ( ! $this->theme_builder->is_available() ) {
 			return $this->error_response(
 				'not_available',
-				__( 'Elementor Pro Theme Builder is not available.', 'mumega-mcp' ),
+				__( 'Elementor Pro Theme Builder is not available.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -265,7 +265,7 @@ class Spai_REST_Theme_Builder extends Spai_REST_API {
 		if ( ! is_array( $conditions ) ) {
 			return $this->error_response(
 				'invalid_conditions',
-				__( 'Conditions must be an array.', 'mumega-mcp' ),
+				__( 'Conditions must be an array.', 'site-pilot-ai' ),
 				400
 			);
 		}

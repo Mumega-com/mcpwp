@@ -46,13 +46,13 @@ class Spai_REST_Google_Indexing extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'urls'   => array(
-							'description' => __( 'Array of URLs to submit for indexing.', 'mumega-mcp' ),
+							'description' => __( 'Array of URLs to submit for indexing.', 'site-pilot-ai' ),
 							'type'        => 'array',
 							'required'    => true,
 							'items'       => array( 'type' => 'string' ),
 						),
 						'action' => array(
-							'description' => __( 'Indexing action: URL_UPDATED or URL_DELETED.', 'mumega-mcp' ),
+							'description' => __( 'Indexing action: URL_UPDATED or URL_DELETED.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'enum'        => array( 'URL_UPDATED', 'URL_DELETED' ),
 							'default'     => 'URL_UPDATED',
@@ -73,7 +73,7 @@ class Spai_REST_Google_Indexing extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'url' => array(
-							'description' => __( 'URL to check indexing status for.', 'mumega-mcp' ),
+							'description' => __( 'URL to check indexing status for.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),

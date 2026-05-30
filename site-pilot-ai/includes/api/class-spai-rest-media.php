@@ -45,7 +45,7 @@ class Spai_REST_Media extends Spai_REST_API {
 						$this->get_pagination_args(),
 						array(
 							'mime_type' => array(
-								'description' => __( 'Filter by mime type.', 'mumega-mcp' ),
+								'description' => __( 'Filter by mime type.', 'site-pilot-ai' ),
 								'type'        => 'string',
 							),
 						)
@@ -57,11 +57,11 @@ class Spai_REST_Media extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'title' => array(
-							'description' => __( 'Media title.', 'mumega-mcp' ),
+							'description' => __( 'Media title.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'alt'   => array(
-							'description' => __( 'Alt text.', 'mumega-mcp' ),
+							'description' => __( 'Alt text.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 					),
@@ -80,21 +80,21 @@ class Spai_REST_Media extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'url'      => array(
-							'description' => __( 'External URL.', 'mumega-mcp' ),
+							'description' => __( 'External URL.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 							'format'      => 'uri',
 						),
 						'title'    => array(
-							'description' => __( 'Media title.', 'mumega-mcp' ),
+							'description' => __( 'Media title.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'alt'      => array(
-							'description' => __( 'Alt text.', 'mumega-mcp' ),
+							'description' => __( 'Alt text.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'filename' => array(
-							'description' => __( 'Custom filename.', 'mumega-mcp' ),
+							'description' => __( 'Custom filename.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 					),
@@ -113,14 +113,14 @@ class Spai_REST_Media extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'urls'  => array(
-							'description' => __( 'Array of URLs to upload.', 'mumega-mcp' ),
+							'description' => __( 'Array of URLs to upload.', 'site-pilot-ai' ),
 							'type'        => 'array',
 							'items'       => array(
 								'type' => 'string',
 							),
 						),
 						'items' => array(
-							'description' => __( 'Array of items with url, title, alt.', 'mumega-mcp' ),
+							'description' => __( 'Array of items with url, title, alt.', 'site-pilot-ai' ),
 							'type'        => 'array',
 							'items'       => array(
 								'type' => 'object',
@@ -142,21 +142,21 @@ class Spai_REST_Media extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'data'     => array(
-							'description' => __( 'Base64-encoded file content. Optionally prefixed with data URI (e.g., data:image/png;base64,...).', 'mumega-mcp' ),
+							'description' => __( 'Base64-encoded file content. Optionally prefixed with data URI (e.g., data:image/png;base64,...).', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'filename' => array(
-							'description' => __( 'Filename with extension (e.g., logo.png).', 'mumega-mcp' ),
+							'description' => __( 'Filename with extension (e.g., logo.png).', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'title'    => array(
-							'description' => __( 'Media title.', 'mumega-mcp' ),
+							'description' => __( 'Media title.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'alt'      => array(
-							'description' => __( 'Alt text.', 'mumega-mcp' ),
+							'description' => __( 'Alt text.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 					),
@@ -175,7 +175,7 @@ class Spai_REST_Media extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'force' => array(
-							'description' => __( 'Permanently delete instead of trashing.', 'mumega-mcp' ),
+							'description' => __( 'Permanently delete instead of trashing.', 'site-pilot-ai' ),
 							'type'        => 'boolean',
 							'default'     => false,
 						),
@@ -219,7 +219,7 @@ class Spai_REST_Media extends Spai_REST_API {
 		if ( empty( $files['file'] ) ) {
 			return $this->error_response(
 				'no_file',
-				__( 'No file uploaded. Send file as multipart/form-data with "file" field.', 'mumega-mcp' ),
+				__( 'No file uploaded. Send file as multipart/form-data with "file" field.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -252,7 +252,7 @@ class Spai_REST_Media extends Spai_REST_API {
 		if ( empty( $url ) ) {
 			return $this->error_response(
 				'missing_url',
-				__( 'URL is required.', 'mumega-mcp' ),
+				__( 'URL is required.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -312,7 +312,7 @@ class Spai_REST_Media extends Spai_REST_API {
 		if ( empty( $to_upload ) ) {
 			return $this->error_response(
 				'missing_urls',
-				__( 'Provide either "urls" array or "items" array with url properties.', 'mumega-mcp' ),
+				__( 'Provide either "urls" array or "items" array with url properties.', 'site-pilot-ai' ),
 				400
 			);
 		}
@@ -323,7 +323,7 @@ class Spai_REST_Media extends Spai_REST_API {
 			return $this->error_response(
 				'too_many_files',
 				/* translators: %d: maximum number of files */
-				sprintf( __( 'Maximum %d files per request.', 'mumega-mcp' ), $max_uploads ),
+				sprintf( __( 'Maximum %d files per request.', 'site-pilot-ai' ), $max_uploads ),
 				400
 			);
 		}
@@ -378,7 +378,7 @@ class Spai_REST_Media extends Spai_REST_API {
 		if ( empty( $data ) || empty( $filename ) ) {
 			return $this->error_response(
 				'missing_params',
-				__( 'Both "data" (Base64 string) and "filename" are required.', 'mumega-mcp' ),
+				__( 'Both "data" (Base64 string) and "filename" are required.', 'site-pilot-ai' ),
 				400
 			);
 		}

@@ -1065,7 +1065,7 @@ class Spai_REST_Blocks extends Spai_REST_API {
 				return $path;
 			}
 
-			return new WP_Error( 'section_not_found', __( 'No block exists at the requested path.', 'mumega-mcp' ), array( 'status' => 404 ) );
+			return new WP_Error( 'section_not_found', __( 'No block exists at the requested path.', 'site-pilot-ai' ), array( 'status' => 404 ) );
 		}
 
 		if ( isset( $selector['anchor'] ) && '' !== trim( (string) $selector['anchor'] ) ) {
@@ -1074,7 +1074,7 @@ class Spai_REST_Blocks extends Spai_REST_API {
 				return $path;
 			}
 
-			return new WP_Error( 'section_not_found', __( 'No block section matched the requested anchor.', 'mumega-mcp' ), array( 'status' => 404 ) );
+			return new WP_Error( 'section_not_found', __( 'No block section matched the requested anchor.', 'site-pilot-ai' ), array( 'status' => 404 ) );
 		}
 
 		if ( isset( $selector['heading'] ) && '' !== trim( (string) $selector['heading'] ) ) {
@@ -1083,10 +1083,10 @@ class Spai_REST_Blocks extends Spai_REST_API {
 				return $path;
 			}
 
-			return new WP_Error( 'section_not_found', __( 'No block section matched the requested heading.', 'mumega-mcp' ), array( 'status' => 404 ) );
+			return new WP_Error( 'section_not_found', __( 'No block section matched the requested heading.', 'site-pilot-ai' ), array( 'status' => 404 ) );
 		}
 
-		return new WP_Error( 'invalid_selector', __( 'Selector must include path, anchor, or heading.', 'mumega-mcp' ), array( 'status' => 400 ) );
+		return new WP_Error( 'invalid_selector', __( 'Selector must include path, anchor, or heading.', 'site-pilot-ai' ), array( 'status' => 400 ) );
 	}
 
 	/**

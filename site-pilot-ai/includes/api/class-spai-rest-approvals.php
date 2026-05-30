@@ -28,11 +28,11 @@ class Spai_REST_Approvals extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'status' => array(
-							'description' => __( 'Optional approval status filter.', 'mumega-mcp' ),
+							'description' => __( 'Optional approval status filter.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'limit'  => array(
-							'description'       => __( 'Maximum approvals to return.', 'mumega-mcp' ),
+							'description'       => __( 'Maximum approvals to return.', 'site-pilot-ai' ),
 							'type'              => 'integer',
 							'default'           => 50,
 							'minimum'           => 1,
@@ -67,7 +67,7 @@ class Spai_REST_Approvals extends Spai_REST_API {
 						'permission_callback' => array( $this, 'check_permission' ),
 						'args'                => array(
 							'note' => array(
-								'description' => __( 'Optional human review note.', 'mumega-mcp' ),
+								'description' => __( 'Optional human review note.', 'site-pilot-ai' ),
 								'type'        => 'string',
 							),
 						),

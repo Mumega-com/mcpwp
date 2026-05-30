@@ -155,7 +155,7 @@ class Spai_Activator {
 		$key_id = function_exists( 'wp_generate_uuid4' ) ? wp_generate_uuid4() : uniqid( 'spai_', true );
 		$record = array(
 			'id'           => sanitize_key( (string) $key_id ),
-			'label'        => __( 'Primary API Key', 'mumega-mcp' ),
+			'label'        => __( 'Primary API Key', 'site-pilot-ai' ),
 			'hash'         => $legacy_hash,
 			'scopes'       => array( 'read', 'write', 'admin' ),
 			'created_at'   => current_time( 'mysql' ),

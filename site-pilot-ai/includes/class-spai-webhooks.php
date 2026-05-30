@@ -192,12 +192,12 @@ class Spai_Webhooks {
 
 		// Validate required fields
 		if ( empty( $data['name'] ) || empty( $data['url'] ) || empty( $data['events'] ) ) {
-			return new WP_Error( 'missing_required', __( 'Name, URL, and events are required.', 'mumega-mcp' ) );
+			return new WP_Error( 'missing_required', __( 'Name, URL, and events are required.', 'site-pilot-ai' ) );
 		}
 
 		// Validate URL format.
 		if ( ! filter_var( $data['url'], FILTER_VALIDATE_URL ) ) {
-			return new WP_Error( 'invalid_url', __( 'Invalid webhook URL.', 'mumega-mcp' ) );
+			return new WP_Error( 'invalid_url', __( 'Invalid webhook URL.', 'site-pilot-ai' ) );
 		}
 
 		// SSRF protection: block internal/private URLs.
@@ -215,7 +215,7 @@ class Spai_Webhooks {
 			return new WP_Error(
 				'invalid_events',
 				/* translators: %s: comma-separated list of invalid event names */
-				sprintf( __( 'Invalid events: %s', 'mumega-mcp' ), implode( ', ', $invalid_events ) )
+				sprintf( __( 'Invalid events: %s', 'site-pilot-ai' ), implode( ', ', $invalid_events ) )
 			);
 		}
 
@@ -235,7 +235,7 @@ class Spai_Webhooks {
 		);
 
 		if ( false === $result ) {
-			return new WP_Error( 'db_error', __( 'Failed to register webhook.', 'mumega-mcp' ) );
+			return new WP_Error( 'db_error', __( 'Failed to register webhook.', 'site-pilot-ai' ) );
 		}
 
 		return $wpdb->insert_id;
@@ -323,7 +323,7 @@ class Spai_Webhooks {
 
 		$webhook = $this->get( $id );
 		if ( ! $webhook ) {
-			return new WP_Error( 'not_found', __( 'Webhook not found.', 'mumega-mcp' ) );
+			return new WP_Error( 'not_found', __( 'Webhook not found.', 'site-pilot-ai' ) );
 		}
 
 		$update = array();
@@ -336,7 +336,7 @@ class Spai_Webhooks {
 
 		if ( isset( $data['url'] ) ) {
 			if ( ! filter_var( $data['url'], FILTER_VALIDATE_URL ) ) {
-				return new WP_Error( 'invalid_url', __( 'Invalid webhook URL.', 'mumega-mcp' ) );
+				return new WP_Error( 'invalid_url', __( 'Invalid webhook URL.', 'site-pilot-ai' ) );
 			}
 			// SSRF protection.
 			if ( class_exists( 'Spai_Security' ) ) {
@@ -356,7 +356,7 @@ class Spai_Webhooks {
 				return new WP_Error(
 					'invalid_events',
 					/* translators: %s: comma-separated list of invalid event names */
-					sprintf( __( 'Invalid events: %s', 'mumega-mcp' ), implode( ', ', $invalid_events ) )
+					sprintf( __( 'Invalid events: %s', 'site-pilot-ai' ), implode( ', ', $invalid_events ) )
 				);
 			}
 			$update['events'] = wp_json_encode( $events );
@@ -374,7 +374,7 @@ class Spai_Webhooks {
 		}
 
 		if ( empty( $update ) ) {
-			return new WP_Error( 'no_changes', __( 'No valid fields to update.', 'mumega-mcp' ) );
+			return new WP_Error( 'no_changes', __( 'No valid fields to update.', 'site-pilot-ai' ) );
 		}
 
 		$result = $wpdb->update( $this->table, $update, array( 'id' => $id ), $format, array( '%d' ) );
@@ -393,7 +393,7 @@ class Spai_Webhooks {
 
 		$webhook = $this->get( $id );
 		if ( ! $webhook ) {
-			return new WP_Error( 'not_found', __( 'Webhook not found.', 'mumega-mcp' ) );
+			return new WP_Error( 'not_found', __( 'Webhook not found.', 'site-pilot-ai' ) );
 		}
 
 		$result = $wpdb->delete( $this->table, array( 'id' => $id ), array( '%d' ) );
@@ -572,7 +572,7 @@ class Spai_Webhooks {
 	public function test( $id ) {
 		$webhook = $this->get( $id );
 		if ( ! $webhook ) {
-			return new WP_Error( 'not_found', __( 'Webhook not found.', 'mumega-mcp' ) );
+			return new WP_Error( 'not_found', __( 'Webhook not found.', 'site-pilot-ai' ) );
 		}
 
 		// Re-validate URL at send time to defend against DNS changes and unsafe updates.
@@ -585,7 +585,7 @@ class Spai_Webhooks {
 
 		$payload = array(
 			'test'    => true,
-			'message' => __( 'This is a test webhook delivery from MCPWP.', 'mumega-mcp' ),
+			'message' => __( 'This is a test webhook delivery from MCPWP.', 'site-pilot-ai' ),
 		);
 
 		$body = wp_json_encode( $payload );

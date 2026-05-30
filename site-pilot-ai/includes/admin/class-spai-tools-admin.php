@@ -34,58 +34,58 @@ class Spai_Tools_Admin {
 	public static function get_category_meta() {
 		return array(
 			'content'    => array(
-				'name'        => __( 'Content', 'mumega-mcp' ),
-				'description' => __( 'Posts, pages, drafts, search, clone, bulk create', 'mumega-mcp' ),
+				'name'        => __( 'Content', 'site-pilot-ai' ),
+				'description' => __( 'Posts, pages, drafts, search, clone, bulk create', 'site-pilot-ai' ),
 				'icon'        => 'dashicons-admin-post',
 			),
 			'media'      => array(
-				'name'        => __( 'Media', 'mumega-mcp' ),
-				'description' => __( 'Upload files, import from URL, media library, screenshots', 'mumega-mcp' ),
+				'name'        => __( 'Media', 'site-pilot-ai' ),
+				'description' => __( 'Upload files, import from URL, media library, screenshots', 'site-pilot-ai' ),
 				'icon'        => 'dashicons-admin-media',
 			),
 			'elementor'  => array(
-				'name'        => __( 'Elementor', 'mumega-mcp' ),
-				'description' => __( 'Get/set page data, templates, globals, widgets, CSS', 'mumega-mcp' ),
+				'name'        => __( 'Elementor', 'site-pilot-ai' ),
+				'description' => __( 'Get/set page data, templates, globals, widgets, CSS', 'site-pilot-ai' ),
 				'icon'        => 'dashicons-editor-kitchensink',
 			),
 			'seo'        => array(
-				'name'        => __( 'SEO', 'mumega-mcp' ),
-				'description' => __( 'Meta titles, descriptions, analysis, noindex', 'mumega-mcp' ),
+				'name'        => __( 'SEO', 'site-pilot-ai' ),
+				'description' => __( 'Meta titles, descriptions, analysis, noindex', 'site-pilot-ai' ),
 				'icon'        => 'dashicons-search',
 			),
 			'forms'      => array(
-				'name'        => __( 'Forms', 'mumega-mcp' ),
-				'description' => __( 'List forms, view entries, plugin detection', 'mumega-mcp' ),
+				'name'        => __( 'Forms', 'site-pilot-ai' ),
+				'description' => __( 'List forms, view entries, plugin detection', 'site-pilot-ai' ),
 				'icon'        => 'dashicons-feedback',
 			),
 			'gutenberg'  => array(
-				'name'        => __( 'Gutenberg', 'mumega-mcp' ),
-				'description' => __( 'Block editor data, block types, patterns', 'mumega-mcp' ),
+				'name'        => __( 'Gutenberg', 'site-pilot-ai' ),
+				'description' => __( 'Block editor data, block types, patterns', 'site-pilot-ai' ),
 				'icon'        => 'dashicons-block-default',
 			),
 			'taxonomy'   => array(
-				'name'        => __( 'Taxonomy', 'mumega-mcp' ),
-				'description' => __( 'Categories, tags, custom taxonomy terms', 'mumega-mcp' ),
+				'name'        => __( 'Taxonomy', 'site-pilot-ai' ),
+				'description' => __( 'Categories, tags, custom taxonomy terms', 'site-pilot-ai' ),
 				'icon'        => 'dashicons-tag',
 			),
 			'site'       => array(
-				'name'        => __( 'Site', 'mumega-mcp' ),
-				'description' => __( 'Site info, plugins, theme, menus, options, health', 'mumega-mcp' ),
+				'name'        => __( 'Site', 'site-pilot-ai' ),
+				'description' => __( 'Site info, plugins, theme, menus, options, health', 'site-pilot-ai' ),
 				'icon'        => 'dashicons-admin-site-alt3',
 			),
 			'webhooks'   => array(
-				'name'        => __( 'Webhooks', 'mumega-mcp' ),
-				'description' => __( 'Create, update, delete, test webhook subscriptions', 'mumega-mcp' ),
+				'name'        => __( 'Webhooks', 'site-pilot-ai' ),
+				'description' => __( 'Create, update, delete, test webhook subscriptions', 'site-pilot-ai' ),
 				'icon'        => 'dashicons-rest-api',
 			),
 			'admin'      => array(
-				'name'        => __( 'Admin', 'mumega-mcp' ),
-				'description' => __( 'API keys, rate limits, feedback', 'mumega-mcp' ),
+				'name'        => __( 'Admin', 'site-pilot-ai' ),
+				'description' => __( 'API keys, rate limits, feedback', 'site-pilot-ai' ),
 				'icon'        => 'dashicons-admin-tools',
 			),
 			'ai'         => array(
-				'name'        => __( 'AI', 'mumega-mcp' ),
-				'description' => __( 'Stock photos, image generation, alt text, TTS', 'mumega-mcp' ),
+				'name'        => __( 'AI', 'site-pilot-ai' ),
+				'description' => __( 'Stock photos, image generation, alt text, TTS', 'site-pilot-ai' ),
 				'icon'        => 'dashicons-lightbulb',
 			),
 		);
@@ -96,7 +96,7 @@ class Spai_Tools_Admin {
 	 */
 	public function render() {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'mumega-mcp' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'site-pilot-ai' ) );
 		}
 
 		$disabled_categories = get_option( 'spai_disabled_tool_categories', array() );
@@ -182,13 +182,13 @@ class Spai_Tools_Admin {
 		$enabled  = isset( $_POST['enabled'] ) ? sanitize_text_field( wp_unslash( $_POST['enabled'] ) ) : '1';
 
 		if ( empty( $category ) ) {
-			wp_send_json_error( array( 'message' => __( 'Category is required.', 'mumega-mcp' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Category is required.', 'site-pilot-ai' ) ) );
 		}
 
 		// Validate category slug.
 		$valid_categories = array_keys( self::get_category_meta() );
 		if ( ! in_array( $category, $valid_categories, true ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid category.', 'mumega-mcp' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Invalid category.', 'site-pilot-ai' ) ) );
 		}
 
 		$disabled = get_option( 'spai_disabled_tool_categories', array() );
@@ -212,12 +212,12 @@ class Spai_Tools_Admin {
 			'message'  => '1' === $enabled
 				? sprintf(
 					/* translators: %s: category name */
-					__( '%s tools enabled.', 'mumega-mcp' ),
+					__( '%s tools enabled.', 'site-pilot-ai' ),
 					$category
 				)
 				: sprintf(
 					/* translators: %s: category name */
-					__( '%s tools disabled.', 'mumega-mcp' ),
+					__( '%s tools disabled.', 'site-pilot-ai' ),
 					$category
 				),
 			'disabled' => $disabled,

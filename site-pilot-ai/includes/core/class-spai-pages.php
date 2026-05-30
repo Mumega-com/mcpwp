@@ -73,7 +73,7 @@ class Spai_Pages {
 		if ( ! $page || 'page' !== $page->post_type ) {
 			return new WP_Error(
 				'not_found',
-				__( 'Page not found.', 'mumega-mcp' ),
+				__( 'Page not found.', 'site-pilot-ai' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -153,7 +153,7 @@ class Spai_Pages {
 		if ( ! $page || 'page' !== $page->post_type ) {
 			return new WP_Error(
 				'not_found',
-				__( 'Page not found.', 'mumega-mcp' ),
+				__( 'Page not found.', 'site-pilot-ai' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -235,7 +235,7 @@ class Spai_Pages {
 		if ( ! $page || 'page' !== $page->post_type ) {
 			return new WP_Error(
 				'not_found',
-				__( 'Page not found.', 'mumega-mcp' ),
+				__( 'Page not found.', 'site-pilot-ai' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -249,7 +249,7 @@ class Spai_Pages {
 		if ( ! $result ) {
 			return new WP_Error(
 				'delete_failed',
-				__( 'Failed to delete page.', 'mumega-mcp' ),
+				__( 'Failed to delete page.', 'site-pilot-ai' ),
 				array( 'status' => 500 )
 			);
 		}

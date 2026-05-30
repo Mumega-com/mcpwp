@@ -234,19 +234,19 @@ class Spai_Multilang {
 	 */
 	public function create_post_translation( $post_id, $language, $data ) {
 		if ( ! $this->is_active() ) {
-			return new WP_Error( 'no_multilang', __( 'No multilingual plugin is active.', 'mumega-mcp' ), array( 'status' => 400 ) );
+			return new WP_Error( 'no_multilang', __( 'No multilingual plugin is active.', 'site-pilot-ai' ), array( 'status' => 400 ) );
 		}
 
 		// Validate language.
 		$languages = wp_list_pluck( $this->get_languages(), 'code' );
 		if ( ! in_array( $language, $languages, true ) ) {
-			return new WP_Error( 'invalid_language', __( 'Invalid language code.', 'mumega-mcp' ), array( 'status' => 400 ) );
+			return new WP_Error( 'invalid_language', __( 'Invalid language code.', 'site-pilot-ai' ), array( 'status' => 400 ) );
 		}
 
 		// Check if translation already exists.
 		$existing = $this->get_post_translations( $post_id );
 		if ( isset( $existing[ $language ] ) ) {
-			return new WP_Error( 'translation_exists', __( 'Translation already exists for this language.', 'mumega-mcp' ), array( 'status' => 409 ) );
+			return new WP_Error( 'translation_exists', __( 'Translation already exists for this language.', 'site-pilot-ai' ), array( 'status' => 409 ) );
 		}
 
 		switch ( $this->detected_plugin ) {
@@ -255,9 +255,9 @@ class Spai_Multilang {
 			case 'polylang':
 				return $this->create_polylang_translation( $post_id, $language, $data );
 			case 'translatepress':
-				return new WP_Error( 'not_supported', __( 'TranslatePress uses inline translation, not separate posts.', 'mumega-mcp' ), array( 'status' => 400 ) );
+				return new WP_Error( 'not_supported', __( 'TranslatePress uses inline translation, not separate posts.', 'site-pilot-ai' ), array( 'status' => 400 ) );
 			default:
-				return new WP_Error( 'unknown_plugin', __( 'Unknown multilingual plugin.', 'mumega-mcp' ), array( 'status' => 500 ) );
+				return new WP_Error( 'unknown_plugin', __( 'Unknown multilingual plugin.', 'site-pilot-ai' ), array( 'status' => 500 ) );
 		}
 	}
 
@@ -402,7 +402,7 @@ class Spai_Multilang {
 	private function create_wpml_translation( $post_id, $language, $data ) {
 		$original = get_post( $post_id );
 		if ( ! $original ) {
-			return new WP_Error( 'not_found', __( 'Original post not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Original post not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
 		}
 
 		// Create the translated post.
@@ -557,7 +557,7 @@ class Spai_Multilang {
 	private function create_polylang_translation( $post_id, $language, $data ) {
 		$original = get_post( $post_id );
 		if ( ! $original ) {
-			return new WP_Error( 'not_found', __( 'Original post not found.', 'mumega-mcp' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Original post not found.', 'site-pilot-ai' ), array( 'status' => 404 ) );
 		}
 
 		// Create the translated post.

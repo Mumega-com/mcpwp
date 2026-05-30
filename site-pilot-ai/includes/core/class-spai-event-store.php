@@ -126,27 +126,27 @@ class Spai_Event_Store {
 		return array(
 			'approval.created' => array(
 				'hook'        => 'spai_approval_created',
-				'description' => __( 'An approval request was created.', 'mumega-mcp' ),
+				'description' => __( 'An approval request was created.', 'site-pilot-ai' ),
 			),
 			'approval.approved' => array(
 				'hook'        => 'spai_approval_approved',
-				'description' => __( 'An approval request was approved.', 'mumega-mcp' ),
+				'description' => __( 'An approval request was approved.', 'site-pilot-ai' ),
 			),
 			'approval.rejected' => array(
 				'hook'        => 'spai_approval_rejected',
-				'description' => __( 'An approval request was rejected.', 'mumega-mcp' ),
+				'description' => __( 'An approval request was rejected.', 'site-pilot-ai' ),
 			),
 			'approval.applied' => array(
 				'hook'        => 'spai_approval_applied',
-				'description' => __( 'An approved change was applied.', 'mumega-mcp' ),
+				'description' => __( 'An approved change was applied.', 'site-pilot-ai' ),
 			),
 			'approval.rolled_back' => array(
 				'hook'        => 'spai_approval_rolled_back',
-				'description' => __( 'An applied change was rolled back.', 'mumega-mcp' ),
+				'description' => __( 'An applied change was rolled back.', 'site-pilot-ai' ),
 			),
 			'seo.audit_completed' => array(
 				'hook'        => 'spai_seo_audit_completed',
-				'description' => __( 'A stored SEO audit completed.', 'mumega-mcp' ),
+				'description' => __( 'A stored SEO audit completed.', 'site-pilot-ai' ),
 			),
 		);
 	}

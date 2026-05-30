@@ -86,23 +86,23 @@ class Spai_REST_Events extends Spai_REST_API {
 				'default'     => 50,
 				'minimum'     => 1,
 				'maximum'     => 100,
-				'description' => __( 'Items per page.', 'mumega-mcp' ),
+				'description' => __( 'Items per page.', 'site-pilot-ai' ),
 			),
 			'page'     => array(
 				'type'        => 'integer',
 				'default'     => 1,
 				'minimum'     => 1,
-				'description' => __( 'Page number.', 'mumega-mcp' ),
+				'description' => __( 'Page number.', 'site-pilot-ai' ),
 			),
 			'status'   => array(
 				'type'        => 'string',
 				'default'     => 'publish',
 				'enum'        => array( 'publish', 'draft', 'pending', 'private', 'any' ),
-				'description' => __( 'Event status.', 'mumega-mcp' ),
+				'description' => __( 'Event status.', 'site-pilot-ai' ),
 			),
 			'search'   => array(
 				'type'        => 'string',
-				'description' => __( 'Search term.', 'mumega-mcp' ),
+				'description' => __( 'Search term.', 'site-pilot-ai' ),
 			),
 		);
 	}

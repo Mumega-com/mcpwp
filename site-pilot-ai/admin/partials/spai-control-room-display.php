@@ -40,12 +40,12 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		<span class="spai-logo">
 			<span class="dashicons dashicons-visibility"></span>
 		</span>
-		<?php esc_html_e( 'Control Room', 'mumega-mcp' ); ?>
+		<?php esc_html_e( 'Control Room', 'site-pilot-ai' ); ?>
 		<span class="spai-version">v<?php echo esc_html( SPAI_VERSION ); ?></span>
 	</h1>
 
 	<p class="description">
-		<?php esc_html_e( 'Review agent work, SEO findings, recent activity, and rollback-ready changes from one supervised WordPress screen.', 'mumega-mcp' ); ?>
+		<?php esc_html_e( 'Review agent work, SEO findings, recent activity, and rollback-ready changes from one supervised WordPress screen.', 'site-pilot-ai' ); ?>
 	</p>
 
 	<?php settings_errors( 'spai_messages' ); ?>
@@ -54,27 +54,27 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		<div class="spai-library-stat spai-control-stat <?php echo esc_attr( $pending_count > 0 ? 'is-warning' : 'is-good' ); ?>">
 			<span class="spai-control-stat__icon dashicons <?php echo esc_attr( $pending_count > 0 ? 'dashicons-clock' : 'dashicons-yes-alt' ); ?>"></span>
 			<span class="spai-library-stat__value"><?php echo esc_html( (string) $pending_count ); ?></span>
-			<span class="spai-library-stat__label"><?php esc_html_e( 'Pending approvals', 'mumega-mcp' ); ?></span>
+			<span class="spai-library-stat__label"><?php esc_html_e( 'Pending approvals', 'site-pilot-ai' ); ?></span>
 		</div>
 		<div class="spai-library-stat spai-control-stat <?php echo esc_attr( $applied_count > 0 ? 'is-info' : 'is-good' ); ?>">
 			<span class="spai-control-stat__icon dashicons <?php echo esc_attr( $applied_count > 0 ? 'dashicons-backup' : 'dashicons-shield' ); ?>"></span>
 			<span class="spai-library-stat__value"><?php echo esc_html( (string) $applied_count ); ?></span>
-			<span class="spai-library-stat__label"><?php esc_html_e( 'Rollback-ready changes', 'mumega-mcp' ); ?></span>
+			<span class="spai-library-stat__label"><?php esc_html_e( 'Rollback-ready changes', 'site-pilot-ai' ); ?></span>
 		</div>
 		<div class="spai-library-stat spai-control-stat <?php echo esc_attr( $seo_open_count > 0 ? 'is-warning' : 'is-good' ); ?>">
 			<span class="spai-control-stat__icon dashicons <?php echo esc_attr( $seo_open_count > 0 ? 'dashicons-search' : 'dashicons-chart-line' ); ?>"></span>
 			<span class="spai-library-stat__value"><?php echo esc_html( (string) $seo_open_count ); ?></span>
-			<span class="spai-library-stat__label"><?php esc_html_e( 'Open SEO issues', 'mumega-mcp' ); ?></span>
+			<span class="spai-library-stat__label"><?php esc_html_e( 'Open SEO issues', 'site-pilot-ai' ); ?></span>
 		</div>
 		<div class="spai-library-stat spai-control-stat <?php echo esc_attr( $seo_error_count > 0 ? 'is-critical' : 'is-good' ); ?>">
 			<span class="spai-control-stat__icon dashicons <?php echo esc_attr( $seo_error_count > 0 ? 'dashicons-warning' : 'dashicons-yes' ); ?>"></span>
 			<span class="spai-library-stat__value"><?php echo esc_html( (string) $seo_error_count ); ?></span>
-			<span class="spai-library-stat__label"><?php esc_html_e( 'SEO errors', 'mumega-mcp' ); ?></span>
+			<span class="spai-library-stat__label"><?php esc_html_e( 'SEO errors', 'site-pilot-ai' ); ?></span>
 		</div>
 		<div class="spai-library-stat spai-control-stat <?php echo esc_attr( $event_escalated_count > 0 ? 'is-critical' : 'is-good' ); ?>">
 			<span class="spai-control-stat__icon dashicons <?php echo esc_attr( $event_escalated_count > 0 ? 'dashicons-bell' : 'dashicons-yes-alt' ); ?>"></span>
 			<span class="spai-library-stat__value"><?php echo esc_html( (string) $event_escalated_count ); ?></span>
-			<span class="spai-library-stat__label"><?php esc_html_e( 'Escalated events', 'mumega-mcp' ); ?></span>
+			<span class="spai-library-stat__label"><?php esc_html_e( 'Escalated events', 'site-pilot-ai' ); ?></span>
 		</div>
 	</div>
 
@@ -82,7 +82,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		<div class="spai-card">
 			<h2>
 				<span class="dashicons dashicons-yes-alt"></span>
-				<?php esc_html_e( 'Recommended Next Actions', 'mumega-mcp' ); ?>
+				<?php esc_html_e( 'Recommended Next Actions', 'site-pilot-ai' ); ?>
 			</h2>
 			<?php foreach ( $recommendations as $recommendation ) : ?>
 				<div class="spai-control-action spai-control-action--<?php echo esc_attr( sanitize_html_class( $recommendation['priority'] ?? 'low' ) ); ?>">
@@ -100,12 +100,12 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		<div class="spai-card">
 			<h2>
 				<span class="dashicons dashicons-shield"></span>
-				<?php esc_html_e( 'Pending Approvals', 'mumega-mcp' ); ?>
+				<?php esc_html_e( 'Pending Approvals', 'site-pilot-ai' ); ?>
 			</h2>
 			<?php if ( empty( $pending_items ) ) : ?>
 				<div class="spai-control-empty is-good">
 					<span class="dashicons dashicons-yes-alt"></span>
-					<p><?php esc_html_e( 'No pending approval requests.', 'mumega-mcp' ); ?></p>
+					<p><?php esc_html_e( 'No pending approval requests.', 'site-pilot-ai' ); ?></p>
 				</div>
 			<?php else : ?>
 				<ul class="spai-control-list">
@@ -124,16 +124,16 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
 									<input type="hidden" name="spai_control_room_action" value="approve">
 									<input type="hidden" name="spai_approval_id" value="<?php echo esc_attr( $item['id'] ?? '' ); ?>">
-									<button type="submit" class="button button-primary"><?php esc_html_e( 'Approve', 'mumega-mcp' ); ?></button>
+									<button type="submit" class="button button-primary"><?php esc_html_e( 'Approve', 'site-pilot-ai' ); ?></button>
 								</form>
 								<form method="post">
 									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
 									<input type="hidden" name="spai_control_room_action" value="reject">
 									<input type="hidden" name="spai_approval_id" value="<?php echo esc_attr( $item['id'] ?? '' ); ?>">
-									<button type="submit" class="button"><?php esc_html_e( 'Reject', 'mumega-mcp' ); ?></button>
+									<button type="submit" class="button"><?php esc_html_e( 'Reject', 'site-pilot-ai' ); ?></button>
 								</form>
 								<?php if ( $edit_url ) : ?>
-									<a class="button" href="<?php echo esc_url( $edit_url ); ?>"><?php esc_html_e( 'Open resource', 'mumega-mcp' ); ?></a>
+									<a class="button" href="<?php echo esc_url( $edit_url ); ?>"><?php esc_html_e( 'Open resource', 'site-pilot-ai' ); ?></a>
 								<?php endif; ?>
 							</div>
 						</li>
@@ -147,13 +147,13 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		<div class="spai-card">
 			<h2>
 				<span class="dashicons dashicons-saved"></span>
-				<?php esc_html_e( 'Approved Changes', 'mumega-mcp' ); ?>
+				<?php esc_html_e( 'Approved Changes', 'site-pilot-ai' ); ?>
 			</h2>
 			<p class="description">
 				<?php
 				printf(
 					/* translators: %d: number of approved approvals */
-					esc_html( _n( '%d approved change is ready to apply.', '%d approved changes are ready to apply.', $approved_count, 'mumega-mcp' ) ),
+					esc_html( _n( '%d approved change is ready to apply.', '%d approved changes are ready to apply.', $approved_count, 'site-pilot-ai' ) ),
 					esc_html( (string) $approved_count )
 				);
 				?>
@@ -161,7 +161,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 			<?php if ( empty( $approved_items ) ) : ?>
 				<div class="spai-control-empty is-muted">
 					<span class="dashicons dashicons-shield"></span>
-					<p><?php esc_html_e( 'No approved approval requests are waiting to apply.', 'mumega-mcp' ); ?></p>
+					<p><?php esc_html_e( 'No approved approval requests are waiting to apply.', 'site-pilot-ai' ); ?></p>
 				</div>
 			<?php else : ?>
 				<ul class="spai-control-list">
@@ -175,13 +175,13 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
 									<input type="hidden" name="spai_control_room_action" value="apply">
 									<input type="hidden" name="spai_approval_id" value="<?php echo esc_attr( $item['id'] ?? '' ); ?>">
-									<button type="submit" class="button button-primary"><?php esc_html_e( 'Apply', 'mumega-mcp' ); ?></button>
+									<button type="submit" class="button button-primary"><?php esc_html_e( 'Apply', 'site-pilot-ai' ); ?></button>
 								</form>
 								<form method="post">
 									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
 									<input type="hidden" name="spai_control_room_action" value="reject">
 									<input type="hidden" name="spai_approval_id" value="<?php echo esc_attr( $item['id'] ?? '' ); ?>">
-									<button type="submit" class="button"><?php esc_html_e( 'Reject', 'mumega-mcp' ); ?></button>
+									<button type="submit" class="button"><?php esc_html_e( 'Reject', 'site-pilot-ai' ); ?></button>
 								</form>
 							</div>
 						</li>
@@ -194,49 +194,49 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 			<div class="spai-control-card-header">
 				<h2>
 					<span class="dashicons dashicons-search"></span>
-					<?php esc_html_e( 'Stored SEO Issues', 'mumega-mcp' ); ?>
+					<?php esc_html_e( 'Stored SEO Issues', 'site-pilot-ai' ); ?>
 				</h2>
 				<form method="post">
 					<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
 					<input type="hidden" name="spai_control_room_action" value="run_seo_audit">
-					<button type="submit" class="button button-primary"><?php esc_html_e( 'Run SEO Audit', 'mumega-mcp' ); ?></button>
+					<button type="submit" class="button button-primary"><?php esc_html_e( 'Run SEO Audit', 'site-pilot-ai' ); ?></button>
 				</form>
 			</div>
 			<form method="get" class="spai-control-filters">
 				<input type="hidden" name="page" value="<?php echo esc_attr( Spai_Admin::CONTROL_ROOM_PAGE_SLUG ); ?>">
 				<label>
-					<span><?php esc_html_e( 'Status', 'mumega-mcp' ); ?></span>
+					<span><?php esc_html_e( 'Status', 'site-pilot-ai' ); ?></span>
 					<select name="spai_seo_status">
-						<option value="open" <?php selected( $seo_filters['status'] ?? 'open', 'open' ); ?>><?php esc_html_e( 'Open', 'mumega-mcp' ); ?></option>
-						<option value="resolved" <?php selected( $seo_filters['status'] ?? '', 'resolved' ); ?>><?php esc_html_e( 'Resolved', 'mumega-mcp' ); ?></option>
-						<option value="" <?php selected( $seo_filters['status'] ?? '', '' ); ?>><?php esc_html_e( 'Any', 'mumega-mcp' ); ?></option>
+						<option value="open" <?php selected( $seo_filters['status'] ?? 'open', 'open' ); ?>><?php esc_html_e( 'Open', 'site-pilot-ai' ); ?></option>
+						<option value="resolved" <?php selected( $seo_filters['status'] ?? '', 'resolved' ); ?>><?php esc_html_e( 'Resolved', 'site-pilot-ai' ); ?></option>
+						<option value="" <?php selected( $seo_filters['status'] ?? '', '' ); ?>><?php esc_html_e( 'Any', 'site-pilot-ai' ); ?></option>
 					</select>
 				</label>
 				<label>
-					<span><?php esc_html_e( 'Severity', 'mumega-mcp' ); ?></span>
+					<span><?php esc_html_e( 'Severity', 'site-pilot-ai' ); ?></span>
 					<select name="spai_seo_severity">
-						<option value="" <?php selected( $seo_filters['severity'] ?? '', '' ); ?>><?php esc_html_e( 'Any', 'mumega-mcp' ); ?></option>
-						<option value="error" <?php selected( $seo_filters['severity'] ?? '', 'error' ); ?>><?php esc_html_e( 'Error', 'mumega-mcp' ); ?></option>
-						<option value="warning" <?php selected( $seo_filters['severity'] ?? '', 'warning' ); ?>><?php esc_html_e( 'Warning', 'mumega-mcp' ); ?></option>
-						<option value="info" <?php selected( $seo_filters['severity'] ?? '', 'info' ); ?>><?php esc_html_e( 'Info', 'mumega-mcp' ); ?></option>
+						<option value="" <?php selected( $seo_filters['severity'] ?? '', '' ); ?>><?php esc_html_e( 'Any', 'site-pilot-ai' ); ?></option>
+						<option value="error" <?php selected( $seo_filters['severity'] ?? '', 'error' ); ?>><?php esc_html_e( 'Error', 'site-pilot-ai' ); ?></option>
+						<option value="warning" <?php selected( $seo_filters['severity'] ?? '', 'warning' ); ?>><?php esc_html_e( 'Warning', 'site-pilot-ai' ); ?></option>
+						<option value="info" <?php selected( $seo_filters['severity'] ?? '', 'info' ); ?>><?php esc_html_e( 'Info', 'site-pilot-ai' ); ?></option>
 					</select>
 				</label>
 				<label>
-					<span><?php esc_html_e( 'Category', 'mumega-mcp' ); ?></span>
+					<span><?php esc_html_e( 'Category', 'site-pilot-ai' ); ?></span>
 					<select name="spai_seo_category">
-						<option value="" <?php selected( $seo_filters['category'] ?? '', '' ); ?>><?php esc_html_e( 'Any', 'mumega-mcp' ); ?></option>
-						<option value="readiness" <?php selected( $seo_filters['category'] ?? '', 'readiness' ); ?>><?php esc_html_e( 'Readiness', 'mumega-mcp' ); ?></option>
-						<option value="structured_data" <?php selected( $seo_filters['category'] ?? '', 'structured_data' ); ?>><?php esc_html_e( 'Structured data', 'mumega-mcp' ); ?></option>
-						<option value="media" <?php selected( $seo_filters['category'] ?? '', 'media' ); ?>><?php esc_html_e( 'Media', 'mumega-mcp' ); ?></option>
-						<option value="content_quality" <?php selected( $seo_filters['category'] ?? '', 'content_quality' ); ?>><?php esc_html_e( 'Content quality', 'mumega-mcp' ); ?></option>
+						<option value="" <?php selected( $seo_filters['category'] ?? '', '' ); ?>><?php esc_html_e( 'Any', 'site-pilot-ai' ); ?></option>
+						<option value="readiness" <?php selected( $seo_filters['category'] ?? '', 'readiness' ); ?>><?php esc_html_e( 'Readiness', 'site-pilot-ai' ); ?></option>
+						<option value="structured_data" <?php selected( $seo_filters['category'] ?? '', 'structured_data' ); ?>><?php esc_html_e( 'Structured data', 'site-pilot-ai' ); ?></option>
+						<option value="media" <?php selected( $seo_filters['category'] ?? '', 'media' ); ?>><?php esc_html_e( 'Media', 'site-pilot-ai' ); ?></option>
+						<option value="content_quality" <?php selected( $seo_filters['category'] ?? '', 'content_quality' ); ?>><?php esc_html_e( 'Content quality', 'site-pilot-ai' ); ?></option>
 					</select>
 				</label>
-				<button type="submit" class="button"><?php esc_html_e( 'Filter', 'mumega-mcp' ); ?></button>
+				<button type="submit" class="button"><?php esc_html_e( 'Filter', 'site-pilot-ai' ); ?></button>
 			</form>
 			<?php if ( empty( $seo_issues ) ) : ?>
 				<div class="spai-control-empty is-good">
 					<span class="dashicons dashicons-chart-line"></span>
-					<p><?php esc_html_e( 'No stored open SEO issues. Run a site SEO audit with store=true to populate this panel.', 'mumega-mcp' ); ?></p>
+					<p><?php esc_html_e( 'No stored open SEO issues. Run a site SEO audit with store=true to populate this panel.', 'site-pilot-ai' ); ?></p>
 				</div>
 			<?php else : ?>
 				<ul class="spai-control-list">
@@ -256,7 +256,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 								<?php echo esc_html( ' · ' . (string) ( $issue['category'] ?? '' ) ); ?>
 							</span>
 							<?php if ( $edit_url ) : ?>
-								<a href="<?php echo esc_url( $edit_url ); ?>"><?php echo esc_html( $issue['title'] ?? __( 'Open post', 'mumega-mcp' ) ); ?></a>
+								<a href="<?php echo esc_url( $edit_url ); ?>"><?php echo esc_html( $issue['title'] ?? __( 'Open post', 'site-pilot-ai' ) ); ?></a>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -267,12 +267,12 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		<div class="spai-card">
 			<h2>
 				<span class="dashicons dashicons-backup"></span>
-				<?php esc_html_e( 'Rollback Ready', 'mumega-mcp' ); ?>
+				<?php esc_html_e( 'Rollback Ready', 'site-pilot-ai' ); ?>
 			</h2>
 			<?php if ( empty( $rollback_items ) ) : ?>
 				<div class="spai-control-empty is-muted">
 					<span class="dashicons dashicons-shield"></span>
-					<p><?php esc_html_e( 'No applied approval requests are currently listed for rollback.', 'mumega-mcp' ); ?></p>
+					<p><?php esc_html_e( 'No applied approval requests are currently listed for rollback.', 'site-pilot-ai' ); ?></p>
 				</div>
 			<?php else : ?>
 				<ul class="spai-control-list">
@@ -286,7 +286,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
 									<input type="hidden" name="spai_control_room_action" value="rollback">
 									<input type="hidden" name="spai_approval_id" value="<?php echo esc_attr( $item['id'] ?? '' ); ?>">
-									<button type="submit" class="button"><?php esc_html_e( 'Rollback', 'mumega-mcp' ); ?></button>
+									<button type="submit" class="button"><?php esc_html_e( 'Rollback', 'site-pilot-ai' ); ?></button>
 								</form>
 							</div>
 						</li>
@@ -300,13 +300,13 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		<div class="spai-control-card-header">
 			<h2>
 				<span class="dashicons dashicons-bell"></span>
-				<?php esc_html_e( 'Event Inbox', 'mumega-mcp' ); ?>
+				<?php esc_html_e( 'Event Inbox', 'site-pilot-ai' ); ?>
 			</h2>
 			<span class="spai-control-count">
 				<?php
 				printf(
 					/* translators: %d: number of visible events */
-					esc_html( _n( '%d event', '%d events', (int) ( $event_summary['total'] ?? 0 ), 'mumega-mcp' ) ),
+					esc_html( _n( '%d event', '%d events', (int) ( $event_summary['total'] ?? 0 ), 'site-pilot-ai' ) ),
 					esc_html( (string) ( $event_summary['total'] ?? 0 ) )
 				);
 				?>
@@ -315,24 +315,24 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		<form method="get" class="spai-control-filters">
 			<input type="hidden" name="page" value="<?php echo esc_attr( Spai_Admin::CONTROL_ROOM_PAGE_SLUG ); ?>">
 			<label>
-				<span><?php esc_html_e( 'Event type', 'mumega-mcp' ); ?></span>
+				<span><?php esc_html_e( 'Event type', 'site-pilot-ai' ); ?></span>
 				<input type="text" name="spai_event_type" value="<?php echo esc_attr( $event_filters['type'] ?? '' ); ?>" placeholder="approval.created">
 			</label>
 			<label>
-				<span><?php esc_html_e( 'Risk', 'mumega-mcp' ); ?></span>
+				<span><?php esc_html_e( 'Risk', 'site-pilot-ai' ); ?></span>
 				<select name="spai_event_risk">
-					<option value="" <?php selected( $event_filters['risk_level'] ?? '', '' ); ?>><?php esc_html_e( 'Any', 'mumega-mcp' ); ?></option>
-					<option value="high" <?php selected( $event_filters['risk_level'] ?? '', 'high' ); ?>><?php esc_html_e( 'High', 'mumega-mcp' ); ?></option>
-					<option value="medium" <?php selected( $event_filters['risk_level'] ?? '', 'medium' ); ?>><?php esc_html_e( 'Medium', 'mumega-mcp' ); ?></option>
-					<option value="low" <?php selected( $event_filters['risk_level'] ?? '', 'low' ); ?>><?php esc_html_e( 'Low', 'mumega-mcp' ); ?></option>
+					<option value="" <?php selected( $event_filters['risk_level'] ?? '', '' ); ?>><?php esc_html_e( 'Any', 'site-pilot-ai' ); ?></option>
+					<option value="high" <?php selected( $event_filters['risk_level'] ?? '', 'high' ); ?>><?php esc_html_e( 'High', 'site-pilot-ai' ); ?></option>
+					<option value="medium" <?php selected( $event_filters['risk_level'] ?? '', 'medium' ); ?>><?php esc_html_e( 'Medium', 'site-pilot-ai' ); ?></option>
+					<option value="low" <?php selected( $event_filters['risk_level'] ?? '', 'low' ); ?>><?php esc_html_e( 'Low', 'site-pilot-ai' ); ?></option>
 				</select>
 			</label>
-			<button type="submit" class="button"><?php esc_html_e( 'Filter', 'mumega-mcp' ); ?></button>
+			<button type="submit" class="button"><?php esc_html_e( 'Filter', 'site-pilot-ai' ); ?></button>
 		</form>
 		<?php if ( empty( $event_items ) ) : ?>
 			<div class="spai-control-empty is-muted">
 				<span class="dashicons dashicons-bell"></span>
-				<p><?php esc_html_e( 'No normalized events match the current filters yet.', 'mumega-mcp' ); ?></p>
+				<p><?php esc_html_e( 'No normalized events match the current filters yet.', 'site-pilot-ai' ); ?></p>
 			</div>
 		<?php else : ?>
 			<ul class="spai-control-list spai-control-event-list">
@@ -369,21 +369,21 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 	<div class="spai-card">
 		<h2>
 			<span class="dashicons dashicons-list-view"></span>
-			<?php esc_html_e( 'Recent Agent Activity', 'mumega-mcp' ); ?>
+			<?php esc_html_e( 'Recent Agent Activity', 'site-pilot-ai' ); ?>
 		</h2>
 		<?php if ( empty( $activity_rows ) ) : ?>
 			<div class="spai-control-empty is-muted">
 				<span class="dashicons dashicons-list-view"></span>
-				<p><?php esc_html_e( 'No activity recorded yet.', 'mumega-mcp' ); ?></p>
+				<p><?php esc_html_e( 'No activity recorded yet.', 'site-pilot-ai' ); ?></p>
 			</div>
 		<?php else : ?>
 			<table class="widefat striped">
 				<thead>
 					<tr>
-						<th><?php esc_html_e( 'When', 'mumega-mcp' ); ?></th>
-						<th><?php esc_html_e( 'Action', 'mumega-mcp' ); ?></th>
-						<th><?php esc_html_e( 'Endpoint', 'mumega-mcp' ); ?></th>
-						<th><?php esc_html_e( 'Status', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'When', 'site-pilot-ai' ); ?></th>
+						<th><?php esc_html_e( 'Action', 'site-pilot-ai' ); ?></th>
+						<th><?php esc_html_e( 'Endpoint', 'site-pilot-ai' ); ?></th>
+						<th><?php esc_html_e( 'Status', 'site-pilot-ai' ); ?></th>
 					</tr>
 				</thead>
 				<tbody>

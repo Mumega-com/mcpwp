@@ -90,7 +90,7 @@ class Spai_SEO_Audit_Store {
 					),
 					'risk_level'         => ! empty( $run['summary']['error_count'] ) ? 'high' : ( ! empty( $run['summary']['warning_count'] ) ? 'medium' : 'low' ),
 					'seo_state'          => isset( $run['summary']['status'] ) ? sanitize_key( (string) $run['summary']['status'] ) : '',
-					'recommended_action' => __( 'Review stored SEO issues.', 'mumega-mcp' ),
+					'recommended_action' => __( 'Review stored SEO issues.', 'site-pilot-ai' ),
 				)
 			);
 		}

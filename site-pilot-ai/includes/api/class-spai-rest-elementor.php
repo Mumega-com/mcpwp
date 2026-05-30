@@ -63,7 +63,7 @@ class Spai_REST_Elementor extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'ids' => array(
-							'description' => __( 'Comma-separated page IDs (max 25).', 'mumega-mcp' ),
+							'description' => __( 'Comma-separated page IDs (max 25).', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
@@ -83,7 +83,7 @@ class Spai_REST_Elementor extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'strip_defaults' => array(
-							'description' => __( 'Strip default widget settings to reduce payload size.', 'mumega-mcp' ),
+							'description' => __( 'Strip default widget settings to reduce payload size.', 'site-pilot-ai' ),
 							'type'        => 'boolean',
 							'default'     => false,
 						),
@@ -95,19 +95,19 @@ class Spai_REST_Elementor extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'elementor_data' => array(
-							'description' => __( 'Elementor data (JSON array or object).', 'mumega-mcp' ),
+							'description' => __( 'Elementor data (JSON array or object).', 'site-pilot-ai' ),
 							'type'        => array( 'string', 'array' ),
 						),
 						'elementor_json' => array(
-							'description' => __( 'Elementor data as JSON string.', 'mumega-mcp' ),
+							'description' => __( 'Elementor data as JSON string.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'elementor_data_base64' => array(
-							'description' => __( 'Base64-encoded Elementor JSON data. Use instead of elementor_data to avoid quoting/escaping issues with large HTML payloads.', 'mumega-mcp' ),
+							'description' => __( 'Base64-encoded Elementor JSON data. Use instead of elementor_data to avoid quoting/escaping issues with large HTML payloads.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'dry_run' => array(
-							'description' => __( 'If true, validate only — no changes are saved.', 'mumega-mcp' ),
+							'description' => __( 'If true, validate only — no changes are saved.', 'site-pilot-ai' ),
 							'type'        => 'boolean',
 							'default'     => false,
 						),
@@ -140,7 +140,7 @@ class Spai_REST_Elementor extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'format' => array(
-							'description' => __( 'Output format: "summary" (text + stats, no HTML — saves tokens), "text" (full text extraction), "html" (full rendered HTML).', 'mumega-mcp' ),
+							'description' => __( 'Output format: "summary" (text + stats, no HTML — saves tokens), "text" (full text extraction), "html" (full rendered HTML).', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'enum'        => array( 'summary', 'text', 'html' ),
 							'default'     => 'summary',
@@ -161,23 +161,23 @@ class Spai_REST_Elementor extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'element_id'      => array(
-							'description' => __( 'Elementor element ID to edit.', 'mumega-mcp' ),
+							'description' => __( 'Elementor element ID to edit.', 'site-pilot-ai' ),
 							'type'        => 'string',
 						),
 						'section_index'   => array(
-							'description' => __( 'Top-level section index (0-based).', 'mumega-mcp' ),
+							'description' => __( 'Top-level section index (0-based).', 'site-pilot-ai' ),
 							'type'        => 'integer',
 						),
 						'find'            => array(
-							'description' => __( 'Search criteria: {widgetType, "settings.key": value}.', 'mumega-mcp' ),
+							'description' => __( 'Search criteria: {widgetType, "settings.key": value}.', 'site-pilot-ai' ),
 							'type'        => 'object',
 						),
 						'settings'        => array(
-							'description' => __( 'Settings to merge into the element.', 'mumega-mcp' ),
+							'description' => __( 'Settings to merge into the element.', 'site-pilot-ai' ),
 							'type'        => 'object',
 						),
 						'delete_settings' => array(
-							'description' => __( 'Setting keys to remove from the element.', 'mumega-mcp' ),
+							'description' => __( 'Setting keys to remove from the element.', 'site-pilot-ai' ),
 							'type'        => 'array',
 							'items'       => array( 'type' => 'string' ),
 						),
@@ -201,12 +201,12 @@ class Spai_REST_Elementor extends Spai_REST_API {
 							'type'     => 'integer',
 						),
 						'element'  => array(
-							'description' => __( 'The new section/container element object.', 'mumega-mcp' ),
+							'description' => __( 'The new section/container element object.', 'site-pilot-ai' ),
 							'required'    => true,
 							'type'        => 'object',
 						),
 						'position' => array(
-							'description' => __( 'Position: start, end, before:{id}, after:{id}.', 'mumega-mcp' ),
+							'description' => __( 'Position: start, end, before:{id}, after:{id}.', 'site-pilot-ai' ),
 							'required'    => false,
 							'type'        => 'string',
 							'default'     => 'end',
@@ -231,7 +231,7 @@ class Spai_REST_Elementor extends Spai_REST_API {
 							'type'     => 'integer',
 						),
 						'element_id' => array(
-							'description' => __( 'The Elementor element ID to remove.', 'mumega-mcp' ),
+							'description' => __( 'The Elementor element ID to remove.', 'site-pilot-ai' ),
 							'required'    => true,
 							'type'        => 'string',
 						),
@@ -255,12 +255,12 @@ class Spai_REST_Elementor extends Spai_REST_API {
 							'type'     => 'integer',
 						),
 						'element_id' => array(
-							'description' => __( 'The Elementor element ID to replace.', 'mumega-mcp' ),
+							'description' => __( 'The Elementor element ID to replace.', 'site-pilot-ai' ),
 							'required'    => true,
 							'type'        => 'string',
 						),
 						'element'    => array(
-							'description' => __( 'The replacement section/container element.', 'mumega-mcp' ),
+							'description' => __( 'The replacement section/container element.', 'site-pilot-ai' ),
 							'required'    => true,
 							'type'        => 'object',
 						),
@@ -284,7 +284,7 @@ class Spai_REST_Elementor extends Spai_REST_API {
 							'type'     => 'integer',
 						),
 						'operations' => array(
-							'description' => __( 'Array of patch operations: {op, element_id, element, position, settings, delete_settings}.', 'mumega-mcp' ),
+							'description' => __( 'Array of patch operations: {op, element_id, element, position, settings, delete_settings}.', 'site-pilot-ai' ),
 							'required'    => true,
 							'type'        => 'array',
 						),
@@ -304,16 +304,16 @@ class Spai_REST_Elementor extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'widget_id'       => array(
-							'description' => __( 'Elementor widget element ID (8-char alphanumeric).', 'mumega-mcp' ),
+							'description' => __( 'Elementor widget element ID (8-char alphanumeric).', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'settings'        => array(
-							'description' => __( 'Settings to merge into the widget.', 'mumega-mcp' ),
+							'description' => __( 'Settings to merge into the widget.', 'site-pilot-ai' ),
 							'type'        => 'object',
 						),
 						'delete_settings' => array(
-							'description' => __( 'Setting keys to remove from the widget.', 'mumega-mcp' ),
+							'description' => __( 'Setting keys to remove from the widget.', 'site-pilot-ai' ),
 							'type'        => 'array',
 							'items'       => array( 'type' => 'string' ),
 						),
@@ -333,18 +333,18 @@ class Spai_REST_Elementor extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'title'          => array(
-							'description' => __( 'Page title.', 'mumega-mcp' ),
+							'description' => __( 'Page title.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'status'         => array(
-							'description' => __( 'Page status.', 'mumega-mcp' ),
+							'description' => __( 'Page status.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'enum'        => array( 'publish', 'draft', 'pending', 'private' ),
 							'default'     => 'draft',
 						),
 						'elementor_data' => array(
-							'description' => __( 'Initial Elementor data.', 'mumega-mcp' ),
+							'description' => __( 'Initial Elementor data.', 'site-pilot-ai' ),
 							'type'        => array( 'string', 'array' ),
 						),
 					),
@@ -363,12 +363,12 @@ class Spai_REST_Elementor extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'search'  => array(
-							'description' => __( 'Text to search for.', 'mumega-mcp' ),
+							'description' => __( 'Text to search for.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'replace' => array(
-							'description' => __( 'Replacement text.', 'mumega-mcp' ),
+							'description' => __( 'Replacement text.', 'site-pilot-ai' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
@@ -427,11 +427,11 @@ class Spai_REST_Elementor extends Spai_REST_API {
 					'permission_callback' => array( $this, 'check_permission' ),
 					'args'                => array(
 						'id' => array(
-							'description' => __( 'Page ID. Omit to regenerate all site CSS.', 'mumega-mcp' ),
+							'description' => __( 'Page ID. Omit to regenerate all site CSS.', 'site-pilot-ai' ),
 							'type'        => 'integer',
 						),
 						'force' => array(
-							'description' => __( 'Delete existing CSS files before regenerating.', 'mumega-mcp' ),
+							'description' => __( 'Delete existing CSS files before regenerating.', 'site-pilot-ai' ),
 							'type'        => 'boolean',
 							'default'     => false,
 						),
@@ -515,17 +515,17 @@ class Spai_REST_Elementor extends Spai_REST_API {
 
 		$ids_raw = $request->get_param( 'ids' );
 		if ( empty( $ids_raw ) ) {
-			return $this->error_response( 'missing_param', __( 'ids parameter is required.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'missing_param', __( 'ids parameter is required.', 'site-pilot-ai' ), 400 );
 		}
 
 		$page_ids = array_filter( array_map( 'absint', explode( ',', $ids_raw ) ) );
 
 		if ( count( $page_ids ) > 25 ) {
-			return $this->error_response( 'too_many_ids', __( 'Maximum 25 page IDs per request.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'too_many_ids', __( 'Maximum 25 page IDs per request.', 'site-pilot-ai' ), 400 );
 		}
 
 		if ( empty( $page_ids ) ) {
-			return $this->error_response( 'invalid_ids', __( 'No valid page IDs provided.', 'mumega-mcp' ), 400 );
+			return $this->error_response( 'invalid_ids', __( 'No valid page IDs provided.', 'site-pilot-ai' ), 400 );
 		}
 
 		$result = $this->elementor->get_elementor_data_bulk( $page_ids );
@@ -803,7 +803,7 @@ class Spai_REST_Elementor extends Spai_REST_API {
 		if ( empty( $raw ) ) {
 			return $this->error_response(
 				'no_elementor_data',
-				__( 'No Elementor data found for this post.', 'mumega-mcp' ),
+				__( 'No Elementor data found for this post.', 'site-pilot-ai' ),
 				404
 			);
 		}
@@ -815,7 +815,7 @@ class Spai_REST_Elementor extends Spai_REST_API {
 			return $this->success_response(
 				array(
 					'replacements' => 0,
-					'message'      => __( 'Search text not found in Elementor data.', 'mumega-mcp' ),
+					'message'      => __( 'Search text not found in Elementor data.', 'site-pilot-ai' ),
 				)
 			);
 		}

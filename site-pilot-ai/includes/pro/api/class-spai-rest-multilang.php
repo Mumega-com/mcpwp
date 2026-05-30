@@ -57,7 +57,7 @@ class Spai_REST_Multilang extends Spai_REST_API {
 					'language' => array(
 						'required'    => true,
 						'type'        => 'string',
-						'description' => __( 'Language code to set.', 'mumega-mcp' ),
+						'description' => __( 'Language code to set.', 'site-pilot-ai' ),
 					),
 				),
 			)
@@ -112,25 +112,25 @@ class Spai_REST_Multilang extends Spai_REST_API {
 			'language' => array(
 				'required'    => true,
 				'type'        => 'string',
-				'description' => __( 'Target language code.', 'mumega-mcp' ),
+				'description' => __( 'Target language code.', 'site-pilot-ai' ),
 			),
 			'title'    => array(
 				'type'        => 'string',
-				'description' => __( 'Translated title.', 'mumega-mcp' ),
+				'description' => __( 'Translated title.', 'site-pilot-ai' ),
 			),
 			'content'  => array(
 				'type'        => 'string',
-				'description' => __( 'Translated content.', 'mumega-mcp' ),
+				'description' => __( 'Translated content.', 'site-pilot-ai' ),
 			),
 			'excerpt'  => array(
 				'type'        => 'string',
-				'description' => __( 'Translated excerpt.', 'mumega-mcp' ),
+				'description' => __( 'Translated excerpt.', 'site-pilot-ai' ),
 			),
 			'status'   => array(
 				'type'        => 'string',
 				'default'     => 'draft',
 				'enum'        => array( 'draft', 'publish', 'pending', 'private' ),
-				'description' => __( 'Post status for translation.', 'mumega-mcp' ),
+				'description' => __( 'Post status for translation.', 'site-pilot-ai' ),
 			),
 		);
 	}
@@ -146,7 +146,7 @@ class Spai_REST_Multilang extends Spai_REST_API {
 				'active'    => false,
 				'plugin'    => null,
 				'languages' => array(),
-				'message'   => __( 'No multilingual plugin detected.', 'mumega-mcp' ),
+				'message'   => __( 'No multilingual plugin detected.', 'site-pilot-ai' ),
 			) );
 		}
 
@@ -163,7 +163,7 @@ class Spai_REST_Multilang extends Spai_REST_API {
 		if ( ! $this->handler->is_active() ) {
 			return new WP_Error(
 				'no_multilang',
-				__( 'No multilingual plugin is active.', 'mumega-mcp' ),
+				__( 'No multilingual plugin is active.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -175,7 +175,7 @@ class Spai_REST_Multilang extends Spai_REST_API {
 		if ( ! in_array( $language, $languages, true ) ) {
 			return new WP_Error(
 				'invalid_language',
-				__( 'Invalid language code.', 'mumega-mcp' ),
+				__( 'Invalid language code.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -186,7 +186,7 @@ class Spai_REST_Multilang extends Spai_REST_API {
 			'success'          => true,
 			'current_language' => $language,
 			/* translators: %s: language code (e.g. en, fr, de) */
-			'message'          => sprintf( __( 'Language set to %s.', 'mumega-mcp' ), $language ),
+			'message'          => sprintf( __( 'Language set to %s.', 'site-pilot-ai' ), $language ),
 		) );
 	}
 
@@ -204,7 +204,7 @@ class Spai_REST_Multilang extends Spai_REST_API {
 		if ( ! $post ) {
 			return new WP_Error(
 				'not_found',
-				__( 'Post not found.', 'mumega-mcp' ),
+				__( 'Post not found.', 'site-pilot-ai' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -215,7 +215,7 @@ class Spai_REST_Multilang extends Spai_REST_API {
 				'active'       => false,
 				'plugin'       => null,
 				'translations' => array(),
-				'message'      => __( 'No multilingual plugin detected.', 'mumega-mcp' ),
+				'message'      => __( 'No multilingual plugin detected.', 'site-pilot-ai' ),
 			) );
 		}
 
@@ -247,7 +247,7 @@ class Spai_REST_Multilang extends Spai_REST_API {
 		if ( ! $post ) {
 			return new WP_Error(
 				'not_found',
-				__( 'Post not found.', 'mumega-mcp' ),
+				__( 'Post not found.', 'site-pilot-ai' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -255,7 +255,7 @@ class Spai_REST_Multilang extends Spai_REST_API {
 		if ( ! $this->handler->is_active() ) {
 			return new WP_Error(
 				'no_multilang',
-				__( 'No multilingual plugin is active.', 'mumega-mcp' ),
+				__( 'No multilingual plugin is active.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}

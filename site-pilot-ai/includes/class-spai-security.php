@@ -26,7 +26,7 @@ class Spai_Security {
 		if ( empty( $parsed['host'] ) ) {
 			return new WP_Error(
 				'invalid_url',
-				__( 'URL must contain a valid host.', 'mumega-mcp' ),
+				__( 'URL must contain a valid host.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -38,7 +38,7 @@ class Spai_Security {
 		if ( in_array( $host, $blocked_hosts, true ) ) {
 			return new WP_Error(
 				'ssrf_blocked',
-				__( 'URLs pointing to localhost are not allowed.', 'mumega-mcp' ),
+				__( 'URLs pointing to localhost are not allowed.', 'site-pilot-ai' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -47,7 +47,7 @@ class Spai_Security {
 		if ( preg_match( '/\.(local|internal|localhost|test|invalid|example)$/i', $host ) ) {
 			return new WP_Error(
 				'ssrf_blocked',
-				__( 'URLs pointing to local/internal domains are not allowed.', 'mumega-mcp' ),
+				__( 'URLs pointing to local/internal domains are not allowed.', 'site-pilot-ai' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -59,7 +59,7 @@ class Spai_Security {
 		if ( $ip === $host && ! filter_var( $host, FILTER_VALIDATE_IP ) ) {
 			return new WP_Error(
 				'dns_resolution_failed',
-				__( 'Could not resolve hostname.', 'mumega-mcp' ),
+				__( 'Could not resolve hostname.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -67,7 +67,7 @@ class Spai_Security {
 		if ( ! self::is_public_ip( $ip ) ) {
 			return new WP_Error(
 				'ssrf_blocked',
-				__( 'URLs pointing to private/reserved IP addresses are not allowed.', 'mumega-mcp' ),
+				__( 'URLs pointing to private/reserved IP addresses are not allowed.', 'site-pilot-ai' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -77,7 +77,7 @@ class Spai_Security {
 		if ( ! in_array( $scheme, array( 'http', 'https' ), true ) ) {
 			return new WP_Error(
 				'invalid_scheme',
-				__( 'Only HTTP and HTTPS URLs are allowed.', 'mumega-mcp' ),
+				__( 'Only HTTP and HTTPS URLs are allowed.', 'site-pilot-ai' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -116,7 +116,7 @@ class Spai_Security {
 				'payload_too_large',
 				sprintf(
 					/* translators: %s: max size in MB */
-					__( 'JSON payload exceeds maximum size of %s MB.', 'mumega-mcp' ),
+					__( 'JSON payload exceeds maximum size of %s MB.', 'site-pilot-ai' ),
 					round( $max_size / 1048576, 1 )
 				),
 				array( 'status' => 413 )
@@ -130,7 +130,7 @@ class Spai_Security {
 				'json_too_deep',
 				sprintf(
 					/* translators: %d: max depth */
-					__( 'JSON nesting exceeds maximum depth of %d levels.', 'mumega-mcp' ),
+					__( 'JSON nesting exceeds maximum depth of %d levels.', 'site-pilot-ai' ),
 					$max_depth
 				),
 				array( 'status' => 400 )
