@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.34
+Stable tag: 2.8.35
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,10 @@ Each site needs its own plugin installation and API key.
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.35 =
+* Fix: Admin role now automatically grants full scopes (read+write+admin) — no longer requires scope checkboxes to be manually set.
+* UX: Scopes section hidden for preset roles; custom role shows scope controls.
 
 = 2.8.34 =
 * Security: Block SVG uploads via b64 endpoint — SVGs can carry stored XSS via script tags; use WP media library with sanitizer plugin instead.

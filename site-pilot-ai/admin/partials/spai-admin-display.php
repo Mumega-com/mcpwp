@@ -385,12 +385,13 @@ if ( isset( $new_key ) && $new_key ) {
 					<strong><?php esc_html_e( 'Access:', 'mumega-mcp' ); ?></strong>
 					<span id="spai-role-preview-categories"></span>
 				</div>
-				<p>
-					<strong><?php esc_html_e( 'Scopes', 'mumega-mcp' ); ?></strong><br />
+				<div id="spai-scopes-section" style="display:none;margin-bottom:12px;">
+					<strong><?php esc_html_e( 'Scopes', 'mumega-mcp' ); ?></strong>
+					<span id="spai-scopes-auto-note" style="margin-left:8px;color:#50575e;font-style:italic;font-size:12px;"></span><br />
 					<label><input type="checkbox" name="spai_scoped_key_scopes[]" value="read" checked /> <?php esc_html_e( 'Read', 'mumega-mcp' ); ?></label>
 					<label style="margin-left:12px;"><input type="checkbox" name="spai_scoped_key_scopes[]" value="write" checked /> <?php esc_html_e( 'Write', 'mumega-mcp' ); ?></label>
 					<label style="margin-left:12px;"><input type="checkbox" name="spai_scoped_key_scopes[]" value="admin" checked /> <?php esc_html_e( 'Admin', 'mumega-mcp' ); ?></label>
-				</p>
+				</div>
 				<button type="submit" name="spai_create_scoped_key" class="button button-primary">
 					<?php esc_html_e( 'Create API Key', 'mumega-mcp' ); ?>
 				</button>
@@ -398,12 +399,21 @@ if ( isset( $new_key ) && $new_key ) {
 
 			<script>
 			(function() {
-				var roleSelect = document.getElementById('spai_scoped_key_role');
-				var customDiv  = document.getElementById('spai-custom-categories');
-				var previewDiv = document.getElementById('spai-role-preview');
-				var previewCat = document.getElementById('spai-role-preview-categories');
-				var checkboxes = document.querySelectorAll('.spai-category-checkbox');
-				var catLabels  = <?php echo wp_json_encode( $all_cat_labels ); ?>;
+				var roleSelect  = document.getElementById('spai_scoped_key_role');
+				var customDiv   = document.getElementById('spai-custom-categories');
+				var previewDiv  = document.getElementById('spai-role-preview');
+				var previewCat  = document.getElementById('spai-role-preview-categories');
+				var scopesDiv   = document.getElementById('spai-scopes-section');
+				var scopesNote  = document.getElementById('spai-scopes-auto-note');
+				var checkboxes  = document.querySelectorAll('.spai-category-checkbox');
+				var catLabels   = <?php echo wp_json_encode( $all_cat_labels ); ?>;
+
+				var scopeLabels = {
+					admin:    '<?php echo esc_js( __( 'Auto: read + write + admin (full access)', 'mumega-mcp' ) ); ?>',
+					author:   '<?php echo esc_js( __( 'Auto: read + write', 'mumega-mcp' ) ); ?>',
+					designer: '<?php echo esc_js( __( 'Auto: read + write', 'mumega-mcp' ) ); ?>',
+					editor:   '<?php echo esc_js( __( 'Auto: read + write', 'mumega-mcp' ) ); ?>',
+				};
 
 				function updateRoleUI() {
 					var sel  = roleSelect.options[roleSelect.selectedIndex];
@@ -413,15 +423,21 @@ if ( isset( $new_key ) && $new_key ) {
 					if (role === 'custom') {
 						customDiv.style.display = 'block';
 						previewDiv.style.display = 'none';
+						scopesDiv.style.display = 'block';
+						scopesNote.textContent = '';
 					} else if (role === 'admin') {
 						customDiv.style.display = 'none';
 						previewDiv.style.display = 'block';
 						previewCat.textContent = '<?php echo esc_js( __( 'All categories (unrestricted)', 'mumega-mcp' ) ); ?>';
+						scopesDiv.style.display = 'none';
+						if (scopesNote) scopesNote.textContent = scopeLabels[role] || '';
 					} else {
 						customDiv.style.display = 'none';
 						previewDiv.style.display = 'block';
 						var labels = cats.map(function(c) { return catLabels[c] || c; });
 						previewCat.textContent = labels.join(', ');
+						scopesDiv.style.display = 'none';
+						if (scopesNote) scopesNote.textContent = scopeLabels[role] || '';
 					}
 
 					// Auto-check matching categories for preset roles.

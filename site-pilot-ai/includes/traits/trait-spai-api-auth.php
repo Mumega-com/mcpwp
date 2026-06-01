@@ -728,9 +728,11 @@ trait Spai_Api_Auth {
 		$all_cats        = array_keys( self::get_all_tool_category_labels() );
 		$tool_categories = array_values( array_intersect( array_map( 'sanitize_key', (array) $tool_categories ), $all_cats ) );
 
-		// Non-admin, non-custom roles: auto-derive scopes from role categories.
-		if ( 'admin' !== $role ) {
-			// All predefined roles need at minimum read + write.
+		// Admin role always gets all scopes — the role implies full privilege.
+		// Other roles get at minimum read+write regardless of submitted scopes.
+		if ( 'admin' === $role ) {
+			$scopes = array( 'read', 'write', 'admin' );
+		} else {
 			$scopes = array( 'read', 'write' );
 		}
 
