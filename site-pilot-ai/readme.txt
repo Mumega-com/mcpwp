@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.31
+Stable tag: 2.8.32
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,11 @@ Each site needs its own plugin installation and API key.
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.32 =
+* Fix: API key creation no longer falls back to read-only scope when scopes are omitted — defaults to full access (read, write, admin).
+* Fix: wp_upload_media_b64 now accepts mime_type parameter; caller-supplied mime type takes priority over filename detection.
+* Fix: REST schema for wp_create_api_key scopes param now documents default (all scopes) and enum values.
 
 = 2.8.31 =
 * Fix: Harden Freemius update checks so admin update pages reliably refresh the update cache.

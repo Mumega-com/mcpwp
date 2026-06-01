@@ -604,11 +604,13 @@ class Spai_REST_Site extends Spai_REST_API {
 							'type'        => 'string',
 						),
 						'scopes' => array(
-							'description' => __( 'Scopes for key (read, write, admin).', 'mumega-mcp' ),
+							'description' => __( 'Scopes for key (read, write, admin). Defaults to all scopes when omitted.', 'mumega-mcp' ),
 							'type'        => 'array',
 							'items'       => array(
 								'type' => 'string',
+								'enum' => array( 'read', 'write', 'admin' ),
 							),
+							'default'     => array( 'read', 'write', 'admin' ),
 						),
 					),
 				),

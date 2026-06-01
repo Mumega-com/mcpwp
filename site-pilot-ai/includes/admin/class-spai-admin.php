@@ -308,9 +308,6 @@ class Spai_Admin {
 
 			$label  = isset( $_POST['spai_scoped_key_label'] ) ? sanitize_text_field( wp_unslash( $_POST['spai_scoped_key_label'] ) ) : '';
 			$scopes = isset( $_POST['spai_scoped_key_scopes'] ) ? array_map( 'sanitize_key', (array) wp_unslash( $_POST['spai_scoped_key_scopes'] ) ) : array();
-			if ( empty( $scopes ) ) {
-				$scopes = array( 'read' );
-			}
 
 			$role            = isset( $_POST['spai_scoped_key_role'] ) ? sanitize_key( wp_unslash( $_POST['spai_scoped_key_role'] ) ) : 'admin';
 			$tool_categories = isset( $_POST['spai_scoped_key_categories'] ) ? array_map( 'sanitize_key', (array) wp_unslash( $_POST['spai_scoped_key_categories'] ) ) : array();

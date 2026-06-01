@@ -266,13 +266,17 @@ class Spai_Media {
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 		file_put_contents( $tmp_file, $decoded );
 
-		// Detect mime type.
-		$mime = wp_check_filetype( $filename );
-		if ( empty( $mime['type'] ) ) {
-			// Try from content.
-			$finfo = new finfo( FILEINFO_MIME_TYPE );
-			$detected_mime = $finfo->buffer( $decoded );
-			$mime['type'] = $detected_mime ?: 'application/octet-stream';
+		// Detect mime type — caller-supplied mime_type takes priority.
+		if ( ! empty( $args['mime_type'] ) ) {
+			$mime = array( 'type' => sanitize_mime_type( $args['mime_type'] ), 'ext' => '' );
+		} else {
+			$mime = wp_check_filetype( $filename );
+			if ( empty( $mime['type'] ) ) {
+				// Try from content.
+				$finfo = new finfo( FILEINFO_MIME_TYPE );
+				$detected_mime = $finfo->buffer( $decoded );
+				$mime['type'] = $detected_mime ?: 'application/octet-stream';
+			}
 		}
 
 		// Validate allowed file types.

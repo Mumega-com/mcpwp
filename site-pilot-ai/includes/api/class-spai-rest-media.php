@@ -151,12 +151,16 @@ class Spai_REST_Media extends Spai_REST_API {
 							'type'        => 'string',
 							'required'    => true,
 						),
-						'title'    => array(
+						'title'     => array(
 							'description' => __( 'Media title.', 'mumega-mcp' ),
 							'type'        => 'string',
 						),
-						'alt'      => array(
+						'alt'       => array(
 							'description' => __( 'Alt text.', 'mumega-mcp' ),
+							'type'        => 'string',
+						),
+						'mime_type' => array(
+							'description' => __( 'MIME type (e.g. image/png, image/svg+xml). Inferred from filename when omitted.', 'mumega-mcp' ),
 							'type'        => 'string',
 						),
 					),
@@ -384,8 +388,9 @@ class Spai_REST_Media extends Spai_REST_API {
 		}
 
 		$args = array(
-			'title' => $request->get_param( 'title' ),
-			'alt'   => $request->get_param( 'alt' ),
+			'title'     => $request->get_param( 'title' ),
+			'alt'       => $request->get_param( 'alt' ),
+			'mime_type' => $request->get_param( 'mime_type' ),
 		);
 
 		$result = $this->media->upload_from_base64( $data, $filename, $args );
