@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.32
+Stable tag: 2.8.33
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,10 @@ Each site needs its own plugin installation and API key.
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.33 =
+* Security: Restore least-privilege default for API key scopes — omitting scopes now defaults to read-only, not full access.
+* Security: MIME type validation for base64 uploads now verifies caller-supplied mime_type matches detected content type; mismatches are rejected.
 
 = 2.8.32 =
 * Fix: API key creation no longer falls back to read-only scope when scopes are omitted — defaults to full access (read, write, admin).

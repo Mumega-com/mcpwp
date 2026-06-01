@@ -266,16 +266,30 @@ class Spai_Media {
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 		file_put_contents( $tmp_file, $decoded );
 
-		// Detect mime type — caller-supplied mime_type takes priority.
+		// Detect mime type from filename and content — never trust caller alone.
+		$mime = wp_check_filetype( $filename );
+		if ( empty( $mime['type'] ) ) {
+			$finfo         = new finfo( FILEINFO_MIME_TYPE );
+			$detected_mime = $finfo->buffer( $decoded );
+			$mime['type']  = $detected_mime ?: 'application/octet-stream';
+		}
+
+		// If caller supplied mime_type, it must match the detected type exactly.
+		// A mismatch (e.g. uploading HTML claiming to be image/png) is rejected.
 		if ( ! empty( $args['mime_type'] ) ) {
-			$mime = array( 'type' => sanitize_mime_type( $args['mime_type'] ), 'ext' => '' );
-		} else {
-			$mime = wp_check_filetype( $filename );
-			if ( empty( $mime['type'] ) ) {
-				// Try from content.
-				$finfo = new finfo( FILEINFO_MIME_TYPE );
-				$detected_mime = $finfo->buffer( $decoded );
-				$mime['type'] = $detected_mime ?: 'application/octet-stream';
+			$supplied = sanitize_mime_type( $args['mime_type'] );
+			if ( $supplied !== $mime['type'] ) {
+				wp_delete_file( $tmp_file );
+				return new WP_Error(
+					'mime_mismatch',
+					sprintf(
+						/* translators: 1: supplied mime type, 2: detected mime type */
+						__( 'Supplied mime_type "%1$s" does not match detected type "%2$s". Upload rejected.', 'mumega-mcp' ),
+						$supplied,
+						$mime['type']
+					),
+					array( 'status' => 400 )
+				);
 			}
 		}
 
