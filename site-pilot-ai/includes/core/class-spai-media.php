@@ -293,6 +293,17 @@ class Spai_Media {
 			}
 		}
 
+		// Block SVG uploads — SVGs can contain <script> tags (stored XSS).
+		// WordPress does not ship an SVG sanitizer; block at the API layer.
+		if ( 'image/svg+xml' === $mime['type'] || str_ends_with( strtolower( $filename ), '.svg' ) ) {
+			wp_delete_file( $tmp_file );
+			return new WP_Error(
+				'svg_not_allowed',
+				__( 'SVG uploads are not allowed via the API. Upload SVGs directly through the WordPress media library with an SVG sanitizer plugin installed.', 'mumega-mcp' ),
+				array( 'status' => 400 )
+			);
+		}
+
 		// Validate allowed file types.
 		$check = wp_check_filetype_and_ext( $tmp_file, $filename );
 		if ( ! empty( $check['proper_filename'] ) ) {
