@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Mumega-com/mcpwp/main/site-pilot-ai/assets/banner-1544x500.png" alt="MCPWP — AI operations for WordPress" width="100%">
-</p>
-
 <h1 align="center">MCPWP</h1>
 
 <p align="center">
@@ -10,23 +6,22 @@
 
 <p align="center">
   <a href="#install">Install</a> •
-  <a href="#how-it-works">How It Works</a> •
+  <a href="#connect">Connect</a> •
   <a href="#tools">Tools</a> •
   <a href="#examples">Examples</a> •
-  <a href="#blueprints">24 Blueprints</a> •
+  <a href="#pricing">Pricing</a> •
   <a href="https://mcpwp.net">Website</a>
 </p>
 
 <p align="center">
   <a href="https://github.com/Mumega-com/mcpwp/stargazers"><img src="https://img.shields.io/github/stars/Mumega-com/mcpwp?style=flat-square" alt="Stars"></a>
   <a href="https://github.com/Mumega-com/mcpwp/releases"><img src="https://img.shields.io/github/v/release/Mumega-com/mcpwp?style=flat-square" alt="Release"></a>
+  <a href="https://www.npmjs.com/package/@mcpwp.net/mcpwp"><img src="https://img.shields.io/npm/v/%40mcpwp.net%2Fmcpwp.svg?style=flat-square&label=npm" alt="npm"></a>
+  <img src="https://img.shields.io/badge/plugin-v2.8.31-21759b?style=flat-square" alt="Plugin version">
   <img src="https://img.shields.io/badge/tools-up%20to%20239-blue?style=flat-square" alt="Tools">
-  <img src="https://img.shields.io/badge/blueprints-24-blue?style=flat-square" alt="Blueprints">
   <img src="https://img.shields.io/badge/MCP-compatible-brightgreen?style=flat-square" alt="MCP">
-  <img src="https://img.shields.io/badge/WordPress-5.0%2B-21759b?style=flat-square" alt="WordPress">
-  <img src="https://img.shields.io/badge/Elementor-4.x-92003B?style=flat-square" alt="Elementor">
   <img src="https://img.shields.io/badge/license-GPL--2.0-orange?style=flat-square" alt="License">
-  <img src="https://img.shields.io/badge/plans-paid%20%2B%20trial-blue?style=flat-square" alt="Paid plans and trial">
+  <img src="https://img.shields.io/badge/plans-free%20%2B%20pro-blue?style=flat-square" alt="Plans">
 </p>
 
 ---
@@ -92,7 +87,41 @@ Free tier is available on WordPress.org. Pro and Agency plans at [mcpwp.net/pric
 
 ## Connect
 
-### Claude Code / Claude Desktop
+### npm — Claude Desktop / Cursor / Windsurf (recommended)
+
+```bash
+npx @mcpwp.net/mcpwp --setup
+```
+
+Prompts for your WordPress URL and API key, saves config, and prints the exact JSON to paste into your client.
+
+**Claude Desktop** (`claude_desktop_config.json`):
+```json
+{
+  "mcpServers": {
+    "mcpwp": {
+      "command": "npx",
+      "args": ["-y", "@mcpwp.net/mcpwp"],
+      "env": { "WP_URL": "https://your-site.com", "WP_API_KEY": "spai_..." }
+    }
+  }
+}
+```
+
+**Claude Code** (`.mcp.json` in your project):
+```json
+{
+  "mcpServers": {
+    "wordpress": {
+      "command": "npx",
+      "args": ["-y", "@mcpwp.net/mcpwp"],
+      "env": { "WP_URL": "https://your-site.com", "WP_API_KEY": "spai_..." }
+    }
+  }
+}
+```
+
+### Streamable HTTP (direct, no npm)
 ```json
 {
   "mcpServers": {
@@ -103,9 +132,6 @@ Free tier is available on WordPress.org. Pro and Agency plans at [mcpwp.net/pric
   }
 }
 ```
-
-### Cursor / Windsurf
-Same URL and key — add in your MCP server settings.
 
 ### Claude Code Plugin
 ```bash
@@ -237,12 +263,14 @@ wc_create_product(name: "T-Shirt", regular_price: "29.99", type: "simple")
 - [x] Role-scoped API keys (5 roles)
 - [x] Elementor validation + auto-fix
 - [x] Admin UI (Setup, Library, Tools, Settings)
-- [x] Claude Code plugin with 6 skills
+- [x] Claude Code plugin
+- [x] npm package (`@mcpwp.net/mcpwp`)
+- [x] MCP registry listing
+- [x] Multi-site switching (`wp_switch_site` + `wp_list_sites`)
 - [ ] WordPress.org listing (submission in progress)
-- [ ] Managed MCP proxy for agencies
+- [ ] Agency dashboard
 - [ ] 30+ blueprint types
 - [ ] Visual diff — show what changed after MCP edits
-- [ ] Multi-site dashboard
 - [ ] WooCommerce product page blueprints
 
 ## Contributing
