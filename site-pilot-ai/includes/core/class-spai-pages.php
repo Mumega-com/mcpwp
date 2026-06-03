@@ -188,6 +188,8 @@ class Spai_Pages {
 			$page_data['post_name'] = sanitize_title( $data['slug'] );
 		}
 
+		$requested_slug = isset( $data['slug'] ) ? sanitize_title( $data['slug'] ) : null;
+
 		$result = wp_update_post( $page_data, true );
 
 		if ( is_wp_error( $result ) ) {
@@ -219,7 +221,23 @@ class Spai_Pages {
 			}
 		}
 
-		return $this->get_page( $page_id );
+		$page_result = $this->get_page( $page_id );
+
+		// Warn when WordPress silently rewrote the requested slug (uniqueness collision,
+		// e.g. auto-drafts or trashed posts already hold the slug → WP appends -2, -3...).
+		if ( null !== $requested_slug && is_array( $page_result ) && isset( $page_result['slug'] ) ) {
+			$stored_slug = $page_result['slug'];
+			if ( $stored_slug !== $requested_slug ) {
+				$page_result['slug_warning'] = sprintf(
+					/* translators: 1: requested slug, 2: actual stored slug */
+					__( 'Requested slug "%1$s" was not stored — WordPress rewrote it to "%2$s" due to a collision with another post. To force the slug, permanently delete any trashed or auto-draft posts that hold "%1$s" and then re-save.', 'mumega-mcp' ),
+					$requested_slug,
+					$stored_slug
+				);
+			}
+		}
+
+		return $page_result;
 	}
 
 	/**

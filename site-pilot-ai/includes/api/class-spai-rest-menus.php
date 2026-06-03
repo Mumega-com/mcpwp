@@ -494,7 +494,22 @@ class Spai_REST_Menus extends Spai_REST_API {
 		}
 
 		$existing = wp_get_nav_menu_object( $name );
-		$menu_id  = $existing && ! $overwrite ? (int) $existing->term_id : 0;
+
+		if ( $existing && $overwrite ) {
+			// Clear existing items before repopulating — prevents duplicate accumulation
+			// when the tool is called more than once with the same menu name.
+			$menu_id       = (int) $existing->term_id;
+			$existing_items = wp_get_nav_menu_items( $menu_id );
+			if ( is_array( $existing_items ) ) {
+				foreach ( $existing_items as $item ) {
+					wp_delete_post( $item->ID, true );
+				}
+			}
+		} elseif ( $existing ) {
+			$menu_id = (int) $existing->term_id;
+		} else {
+			$menu_id = 0;
+		}
 
 		if ( ! $menu_id ) {
 			$menu_id = wp_create_nav_menu( $name );

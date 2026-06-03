@@ -416,6 +416,40 @@ class Spai_REST_Elementor extends Spai_REST_API {
 			)
 		);
 
+		// Elementor kit CSS — read/write global CSS without Elementor Pro.
+		// The kit is a standard post; custom_css lives in _elementor_page_settings.
+		// wp_set_elementor_globals is Pro-only because it includes global colors/fonts,
+		// but CSS injection works on any Elementor install.
+		register_rest_route(
+			$this->namespace,
+			'/elementor/kit-css',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_kit_css' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+				),
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'set_kit_css' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'css'  => array(
+							'description' => __( 'CSS to write to the Elementor kit (global stylesheet).', 'mumega-mcp' ),
+							'type'        => 'string',
+							'required'    => true,
+						),
+						'mode' => array(
+							'description' => __( 'append (default) or replace.', 'mumega-mcp' ),
+							'type'        => 'string',
+							'enum'        => array( 'append', 'replace' ),
+							'default'     => 'replace',
+						),
+					),
+				),
+			)
+		);
+
 		// Regenerate CSS
 		register_rest_route(
 			$this->namespace,
@@ -808,15 +842,38 @@ class Spai_REST_Elementor extends Spai_REST_API {
 			);
 		}
 
-		// Perform replacement and count occurrences.
-		$updated = str_replace( $search, $replace, $raw, $count );
-
-		if ( 0 === $count ) {
+		// Quick check: does the search string even appear?
+		if ( 0 === substr_count( $raw, $search ) ) {
 			return $this->success_response(
 				array(
 					'replacements' => 0,
 					'message'      => __( 'Search text not found in Elementor data.', 'mumega-mcp' ),
 				)
+			);
+		}
+
+		// Decode first — replace on raw JSON string can corrupt serialization
+		// (e.g. a URL replacement that changes string length inside a quoted value
+		// breaks nothing structurally, but replacing JSON-significant characters
+		// like quote chars, brackets, or slashes silently destroys the data).
+		$decoded = json_decode( $raw, true );
+		if ( JSON_ERROR_NONE !== json_last_error() ) {
+			return $this->error_response(
+				'invalid_json',
+				__( 'Could not decode existing Elementor data. The stored data may be corrupt.', 'mumega-mcp' ),
+				500
+			);
+		}
+
+		$count   = 0;
+		$updated_decoded = $this->recursive_str_replace( $search, $replace, $decoded, $count );
+		$updated         = wp_json_encode( $updated_decoded );
+
+		if ( false === $updated ) {
+			return $this->error_response(
+				'json_encode_failed',
+				__( 'Failed to re-encode Elementor data after replacement. Aborting to prevent data loss.', 'mumega-mcp' ),
+				500
 			);
 		}
 
@@ -839,5 +896,113 @@ class Spai_REST_Elementor extends Spai_REST_API {
 				'replace'      => $replace,
 			)
 		);
+	}
+
+	/**
+	 * Get the Elementor kit's custom_css setting.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function get_kit_css( $request ) {
+		$this->log_activity( 'get_kit_css', $request );
+
+		if ( ! class_exists( '\Elementor\Plugin' ) ) {
+			return $this->error_response( 'elementor_not_active', __( 'Elementor is not active.', 'mumega-mcp' ), 400 );
+		}
+
+		$kit = \Elementor\Plugin::$instance->kits_manager->get_active_kit();
+		if ( ! $kit || ! $kit->get_id() ) {
+			return $this->error_response( 'no_kit', __( 'No active Elementor kit found.', 'mumega-mcp' ), 500 );
+		}
+
+		$settings   = get_post_meta( $kit->get_id(), '_elementor_page_settings', true );
+		$custom_css = is_array( $settings ) && isset( $settings['custom_css'] ) ? $settings['custom_css'] : '';
+
+		return $this->success_response(
+			array(
+				'kit_id'     => $kit->get_id(),
+				'custom_css' => $custom_css,
+				'length'     => strlen( $custom_css ),
+			)
+		);
+	}
+
+	/**
+	 * Set the Elementor kit's custom_css setting.
+	 *
+	 * Works on any Elementor install — does not require Elementor Pro.
+	 * Replaces or appends to the kit's global CSS.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function set_kit_css( $request ) {
+		$this->log_activity( 'set_kit_css', $request );
+
+		if ( ! class_exists( '\Elementor\Plugin' ) ) {
+			return $this->error_response( 'elementor_not_active', __( 'Elementor is not active.', 'mumega-mcp' ), 400 );
+		}
+
+		$kit = \Elementor\Plugin::$instance->kits_manager->get_active_kit();
+		if ( ! $kit || ! $kit->get_id() ) {
+			return $this->error_response( 'no_kit', __( 'No active Elementor kit found.', 'mumega-mcp' ), 500 );
+		}
+
+		$kit_id  = $kit->get_id();
+		$new_css = (string) $request->get_param( 'css' );
+		$mode    = (string) ( $request->get_param( 'mode' ) ?: 'replace' );
+
+		$settings = get_post_meta( $kit_id, '_elementor_page_settings', true );
+		if ( ! is_array( $settings ) ) {
+			$settings = array();
+		}
+
+		$existing_css = isset( $settings['custom_css'] ) ? $settings['custom_css'] : '';
+
+		if ( 'append' === $mode ) {
+			$settings['custom_css'] = $existing_css . "\n\n" . $new_css;
+		} else {
+			$settings['custom_css'] = $new_css;
+		}
+
+		update_post_meta( $kit_id, '_elementor_page_settings', $settings );
+
+		// Clear Elementor CSS cache so the new kit CSS is regenerated.
+		if ( method_exists( \Elementor\Plugin::$instance->files_manager, 'clear_cache' ) ) {
+			\Elementor\Plugin::$instance->files_manager->clear_cache();
+		}
+
+		return $this->success_response(
+			array(
+				'kit_id'     => $kit_id,
+				'custom_css' => $settings['custom_css'],
+				'length'     => strlen( $settings['custom_css'] ),
+				'mode'       => $mode,
+			)
+		);
+	}
+
+	/**
+	 * Recursively replace a string in all string values of a decoded JSON structure.
+	 *
+	 * @param string $search  Search string.
+	 * @param string $replace Replacement string.
+	 * @param mixed  $data    Decoded JSON value (array, string, scalar).
+	 * @param int    $count   Running replacement count (passed by reference).
+	 * @return mixed Updated structure.
+	 */
+	private function recursive_str_replace( $search, $replace, $data, &$count ) {
+		if ( is_string( $data ) ) {
+			$new_data = str_replace( $search, $replace, $data, $n );
+			$count   += $n;
+			return $new_data;
+		}
+		if ( is_array( $data ) ) {
+			foreach ( $data as $key => $value ) {
+				$data[ $key ] = $this->recursive_str_replace( $search, $replace, $value, $count );
+			}
+		}
+		return $data;
 	}
 }

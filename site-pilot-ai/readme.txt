@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.35
+Stable tag: 2.8.36
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,14 @@ Each site needs its own plugin installation and API key.
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.36 =
+* Fix: wp_bulk_find_replace now operates on decoded element tree instead of raw JSON string — prevents JSON corruption when replacing URL substrings or text that appears inside serialized values.
+* Fix: wp_setup_menu with overwrite=true now clears existing items before repopulating — prevents duplicate accumulation on repeat calls.
+* Fix: wp_update_page now returns slug_warning when WordPress silently rewrites a requested slug due to collision with auto-drafts or trashed posts.
+* Fix: SVG upload error message now explains the XSS risk and suggests PNG/WebP alternatives.
+* Fix: wp_set_custom_css now returns structured alternatives array when CSS fails loopback verification, including Elementor Custom Code instructions.
+* New: wp_get_kit_css and wp_set_kit_css — free-tier tools to read/write Elementor kit global CSS. More reliable than wp_set_custom_css on child-theme sites. Works without Elementor Pro.
 
 = 2.8.35 =
 * Fix: Admin role now automatically grants full scopes (read+write+admin) — no longer requires scope checkboxes to be manually set.

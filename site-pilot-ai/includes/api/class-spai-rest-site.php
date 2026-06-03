@@ -3642,11 +3642,34 @@ class Spai_REST_Site extends Spai_REST_API {
 		}
 
 		// If CSS rendering could not be verified, provide actionable alternatives.
+		// The most common cause (verified in production): child theme enqueues a static
+		// CSS file AFTER wp-custom-css, so even with wp_custom_css_cb hooked the custom
+		// CSS loses in the cascade. The reliable fix is Elementor Custom Code (elementor_snippet),
+		// which injects a <style> block via Elementor's own output pipeline, bypassing theme CSS order.
 		if ( ! empty( $verification['checked'] ) && empty( $verification['verified'] ) ) {
+			$elementor_snippet_available = post_type_exists( 'elementor_snippet' );
+			$response['css_not_rendering'] = true;
 			$response['alternatives'] = array(
-				'Use wp_set_elementor with page_settings.custom_css for page-specific CSS',
-				'Use wp_set_option to write to thim_custom_css directly for Eduma themes',
-				'Add CSS via Elementor Custom Code (elementor_snippet post type)',
+				array(
+					'method'      => 'elementor_custom_code',
+					'available'   => $elementor_snippet_available,
+					'description' => 'Create an elementor_snippet post — injects a <style> block via Elementor output, bypasses theme CSS load order. Use: wp_create_post(post_type="elementor_snippet", title="Global CSS", content="<style>...<\/style>", location="head")',
+				),
+				array(
+					'method'      => 'elementor_header_widget',
+					'available'   => true,
+					'description' => 'Inject a <style> block into an HTML widget inside the Elementor header template. Renders on every page via Elementor template system.',
+				),
+				array(
+					'method'      => 'elementor_globals',
+					'available'   => true,
+					'description' => 'Use wp_set_elementor_globals to write to the Elementor kit CSS (global stylesheet). Affects the entire site.',
+				),
+				array(
+					'method'      => 'page_custom_css',
+					'available'   => true,
+					'description' => 'Use wp_set_elementor with page_settings.custom_css for page-specific CSS (Elementor Pro required for some features).',
+				),
 			);
 		}
 

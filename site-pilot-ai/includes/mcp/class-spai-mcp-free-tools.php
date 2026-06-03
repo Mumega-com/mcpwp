@@ -166,6 +166,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_preview_elementor'       => 'elementor',
 			'wp_bulk_find_replace'       => 'elementor',
 
+			// Elementor kit CSS — global CSS injection, free tier (no Elementor Pro needed)
+			'wp_get_kit_css'             => 'elementor',
+			'wp_set_kit_css'             => 'elementor',
+
 			// Elementor Info — reference/status
 			'wp_elementor_status'        => 'elementor-info',
 			'wp_regenerate_elementor_css' => 'elementor-info',
@@ -258,6 +262,8 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_elementor_status'         => 'elementor',
 			'wp_regenerate_elementor_css' => 'elementor',
 			'wp_bulk_find_replace'        => 'elementor',
+			'wp_get_kit_css'              => 'elementor',
+			'wp_set_kit_css'              => 'elementor',
 			'wp_get_elementor_widgets'    => 'elementor',
 			'wp_get_widget_schema'        => 'elementor',
 			'wp_preview_elementor'        => 'elementor',
@@ -1131,7 +1137,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_bulk_find_replace',
-			'Search and replace text in Elementor data for a given post or page',
+			'Search and replace text in Elementor data for a given post or page. Replacement is performed on the decoded element tree (not the raw JSON string) to prevent JSON corruption. Safe to use for URLs and text values.',
 			array(
 				'id'      => array(
 					'type'        => 'number',
@@ -1140,13 +1146,36 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				),
 				'search'  => array(
 					'type'        => 'string',
-					'description' => 'Text to search for in Elementor JSON data',
+					'description' => 'Text to search for in Elementor data',
 					'required'    => true,
 				),
 				'replace' => array(
 					'type'        => 'string',
 					'description' => 'Replacement text',
 					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_get_kit_css',
+			'Read the Elementor kit\'s global custom_css setting. Works on any Elementor site without Elementor Pro. Use this before wp_set_kit_css to see what is already there.',
+			array()
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_set_kit_css',
+			'Write global CSS to the Elementor kit. Reliable alternative to wp_set_custom_css — bypasses WordPress Customizer output order and child theme cascade issues. Works on any Elementor site without Elementor Pro. Default mode is replace; use append to add without clobbering existing rules.',
+			array(
+				'css'  => array(
+					'type'        => 'string',
+					'description' => 'CSS to write to the kit global stylesheet',
+					'required'    => true,
+				),
+				'mode' => array(
+					'type'        => 'string',
+					'enum'        => array( 'replace', 'append' ),
+					'description' => 'replace (default) overwrites existing kit CSS; append adds to it',
 				),
 			)
 		);
@@ -3168,6 +3197,14 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_bulk_find_replace'   => array(
 				'method' => 'POST',
 				'route'  => '/elementor/{id}/find-replace',
+			),
+			'wp_get_kit_css'         => array(
+				'method' => 'GET',
+				'route'  => '/elementor/kit-css',
+			),
+			'wp_set_kit_css'         => array(
+				'method' => 'POST',
+				'route'  => '/elementor/kit-css',
 			),
 			'wp_list_media'          => array(
 				'method' => 'GET',
