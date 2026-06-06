@@ -397,7 +397,9 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 		}
 
 		$graph_post_types = array_values( array_unique( array( 'page', 'post', $post->post_type ) ) );
-		$graph            = $this->build_content_graph_data( $graph_post_types, 500, 'publish' !== $post->post_status );
+		// Limit to 100 posts — we only need this node's outbound/orphan status.
+		// 500 caused memory/timeout on large sites, producing a malformed JSON-RPC response.
+		$graph = $this->build_content_graph_data( $graph_post_types, 100, 'publish' !== $post->post_status );
 		$node  = null;
 		foreach ( $graph['nodes'] as $candidate ) {
 			if ( (int) $candidate['id'] === $post_id ) {

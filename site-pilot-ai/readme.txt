@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.39
+Stable tag: 2.8.40
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,10 @@ Each site needs its own plugin installation and API key.
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.40 =
+* Fix: wp_validate_seo_readiness transport deserialize error on large sites — reduced content graph query from 500 to 100 posts, eliminating memory/timeout failures that produced malformed JSON-RPC responses (issue #337).
+* Fix: MCP tools/call response now handles json_encode failure gracefully instead of sending null in the text field, which caused client-side deserialize errors on non-UTF8 content.
 
 = 2.8.39 =
 * Fix: Freemius "free" plan slug no longer causes plan:free/pro_active:true contradiction when pro is active via Lemon Squeezy or developer constant (issue #319).

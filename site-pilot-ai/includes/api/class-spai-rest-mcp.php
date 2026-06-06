@@ -989,6 +989,17 @@ class Spai_REST_MCP extends Spai_REST_API {
 		}
 
 		// Return successful result.
+		$encoded = wp_json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
+		if ( false === $encoded ) {
+			// json_encode failed (non-UTF8 chars, circular refs, etc.) — return a safe error payload.
+			$encoded = wp_json_encode(
+				array(
+					'error'   => 'Response could not be JSON-encoded.',
+					'hint'    => 'The response contained data that failed json_encode (non-UTF8 characters or an extremely large structure). Try a smaller request.',
+					'last_error' => json_last_error_msg(),
+				)
+			);
+		}
 		return array(
 			'jsonrpc' => '2.0',
 			'id'      => $id,
@@ -996,7 +1007,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 				'content' => array(
 					array(
 						'type' => 'text',
-						'text' => wp_json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ),
+						'text' => $encoded,
 					),
 				),
 				'isError' => false,
