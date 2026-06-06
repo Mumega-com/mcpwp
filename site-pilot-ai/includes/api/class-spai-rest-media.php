@@ -168,11 +168,34 @@ class Spai_REST_Media extends Spai_REST_API {
 			)
 		);
 
-		// Delete media.
+		// Update / delete media by ID.
 		register_rest_route(
 			$this->namespace,
 			'/media/(?P<id>\d+)',
 			array(
+				array(
+					'methods'             => WP_REST_Server::EDITABLE,
+					'callback'            => array( $this, 'update_media' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'alt'         => array(
+							'description' => __( 'Image alt text.', 'mumega-mcp' ),
+							'type'        => 'string',
+						),
+						'title'       => array(
+							'description' => __( 'Attachment title.', 'mumega-mcp' ),
+							'type'        => 'string',
+						),
+						'caption'     => array(
+							'description' => __( 'Attachment caption (short description).', 'mumega-mcp' ),
+							'type'        => 'string',
+						),
+						'description' => array(
+							'description' => __( 'Attachment description (long description).', 'mumega-mcp' ),
+							'type'        => 'string',
+						),
+					),
+				),
 				array(
 					'methods'             => WP_REST_Server::DELETABLE,
 					'callback'            => array( $this, 'delete_media' ),
@@ -400,6 +423,41 @@ class Spai_REST_Media extends Spai_REST_API {
 		}
 
 		return $this->success_response( $result, 201 );
+	}
+
+	/**
+	 * Update media attachment metadata.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function update_media( $request ) {
+		$this->log_activity( 'update_media', $request );
+
+		$attachment_id = absint( $request->get_param( 'id' ) );
+		$args          = array_filter(
+			array(
+				'alt'         => $request->get_param( 'alt' ),
+				'title'       => $request->get_param( 'title' ),
+				'caption'     => $request->get_param( 'caption' ),
+				'description' => $request->get_param( 'description' ),
+			),
+			static function ( $v ) {
+				return null !== $v;
+			}
+		);
+
+		if ( empty( $args ) ) {
+			return $this->error_response( 'no_fields', __( 'Provide at least one field to update: alt, title, caption, or description.', 'mumega-mcp' ), 400 );
+		}
+
+		$result = $this->media->update_media( $attachment_id, $args );
+
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		return $this->success_response( $result );
 	}
 
 	/**

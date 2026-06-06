@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.37
+Stable tag: 2.8.38
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,9 @@ Each site needs its own plugin installation and API key.
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.38 =
+* New: wp_update_media — update alt text, title, caption, or description on an existing media attachment without re-uploading (issue #338).
 
 = 2.8.37 =
 * Fix: wp_seo_audit_site and wp_validate_seo_readiness PHP fatal — extract_internal_links_from_content() now defined in base REST class, accessible to all subclasses including the SEO audit controller (issue #336, #337).

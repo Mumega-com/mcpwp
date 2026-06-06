@@ -142,6 +142,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_upload_media_from_url'   => 'media',
 			'wp_upload_media_b64'        => 'media',
 			'wp_upload_media_b64'        => 'media',
+			'wp_update_media'            => 'media',
 			'wp_delete_media'            => 'media',
 			'wp_screenshot_url'          => 'media',
 
@@ -1717,6 +1718,34 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 					'type'        => 'boolean',
 					'description' => 'Permanently delete instead of trashing (default: false)',
 					'default'     => false,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_update_media',
+			'Update an existing media attachment — change alt text, title, caption, or description without re-uploading',
+			array(
+				'id'          => array(
+					'type'        => 'number',
+					'description' => 'Attachment ID',
+					'required'    => true,
+				),
+				'alt'         => array(
+					'type'        => 'string',
+					'description' => 'Image alt text (accessibility and SEO)',
+				),
+				'title'       => array(
+					'type'        => 'string',
+					'description' => 'Attachment title',
+				),
+				'caption'     => array(
+					'type'        => 'string',
+					'description' => 'Attachment caption (short description)',
+				),
+				'description' => array(
+					'type'        => 'string',
+					'description' => 'Attachment description (long description)',
 				),
 			)
 		);
@@ -3315,6 +3344,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_update_design_reference' => array(
 				'method' => 'POST',
 				'route'  => '/design-references/{id}',
+			),
+			'wp_update_media'          => array(
+				'method' => 'POST',
+				'route'  => '/media/{id}',
 			),
 			'wp_delete_media'          => array(
 				'method' => 'DELETE',

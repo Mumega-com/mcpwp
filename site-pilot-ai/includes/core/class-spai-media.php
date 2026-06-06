@@ -517,6 +517,46 @@ class Spai_Media {
 	 * @param string $mime Mime type.
 	 * @return string|false Extension or false.
 	 */
+	/**
+	 * Update attachment metadata (alt text, title, caption, description).
+	 *
+	 * @param int   $attachment_id Attachment post ID.
+	 * @param array $args          Fields to update: alt, title, caption, description.
+	 * @return array|WP_Error Updated attachment data or error.
+	 */
+	public function update_media( $attachment_id, $args = array() ) {
+		$attachment = get_post( $attachment_id );
+
+		if ( ! $attachment || 'attachment' !== $attachment->post_type ) {
+			return new WP_Error( 'not_found', 'Attachment not found.', array( 'status' => 404 ) );
+		}
+
+		$post_data = array( 'ID' => $attachment_id );
+
+		if ( isset( $args['title'] ) ) {
+			$post_data['post_title'] = sanitize_text_field( $args['title'] );
+		}
+		if ( isset( $args['caption'] ) ) {
+			$post_data['post_excerpt'] = sanitize_textarea_field( $args['caption'] );
+		}
+		if ( isset( $args['description'] ) ) {
+			$post_data['post_content'] = wp_kses_post( $args['description'] );
+		}
+
+		if ( count( $post_data ) > 1 ) {
+			$result = wp_update_post( $post_data, true );
+			if ( is_wp_error( $result ) ) {
+				return $result;
+			}
+		}
+
+		if ( isset( $args['alt'] ) ) {
+			update_post_meta( $attachment_id, '_wp_attachment_image_alt', sanitize_text_field( $args['alt'] ) );
+		}
+
+		return $this->format_attachment( $attachment_id );
+	}
+
 	protected function mime_to_extension( $mime ) {
 		$map = array(
 			'image/jpeg' => 'jpg',
