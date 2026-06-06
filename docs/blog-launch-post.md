@@ -50,7 +50,7 @@ WP Admin → MCPWP → Setup → Generate API Key
 ```json
 {
   "mcpServers": {
-    "mumcp": {
+    "MCPWP": {
       "url": "https://your-site.com/wp-json/site-pilot-ai/v1/mcp",
       "headers": {"X-API-Key": "spai_your_key"}
     }
@@ -92,8 +92,8 @@ The available tools are documented by the live MCP endpoint. Your AI discovers t
 
 Install our Claude Code plugin for guided setup and WordPress knowledge:
 ```bash
-claude plugin marketplace add https://github.com/Mumega-com/mumcp-claude-plugin.git
-claude plugin install mumcp@mumcp
+claude plugin marketplace add https://github.com/Mumega-com/MCPWP-claude-plugin.git
+claude plugin install MCPWP@MCPWP
 ```
 
 ## Why we built it
@@ -105,7 +105,7 @@ Up to 239 tools. Every major MCP client. Your WordPress site, controlled through
 **Links:**
 - Website: https://mcpwp.net
 - GitHub (plugin): https://github.com/Mumega-com/mcp-for-wp
-- GitHub (Claude Code plugin): https://github.com/Mumega-com/mumcp-claude-plugin
+- GitHub (Claude Code plugin): https://github.com/Mumega-com/MCPWP-claude-plugin
 - Download: https://mumega.com/mcp-updates/mumega-mcp-latest.zip
 
 ---

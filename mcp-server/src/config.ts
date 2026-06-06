@@ -28,7 +28,9 @@ export function loadConfig(): Config {
   // 1. Load from config file
   const configPath =
     process.env.WP_CONFIG_PATH ||
-    join(homedir(), ".mumega-mcp", "config.json");
+    (existsSync(join(homedir(), ".mcpwp", "config.json"))
+      ? join(homedir(), ".mcpwp", "config.json")
+      : join(homedir(), ".mumega-mcp", "config.json")); // legacy fallback
 
   if (existsSync(configPath)) {
     try {
@@ -67,7 +69,7 @@ export function getActiveSite(config: Config): SiteConfig & { _key: string } {
 
   if (!siteKey || !config.sites[siteKey]) {
     throw new Error(
-      "No WordPress sites configured. Set WP_URL and WP_API_KEY environment variables, run mcpwp --setup, or create ~/.mumega-mcp/config.json"
+      "No WordPress sites configured. Set WP_URL and WP_API_KEY environment variables, run mcpwp --setup, or create ~/.mcpwp/config.json"
     );
   }
 

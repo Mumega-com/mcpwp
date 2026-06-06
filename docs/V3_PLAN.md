@@ -1,3 +1,5 @@
+> **ARCHIVED** — This is historical planning (v3 era, "mumcp" brand). Current brand is MCPWP. Do not publish.
+
 # mumcp v3.0 — White-Label AI for WordPress Agencies
 
 ## Vision

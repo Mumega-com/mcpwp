@@ -1,12 +1,12 @@
 # Plugin & Theme Compatibility
 
-mumcp auto-detects installed plugins and adapts its toolset accordingly. Here's what we support and how deep the integration goes.
+MCPWP auto-detects installed plugins and adapts its toolset accordingly. Here's what we support and how deep the integration goes.
 
 ## Compatibility Matrix
 
 ### Page Builders
 
-| Plugin | Status | Tools | What mumcp can do |
+| Plugin | Status | Tools | What MCPWP can do |
 |--------|--------|-------|-------------------|
 | **Elementor** (Free) | Full support | 45 | Build pages from blueprints, edit widgets/sections, manage templates, validate data, regenerate CSS |
 | **Elementor Pro** | Full support | +20 | Theme builder templates, archetypes, reusable parts, landing pages, globals, custom code |
@@ -26,7 +26,7 @@ mumcp auto-detects installed plugins and adapts its toolset accordingly. Here's 
 
 ### E-Commerce
 
-| Plugin | Status | Tools | What mumcp can do |
+| Plugin | Status | Tools | What MCPWP can do |
 |--------|--------|-------|-------------------|
 | **WooCommerce** | Full | 21 | Products, orders, categories, tags, customers, analytics, product archetypes |
 | **Easy Digital Downloads** | Not yet | 0 | Planned |
@@ -34,7 +34,7 @@ mumcp auto-detects installed plugins and adapts its toolset accordingly. Here's 
 
 ### LMS / Education
 
-| Plugin | Status | Tools | What mumcp can do |
+| Plugin | Status | Tools | What MCPWP can do |
 |--------|--------|-------|-------------------|
 | **LearnPress** | Full | 18 | Courses, lessons, quizzes, quiz questions, curriculum, categories, stats |
 | **LearnDash** | Not yet | 0 | Planned |
@@ -42,7 +42,7 @@ mumcp auto-detects installed plugins and adapts its toolset accordingly. Here's 
 
 ### Forms
 
-| Plugin | Status | Tools | What mumcp can do |
+| Plugin | Status | Tools | What MCPWP can do |
 |--------|--------|-------|-------------------|
 | **Contact Form 7** | Read | 4 | List forms, get form, get entries, status |
 | **WPForms** | Read | 4 | Same |
@@ -52,7 +52,7 @@ mumcp auto-detects installed plugins and adapts its toolset accordingly. Here's 
 
 ### Media & AI
 
-| Plugin / Service | Status | What mumcp can do |
+| Plugin / Service | Status | What MCPWP can do |
 |-----------------|--------|-------------------|
 | **OpenAI API** | Optional | Image generation, alt text, content assistance |
 | **Google Gemini** | Optional | Image description, text generation |
@@ -98,7 +98,7 @@ mumcp auto-detects installed plugins and adapts its toolset accordingly. Here's 
 
 ## How Detection Works
 
-mumcp checks for plugins on every `wp_site_info` or `wp_introspect` call:
+MCPWP checks for plugins on every `wp_site_info` or `wp_introspect` call:
 
 ```php
 'elementor'    => defined('ELEMENTOR_VERSION'),
@@ -111,7 +111,7 @@ mumcp checks for plugins on every `wp_site_info` or `wp_introspect` call:
 
 Tools for inactive plugins are automatically hidden from the MCP tools/list response.
 
-## Extending mumcp
+## Extending MCPWP
 
 Third-party plugins can register their own MCP tools:
 
@@ -126,4 +126,4 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for details on the integration API.
 
 ## Request a Plugin
 
-Want mumcp to support your favorite plugin? [File a feature request](https://github.com/Mumega-com/mcp-for-wp/issues/new?template=feature_request.md) with the plugin name and what tools you'd need.
+Want MCPWP to support your favorite plugin? [File a feature request](https://github.com/Mumega-com/mcp-for-wp/issues/new?template=feature_request.md) with the plugin name and what tools you'd need.

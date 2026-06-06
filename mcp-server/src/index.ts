@@ -61,7 +61,7 @@ Environment Variables:
   WP_SITE_NAME  Site name (for multi-site configs)
 
 Config File:
-  ~/.mumega-mcp/config.json
+  ~/.mcpwp/config.json  (or ~/.mumega-mcp/config.json for existing installs)
 
 Documentation:
   https://github.com/Mumega-com/mcpwp
@@ -155,7 +155,7 @@ let pendingSwitch: { siteKey: string; token: string; expiresAt: number } | null 
 function auditLog(event: string, data: Record<string, unknown>): void {
   try {
     const line = JSON.stringify({ ts: new Date().toISOString(), session: sessionId, event, ...data });
-    const logDir = join(homedir(), ".mumega-mcp");
+    const logDir = join(homedir(), ".mcpwp");
     appendFileSync(join(logDir, `audit-${sessionId}.jsonl`), line + "\n");
   } catch {}
 }
