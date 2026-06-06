@@ -64,7 +64,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 <div class="wrap spai-admin">
 	<h1 class="spai-header">
 		<span class="spai-logo">
-			<span class="dashicons dashicons-airplane"></span>
+			<span class="dashicons dashicons-shield"></span>
 		</span>
 		<?php esc_html_e( 'MCPWP', 'mumega-mcp' ); ?>
 		<span class="spai-version">v<?php echo esc_html( SPAI_VERSION ); ?></span>

@@ -17,9 +17,14 @@ $integrations_admin = new Spai_Integrations_Admin();
 $figma_oauth_notice = isset( $_GET['spai_figma_oauth'] ) ? sanitize_key( wp_unslash( $_GET['spai_figma_oauth'] ) ) : '';
 $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unslash( $_GET['message'] ) ) : '';
 ?>
-<div class="wrap spai-wrap">
-	<h1><?php esc_html_e( 'AI Integrations', 'mumega-mcp' ); ?></h1>
-	<p class="description">
+<div class="wrap spai-admin spai-integrations-page">
+	<h1 class="spai-header">
+		<span class="spai-logo">
+			<span class="dashicons dashicons-admin-plugins"></span>
+		</span>
+		<?php esc_html_e( 'AI Integrations', 'mumega-mcp' ); ?>
+	</h1>
+	<p class="description spai-page-intro">
 		<?php esc_html_e( 'Connect third-party AI and design services to unlock image generation, vision analysis, text-to-speech, screenshots, stock photos, and design-context intake via MCP tools.', 'mumega-mcp' ); ?>
 	</p>
 	<p class="description" style="margin-top:4px;">
@@ -32,7 +37,7 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 		</div>
 	<?php endif; ?>
 
-	<div class="spai-integrations-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:20px;margin-top:20px;">
+	<div class="spai-integrations-grid">
 		<?php foreach ( $providers as $slug => $provider ) : ?>
 			<?php
 			$is_pro_provider  = 'free' !== $provider['tier'];
@@ -43,23 +48,23 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 			$figma_auth_mode  = $is_figma && ! empty( $provider['auth_mode'] ) ? (string) $provider['auth_mode'] : '';
 			$figma_mode_label = 'oauth' === $figma_auth_mode ? __( 'OAuth Connected', 'mumega-mcp' ) : ( 'personal_token' === $figma_auth_mode ? __( 'Personal Token Active', 'mumega-mcp' ) : __( 'Not Connected Yet', 'mumega-mcp' ) );
 			?>
-			<div class="spai-integration-card" style="background:#fff;border:1px solid #c3c4c7;border-radius:4px;padding:20px;position:relative;">
+			<div class="spai-integration-card <?php echo $locked ? 'is-locked' : ''; ?>">
 				<?php if ( $is_pro_provider ) : ?>
-					<span style="position:absolute;top:12px;right:12px;background:<?php echo $is_pro ? '#00a32a' : '#dba617'; ?>;color:#fff;font-size:11px;padding:2px 8px;border-radius:3px;font-weight:600;">
+					<span class="spai-tier-badge <?php echo $is_pro ? 'is-pro' : 'is-locked'; ?>">
 						<?php echo $is_pro ? 'PRO' : esc_html__( 'PRO REQUIRED', 'mumega-mcp' ); ?>
 					</span>
 				<?php else : ?>
-					<span style="position:absolute;top:12px;right:12px;background:#2271b1;color:#fff;font-size:11px;padding:2px 8px;border-radius:3px;font-weight:600;">
+					<span class="spai-tier-badge is-free">
 						<?php esc_html_e( 'FREE', 'mumega-mcp' ); ?>
 					</span>
 				<?php endif; ?>
 
-				<h3 style="margin:0 0 8px 0;font-size:16px;">
+				<h3>
 					<?php echo esc_html( $provider['name'] ); ?>
 				</h3>
 
 				<?php if ( $has_description ) : ?>
-					<p style="margin:0 0 10px 0;color:#50575e;font-size:13px;">
+					<p class="spai-integration-card__description">
 						<?php echo esc_html( $provider['description'] ); ?>
 					</p>
 				<?php endif; ?>

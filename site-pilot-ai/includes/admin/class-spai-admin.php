@@ -42,7 +42,7 @@ class Spai_Admin {
 	 *
 	 * @var string
 	 */
-	const MENU_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0iIzljYTJhNyI+PHBhdGggZD0iTTEwIDJjLTQuNCAwLTggMy42LTggOHMzLjYgOCA4IDggOC0zLjYgOC04LTMuNi04LTgtOHptMCAyYzEuNyAwIDMuMi43IDQuMyAxLjhMNy41IDE0LjZDNS42IDEzLjIgNC41IDExIDQuNSAxMCA0LjUgNi45IDcgNC41IDEwIDQuNXptMCAxMWMtMS43IDAtMy4yLS43LTQuMy0xLjhsNi44LTguOGMxLjkgMS40IDMgMy42IDMgNS42IDAgMy4xLTIuNSA1LjUtNS41IDUuNXoiLz48Y2lyY2xlIGN4PSIxMCIgY3k9IjEwIiByPSIyIi8+PC9zdmc+';
+	const MENU_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iNSIgZmlsbD0iIzBCMTIyMCIvPjxwYXRoIGZpbGw9IiMyRjdDRkYiIGQ9Ik0xMS41IDEuOCA0LjggMTBoNGwtMS4zIDguMiA3LTloLTQuMWwxLjEtNy40WiIvPjxwYXRoIGZpbGw9IiMyN0M0NkEiIGQ9Ik0xMy43IDEyLjhhMi4yIDIuMiAwIDEgMCAwIDQuNCAyLjIgMi4yIDAgMCAwIDAtNC40Wm0wIDEuNGEuOC44IDAgMSAxIDAgMS42LjguOCAwIDAgMSAwLTEuNloiLz48L3N2Zz4=';
 
 	/**
 	 * Library page slug.
@@ -1167,7 +1167,7 @@ class Spai_Admin {
 		$manifest_url    = $manifest_url ? $manifest_url : 'https://mumega.com/mcp-updates/version.json';
 		$current_version = defined( 'SPAI_VERSION' ) ? SPAI_VERSION : '0.0.0';
 		$remote_version  = null;
-		$download_url    = 'https://mumega.com/mcp-updates/mumega-mcp-latest.zip';
+		$download_url    = 'https://mumega.com/mcp-updates/mcpwp-latest.zip';
 		$source          = 'remote';
 		$option_version  = null;
 		$warning         = '';

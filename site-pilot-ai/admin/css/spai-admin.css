@@ -4,57 +4,124 @@
  * @package SitePilotAI
  */
 
+:root {
+	--spai-ink: #0b1220;
+	--spai-ink-soft: #1d355f;
+	--spai-blue: #2f7cff;
+	--spai-blue-dark: #1559d6;
+	--spai-green: #20b86f;
+	--spai-amber: #f59e0b;
+	--spai-red: #d63638;
+	--spai-slate-50: #f8fafc;
+	--spai-slate-100: #eef4ff;
+	--spai-slate-200: #dbe6f7;
+	--spai-slate-500: #64748b;
+	--spai-radius: 14px;
+	--spai-shadow: 0 18px 44px rgba(11, 18, 32, 0.10);
+	--spai-shadow-soft: 0 8px 24px rgba(11, 18, 32, 0.07);
+}
+
 /* Admin Container */
-.spai-admin {
-	max-width: 960px;
+.spai-admin,
+.spai-wrap {
+	max-width: 1180px;
 }
 
 /* Header */
 .spai-header {
+	background:
+		radial-gradient(circle at 12% 18%, rgba(47, 124, 255, 0.26), transparent 30%),
+		linear-gradient(135deg, var(--spai-ink) 0%, #10264f 100%);
+	border: 1px solid rgba(255, 255, 255, 0.10);
+	border-radius: 18px;
+	box-shadow: var(--spai-shadow);
+	color: #fff;
 	display: flex;
 	align-items: center;
-	gap: 10px;
-	font-size: 23px;
-	font-weight: 400;
-	margin: 10px 0 15px;
+	gap: 12px;
+	font-size: 28px;
+	font-weight: 750;
+	letter-spacing: -0.03em;
+	margin: 12px 0 18px;
+	padding: 22px 24px;
+	position: relative;
+	overflow: hidden;
+}
+
+.spai-header::after {
+	background-image:
+		linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+	background-size: 34px 34px;
+	content: '';
+	inset: 0;
+	pointer-events: none;
+	position: absolute;
+}
+
+.spai-header > * {
+	position: relative;
+	z-index: 1;
+}
+
+.spai-wrap > h1:not(.spai-header) {
+	color: var(--spai-ink);
+	font-size: 28px;
+	font-weight: 750;
+	letter-spacing: -0.03em;
+	margin: 18px 0 8px;
 }
 
 .spai-logo .dashicons {
-	font-size: 28px;
-	width: 28px;
-	height: 28px;
-	color: #667eea;
+	align-items: center;
+	background: linear-gradient(135deg, var(--spai-blue), var(--spai-ink));
+	border: 1px solid rgba(255, 255, 255, 0.24);
+	border-radius: 12px;
+	box-shadow: 0 10px 24px rgba(47, 124, 255, 0.28);
+	color: #fff;
+	display: inline-flex;
+	font-size: 24px;
+	height: 42px;
+	justify-content: center;
+	width: 42px;
 }
 
 .spai-version {
 	font-size: 12px;
-	color: #787c82;
-	background: #f0f0f1;
-	padding: 2px 8px;
-	border-radius: 10px;
-	font-weight: 400;
+	color: #dbeafe;
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	padding: 5px 10px;
+	border-radius: 999px;
+	font-weight: 700;
+	letter-spacing: 0;
+	margin-left: auto;
 }
 
 /* Cards */
 .spai-card {
 	background: #fff;
-	border: 1px solid #c3c4c7;
-	border-radius: 4px;
-	padding: 20px;
+	border: 1px solid var(--spai-slate-200);
+	border-radius: var(--spai-radius);
+	box-shadow: var(--spai-shadow-soft);
+	padding: 22px;
 	margin-bottom: 20px;
 }
 
 .spai-card h2 {
 	margin-top: 0;
-	padding-bottom: 10px;
-	border-bottom: 1px solid #f0f0f1;
+	padding-bottom: 12px;
+	border-bottom: 1px solid var(--spai-slate-200);
 	display: flex;
 	align-items: center;
 	gap: 8px;
+	color: var(--spai-ink);
+	font-weight: 750;
+	letter-spacing: -0.02em;
 }
 
 .spai-card h2 .dashicons {
-	color: #667eea;
+	color: var(--spai-blue);
 }
 
 .spai-card h3 {
@@ -710,14 +777,17 @@
 
 /* Welcome Banner */
 .spai-welcome-banner {
-	background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+	background:
+		radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.24), transparent 22%),
+		linear-gradient(135deg, #0f766e 0%, var(--spai-green) 100%);
 	color: #fff;
 	padding: 30px;
-	border-radius: 8px;
+	border-radius: 18px;
 	margin-bottom: 20px;
 	display: flex;
 	gap: 20px;
 	align-items: flex-start;
+	box-shadow: var(--spai-shadow-soft);
 }
 
 .spai-welcome-icon .dashicons {
@@ -771,14 +841,16 @@
 
 /* Upgrade Banner */
 .spai-upgrade-banner {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+	background:
+		radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.20), transparent 24%),
+		linear-gradient(135deg, var(--spai-ink) 0%, var(--spai-blue-dark) 100%);
 	color: #fff;
 	padding: 25px;
-	border-radius: 8px;
+	border-radius: 18px;
 	margin-bottom: 20px;
 	display: flex;
 	gap: 20px;
-	box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+	box-shadow: var(--spai-shadow);
 	position: relative;
 	overflow: hidden;
 }
@@ -868,7 +940,7 @@
 	align-items: center;
 	gap: 6px;
 	background: #fff;
-	color: #764ba2;
+	color: var(--spai-blue-dark);
 	padding: 10px 22px;
 	border-radius: 6px;
 	font-size: 14px;
@@ -881,7 +953,7 @@
 .spai-upgrade-button:hover {
 	transform: translateY(-1px);
 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-	color: #667eea;
+	color: var(--spai-blue);
 }
 
 .spai-upgrade-button .dashicons {
@@ -893,13 +965,14 @@
 /* License Active Banner */
 .spai-license-banner {
 	padding: 12px 20px;
-	border-radius: 4px;
+	border-radius: 14px;
 	margin-bottom: 20px;
 }
 
 .spai-license-active {
-	background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-	color: #fff;
+	background: #f0fdf4;
+	border: 1px solid #bbf7d0;
+	color: #166534;
 }
 
 .spai-license-content {
@@ -1071,7 +1144,7 @@
 	flex-shrink: 0;
 	width: 32px;
 	height: 32px;
-	background: #667eea;
+	background: var(--spai-blue);
 	color: #fff;
 	border-radius: 50%;
 	display: flex;
@@ -1088,6 +1161,236 @@
 .spai-step-content h3 {
 	margin: 0 0 5px 0;
 	font-size: 14px;
+}
+
+/* MCPWP commercial admin components */
+.spai-page-intro {
+	color: var(--spai-slate-500);
+	font-size: 14px;
+	max-width: 760px;
+}
+
+.spai-tools-grid,
+.spai-integrations-grid {
+	display: grid;
+	gap: 18px;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	margin-top: 22px;
+}
+
+.spai-tool-card,
+.spai-integration-card {
+	background:
+		linear-gradient(#fff, #fff) padding-box,
+		linear-gradient(135deg, rgba(47, 124, 255, 0.22), rgba(32, 184, 111, 0.16)) border-box;
+	border: 1px solid transparent;
+	border-radius: var(--spai-radius);
+	box-shadow: var(--spai-shadow-soft);
+	padding: 20px;
+	position: relative;
+	transition: box-shadow 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+.spai-tool-card:hover,
+.spai-integration-card:hover {
+	box-shadow: var(--spai-shadow);
+	transform: translateY(-1px);
+}
+
+.spai-tool-card.is-disabled,
+.spai-integration-card.is-locked {
+	opacity: 0.68;
+}
+
+.spai-tool-card__header,
+.spai-integration-card__header {
+	align-items: flex-start;
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+
+.spai-tool-card__title,
+.spai-integration-card__title {
+	align-items: center;
+	display: flex;
+	gap: 10px;
+	min-width: 0;
+}
+
+.spai-tool-card__icon {
+	align-items: center;
+	background: var(--spai-slate-100);
+	border-radius: 12px;
+	color: var(--spai-blue);
+	display: inline-flex;
+	font-size: 22px;
+	height: 38px;
+	justify-content: center;
+	width: 38px;
+}
+
+.spai-tool-card h3,
+.spai-integration-card h3 {
+	color: var(--spai-ink);
+	font-size: 15px;
+	font-weight: 750;
+	line-height: 1.25;
+	margin: 0;
+}
+
+.spai-tool-card__description,
+.spai-integration-card__description {
+	color: #475569;
+	font-size: 13px;
+	line-height: 1.5;
+	margin: 0 0 12px;
+}
+
+.spai-tool-card__count,
+.spai-tool-status,
+.spai-integration-status {
+	color: var(--spai-slate-500);
+	font-size: 12px;
+	font-weight: 650;
+}
+
+.spai-toggle {
+	cursor: pointer;
+	display: inline-block;
+	height: 24px;
+	position: relative;
+	width: 44px;
+}
+
+.spai-toggle input {
+	height: 1px;
+	opacity: 0;
+	position: absolute;
+	width: 1px;
+}
+
+.spai-toggle-track {
+	background: #cbd5e1;
+	border-radius: 999px;
+	inset: 0;
+	position: absolute;
+	transition: background 0.2s ease;
+}
+
+.spai-toggle-knob {
+	background: #fff;
+	border-radius: 50%;
+	box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
+	height: 18px;
+	left: 3px;
+	position: absolute;
+	top: 3px;
+	transition: left 0.2s ease;
+	width: 18px;
+}
+
+.spai-category-toggle:checked + .spai-toggle-track {
+	background: var(--spai-green);
+}
+
+.spai-category-toggle:checked + .spai-toggle-track + .spai-toggle-knob {
+	left: 23px;
+}
+
+.spai-tier-badge {
+	border-radius: 999px;
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 750;
+	letter-spacing: 0.02em;
+	line-height: 1;
+	padding: 6px 9px;
+	text-transform: uppercase;
+}
+
+.spai-integration-card > .spai-tier-badge {
+	position: absolute;
+	right: 16px;
+	top: 16px;
+}
+
+.spai-integration-card > h3 {
+	padding-right: 108px;
+}
+
+.spai-tier-badge.is-free {
+	background: var(--spai-slate-100);
+	color: var(--spai-blue-dark);
+}
+
+.spai-tier-badge.is-pro {
+	background: #ecfdf3;
+	color: #166534;
+}
+
+.spai-tier-badge.is-locked {
+	background: #fff7ed;
+	color: #9a3412;
+}
+
+.spai-chat-page {
+	max-width: 980px;
+}
+
+.spai-chat-panel {
+	background: #fff;
+	border: 1px solid var(--spai-slate-200);
+	border-radius: var(--spai-radius);
+	box-shadow: var(--spai-shadow-soft);
+	margin-top: 20px;
+	overflow: hidden;
+}
+
+.spai-chat-safety {
+	align-items: center;
+	background: #f0fdf4;
+	border-bottom: 1px solid #bbf7d0;
+	color: #166534;
+	display: flex;
+	gap: 8px;
+	font-size: 13px;
+	font-weight: 650;
+	padding: 12px 16px;
+}
+
+.spai-chat-messages {
+	background: linear-gradient(180deg, #fff 0%, var(--spai-slate-50) 100%);
+	height: 500px;
+	overflow-y: auto;
+	padding: 20px;
+}
+
+.spai-chat-msg {
+	margin-bottom: 16px;
+}
+
+.spai-chat-composer {
+	background: #fff;
+	border-top: 1px solid var(--spai-slate-200);
+	display: flex;
+	gap: 10px;
+	padding: 14px;
+}
+
+.spai-chat-composer input {
+	border: 1px solid var(--spai-slate-200);
+	border-radius: 10px;
+	flex: 1;
+	font-size: 14px;
+	padding: 10px 14px;
+}
+
+.spai-chat-note {
+	color: var(--spai-slate-500);
+	font-size: 12px;
+	margin: 10px 2px 0;
 }
 
 .spai-step-content p {
@@ -1354,7 +1657,7 @@
 }
 
 .spai-resources-list .dashicons {
-	color: #667eea;
+	color: var(--spai-blue);
 	font-size: 18px;
 	width: 18px;
 	height: 18px;
