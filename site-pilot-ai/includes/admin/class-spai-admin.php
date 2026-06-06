@@ -157,22 +157,46 @@ class Spai_Admin {
 	}
 
 	/**
+	 * Get the current MCPWP admin page slug.
+	 *
+	 * @return string
+	 */
+	private function get_current_admin_page_slug() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin routing value.
+		return isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+	}
+
+	/**
+	 * Determine whether the current admin request is an MCPWP screen.
+	 *
+	 * @return bool
+	 */
+	private function is_mcpwp_admin_page() {
+		$page = $this->get_current_admin_page_slug();
+
+		return in_array(
+			$page,
+			array(
+				self::PAGE_SLUG,
+				self::CONTROL_ROOM_PAGE_SLUG,
+				'site-pilot-ai-chat',
+				self::LIBRARY_PAGE_SLUG,
+				Spai_Integrations_Admin::PAGE_SLUG,
+				Spai_Tools_Admin::PAGE_SLUG,
+				self::SETTINGS_PAGE_SLUG,
+				self::ACTIVITY_LOG_PAGE_SLUG,
+			),
+			true
+		);
+	}
+
+	/**
 	 * Enqueue admin styles.
 	 *
 	 * @param string $hook Current admin page.
 	 */
 	public function enqueue_styles( $hook ) {
-		$allowed_hooks = array(
-			'toplevel_page_' . self::PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . self::CONTROL_ROOM_PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . self::LIBRARY_PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . self::SETTINGS_PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . self::ACTIVITY_LOG_PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . Spai_Integrations_Admin::PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . Spai_Tools_Admin::PAGE_SLUG,
-		);
-
-		if ( ! in_array( $hook, $allowed_hooks, true ) ) {
+		if ( ! $this->is_mcpwp_admin_page() ) {
 			return;
 		}
 
@@ -190,13 +214,8 @@ class Spai_Admin {
 	 * @param string $hook Current admin page.
 	 */
 	public function enqueue_scripts( $hook ) {
-		// Fire on Setup (toplevel), Library, and Settings pages.
-		$allowed_hooks = array(
-			'toplevel_page_' . self::PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . self::LIBRARY_PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . self::SETTINGS_PAGE_SLUG,
-		);
-		if ( ! in_array( $hook, $allowed_hooks, true ) ) {
+		// Fire on Setup, Library, and Settings pages.
+		if ( ! in_array( $this->get_current_admin_page_slug(), array( self::PAGE_SLUG, self::LIBRARY_PAGE_SLUG, self::SETTINGS_PAGE_SLUG ), true ) ) {
 			return;
 		}
 
