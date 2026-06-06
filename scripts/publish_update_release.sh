@@ -123,6 +123,22 @@ if [[ "$VERIFY_ONLY" -eq 0 ]]; then
 	sudo -n cp "$MANIFEST_FILE" "$STATIC_MANIFEST"
 	# Keep mcpwp-latest.zip symlink pointing at the canonical zip (resolves #339).
 	sudo -n ln -sf "$STATIC_ZIP" "$STATIC_DIR/mcpwp-latest.zip"
+
+	# Upload to Cloudflare R2 — CF Worker serves from R2, not from nginx alias.
+	# --remote targets production R2; without it wrangler writes to local miniflare.
+	WORKER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/spai-updates-worker"
+	if [[ -d "$WORKER_DIR" ]] && command -v npx >/dev/null 2>&1; then
+		CF_TOKEN="${CLOUDFLARE_API_TOKEN:-$(grep CLOUDFLARE_API_TOKEN ~/.env.secrets 2>/dev/null | cut -d= -f2)}"
+		if [[ -n "$CF_TOKEN" ]]; then
+			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mumcp-updates/version.json \
+				--file="$STATIC_MANIFEST" --content-type="application/json" --remote 2>&1 | grep -v "^$" || true
+			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mumcp-updates/mumega-mcp-latest.zip \
+				--file="$STATIC_ZIP" --content-type="application/zip" --remote 2>&1 | grep -v "^$" || true
+			echo "  R2 upload: version.json + mumega-mcp-latest.zip → mumcp-updates bucket"
+		else
+			echo "Note: CLOUDFLARE_API_TOKEN not set — skipping R2 upload (CF Worker will serve stale version)" >&2
+		fi
+	fi
 fi
 
 if [[ "$DEPLOY_WORKER" -eq 1 ]]; then
@@ -149,7 +165,7 @@ LIVE_STATIC_JSON="$(curl -fsSL https://mumega.com/mcp-updates/version.json)" || 
 LIVE_STATIC_VERSION="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["version"])' <<<"$LIVE_STATIC_JSON" 2>/dev/null || echo "unknown")"
 
 if [[ "$LIVE_STATIC_VERSION" != "$VERSION" ]]; then
-	echo "Note: live manifest still shows $LIVE_STATIC_VERSION (Cloudflare cache lag — files on disk are $VERSION)" >&2
+	echo "Note: live manifest still shows $LIVE_STATIC_VERSION (R2 upload may have failed or CF propagation in progress)" >&2
 fi
 
 LIVE_ZIP_HEADERS="$(curl -I -fsSL https://mumega.com/mcp-updates/mumega-mcp-latest.zip 2>/dev/null)" || true
