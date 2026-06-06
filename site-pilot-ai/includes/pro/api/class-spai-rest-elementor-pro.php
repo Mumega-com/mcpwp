@@ -262,7 +262,44 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 						'methods'             => WP_REST_Server::READABLE,
 						'callback'            => array( $this, 'list_custom_code' ),
 						'permission_callback' => array( $this, 'check_permission' ),
-						'args'                => $this->get_pagination_args(),
+						'args'                => array_merge(
+							$this->get_pagination_args(),
+							array(
+								'status' => array(
+									'description' => __( 'Filter by post status: publish, draft, or any.', 'mumega-mcp' ),
+									'type'        => 'string',
+									'default'     => 'any',
+								),
+								'search' => array(
+									'description' => __( 'Search by snippet title/content.', 'mumega-mcp' ),
+									'type'        => 'string',
+								),
+							)
+						),
+					),
+					array(
+						'methods'             => WP_REST_Server::CREATABLE,
+						'callback'            => array( $this, 'create_custom_code' ),
+						'permission_callback' => array( $this, 'check_permission' ),
+						'args'                => $this->get_custom_code_write_args( true ),
+					),
+				)
+			);
+
+			register_rest_route(
+				$this->namespace,
+				'/elementor/custom-code/(?P<id>\\d+)',
+				array(
+					array(
+						'methods'             => WP_REST_Server::READABLE,
+						'callback'            => array( $this, 'get_custom_code' ),
+						'permission_callback' => array( $this, 'check_permission' ),
+					),
+					array(
+						'methods'             => WP_REST_Server::EDITABLE,
+						'callback'            => array( $this, 'update_custom_code' ),
+						'permission_callback' => array( $this, 'check_permission' ),
+						'args'                => $this->get_custom_code_write_args( false ),
 					),
 				)
 			);
@@ -381,6 +418,141 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 				'post_type' => $this->custom_code_cpt,
 			)
 		);
+	}
+
+	/**
+	 * Create an Elementor Pro Custom Code snippet.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function create_custom_code( $request ) {
+		$prepared = $this->prepare_custom_code_payload( $request, true );
+		if ( is_wp_error( $prepared ) ) {
+			$this->log_activity( 'create_elementor_custom_code', $request, null, 400 );
+			return $prepared;
+		}
+
+		if ( ! empty( $prepared['dry_run'] ) ) {
+			return $this->success_response(
+				array(
+					'dry_run'  => true,
+					'valid'    => true,
+					'payload'  => $this->redact_custom_code_payload( $prepared ),
+					'message'  => __( 'Custom Code payload is valid. Nothing was saved because dry_run=true.', 'mumega-mcp' ),
+				)
+			);
+		}
+
+		$post_id = wp_insert_post(
+			array(
+				'post_type'    => $this->custom_code_cpt,
+				'post_title'   => $prepared['title'],
+				'post_content' => $prepared['code'],
+				'post_status'  => $prepared['status'],
+			),
+			true
+		);
+
+		if ( is_wp_error( $post_id ) ) {
+			$this->log_activity( 'create_elementor_custom_code', $request, null, 400 );
+			return $this->error_response( $post_id->get_error_code(), $post_id->get_error_message(), 400 );
+		}
+
+		$this->save_custom_code_meta( $post_id, $prepared );
+
+		$data = array(
+			'id'      => (int) $post_id,
+			'snippet' => $this->format_custom_code_snippet( get_post( $post_id ), true ),
+		);
+
+		$this->log_activity( 'create_elementor_custom_code', $request, $this->redact_custom_code_payload( $data ) );
+
+		return $this->success_response( $data, 201 );
+	}
+
+	/**
+	 * Get a single Elementor Pro Custom Code snippet with readback.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function get_custom_code( $request ) {
+		$post = $this->get_custom_code_post( $request->get_param( 'id' ) );
+		if ( is_wp_error( $post ) ) {
+			$this->log_activity( 'get_elementor_custom_code', $request, null, 404 );
+			return $post;
+		}
+
+		$data = array(
+			'snippet' => $this->format_custom_code_snippet( $post, true ),
+		);
+
+		$this->log_activity( 'get_elementor_custom_code', $request, array( 'id' => (int) $post->ID ) );
+
+		return $this->success_response( $data );
+	}
+
+	/**
+	 * Update an Elementor Pro Custom Code snippet.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function update_custom_code( $request ) {
+		$post = $this->get_custom_code_post( $request->get_param( 'id' ) );
+		if ( is_wp_error( $post ) ) {
+			$this->log_activity( 'update_elementor_custom_code', $request, null, 404 );
+			return $post;
+		}
+
+		$prepared = $this->prepare_custom_code_payload( $request, false );
+		if ( is_wp_error( $prepared ) ) {
+			$this->log_activity( 'update_elementor_custom_code', $request, null, 400 );
+			return $prepared;
+		}
+
+		if ( ! empty( $prepared['dry_run'] ) ) {
+			return $this->success_response(
+				array(
+					'dry_run' => true,
+					'valid'   => true,
+					'id'      => (int) $post->ID,
+					'payload' => $this->redact_custom_code_payload( $prepared ),
+					'message' => __( 'Custom Code update payload is valid. Nothing was saved because dry_run=true.', 'mumega-mcp' ),
+				)
+			);
+		}
+
+		$post_update = array( 'ID' => (int) $post->ID );
+		if ( isset( $prepared['title'] ) ) {
+			$post_update['post_title'] = $prepared['title'];
+		}
+		if ( array_key_exists( 'code', $prepared ) ) {
+			$post_update['post_content'] = $prepared['code'];
+		}
+		if ( isset( $prepared['status'] ) ) {
+			$post_update['post_status'] = $prepared['status'];
+		}
+
+		if ( count( $post_update ) > 1 ) {
+			$updated = wp_update_post( $post_update, true );
+			if ( is_wp_error( $updated ) ) {
+				$this->log_activity( 'update_elementor_custom_code', $request, null, 400 );
+				return $this->error_response( $updated->get_error_code(), $updated->get_error_message(), 400 );
+			}
+		}
+
+		$this->save_custom_code_meta( (int) $post->ID, $prepared );
+
+		$data = array(
+			'id'      => (int) $post->ID,
+			'snippet' => $this->format_custom_code_snippet( get_post( $post->ID ), true ),
+		);
+
+		$this->log_activity( 'update_elementor_custom_code', $request, $this->redact_custom_code_payload( $data ) );
+
+		return $this->success_response( $data );
 	}
 
 	/**
@@ -503,12 +675,390 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 	}
 
 	/**
+	 * REST args for Custom Code create/update.
+	 *
+	 * @param bool $creating Whether this is the create route.
+	 * @return array Args schema.
+	 */
+	private function get_custom_code_write_args( $creating ) {
+		return array(
+			'title'      => array(
+				'description' => __( 'Snippet title.', 'mumega-mcp' ),
+				'type'        => 'string',
+				'required'    => (bool) $creating,
+			),
+			'code'       => array(
+				'description' => __( 'Raw HTML, CSS, or JavaScript code. PHP is not supported by Elementor Custom Code.', 'mumega-mcp' ),
+				'type'        => 'string',
+				'required'    => (bool) $creating,
+			),
+			'content'    => array(
+				'description' => __( 'Alias for code, for compatibility with generic post tools.', 'mumega-mcp' ),
+				'type'        => 'string',
+			),
+			'location'   => array(
+				'description' => __( 'Injection location: head, body_start, or body_end.', 'mumega-mcp' ),
+				'type'        => 'string',
+				'default'     => 'head',
+			),
+			'status'     => array(
+				'description' => __( 'Post status: draft or publish.', 'mumega-mcp' ),
+				'type'        => 'string',
+				'default'     => 'draft',
+			),
+			'conditions' => array(
+				'description' => __( 'Elementor display conditions. Default is include/general (entire site). Example: [{"type":"include","name":"general"}].', 'mumega-mcp' ),
+				'type'        => 'array',
+			),
+			'dry_run'    => array(
+				'description' => __( 'Validate and normalize without saving.', 'mumega-mcp' ),
+				'type'        => 'boolean',
+				'default'     => false,
+			),
+		);
+	}
+
+	/**
+	 * Prepare Custom Code request payload.
+	 *
+	 * @param WP_REST_Request $request  Request object.
+	 * @param bool            $creating Whether this is a create request.
+	 * @return array|WP_Error Prepared payload or error.
+	 */
+	private function prepare_custom_code_payload( $request, $creating ) {
+		if ( function_exists( 'post_type_exists' ) && ! post_type_exists( $this->custom_code_cpt ) ) {
+			return $this->error_response(
+				'elementor_custom_code_unavailable',
+				__( 'Elementor Pro Custom Code is unavailable because the elementor_snippet post type is not registered.', 'mumega-mcp' ),
+				400
+			);
+		}
+
+		$payload = array(
+			'dry_run' => (bool) $request->get_param( 'dry_run' ),
+		);
+
+		$title = $request->get_param( 'title' );
+		if ( null !== $title ) {
+			$title = sanitize_text_field( $title );
+			if ( '' !== $title ) {
+				$payload['title'] = $title;
+			}
+		}
+
+		if ( $creating && empty( $payload['title'] ) ) {
+			return $this->error_response( 'missing_title', __( 'Custom Code title is required.', 'mumega-mcp' ), 400 );
+		}
+
+		$raw_code = $request->get_param( 'code' );
+		if ( null === $raw_code ) {
+			$raw_code = $request->get_param( 'content' );
+		}
+
+		if ( null !== $raw_code ) {
+			$code       = $this->normalize_custom_code_content( $raw_code );
+			$payload['code'] = $code['content'];
+			$payload['wrapper_tags_removed'] = (bool) $code['changed'];
+		}
+
+		if ( $creating && ( ! array_key_exists( 'code', $payload ) || '' === trim( $payload['code'] ) ) ) {
+			return $this->error_response( 'missing_code', __( 'Custom Code raw code is required.', 'mumega-mcp' ), 400 );
+		}
+
+		if ( null !== $request->get_param( 'location' ) ) {
+			$payload['location'] = $this->normalize_custom_code_location( $request->get_param( 'location' ) );
+		} elseif ( $creating ) {
+			$payload['location'] = 'head';
+		}
+
+		if ( null !== $request->get_param( 'status' ) ) {
+			$payload['status'] = $this->validate_post_status( $request->get_param( 'status' ), array( 'publish', 'draft' ) );
+		} elseif ( $creating ) {
+			$payload['status'] = 'draft';
+		}
+
+		$conditions = $request->get_param( 'conditions' );
+		if ( null !== $conditions ) {
+			if ( ! is_array( $conditions ) ) {
+				return $this->error_response( 'invalid_conditions', __( 'conditions must be an array.', 'mumega-mcp' ), 400 );
+			}
+			$payload['conditions'] = $this->normalize_custom_code_conditions( $conditions );
+		} elseif ( $creating ) {
+			$payload['conditions'] = $this->normalize_custom_code_conditions( array() );
+		}
+
+		return $payload;
+	}
+
+	/**
+	 * Normalize raw Custom Code content without stripping script/style tags.
+	 *
+	 * @param string $content Raw content.
+	 * @return array Normalized content and change flag.
+	 */
+	private function normalize_custom_code_content( $content ) {
+		$content = (string) wp_unslash( $content );
+		if ( $this->contains_wrapper_html_tags( $content ) ) {
+			return $this->strip_wrapper_html_tags( $content );
+		}
+
+		return array(
+			'content' => $content,
+			'changed' => false,
+		);
+	}
+
+	/**
+	 * Normalize Elementor custom-code injection location.
+	 *
+	 * @param string $location Raw location.
+	 * @return string Location.
+	 */
+	private function normalize_custom_code_location( $location ) {
+		$location = sanitize_key( $location );
+		$allowed  = array( 'head', 'body_start', 'body_end' );
+		return in_array( $location, $allowed, true ) ? $location : 'head';
+	}
+
+	/**
+	 * Normalize Elementor display conditions.
+	 *
+	 * @param array $conditions Raw conditions.
+	 * @return array Normalized conditions.
+	 */
+	private function normalize_custom_code_conditions( $conditions ) {
+		if ( empty( $conditions ) ) {
+			return array(
+				array(
+					'type' => 'include',
+					'name' => 'general',
+				),
+			);
+		}
+
+		$normalized = array();
+		foreach ( $conditions as $condition ) {
+			if ( ! is_array( $condition ) ) {
+				continue;
+			}
+
+			$item = array(
+				'type'     => isset( $condition['type'] ) && 'exclude' === $condition['type'] ? 'exclude' : 'include',
+				'name'     => isset( $condition['name'] ) ? sanitize_text_field( $condition['name'] ) : 'general',
+				'sub_name' => isset( $condition['sub_name'] ) ? sanitize_text_field( $condition['sub_name'] ) : '',
+				'sub_id'   => isset( $condition['sub_id'] ) ? sanitize_text_field( $condition['sub_id'] ) : '',
+			);
+
+			if ( '' === $item['name'] ) {
+				$item['name'] = 'general';
+			}
+
+			$normalized[] = array_filter(
+				$item,
+				function ( $value ) {
+					return '' !== $value;
+				}
+			);
+		}
+
+		return empty( $normalized ) ? $this->normalize_custom_code_conditions( array() ) : $normalized;
+	}
+
+	/**
+	 * Persist Elementor custom-code meta.
+	 *
+	 * @param int   $post_id  Snippet post ID.
+	 * @param array $payload  Prepared payload.
+	 */
+	private function save_custom_code_meta( $post_id, $payload ) {
+		if ( isset( $payload['location'] ) ) {
+			update_post_meta( $post_id, '_elementor_location', $payload['location'] );
+		}
+
+		update_post_meta( $post_id, '_elementor_edit_mode', 'builder' );
+
+		if ( array_key_exists( 'wrapper_tags_removed', $payload ) ) {
+			update_post_meta( $post_id, '_spai_wrapper_tags_removed', (bool) $payload['wrapper_tags_removed'] ? '1' : '0' );
+		}
+
+		if ( isset( $payload['conditions'] ) ) {
+			$result = $this->save_custom_code_conditions( $post_id, $payload['conditions'] );
+			update_post_meta(
+				$post_id,
+				'_spai_custom_code_conditions_engine',
+				is_wp_error( $result ) ? 'fallback_meta' : (string) $result
+			);
+		}
+	}
+
+	/**
+	 * Save Elementor display conditions through Elementor Pro when available.
+	 *
+	 * @param int   $post_id    Snippet post ID.
+	 * @param array $conditions Normalized conditions.
+	 * @return string|WP_Error Save engine name or error.
+	 */
+	private function save_custom_code_conditions( $post_id, $conditions ) {
+		update_post_meta( $post_id, '_elementor_conditions', $conditions );
+		$this->update_custom_code_conditions_index( $post_id, $conditions );
+
+		if (
+			class_exists( '\\ElementorPro\\Modules\\ThemeBuilder\\Module' )
+			&& class_exists( '\\Elementor\\Plugin' )
+			&& method_exists( '\\ElementorPro\\Modules\\ThemeBuilder\\Module', 'instance' )
+		) {
+			try {
+				$conditions_manager = \ElementorPro\Modules\ThemeBuilder\Module::instance()->get_conditions_manager();
+				$conditions_manager->save_conditions( $post_id, $conditions );
+
+				if ( method_exists( $conditions_manager, 'get_cache' ) ) {
+					$cache = $conditions_manager->get_cache();
+					if ( $cache && method_exists( $cache, 'regenerate' ) ) {
+						$cache->regenerate();
+					}
+				}
+
+				return 'elementor_pro_conditions_manager';
+			} catch ( Exception $exception ) {
+				return new WP_Error( 'conditions_save_failed', $exception->getMessage(), array( 'status' => 500 ) );
+			}
+		}
+
+		return 'fallback_meta';
+	}
+
+	/**
+	 * Get a Custom Code post or a typed error.
+	 *
+	 * @param int $id Post ID.
+	 * @return WP_Post|WP_Error Post or error.
+	 */
+	private function get_custom_code_post( $id ) {
+		$id   = absint( $id );
+		$post = get_post( $id );
+
+		if ( ! $post || $this->custom_code_cpt !== $post->post_type ) {
+			return $this->error_response( 'not_found', __( 'Custom Code snippet not found.', 'mumega-mcp' ), 404 );
+		}
+
+		return $post;
+	}
+
+	/**
+	 * Read Elementor display conditions for a Custom Code snippet.
+	 *
+	 * @param int $post_id Snippet post ID.
+	 * @return array Conditions.
+	 */
+	private function get_custom_code_conditions( $post_id ) {
+		if (
+			class_exists( '\\ElementorPro\\Modules\\ThemeBuilder\\Module' )
+			&& class_exists( '\\Elementor\\Plugin' )
+			&& method_exists( '\\ElementorPro\\Modules\\ThemeBuilder\\Module', 'instance' )
+		) {
+			try {
+				$document = \Elementor\Plugin::instance()->documents->get( $post_id );
+				if ( $document ) {
+					$conditions_manager = \ElementorPro\Modules\ThemeBuilder\Module::instance()->get_conditions_manager();
+					$conditions         = $conditions_manager->get_document_conditions( $document );
+					return is_array( $conditions ) ? $this->normalize_custom_code_conditions( $conditions ) : array();
+				}
+			} catch ( Exception $exception ) {
+				// Fall back to stored meta below.
+			}
+		}
+
+		$conditions = get_post_meta( $post_id, '_elementor_conditions', true );
+		return is_array( $conditions ) ? $this->normalize_custom_code_conditions( $conditions ) : array();
+	}
+
+	/**
+	 * Keep Elementor's global condition index in sync for fallback/debug visibility.
+	 *
+	 * @param int   $post_id    Snippet post ID.
+	 * @param array $conditions Normalized conditions.
+	 */
+	private function update_custom_code_conditions_index( $post_id, $conditions ) {
+		$all_conditions = get_option( 'elementor_pro_theme_builder_conditions', array() );
+		if ( ! is_array( $all_conditions ) ) {
+			$all_conditions = array();
+		}
+
+		foreach ( $all_conditions as $key => $post_ids ) {
+			if ( is_array( $post_ids ) ) {
+				$all_conditions[ $key ] = array_values(
+					array_filter(
+						$post_ids,
+						function ( $id ) use ( $post_id ) {
+							return absint( $id ) !== absint( $post_id );
+						}
+					)
+				);
+
+				if ( empty( $all_conditions[ $key ] ) ) {
+					unset( $all_conditions[ $key ] );
+				}
+			}
+		}
+
+		foreach ( $conditions as $condition ) {
+			$key = $this->build_custom_code_condition_key( $condition );
+			if ( ! isset( $all_conditions[ $key ] ) ) {
+				$all_conditions[ $key ] = array();
+			}
+			if ( ! in_array( absint( $post_id ), array_map( 'absint', $all_conditions[ $key ] ), true ) ) {
+				$all_conditions[ $key ][] = absint( $post_id );
+			}
+		}
+
+		update_option( 'elementor_pro_theme_builder_conditions', $all_conditions );
+	}
+
+	/**
+	 * Build Elementor condition index key.
+	 *
+	 * @param array $condition Condition.
+	 * @return string Index key.
+	 */
+	private function build_custom_code_condition_key( $condition ) {
+		$key = ( $condition['type'] ?? 'include' ) . '/' . ( $condition['name'] ?? 'general' );
+		if ( ! empty( $condition['sub_name'] ) ) {
+			$key .= '/' . $condition['sub_name'];
+			if ( ! empty( $condition['sub_id'] ) ) {
+				$key .= '/' . $condition['sub_id'];
+			}
+		}
+		return $key;
+	}
+
+	/**
+	 * Redact raw code from activity logs and dry-run summaries.
+	 *
+	 * @param array $payload Payload.
+	 * @return array Redacted payload.
+	 */
+	private function redact_custom_code_payload( $payload ) {
+		if ( isset( $payload['code'] ) ) {
+			$payload['code_length'] = strlen( (string) $payload['code'] );
+			unset( $payload['code'] );
+		}
+
+		if ( isset( $payload['snippet']['code'] ) ) {
+			$payload['snippet']['code_length'] = strlen( (string) $payload['snippet']['code'] );
+			unset( $payload['snippet']['code'] );
+		}
+
+		return $payload;
+	}
+
+	/**
 	 * Format a Custom Code snippet post for API response.
 	 *
 	 * @param WP_Post $post Post object.
+	 * @param bool    $include_code Include raw code.
 	 * @return array Formatted snippet.
 	 */
-	private function format_custom_code_snippet( $post ) {
+	private function format_custom_code_snippet( $post, $include_code = false ) {
 		$meta = get_post_meta( $post->ID );
 
 		$matching_meta_keys = array();
@@ -541,15 +1091,26 @@ class Spai_REST_Elementor_Pro extends Spai_REST_API {
 			}
 		}
 
-		return array(
+		$data = array(
 			'id'                => (int) $post->ID,
 			'title'             => (string) $post->post_title,
 			'status'            => (string) $post->post_status,
 			'modified_gmt'       => (string) $post->post_modified_gmt,
+			'location'           => (string) ( get_post_meta( $post->ID, '_elementor_location', true ) ?: 'head' ),
+			'conditions'         => $this->get_custom_code_conditions( $post->ID ),
+			'conditions_engine'  => (string) ( get_post_meta( $post->ID, '_spai_custom_code_conditions_engine', true ) ?: 'unknown' ),
+			'code_length'        => strlen( (string) $post->post_content ),
+			'wrapper_tags_removed' => '1' === (string) get_post_meta( $post->ID, '_spai_wrapper_tags_removed', true ),
 			'has_wrapper_tags'   => ! empty( $matching_meta_keys ),
 			'matching_meta_keys' => array_values( array_unique( $matching_meta_keys ) ),
 			'debug_meta_excerpt' => $debug_meta,
 		);
+
+		if ( $include_code ) {
+			$data['code'] = (string) $post->post_content;
+		}
+
+		return $data;
 	}
 
 	/**

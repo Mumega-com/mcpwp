@@ -199,6 +199,13 @@ function sanitize_key($value)
     return preg_replace('/[^a-z0-9_\\-]/', '', $value);
 }
 
+function sanitize_title($value)
+{
+    $value = strtolower(trim((string) $value));
+    $value = preg_replace('/[^a-z0-9]+/', '-', $value);
+    return trim($value, '-');
+}
+
 function sanitize_email($value)
 {
     return filter_var($value, FILTER_SANITIZE_EMAIL);
@@ -415,6 +422,11 @@ function get_bloginfo($show = '')
     return '';
 }
 
+function is_multisite()
+{
+    return false;
+}
+
 function wp_generate_uuid4()
 {
     return '00000000-0000-4000-8000-' . str_pad((string) mt_rand(1, 999999999999), 12, '0', STR_PAD_LEFT);
@@ -497,6 +509,67 @@ function get_posts($args = array())
     return $posts;
 }
 
+function post_type_exists($post_type)
+{
+    $known = array( 'post', 'page', 'wp_block', 'elementor_library', 'elementor_snippet' );
+    return in_array((string) $post_type, $known, true);
+}
+
+function get_post_type_object($post_type)
+{
+    if (! post_type_exists($post_type)) {
+        return null;
+    }
+    return (object) array(
+        'name'   => $post_type,
+        'public' => in_array((string) $post_type, array( 'post', 'page' ), true),
+    );
+}
+
+function wp_insert_post($postarr, $wp_error = false)
+{
+    $next_id = empty($GLOBALS['_spai_test_posts']) ? 1 : max(array_map('intval', array_keys($GLOBALS['_spai_test_posts']))) + 1;
+    $post_id = isset($postarr['ID']) ? (int) $postarr['ID'] : $next_id;
+
+    $GLOBALS['_spai_test_posts'][ $post_id ] = (object) array(
+        'ID'                => $post_id,
+        'post_type'         => isset($postarr['post_type']) ? $postarr['post_type'] : 'post',
+        'post_title'        => isset($postarr['post_title']) ? $postarr['post_title'] : '',
+        'post_name'         => isset($postarr['post_name']) ? $postarr['post_name'] : sanitize_title(isset($postarr['post_title']) ? $postarr['post_title'] : ''),
+        'post_status'       => isset($postarr['post_status']) ? $postarr['post_status'] : 'draft',
+        'post_date'         => '2026-06-06 00:00:00',
+        'post_modified'     => '2026-06-06 00:00:00',
+        'post_modified_gmt' => '2026-06-06 00:00:00',
+        'post_parent'       => 0,
+        'menu_order'        => 0,
+        'post_author'       => 1,
+        'post_content'      => isset($postarr['post_content']) ? $postarr['post_content'] : '',
+        'post_excerpt'      => isset($postarr['post_excerpt']) ? $postarr['post_excerpt'] : '',
+    );
+
+    return $post_id;
+}
+
+function wp_update_post($postarr, $wp_error = false)
+{
+    if (empty($postarr['ID']) || empty($GLOBALS['_spai_test_posts'][ (int) $postarr['ID'] ])) {
+        return $wp_error ? new WP_Error('not_found', 'Post not found.', array( 'status' => 404 )) : 0;
+    }
+
+    $post = $GLOBALS['_spai_test_posts'][ (int) $postarr['ID'] ];
+    foreach ($postarr as $key => $value) {
+        if ('ID' === $key) {
+            continue;
+        }
+        $post->{$key} = $value;
+    }
+    $post->post_modified = '2026-06-06 01:00:00';
+    $post->post_modified_gmt = '2026-06-06 01:00:00';
+    $GLOBALS['_spai_test_posts'][ (int) $postarr['ID'] ] = $post;
+
+    return (int) $postarr['ID'];
+}
+
 function wp_count_posts($type)
 {
     $counts = array(
@@ -562,6 +635,9 @@ function wp_get_nav_menu_items($term_id)
 function get_post_meta($post_id, $key = '', $single = false)
 {
     $post_id = (int) $post_id;
+    if ('' === $key) {
+        return isset($GLOBALS['_spai_test_meta'][ $post_id ]) ? $GLOBALS['_spai_test_meta'][ $post_id ] : array();
+    }
     if (isset($GLOBALS['_spai_test_meta'][ $post_id ][ $key ])) {
         return $GLOBALS['_spai_test_meta'][ $post_id ][ $key ];
     }
@@ -609,3 +685,4 @@ require_once dirname(__DIR__) . '/includes/mcp/class-spai-integration.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-mcp.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-menus.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-elementor-basic.php';
+require_once dirname(__DIR__) . '/includes/pro/api/class-spai-rest-elementor-pro.php';
