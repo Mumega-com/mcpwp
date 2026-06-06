@@ -1,0 +1,36 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">MCPWP mark</title>
+  <desc id="desc">A compact MCPWP brand mark showing a command route inside a rounded square.</desc>
+  <defs>
+    <linearGradient id="mcpwp-mark-bg" x1="72" y1="58" x2="448" y2="466" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#91A8FF"/>
+      <stop offset="0.52" stop-color="#5B76F7"/>
+      <stop offset="1" stop-color="#38D5A6"/>
+    </linearGradient>
+    <linearGradient id="mcpwp-mark-stroke" x1="132" y1="126" x2="380" y2="384" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="0.58" stop-color="#E9EEFF"/>
+      <stop offset="1" stop-color="#B8C5FF"/>
+    </linearGradient>
+    <filter id="mcpwp-mark-shadow" x="32" y="30" width="448" height="454" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="18"/>
+      <feGaussianBlur stdDeviation="20"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.14 0 0 0 0 0.22 0 0 0 0 0.54 0 0 0 0.34 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#080D14"/>
+  <g filter="url(#mcpwp-mark-shadow)">
+    <rect x="72" y="64" width="368" height="376" rx="92" fill="url(#mcpwp-mark-bg)"/>
+    <rect x="88" y="80" width="336" height="344" rx="78" stroke="white" stroke-opacity="0.22" stroke-width="2"/>
+  </g>
+  <path d="M318 116L168 274H252L212 396L364 238H280L318 116Z" fill="#08111D"/>
+  <path d="M318 116L168 274H252L212 396L364 238H280L318 116Z" stroke="url(#mcpwp-mark-stroke)" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M166 158H218" stroke="#08111D" stroke-width="20" stroke-linecap="round"/>
+  <path d="M166 158H218" stroke="white" stroke-opacity="0.92" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="164" cy="158" r="23" fill="#08111D"/>
+  <circle cx="164" cy="158" r="12" fill="#38D5A6"/>
+</svg>
