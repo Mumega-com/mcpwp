@@ -18,7 +18,7 @@
   <a href="https://github.com/Mumega-com/mcpwp/releases"><img src="https://img.shields.io/github/v/release/Mumega-com/mcpwp?style=flat-square" alt="Release"></a>
   <a href="https://www.npmjs.com/package/@mcpwp.net/mcpwp"><img src="https://img.shields.io/npm/v/%40mcpwp.net%2Fmcpwp.svg?style=flat-square&label=npm" alt="npm"></a>
   <img src="https://img.shields.io/badge/plugin-v2.8.31-21759b?style=flat-square" alt="Plugin version">
-  <img src="https://img.shields.io/badge/tools-up%20to%20239-blue?style=flat-square" alt="Tools">
+  <img src="https://img.shields.io/badge/tools-15%20categories-blue?style=flat-square" alt="Tools">
   <img src="https://img.shields.io/badge/MCP-compatible-brightgreen?style=flat-square" alt="MCP">
   <img src="https://img.shields.io/badge/license-GPL--2.0-orange?style=flat-square" alt="License">
   <img src="https://img.shields.io/badge/plans-free%20%2B%20pro-blue?style=flat-square" alt="Plans">
@@ -65,7 +65,7 @@ graph LR
 
 | | MCPWP | WordPress MCP Adapter | Royal MCP | InstaWP mcp-wp |
 |---|---|---|---|---|
-| **MCP Tools** | **Up to 239** | ~20 | 37 | ~30 |
+| **MCP Tools** | **15 categories** | ~20 | 37 | ~30 |
 | **Blueprints** | **24 types** | 0 | 0 | 0 |
 | **Elementor** | Full (build + edit + templates + theme) | No | No | No |
 | **WooCommerce** | 21 tools | No | No | No |
@@ -142,7 +142,7 @@ Adds `/mumcp:setup`, `/mumcp:tools`, `/mumcp:elementor`, `/mumcp:design` skills 
 
 ## Tools
 
-MCPWP exposes up to 239 tools across 15 categories. `tools/list` is dynamic: inactive integrations, disabled categories, WP.org builds, and role-scoped API keys reduce the live count for a given site.
+MCPWP exposes tools across 15 categories. The live count from `tools/list` varies by installed plugins, disabled categories, WP.org vs paid build, and API key scope — so no hardcoded number is published here.
 
 | Category | Tools | What |
 |----------|-------|------|
@@ -258,7 +258,7 @@ wc_create_product(name: "T-Shirt", regular_price: "29.99", type: "simple")
 
 ## Roadmap
 
-- [x] Up to 239 MCP tools across 15 categories
+- [x] MCP tools across 15 categories (count varies by plugins + plan)
 - [x] 24 page blueprints
 - [x] Role-scoped API keys (5 roles)
 - [x] Elementor validation + auto-fix

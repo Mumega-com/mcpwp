@@ -36,7 +36,7 @@ curl -s -X POST $MCP \
 
 ## Scene 3: Quick stat (15 sec)
 ```bash
-echo "Up to 239 MCP tools. 24 blueprints. Paid plans + trial."
+echo "MCP tools. 24 blueprints. Paid plans + trial."
 echo ""
 echo "Install: wp plugin install https://mumega.com/mcp-updates/mumega-mcp-latest.zip --activate"
 echo "GitHub:  https://github.com/Mumega-com/mcp-for-wp"

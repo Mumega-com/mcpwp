@@ -15,7 +15,7 @@ Client WordPress Sites (each has mumcp installed)
     ↓ powered by
 AI Chat (OpenAI/Gemini via agency's key, or our CF Workers AI)
     ↓ executes
-Up to 239 MCP Tools → WordPress/Elementor/WooCommerce
+MCP tools → WordPress/Elementor/WooCommerce
 ```
 
 ## V3 Milestones
@@ -159,7 +159,7 @@ Conversation logs → anonymized → train better models → everyone benefits
 
 ## What We Already Have
 
-- [x] Up to 239 MCP tools (most complete WordPress MCP server)
+- [x] MCP tools (most complete WordPress MCP server)
 - [x] 24 page blueprints
 - [x] Chat tab with OpenAI integration
 - [x] Cloudflare Workers AI fallback

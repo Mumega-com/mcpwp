@@ -1,6 +1,6 @@
 # Contributing to mumcp
 
-Thanks for your interest in contributing! mumcp is the most complete MCP server for WordPress — 239 tools and growing.
+Thanks for your interest in contributing! MCPWP is the most complete MCP server for WordPress — tools and growing.
 
 ## Quick Start
 
