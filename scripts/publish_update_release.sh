@@ -111,7 +111,9 @@ if [[ "$ZIP_VERSION" != "$VERSION" ]]; then
 	exit 1
 fi
 
-if ! unzip -Z1 "$ZIP_PATH" | grep -q 'includes/class-spai-updater.php'; then
+# grep -q closes the pipe early, causing SIGPIPE (141) under pipefail — use grep -c instead.
+UPDATER_COUNT=$(unzip -Z1 "$ZIP_PATH" | grep -c 'includes/class-spai-updater.php' || true)
+if [[ "$UPDATER_COUNT" -eq 0 ]]; then
 	echo "Updater missing from canonical self-hosted ZIP: $ZIP_PATH" >&2
 	exit 1
 fi
