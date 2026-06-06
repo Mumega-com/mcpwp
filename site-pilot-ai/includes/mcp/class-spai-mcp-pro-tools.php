@@ -303,7 +303,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 		$pro_tools = array();
 
 		// Google Indexing API Tools.
-		$tools[] = $this->define_tool(
+		$pro_tools[] = $this->define_tool(
 			'wp_submit_to_google_index',
 			'Submit one or more URLs to Google for indexing via the Indexing API. Requires Google Indexing API integration to be configured. Use action URL_UPDATED for new/updated pages and URL_DELETED for removed pages. Limited to 200 URLs per day by Google.',
 			array(
@@ -320,7 +320,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 			)
 		);
 
-		$tools[] = $this->define_tool(
+		$pro_tools[] = $this->define_tool(
 			'wp_google_index_status',
 			'Check Google indexing status for a URL. Returns the latest update and removal notification times from the Indexing API. Requires Google Indexing API integration to be configured.',
 			array(
@@ -422,20 +422,28 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_set_seo',
-			'Set SEO metadata for a specific page or post',
+			'Set SEO metadata for a specific page or post. Uses normalized SEO fields; seo_title and seo_description remain accepted aliases.',
 			array(
 				'id'              => array(
 					'type'        => 'number',
 					'description' => 'Page or post ID',
 					'required'    => true,
 				),
-				'seo_title'       => array(
+				'title'           => array(
 					'type'        => 'string',
 					'description' => 'SEO title',
 				),
-				'seo_description' => array(
+				'description'     => array(
 					'type'        => 'string',
 					'description' => 'SEO meta description',
+				),
+				'seo_title'       => array(
+					'type'        => 'string',
+					'description' => 'Alias for title',
+				),
+				'seo_description' => array(
+					'type'        => 'string',
+					'description' => 'Alias for description',
 				),
 				'focus_keyword'   => array(
 					'type'        => 'string',
@@ -444,6 +452,10 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 				'canonical'       => array(
 					'type'        => 'string',
 					'description' => 'Canonical URL',
+				),
+				'canonical_url'   => array(
+					'type'        => 'string',
+					'description' => 'Alias for canonical',
 				),
 				'noindex'         => array(
 					'type'        => 'boolean',
@@ -499,7 +511,10 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 				'updates' => array(
 					'type'        => 'array',
 					'description' => 'Array of objects. Each must have id (post/page ID) plus any SEO fields: title, description, focus_keyword, canonical_url, noindex (bool), nofollow (bool), og_title, og_description, og_image',
-					'required'    => true,
+				),
+				'items' => array(
+					'type'        => 'array',
+					'description' => 'Alias for updates. Accepted for compatibility with the SEO guide examples.',
 				),
 			)
 		);
@@ -2749,6 +2764,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 				'param_remap' => array(
 					'seo_title'       => 'title',
 					'seo_description' => 'description',
+					'canonical_url'   => 'canonical',
 				),
 			),
 			'wp_analyze_seo'                 => array(
@@ -2758,6 +2774,9 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 			'wp_bulk_seo'                    => array(
 				'method' => 'POST',
 				'route'  => '/seo/bulk',
+				'param_remap' => array(
+					'items' => 'updates',
+				),
 			),
 			'wp_seo_status'                  => array(
 				'method' => 'GET',
