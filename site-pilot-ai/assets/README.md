@@ -17,9 +17,10 @@ These files should be created before WordPress.org submission:
 
 ### Screenshots
 Screenshots should be numbered and match the readme.txt descriptions:
-- `screenshot-1.png` - Admin settings page
-- `screenshot-2.png` - API key management
-- `screenshot-3.png` - REST API documentation
+- `screenshot-1.png` - Control Room for approvals, SEO issues, rollback, and agent activity
+- `screenshot-2.png` - Setup screen for MCP endpoint and role-scoped API keys
+- `screenshot-3.png` - Tool category controls for agent capability discovery and enforcement
+- `screenshot-4.png` - Integrations and Chat surfaces with safety-first workflow
 
 ## Specifications
 
@@ -41,20 +42,23 @@ Screenshots should be numbered and match the readme.txt descriptions:
 ## Branding Guidelines
 
 **Name:** MCPWP
-**Tagline:** Control WordPress with AI
+**Tagline:** Safe AI operations for WordPress
 **Colors:**
-- Primary: #2271b1 (WordPress blue)
-- Accent: #135e96 (Darker blue)
-- Pro Badge: #9b59b6 (Purple)
+- Ink: #0B1220
+- Primary: #2F7CFF
+- Safety: #20B86F
+- Warning: #F59E0B
+- Surface: #F8FAFC
 
 ## Design Suggestions
 
 The banner should communicate:
-1. AI-powered WordPress management
-2. REST API / MCP integration
-3. Professional, trustworthy appearance
+1. Safe AI-assisted WordPress operation
+2. Scoped MCP access and human approvals
+3. Elementor, SEO, media, and content workflows without hardcoded tool-count claims
+4. Professional, trustworthy appearance
 
 Icon suggestions:
-- Airplane/pilot theme
-- AI/circuit motif
-- WordPress logo integration (if permitted)
+- Lightning route / agent action motif
+- Approval/safety accent
+- Avoid WordPress logo usage unless explicitly permitted
