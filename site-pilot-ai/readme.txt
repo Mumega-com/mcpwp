@@ -115,10 +115,10 @@ Each site needs its own plugin installation and API key.
 
 == Screenshots ==
 
-1. Setup tab — Activity log showing recent API requests
-2. Connect AI tab — One-click configuration for Claude Desktop and Claude Code
-3. Settings tab — Plugin configuration and integrations
-4. Advanced tab — REST API reference with copy-paste curl examples
+1. Control Room — supervised approvals, SEO findings, rollback-ready changes, and recommended next actions
+2. Setup — MCP endpoint, client configuration, and role-scoped API key management
+3. Tools — category controls for agent capability discovery and execution enforcement
+4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
 
