@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.38
+Stable tag: 2.8.39
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,10 @@ Each site needs its own plugin installation and API key.
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.39 =
+* Fix: Freemius "free" plan slug no longer causes plan:free/pro_active:true contradiction when pro is active via Lemon Squeezy or developer constant (issue #319).
+* Fix: Disabled tool categories now enforced at raw REST endpoint level — callers can no longer bypass category toggles by hitting /site-pilot-ai/v1/* routes directly (issue #328).
 
 = 2.8.38 =
 * New: wp_update_media — update alt text, title, caption, or description on an existing media attachment without re-uploading (issue #338).

@@ -225,6 +225,14 @@ class Spai_License {
 		if ( false !== strpos( $raw_plan, 'trial' ) ) {
 			return 'trial';
 		}
+		// 'free' is the Freemius slug for the unpaid tier. When Freemius reports
+		// the free plan, treat it as "no Freemius plan" so get_plan() can fall
+		// through to the stored license data (Lemon Squeezy / MUMCP_PRO) instead
+		// of returning 'free' while pro_active is simultaneously true — the
+		// contradiction reported in GitHub issue #319.
+		if ( 'free' === $raw_plan ) {
+			$raw_plan = '';
+		}
 		if ( '' !== $raw_plan ) {
 			return $raw_plan;
 		}

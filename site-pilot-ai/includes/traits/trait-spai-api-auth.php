@@ -176,6 +176,139 @@ trait Spai_Api_Auth {
 			);
 		}
 
+		// Block direct REST calls to routes whose tool category has been disabled
+		// by the site administrator via WP Admin > mumcp > Tools.
+		// This mirrors the MCP-layer check in Spai_REST_MCP::handle_tools_call()
+		// so that callers cannot bypass the category toggle by hitting the raw
+		// REST endpoint instead of going through the MCP protocol.
+		$category_check = $this->check_disabled_category_for_route( $request );
+		if ( is_wp_error( $category_check ) ) {
+			return $category_check;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Map a REST route to the tool-category it belongs to.
+	 *
+	 * Returns an empty string when the route is not governed by any category
+	 * (e.g. /mcp, /site-info, /settings) — those are always accessible.
+	 *
+	 * The mapping mirrors the tool-category assignments in
+	 * Spai_MCP_Free_Tools::get_tool_categories().
+	 *
+	 * @param string $route Full REST route, e.g. /site-pilot-ai/v1/pages.
+	 * @return string Category slug, or '' if not category-gated.
+	 */
+	protected function get_category_for_route( $route ) {
+		$base = '/site-pilot-ai/v1';
+		$path = ( 0 === strpos( $route, $base ) ) ? substr( $route, strlen( $base ) ) : $route;
+
+		// Ordered from most-specific to least-specific so that longer prefixes win.
+		$route_category_map = array(
+			// Elementor info (status, widget schemas) — check before generic /elementor.
+			'/elementor/status'                        => 'elementor-info',
+			'/elementor/widgets'                       => 'elementor-info',
+			'/elementor/widget-help'                   => 'elementor-info',
+			'/elementor/regenerate-css'                => 'elementor-info',
+
+			// Elementor build (read/write page data).
+			'/elementor'                               => 'elementor',
+
+			// Gutenberg blocks.
+			'/blocks'                                  => 'gutenberg',
+
+			// Content: pages, posts, generic content.
+			'/pages'                                   => 'content',
+			'/posts'                                   => 'content',
+			'/content'                                 => 'content',
+			'/drafts'                                  => 'content',
+			'/batch'                                   => 'content',
+			'/post-meta'                               => 'content',
+
+			// Media.
+			'/media'                                   => 'media',
+			'/screenshot'                              => 'media',
+
+			// Taxonomy.
+			'/categories'                              => 'taxonomy',
+			'/tags'                                    => 'taxonomy',
+			'/terms'                                   => 'taxonomy',
+
+			// SEO.
+			'/seo'                                     => 'seo',
+			'/content-coherence'                       => 'seo',
+
+			// Webhooks.
+			'/webhooks'                                => 'webhooks',
+			'/events'                                  => 'webhooks',
+
+			// Admin — approvals, api-keys handled here; settings/options are
+			// intentionally not gated since they are protected by the 'admin' scope.
+			'/approvals'                               => 'admin',
+			'/api-keys'                                => 'admin',
+			'/rate-limit'                              => 'admin',
+			'/integrations'                            => 'admin',
+			'/feedback'                                => 'admin',
+		);
+
+		foreach ( $route_category_map as $prefix => $category ) {
+			if ( 0 === strpos( $path, $prefix ) ) {
+				return $category;
+			}
+		}
+
+		return ''; // Not governed by any category toggle.
+	}
+
+	/**
+	 * Check whether the route for the current request belongs to a
+	 * site-administrator-disabled tool category.
+	 *
+	 * Called from verify_api_key() after authentication succeeds, so it only
+	 * runs for valid, authenticated requests. Returns a WP_Error (HTTP 403)
+	 * when the category is disabled; returns true otherwise.
+	 *
+	 * Note: ALL methods (GET and write) are blocked when a category is disabled.
+	 * This mirrors the MCP layer, which removes disabled-category tools from
+	 * tools/list entirely — both reads and writes are suppressed.
+	 *
+	 * @param WP_REST_Request $request Current request.
+	 * @return true|WP_Error True when allowed; WP_Error when category is disabled.
+	 */
+	protected function check_disabled_category_for_route( $request ) {
+		$disabled_categories = get_option( 'spai_disabled_tool_categories', array() );
+
+		// Fast path: nothing is disabled.
+		if ( empty( $disabled_categories ) || ! is_array( $disabled_categories ) ) {
+			return true;
+		}
+
+		$route    = method_exists( $request, 'get_route' ) ? (string) $request->get_route() : '';
+		$category = $this->get_category_for_route( $route );
+
+		// Route is not category-gated — always allow.
+		if ( '' === $category ) {
+			return true;
+		}
+
+		if ( in_array( $category, $disabled_categories, true ) ) {
+			return new WP_Error(
+				'forbidden_category',
+				sprintf(
+					/* translators: %s: tool category name */
+					__( 'The "%s" tool category has been disabled by the site administrator.', 'mumega-mcp' ),
+					$category
+				),
+				array(
+					'status'   => 403,
+					'category' => $category,
+					'hint'     => 'This tool category has been disabled in WP Admin > mumcp > Tools. Contact the site administrator to re-enable it.',
+				)
+			);
+		}
+
 		return true;
 	}
 
