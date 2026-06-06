@@ -1,5 +1,5 @@
 {
-  "version": "2.8.31",
+  "version": "2.8.37",
   "download_url": "https://mumega.com/mcp-updates/mumega-mcp-latest.zip",
   "requires": "5.0",
   "requires_php": "7.4",
@@ -8,5 +8,5 @@
   "homepage": "https://mcpwp.net/",
   "author": "Mumega",
   "author_homepage": "https://mumega.com/",
-  "changelog": "<h4>2.8.31</h4><ul><li>Fix: Harden Freemius update checks so admin update pages reliably refresh the update cache.</li><li>Fix: Avoid Freemius SDK host warnings during WP-CLI activation and update checks.</li></ul><h4>2.8.30</h4><ul><li>New: Add read-only WooCommerce SEO intelligence report for product content, commerce evidence, and search performance.</li><li>New: Add REST and MCP product SEO report with approval-safe next steps.</li></ul>"
+  "changelog": "<h4>2.8.37<\/h4><ul><li>Fix: PHP fatal in wp_seo_audit_site and wp_validate_seo_readiness — extract_internal_links_from_content() moved to base class.<\/li><li>Fix: Disabled tool categories now enforced at execution time, not just discovery.<\/li><li>Fix: Elementor custom-code tools hidden from tools\/list when Elementor Pro is not installed.<\/li><\/ul><h4>2.8.36<\/h4><ul><li>Fix: wp_bulk_find_replace operates on decoded element tree to prevent JSON corruption.<\/li><li>Fix: wp_setup_menu with overwrite=true clears existing items before repopulating.<\/li><li>New: wp_get_kit_css and wp_set_kit_css for Elementor kit global CSS.<\/li><\/ul><h4>2.8.35<\/h4><ul><li>Fix: Admin role auto-grants full scopes — no manual checkbox needed.<\/li><li>UX: Scopes section hidden for preset roles.<\/li><\/ul>"
 }
