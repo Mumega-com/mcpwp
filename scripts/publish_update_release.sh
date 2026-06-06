@@ -119,6 +119,8 @@ fi
 if [[ "$VERIFY_ONLY" -eq 0 ]]; then
 	sudo -n cp "$ZIP_PATH" "$STATIC_ZIP"
 	sudo -n cp "$MANIFEST_FILE" "$STATIC_MANIFEST"
+	# Keep mcpwp-latest.zip symlink pointing at the canonical zip (resolves #339).
+	sudo -n ln -sf "$STATIC_ZIP" "$STATIC_DIR/mcpwp-latest.zip"
 fi
 
 if [[ "$DEPLOY_WORKER" -eq 1 ]]; then
