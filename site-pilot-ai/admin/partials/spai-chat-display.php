@@ -14,24 +14,22 @@ $site_name     = get_bloginfo( 'name' );
 $site_url      = home_url();
 $plugin_ver    = SPAI_VERSION;
 ?>
-<div class="wrap">
-	<h1>
-		<span class="dashicons dashicons-format-chat"></span>
+<div class="wrap spai-admin spai-chat-page">
+	<h1 class="spai-header">
+		<span class="spai-logo">
+			<span class="dashicons dashicons-format-chat"></span>
+		</span>
 		<?php esc_html_e( 'MCPWP Chat', 'mumega-mcp' ); ?>
 	</h1>
-	<p class="description"><?php esc_html_e( 'Talk to your site. Ask it to build pages, edit content, manage products — all through natural language.', 'mumega-mcp' ); ?></p>
+	<p class="description spai-page-intro"><?php esc_html_e( 'Ask your site for help, then keep meaningful changes inside the MCPWP approval and audit loop.', 'mumega-mcp' ); ?></p>
 
-	<div id="spai-chat-container" style="max-width:800px; margin-top:20px;">
-		<div id="spai-chat-messages" style="
-			border: 1px solid #c3c4c7;
-			border-radius: 8px;
-			background: #fff;
-			height: 500px;
-			overflow-y: auto;
-			padding: 20px;
-			margin-bottom: 12px;
-		">
-			<div class="spai-chat-msg spai-chat-assistant" style="margin-bottom:16px;">
+	<div id="spai-chat-container" class="spai-chat-panel">
+		<div class="spai-chat-safety">
+			<span class="dashicons dashicons-shield"></span>
+			<?php esc_html_e( 'Safety mode: review agent work in Control Room before applying high-impact changes.', 'mumega-mcp' ); ?>
+		</div>
+		<div id="spai-chat-messages" class="spai-chat-messages">
+			<div class="spai-chat-msg spai-chat-assistant">
 				<strong style="color:#2271b1;">MCPWP</strong>
 				<p style="margin:4px 0 0;">
 						<?php
@@ -45,23 +43,16 @@ $plugin_ver    = SPAI_VERSION;
 			</div>
 		</div>
 
-		<div style="display:flex; gap:8px;">
-			<input type="text" id="spai-chat-input" placeholder="<?php esc_attr_e( 'Type a message...', 'mumega-mcp' ); ?>" style="
-				flex: 1;
-				padding: 10px 14px;
-				font-size: 14px;
-				border: 1px solid #c3c4c7;
-				border-radius: 6px;
-			" />
-			<button type="button" id="spai-chat-send" class="button button-primary" style="padding: 10px 20px;">
+		<div class="spai-chat-composer">
+			<input type="text" id="spai-chat-input" placeholder="<?php esc_attr_e( 'Ask MCPWP what to inspect or prepare...', 'mumega-mcp' ); ?>" />
+			<button type="button" id="spai-chat-send" class="button button-primary">
 				<?php esc_html_e( 'Send', 'mumega-mcp' ); ?>
 			</button>
 		</div>
-
-		<p class="description" style="margin-top:8px;">
-			<?php esc_html_e( 'Powered by Workers AI. Your data stays on Cloudflare edge + your WordPress site.', 'mumega-mcp' ); ?>
-		</p>
 	</div>
+	<p class="spai-chat-note">
+		<?php esc_html_e( 'Powered by Workers AI. Site operations remain auditable through WordPress and MCPWP activity logs.', 'mumega-mcp' ); ?>
+	</p>
 </div>
 
 <script>

@@ -38,7 +38,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 <div class="wrap spai-admin spai-control-room">
 	<h1 class="spai-header">
 		<span class="spai-logo">
-			<span class="dashicons dashicons-visibility"></span>
+			<span class="dashicons dashicons-shield"></span>
 		</span>
 		<?php esc_html_e( 'Control Room', 'mumega-mcp' ); ?>
 		<span class="spai-version">v<?php echo esc_html( SPAI_VERSION ); ?></span>

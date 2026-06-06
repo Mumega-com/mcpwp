@@ -42,7 +42,7 @@ class Spai_Admin {
 	 *
 	 * @var string
 	 */
-	const MENU_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0iIzljYTJhNyI+PHBhdGggZD0iTTEwIDJjLTQuNCAwLTggMy42LTggOHMzLjYgOCA4IDggOC0zLjYgOC04LTMuNi04LTgtOHptMCAyYzEuNyAwIDMuMi43IDQuMyAxLjhMNy41IDE0LjZDNS42IDEzLjIgNC41IDExIDQuNSAxMCA0LjUgNi45IDcgNC41IDEwIDQuNXptMCAxMWMtMS43IDAtMy4yLS43LTQuMy0xLjhsNi44LTguOGMxLjkgMS40IDMgMy42IDMgNS42IDAgMy4xLTIuNSA1LjUtNS41IDUuNXoiLz48Y2lyY2xlIGN4PSIxMCIgY3k9IjEwIiByPSIyIi8+PC9zdmc+';
+	const MENU_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iNSIgZmlsbD0iIzBCMTIyMCIvPjxwYXRoIGZpbGw9IiMyRjdDRkYiIGQ9Ik0xMS41IDEuOCA0LjggMTBoNGwtMS4zIDguMiA3LTloLTQuMWwxLjEtNy40WiIvPjxwYXRoIGZpbGw9IiMyN0M0NkEiIGQ9Ik0xMy43IDEyLjhhMi4yIDIuMiAwIDEgMCAwIDQuNCAyLjIgMi4yIDAgMCAwIDAtNC40Wm0wIDEuNGEuOC44IDAgMSAxIDAgMS42LjguOCAwIDAgMSAwLTEuNloiLz48L3N2Zz4=';
 
 	/**
 	 * Library page slug.
@@ -157,22 +157,46 @@ class Spai_Admin {
 	}
 
 	/**
+	 * Get the current MCPWP admin page slug.
+	 *
+	 * @return string
+	 */
+	private function get_current_admin_page_slug() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin routing value.
+		return isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+	}
+
+	/**
+	 * Determine whether the current admin request is an MCPWP screen.
+	 *
+	 * @return bool
+	 */
+	private function is_mcpwp_admin_page() {
+		$page = $this->get_current_admin_page_slug();
+
+		return in_array(
+			$page,
+			array(
+				self::PAGE_SLUG,
+				self::CONTROL_ROOM_PAGE_SLUG,
+				'site-pilot-ai-chat',
+				self::LIBRARY_PAGE_SLUG,
+				Spai_Integrations_Admin::PAGE_SLUG,
+				Spai_Tools_Admin::PAGE_SLUG,
+				self::SETTINGS_PAGE_SLUG,
+				self::ACTIVITY_LOG_PAGE_SLUG,
+			),
+			true
+		);
+	}
+
+	/**
 	 * Enqueue admin styles.
 	 *
 	 * @param string $hook Current admin page.
 	 */
 	public function enqueue_styles( $hook ) {
-		$allowed_hooks = array(
-			'toplevel_page_' . self::PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . self::CONTROL_ROOM_PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . self::LIBRARY_PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . self::SETTINGS_PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . self::ACTIVITY_LOG_PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . Spai_Integrations_Admin::PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . Spai_Tools_Admin::PAGE_SLUG,
-		);
-
-		if ( ! in_array( $hook, $allowed_hooks, true ) ) {
+		if ( ! $this->is_mcpwp_admin_page() ) {
 			return;
 		}
 
@@ -190,13 +214,8 @@ class Spai_Admin {
 	 * @param string $hook Current admin page.
 	 */
 	public function enqueue_scripts( $hook ) {
-		// Fire on Setup (toplevel), Library, and Settings pages.
-		$allowed_hooks = array(
-			'toplevel_page_' . self::PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . self::LIBRARY_PAGE_SLUG,
-			self::PAGE_SLUG . '_page_' . self::SETTINGS_PAGE_SLUG,
-		);
-		if ( ! in_array( $hook, $allowed_hooks, true ) ) {
+		// Fire on Setup, Library, and Settings pages.
+		if ( ! in_array( $this->get_current_admin_page_slug(), array( self::PAGE_SLUG, self::LIBRARY_PAGE_SLUG, self::SETTINGS_PAGE_SLUG ), true ) ) {
 			return;
 		}
 
@@ -1167,7 +1186,7 @@ class Spai_Admin {
 		$manifest_url    = $manifest_url ? $manifest_url : 'https://mumega.com/mcp-updates/version.json';
 		$current_version = defined( 'SPAI_VERSION' ) ? SPAI_VERSION : '0.0.0';
 		$remote_version  = null;
-		$download_url    = 'https://mumega.com/mcp-updates/mumega-mcp-latest.zip';
+		$download_url    = 'https://mumega.com/mcp-updates/mcpwp-latest.zip';
 		$source          = 'remote';
 		$option_version  = null;
 		$warning         = '';

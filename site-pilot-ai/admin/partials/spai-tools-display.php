@@ -14,40 +14,44 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div class="wrap spai-wrap">
-	<h1><?php esc_html_e( 'MCP Tools', 'mumega-mcp' ); ?></h1>
-	<p class="description">
+<div class="wrap spai-admin spai-tools-page">
+	<h1 class="spai-header">
+		<span class="spai-logo">
+			<span class="dashicons dashicons-admin-tools"></span>
+		</span>
+		<?php esc_html_e( 'Tools', 'mumega-mcp' ); ?>
+	</h1>
+	<p class="description spai-page-intro">
 		<?php esc_html_e( 'Enable or disable tool categories exposed to AI assistants via MCP. Disabled categories are hidden from tools/list to reduce context noise.', 'mumega-mcp' ); ?>
 	</p>
 
-	<div class="spai-tools-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:20px;">
+	<div class="spai-tools-grid">
 		<?php foreach ( $category_meta as $slug => $meta ) :
 			$is_disabled = in_array( $slug, $disabled_categories, true );
 			$count       = isset( $tool_counts[ $slug ] ) ? (int) $tool_counts[ $slug ] : 0;
 		?>
-			<div class="spai-tool-card" data-category="<?php echo esc_attr( $slug ); ?>"
-				style="background:#fff;border:1px solid <?php echo $is_disabled ? '#dcdcde' : '#c3c4c7'; ?>;border-radius:4px;padding:20px;position:relative;<?php echo $is_disabled ? 'opacity:0.6;' : ''; ?>transition:opacity 0.2s;">
+			<div class="spai-tool-card <?php echo $is_disabled ? 'is-disabled' : 'is-enabled'; ?>" data-category="<?php echo esc_attr( $slug ); ?>">
 
-				<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-					<div style="display:flex;align-items:center;gap:10px;">
-						<span class="dashicons <?php echo esc_attr( $meta['icon'] ); ?>" style="font-size:24px;width:24px;height:24px;color:#2271b1;"></span>
-						<h3 style="margin:0;font-size:15px;"><?php echo esc_html( $meta['name'] ); ?></h3>
+				<div class="spai-tool-card__header">
+					<div class="spai-tool-card__title">
+						<span class="spai-tool-card__icon dashicons <?php echo esc_attr( $meta['icon'] ); ?>"></span>
+						<h3><?php echo esc_html( $meta['name'] ); ?></h3>
 					</div>
-					<label class="spai-toggle" style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer;">
+					<label class="spai-toggle">
 						<input type="checkbox" class="spai-category-toggle"
 							data-category="<?php echo esc_attr( $slug ); ?>"
 							<?php checked( ! $is_disabled ); ?>
-							style="opacity:0;width:0;height:0;" />
-						<span style="position:absolute;top:0;left:0;right:0;bottom:0;background:<?php echo $is_disabled ? '#ccc' : '#00a32a'; ?>;border-radius:22px;transition:background 0.3s;"></span>
-						<span style="position:absolute;top:2px;left:<?php echo $is_disabled ? '2px' : '20px'; ?>;width:18px;height:18px;background:#fff;border-radius:50%;transition:left 0.3s;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></span>
+							aria-label="<?php echo esc_attr( sprintf( __( 'Toggle %s tools', 'mumega-mcp' ), $meta['name'] ) ); ?>" />
+						<span class="spai-toggle-track"></span>
+						<span class="spai-toggle-knob"></span>
 					</label>
 				</div>
 
-				<p style="margin:0 0 8px;color:#50575e;font-size:13px;">
+				<p class="spai-tool-card__description">
 					<?php echo esc_html( $meta['description'] ); ?>
 				</p>
 
-				<span style="font-size:12px;color:#787c82;">
+				<span class="spai-tool-card__count">
 					<?php
 						printf(
 							/* translators: %d: number of tools */
@@ -57,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					?>
 				</span>
 
-				<span class="spai-tool-status" style="display:none;margin-left:8px;font-size:12px;"></span>
+				<span class="spai-tool-status" hidden></span>
 			</div>
 		<?php endforeach; ?>
 	</div>
@@ -74,21 +78,15 @@ jQuery(function($) {
 		var enabled = $cb.is(':checked') ? '1' : '0';
 		var $card = $cb.closest('.spai-tool-card');
 		var $status = $card.find('.spai-tool-status');
-		var $slider = $cb.siblings('span').first();
-		var $knob = $cb.siblings('span').last();
 
 		// Immediate visual feedback.
 		if (enabled === '1') {
-			$card.css('opacity', '1');
-			$slider.css('background', '#00a32a');
-			$knob.css('left', '20px');
+			$card.removeClass('is-disabled').addClass('is-enabled');
 		} else {
-			$card.css('opacity', '0.6');
-			$slider.css('background', '#ccc');
-			$knob.css('left', '2px');
+			$card.removeClass('is-enabled').addClass('is-disabled');
 		}
 
-		$status.text('Saving...').css('color', '#666').show();
+		$status.text('Saving...').css('color', '#64748b').prop('hidden', false);
 
 		$.post(ajaxUrl, {
 			action: 'spai_toggle_tool_category',
@@ -97,17 +95,18 @@ jQuery(function($) {
 			enabled: enabled
 		}, function(response) {
 			if (response.success) {
-				$status.text(enabled === '1' ? 'Enabled' : 'Disabled').css('color', '#00a32a');
-				setTimeout(function() { $status.fadeOut(); }, 1500);
+				$status.text(enabled === '1' ? 'Enabled' : 'Disabled').css('color', '#20b86f');
+				setTimeout(function() { $status.prop('hidden', true); }, 1500);
 			} else {
 				$status.text(response.data.message || 'Error').css('color', '#d63638');
 				// Revert toggle.
 				$cb.prop('checked', enabled !== '1');
-				$card.css('opacity', enabled !== '1' ? '1' : '0.6');
+				$card.toggleClass('is-disabled', enabled === '1').toggleClass('is-enabled', enabled !== '1');
 			}
 		}).fail(function() {
 			$status.text('Request failed').css('color', '#d63638');
 			$cb.prop('checked', enabled !== '1');
+			$card.toggleClass('is-disabled', enabled === '1').toggleClass('is-enabled', enabled !== '1');
 		});
 	});
 });
