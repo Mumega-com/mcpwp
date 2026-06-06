@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.36
+Stable tag: 2.8.37
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,11 @@ Each site needs its own plugin installation and API key.
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.37 =
+* Fix: wp_seo_audit_site and wp_validate_seo_readiness PHP fatal — extract_internal_links_from_content() now defined in base REST class, accessible to all subclasses including the SEO audit controller (issue #336, #337).
+* Fix: Disabled tool categories now enforced at execution time, not just discovery — calling a tool in a disabled category returns a clear error instead of executing silently (issue #328).
+* Fix: Elementor custom-code tools (wp_list_elementor_custom_code, etc.) now require Elementor Pro and are hidden from tools/list when Elementor Pro is not installed, preventing ghost-route 404 errors (issue #335).
 
 = 2.8.36 =
 * Fix: wp_bulk_find_replace now operates on decoded element tree instead of raw JSON string — prevents JSON corruption when replacing URL substrings or text that appears inside serialized values.

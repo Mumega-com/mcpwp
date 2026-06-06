@@ -811,6 +811,25 @@ class Spai_REST_MCP extends Spai_REST_API {
 			);
 		}
 
+		// Check if the tool's category has been disabled by the site administrator.
+		$disabled_categories = get_option( 'spai_disabled_tool_categories', array() );
+		if ( ! empty( $disabled_categories ) && is_array( $disabled_categories ) ) {
+			$all_categories = $this->get_all_tool_categories();
+			$tool_category  = isset( $all_categories[ $tool_name ] ) ? $all_categories[ $tool_name ] : '';
+			if ( $tool_category && in_array( $tool_category, $disabled_categories, true ) ) {
+				return $this->jsonrpc_error(
+					$id,
+					-32003,
+					sprintf(
+						'Tool "%s" is in the "%s" category, which has been disabled by the site administrator.',
+						$tool_name,
+						$tool_category
+					),
+					array( 'hint' => 'This category has been disabled in WP Admin > mumcp > Tools. Contact the site administrator to re-enable it.' )
+				);
+			}
+		}
+
 		// Check if the API key's role allows this tool's category.
 		$key_record = $this->get_current_api_key_record();
 		if ( $key_record ) {

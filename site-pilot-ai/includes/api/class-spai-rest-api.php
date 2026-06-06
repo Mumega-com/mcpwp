@@ -614,4 +614,62 @@ abstract class Spai_REST_API {
 
 		return strtolower( $path . $query );
 	}
+
+	/**
+	 * Resolve an href to an internal post link, or null if external/non-content.
+	 *
+	 * @param string $href      Raw href value.
+	 * @param string $anchor    Link anchor text.
+	 * @param array  $url_to_id Normalized URL to post ID map.
+	 * @return array|null
+	 */
+	protected function resolve_internal_graph_link( $href, $anchor, $url_to_id ) {
+		$href = trim( $href );
+		if ( '' === $href || 0 === strpos( $href, '#' ) || preg_match( '/^(mailto|tel|sms|javascript):/i', $href ) ) {
+			return null;
+		}
+
+		$absolute = wp_http_validate_url( $href ) ? $href : home_url( $href );
+		$home     = wp_parse_url( home_url() );
+		$target   = wp_parse_url( $absolute );
+
+		if ( empty( $target['host'] ) || empty( $home['host'] ) || strtolower( $target['host'] ) !== strtolower( $home['host'] ) ) {
+			return null;
+		}
+
+		$normalized = $this->normalize_internal_graph_url( $absolute );
+		$target_id  = isset( $url_to_id[ $normalized ] ) ? (int) $url_to_id[ $normalized ] : url_to_postid( $absolute );
+
+		if ( ! $target_id ) {
+			return null;
+		}
+
+		return array(
+			'target_id' => $target_id,
+			'url'       => $absolute,
+			'anchor'    => trim( $anchor ),
+		);
+	}
+
+	/**
+	 * Extract all internal links from post content.
+	 *
+	 * @param string $content   Post content HTML.
+	 * @param array  $url_to_id Normalized URL to post ID map.
+	 * @return array Links.
+	 */
+	protected function extract_internal_links_from_content( $content, $url_to_id ) {
+		$links = array();
+
+		if ( preg_match_all( '/<a\s[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)<\/a>/is', $content, $matches, PREG_SET_ORDER ) ) {
+			foreach ( $matches as $match ) {
+				$link = $this->resolve_internal_graph_link( $match[1], wp_strip_all_tags( $match[2] ), $url_to_id );
+				if ( $link ) {
+					$links[] = $link;
+				}
+			}
+		}
+
+		return $links;
+	}
 }
