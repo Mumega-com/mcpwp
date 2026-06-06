@@ -1,0 +1,16 @@
+{
+  "route": {
+    "name": "pricing",
+    "sourceId": 556,
+    "targetId": 502,
+    "targetTemplate": "elementor_header_footer",
+    "targetUrl": "https://mcpwp.net/pricing/"
+  },
+  "targetSummary": {
+    "page_id": "502",
+    "title": "Pricing",
+    "has_elementor": false,
+    "sections": []
+  },
+  "targetPayload": null
+}

@@ -1,0 +1,29 @@
+<svg width="920" height="220" viewBox="0 0 920 220" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">MCPWP logo lockup</title>
+  <desc id="desc">MCPWP wordmark with a command route mark and the tagline AI operations for WordPress through MCP.</desc>
+  <defs>
+    <linearGradient id="lockup-bg" x1="32" y1="28" x2="176" y2="184" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#91A8FF"/>
+      <stop offset="0.52" stop-color="#5B76F7"/>
+      <stop offset="1" stop-color="#38D5A6"/>
+    </linearGradient>
+    <linearGradient id="lockup-bolt" x1="78" y1="71" x2="144" y2="151" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#C5D0FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="920" height="220" rx="34" fill="#080D14"/>
+  <g>
+    <rect x="48" y="38" width="144" height="144" rx="38" fill="url(#lockup-bg)"/>
+    <rect x="54" y="44" width="132" height="132" rx="32" stroke="white" stroke-opacity="0.22" stroke-width="2"/>
+    <path d="M135 63L82 119H112L97 164L151 108H121L135 63Z" fill="#08111D" stroke="url(#lockup-bolt)" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M76 84H98" stroke="#08111D" stroke-width="10" stroke-linecap="round"/>
+    <path d="M76 84H98" stroke="white" stroke-opacity="0.9" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="76" cy="84" r="10" fill="#08111D"/>
+    <circle cx="76" cy="84" r="5" fill="#38D5A6"/>
+  </g>
+  <text x="228" y="105" fill="#F7F9FF" font-family="Space Grotesk, Inter, Segoe UI, sans-serif" font-size="66" font-weight="700" letter-spacing="-2">MCPWP</text>
+  <text x="232" y="148" fill="#9CA8BA" font-family="IBM Plex Sans, Inter, Segoe UI, sans-serif" font-size="24" font-weight="500">AI operations for WordPress through MCP</text>
+  <path d="M764 90H848" stroke="#5B76F7" stroke-width="4" stroke-linecap="round"/>
+  <path d="M826 68L850 90L826 112" stroke="#5B76F7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

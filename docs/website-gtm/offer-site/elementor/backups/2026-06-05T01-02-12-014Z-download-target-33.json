@@ -1,0 +1,379 @@
+{
+  "route": {
+    "name": "download",
+    "sourceId": 560,
+    "targetId": 33,
+    "targetTemplate": "elementor_header_footer",
+    "targetUrl": "https://mcpwp.net/download/"
+  },
+  "targetSummary": {
+    "page_id": "33",
+    "title": "Download MCPWP",
+    "has_elementor": true,
+    "section_count": 4,
+    "widget_count": 10,
+    "sections": [
+      {
+        "id": "mcpdlhero",
+        "type": "section",
+        "children": [
+          {
+            "id": "mcpdlheroc",
+            "type": "column",
+            "children": [
+              {
+                "id": "mcpdlh",
+                "type": "widget",
+                "widget": "heading",
+                "settings": {
+                  "title": "Download MCPWP",
+                  "header_size": "h1",
+                  "align": "center"
+                }
+              },
+              {
+                "id": "mcpdlp",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"text-align:center\">Start a paid trial and connect AI agents to controlled site operations ..."
+                }
+              },
+              {
+                "id": "mcpdlb",
+                "type": "widget",
+                "widget": "button",
+                "settings": {
+                  "text": "Get plugin",
+                  "link": {
+                    "url": "https://mumega.com/mcp-updates/mumega-mcp-latest.zip"
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "index": 0
+      },
+      {
+        "id": "mcpdlplan",
+        "type": "section",
+        "children": [
+          {
+            "id": "mcpdlplanc",
+            "type": "column",
+            "children": [
+              {
+                "id": "mcpdlh2",
+                "type": "widget",
+                "widget": "heading",
+                "settings": {
+                  "title": "Commercial product, local endpoint",
+                  "header_size": "h2"
+                }
+              },
+              {
+                "id": "mcpdlt",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p>MCPWP is managed through paid plans and trial access. The plugin runs the MCP endpoint on your si..."
+                }
+              }
+            ]
+          }
+        ],
+        "index": 1
+      },
+      {
+        "id": "mcpdlsteps",
+        "type": "section",
+        "children": [
+          {
+            "id": "mcpdlstepsc",
+            "type": "column",
+            "children": [
+              {
+                "id": "mcpdlh3",
+                "type": "widget",
+                "widget": "heading",
+                "settings": {
+                  "title": "Install in three steps",
+                  "header_size": "h2"
+                }
+              },
+              {
+                "id": "mcpdlstepsw",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<ol><li><strong>Install and activate</strong> the MCPWP plugin.</li><li><strong>Create a scoped API ..."
+                }
+              }
+            ]
+          }
+        ],
+        "index": 2
+      },
+      {
+        "id": "mcpdlcta",
+        "type": "section",
+        "children": [
+          {
+            "id": "mcpdlctac",
+            "type": "column",
+            "children": [
+              {
+                "id": "mcpdlh4",
+                "type": "widget",
+                "widget": "heading",
+                "settings": {
+                  "title": "Need the correct package or license?",
+                  "header_size": "h2",
+                  "align": "center"
+                }
+              },
+              {
+                "id": "mcpdlp4",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"text-align:center\">Use the Freemius account flow for paid plans and trial access, or conta..."
+                }
+              },
+              {
+                "id": "mcpdlb4",
+                "type": "widget",
+                "widget": "button",
+                "settings": {
+                  "text": "Get started",
+                  "link": {
+                    "url": "/get-started/"
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "index": 3
+      }
+    ]
+  },
+  "targetPayload": [
+    {
+      "id": "mcpdlhero",
+      "elType": "section",
+      "settings": {
+        "padding": {
+          "top": "70",
+          "bottom": "70",
+          "left": "20",
+          "right": "20",
+          "unit": "px"
+        },
+        "background_background": "classic",
+        "background_color": "#F3F0D3"
+      },
+      "elements": [
+        {
+          "id": "mcpdlheroc",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "id": "mcpdlh",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Download MCPWP",
+                "header_size": "h1",
+                "align": "center"
+              },
+              "elements": []
+            },
+            {
+              "id": "mcpdlp",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"text-align:center\">Start a paid trial and connect AI agents to controlled site operations through MCP, scoped API keys, Gutenberg workflows, SEO tools, media tools, and integrations.</p>"
+              },
+              "elements": []
+            },
+            {
+              "id": "mcpdlb",
+              "elType": "widget",
+              "widgetType": "button",
+              "settings": {
+                "text": "Get plugin",
+                "link": {
+                  "url": "https://mumega.com/mcp-updates/mumega-mcp-latest.zip"
+                },
+                "align": "center",
+                "button_type": "primary",
+                "button_text_color": "#FFFFFF",
+                "background_color": "#0F172A",
+                "hover_color": "#FFFFFF",
+                "button_background_hover_color": "#1D4ED8"
+              },
+              "elements": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mcpdlplan",
+      "elType": "section",
+      "settings": {
+        "padding": {
+          "top": "70",
+          "bottom": "70",
+          "left": "20",
+          "right": "20",
+          "unit": "px"
+        }
+      },
+      "elements": [
+        {
+          "id": "mcpdlplanc",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "id": "mcpdlh2",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Commercial product, local endpoint",
+                "header_size": "h2"
+              },
+              "elements": []
+            },
+            {
+              "id": "mcpdlt",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p>MCPWP is managed through paid plans and trial access. The plugin runs the MCP endpoint on your site and exposes tools dynamically based on active integrations, build type, license or trial state, enabled categories, and API-key role.</p><ul><li>Native MCP endpoint for Claude, ChatGPT, Cursor, Windsurf, Codex, and compatible clients.</li><li>Scoped API keys for content, design, SEO, commerce, and admin workflows.</li><li>Gutenberg-first block read, validate, write, and patch workflows.</li><li>Elementor, SEO, media, forms, Figma, and AI integrations when available.</li><li>Activity logs, rate limits, and safer operational boundaries.</li></ul>"
+              },
+              "elements": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mcpdlsteps",
+      "elType": "section",
+      "settings": {
+        "padding": {
+          "top": "70",
+          "bottom": "70",
+          "left": "20",
+          "right": "20",
+          "unit": "px"
+        },
+        "background_background": "classic",
+        "background_color": "#F8F8F8"
+      },
+      "elements": [
+        {
+          "id": "mcpdlstepsc",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "id": "mcpdlh3",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Install in three steps",
+                "header_size": "h2"
+              },
+              "elements": []
+            },
+            {
+              "id": "mcpdlstepsw",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<ol><li><strong>Install and activate</strong> the MCPWP plugin.</li><li><strong>Create a scoped API key</strong> from the plugin setup screen.</li><li><strong>Connect your MCP client</strong> using the site endpoint and X-API-Key header.</li></ol><pre>{\n  \"mcpServers\": {\n    \"mumega-mcp\": {\n      \"url\": \"https://your-site.com/wp-json/site-pilot-ai/v1/mcp\",\n      \"headers\": { \"X-API-Key\": \"spai_your_key\" }\n    }\n  }\n}</pre>"
+              },
+              "elements": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mcpdlcta",
+      "elType": "section",
+      "settings": {
+        "padding": {
+          "top": "70",
+          "bottom": "70",
+          "left": "20",
+          "right": "20",
+          "unit": "px"
+        },
+        "background_background": "classic",
+        "background_color": "#0F172A"
+      },
+      "elements": [
+        {
+          "id": "mcpdlctac",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "id": "mcpdlh4",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Need the correct package or license?",
+                "header_size": "h2",
+                "align": "center"
+              },
+              "elements": []
+            },
+            {
+              "id": "mcpdlp4",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"text-align:center\">Use the Freemius account flow for paid plans and trial access, or contact Mumega if you need help with deployment.</p>"
+              },
+              "elements": []
+            },
+            {
+              "id": "mcpdlb4",
+              "elType": "widget",
+              "widgetType": "button",
+              "settings": {
+                "text": "Get started",
+                "link": {
+                  "url": "/get-started/"
+                },
+                "align": "center",
+                "button_text_color": "#FFFFFF",
+                "background_color": "#0F172A",
+                "hover_color": "#FFFFFF",
+                "button_background_hover_color": "#1D4ED8"
+              },
+              "elements": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

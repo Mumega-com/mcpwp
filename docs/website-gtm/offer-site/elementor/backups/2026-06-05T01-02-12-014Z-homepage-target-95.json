@@ -1,0 +1,1130 @@
+{
+  "route": {
+    "name": "homepage",
+    "sourceId": 541,
+    "targetId": 95,
+    "targetTemplate": "elementor_header_footer",
+    "targetUrl": "https://mcpwp.net/"
+  },
+  "targetSummary": {
+    "page_id": "95",
+    "title": "MCPWP - AI Site Operations for WordPress",
+    "has_elementor": true,
+    "section_count": 8,
+    "widget_count": 33,
+    "sections": [
+      {
+        "id": "65jdssq",
+        "type": "section",
+        "children": [
+          {
+            "id": "ilvgaf4",
+            "type": "column",
+            "children": [
+              {
+                "id": "qpgtrgi",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,0.1);border:1p..."
+                }
+              },
+              {
+                "id": "nu23cvz",
+                "type": "widget",
+                "widget": "heading",
+                "settings": {
+                  "title": "Your WordPress Site,\nPowered by AI Agents",
+                  "header_size": "h1",
+                  "align": "center"
+                }
+              },
+              {
+                "id": "m0a1hkq",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"max-width:640px;margin:0 auto;font-family:'Inter',sans-serif;font-size:18px;line-height:1...."
+                }
+              },
+              {
+                "id": "v2cxk5c",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:36px;font-family:..."
+                }
+              },
+              {
+                "id": "3snjbut",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div class=\"spai-code-block\" style=\"max-width:640px;margin:52px auto 0;padding:0;overflow:hidden;\"><..."
+                }
+              }
+            ]
+          }
+        ],
+        "index": 0
+      },
+      {
+        "id": "i9yyfdf",
+        "type": "section",
+        "children": [
+          {
+            "id": "lo5loxs",
+            "type": "column",
+            "children": [
+              {
+                "id": "6ueqgwa",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"text-align:center;font-family:'Inter',sans-serif;\"><div class=\"spai-stat-num\" style=\"fon..."
+                }
+              }
+            ]
+          },
+          {
+            "id": "h9v5csv",
+            "type": "column",
+            "children": [
+              {
+                "id": "63egquc",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"text-align:center;font-family:'Inter',sans-serif;\"><div class=\"spai-stat-num\" style=\"fon..."
+                }
+              }
+            ]
+          },
+          {
+            "id": "eznddhx",
+            "type": "column",
+            "children": [
+              {
+                "id": "8csg6uf",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"text-align:center;font-family:'Inter',sans-serif;\"><div class=\"spai-stat-num\" style=\"fon..."
+                }
+              }
+            ]
+          },
+          {
+            "id": "on2hlr8",
+            "type": "column",
+            "children": [
+              {
+                "id": "8lvfq93",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"text-align:center;font-family:'Inter',sans-serif;\"><div class=\"spai-stat-num\" style=\"fon..."
+                }
+              }
+            ]
+          }
+        ],
+        "index": 1
+      },
+      {
+        "id": "am1isyf",
+        "type": "section",
+        "children": [
+          {
+            "id": "3sqxsvn",
+            "type": "column",
+            "children": [
+              {
+                "id": "nycu08a",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;le..."
+                }
+              },
+              {
+                "id": "nbdzhi1",
+                "type": "widget",
+                "widget": "heading",
+                "settings": {
+                  "title": "Everything Your AI Agent Needs",
+                  "align": "center"
+                }
+              },
+              {
+                "id": "7wg2gti",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"text-align:center;color:#64748B;font-size:16px;max-width:560px;margin:0 auto 56px;font-fam..."
+                }
+              },
+              {
+                "id": "3qnyioh",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;font-family..."
+                }
+              },
+              {
+                "id": "23xuu2c",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;font-family..."
+                }
+              },
+              {
+                "id": "5010jge",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;font-family..."
+                }
+              }
+            ]
+          }
+        ],
+        "index": 2
+      },
+      {
+        "id": "06xx3s8",
+        "type": "section",
+        "children": [
+          {
+            "id": "g70jik1",
+            "type": "column",
+            "children": [
+              {
+                "id": "nchrzoy",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;le..."
+                }
+              },
+              {
+                "id": "826ozgr",
+                "type": "widget",
+                "widget": "heading",
+                "settings": {
+                  "title": "Up and Running in Three Steps",
+                  "align": "center"
+                }
+              },
+              {
+                "id": "iks2kac",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:24px;font-family:'Inter',sans-serif..."
+                }
+              }
+            ]
+          }
+        ],
+        "index": 3
+      },
+      {
+        "id": "75wpemp",
+        "type": "section",
+        "children": [
+          {
+            "id": "qulaug3",
+            "type": "column",
+            "children": [
+              {
+                "id": "qapejaq",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;le..."
+                }
+              },
+              {
+                "id": "muxjc7y",
+                "type": "widget",
+                "widget": "heading",
+                "settings": {
+                  "title": "Your Site Just Learned to\nSee, Create, and Speak",
+                  "align": "center"
+                }
+              },
+              {
+                "id": "a387hfg",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"text-align:center;color:#94A3B8;font-size:16px;max-width:580px;margin:0 auto 48px;font-fam..."
+                }
+              },
+              {
+                "id": "5w4fj5c",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"display:grid;grid-template-columns:repeat(4,1fr);gap:16px;font-family:'Inter',sans-serif..."
+                }
+              },
+              {
+                "id": "k1nybg1",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:40px;font-family:'Inter',..."
+                }
+              }
+            ]
+          }
+        ],
+        "index": 4
+      },
+      {
+        "id": "xxodga1",
+        "type": "section",
+        "children": [
+          {
+            "id": "rsefxpk",
+            "type": "column",
+            "children": [
+              {
+                "id": "ogc0v3h",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"text-align:center;color:#64748B;font-size:13px;font-weight:500;letter-spacing:1.5px;text-t..."
+                }
+              },
+              {
+                "id": "idv9g6j",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"display:flex;gap:12px;justify-content:center;flex-wrap:wrap;font-family:'Inter',sans-ser..."
+                }
+              }
+            ]
+          }
+        ],
+        "index": 5
+      },
+      {
+        "id": "dl000001",
+        "type": "section",
+        "children": [
+          {
+            "id": "dl000002",
+            "type": "column",
+            "children": [
+              {
+                "id": "dl000003",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"text-align:center;color:#64748B;font-size:13px;font-weight:500;letter-spacing:1.5px;text-t..."
+                }
+              },
+              {
+                "id": "dl000004",
+                "type": "widget",
+                "widget": "heading",
+                "settings": {
+                  "title": "Free & Open Source",
+                  "align": "center"
+                }
+              },
+              {
+                "id": "dl000005",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"text-align:center;color:#94A3B8;font-size:18px;line-height:1.7;max-width:600px;margin:16px..."
+                }
+              },
+              {
+                "id": "dl000006",
+                "type": "widget",
+                "widget": "html"
+              }
+            ]
+          }
+        ],
+        "index": 6
+      },
+      {
+        "id": "iat7u9z",
+        "type": "section",
+        "children": [
+          {
+            "id": "4gcbltj",
+            "type": "column",
+            "children": [
+              {
+                "id": "wtwtklm",
+                "type": "widget",
+                "widget": "heading",
+                "settings": {
+                  "title": "Stop Managing WordPress.\nStart Commanding It.",
+                  "align": "center"
+                }
+              },
+              {
+                "id": "ryaf1ak",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"text-align:center;color:#94A3B8;font-size:17px;line-height:1.75;max-width:520px;margin:0 a..."
+                }
+              },
+              {
+                "id": "ebge9zc",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<div style=\"display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:'Inter',sans-ser..."
+                }
+              },
+              {
+                "id": "jd0glzd",
+                "type": "widget",
+                "widget": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"text-align:center;margin-top:48px;color:#475569;font-size:13px;font-family:'Inter',sans-se..."
+                }
+              }
+            ]
+          }
+        ],
+        "index": 7
+      }
+    ]
+  },
+  "targetPayload": [
+    {
+      "id": "65jdssq",
+      "elType": "section",
+      "settings": {
+        "layout": "full_width",
+        "content_width": {
+          "unit": "px",
+          "size": 1140
+        },
+        "min_height": {
+          "unit": "vh",
+          "size": 90
+        },
+        "background_background": "classic",
+        "background_color": "#030712",
+        "css_classes": "spai-hero",
+        "padding": {
+          "unit": "px",
+          "top": "140",
+          "right": "40",
+          "bottom": "100",
+          "left": "40",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "id": "ilvgaf4",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "content_position": "center",
+            "align": "center"
+          },
+          "elements": [
+            {
+              "id": "qpgtrgi",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.25);border-radius:999px;padding:8px 20px;font-size:13px;font-weight:500;color:#60A5FA;font-family:'Inter',sans-serif;letter-spacing:0.3px;\"><span style=\"display:inline-block;width:6px;height:6px;border-radius:50%;background:#34D399;animation:pulse 2s infinite;\"></span> 200+ MCP Tools &middot; AI Image Generation &middot; Text-to-Speech</div><style>@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}</style>",
+                "align": "center"
+              }
+            },
+            {
+              "id": "nu23cvz",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Your WordPress Site,\nPowered by AI Agents",
+                "header_size": "h1",
+                "align": "center",
+                "title_color": "#FFFFFF",
+                "typography_typography": "custom",
+                "typography_font_family": "Inter",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 60
+                },
+                "typography_font_size_tablet": {
+                  "unit": "px",
+                  "size": 42
+                },
+                "typography_font_size_mobile": {
+                  "unit": "px",
+                  "size": 32
+                },
+                "typography_font_weight": "800",
+                "typography_line_height": {
+                  "unit": "em",
+                  "size": 1.12
+                },
+                "typography_letter_spacing": {
+                  "unit": "px",
+                  "size": -2
+                },
+                "typography_text_transform": "none",
+                "_margin": {
+                  "unit": "px",
+                  "top": "28",
+                  "right": "0",
+                  "bottom": "24",
+                  "left": "0",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "m0a1hkq",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"max-width:640px;margin:0 auto;font-family:'Inter',sans-serif;font-size:18px;line-height:1.75;color:#94A3B8;font-weight:400;\">Give Claude, GPT, and Codex full control of your WordPress site through the <span style=\"color:#E2E8F0;font-weight:500;\">Model Context Protocol</span>. Content, Elementor, SEO, menus, media, AI generation — one plugin, every tool.</p>",
+                "align": "center"
+              }
+            },
+            {
+              "id": "v2cxk5c",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:36px;font-family:'Inter',sans-serif;\"><a href=\"/tools/\" class=\"spai-btn-primary\" style=\"display:inline-flex;align-items:center;gap:8px;color:#fff;padding:15px 30px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;\">Explore 200+ Tools <span style=\"font-size:18px;\">&rarr;</span></a><a href=\"https://github.com/Digidinc/wp-ai-operator\" style=\"display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#E2E8F0;padding:15px 30px;border-radius:10px;font-weight:500;font-size:15px;text-decoration:none;transition:all 0.2s;\">View on GitHub</a></div>",
+                "align": "center"
+              }
+            },
+            {
+              "id": "3snjbut",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div class=\"spai-code-block\" style=\"max-width:640px;margin:52px auto 0;padding:0;overflow:hidden;\"><div style=\"background:rgba(15,23,42,0.8);padding:12px 20px;border-bottom:1px solid rgba(55,65,81,0.3);display:flex;align-items:center;gap:8px;\"><span style=\"display:inline-block;width:12px;height:12px;border-radius:50%;background:#EF4444;opacity:0.8;\"></span><span style=\"display:inline-block;width:12px;height:12px;border-radius:50%;background:#F59E0B;opacity:0.8;\"></span><span style=\"display:inline-block;width:12px;height:12px;border-radius:50%;background:#22C55E;opacity:0.8;\"></span><span style=\"margin-left:auto;color:#6B7280;font-size:12px;font-family:'JetBrains Mono',monospace;\">terminal</span></div><div style=\"padding:20px 24px;font-family:'JetBrains Mono','Fira Code',monospace;font-size:13px;line-height:2;color:#94A3B8;\"><span style=\"color:#6B7280;\">// Ask Claude to build your entire site</span><br><span style=\"color:#60A5FA;\">claude</span> <span style=\"color:#E2E8F0;\">&gt;</span> <span style=\"color:#34D399;\">\"Create a landing page for our launch,</span><br><span style=\"color:#34D399;\">&nbsp;&nbsp;add it to the nav, set SEO metadata,</span><br><span style=\"color:#34D399;\">&nbsp;&nbsp;and generate a hero image with DALL-E\"</span><br><br><span style=\"color:#22C55E;\">&#10004;</span> <span style=\"color:#F9FAFB;\">Page created</span> <span style=\"color:#4B5563;\">&mdash; ID: 301</span><br><span style=\"color:#22C55E;\">&#10004;</span> <span style=\"color:#F9FAFB;\">Added to Primary Menu</span><br><span style=\"color:#22C55E;\">&#10004;</span> <span style=\"color:#F9FAFB;\">SEO title & description set</span><br><span style=\"color:#22C55E;\">&#10004;</span> <span style=\"color:#F9FAFB;\">Hero image generated & uploaded</span></div></div>",
+                "align": "center"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i9yyfdf",
+      "elType": "section",
+      "settings": {
+        "layout": "full_width",
+        "content_width": {
+          "unit": "px",
+          "size": 1000
+        },
+        "background_background": "classic",
+        "background_color": "#0a0f1e",
+        "border_border": "solid",
+        "border_width": {
+          "unit": "px",
+          "top": "1",
+          "right": "0",
+          "bottom": "1",
+          "left": "0",
+          "isLinked": false
+        },
+        "border_color": "rgba(30,41,59,0.8)",
+        "padding": {
+          "unit": "px",
+          "top": "48",
+          "right": "40",
+          "bottom": "48",
+          "left": "40",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "id": "lo5loxs",
+          "elType": "column",
+          "settings": {
+            "_column_size": 25
+          },
+          "elements": [
+            {
+              "id": "6ueqgwa",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"text-align:center;font-family:'Inter',sans-serif;\"><div class=\"spai-stat-num\" style=\"font-size:48px;font-weight:800;letter-spacing:-2px;line-height:1;\">140+</div><div style=\"color:#64748B;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-top:8px;\">MCP Tools</div></div>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "h9v5csv",
+          "elType": "column",
+          "settings": {
+            "_column_size": 25
+          },
+          "elements": [
+            {
+              "id": "63egquc",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"text-align:center;font-family:'Inter',sans-serif;\"><div class=\"spai-stat-num\" style=\"font-size:48px;font-weight:800;letter-spacing:-2px;line-height:1;\">19</div><div style=\"color:#64748B;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-top:8px;\">Categories</div></div>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "eznddhx",
+          "elType": "column",
+          "settings": {
+            "_column_size": 25
+          },
+          "elements": [
+            {
+              "id": "8csg6uf",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"text-align:center;font-family:'Inter',sans-serif;\"><div class=\"spai-stat-num\" style=\"font-size:48px;font-weight:800;letter-spacing:-2px;line-height:1;\">5</div><div style=\"color:#64748B;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-top:8px;\">AI Providers</div></div>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "on2hlr8",
+          "elType": "column",
+          "settings": {
+            "_column_size": 25
+          },
+          "elements": [
+            {
+              "id": "8lvfq93",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"text-align:center;font-family:'Inter',sans-serif;\"><div class=\"spai-stat-num\" style=\"font-size:48px;font-weight:800;letter-spacing:-2px;line-height:1;\">1</div><div style=\"color:#64748B;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-top:8px;\">Plugin</div></div>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "am1isyf",
+      "elType": "section",
+      "settings": {
+        "layout": "full_width",
+        "content_width": {
+          "unit": "px",
+          "size": 1100
+        },
+        "background_background": "classic",
+        "background_color": "#030712",
+        "padding": {
+          "unit": "px",
+          "top": "96",
+          "right": "40",
+          "bottom": "96",
+          "left": "40",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "id": "3sqxsvn",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "id": "nycu08a",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:2px;color:#3B82F6;margin:0;\">CAPABILITIES</p>"
+              }
+            },
+            {
+              "id": "nbdzhi1",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Everything Your AI Agent Needs",
+                "align": "center",
+                "title_color": "#F8FAFC",
+                "typography_typography": "custom",
+                "typography_font_family": "Inter",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 42
+                },
+                "typography_font_weight": "700",
+                "typography_text_transform": "none",
+                "typography_letter_spacing": {
+                  "unit": "px",
+                  "size": -1
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "12",
+                  "right": "0",
+                  "bottom": "16",
+                  "left": "0",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "7wg2gti",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"text-align:center;color:#64748B;font-size:16px;max-width:560px;margin:0 auto 56px;font-family:'Inter',sans-serif;line-height:1.7;\">From content management to AI image generation, MCPWP gives your agent the tools to handle any WordPress task.</p>"
+              }
+            },
+            {
+              "id": "3qnyioh",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;font-family:'Inter',sans-serif;\"><div class=\"spai-feature-card\" style=\"padding:28px 24px;\">\n<div style=\"font-size:20px;margin-bottom:16px;color:#3B82F6;opacity:0.7;\">&#9670;</div>\n<h3 style=\"color:#F1F5F9;font-size:17px;font-weight:600;margin:0 0 10px 0;letter-spacing:-0.3px;\">Content Management</h3>\n<p style=\"color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 16px 0;\">Create, update, and manage pages, posts, and custom post types with bulk operations.</p>\n<span style=\"color:#60A5FA;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;background:rgba(59,130,246,0.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(59,130,246,0.15);\">25+ tools</span>\n</div><div class=\"spai-feature-card\" style=\"padding:28px 24px;\">\n<div style=\"font-size:20px;margin-bottom:16px;color:#3B82F6;opacity:0.7;\">&#9672;</div>\n<h3 style=\"color:#F1F5F9;font-size:17px;font-weight:600;margin:0 0 10px 0;letter-spacing:-0.3px;\">Elementor Builder</h3>\n<p style=\"color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 16px 0;\">Full Elementor control — read, write, clone pages, templates, global styles.</p>\n<span style=\"color:#60A5FA;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;background:rgba(59,130,246,0.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(59,130,246,0.15);\">20+ tools</span>\n</div><div class=\"spai-feature-card\" style=\"padding:28px 24px;\">\n<div style=\"font-size:20px;margin-bottom:16px;color:#3B82F6;opacity:0.7;\">&#9674;</div>\n<h3 style=\"color:#F1F5F9;font-size:17px;font-weight:600;margin:0 0 10px 0;letter-spacing:-0.3px;\">SEO & Meta</h3>\n<p style=\"color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 16px 0;\">Set titles, descriptions, focus keywords. Analyze SEO scores. Noindex flags.</p>\n<span style=\"color:#60A5FA;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;background:rgba(59,130,246,0.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(59,130,246,0.15);\">8 tools</span>\n</div></div>"
+              }
+            },
+            {
+              "id": "23xuu2c",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;font-family:'Inter',sans-serif;\"><div class=\"spai-feature-card\" style=\"padding:28px 24px;\">\n<div style=\"font-size:20px;margin-bottom:16px;color:#3B82F6;opacity:0.7;\">&#9656;</div>\n<h3 style=\"color:#F1F5F9;font-size:17px;font-weight:600;margin:0 0 10px 0;letter-spacing:-0.3px;\">Navigation & Menus</h3>\n<p style=\"color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 16px 0;\">Create menus, add items, reorder, assign to theme locations. Full lifecycle.</p>\n<span style=\"color:#60A5FA;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;background:rgba(59,130,246,0.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(59,130,246,0.15);\">15 tools</span>\n</div><div class=\"spai-feature-card\" style=\"padding:28px 24px;\">\n<div style=\"font-size:20px;margin-bottom:16px;color:#3B82F6;opacity:0.7;\">&#9650;</div>\n<h3 style=\"color:#F1F5F9;font-size:17px;font-weight:600;margin:0 0 10px 0;letter-spacing:-0.3px;\">Theme Builder</h3>\n<p style=\"color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 16px 0;\">Manage header, footer, single, archive templates with display conditions.</p>\n<span style=\"color:#60A5FA;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;background:rgba(59,130,246,0.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(59,130,246,0.15);\">10 tools</span>\n</div><div class=\"spai-feature-card\" style=\"padding:28px 24px;\">\n<div style=\"font-size:20px;margin-bottom:16px;color:#3B82F6;opacity:0.7;\">&#9733;</div>\n<h3 style=\"color:#F1F5F9;font-size:17px;font-weight:600;margin:0 0 10px 0;letter-spacing:-0.3px;\">AI Generation</h3>\n<p style=\"color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 16px 0;\">Generate images with DALL-E 3 & Gemini. Text-to-speech. Stock photos.</p>\n<span style=\"color:#60A5FA;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;background:rgba(59,130,246,0.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(59,130,246,0.15);\">8 tools</span>\n</div></div>"
+              }
+            },
+            {
+              "id": "5010jge",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;font-family:'Inter',sans-serif;\"><div class=\"spai-feature-card\" style=\"padding:28px 24px;\">\n<div style=\"font-size:20px;margin-bottom:16px;color:#3B82F6;opacity:0.7;\">&#9671;</div>\n<h3 style=\"color:#F1F5F9;font-size:17px;font-weight:600;margin:0 0 10px 0;letter-spacing:-0.3px;\">Security & API Keys</h3>\n<p style=\"color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 16px 0;\">Scoped API keys, rate limiting, webhook subscriptions with delivery logs.</p>\n<span style=\"color:#60A5FA;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;background:rgba(59,130,246,0.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(59,130,246,0.15);\">15 tools</span>\n</div><div class=\"spai-feature-card\" style=\"padding:28px 24px;\">\n<div style=\"font-size:20px;margin-bottom:16px;color:#3B82F6;opacity:0.7;\">&#9673;</div>\n<h3 style=\"color:#F1F5F9;font-size:17px;font-weight:600;margin:0 0 10px 0;letter-spacing:-0.3px;\">Media Library</h3>\n<p style=\"color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 16px 0;\">Upload images, AI-powered alt text, describe images, manage attachments.</p>\n<span style=\"color:#60A5FA;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;background:rgba(59,130,246,0.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(59,130,246,0.15);\">10 tools</span>\n</div><div class=\"spai-feature-card\" style=\"padding:28px 24px;\">\n<div style=\"font-size:20px;margin-bottom:16px;color:#3B82F6;opacity:0.7;\">&#9654;</div>\n<h3 style=\"color:#F1F5F9;font-size:17px;font-weight:600;margin:0 0 10px 0;letter-spacing:-0.3px;\">Multilingual</h3>\n<p style=\"color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 16px 0;\">Language detection, translation management, multi-language workflows.</p>\n<span style=\"color:#60A5FA;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;background:rgba(59,130,246,0.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(59,130,246,0.15);\">5 tools</span>\n</div></div>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "06xx3s8",
+      "elType": "section",
+      "settings": {
+        "layout": "full_width",
+        "content_width": {
+          "unit": "px",
+          "size": 1100
+        },
+        "background_background": "classic",
+        "background_color": "#0a0f1e",
+        "padding": {
+          "unit": "px",
+          "top": "96",
+          "right": "40",
+          "bottom": "96",
+          "left": "40",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "id": "g70jik1",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "id": "nchrzoy",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:2px;color:#3B82F6;margin:0;\">GETTING STARTED</p>"
+              }
+            },
+            {
+              "id": "826ozgr",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Up and Running in Three Steps",
+                "align": "center",
+                "title_color": "#F8FAFC",
+                "typography_typography": "custom",
+                "typography_font_family": "Inter",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 42
+                },
+                "typography_font_weight": "700",
+                "typography_text_transform": "none",
+                "typography_letter_spacing": {
+                  "unit": "px",
+                  "size": -1
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "12",
+                  "right": "0",
+                  "bottom": "56",
+                  "left": "0",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "iks2kac",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:24px;font-family:'Inter',sans-serif;\"><div style=\"text-align:left;\">\n<div style=\"font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:800;color:rgba(59,130,246,0.12);line-height:1;margin-bottom:20px;\">01</div>\n<h3 style=\"color:#F1F5F9;font-size:20px;font-weight:700;margin:0 0 12px 0;\">Install the Plugin</h3>\n<p style=\"color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 24px 0;\">Upload MCPWP to WordPress. Activate. That's it.</p>\n<div style=\"background:rgba(15,23,42,0.8);border:1px solid rgba(55,65,81,0.4);border-radius:10px;padding:16px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#94A3B8;line-height:1.8;white-space:pre-wrap;\"><span style=\"color:#6B7280;\">$</span> wp plugin install site-pilot-ai --activate</div>\n</div><div style=\"text-align:left;\">\n<div style=\"font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:800;color:rgba(59,130,246,0.12);line-height:1;margin-bottom:20px;\">02</div>\n<h3 style=\"color:#F1F5F9;font-size:20px;font-weight:700;margin:0 0 12px 0;\">Connect Your AI</h3>\n<p style=\"color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 24px 0;\">Point Claude Desktop, Codex, or any MCP client at your site's endpoint.</p>\n<div style=\"background:rgba(15,23,42,0.8);border:1px solid rgba(55,65,81,0.4);border-radius:10px;padding:16px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#94A3B8;line-height:1.8;white-space:pre-wrap;\"><span style=\"color:#6B7280;\">{</span>\n  <span style=\"color:#60A5FA;\">\"mcpServers\"</span>: <span style=\"color:#6B7280;\">{</span>\n    <span style=\"color:#60A5FA;\">\"wp\"</span>: <span style=\"color:#6B7280;\">{</span>\n      <span style=\"color:#60A5FA;\">\"url\"</span>: <span style=\"color:#34D399;\">\"https://your.site/wp-json/site-pilot-ai/v1/mcp\"</span>\n    <span style=\"color:#6B7280;\">}</span>\n  <span style=\"color:#6B7280;\">}</span>\n<span style=\"color:#6B7280;\">}</span></div>\n</div><div style=\"text-align:left;\">\n<div style=\"font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:800;color:rgba(59,130,246,0.12);line-height:1;margin-bottom:20px;\">03</div>\n<h3 style=\"color:#F1F5F9;font-size:20px;font-weight:700;margin:0 0 12px 0;\">Start Building</h3>\n<p style=\"color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 24px 0;\">Your AI now has 140+ tools. Create pages, manage SEO, generate images — all through conversation.</p>\n<div style=\"background:rgba(15,23,42,0.8);border:1px solid rgba(55,65,81,0.4);border-radius:10px;padding:16px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#94A3B8;line-height:1.8;white-space:pre-wrap;\"><span style=\"color:#60A5FA;\">claude</span> <span style=\"color:#E2E8F0;\">&gt;</span> <span style=\"color:#34D399;\">\"Build a portfolio with</span>\n<span style=\"color:#34D399;\">&nbsp;&nbsp;5 project pages and</span>\n<span style=\"color:#34D399;\">&nbsp;&nbsp;a contact form\"</span></div>\n</div></div>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "75wpemp",
+      "elType": "section",
+      "settings": {
+        "layout": "full_width",
+        "content_width": {
+          "unit": "px",
+          "size": 1100
+        },
+        "background_background": "gradient",
+        "background_color": "#030712",
+        "background_color_b": "#0F172A",
+        "background_gradient_type": "linear",
+        "background_gradient_angle": {
+          "unit": "deg",
+          "size": 135
+        },
+        "padding": {
+          "unit": "px",
+          "top": "96",
+          "right": "40",
+          "bottom": "96",
+          "left": "40",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "id": "qulaug3",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "id": "qapejaq",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:2px;color:#A78BFA;margin:0;\">NEW IN v2.0</p>"
+              }
+            },
+            {
+              "id": "muxjc7y",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Your Site Just Learned to\nSee, Create, and Speak",
+                "align": "center",
+                "title_color": "#F8FAFC",
+                "typography_typography": "custom",
+                "typography_font_family": "Inter",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 42
+                },
+                "typography_font_weight": "700",
+                "typography_text_transform": "none",
+                "typography_letter_spacing": {
+                  "unit": "px",
+                  "size": -1
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "12",
+                  "right": "0",
+                  "bottom": "16",
+                  "left": "0",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "a387hfg",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"text-align:center;color:#94A3B8;font-size:16px;max-width:580px;margin:0 auto 48px;font-family:'Inter',sans-serif;line-height:1.7;\">Integrated with OpenAI, Google Gemini, ElevenLabs, and Pexels — all through the same MCP protocol your AI already speaks.</p>"
+              }
+            },
+            {
+              "id": "5w4fj5c",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"display:grid;grid-template-columns:repeat(4,1fr);gap:16px;font-family:'Inter',sans-serif;\">\n<div style=\"background:rgba(17,24,39,0.6);border:1px solid rgba(55,65,81,0.3);border-radius:14px;padding:24px;text-align:center;\">\n<div style=\"font-size:28px;margin-bottom:12px;\">&#127912;</div>\n<div style=\"color:#F1F5F9;font-size:14px;font-weight:600;margin-bottom:4px;\">DALL-E 3</div>\n<div style=\"color:#64748B;font-size:12px;\">Image generation</div>\n</div>\n<div style=\"background:rgba(17,24,39,0.6);border:1px solid rgba(55,65,81,0.3);border-radius:14px;padding:24px;text-align:center;\">\n<div style=\"font-size:28px;margin-bottom:12px;\">&#10024;</div>\n<div style=\"color:#F1F5F9;font-size:14px;font-weight:600;margin-bottom:4px;\">Gemini Imagen</div>\n<div style=\"color:#64748B;font-size:12px;\">Image generation</div>\n</div>\n<div style=\"background:rgba(17,24,39,0.6);border:1px solid rgba(55,65,81,0.3);border-radius:14px;padding:24px;text-align:center;\">\n<div style=\"font-size:28px;margin-bottom:12px;\">&#127908;</div>\n<div style=\"color:#F1F5F9;font-size:14px;font-weight:600;margin-bottom:4px;\">ElevenLabs</div>\n<div style=\"color:#64748B;font-size:12px;\">Text-to-speech</div>\n</div>\n<div style=\"background:rgba(17,24,39,0.6);border:1px solid rgba(55,65,81,0.3);border-radius:14px;padding:24px;text-align:center;\">\n<div style=\"font-size:28px;margin-bottom:12px;\">&#128247;</div>\n<div style=\"color:#F1F5F9;font-size:14px;font-weight:600;margin-bottom:4px;\">Pexels</div>\n<div style=\"color:#64748B;font-size:12px;\">5M+ stock photos</div>\n</div>\n</div>"
+              }
+            },
+            {
+              "id": "k1nybg1",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:40px;font-family:'Inter',sans-serif;\">\n<div style=\"display:flex;flex-direction:column;justify-content:center;\">\n<div style=\"color:#D1D5DB;font-size:15px;line-height:2.4;\">\n<div style=\"display:flex;align-items:center;gap:10px;\"><span style=\"color:#22C55E;\">&#10004;</span> Generate images with DALL-E 3 or Gemini Imagen 3</div>\n<div style=\"display:flex;align-items:center;gap:10px;\"><span style=\"color:#22C55E;\">&#10004;</span> Auto-generate alt text using AI vision models</div>\n<div style=\"display:flex;align-items:center;gap:10px;\"><span style=\"color:#22C55E;\">&#10004;</span> Convert any text to speech with ElevenLabs</div>\n<div style=\"display:flex;align-items:center;gap:10px;\"><span style=\"color:#22C55E;\">&#10004;</span> Search and download from 5M+ stock photos</div>\n<div style=\"display:flex;align-items:center;gap:10px;\"><span style=\"color:#22C55E;\">&#10004;</span> Set AI-generated featured images in one command</div>\n</div>\n</div>\n<div style=\"background:rgba(15,23,42,0.8);border:1px solid rgba(55,65,81,0.4);border-radius:12px;padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:#94A3B8;\">\n<span style=\"color:#6B7280;\">// Generate + set as featured image</span><br>\n<span style=\"color:#F1F5F9;\">wp_generate_featured_image</span>({<br>\n&nbsp;&nbsp;<span style=\"color:#60A5FA;\">post_id</span>: <span style=\"color:#FBBF24;\">301</span>,<br>\n&nbsp;&nbsp;<span style=\"color:#60A5FA;\">prompt</span>: <span style=\"color:#34D399;\">\"Modern SaaS dashboard\"</span>,<br>\n&nbsp;&nbsp;<span style=\"color:#60A5FA;\">size</span>: <span style=\"color:#34D399;\">\"1792x1024\"</span><br>\n})<br><br>\n<span style=\"color:#6B7280;\">// AI-powered alt text</span><br>\n<span style=\"color:#F1F5F9;\">wp_generate_alt_text</span>({<br>\n&nbsp;&nbsp;<span style=\"color:#60A5FA;\">attachment_id</span>: <span style=\"color:#FBBF24;\">305</span>,<br>\n&nbsp;&nbsp;<span style=\"color:#60A5FA;\">auto_save</span>: <span style=\"color:#FBBF24;\">true</span><br>\n})\n</div>\n</div>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xxodga1",
+      "elType": "section",
+      "settings": {
+        "layout": "full_width",
+        "content_width": {
+          "unit": "px",
+          "size": 1000
+        },
+        "background_background": "classic",
+        "background_color": "#0a0f1e",
+        "border_border": "solid",
+        "border_width": {
+          "unit": "px",
+          "top": "1",
+          "right": "0",
+          "bottom": "1",
+          "left": "0",
+          "isLinked": false
+        },
+        "border_color": "rgba(30,41,59,0.8)",
+        "padding": {
+          "unit": "px",
+          "top": "56",
+          "right": "40",
+          "bottom": "56",
+          "left": "40",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "id": "rsefxpk",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "id": "ogc0v3h",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"text-align:center;color:#64748B;font-size:13px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 24px;font-family:'Inter',sans-serif;\">Works with every MCP client</p>"
+              }
+            },
+            {
+              "id": "idv9g6j",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"display:flex;gap:12px;justify-content:center;flex-wrap:wrap;font-family:'Inter',sans-serif;\"><div class=\"spai-client-badge\" style=\"font-size:14px;font-weight:500;color:#E2E8F0;\">Claude Desktop</div><div class=\"spai-client-badge\" style=\"font-size:14px;font-weight:500;color:#E2E8F0;\">Claude Code</div><div class=\"spai-client-badge\" style=\"font-size:14px;font-weight:500;color:#E2E8F0;\">Codex CLI</div><div class=\"spai-client-badge\" style=\"font-size:14px;font-weight:500;color:#E2E8F0;\">Cursor</div><div class=\"spai-client-badge\" style=\"font-size:14px;font-weight:500;color:#E2E8F0;\">Windsurf</div><div class=\"spai-client-badge\" style=\"font-size:14px;font-weight:500;color:#E2E8F0;\">Any MCP Client</div></div>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dl000001",
+      "elType": "section",
+      "settings": {
+        "background_background": "classic",
+        "background_color": "#030712",
+        "padding": {
+          "unit": "px",
+          "top": "100",
+          "right": "0",
+          "bottom": "100",
+          "left": "0",
+          "isLinked": false
+        },
+        "css_classes": "download"
+      },
+      "elements": [
+        {
+          "id": "dl000002",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "id": "dl000003",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"text-align:center;color:#64748B;font-size:13px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 24px;font-family:'Inter',sans-serif;\">DOWNLOAD</p>",
+                "align": "center"
+              }
+            },
+            {
+              "id": "dl000004",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Free & Open Source",
+                "align": "center",
+                "title_color": "#FFFFFF",
+                "typography_typography": "custom",
+                "typography_font_family": "Inter",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 42
+                },
+                "typography_font_weight": "700"
+              }
+            },
+            {
+              "id": "dl000005",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"text-align:center;color:#94A3B8;font-size:18px;line-height:1.7;max-width:600px;margin:16px auto 48px;font-family:'Inter',sans-serif;\">Every feature included. No Pro tiers, no paywalls, no limits. 200+ MCP tools to connect your AI agent to WordPress.</p>",
+                "align": "center"
+              }
+            },
+            {
+              "id": "dl000006",
+              "elType": "widget",
+              "widgetType": "html",
+              "settings": {
+                "html": "<style>\n.spai-download-card{background:#0F172A;border:1px solid #1E293B;border-radius:16px;padding:48px 40px;max-width:520px;margin:0 auto;text-align:center;font-family:'Inter',sans-serif;position:relative;overflow:hidden}\n.spai-download-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:200px;height:2px;background:linear-gradient(90deg,transparent,#3B82F6,#06B6D4,transparent)}\n.spai-download-icon{font-size:48px;margin:0 0 24px}\n.spai-download-version{color:#64748B;font-size:13px;font-weight:500;letter-spacing:1px;text-transform:uppercase;margin:0 0 8px}\n.spai-download-name{color:#F1F5F9;font-size:28px;font-weight:700;margin:0 0 8px}\n.spai-download-meta{color:#64748B;font-size:14px;margin:0 0 32px}\n.spai-download-features{list-style:none;padding:0;margin:0 0 36px;text-align:left;max-width:320px;display:inline-block}\n.spai-download-features li{color:#CBD5E1;font-size:14px;padding:8px 0;border-bottom:1px solid #1E293B;display:flex;align-items:center;gap:10px}\n.spai-download-features li::before{content:'\\2713';color:#34D399;font-weight:700;font-size:14px;flex-shrink:0}\n.spai-download-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#3B82F6,#06B6D4);color:#fff;padding:16px 36px;border-radius:12px;font-size:16px;font-weight:600;text-decoration:none;transition:all .2s;border:none;cursor:pointer}\n.spai-download-btn:hover{opacity:.9;transform:translateY(-2px);color:#fff}\n.spai-download-btn svg{width:20px;height:20px}\n.spai-download-note{color:#475569;font-size:13px;margin:20px 0 0}\n.spai-download-note a{color:#60A5FA;text-decoration:none}\n.spai-download-note a:hover{text-decoration:underline}\n</style>\n<div class=\"spai-download-card\">\n  <div class=\"spai-download-icon\">⬇️</div>\n  <p class=\"spai-download-version\">Latest Release</p>\n  <p class=\"spai-download-name\">MCPWPWP</p>\n  <p class=\"spai-download-meta\">Version 2.1.0 · 424 KB · WordPress 5.0+ · PHP 7.4+</p>\n  <ul class=\"spai-download-features\">\n    <li>200+ MCP tools — all unlocked</li>\n    <li>Posts, pages, media & Elementor</li>\n    <li>SEO, forms, WooCommerce & multilang</li>\n    <li>Theme builder & page builder</li>\n    <li>AI image generation & stock photos</li>\n    <li>Webhooks, batch ops & multisite</li>\n    <li>Works with Claude, GPT, Gemini & more</li>\n  </ul>\n  <a href=\"https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip\" class=\"spai-download-btn\">\n    <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4\"/><polyline points=\"7 10 12 15 17 10\"/><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"/></svg>\n    Download Free Plugin\n  </a>\n  <p class=\"spai-download-note\">Or install via <a href=\"https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip\">WordPress Admin</a> · <a href=\"https://github.com/Digidinc/wp-ai-operator\">View on GitHub</a></p>\n</div>\n"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iat7u9z",
+      "elType": "section",
+      "settings": {
+        "layout": "full_width",
+        "content_width": {
+          "unit": "px",
+          "size": 800
+        },
+        "background_background": "classic",
+        "background_color": "#030712",
+        "css_classes": "spai-hero",
+        "padding": {
+          "unit": "px",
+          "top": "120",
+          "right": "40",
+          "bottom": "120",
+          "left": "40",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "id": "4gcbltj",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "id": "wtwtklm",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Stop Managing WordPress.\nStart Commanding It.",
+                "align": "center",
+                "title_color": "#F8FAFC",
+                "typography_typography": "custom",
+                "typography_font_family": "Inter",
+                "typography_font_size": {
+                  "unit": "px",
+                  "size": 48
+                },
+                "typography_font_weight": "800",
+                "typography_text_transform": "none",
+                "typography_letter_spacing": {
+                  "unit": "px",
+                  "size": -1.5
+                },
+                "typography_line_height": {
+                  "unit": "em",
+                  "size": 1.15
+                },
+                "_margin": {
+                  "unit": "px",
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "20",
+                  "left": "0",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "ryaf1ak",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"text-align:center;color:#94A3B8;font-size:17px;line-height:1.75;max-width:520px;margin:0 auto 40px;font-family:'Inter',sans-serif;\">Install once. Connect your AI. Let it handle everything — content, SEO, layouts, images, and more.</p>"
+              }
+            },
+            {
+              "id": "ebge9zc",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<div style=\"display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:'Inter',sans-serif;\"><a href=\"/tools/\" class=\"spai-btn-primary\" style=\"display:inline-flex;align-items:center;gap:8px;color:#fff;padding:16px 34px;border-radius:10px;font-weight:600;font-size:16px;text-decoration:none;\">Explore All Tools <span style=\"font-size:18px;\">&rarr;</span></a><a href=\"/features/\" style=\"display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#E2E8F0;padding:16px 34px;border-radius:10px;font-weight:500;font-size:16px;text-decoration:none;\">View Features</a></div>",
+                "align": "center"
+              }
+            },
+            {
+              "id": "jd0glzd",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "<p style=\"text-align:center;margin-top:48px;color:#475569;font-size:13px;font-family:'Inter',sans-serif;\">Part of the <a href=\"https://mumega.com\" style=\"color:#60A5FA;text-decoration:none;font-weight:500;\">Mumega</a> AI Employees platform</p>"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

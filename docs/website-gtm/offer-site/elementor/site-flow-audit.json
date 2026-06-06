@@ -1,0 +1,6057 @@
+{
+  "generatedAt": "2026-06-05T22:31:10.778Z",
+  "pageCount": 35,
+  "pages": [
+    {
+      "page": {
+        "id": 273,
+        "title": "WordPress Menu Management via MCP",
+        "slug": "navigation-menus",
+        "status": "publish",
+        "modified": "2026-06-05 04:49:17",
+        "url": "https://mcpwp.net/navigation-menus/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/navigation-menus/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/navigation-menus/",
+      "title": "WordPress Menu Management via MCP | MCPWP",
+      "h1s": [
+        "Manage WordPress menus from an MCP client."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 240,
+        "title": "OpenClaw and WordPress MCP",
+        "slug": "wordpress-openclaw",
+        "status": "publish",
+        "modified": "2026-06-05 04:50:36",
+        "url": "https://mcpwp.net/wordpress-openclaw/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/wordpress-openclaw/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/wordpress-openclaw/",
+      "title": "OpenClaw and WordPress MCP | MCPWP",
+      "h1s": [
+        "Give agent workflows a controlled WordPress surface."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 259,
+        "title": "MCPWP Tools Reference",
+        "slug": "tools",
+        "status": "publish",
+        "modified": "2026-06-05 04:47:26",
+        "url": "https://mcpwp.net/tools/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/tools/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/tools/",
+      "title": "MCPWP Tools Reference | WordPress MCP Capabilities",
+      "h1s": [
+        "Dynamic WordPress MCP tools for real site operations."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 261,
+        "title": "WordPress Content Management via MCP",
+        "slug": "content-management",
+        "status": "publish",
+        "modified": "2026-06-05 04:47:59",
+        "url": "https://mcpwp.net/content-management/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/content-management/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/content-management/",
+      "title": "WordPress Content Management via MCP | MCPWP",
+      "h1s": [
+        "Manage WordPress content from an AI client."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 263,
+        "title": "Elementor MCP",
+        "slug": "elementor-mcp",
+        "status": "publish",
+        "modified": "2026-06-05 04:47:43",
+        "url": "https://mcpwp.net/elementor-mcp/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/elementor-mcp/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/elementor-mcp/",
+      "title": "Elementor MCP | AI Page Builder Workflows for WordPress",
+      "h1s": [
+        "Control Elementor pages through MCP."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 265,
+        "title": "Elementor Theme Builder via MCP",
+        "slug": "theme-builder",
+        "status": "publish",
+        "modified": "2026-06-05 04:48:14",
+        "url": "https://mcpwp.net/theme-builder/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/theme-builder/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/theme-builder/",
+      "title": "Elementor Theme Builder via MCP | MCPWP",
+      "h1s": [
+        "Operate Elementor theme workflows with AI assistance."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 267,
+        "title": "WordPress Webhooks and Automation via MCP",
+        "slug": "webhooks-automation",
+        "status": "publish",
+        "modified": "2026-06-05 04:48:29",
+        "url": "https://mcpwp.net/webhooks-automation/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/webhooks-automation/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/webhooks-automation/",
+      "title": "WordPress Webhooks and Automation via MCP | MCPWP",
+      "h1s": [
+        "Connect WordPress operations to automation workflows."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 269,
+        "title": "WordPress API Key Management and Security",
+        "slug": "api-security",
+        "status": "publish",
+        "modified": "2026-06-05 04:48:46",
+        "url": "https://mcpwp.net/api-security/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/api-security/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/api-security/",
+      "title": "WordPress MCP API Key Security | MCPWP",
+      "h1s": [
+        "Scoped keys for safer WordPress AI operations."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 271,
+        "title": "Gutenberg Block Management via MCP",
+        "slug": "gutenberg-blocks",
+        "status": "publish",
+        "modified": "2026-06-05 04:49:02",
+        "url": "https://mcpwp.net/gutenberg-blocks/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/gutenberg-blocks/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/gutenberg-blocks/",
+      "title": "Gutenberg Blocks via MCP | MCPWP",
+      "h1s": [
+        "Use Gutenberg where it fits: content and blog workflows."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 239,
+        "title": "Codex and WordPress MCP",
+        "slug": "wordpress-codex",
+        "status": "publish",
+        "modified": "2026-06-05 04:50:05",
+        "url": "https://mcpwp.net/wordpress-codex/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/wordpress-codex/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/wordpress-codex/",
+      "title": "Codex and WordPress MCP | MCPWP",
+      "h1s": [
+        "Connect Codex to WordPress through MCPWP ."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 275,
+        "title": "WordPress Widgets and Sidebars via MCP",
+        "slug": "widgets-sidebars",
+        "status": "publish",
+        "modified": "2026-06-05 04:49:33",
+        "url": "https://mcpwp.net/widgets-sidebars/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/widgets-sidebars/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/widgets-sidebars/",
+      "title": "WordPress Widgets and Sidebars via MCP | MCPWP",
+      "h1s": [
+        "Coordinate widgets and sidebars through controlled AI workflows."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 277,
+        "title": "WordPress Multilingual Content via MCP",
+        "slug": "multilingual",
+        "status": "publish",
+        "modified": "2026-06-05 04:49:49",
+        "url": "https://mcpwp.net/multilingual/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/multilingual/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/multilingual/",
+      "title": "WordPress Multilingual Content via MCP | MCPWP",
+      "h1s": [
+        "Plan multilingual WordPress workflows around the active stack."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 338,
+        "title": "Screenshot Worker Setup",
+        "slug": "screenshot-worker",
+        "status": "publish",
+        "modified": "2026-02-24 15:29:36",
+        "url": "https://mcpwp.net/docs/screenshot-worker/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/docs/screenshot-worker/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/docs/screenshot-worker/",
+      "title": "MCPWP Screenshot Worker Setup",
+      "h1s": [
+        "Screenshot Worker Setup"
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 456,
+        "title": "Claude Code Plugin for MCPWP",
+        "slug": "claude-plugin",
+        "status": "publish",
+        "modified": "2026-06-05 04:51:56",
+        "url": "https://mcpwp.net/claude-plugin/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/claude-plugin/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/claude-plugin/",
+      "title": "Claude Code Plugin for MCPWP",
+      "h1s": [
+        "Claude Code workflows for MCPWP ."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 461,
+        "title": "MCPWP for Agencies",
+        "slug": "agencies",
+        "status": "publish",
+        "modified": "2026-05-21 19:34:30",
+        "url": "https://mcpwp.net/agencies/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/agencies/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/agencies/",
+      "title": "MCPWP for Agencies | WordPress MCP Operations",
+      "h1s": [
+        "AI operations for WordPress agencies."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare agency plans"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/features/",
+          "text": "Client ops Launch and maintenance Refresh pages, menus, content, SEO, and media without losing auditability."
+        },
+        {
+          "href": "https://mcpwp.net/elementor-mcp/",
+          "text": "Builder Elementor workflows Use AI clients to inspect, patch, and validate Elementor pages."
+        },
+        {
+          "href": "https://mcpwp.net/api-security/",
+          "text": "Safety Separate scopes Give editors, designers, and admins different keys by job."
+        },
+        {
+          "href": "https://mcpwp.net/multi-site-management/",
+          "text": "Rollout Repeatable setup Standardize first inspections and agency playbooks across sites."
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Get the current ZIP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Continue setup"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/features/",
+        "https://mcpwp.net/elementor-mcp/",
+        "https://mcpwp.net/api-security/",
+        "https://mcpwp.net/multi-site-management/",
+        "https://mcpwp.net/docs/getting-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare agency plans"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/multi-site-management/",
+          "text": "Rollout Repeatable setup Standardize first inspections and agency playbooks across sites."
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Continue setup"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 502,
+        "title": "Pricing",
+        "slug": "pricing",
+        "status": "publish",
+        "modified": "2026-05-21 18:41:07",
+        "url": "https://mcpwp.net/pricing/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/pricing/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/pricing/",
+      "title": "MCPWP Pricing | AI Site Operations for WordPress",
+      "h1s": [
+        "Choose how much AI control your WordPress site needs."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Read setup docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Start setup"
+        },
+        {
+          "href": "https://mcpwp.net/contact/",
+          "text": "Talk to us"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Continue to download"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Read the setup guide"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/contact/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Read setup docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Start setup"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Continue to download"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Read the setup guide"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 506,
+        "title": "MCPWP Demo",
+        "slug": "demo",
+        "status": "publish",
+        "modified": "2026-06-05 04:52:11",
+        "url": "https://mcpwp.net/demo/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/demo/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/demo/",
+      "title": "MCPWP Demo | WordPress MCP Workflow",
+      "h1s": [
+        "See MCPWP operate a real WordPress workflow."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 541,
+        "title": "MCPWP - WordPress MCP Server for AI Site Operations",
+        "slug": "wordpress-mcp-server",
+        "status": "publish",
+        "modified": "2026-06-05 04:23:22",
+        "url": "https://mcpwp.net/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/",
+      "title": "MCPWP - WordPress MCP Server for AI Site Operations",
+      "h1s": [
+        "Run WordPress by talking to your AI."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Start with pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Read setup docs"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://github.com/Mumega-com/mcpwp",
+          "text": "GitHub"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Start with pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Read setup docs"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://github.com/Mumega-com/mcpwp",
+          "text": "GitHub"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 116,
+        "title": "API Reference",
+        "slug": "api-reference",
+        "status": "publish",
+        "modified": "2026-02-16 18:40:06",
+        "url": "https://mcpwp.net/docs/api-reference/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/docs/api-reference/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/docs/api-reference/",
+      "title": "MCPWP API Reference | WordPress MCP REST Endpoint",
+      "h1s": [
+        "MCPWP API reference for connected agents."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Setup guide"
+        },
+        {
+          "href": "https://mcpwp.net/docs/mcp-tools/",
+          "text": "Tool reference"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Endpoint MCP route Connect clients to /wp-json/site-pilot-ai/v1/mcp."
+        },
+        {
+          "href": "https://mcpwp.net/api-security/",
+          "text": "Auth API key header Use X-API-Key with a scoped spai_ key generated in MCPWP."
+        },
+        {
+          "href": "https://mcpwp.net/wordpress-codex/",
+          "text": "Clients MCP clients Use the same endpoint pattern for Codex, Claude, Cursor, and Windsurf."
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Get the current ZIP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Continue setup"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/docs/getting-started/",
+        "https://mcpwp.net/docs/mcp-tools/",
+        "https://mcpwp.net/api-security/",
+        "https://mcpwp.net/wordpress-codex/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Setup guide"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Continue setup"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 9,
+        "title": "Contact",
+        "slug": "contact",
+        "status": "publish",
+        "modified": "2026-02-06 16:43:51",
+        "url": "https://mcpwp.net/contact/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/contact/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/contact/",
+      "title": "Contact MCPWP | WordPress MCP Support",
+      "h1s": [
+        "Get in Touch"
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "mailto:support@mumega.com",
+          "text": "support@mumega.com"
+        },
+        {
+          "href": "https://github.com/Mumega-com/mcp-for-wpwp-ai-operator/issues",
+          "text": "Open an Issue"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Browse Docs"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Read the Docs"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "View FAQ"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Browse Docs"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Read the Docs"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 10,
+        "title": "MCPWP Blog",
+        "slug": "blog",
+        "status": "publish",
+        "modified": "2026-06-05 04:58:38",
+        "url": "https://mcpwp.net/blog/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/blog/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/blog/",
+      "title": "MCPWP Blog | WordPress MCP and AI Site Operations",
+      "h1s": [
+        "MCPWP field notes for WordPress AI operations."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Read docs"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/ten-signals-wordpress-ai-plugin-ready-for-market/",
+          "text": "Article Ten Signals That a WordPress AI Plugin Is Ready for Market A market-ready plugin is not just functional. It has clear messaging, visible workflows, safe access, and proof that it matches the buyer’s job."
+        },
+        {
+          "href": "https://mcpwp.net/why-the-blog-exists-for-a-product-offer/",
+          "text": "Article Why the Blog Exists Even When the Product Is the Real Offer The blog is not a side quest. It is where the product explains itself, earns search visibility, and proves operational maturity."
+        },
+        {
+          "href": "https://mcpwp.net/product-story-wordpress-mcp-launcher-page/",
+          "text": "Article The Product Story Behind a WordPress MCP Launcher Page A launcher page must explain the problem, the workflow, and the first successful outcome. Anything else is just decoration."
+        },
+        {
+          "href": "https://mcpwp.net/seo-cleanup-product-feature/",
+          "text": "Article How We Turned SEO Cleanup Into a Product Feature If SEO metadata is stale, the site feels unfinished. We treated cleanup as part of the product experience, not a back-office chore."
+        },
+        {
+          "href": "https://mcpwp.net/good-mcp-demo-before-buying/",
+          "text": "Article What a Good MCP Demo Has to Prove Before Anyone Buys A real demo should show the page state, the action, and the verification step. If it skips any of those, it is not convincing."
+        },
+        {
+          "href": "https://mcpwp.net/safe-wordpress-ai-product-agency-trust/",
+          "text": "Article How a Safe WordPress AI Product Earns Agency Trust Agencies buy control. The product earns trust when it separates read-only inspection, scoped writes, and risky admin actions."
+        },
+        {
+          "href": "https://mcpwp.net/cleaning-old-brand-copy-live-launch-site/",
+          "text": "Article What We Learned Cleaning Old Brand Copy Out of a Live Launch Site Old plugin names, stale counts, and legacy URLs do not just look messy. They damage trust, SEO coherence, and product credibility."
+        },
+        {
+          "href": "https://mcpwp.net/fixed-counts-vs-dynamic-tools/",
+          "text": "Article The Commercial Difference Between Fixed Counts and Dynamic Tools Static claims like 'MCPWP tools' age badly. A commercially serious plugin should explain categories, scopes, and live discovery instead."
+        },
+        {
+          "href": "https://mcpwp.net/gutenberg-blog-elementor-product-pages/",
+          "text": "Article Why We Kept Gutenberg for the Blog and Elementor for Everything Else The blog should behave like an editorial system. The product and funnel pages should behave like a controlled conversion system."
+        },
+        {
+          "href": "https://mcpwp.net/wordpress-plugin-real-ai-operator/",
+          "text": "Article How We Turned a WordPress Plugin Into a Real AI Operator The difference between a chatbot wrapper and a commercially viable WordPress MCP product is whether it can actually operate the site safely."
+        },
+        {
+          "href": "https://mcpwp.net/mumega-mcp-controlled-ai-site-operations/",
+          "text": "Article MCPWP: Controlled AI Site Operations Through MCP MCPWP connects AI agents to WordPress through scoped API keys, Elementor-aware workflows, dynamic tools, and controlled site operations."
+        },
+        {
+          "href": "https://mcpwp.net/ecommerce-woocommerce-mcp-case-study/",
+          "text": "Article How an Ecommerce Store Owner Runs WooCommerce With AI How store owners can use MCPWP to manage products, orders, customers, and revenue workflows through controlled AI tools."
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/ten-signals-wordpress-ai-plugin-ready-for-market/",
+        "https://mcpwp.net/why-the-blog-exists-for-a-product-offer/",
+        "https://mcpwp.net/product-story-wordpress-mcp-launcher-page/",
+        "https://mcpwp.net/seo-cleanup-product-feature/",
+        "https://mcpwp.net/good-mcp-demo-before-buying/",
+        "https://mcpwp.net/safe-wordpress-ai-product-agency-trust/",
+        "https://mcpwp.net/cleaning-old-brand-copy-live-launch-site/",
+        "https://mcpwp.net/fixed-counts-vs-dynamic-tools/",
+        "https://mcpwp.net/gutenberg-blog-elementor-product-pages/",
+        "https://mcpwp.net/wordpress-plugin-real-ai-operator/",
+        "https://mcpwp.net/mumega-mcp-controlled-ai-site-operations/",
+        "https://mcpwp.net/ecommerce-woocommerce-mcp-case-study/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Read docs"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/good-mcp-demo-before-buying/",
+          "text": "Article What a Good MCP Demo Has to Prove Before Anyone Buys A real demo should show the page state, the action, and the verification step. If it skips any of those, it is not convincing."
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 32,
+        "title": "Features",
+        "slug": "features",
+        "status": "publish",
+        "modified": "2026-02-06 18:44:12",
+        "url": "https://mcpwp.net/features/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/features/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/features/",
+      "title": "MCPWP Features | WordPress MCP Workflows",
+      "h1s": [
+        "WordPress MCP workflows with scoped AI control."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/demo/",
+          "text": "View demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/docs/mcp-tools/",
+          "text": "Discovery Dynamic tools Expose tools based on the live site, active plugins, and key scopes."
+        },
+        {
+          "href": "https://mcpwp.net/elementor-mcp/",
+          "text": "Builder Elementor operations Inspect, build, patch, and validate Elementor pages safely."
+        },
+        {
+          "href": "https://mcpwp.net/content-management/",
+          "text": "Content WordPress content Manage pages, posts, metadata, media, menus, and SEO workflows."
+        },
+        {
+          "href": "https://mcpwp.net/api-security/",
+          "text": "Safety Scoped access Start read-only, use role/category controls, and review logs."
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Get the current ZIP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Continue setup"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/demo/",
+        "https://mcpwp.net/docs/mcp-tools/",
+        "https://mcpwp.net/elementor-mcp/",
+        "https://mcpwp.net/content-management/",
+        "https://mcpwp.net/api-security/",
+        "https://mcpwp.net/docs/getting-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/demo/",
+          "text": "View demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/api-security/",
+          "text": "Safety Scoped access Start read-only, use role/category controls, and review logs."
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Continue setup"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 33,
+        "title": "Download MCPWP",
+        "slug": "download",
+        "status": "publish",
+        "modified": "2026-05-21 18:42:38",
+        "url": "https://mcpwp.net/download/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/download/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/download/",
+      "title": "Download MCPWP | Email the Current WordPress MCP Package",
+      "h1s": [
+        "Get MCPWP v2.8.36 and complete your first connection."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Send me the link"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Read setup guide"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip?v=2.8.36",
+          "text": "Download MCPWP v2.8.36"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Continue to setup"
+        },
+        {
+          "href": "https://mcpwp.net/docs/mcp-tools/",
+          "text": "Review tool discovery"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/docs/getting-started/",
+        "https://mcpwp.net/docs/mcp-tools/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Read setup guide"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip?v=2.8.36",
+          "text": "Download MCPWP v2.8.36"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Continue to setup"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 34,
+        "title": "Get Started with MCPWP | WordPress MCP Setup Guide",
+        "slug": "get-started",
+        "status": "publish",
+        "modified": "2026-06-05 04:29:33",
+        "url": "https://mcpwp.net/get-started/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/get-started/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/get-started/",
+      "title": "Get Started with MCPWP | WordPress MCP Setup Guide",
+      "h1s": [
+        "Connect your AI client to WordPress through MCPWP."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Start setup"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Read docs"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Start setup"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Read docs"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 113,
+        "title": "Documentation",
+        "slug": "docs",
+        "status": "publish",
+        "modified": "2026-02-17 15:48:23",
+        "url": "https://mcpwp.net/docs/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/docs/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/docs/",
+      "title": "MCPWP Documentation | WordPress MCP Setup and Workflow Map",
+      "h1s": [
+        "MCPWP docs for the first successful connection."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Start setup"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Start Getting started Install the plugin, create a scoped key, and connect your first MCP client."
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download Current package Get the live versioned ZIP and continue into setup."
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing Plan fit Choose the access level that matches your WordPress workflow."
+        },
+        {
+          "href": "https://mcpwp.net/docs/mcp-tools/",
+          "text": "Reference MCP tools Understand dynamic tool discovery, scopes, and capability categories."
+        },
+        {
+          "href": "https://mcpwp.net/docs/api-reference/",
+          "text": "API REST API Use the endpoint, key header, and compatibility namespace correctly."
+        },
+        {
+          "href": "https://mcpwp.net/docs/screenshot-worker/",
+          "text": "Visual QA Screenshot Worker Use screenshots for visual verification and page review workflows."
+        },
+        {
+          "href": "https://mcpwp.net/elementor-mcp/",
+          "text": "Builder Elementor MCP Inspect, patch, validate, and regenerate Elementor pages through MCP."
+        },
+        {
+          "href": "https://mcpwp.net/api-security/",
+          "text": "Security API key scopes Operate with read-first access, role controls, and logs."
+        },
+        {
+          "href": "https://mcpwp.net/wordpress-codex/",
+          "text": "Clients Codex and Claude Code Connect development agents to real WordPress operations."
+        },
+        {
+          "href": "https://mcpwp.net/content-management/",
+          "text": "Content Content management Draft, update, publish, and review WordPress content."
+        },
+        {
+          "href": "https://mcpwp.net/bulk-wordpress-publishing/",
+          "text": "Publishing Bulk publishing Scale WordPress publishing without giving up review control."
+        },
+        {
+          "href": "https://mcpwp.net/brand-canon/",
+          "text": "Brand Brand consistency Keep AI-generated WordPress pages aligned with a brand canon."
+        },
+        {
+          "href": "https://mcpwp.net/navigation-menus/",
+          "text": "Menus Navigation menus Manage WordPress menus from an MCP client."
+        },
+        {
+          "href": "https://mcpwp.net/gutenberg-blocks/",
+          "text": "Gutenberg Blocks and blog Use Gutenberg where it fits: editorial content and blog workflows."
+        },
+        {
+          "href": "https://mcpwp.net/theme-builder/",
+          "text": "Theme Theme Builder Coordinate Elementor theme workflows with AI assistance."
+        },
+        {
+          "href": "https://mcpwp.net/widgets-sidebars/",
+          "text": "Widgets Widgets and sidebars Coordinate widgets and sidebars through controlled AI workflows."
+        },
+        {
+          "href": "https://mcpwp.net/webhooks-automation/",
+          "text": "Automation Webhooks Connect WordPress operations to automation workflows."
+        },
+        {
+          "href": "https://mcpwp.net/multilingual/",
+          "text": "Languages Multilingual Plan multilingual WordPress workflows around the active stack."
+        },
+        {
+          "href": "https://mcpwp.net/wordpress-cowork/",
+          "text": "Team Team workflows Let teams coordinate WordPress work with AI clients."
+        },
+        {
+          "href": "https://mcpwp.net/wordpress-claude-code/",
+          "text": "Claude Claude Code Use Claude Code with WordPress through MCPWP."
+        },
+        {
+          "href": "https://mcpwp.net/claude-plugin/",
+          "text": "Plugin Claude plugin Use Claude Code workflows for MCPWP."
+        },
+        {
+          "href": "https://mcpwp.net/wordpress-openclaw/",
+          "text": "Agents OpenClaw Give agent workflows a controlled WordPress surface."
+        },
+        {
+          "href": "https://mcpwp.net/agencies/",
+          "text": "Agencies Agency operations Standardize safe MCP workflows across client sites."
+        },
+        {
+          "href": "https://mcpwp.net/about/",
+          "text": "Company About MCPWP Why the product exists and how it is built."
+        },
+        {
+          "href": "https://mcpwp.net/changelog/",
+          "text": "Release Changelog Track product changes and release notes."
+        },
+        {
+          "href": "https://mcpwp.net/privacy-policy/",
+          "text": "Legal Privacy and terms Data handling, license, and usage terms."
+        },
+        {
+          "href": "https://mcpwp.net/contact/",
+          "text": "Contact Contact Ask setup, support, agency, or commercial questions."
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog Field notes Read launch, SEO, setup, and operational notes."
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Read setup guide"
+        },
+        {
+          "href": "https://github.com/Mumega-com/mcpwp/issues",
+          "text": "GitHub issues"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/docs/getting-started/",
+        "https://mcpwp.net/docs/mcp-tools/",
+        "https://mcpwp.net/docs/api-reference/",
+        "https://mcpwp.net/docs/screenshot-worker/",
+        "https://mcpwp.net/elementor-mcp/",
+        "https://mcpwp.net/api-security/",
+        "https://mcpwp.net/wordpress-codex/",
+        "https://mcpwp.net/content-management/",
+        "https://mcpwp.net/bulk-wordpress-publishing/",
+        "https://mcpwp.net/brand-canon/",
+        "https://mcpwp.net/navigation-menus/",
+        "https://mcpwp.net/gutenberg-blocks/",
+        "https://mcpwp.net/theme-builder/",
+        "https://mcpwp.net/widgets-sidebars/",
+        "https://mcpwp.net/webhooks-automation/",
+        "https://mcpwp.net/multilingual/",
+        "https://mcpwp.net/wordpress-cowork/",
+        "https://mcpwp.net/wordpress-claude-code/",
+        "https://mcpwp.net/claude-plugin/",
+        "https://mcpwp.net/wordpress-openclaw/",
+        "https://mcpwp.net/agencies/",
+        "https://mcpwp.net/about/",
+        "https://mcpwp.net/changelog/",
+        "https://mcpwp.net/privacy-policy/",
+        "https://mcpwp.net/contact/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Start setup"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Start Getting started Install the plugin, create a scoped key, and connect your first MCP client."
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download Current package Get the live versioned ZIP and continue into setup."
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing Plan fit Choose the access level that matches your WordPress workflow."
+        },
+        {
+          "href": "https://mcpwp.net/multilingual/",
+          "text": "Languages Multilingual Plan multilingual WordPress workflows around the active stack."
+        },
+        {
+          "href": "https://mcpwp.net/contact/",
+          "text": "Contact Contact Ask setup, support, agency, or commercial questions."
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog Field notes Read launch, SEO, setup, and operational notes."
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Read setup guide"
+        },
+        {
+          "href": "https://github.com/Mumega-com/mcpwp/issues",
+          "text": "GitHub issues"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 114,
+        "title": "Getting Started Guide",
+        "slug": "getting-started",
+        "status": "publish",
+        "modified": "2026-02-17 15:51:27",
+        "url": "https://mcpwp.net/docs/getting-started/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/docs/getting-started/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/docs/getting-started/",
+      "title": "MCPWP Getting Started | WordPress MCP Setup",
+      "h1s": [
+        "Set up MCPWP in one read-first session."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/mcp-tools/",
+          "text": "Review tools"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "01 Download Use the live versioned package link so the ZIP is current."
+        },
+        {
+          "href": "https://mcpwp.net/api-security/",
+          "text": "02 Create a key Start with a read-only or tightly scoped key in MCPWP settings."
+        },
+        {
+          "href": "https://mcpwp.net/wordpress-codex/",
+          "text": "03 Connect client Add the MCP endpoint to Codex, Claude Code, Claude Desktop, Cursor, or Windsurf."
+        },
+        {
+          "href": "https://mcpwp.net/docs/mcp-tools/",
+          "text": "04 Inspect first Ask the AI client to list site state and available MCPWP tools before writes."
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Get the current ZIP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Continue setup"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/docs/mcp-tools/",
+        "https://mcpwp.net/api-security/",
+        "https://mcpwp.net/wordpress-codex/",
+        "https://mcpwp.net/docs/getting-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "01 Download Use the live versioned package link so the ZIP is current."
+        },
+        {
+          "href": "https://mcpwp.net/api-security/",
+          "text": "02 Create a key Start with a read-only or tightly scoped key in MCPWP settings."
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Continue setup"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 115,
+        "title": "MCP Tools Reference",
+        "slug": "mcp-tools",
+        "status": "publish",
+        "modified": "2026-02-17 15:51:34",
+        "url": "https://mcpwp.net/docs/mcp-tools/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/docs/mcp-tools/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/docs/mcp-tools/",
+      "title": "MCPWP Tools Reference | Dynamic WordPress MCP Tools",
+      "h1s": [
+        "MCPWP tools are discovered from the connected site."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Start setup"
+        },
+        {
+          "href": "https://mcpwp.net/tools/",
+          "text": "Capability page"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/content-management/",
+          "text": "Content Pages and posts Inspect, draft, update, publish, and organize WordPress content."
+        },
+        {
+          "href": "https://mcpwp.net/elementor-mcp/",
+          "text": "Builder Elementor Read, patch, validate, and regenerate Elementor pages."
+        },
+        {
+          "href": "https://mcpwp.net/api-security/",
+          "text": "Security Scopes and logs Use category controls, role-aware access, and activity logs."
+        },
+        {
+          "href": "https://mcpwp.net/features/",
+          "text": "Operations Menus, media, SEO Coordinate site operations when the connected site exposes them."
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Get the current ZIP"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Continue setup"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/docs/getting-started/",
+        "https://mcpwp.net/tools/",
+        "https://mcpwp.net/content-management/",
+        "https://mcpwp.net/elementor-mcp/",
+        "https://mcpwp.net/api-security/",
+        "https://mcpwp.net/features/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Start setup"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Compare plans"
+        },
+        {
+          "href": "https://mcpwp.net/docs/getting-started/",
+          "text": "Continue setup"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 8,
+        "title": "About",
+        "slug": "about",
+        "status": "publish",
+        "modified": "2026-02-06 16:43:51",
+        "url": "https://mcpwp.net/about/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/about/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/about/",
+      "title": "About MCPWP | WordPress MCP Operations",
+      "h1s": [
+        "Built by Operators , for Operators"
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://github.com/Mumega-com/mcpwp",
+          "text": "GitHub"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Documentation"
+        },
+        {
+          "href": "https://mcpwp.net/contact/",
+          "text": "Contact"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/contact/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://github.com/Mumega-com/mcpwp",
+          "text": "GitHub"
+        },
+        {
+          "href": "https://mcpwp.net/contact/",
+          "text": "Contact"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 117,
+        "title": "Changelog",
+        "slug": "changelog",
+        "status": "publish",
+        "modified": "2026-02-16 18:40:13",
+        "url": "https://mcpwp.net/changelog/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/changelog/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/changelog/",
+      "title": "MCPWP Changelog | WordPress MCP Releases",
+      "h1s": [
+        "What's New"
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://github.com/Mumega-com/mcpwp",
+          "text": "GitHub Roadmap"
+        },
+        {
+          "href": "https://mcpwp.net/contact/",
+          "text": "Request a Feature"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/contact/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://github.com/Mumega-com/mcpwp",
+          "text": "GitHub Roadmap"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 118,
+        "title": "Privacy Policy &amp; Terms of Use",
+        "slug": "privacy-policy",
+        "status": "publish",
+        "modified": "2026-03-02 01:55:10",
+        "url": "https://mcpwp.net/privacy-policy/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/privacy-policy/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/privacy-policy/",
+      "title": "MCPWP Privacy Policy and Terms",
+      "h1s": [
+        "Privacy Policy & Terms of Use"
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "mailto:info@digid.ca",
+          "text": "info@digid.ca"
+        },
+        {
+          "href": "mailto:info@digid.ca",
+          "text": "info@digid.ca"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 234,
+        "title": "Brand Consistency for WordPress AI Workflows",
+        "slug": "brand-canon",
+        "status": "publish",
+        "modified": "2026-06-05 04:51:08",
+        "url": "https://mcpwp.net/brand-canon/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/brand-canon/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/brand-canon/",
+      "title": "Brand Consistency for WordPress AI Workflows | MCPWP",
+      "h1s": [
+        "Keep AI-generated WordPress pages on brand."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 235,
+        "title": "Multi-Site WordPress Management with MCPWP",
+        "slug": "multi-site-management",
+        "status": "publish",
+        "modified": "2026-06-05 04:51:23",
+        "url": "https://mcpwp.net/multi-site-management/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/multi-site-management/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/multi-site-management/",
+      "title": "Multi-Site WordPress Management with MCPWP",
+      "h1s": [
+        "Manage multiple WordPress sites with repeatable AI workflows."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 236,
+        "title": "Bulk WordPress Publishing with AI",
+        "slug": "bulk-wordpress-publishing",
+        "status": "publish",
+        "modified": "2026-06-05 04:51:39",
+        "url": "https://mcpwp.net/bulk-wordpress-publishing/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/bulk-wordpress-publishing/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/bulk-wordpress-publishing/",
+      "title": "Bulk WordPress Publishing with AI | MCPWP",
+      "h1s": [
+        "Scale WordPress publishing without losing control."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 237,
+        "title": "Claude Code and WordPress MCP",
+        "slug": "wordpress-claude-code",
+        "status": "publish",
+        "modified": "2026-06-05 04:50:20",
+        "url": "https://mcpwp.net/wordpress-claude-code/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/wordpress-claude-code/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/wordpress-claude-code/",
+      "title": "Claude Code and WordPress MCP | MCPWP",
+      "h1s": [
+        "Use Claude Code with WordPress through MCPWP ."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    },
+    {
+      "page": {
+        "id": 238,
+        "title": "Team WordPress AI Workflows via MCP",
+        "slug": "wordpress-cowork",
+        "status": "publish",
+        "modified": "2026-06-05 04:50:52",
+        "url": "https://mcpwp.net/wordpress-cowork/",
+        "template": "elementor_header_footer",
+        "has_elementor": true
+      },
+      "url": "https://mcpwp.net/wordpress-cowork/",
+      "status": 200,
+      "finalUrl": "https://mcpwp.net/wordpress-cowork/",
+      "title": "Team WordPress AI Workflows via MCP | MCPWP",
+      "h1s": [
+        "Let teams coordinate WordPress work with AI clients."
+      ],
+      "links": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "MCPWP"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Features"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/get-started/",
+          "text": "Connect your first site"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "internalLinks": [
+        "https://mcpwp.net/",
+        "https://mcpwp.net/pricing/",
+        "https://mcpwp.net/docs/",
+        "https://mcpwp.net/download/",
+        "https://mcpwp.net/blog/",
+        "https://mcpwp.net/get-started/"
+      ],
+      "ctas": [
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/",
+          "text": "Demo"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "Pricing"
+        },
+        {
+          "href": "https://mcpwp.net/docs/",
+          "text": "Docs"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/download/",
+          "text": "Download"
+        },
+        {
+          "href": "https://mcpwp.net/pricing/",
+          "text": "See pricing"
+        }
+      ],
+      "stale": {
+        "legacyNaming": false,
+        "fixedCounts": false,
+        "archiveHeading": false,
+        "brokenRepoSlug": false,
+        "deadLoopDownload": false
+      }
+    }
+  ],
+  "brokenLinks": [],
+  "recommendations": [
+    {
+      "id": 273,
+      "title": "WordPress Menu Management via MCP",
+      "url": "https://mcpwp.net/navigation-menus/",
+      "hasElementor": true,
+      "h1s": [
+        "Manage WordPress menus from an MCP client."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 240,
+      "title": "OpenClaw and WordPress MCP",
+      "url": "https://mcpwp.net/wordpress-openclaw/",
+      "hasElementor": true,
+      "h1s": [
+        "Give agent workflows a controlled WordPress surface."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 259,
+      "title": "MCPWP Tools Reference",
+      "url": "https://mcpwp.net/tools/",
+      "hasElementor": true,
+      "h1s": [
+        "Dynamic WordPress MCP tools for real site operations."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 261,
+      "title": "WordPress Content Management via MCP",
+      "url": "https://mcpwp.net/content-management/",
+      "hasElementor": true,
+      "h1s": [
+        "Manage WordPress content from an AI client."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 263,
+      "title": "Elementor MCP",
+      "url": "https://mcpwp.net/elementor-mcp/",
+      "hasElementor": true,
+      "h1s": [
+        "Control Elementor pages through MCP."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 265,
+      "title": "Elementor Theme Builder via MCP",
+      "url": "https://mcpwp.net/theme-builder/",
+      "hasElementor": true,
+      "h1s": [
+        "Operate Elementor theme workflows with AI assistance."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 267,
+      "title": "WordPress Webhooks and Automation via MCP",
+      "url": "https://mcpwp.net/webhooks-automation/",
+      "hasElementor": true,
+      "h1s": [
+        "Connect WordPress operations to automation workflows."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 269,
+      "title": "WordPress API Key Management and Security",
+      "url": "https://mcpwp.net/api-security/",
+      "hasElementor": true,
+      "h1s": [
+        "Scoped keys for safer WordPress AI operations."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 271,
+      "title": "Gutenberg Block Management via MCP",
+      "url": "https://mcpwp.net/gutenberg-blocks/",
+      "hasElementor": true,
+      "h1s": [
+        "Use Gutenberg where it fits: content and blog workflows."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 239,
+      "title": "Codex and WordPress MCP",
+      "url": "https://mcpwp.net/wordpress-codex/",
+      "hasElementor": true,
+      "h1s": [
+        "Connect Codex to WordPress through MCPWP ."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 275,
+      "title": "WordPress Widgets and Sidebars via MCP",
+      "url": "https://mcpwp.net/widgets-sidebars/",
+      "hasElementor": true,
+      "h1s": [
+        "Coordinate widgets and sidebars through controlled AI workflows."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 277,
+      "title": "WordPress Multilingual Content via MCP",
+      "url": "https://mcpwp.net/multilingual/",
+      "hasElementor": true,
+      "h1s": [
+        "Plan multilingual WordPress workflows around the active stack."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 338,
+      "title": "Screenshot Worker Setup",
+      "url": "https://mcpwp.net/docs/screenshot-worker/",
+      "hasElementor": true,
+      "h1s": [
+        "Screenshot Worker Setup"
+      ],
+      "stale": [],
+      "ctaCount": 9,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 456,
+      "title": "Claude Code Plugin for MCPWP",
+      "url": "https://mcpwp.net/claude-plugin/",
+      "hasElementor": true,
+      "h1s": [
+        "Claude Code workflows for MCPWP ."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 461,
+      "title": "MCPWP for Agencies",
+      "url": "https://mcpwp.net/agencies/",
+      "hasElementor": true,
+      "h1s": [
+        "AI operations for WordPress agencies."
+      ],
+      "stale": [],
+      "ctaCount": 14,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 502,
+      "title": "Pricing",
+      "url": "https://mcpwp.net/pricing/",
+      "hasElementor": true,
+      "h1s": [
+        "Choose how much AI control your WordPress site needs."
+      ],
+      "stale": [],
+      "ctaCount": 15,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 506,
+      "title": "MCPWP Demo",
+      "url": "https://mcpwp.net/demo/",
+      "hasElementor": true,
+      "h1s": [
+        "See MCPWP operate a real WordPress workflow."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 541,
+      "title": "MCPWP - WordPress MCP Server for AI Site Operations",
+      "url": "https://mcpwp.net/",
+      "hasElementor": true,
+      "h1s": [
+        "Run WordPress by talking to your AI."
+      ],
+      "stale": [],
+      "ctaCount": 16,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 116,
+      "title": "API Reference",
+      "url": "https://mcpwp.net/docs/api-reference/",
+      "hasElementor": true,
+      "h1s": [
+        "MCPWP API reference for connected agents."
+      ],
+      "stale": [],
+      "ctaCount": 12,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 9,
+      "title": "Contact",
+      "url": "https://mcpwp.net/contact/",
+      "hasElementor": true,
+      "h1s": [
+        "Get in Touch"
+      ],
+      "stale": [],
+      "ctaCount": 11,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 10,
+      "title": "MCPWP Blog",
+      "url": "https://mcpwp.net/blog/",
+      "hasElementor": true,
+      "h1s": [
+        "MCPWP field notes for WordPress AI operations."
+      ],
+      "stale": [],
+      "ctaCount": 13,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 32,
+      "title": "Features",
+      "url": "https://mcpwp.net/features/",
+      "hasElementor": true,
+      "h1s": [
+        "WordPress MCP workflows with scoped AI control."
+      ],
+      "stale": [],
+      "ctaCount": 14,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 33,
+      "title": "Download MCPWP",
+      "url": "https://mcpwp.net/download/",
+      "hasElementor": true,
+      "h1s": [
+        "Get MCPWP v2.8.36 and complete your first connection."
+      ],
+      "stale": [],
+      "ctaCount": 13,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 34,
+      "title": "Get Started with MCPWP | WordPress MCP Setup Guide",
+      "url": "https://mcpwp.net/get-started/",
+      "hasElementor": true,
+      "h1s": [
+        "Connect your AI client to WordPress through MCPWP."
+      ],
+      "stale": [],
+      "ctaCount": 13,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 113,
+      "title": "Documentation",
+      "url": "https://mcpwp.net/docs/",
+      "hasElementor": true,
+      "h1s": [
+        "MCPWP docs for the first successful connection."
+      ],
+      "stale": [],
+      "ctaCount": 20,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 114,
+      "title": "Getting Started Guide",
+      "url": "https://mcpwp.net/docs/getting-started/",
+      "hasElementor": true,
+      "h1s": [
+        "Set up MCPWP in one read-first session."
+      ],
+      "stale": [],
+      "ctaCount": 14,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 115,
+      "title": "MCP Tools Reference",
+      "url": "https://mcpwp.net/docs/mcp-tools/",
+      "hasElementor": true,
+      "h1s": [
+        "MCPWP tools are discovered from the connected site."
+      ],
+      "stale": [],
+      "ctaCount": 12,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 8,
+      "title": "About",
+      "url": "https://mcpwp.net/about/",
+      "hasElementor": true,
+      "h1s": [
+        "Built by Operators , for Operators"
+      ],
+      "stale": [],
+      "ctaCount": 11,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 117,
+      "title": "Changelog",
+      "url": "https://mcpwp.net/changelog/",
+      "hasElementor": true,
+      "h1s": [
+        "What's New"
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 118,
+      "title": "Privacy Policy &amp; Terms of Use",
+      "url": "https://mcpwp.net/privacy-policy/",
+      "hasElementor": true,
+      "h1s": [
+        "Privacy Policy & Terms of Use"
+      ],
+      "stale": [],
+      "ctaCount": 9,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 234,
+      "title": "Brand Consistency for WordPress AI Workflows",
+      "url": "https://mcpwp.net/brand-canon/",
+      "hasElementor": true,
+      "h1s": [
+        "Keep AI-generated WordPress pages on brand."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 235,
+      "title": "Multi-Site WordPress Management with MCPWP",
+      "url": "https://mcpwp.net/multi-site-management/",
+      "hasElementor": true,
+      "h1s": [
+        "Manage multiple WordPress sites with repeatable AI workflows."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 236,
+      "title": "Bulk WordPress Publishing with AI",
+      "url": "https://mcpwp.net/bulk-wordpress-publishing/",
+      "hasElementor": true,
+      "h1s": [
+        "Scale WordPress publishing without losing control."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 237,
+      "title": "Claude Code and WordPress MCP",
+      "url": "https://mcpwp.net/wordpress-claude-code/",
+      "hasElementor": true,
+      "h1s": [
+        "Use Claude Code with WordPress through MCPWP ."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    },
+    {
+      "id": 238,
+      "title": "Team WordPress AI Workflows via MCP",
+      "url": "https://mcpwp.net/wordpress-cowork/",
+      "hasElementor": true,
+      "h1s": [
+        "Let teams coordinate WordPress work with AI clients."
+      ],
+      "stale": [],
+      "ctaCount": 10,
+      "needsFlowCta": false,
+      "orphanFromMainSet": false
+    }
+  ]
+}

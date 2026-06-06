@@ -1,0 +1,339 @@
+{
+  "route": {
+    "name": "first-connection",
+    "sourceId": 552,
+    "targetId": 34,
+    "targetTemplate": "elementor_header_footer",
+    "targetUrl": "https://mcpwp.net/get-started/"
+  },
+  "targetSummary": {
+    "page_id": "34",
+    "title": "Get Started with MCPWP",
+    "has_elementor": true,
+    "section_count": 6,
+    "widget_count": 6,
+    "sections": [
+      {
+        "id": "tyh9j0he",
+        "type": "section",
+        "children": [
+          {
+            "id": "k8ylq1v6",
+            "type": "column",
+            "children": [
+              {
+                "id": "gt8hdw3e",
+                "type": "widget",
+                "widget": "html"
+              }
+            ]
+          }
+        ],
+        "index": 0
+      },
+      {
+        "id": "mnfwdad7",
+        "type": "section",
+        "children": [
+          {
+            "id": "wgey42ia",
+            "type": "column",
+            "children": [
+              {
+                "id": "dwzle21t",
+                "type": "widget",
+                "widget": "html"
+              }
+            ]
+          }
+        ],
+        "index": 1
+      },
+      {
+        "id": "704763t9",
+        "type": "section",
+        "children": [
+          {
+            "id": "0x2y2rj9",
+            "type": "column",
+            "children": [
+              {
+                "id": "rbdgbvld",
+                "type": "widget",
+                "widget": "html"
+              }
+            ]
+          }
+        ],
+        "index": 2
+      },
+      {
+        "id": "cj1l4ewf",
+        "type": "section",
+        "children": [
+          {
+            "id": "1euksp1p",
+            "type": "column",
+            "children": [
+              {
+                "id": "mxypo0oh",
+                "type": "widget",
+                "widget": "html"
+              }
+            ]
+          }
+        ],
+        "index": 3
+      },
+      {
+        "id": "8wrl8oqp",
+        "type": "section",
+        "children": [
+          {
+            "id": "0p88o2oj",
+            "type": "column",
+            "children": [
+              {
+                "id": "snob457m",
+                "type": "widget",
+                "widget": "html"
+              }
+            ]
+          }
+        ],
+        "index": 4
+      },
+      {
+        "id": "es58r09d",
+        "type": "section",
+        "children": [
+          {
+            "id": "wbqvrsep",
+            "type": "column",
+            "children": [
+              {
+                "id": "emt7iwaf",
+                "type": "widget",
+                "widget": "html"
+              }
+            ]
+          }
+        ],
+        "index": 5
+      }
+    ]
+  },
+  "targetPayload": [
+    {
+      "elType": "section",
+      "settings": {
+        "background_background": "classic",
+        "background_color": "#F6F8FF",
+        "padding": {
+          "unit": "px",
+          "top": "80",
+          "right": "0",
+          "bottom": "40",
+          "left": "0",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "elType": "column",
+          "settings": {
+            "_column_size": 100,
+            "content_position": "center"
+          },
+          "elements": [
+            {
+              "elType": "widget",
+              "widgetType": "html",
+              "settings": {
+                "html": "<div style=\"text-align:center;\">\n<p style=\"font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B4DFF;margin-bottom:16px;\">GET STARTED</p>\n<h1 style=\"font-size:56px;font-weight:800;letter-spacing:-0.02em;line-height:1.1;margin-bottom:24px;color:#0B1220;\">Up and Running in <span style=\"background:linear-gradient(90deg,#0B1220 0%,#1B4DFF 45%,#00B7A8 95%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;\">5 Minutes</span></h1>\n<p style=\"font-size:20px;line-height:1.6;color:#4B5563;max-width:680px;margin:0 auto;\">Install the plugin, grab your API key, configure your AI client, and start controlling WordPress with natural language.</p>\n</div>"
+              },
+              "id": "gt8hdw3e"
+            }
+          ],
+          "id": "k8ylq1v6"
+        }
+      ],
+      "id": "tyh9j0he"
+    },
+    {
+      "elType": "section",
+      "settings": {
+        "background_background": "classic",
+        "background_color": "#FFFFFF",
+        "padding": {
+          "unit": "px",
+          "top": "70",
+          "right": "0",
+          "bottom": "70",
+          "left": "0",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "elType": "widget",
+              "widgetType": "html",
+              "settings": {
+                "html": "<div style=\"display:flex;gap:48px;align-items:flex-start;max-width:860px;margin:0 auto;\">\n<div style=\"flex-shrink:0;\">\n<span style=\"font-size:96px;font-weight:900;line-height:1;background:linear-gradient(90deg,#0B1220 0%,#1B4DFF 45%,#00B7A8 95%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;\">1</span>\n</div>\n<div style=\"flex:1;\">\n<h2 style=\"font-size:36px;font-weight:800;letter-spacing:-0.02em;color:#0B1220;margin-bottom:24px;\">Install mumcp</h2>\n<div style=\"background:#F6F8FF;border-radius:18px;padding:32px;backdrop-filter:blur(12px);box-shadow:0 1px 3px rgba(0,0,0,0.06);\">\n<ol style=\"font-size:17px;line-height:2;color:#374151;padding-left:20px;margin:0;\">\n<li>Go to <strong>WordPress Admin → Plugins → Add New</strong></li>\n<li>Search for <strong>\"mumcp\"</strong></li>\n<li>Click <strong>Install Now</strong>, then <strong>Activate</strong></li>\n<li>Or <a href=\"https://sitepilotai.mumega.com\" style=\"color:#1B4DFF;text-decoration:underline;\">download from sitepilotai.mumega.com</a> and upload manually</li>\n</ol>\n</div>\n</div>\n</div>"
+              },
+              "id": "dwzle21t"
+            }
+          ],
+          "id": "wgey42ia"
+        }
+      ],
+      "id": "mnfwdad7"
+    },
+    {
+      "elType": "section",
+      "settings": {
+        "background_background": "classic",
+        "background_color": "#F6F8FF",
+        "padding": {
+          "unit": "px",
+          "top": "70",
+          "right": "0",
+          "bottom": "70",
+          "left": "0",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "elType": "widget",
+              "widgetType": "html",
+              "settings": {
+                "html": "<div style=\"display:flex;gap:48px;align-items:flex-start;max-width:860px;margin:0 auto;\">\n<div style=\"flex-shrink:0;\">\n<span style=\"font-size:96px;font-weight:900;line-height:1;background:linear-gradient(90deg,#0B1220 0%,#1B4DFF 45%,#00B7A8 95%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;\">2</span>\n</div>\n<div style=\"flex:1;\">\n<h2 style=\"font-size:36px;font-weight:800;letter-spacing:-0.02em;color:#0B1220;margin-bottom:24px;\">Generate an API Key</h2>\n<div style=\"background:#FFFFFF;border-radius:18px;padding:32px;backdrop-filter:blur(12px);box-shadow:0 1px 3px rgba(0,0,0,0.06);\">\n<ol style=\"font-size:17px;line-height:2;color:#374151;padding-left:20px;margin:0;\">\n<li>Go to <strong>WordPress Admin → mumcp → Settings</strong></li>\n<li>Click <strong>\"Generate API Key\"</strong></li>\n<li>Copy the key (starts with <code style=\"background:#F0F1F5;padding:2px 8px;border-radius:6px;font-size:15px;\">spai_</code>)</li>\n<li>Keep it secure — this key grants full access to your site</li>\n</ol>\n</div>\n</div>\n</div>"
+              },
+              "id": "rbdgbvld"
+            }
+          ],
+          "id": "0x2y2rj9"
+        }
+      ],
+      "id": "704763t9"
+    },
+    {
+      "elType": "section",
+      "settings": {
+        "background_background": "classic",
+        "background_color": "#FFFFFF",
+        "padding": {
+          "unit": "px",
+          "top": "70",
+          "right": "0",
+          "bottom": "70",
+          "left": "0",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "elType": "widget",
+              "widgetType": "html",
+              "settings": {
+                "html": "<div style=\"display:flex;gap:48px;align-items:flex-start;max-width:860px;margin:0 auto;\">\n<div style=\"flex-shrink:0;\">\n<span style=\"font-size:96px;font-weight:900;line-height:1;background:linear-gradient(90deg,#0B1220 0%,#1B4DFF 45%,#00B7A8 95%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;\">3</span>\n</div>\n<div style=\"flex:1;\">\n<h2 style=\"font-size:36px;font-weight:800;letter-spacing:-0.02em;color:#0B1220;margin-bottom:24px;\">Connect to Claude, Cursor, or Any MCP Client</h2>\n<p style=\"font-size:17px;color:#4B5563;margin-bottom:20px;\">Add this to your MCP client configuration:</p>\n<div style=\"background:#0B1220;border-radius:18px;padding:28px 32px;overflow-x:auto;\">\n<pre style=\"margin:0;font-family:'JetBrains Mono',Consolas,monospace;font-size:14px;line-height:1.7;color:#E5E7EB;\"><code>{\n  \"mcpServers\": {\n    \"site-pilot-ai\": {\n      \"url\": \"https://yoursite.com/wp-json/site-pilot-ai/v1/mcp\",\n      \"headers\": {\n        \"X-API-Key\": \"spai_your_api_key_here\"\n      }\n    }\n  }\n}</code></pre>\n</div>\n<p style=\"font-size:15px;color:#6B7280;margin-top:16px;font-style:italic;\">Replace <strong>yoursite.com</strong> with your domain and the API key with your actual key.</p>\n</div>\n</div>"
+              },
+              "id": "mxypo0oh"
+            }
+          ],
+          "id": "1euksp1p"
+        }
+      ],
+      "id": "cj1l4ewf"
+    },
+    {
+      "elType": "section",
+      "settings": {
+        "background_background": "classic",
+        "background_color": "#0B1220",
+        "padding": {
+          "unit": "px",
+          "top": "70",
+          "right": "0",
+          "bottom": "70",
+          "left": "0",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "elType": "widget",
+              "widgetType": "html",
+              "settings": {
+                "html": "<div style=\"display:flex;gap:48px;align-items:flex-start;max-width:860px;margin:0 auto;\">\n<div style=\"flex-shrink:0;\">\n<span style=\"font-size:96px;font-weight:900;line-height:1;color:#FFFFFF;\">4</span>\n</div>\n<div style=\"flex:1;\">\n<h2 style=\"font-size:36px;font-weight:800;letter-spacing:-0.02em;color:#FFFFFF;margin-bottom:32px;\">Tell Your AI What to Do</h2>\n<p style=\"font-size:17px;color:#9CA3AF;margin-bottom:24px;\">Just type natural language commands. Here are some examples:</p>\n<div style=\"display:flex;flex-wrap:wrap;gap:12px;\">\n<span style=\"display:inline-block;background:rgba(27,77,255,0.15);border:1px solid rgba(27,77,255,0.3);color:#93B4FF;padding:10px 22px;border-radius:999px;font-size:15px;font-weight:500;\">\"Create a new blog post about our product launch\"</span>\n<span style=\"display:inline-block;background:rgba(27,77,255,0.15);border:1px solid rgba(27,77,255,0.3);color:#93B4FF;padding:10px 22px;border-radius:999px;font-size:15px;font-weight:500;\">\"Update the homepage hero text\"</span>\n<span style=\"display:inline-block;background:rgba(0,183,168,0.15);border:1px solid rgba(0,183,168,0.3);color:#5EEADB;padding:10px 22px;border-radius:999px;font-size:15px;font-weight:500;\">\"Add a Contact page to the main menu\"</span>\n<span style=\"display:inline-block;background:rgba(0,183,168,0.15);border:1px solid rgba(0,183,168,0.3);color:#5EEADB;padding:10px 22px;border-radius:999px;font-size:15px;font-weight:500;\">\"Clone the landing page and change the headline\"</span>\n</div>\n</div>\n</div>"
+              },
+              "id": "snob457m"
+            }
+          ],
+          "id": "0p88o2oj"
+        }
+      ],
+      "id": "8wrl8oqp"
+    },
+    {
+      "elType": "section",
+      "settings": {
+        "background_background": "classic",
+        "background_color": "#F6F8FF",
+        "padding": {
+          "unit": "px",
+          "top": "70",
+          "right": "0",
+          "bottom": "70",
+          "left": "0",
+          "isLinked": false
+        }
+      },
+      "elements": [
+        {
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "elType": "widget",
+              "widgetType": "html",
+              "settings": {
+                "html": "<div style=\"text-align:center;max-width:600px;margin:0 auto;\">\n<h2 style=\"font-size:32px;font-weight:800;letter-spacing:-0.02em;color:#0B1220;margin-bottom:12px;\">Need help?</h2>\n<p style=\"font-size:18px;color:#4B5563;margin-bottom:32px;\">Check the docs or contact us</p>\n<div style=\"display:flex;gap:16px;justify-content:center;flex-wrap:wrap;\">\n<a href=\"/docs/\" style=\"display:inline-block;background:#1B4DFF;color:#FFFFFF;padding:14px 36px;border-radius:999px;font-size:16px;font-weight:600;text-decoration:none;transition:opacity 0.2s;\">Documentation</a>\n<a href=\"/contact/\" style=\"display:inline-block;background:transparent;color:#1B4DFF;padding:14px 36px;border-radius:999px;font-size:16px;font-weight:600;text-decoration:none;border:2px solid #1B4DFF;transition:opacity 0.2s;\">Contact Support</a>\n</div>\n</div>"
+              },
+              "id": "emt7iwaf"
+            }
+          ],
+          "id": "wbqvrsep"
+        }
+      ],
+      "id": "es58r09d"
+    }
+  ]
+}
