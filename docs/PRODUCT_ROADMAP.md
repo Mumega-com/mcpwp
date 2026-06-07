@@ -1,107 +1,151 @@
-# Product Roadmap
+# MCPWP Product Roadmap
 
-Status: Active
-Updated: 2026-04-01
+Updated: 2026-06-07  
+Current version: 2.8.44 (main) / 2.8.45 (analytics PR pending)
 
-This roadmap tracks the operator-focused polish work for MCPWP. The target user is a founder, marketer, or agency operator who needs AI to produce WordPress pages and products quickly without losing structure, brand consistency, or control.
+## Strategic Direction
 
-## Progress Snapshot
+MCPWP is the most tool-complete WordPress MCP server (235+ tools vs best competitor 126). The next phase is not more tools — it is owning the **agency multi-site segment** (highest-value, zero competition at plugin layer) and adding the **compliance + intelligence** layer that will separate MCPWP from commodity MCP bridges.
 
-- Done: Design References admin UI in the Library tab
-- Done: Draft-page creation from design references
-- Done: Automatic starter-part creation and reference-to-part linking
-- Done: Library operating-sequence card and provenance badges
-- Done: Update fallback and manual recovery UI in Setup
-- Done: State-based operator onboarding checklist in Setup
-- Done: Asset lineage counts and drill-down links in the Library
-- Done: Library health summary for unused references and unlinked assets
-- In progress: Sharpen operator-facing messaging across README and plugin readme
-- Next: Validate the full real-site loop and tighten remaining release surfaces
+### Competitive Position (June 2026)
 
-## Beta
+| Capability | MCPWP | AI Engine | Royal MCP | Vibe AI | WP Official |
+|------------|-------|-----------|-----------|---------|-------------|
+| Tool count | 235+ | ~80 | ~126 | ~20 | 3 |
+| Elementor depth | Deep | None | Basic (6) | None | None |
+| Approval system | Yes | No | No | Partial | No |
+| Multi-site proxy | No | No | No | No | No |
+| Audit log + rollback | Partial | No | Activity log | No | No |
+| Admin UI | Full (6 panels) | Plugin settings | None | None | None |
+| White-label | No | No | No | No | No |
+| Site memory | Static blob | No | No | No | No |
 
-### Issue: Make the core workflow obvious in admin
-- Show the operating sequence clearly: `Site Character -> Design References -> Archetypes -> Parts -> Build Draft`.
-- Reduce the amount of product knowledge a new user must infer from scattered tabs.
-- Make the Library tab feel like the system of record for reusable assets.
+**Win condition**: Own the agency layer before anyone else does. Chat excellence is crowded; agency proxy is empty.
 
-### Issue: Add Design References admin UI
-- Create a human-facing UI for design references in the Library tab.
-- Support creating references from file upload, URL, and existing media.
-- Capture `title`, `page_intent`, `archetype_class`, `style`, `notes`, `must_keep`, `avoid`, and `section_outline`.
-- Let operators manage the same image-based design memory that MCP models can already use.
-- Status: Implemented in admin Library, including draft-page creation from a reference and automatic starter-part linking.
+---
 
-### Issue: Improve Library UX
-- Add stronger filtering across archetypes, product archetypes, parts, and design references.
-- Show provenance such as `from image`, `from figma`, or `from live page`.
-- Add quick actions so humans can create drafts, apply parts, and connect references without leaving the Library.
-- Status: In progress. Draft creation from references, provenance badges, usage counts, and drill-down links are live; richer previews and more operational quick actions still need polish.
+## Roadmap
 
-### Issue: Fix release trust and update surfaces
-- Keep the website version text aligned with the real shipped package version.
-- Keep `readme.txt`, `CHANGELOG.md`, `version.json`, and the live ZIP in sync on every release.
-- Improve in-plugin update UX so auto-update failures fall back to a clear manual path instead of vague errors.
-- Status: In progress. The in-plugin update fallback and manual recovery UI are implemented; website/release-surface consistency still needs operational cleanup.
+### Immediate (v2.9 — now in progress)
 
-### Issue: Stabilize local verification
-- Make the local WordPress test environment reliable enough for repeatable Elementor, WooCommerce, and design-reference smoke tests.
-- Reduce release-time uncertainty caused by unstable local services.
+These are in-flight or nearly done. Not the growth bets.
 
-### Issue: Tighten first-run onboarding
-- Make draft-first, archetype-first, and parts-first behavior explicit from the first admin session.
-- Teach users how to build a reusable system, not just how to call tools.
-- Status: Implemented in Setup with an operator onboarding checklist and next-step guidance.
+| Issue | What | Status |
+|-------|------|--------|
+| #359 | Server-side analytics (v2.8.45) | PR open, ready to merge |
+| Beta operator loop | Validate real-site usage, Library polish | In progress |
+| Release surface consistency | Changelog, version sync, RELEASE_CHECKLIST | Done |
 
-## Paid Launch
+---
 
-### Issue: Guided first-run setup
-- Add a setup wizard for site character, starter archetypes, starter parts categories, and integrations.
-- Make the product feel opinionated and ready-to-use for operators.
+### Phase 1 — Agency Foundation (v3.0)
 
-### Issue: Asset lineage and reuse visibility
-- Show where parts, archetypes, and design references came from.
-- Show where they are used.
-- Make the Library a real asset system instead of a flat inventory.
+**Goal: Own cross-site AI management before any competitor ships it.**  
+No plugin offers a proxy MCP layer for agencies. This is the unoccupied white space.
 
-### Issue: Executable design-reference flows
-- Add direct flows from design references to draft pages, archetypes, and parts.
-- Automatically link outputs back to the source image/reference.
+| Issue | Title | Priority |
+|-------|-------|----------|
+| [#360](https://github.com/Mumega-com/mcpwp/issues/360) | Agency proxy MCP — one AI session controls N client sites | **P1 — ship first** |
+| [#361](https://github.com/Mumega-com/mcpwp/issues/361) | AI action audit log + one-click rollback (EU AI Act) | **P2 — EU deadline Aug 2026** |
+| [#366](https://github.com/Mumega-com/mcpwp/issues/366) | Agency dashboard — multi-site overview, health, key management | P7 — depends on #360 |
+| [#367](https://github.com/Mumega-com/mcpwp/issues/367) | White-label — agency branding, custom domain, client widget | P8 — depends on #360 + #366 |
 
-### Issue: Better update fallback UX
-- Attempt automatic updates when possible.
-- If host restrictions block install, show the real reason and a direct download/manual install path.
-- Keep customer trust even when shared hosting blocks unattended plugin replacement.
+**Dependency order:** #360 → (#366 + #367 in parallel) → agency launch
 
-### Issue: Sharpen operator-facing messaging
-- Position MCPWP as a reusable AI production system for WordPress.
-- Focus on speed, consistency, memory, and reusable structures rather than generic “AI for WordPress” messaging.
-- Status: In progress. README and plugin readme now emphasize operators, reusable structure, site character, and design-reference workflows.
+**Revenue target:** 50 agencies on Starter (\$49/mo) = \$2,450/mo ARR from Phase 1
 
-### Issue: Validate the full operator loop on real sites
-- Verify landing pages, blog archetypes, WooCommerce product archetypes, Elementor 4, and mixed human+AI editing flows on real environments.
+---
 
-## Later
+### Phase 2 — Intelligence Layer (v3.1)
 
-### Issue: Finish polished Figma OAuth
-- Complete and verify the end-to-end OAuth flow on real sites.
-- Keep Figma as a design-input system, not the primary source of site memory.
+**Goal: WordPress becomes an active intelligence layer, not a passive API.**  
+Creates daily-active-use hooks and switching costs.
 
-### Issue: Add Stitch and other design connectors
-- Treat them as intake channels that feed design references, archetypes, and parts.
+| Issue | Title | Priority |
+|-------|-------|----------|
+| [#362](https://github.com/Mumega-com/mcpwp/issues/362) | Dynamic site memory — structured context persists across AI sessions | P3 |
+| [#363](https://github.com/Mumega-com/mcpwp/issues/363) | Proactive push signals — WordPress tells Claude when action needed | P4 |
+| [#364](https://github.com/Mumega-com/mcpwp/issues/364) | Blueprint library — deploy multi-page site structures from agency templates | P5 |
 
-### Issue: Add per-page and per-product override UI
-- Let operators manage inherited site character and archetype-specific briefs in admin directly.
+**#362 + #363 + #364 are independent** — can be parallelized.
 
-### Issue: Team workflows
-- Add approvals, handoff states, and governance for shared asset libraries.
+---
 
-### Issue: Usage analytics for reusable assets
-- Show which references, archetypes, and parts are reused most.
-- Surface what is saving time and where the operator system is failing.
+### Phase 3 — Chat Excellence (v3.2)
 
-## Current Execution Order
+**Goal: Eliminate reasons to prefer AI Engine's chat.** Not a growth bet — hygiene.  
+Build after P1/P2 are shipped.
 
-1. Validate the full operator loop on real sites
-2. Tighten remaining release surfaces and website/version consistency
-3. Continue Library preview and operational quick-action polish
+| Issue | Title | Priority |
+|-------|-------|----------|
+| [#365](https://github.com/Mumega-com/mcpwp/issues/365) | Chat excellence — multi-model, streaming, history, confirmations | P6 |
+
+**Competitors:** AI Engine (4.9★, 100K installs), Royal MCP (free). Chat is crowded; don't lead with it.
+
+---
+
+## Revenue Model
+
+| Tier | Price | Unlocks |
+|------|-------|---------|
+| Free (WP.org) | \$0 | 120 tools, basic Elementor, API keys, activity log |
+| Paid (Freemius) | TBD | 115 pro tools, WooCommerce, SEO intelligence, Elementor Pro |
+| Agency Starter | \$49/mo | Proxy MCP (5 sites), agency dashboard, basic branding |
+| Agency Pro | \$149/mo | 25 sites, white-label, custom domain, audit log export |
+| Agency Scale | \$399/mo | Unlimited sites, API access, dedicated proxy, SLA |
+
+**Revenue at 100 agencies (realistic 6-month post-launch):**
+- 60 Starter: \$2,940/mo
+- 30 Pro: \$4,470/mo
+- 10 Scale: \$3,990/mo
+- **Total: \$11,400/mo (~\$137K ARR)**
+
+---
+
+## What We Already Have (do not rebuild)
+
+- [x] 235+ MCP tools (free + pro)
+- [x] Elementor deep integration (get/set/patch/preview/summary)
+- [x] Approval system with apply + rollback endpoints
+- [x] Event store + webhook system
+- [x] Design references + Library
+- [x] Freemius paid tier integration
+- [x] Self-update system (mumega.com static manifest)
+- [x] Admin UI (6 panels: Setup, Control Room, Chat, Library, Integrations, Tools, Settings)
+- [x] PostHog analytics (v2.8.44+)
+- [x] Agent playbooks + guides system
+- [x] Site context (static) — extends to dynamic memory in P3
+- [x] Signals architecture started (SEO audit store, event store) — extends to proactive signals in P4
+
+---
+
+## Execution Order
+
+```
+NOW:     Merge #359 (analytics)
+         Validate operator loop on real sites
+         
+NEXT:    #360 proxy worker (P1) ← sole focus until shipped
+         #361 audit log (P2)   ← can run in parallel with #360
+
+THEN:    #366 agency dashboard  ← depends on #360
+         #367 white-label       ← depends on #360 + #366
+         Agency tier launch
+
+LATER:   #362 site memory       ← independent
+         #363 push signals      ← independent  
+         #364 blueprints        ← independent
+
+LAST:    #365 chat excellence   ← polish track, not growth
+```
+
+---
+
+## What the Research Found (sources)
+
+- EU AI Act enforcement: August 2, 2026 — immutable AI action logs become required
+- SiteGround pushed AI agent to 1M sites in May 2026 (1.1★ backlash) — proves intent D demand is real and large
+- WP Umbrella (\$2/site/mo, 100K+ agencies) owns multi-site management via SaaS — plugin layer is open
+- AI Engine (4.9★, 100K installs) leads on chat — chat alone will not differentiate MCPWP
+- WordPress.com, SiteGround, 10Web all have multi-site but via hosting lock-in — plugin-embedded multi-site proxy is open
+- Royal MCP (free) is the closest MCP competitor — no agency features, no UI, no approval system
