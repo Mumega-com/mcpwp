@@ -2,7 +2,12 @@ import type { Env, SiteEntry } from './types';
 
 export async function getSites(agencyId: string, env: Env): Promise<SiteEntry[]> {
   const raw = await env.AGENCY_KV.get(`agency:sites:${agencyId}`);
-  return raw ? (JSON.parse(raw) as SiteEntry[]) : [];
+  if (!raw) return [];
+  try {
+    return JSON.parse(raw) as SiteEntry[];
+  } catch {
+    return [];
+  }
 }
 
 export async function addSite(agencyId: string, entry: SiteEntry, env: Env): Promise<void> {
