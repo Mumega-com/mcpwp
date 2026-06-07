@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.41
+Stable tag: 2.8.42
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,12 @@ Each site needs its own plugin installation and API key.
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.42 =
+* Fix: Theme handler ($supported_themes) — removed corrupted duplicate 'flavor'/'flavflavor' entries and 'oceanwp' entry with wrong option_key. Only Astra, GeneratePress, and Kadence remain with accurate settings_type. Applied to both plugin copies.
+* Fix: Integrations admin page — save/remove/test connection buttons now have JS handlers (were previously unimplemented). Uses correct spaiIntegrations nonce and AJAX action names.
+* Fix: version.json download_url was pointing to a 404 URL; corrected to /spai-updates/mumega-site-pilot-ai-latest.zip.
+* Polish: Removed inline styles from integrations display and chat display; extracted to CSS classes (spai-info-panel, spai-action-row, spai-field-row, is-hidden, etc.).
 
 = 2.8.41 =
 * Fix: Scoped API key scope enforcement — submitted scopes are now respected with a role-based ceiling. Non-admin roles are capped at read+write and cannot claim admin scope regardless of input (issue #333).
