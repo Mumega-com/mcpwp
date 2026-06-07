@@ -150,6 +150,8 @@ Each site needs its own plugin installation and API key.
 = 2.8.40 =
 * Fix: wp_validate_seo_readiness transport deserialize error on large sites — reduced content graph query from 500 to 100 posts, eliminating memory/timeout failures that produced malformed JSON-RPC responses (issue #337).
 * Fix: MCP tools/call response now handles json_encode failure gracefully instead of sending null in the text field, which caused client-side deserialize errors on non-UTF8 content.
+* Polish: MCPWP admin shell — introduced CSS design token system (--spai-* variables), dark product headers (.spai-header), shared card/badge/toggle components, and MCPWP-styled admin menu icon. Setup, Control Room, Tools, Integrations, and Chat now share one visual system. Admin assets load by page slug so submenu screens reliably receive shared CSS (issue #342, PR #344).
+* Assets: Refreshed WordPress.org banner, icon, and screenshots to MCPWP branding — removed all Site Pilot AI references from marketplace assets (issue #341).
 
 = 2.8.39 =
 * Fix: Freemius "free" plan slug no longer causes plan:free/pro_active:true contradiction when pro is active via Lemon Squeezy or developer constant (issue #319).
