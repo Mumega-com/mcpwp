@@ -58,7 +58,7 @@ $unlinked_archetype_count = count(
 				<?php esc_html_e( 'Structured Design Library', 'mumega-mcp' ); ?>
 			</h2>
 			<p class="description">
-				<?php esc_html_e( 'This is the reusable system your models should build against. SPAI stores reusable page structures and sections as Elementor templates, then adds archetype and part metadata on top so they stay editable in Elementor and reusable in SPAI.', 'mumega-mcp' ); ?>
+				<?php esc_html_e( 'This is the reusable system your models should build against. MCPWP stores reusable page structures and sections as Elementor templates, then adds archetype and part metadata on top so they stay editable in Elementor and reusable via MCP.', 'mumega-mcp' ); ?>
 			</p>
 
 			<div class="spai-library-summary">
@@ -674,7 +674,7 @@ $unlinked_archetype_count = count(
 		<div class="spai-card">
 			<h2><?php esc_html_e( 'Promote Existing Template', 'mumega-mcp' ); ?></h2>
 			<p class="description">
-				<?php esc_html_e( 'Use this when you already have an Elementor template and want SPAI to classify it as a canonical archetype or reusable part without duplicating the template.', 'mumega-mcp' ); ?>
+				<?php esc_html_e( 'Use this when you already have an Elementor template and want MCPWP to classify it as a canonical archetype or reusable part without duplicating the template.', 'mumega-mcp' ); ?>
 			</p>
 
 			<div class="spai-library-actions">

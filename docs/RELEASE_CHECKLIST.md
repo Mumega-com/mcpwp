@@ -21,15 +21,15 @@ This project uses Freemius for paid licensing and can still publish self-hosted 
 
 Update these locations together:
 
-1. [site-pilot-ai.php](/home/mumega/projects/mcp-for-wp/site-pilot-ai/site-pilot-ai.php)
-   - plugin header `Version`
-   - `SPAI_VERSION`
-2. [version.json](/home/mumega/projects/mcp-for-wp/version.json)
+1. `site-pilot-ai/site-pilot-ai.php`
+   - plugin header `Version:`
+   - `SPAI_VERSION` constant
+2. `version.json`
    - `version`
-   - `download_url`
-   - compatibility fields
-3. `readme.txt`
-   - stable tag / changelog if relevant
+   - prepend changelog HTML fragment
+3. `site-pilot-ai/readme.txt`
+   - `Stable tag:`
+   - Add entry under `== Changelog ==`
 
 Quick check:
 
@@ -121,8 +121,9 @@ That means stale override data can hide newer static-manifest releases.
 On a target site:
 
 - [ ] `spai_version_url` points at `https://mumega.com/spai-updates/version.json`
-- [ ] `spai_update_info` is empty or matches the worker manifest exactly
+- [ ] `spai_update_info` is empty or matches the manifest exactly
 - [ ] `/wp-json/site-pilot-ai/v1/update` reports the expected result
+- [ ] If analytics enabled: PostHog Live Events shows `mcp_tool_called` after a tool call
 
 Example checks:
 
@@ -200,15 +201,11 @@ If a release is bad:
 
 Do not roll back by leaving mismatched manifests or stale `spai_update_info` on sites.
 
-## Notes From 2026-03-31
+## Historical Notes
 
-- Live site `mcpwp.net` was manually updated from `1.7.4` to `1.8.2`
-- The site had a stale `spai_update_info` pinned to `1.7.6`
-- Clearing `spai_update_info` restored normal worker-based update detection
-- The permanent fix is to default all sites to `https://mumega.com/spai-updates/version.json` so the worker is no longer required for auto-updates
-- A bind-mounted plugin directory is not a valid auto-update test environment because WordPress cannot replace the mounted plugin path during upgrade
-- A clean local volume-backed WordPress install successfully self-updated from `1.8.4` to `1.8.5` once the updater ran as the plugin service user and `wp-content/upgrade` was writable
+- **2026-03-31:** mcpwp.net had stale `spai_update_info` pinned to `1.7.6`; clearing it restored auto-update. `spai_version_url` switched to `https://mumega.com/spai-updates/version.json`.
+- Bind-mounted plugin dirs are not valid auto-update test environments — WordPress cannot replace the mounted path during upgrade.
 
 ---
 
-**Last Updated:** 2026-03-31
+**Last Updated:** 2026-06-07
