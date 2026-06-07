@@ -238,8 +238,8 @@ Conditionally available when MCPWP PRO is active:
     "name": "wp_set_seo",
     "arguments": {
       "id": 42,
-      "seo_title": "My Awesome Page | Site Name",
-      "seo_description": "This is the best page ever",
+      "title": "My Awesome Page | Site Name",
+      "description": "This is the best page ever",
       "focus_keyword": "awesome page"
     }
   }
