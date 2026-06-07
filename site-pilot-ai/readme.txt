@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.46
+Stable tag: 2.8.47
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,12 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.47 =
+* New: White-label mode — set agency name, logo, primary color, and chat greeting in WP Admin > Settings.
+* New: [mcpwp_chat] shortcode renders a branded floating chat button on any page or post.
+* New: Elementor chat widget wrapping the [mcpwp_chat] shortcode (available in Elementor widget panel).
+* New: Agency custom hostname routing in proxy worker (CNAME ai.agencyname.com → proxy.mcpwp.net via KV).
 
 = 2.8.46 =
 * New: AI action audit log — every write-tool call logged to DB with before/after state snapshots (EU AI Act compliance).
