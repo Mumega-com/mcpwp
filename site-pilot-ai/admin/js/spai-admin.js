@@ -4,6 +4,16 @@
  * @package MumegaMCP
  */
 
+// PostHog analytics initialization
+(function() {
+	var cfg = (typeof spaiAdmin !== 'undefined' && spaiAdmin.posthogToken) ? spaiAdmin
+		: (typeof spaiIntegrations !== 'undefined' && spaiIntegrations.posthogToken) ? spaiIntegrations
+		: null;
+	if (!cfg) return;
+	!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+	posthog.init(cfg.posthogToken, { api_host: cfg.posthogHost, defaults: '2026-01-30' });
+})();
+
 (function($) {
 	'use strict';
 
@@ -18,6 +28,9 @@
 
 			copyToClipboard(text).then(function() {
 				showCopyFeedback(btn);
+				if (window.posthog) {
+					posthog.capture('api_key_copied', { source: 'setup_page' });
+				}
 			}).catch(function() {
 				alert(spaiAdmin.strings.copyFailed);
 			});
@@ -136,11 +149,17 @@
 							'</table>'
 						);
 						result.css('background', '#d4edda');
+						if (window.posthog) {
+							posthog.capture('connection_tested', { result: 'success' });
+						}
 					} else {
 						error.show().find('.spai-test-message').text(
 							spaiAdmin.strings.testFailed + ': ' + (response.data ? response.data.message : 'Unknown error')
 						);
 						result.css('background', '#f8d7da');
+						if (window.posthog) {
+							posthog.capture('connection_tested', { result: 'failure' });
+						}
 					}
 				},
 				error: function() {
@@ -148,6 +167,9 @@
 					btn.html('<span class="dashicons dashicons-yes-alt"></span> Test Connection');
 					error.show().find('.spai-test-message').text(spaiAdmin.strings.testFailed);
 					result.css('background', '#f8d7da');
+					if (window.posthog) {
+						posthog.capture('connection_tested', { result: 'failure' });
+					}
 				}
 			});
 		});
@@ -160,6 +182,10 @@
 		$('#spai-dismiss-welcome').on('click', function() {
 			var btn = $(this);
 			btn.prop('disabled', true);
+
+			if (window.posthog) {
+				posthog.capture('welcome_banner_dismissed');
+			}
 
 			$.ajax({
 				url: spaiAdmin.ajaxUrl,
@@ -175,6 +201,17 @@
 					$('#spai-welcome').slideUp(300);
 				}
 			});
+		});
+	}
+
+	/**
+	 * Track upgrade link clicks
+	 */
+	function initUpgradeTracking() {
+		$(document).on('click', 'a[href*="mcpwp.net/pricing"], a[href*="mcpwp.net/account"]', function() {
+			if (window.posthog) {
+				posthog.capture('upgrade_link_clicked', { href: $(this).attr('href') });
+			}
 		});
 	}
 
@@ -264,6 +301,7 @@
 		initRegenerateConfirm();
 		initTestConnection();
 		initDismissWelcome();
+		initUpgradeTracking();
 		initIntegrations();
 	});
 

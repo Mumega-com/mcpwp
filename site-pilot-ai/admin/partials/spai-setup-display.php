@@ -277,6 +277,18 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 
 				roleSelect.addEventListener('change', updateRoleUI);
 				updateRoleUI();
+
+				// Track scoped key creation
+				var createForm = document.querySelector('form [name="spai_create_scoped_key"]');
+				if (createForm) {
+					createForm.closest('form').addEventListener('submit', function() {
+						if (window.posthog) {
+							posthog.capture('scoped_key_created', {
+								role: roleSelect ? roleSelect.value : 'unknown'
+							});
+						}
+					});
+				}
 			})();
 			</script>
 
@@ -348,6 +360,17 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				</tbody>
 			</table>
 			<?php endif; ?>
+			<script>
+			(function() {
+				document.querySelectorAll('[name="spai_revoke_scoped_key"]').forEach(function(btn) {
+					btn.closest('form').addEventListener('submit', function() {
+						if (window.posthog) {
+							posthog.capture('scoped_key_revoked');
+						}
+					});
+				});
+			})();
+			</script>
 		</div>
 
 		<!-- ============================= SECTION 2: CONNECT YOUR AI ============================= -->
@@ -477,6 +500,9 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 						panels.forEach(function(p) {
 							p.style.display = p.id === 'spai-tab-' + target ? '' : 'none';
 						});
+						if (window.posthog) {
+							posthog.capture('ai_client_tab_switched', { client: target });
+						}
 					});
 				});
 			})();

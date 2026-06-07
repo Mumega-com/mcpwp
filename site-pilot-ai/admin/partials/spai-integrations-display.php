@@ -303,6 +303,9 @@ jQuery(function($) {
 		$.post(ajaxUrl, postData, function(response) {
 			if (response.success) {
 				$status.text('Saved! Reloading...').css('color', '#00a32a');
+				if (window.posthog) {
+					posthog.capture('integration_saved', { provider: provider });
+				}
 				location.reload();
 			} else {
 				$status.text(response.data.message || 'Save failed').css('color', '#d63638');
@@ -331,6 +334,9 @@ jQuery(function($) {
 		}, function(response) {
 			if (response.success) {
 				$status.text('Removed! Reloading...').css('color', '#00a32a');
+				if (window.posthog) {
+					posthog.capture('integration_removed', { provider: provider });
+				}
 				location.reload();
 			} else {
 				$status.text(response.data.message || 'Remove failed').css('color', '#d63638');
