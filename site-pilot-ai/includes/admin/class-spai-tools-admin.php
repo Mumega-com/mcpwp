@@ -129,8 +129,10 @@ class Spai_Tools_Admin {
 			SPAI_VERSION
 		);
 
-		$posthog_token = SPAI_POSTHOG_TOKEN;
-		$posthog_host  = SPAI_POSTHOG_HOST;
+		$posthog_manager = Spai_Integration_Manager::get_instance();
+		$posthog_config  = $posthog_manager->get_provider_config( 'posthog' );
+		$posthog_token   = isset( $posthog_config['token'] ) ? $posthog_config['token'] : '';
+		$posthog_host    = ! empty( $posthog_config['host'] ) ? $posthog_config['host'] : SPAI_POSTHOG_DEFAULT_HOST;
 		wp_register_script( 'spai-posthog-tools', false, array(), SPAI_VERSION, true );
 		wp_enqueue_script( 'spai-posthog-tools' );
 		wp_add_inline_script(

@@ -227,6 +227,11 @@ class Spai_Admin {
 			true
 		);
 
+		$posthog_manager = Spai_Integration_Manager::get_instance();
+		$posthog_config  = $posthog_manager->get_provider_config( 'posthog' );
+		$posthog_token   = isset( $posthog_config['token'] ) ? $posthog_config['token'] : '';
+		$posthog_host    = ! empty( $posthog_config['host'] ) ? $posthog_config['host'] : SPAI_POSTHOG_DEFAULT_HOST;
+
 		wp_localize_script(
 			'spai-admin',
 			'spaiAdmin',
@@ -235,8 +240,8 @@ class Spai_Admin {
 				'nonce'        => wp_create_nonce( 'spai_admin_nonce' ),
 				'restUrl'      => rest_url( 'site-pilot-ai/v1/' ),
 				'siteUrl'      => site_url(),
-				'posthogToken' => SPAI_POSTHOG_TOKEN,
-				'posthogHost'  => SPAI_POSTHOG_HOST,
+				'posthogToken' => $posthog_token,
+				'posthogHost'  => $posthog_host,
 				'strings' => array(
 					'copied'      => __( 'Copied!', 'mumega-mcp' ),
 					'copyFailed'  => __( 'Copy failed', 'mumega-mcp' ),

@@ -63,10 +63,6 @@ define( 'SPAI_MIN_PHP_VERSION', '7.4' );
 /**
  * Default PostHog values.
  */
-if ( ! defined( 'SPAI_POSTHOG_DEFAULT_TOKEN' ) ) {
-	define( 'SPAI_POSTHOG_DEFAULT_TOKEN', 'phc_vdyUDJrQpNCCfHyi3EFUPDq9avBfZ87tUTYqNC6CiXwX' );
-}
-
 if ( ! defined( 'SPAI_POSTHOG_DEFAULT_HOST' ) ) {
 	define( 'SPAI_POSTHOG_DEFAULT_HOST', 'https://us.i.posthog.com' );
 }
@@ -99,17 +95,6 @@ if ( ! function_exists( 'spai_env_var' ) ) {
 
 		return $default;
 	}
-}
-
-/**
- * PostHog configuration.
- */
-if ( ! defined( 'SPAI_POSTHOG_TOKEN' ) ) {
-	define( 'SPAI_POSTHOG_TOKEN', spai_env_var( 'POSTHOG_PUBLIC_TOKEN', SPAI_POSTHOG_DEFAULT_TOKEN ) );
-}
-
-if ( ! defined( 'SPAI_POSTHOG_HOST' ) ) {
-	define( 'SPAI_POSTHOG_HOST', spai_env_var( 'POSTHOG_HOST', SPAI_POSTHOG_DEFAULT_HOST ) );
 }
 
 /**

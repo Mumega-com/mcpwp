@@ -77,14 +77,19 @@ class Spai_Integrations_Admin {
 			true
 		);
 
+		$posthog_manager = Spai_Integration_Manager::get_instance();
+		$posthog_config  = $posthog_manager->get_provider_config( 'posthog' );
+		$posthog_token   = isset( $posthog_config['token'] ) ? $posthog_config['token'] : '';
+		$posthog_host    = ! empty( $posthog_config['host'] ) ? $posthog_config['host'] : SPAI_POSTHOG_DEFAULT_HOST;
+
 		wp_localize_script(
 			'spai-integrations',
 			'spaiIntegrations',
 			array(
 				'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
 				'nonce'        => wp_create_nonce( 'spai_integrations_nonce' ),
-				'posthogToken' => SPAI_POSTHOG_TOKEN,
-				'posthogHost'  => SPAI_POSTHOG_HOST,
+				'posthogToken' => $posthog_token,
+				'posthogHost'  => $posthog_host,
 				'strings' => array(
 					'saving'     => __( 'Saving...', 'mumega-mcp' ),
 					'saved'      => __( 'Saved!', 'mumega-mcp' ),
