@@ -940,6 +940,14 @@ class Spai_REST_MCP extends Spai_REST_API {
 			$internal_request->set_header( 'X-API-Key', $api_key );
 		}
 
+		// Capture before-state for audit log (no-op for non-write tools).
+		$audit_all_cats = $this->get_all_tool_categories();
+		$audit_category = isset( $audit_all_cats[ $tool_name ] ) ? $audit_all_cats[ $tool_name ] : 'site';
+		$audit_key_id   = isset( $key_record['id'] ) ? (string) $key_record['id'] : '';
+		$audit_log_id   = class_exists( 'Spai_Action_Log' )
+			? Spai_Action_Log::begin( $tool_name, $arguments, $audit_key_id, $audit_category )
+			: null;
+
 		// Dispatch internally
 		$response = rest_do_request( $internal_request );
 		$data     = $response->get_data();
@@ -987,6 +995,9 @@ class Spai_REST_MCP extends Spai_REST_API {
 				}
 			}
 
+			if ( class_exists( 'Spai_Action_Log' ) ) {
+				Spai_Action_Log::complete( $audit_log_id, (int) round( ( microtime( true ) - $start ) * 1000 ), false, 'execution_error' );
+			}
 			$this->fire_tool_called( $tool_name, $start, 'execution_error' );
 			return $this->jsonrpc_error(
 				$id,
@@ -997,6 +1008,9 @@ class Spai_REST_MCP extends Spai_REST_API {
 		}
 
 		// Return successful result.
+		if ( class_exists( 'Spai_Action_Log' ) ) {
+			Spai_Action_Log::complete( $audit_log_id, (int) round( ( microtime( true ) - $start ) * 1000 ), true, '' );
+		}
 		$this->fire_tool_called( $tool_name, $start, '' );
 		$encoded = wp_json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
 		if ( false === $encoded ) {
