@@ -64,7 +64,7 @@ app.post('/mcp', requireAgencyToken, async (c) => {
     if (!params || typeof params !== 'object') {
       return c.json({ jsonrpc: '2.0', id, error: { code: -32602, message: 'params required for tools/call' } }, 400);
     }
-    return c.json(await handleToolsCall(id, params as any, agencyId, c.env));
+    return c.json(await handleToolsCall(id, params as { name: string; arguments: Record<string, unknown> }, agencyId, c.env));
   }
 
   return c.json({ jsonrpc: '2.0', id, error: { code: -32601, message: `Unknown method: ${method}` } });
