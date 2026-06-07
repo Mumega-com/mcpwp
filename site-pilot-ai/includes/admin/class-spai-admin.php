@@ -437,6 +437,16 @@ class Spai_Admin {
 
 		if ( 'run_seo_audit' === $action ) {
 			$result = $this->run_control_room_seo_audit();
+		} elseif ( 'rollback_action_log' === $action ) {
+			$log_id = isset( $_POST['action_log_id'] ) ? sanitize_text_field( wp_unslash( $_POST['action_log_id'] ) ) : '';
+			if ( class_exists( 'Spai_Action_Log' ) && $log_id ) {
+				$rollback = Spai_Action_Log::rollback( $log_id );
+				$result   = is_wp_error( $rollback )
+					? $rollback
+					: __( 'Action rolled back successfully.', 'mumega-mcp' );
+			} else {
+				$result = new WP_Error( 'spai_action_log_unavailable', __( 'Action log unavailable or missing log ID.', 'mumega-mcp' ) );
+			}
 		} else {
 			$approval_id = isset( $_POST['spai_approval_id'] ) ? sanitize_key( wp_unslash( $_POST['spai_approval_id'] ) ) : '';
 			$result      = $this->handle_control_room_approval_action( $action, $approval_id );
@@ -609,6 +619,9 @@ class Spai_Admin {
 			'event_inbox'      => $event_inbox,
 			'event_filters'    => $event_filters,
 			'recent_activity'  => $recent_activity,
+			'action_log'       => class_exists( 'Spai_Action_Log' )
+				? Spai_Action_Log::list_entries( array( 'limit' => 20 ) )
+				: array( 'entries' => array(), 'total' => 0 ),
 		);
 
 		$data['recommendations'] = $this->get_control_room_recommendations( $data );

@@ -399,4 +399,103 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 			</table>
 		<?php endif; ?>
 	</div>
+
+	<?php
+	// ---- AI Action Log ----
+	$action_log_data    = isset( $control_room['action_log'] ) && is_array( $control_room['action_log'] ) ? $control_room['action_log'] : array( 'entries' => array(), 'total' => 0 );
+	$action_log_entries = is_array( isset( $action_log_data['entries'] ) ? $action_log_data['entries'] : null ) ? $action_log_data['entries'] : array();
+	$action_log_total   = (int) ( isset( $action_log_data['total'] ) ? $action_log_data['total'] : 0 );
+	?>
+	<div class="spai-card" style="margin-top:1.5rem">
+		<div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1rem 0">
+			<h2 style="margin:0">
+				<span class="dashicons dashicons-backup"></span>
+				<?php esc_html_e( 'AI Action Log', 'mumega-mcp' ); ?>
+			</h2>
+			<a href="<?php echo esc_url( rest_url( 'site-pilot-ai/v1/action-log/export' ) . '?_wpnonce=' . wp_create_nonce( 'wp_rest' ) ); ?>"
+			   class="button button-small" target="_blank">
+				<?php esc_html_e( 'Export CSV', 'mumega-mcp' ); ?>
+			</a>
+		</div>
+
+		<?php if ( empty( $action_log_entries ) ) : ?>
+			<div class="spai-control-empty is-muted" style="padding:1.5rem">
+				<span class="dashicons dashicons-backup"></span>
+				<p><?php esc_html_e( 'No write-tool actions logged yet. Actions appear here the first time an AI agent calls a write tool (update, create, delete, set, etc.).', 'mumega-mcp' ); ?></p>
+			</div>
+		<?php else : ?>
+			<p class="description" style="padding:.5rem 1rem">
+				<?php
+				printf(
+					/* translators: 1: shown count, 2: total */
+					esc_html__( 'Showing %1$d of %2$d logged actions (most recent first).', 'mumega-mcp' ),
+					count( $action_log_entries ),
+					$action_log_total
+				);
+				?>
+			</p>
+			<table class="widefat striped" style="border-top:1px solid #ddd">
+				<thead>
+					<tr>
+						<th><?php esc_html_e( 'Tool', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Resource', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Time', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'ms', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Result', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Action', 'mumega-mcp' ); ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ( $action_log_entries as $log_entry ) : ?>
+						<?php
+						$le_success   = ! empty( $log_entry['success'] );
+						$le_rollback  = ! empty( $log_entry['rollback_supported'] );
+						$le_rolled    = ! empty( $log_entry['rolled_back'] );
+						$le_log_id    = esc_attr( (string) ( isset( $log_entry['log_id'] ) ? $log_entry['log_id'] : '' ) );
+						$le_resource  = trim(
+							( isset( $log_entry['resource_type'] ) ? $log_entry['resource_type'] : '' )
+							. ':' .
+							( isset( $log_entry['resource_id'] ) ? $log_entry['resource_id'] : '' ),
+							':'
+						);
+						$le_ts        = isset( $log_entry['timestamp'] ) ? $log_entry['timestamp'] : '';
+						?>
+						<tr>
+							<td><code style="font-size:11px"><?php echo esc_html( (string) ( isset( $log_entry['tool_name'] ) ? $log_entry['tool_name'] : '' ) ); ?></code></td>
+							<td style="font-size:12px"><?php echo esc_html( $le_resource ? $le_resource : '—' ); ?></td>
+							<td style="font-size:12px">
+								<?php echo esc_html( $le_ts ? human_time_diff( (int) strtotime( $le_ts ) ) . ' ago' : '—' ); ?>
+							</td>
+							<td style="font-size:12px"><?php echo esc_html( isset( $log_entry['duration_ms'] ) ? (string) $log_entry['duration_ms'] : '—' ); ?></td>
+							<td>
+								<?php if ( $le_success ) : ?>
+									<span class="spai-badge is-good"><?php esc_html_e( 'OK', 'mumega-mcp' ); ?></span>
+								<?php else : ?>
+									<span class="spai-badge is-critical"><?php echo esc_html( isset( $log_entry['error_code'] ) && $log_entry['error_code'] ? (string) $log_entry['error_code'] : 'error' ); ?></span>
+								<?php endif; ?>
+								<?php if ( $le_rolled ) : ?>
+									<span class="spai-badge is-info"><?php esc_html_e( 'Rolled back', 'mumega-mcp' ); ?></span>
+								<?php endif; ?>
+							</td>
+							<td>
+								<?php if ( $le_rollback && ! $le_rolled && $le_success ) : ?>
+									<form method="post" style="display:inline">
+										<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
+										<input type="hidden" name="spai_control_room_action" value="rollback_action_log" />
+										<input type="hidden" name="action_log_id" value="<?php echo $le_log_id; ?>" />
+										<button type="submit" class="button button-small"
+											onclick="return confirm('<?php esc_attr_e( 'Roll back this action? The before-state will be restored.', 'mumega-mcp' ); ?>')">
+											<?php esc_html_e( 'Rollback', 'mumega-mcp' ); ?>
+										</button>
+									</form>
+								<?php else : ?>
+									<span style="color:#999">—</span>
+								<?php endif; ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php endif; ?>
+	</div>
 </div>
