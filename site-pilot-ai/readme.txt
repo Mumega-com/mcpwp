@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.44
+Stable tag: 2.8.45
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -113,6 +113,22 @@ Yes. MCPWP includes fallback handling for Elementor page data saves.
 
 Each site needs its own plugin installation and API key.
 
+== Privacy ==
+
+MCPWP can send anonymous usage data from your WordPress server to PostHog when the "Share anonymous tool-usage data" setting is enabled in WP Admin > MCPWP > Settings.
+
+**What is collected:** Names of MCP tools called, whether each call succeeded or failed, execution duration, plugin version, WordPress version, and PHP major/minor version.
+
+**What is NOT collected:** Post content, page content, user data, API keys, site URL, or any personally identifiable information.
+
+**Identifier:** Each site is assigned a random site UUID (e.g. mcpwp-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx). This UUID is stored in wp_options and cannot be traced back to a domain name or individual.
+
+**Where data is sent:** PostHog, Inc. (posthog.com). Your server's outbound IP address is transmitted as part of the HTTP request to PostHog.
+
+**Default state:** Disabled for free tier (requires opt-in). Enabled by default for paid subscribers (can be disabled at any time).
+
+**How to opt out:** Uncheck "Share anonymous tool-usage data" under WP Admin > MCPWP > Settings.
+
 == Screenshots ==
 
 1. Control Room — supervised approvals, SEO findings, rollback-ready changes, and recommended next actions
@@ -122,9 +138,11 @@ Each site needs its own plugin installation and API key.
 
 == Changelog ==
 
-= 2.8.44 =
-* New: PostHog analytics integration — configure token via WP Admin > Integrations. Tracks 10 key admin actions (API key copy, connection test, upgrade click, key create/revoke, integration save/remove, tool toggle, client tab switch).
-* Fix: PostHog token no longer hardcoded — removed default public token, must be configured per-site.
+= 2.8.45 =
+* New: Server-side MCP tool analytics — when enabled, sends anonymous tool call data (tool name, success/failure, duration) to PostHog. Opt-in for free tier, opt-out for paid. No site content or PII is ever collected.
+* New: Site support UUID displayed in WP Admin > Settings with a Copy button. Share this ID when contacting MCPWP support.
+* New: PostHog configurable via WP Admin > Integrations — token and host are no longer hardcoded.
+* Docs: Added == Privacy == section to readme.txt per WP.org plugin guidelines.
 
 = 2.8.43 =
 * Fix: wp_set_template_conditions now accepts both object form ({type, name, sub_name, sub_id}) and positional array form (["include", "singular", "product"]) — positional arrays were previously flattened to include>general due to wrong key lookup (#210).
