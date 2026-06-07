@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.40
+Stable tag: 2.8.41
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,12 @@ Each site needs its own plugin installation and API key.
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.41 =
+* Fix: Scoped API key scope enforcement — submitted scopes are now respected with a role-based ceiling. Non-admin roles are capped at read+write and cannot claim admin scope regardless of input (issue #333).
+* Fix: SEO MCP tool contract drift — wp_set_seo now accepts normalized title/description/canonical_url fields alongside seo_title/seo_description aliases; wp_bulk_seo accepts items as alias for updates; Google Indexing tools now correctly registered in the Pro tool registry (issue #350).
+* New: wp_create_elementor_custom_code, wp_get_elementor_custom_code, wp_update_elementor_custom_code — first-class MCP tools for Elementor Pro custom code snippets with injection location (head/body_start/body_end), conditions, raw code preservation, and dry_run support (issue #346).
+* Tests: wp_list_pages pagination contract locked with RestPagesTest; extended PHPUnit bootstrap with WP_Query stub, wp_insert_post, and post_type_exists helpers (issue #353).
 
 = 2.8.40 =
 * Fix: wp_validate_seo_readiness transport deserialize error on large sites — reduced content graph query from 500 to 100 posts, eliminating memory/timeout failures that produced malformed JSON-RPC responses (issue #337).
