@@ -123,6 +123,23 @@ class Spai_Integration_Manager {
 				),
 			),
 		),
+		'posthog'    => array(
+			'label'       => 'PostHog',
+			'url'         => 'https://us.posthog.com/settings/project-details',
+			'description' => 'Product analytics for the MCPWP admin interface. Tracks key admin actions (API key copy, connection test, upgrade clicks) to help understand plugin adoption. Token is public — safe to expose in browser JS.',
+			'fields'      => array(
+				'token' => array(
+					'label'       => 'Project API Key',
+					'placeholder' => 'phc_...',
+					'type'        => 'text',
+				),
+				'host'  => array(
+					'label'       => 'API Host',
+					'placeholder' => 'https://us.i.posthog.com',
+					'type'        => 'text',
+				),
+			),
+		),
 	);
 
 	/**
