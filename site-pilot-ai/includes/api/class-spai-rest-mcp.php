@@ -766,10 +766,12 @@ class Spai_REST_MCP extends Spai_REST_API {
 	 * @return array JSON-RPC response.
 	 */
 	private function handle_tools_call( $id, $params, $request ) {
+		$start     = microtime( true );
 		$tool_name = isset( $params['name'] ) ? $params['name'] : '';
 		$arguments = isset( $params['arguments'] ) ? $params['arguments'] : array();
 
 		if ( empty( $tool_name ) ) {
+			$this->fire_tool_called( $tool_name, $start, 'tool_not_found' );
 			return $this->jsonrpc_error(
 				$id,
 				-32602,
@@ -803,6 +805,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 				}
 			}
 			$suggestion = ( $best && $best_pct >= 50 ) ? sprintf( ' Did you mean "%s"?', $best ) : '';
+			$this->fire_tool_called( $tool_name, $start, 'tool_not_found' );
 			return $this->jsonrpc_error(
 				$id,
 				-32602,
@@ -817,6 +820,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 			$all_categories = $this->get_all_tool_categories();
 			$tool_category  = isset( $all_categories[ $tool_name ] ) ? $all_categories[ $tool_name ] : '';
 			if ( $tool_category && in_array( $tool_category, $disabled_categories, true ) ) {
+				$this->fire_tool_called( $tool_name, $start, 'category_disabled' );
 				return $this->jsonrpc_error(
 					$id,
 					-32003,
@@ -839,6 +843,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 				$tool_category  = isset( $all_categories[ $tool_name ] ) ? $all_categories[ $tool_name ] : 'site';
 				if ( ! in_array( $tool_category, $allowed_categories, true ) ) {
 					$role = isset( $key_record['role'] ) ? $key_record['role'] : 'unknown';
+					$this->fire_tool_called( $tool_name, $start, 'scope_denied' );
 					return $this->jsonrpc_error(
 						$id,
 						-32003,
@@ -873,6 +878,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 			);
 			$req          = $reqs[ $tool_name ];
 			$human        = isset( $plugin_names[ $req ] ) ? $plugin_names[ $req ] : $req;
+			$this->fire_tool_called( $tool_name, $start, 'scope_denied' );
 			return $this->jsonrpc_error(
 				$id,
 				-32003,
@@ -889,6 +895,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 		// Validate arguments against tool schema.
 		$validation_error = $this->validate_tool_arguments( $tool_name, $arguments );
 		if ( $validation_error ) {
+			$this->fire_tool_called( $tool_name, $start, 'execution_error' );
 			return $this->jsonrpc_error( $id, -32602, $validation_error );
 		}
 
@@ -980,6 +987,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 				}
 			}
 
+			$this->fire_tool_called( $tool_name, $start, 'execution_error' );
 			return $this->jsonrpc_error(
 				$id,
 				-32000,
@@ -989,6 +997,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 		}
 
 		// Return successful result.
+		$this->fire_tool_called( $tool_name, $start, '' );
 		$encoded = wp_json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
 		if ( false === $encoded ) {
 			// json_encode failed (non-UTF8 chars, circular refs, etc.) — return a safe error payload.
@@ -1013,6 +1022,20 @@ class Spai_REST_MCP extends Spai_REST_API {
 				'isError' => false,
 			),
 		);
+	}
+
+	/**
+	 * Fire the spai_tool_called action with timing and category data.
+	 *
+	 * @param string $tool_name  MCP tool name (may be empty for missing-name errors).
+	 * @param float  $start      microtime(true) captured at entry of handle_tools_call.
+	 * @param string $error_code Enum error code, '' on success.
+	 */
+	private function fire_tool_called( $tool_name, $start, $error_code ) {
+		$all_cats    = $this->get_all_tool_categories();
+		$category    = ( $tool_name && isset( $all_cats[ $tool_name ] ) ) ? $all_cats[ $tool_name ] : 'site';
+		$duration_ms = (int) round( ( microtime( true ) - $start ) * 1000 );
+		do_action( 'spai_tool_called', $tool_name, $category, $duration_ms, $error_code );
 	}
 
 	/**
