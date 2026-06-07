@@ -278,6 +278,19 @@ class Spai_Integration_Manager {
 	}
 
 	/**
+	 * Get PostHog analytics config with safe defaults.
+	 *
+	 * @return array{token: string, host: string}
+	 */
+	public function get_posthog_config() {
+		$config = $this->get_provider_config( 'posthog' );
+		return array(
+			'token' => ( is_array( $config ) && ! empty( $config['token'] ) ) ? $config['token'] : '',
+			'host'  => ( is_array( $config ) && ! empty( $config['host'] ) ) ? $config['host'] : SPAI_POSTHOG_DEFAULT_HOST,
+		);
+	}
+
+	/**
 	 * Get decrypted API key for a provider.
 	 *
 	 * @param string $provider Provider slug.

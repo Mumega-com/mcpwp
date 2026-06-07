@@ -227,10 +227,9 @@ class Spai_Admin {
 			true
 		);
 
-		$posthog_manager = Spai_Integration_Manager::get_instance();
-		$posthog_config  = $posthog_manager->get_provider_config( 'posthog' );
-		$posthog_token   = isset( $posthog_config['token'] ) ? $posthog_config['token'] : '';
-		$posthog_host    = ! empty( $posthog_config['host'] ) ? $posthog_config['host'] : SPAI_POSTHOG_DEFAULT_HOST;
+		$posthog          = Spai_Integration_Manager::get_instance()->get_posthog_config();
+		$posthog_token    = $posthog['token'];
+		$posthog_host     = $posthog['host'];
 
 		wp_localize_script(
 			'spai-admin',
