@@ -280,6 +280,9 @@ class Spai_Integration_Manager {
 	/**
 	 * Get PostHog analytics config with safe defaults.
 	 *
+	 * Returns an array with 'token' (empty string if not configured) and
+	 * 'host' (defaults to us.i.posthog.com). Callers must check token is non-empty.
+	 *
 	 * @return array{token: string, host: string}
 	 */
 	public function get_posthog_config() {
