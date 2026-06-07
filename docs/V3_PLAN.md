@@ -1,19 +1,19 @@
-# mumcp v3.0 — White-Label AI for WordPress Agencies
+# MCPWP v3.0 — White-Label AI for WordPress Agencies
 
 ## Vision
 
-Agencies install MCPWP on client sites, connect their branded AI, charge clients for "AI site management." We power the backend. Paid plans and trials are managed through Freemius today, with agency subscriptions expanding the model.
+Agencies install MCPWP on client sites, connect their branded AI, and charge clients for AI-assisted WordPress operations. We power the backend. Licensing and billing are handled through the MCPWP product stack today, with agency subscriptions expanding the model.
 
 ## The Product Stack
 
 ```
 Agency Dashboard (mumega.com)
     ↓ manages
-Client WordPress Sites (each has mumcp installed)
+Client WordPress Sites (each has MCPWP installed)
     ↓ powered by
 AI Chat (OpenAI/Gemini via agency's key, or our CF Workers AI)
     ↓ executes
-Up to 239 MCP Tools → WordPress/Elementor/WooCommerce
+Dynamic MCP tools → WordPress/Elementor/WooCommerce
 ```
 
 ## V3 Milestones
@@ -37,13 +37,13 @@ Up to 239 MCP Tools → WordPress/Elementor/WooCommerce
 - [ ] Site health monitoring: is the plugin active, is the MCP endpoint responding
 - [ ] Centralized API key management: create/revoke keys for all sites
 - [ ] Usage analytics: tool calls per site per day, most used tools
-- [ ] Deploy mumcp proxy worker for agencies (one endpoint, routes to all sites)
+- [ ] Deploy MCPWP proxy worker for agencies (one endpoint, routes to all sites)
 
 ### Phase 3: White-Label (v3.0)
 **Goal:** Agency's brand, our infrastructure.
 
 - [ ] Custom branding: agency sets their name, logo, colors in dashboard
-- [ ] White-label chat: "Powered by [Agency Name]" instead of "mumcp"
+- [ ] White-label chat: "Powered by [Agency Name]" instead of "MCPWP"
 - [ ] Custom domain: agency's MCP proxy at `ai.agencyname.com`
 - [ ] Client-facing chat widget: end clients talk to AI on their own site
 - [ ] Embeddable chat for any page (shortcode + Elementor widget)
@@ -70,20 +70,20 @@ User → Claude/Cursor → MCP endpoint → REST dispatch → WordPress
 ```
 Agency Dashboard (Next.js on Vercel/CF Pages)
     ↓ manages sites via
-mumcp Proxy (CF Worker)
+MCPWP Proxy (CF Worker)
     ↓ routes to
-Client Sites (each with mumcp plugin)
+Client Sites (each with MCPWP plugin)
     ↓ chat powered by
 Agency's AI key (OpenAI/Claude) or shared CF Workers AI
     ↓ white-label chat widget
-Client sees "Agency AI" — never sees "mumcp"
+Client sees "Agency AI" — never sees "MCPWP"
 ```
 
 ### Data Flow
 ```
 Agency creates account → gets proxy subdomain → adds client sites
     ↓
-Client site installs mumcp → generates API key → registers with proxy
+Client site installs MCPWP → generates API key → registers with proxy
     ↓
 Agency dashboard shows site status → can manage all sites from one place
     ↓
@@ -96,7 +96,6 @@ Conversation logs → anonymized → train better models → everyone benefits
 
 | Tier | Price | Includes |
 |------|-------|----------|
-| **Trial** | $0 trial | Plugin + MCP endpoint + trial access to licensed features |
 | **Agency Starter** | $49/mo | 5 sites, dashboard, white-label chat, proxy |
 | **Agency Pro** | $149/mo | 25 sites, custom domain, priority support |
 | **Agency Scale** | $399/mo | Unlimited sites, API access, dedicated proxy |
@@ -121,14 +120,14 @@ Conversation logs → anonymized → train better models → everyone benefits
 - Next.js app on Cloudflare Pages or Vercel
 - Auth: Clerk or custom JWT
 - DB: Cloudflare D1 or Supabase
-- Site registry: same KV as mumcp-proxy worker
+- Site registry: same KV as the MCPWP proxy worker
 - API: REST endpoints for site management
 - WebSocket for real-time site status
 
 ### White-Label (v3.0)
 - Plugin settings: `spai_white_label` option with name, logo_url, colors
 - Chat widget renders from these settings
-- Shortcode: `[mumcp_chat]`
+- Shortcode: `[mcpwp_chat]`
 - Elementor widget: drag-and-drop chat
 - Custom domain via Cloudflare for SaaS (CF for Platforms)
 - Stripe Billing integration with metered usage
@@ -157,12 +156,12 @@ Conversation logs → anonymized → train better models → everyone benefits
 
 ## What We Already Have
 
-- [x] Up to 239 MCP tools (most complete WordPress MCP server)
-- [x] 24 page blueprints
+- [x] Dynamic MCP tools with scoped access
+- [x] Reusable page blueprints
 - [x] Chat tab with OpenAI integration
 - [x] Cloudflare Workers AI fallback
 - [x] Role-scoped API keys (5 roles)
-- [x] mumcp-proxy worker (built, needs deployment)
+- [x] MCPWP proxy worker (built, needs deployment)
 - [x] Claude Code plugin (6 skills + wp-builder agent)
 - [x] Elementor v4 Atomic editor support
 - [x] Admin UI (Setup, Chat, Library, Tools, Settings)

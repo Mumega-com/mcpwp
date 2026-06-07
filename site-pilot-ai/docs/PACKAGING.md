@@ -70,5 +70,5 @@ PR #257 verified the following baseline:
 - Freemius ZIP SHA256: `eef0affb9ece6d4c119893101add5b7a46467fceba93657c2dc355672ba1caaa`.
 - Self-hosted ZIP SHA256: `906b8124288c46b0c4b7148077ec5edcc21bd65d6adee4c8df2f6e9fab4f45c5`.
 - GitHub draft release upload: https://github.com/Mumega-com/mcp-for-wp/releases/tag/untagged-00ded21aac68db3fac9d
-- Local static publish: `/var/www/mcp-updates/version.json` and `/var/www/mcp-updates/mumega-mcp-latest.zip` are `2.8.31`.
+- Local static publish: `/var/www/mcp-updates/version.json` and `/var/www/mcp-updates/mcpwp-latest.zip` are `2.8.36`.
 - Public manifest blocker: `https://mumega.com/mcp-updates/version.json` still resolves to `2.8.2`, so the active public origin or server-level override must be updated before GTM.

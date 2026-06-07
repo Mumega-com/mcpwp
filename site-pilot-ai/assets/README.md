@@ -40,21 +40,24 @@ Screenshots should be numbered and match the readme.txt descriptions:
 
 ## Branding Guidelines
 
-**Name:** MCPWP
-**Tagline:** Control WordPress with AI
-**Colors:**
-- Primary: #2271b1 (WordPress blue)
-- Accent: #135e96 (Darker blue)
-- Pro Badge: #9b59b6 (Purple)
+Canonical brand guidance now lives in `docs/BRAND_KIT.md`.
+
+Current shipped identity:
+
+- **Name:** MCPWP
+- **Primary descriptor:** AI operations for WordPress through MCP
+- **Short tagline:** Control WordPress with AI
+- **Core colors:** `#0B1220`, `#1B4DFF`, `#FFFFFF`
+- **Primary motif:** Compass / navigation mark with subtle technical grid
 
 ## Design Suggestions
 
 The banner should communicate:
-1. AI-powered WordPress management
-2. REST API / MCP integration
-3. Professional, trustworthy appearance
+1. Controlled WordPress operations through MCP
+2. Technical trust and production readiness
+3. Direction, navigation, and structured workflows
 
 Icon suggestions:
-- Airplane/pilot theme
-- AI/circuit motif
-- WordPress logo integration (if permitted)
+- Compass / pilot directionality
+- AI circuit hints used sparingly
+- High contrast geometry that reads clearly at small sizes

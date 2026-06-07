@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/site-pilot-ai.svg)](https://www.npmjs.com/package/site-pilot-ai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-**MCP Server for WordPress** — dynamic tools for posts, pages, Elementor, WooCommerce, LearnPress, SEO, forms & more. Works with Claude Desktop, Cursor, Windsurf and any MCP client.
+**MCP Server for WordPress** — dynamic, scoped-access tools for posts, pages, Elementor, WooCommerce, LearnPress, SEO, forms & more. Works with Claude Desktop, Cursor, Windsurf and any MCP client.
 
 A thin stdio-to-HTTP proxy that forwards all MCP requests to your WordPress site's built-in MCP endpoint. Tools are always in sync with the plugin — zero local definitions, zero maintenance.
 
@@ -117,9 +117,9 @@ For multiple sites, add separate entries with unique names:
 
 Tools appear automatically. Try: *"Show me my site info"* or *"Onboard me to this site"*
 
-## Available Tools (200+)
+## Available Tools
 
-All tools come from the WordPress plugin. Update the plugin to get new tools — no npm update needed.
+All tools come from the WordPress plugin. Tool availability varies by site, installed plugins, enabled integrations, and API-key scope. Update the plugin to get new tools — no npm update needed.
 
 ### Core
 
@@ -131,7 +131,7 @@ All tools come from the WordPress plugin. Update the plugin to get new tools —
 
 **Site & Settings** — `wp_site_info`, `wp_onboard`, `wp_introspect`, `wp_analytics`, `wp_detect_plugins`, `wp_get_options`, `wp_update_options`
 
-**AI Education** — `wp_onboard` (full site overview), `wp_get_guide` (9 topics), `wp_get_workflow` (7 templates), `wp_elementor_widget_help` (44 widgets)
+**AI Education** — `wp_onboard` (full site overview), `wp_get_guide` (topic guides), `wp_get_workflow` (workflow templates), `wp_elementor_widget_help` (widget help)
 
 **Taxonomies** — `wp_list_categories`, `wp_list_tags`, `wp_create_term`, `wp_update_term`, `wp_delete_term`
 
@@ -155,7 +155,7 @@ All tools come from the WordPress plugin. Update the plugin to get new tools —
 
 **AI Tools** — `wp_search_stock_photos`, `wp_download_stock_photo`, `wp_generate_image`, `wp_generate_featured_image`, `wp_generate_alt_text`, `wp_describe_image`, `wp_generate_excerpt`, `wp_text_to_speech`
 
-**...and more.** Run `npx site-pilot-ai --test` to see the full count for your site.
+**...and more.** Run `npx site-pilot-ai --test` to see the tool set for your site.
 
 ## Configuration
 

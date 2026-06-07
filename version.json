@@ -1,6 +1,6 @@
 {
-  "version": "2.8.31",
-  "download_url": "https://mumega.com/mcp-updates/mumega-mcp-latest.zip",
+  "version": "2.8.36",
+  "download_url": "https://mumega.com/mcp-updates/mcpwp-latest.zip",
   "requires": "5.0",
   "requires_php": "7.4",
   "tested": "6.9",
@@ -8,5 +8,5 @@
   "homepage": "https://mcpwp.net/",
   "author": "Mumega",
   "author_homepage": "https://mumega.com/",
-  "changelog": "<h4>2.8.31</h4><ul><li>Fix: Harden Freemius update checks so admin update pages reliably refresh the update cache.</li><li>Fix: Avoid Freemius SDK host warnings during WP-CLI activation and update checks.</li></ul><h4>2.8.30</h4><ul><li>New: Add read-only WooCommerce SEO intelligence report for product content, commerce evidence, and search performance.</li><li>New: Add REST and MCP product SEO report with approval-safe next steps.</li></ul>"
+  "changelog": "<h4>2.8.36</h4><ul><li>Fix: wp_bulk_find_replace now operates on decoded element tree instead of raw JSON string, preventing JSON corruption when replacing URL substrings or text inside serialized values.</li><li>Fix: wp_setup_menu with overwrite=true now clears existing items before repopulating.</li><li>Fix: wp_update_page now returns slug_warning when WordPress silently rewrites a requested slug due to collision with auto-drafts or trashed posts.</li><li>Fix: SVG upload error message now explains the XSS risk and suggests PNG/WebP alternatives.</li><li>Fix: wp_set_custom_css now returns structured alternatives when CSS loopback verification fails.</li><li>New: wp_get_kit_css and wp_set_kit_css read/write Elementor kit global CSS and can be more reliable than theme custom CSS on some sites.</li></ul>"
 }

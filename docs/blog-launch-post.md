@@ -1,46 +1,46 @@
-# MCPWP for WordPress — Connect Claude, Gemini, GPT to Your Site in 2 Minutes
+# MCPWP for WordPress - Connect Claude, Gemini, GPT to Your Site
 
-WordPress has 43% of the web. AI agents are the future of site management. But until now, connecting the two required custom code, fragile REST API wrappers, or expensive SaaS tools.
+WordPress already powers a large part of the web. MCPWP connects that surface area to MCP clients without forcing a fixed tool list or a brittle integration layer.
 
-**MCPWP** changes that. One plugin, up to 239 MCP tools, every major MCP client, and paid plans with a trial for production teams.
+**MCPWP** turns a WordPress site into a dynamic MCP server. Tool availability depends on installed plugins, enabled integrations, and the scope attached to the API key.
 
 ## What is it?
 
-MCPWP is a WordPress plugin that turns your site into an MCP (Model Context Protocol) server. Once installed, any MCP-compatible AI assistant — Claude, Gemini, GPT, Cursor, Windsurf, or your local Ollama — can manage your entire site through natural language.
+MCPWP is a WordPress plugin that exposes your site through MCP (Model Context Protocol). Once installed, any MCP-compatible AI assistant - Claude, Gemini, GPT, Cursor, Windsurf, or a local client - can inspect and manage the site through natural language.
 
 ```
 You: "Build a landing page with a hero, 3 feature cards, and a CTA"
-AI:  → creates a full Elementor page with styled sections, flex grid, shadows, hover effects
+AI:  → creates a full Elementor page with styled sections and scoped tool access
 ```
 
-No code. No Elementor JSON. No WordPress admin.
+No custom code. No manual Elementor JSON. No separate agent bridge.
 
-## The numbers
+## What it gives you
 
-- **Up to 239 MCP tools** across 15 categories
-- **14 page blueprints** (hero, features, pricing, FAQ, testimonials, stats, and more)
-- **Elementor 4 support** with validation that auto-fixes your AI's mistakes
-- **Role-scoped API keys** — give your designer bot 82 tools, your content writer 40
-- **Paid plans and trial access** — managed through Freemius, with live tools scoped by plan, integrations, and API-key role
+- Dynamic MCP tools that reflect the active site and license state
+- Role-scoped API keys for controlled access
+- Reusable page blueprints for common WordPress page types
+- Elementor validation that catches and fixes common AI mistakes
+- Live tool discovery through the site endpoint
 
 ## How it compares
 
-The closest competitor is Royal MCP with 37 tools. MCPWP exposes up to 239 tools. Elementor's Angie is in beta with credit limits. We're production-ready for agencies and operators who need broader WordPress coverage.
+MCPWP is designed for teams that want site-aware MCP tooling instead of a fixed, one-size-fits-all surface.
 
-| Feature | MCPWP | Royal MCP | Elementor Angie |
-|---------|-------|-----------|-----------------|
-| MCP tools | Up to 239 | 37 | Unknown |
-| Elementor support | Full (build + edit + templates) | No | Yes (limited) |
-| WooCommerce | 21 tools | No | No |
-| Price | Paid plans + trial | Free | Free (beta credits) |
-| Role-scoped keys | Yes (5 roles) | No | No |
-| Page blueprints | 14 types | No | No |
+| Feature | MCPWP | Typical static adapter |
+|---------|-------|------------------------|
+| MCP tools | Dynamic, site-aware discovery | Fixed set |
+| Elementor support | Full build, edit, and template workflows | Limited or none |
+| WooCommerce | Available when installed and enabled | Often unsupported |
+| Access control | Role-scoped API keys | Usually site-wide |
+| Tool discovery | Live from the site endpoint | Hard-coded |
+| Update path | Current release manifest and ZIP | Varies |
 
-## Install in 2 minutes
+## Install
 
 **Step 1: Install the plugin**
 ```bash
-wp plugin install https://mumega.com/mcp-updates/mumega-mcp-latest.zip --activate
+wp plugin install https://mumega.com/mcp-updates/mcpwp-latest.zip --activate
 ```
 
 **Step 2: Generate an API key**
@@ -50,15 +50,13 @@ WP Admin → MCPWP → Setup → Generate API Key
 ```json
 {
   "mcpServers": {
-    "mumcp": {
+    "mcpwp": {
       "url": "https://your-site.com/wp-json/site-pilot-ai/v1/mcp",
       "headers": {"X-API-Key": "spai_your_key"}
     }
   }
 }
 ```
-
-That's it. Your AI can now manage your entire WordPress site.
 
 ## What can it do?
 
@@ -67,9 +65,9 @@ That's it. Your AI can now manage your entire WordPress site.
 wp_build_page(title: "Services", sections: [
   {type: "hero", heading: "Our Services", button_text: "Get Started"},
   {type: "features", columns: 3, items: [
-    {icon: "fas fa-rocket", title: "Fast", desc: "Lightning speed"},
-    {icon: "fas fa-shield-alt", title: "Secure", desc: "Bank-grade security"},
-    {icon: "fas fa-heart", title: "Reliable", desc: "99.9% uptime"}
+    {icon: "fas fa-rocket", title: "Fast", desc: "Speed matters"},
+    {icon: "fas fa-shield-alt", title: "Secure", desc: "Safer workflows"},
+    {icon: "fas fa-heart", title: "Reliable", desc: "Consistent output"}
   ]},
   {type: "cta", heading: "Ready?", button_text: "Contact Us"}
 ])
@@ -86,27 +84,16 @@ wc_create_product(name: "T-Shirt", regular_price: "29.99", type: "simple")
 ```
 
 ### SEO, media, menus, taxonomies, courses, and more
-The available tools are documented by the live MCP endpoint. Your AI discovers them automatically via `wp_introspect()`.
-
-## For Claude Code users
-
-Install our Claude Code plugin for guided setup and WordPress knowledge:
-```bash
-claude plugin marketplace add https://github.com/Mumega-com/mumcp-claude-plugin.git
-claude plugin install mumcp@mumcp
-```
+The live MCP endpoint documents the exact tools available on the connected site.
 
 ## Why we built it
 
-We're Mumega — an AI agency building tools for the WordPress ecosystem. MCPWP packages the operational layer agencies need: site context, API keys, role scopes, WordPress actions, Elementor workflows, and integrations behind one MCP endpoint.
-
-Up to 239 tools. Every major MCP client. Your WordPress site, controlled through a paid product with trial access.
+MCPWP packages the operational layer agencies and site operators need: site context, API keys, role scopes, WordPress actions, Elementor workflows, and integrations behind one MCP endpoint.
 
 **Links:**
 - Website: https://mcpwp.net
 - GitHub (plugin): https://github.com/Mumega-com/mcp-for-wp
-- GitHub (Claude Code plugin): https://github.com/Mumega-com/mumcp-claude-plugin
-- Download: https://mumega.com/mcp-updates/mumega-mcp-latest.zip
+- Download: https://mumega.com/mcp-updates/mcpwp-latest.zip
 
 ---
-*Built by Mumega — https://mumega.com*
+*Built by Mumega - https://mumega.com*

@@ -17,15 +17,15 @@ Refactored the MCP REST controller (`class-spai-rest-mcp.php`) from 2397 lines t
 
 2. **`includes/mcp/class-spai-mcp-free-tools.php`** (1010 lines)
    - Extends `Spai_MCP_Tool_Registry`
-   - Contains all 42 free tier tool definitions
-   - Contains free tier tool-to-route mappings
+   - Contains the core tool definitions
+   - Contains core tool-to-route mappings
    - Declares destructive tools: wp_delete_post, wp_delete_all_drafts, wp_revoke_api_key, wp_reset_rate_limit, wp_delete_webhook
    - Declares open world tools: wp_upload_media_from_url, wp_test_webhook, wp_screenshot_url
 
 3. **`includes/mcp/class-spai-mcp-pro-tools.php`** (730 lines)
    - Extends `Spai_MCP_Tool_Registry`
-   - Contains all 40 pro tier tool definitions (multilanguage, SEO, forms, Elementor Pro, widgets/sidebars)
-   - Contains pro tier tool-to-route mappings
+   - Contains the extended tool definitions (multilanguage, SEO, forms, Elementor Pro, widgets/sidebars)
+   - Contains extended tool-to-route mappings
    - Declares destructive tools: wp_delete_widget
    - Declares open world tools: (none currently)
 

@@ -258,8 +258,8 @@ Every element needs: `id` (8-char alphanumeric), `elType`, `settings`, `elements
 ```json
 {
   "title": "Get Started Today",
-  "description": "Start your free trial",
-  "button": "Sign Up Free",
+  "description": "Start your project",
+  "button": "Get Started",
   "link": {"url": "/signup/", "is_external": false},
   "skin": "classic",
   "layout": "left",

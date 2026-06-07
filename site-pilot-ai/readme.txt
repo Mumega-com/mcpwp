@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.31
+Stable tag: 2.8.36
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ Connect WordPress to Claude and other MCP clients for safe AI-assisted posts, pa
 
 MCPWP connects your WordPress site to AI assistants like Claude using the Model Context Protocol (MCP). It gives approved AI clients a scoped, auditable way to read site context and help manage core WordPress content through natural language.
 
-The WordPress.org package is the free core: API keys, scoped access, activity logging, posts, pages, media, drafts, menus, site context, and basic Elementor operations when Elementor is installed.
+The WordPress.org package provides the core MCP layer: API keys, scoped access, activity logging, posts, pages, media, drafts, menus, site context, and basic Elementor operations when Elementor is installed.
 
 = Key Features =
 
@@ -68,7 +68,7 @@ Add to your `~/.claude.json`:
 
 `{
   "mcpServers": {
-    "mumega-mcp": {
+    "mcpwp": {
       "command": "node",
       "args": ["/path/to/mcp-server/dist/index.js"],
       "env": {
@@ -91,7 +91,7 @@ Yes. All requests require a unique API key. Keys are hashed using WordPress pass
 
 = Does it work with any AI? =
 
-MCPWP works with any AI assistant that supports the MCP protocol. Currently, this includes Claude Code and Claude Desktop. More integrations are planned.
+MCPWP works with AI assistants and developer tools that support the MCP protocol, including Claude Code and Claude Desktop.
 
 = Do I need coding skills? =
 
@@ -99,7 +99,7 @@ No. Once configured, you control WordPress through natural language. The AI hand
 
 = What about Elementor? =
 
-Basic Elementor page read/write support is included when Elementor is installed. Advanced Elementor Pro and theme-builder workflows are not part of the WordPress.org free package.
+Basic Elementor page read/write support is included when Elementor is installed. Advanced Elementor Pro and theme-builder workflows depend on the installed plugins, enabled capabilities, and current product packaging.
 
 = Who is this for? =
 
@@ -121,6 +121,30 @@ Each site needs its own plugin installation and API key.
 4. Advanced tab — REST API reference with copy-paste curl examples
 
 == Changelog ==
+
+= 2.8.36 =
+* Fix: wp_bulk_find_replace now operates on decoded element tree instead of raw JSON string, preventing JSON corruption when replacing URL substrings or text inside serialized values.
+* Fix: wp_setup_menu with overwrite=true now clears existing items before repopulating.
+* Fix: wp_update_page now returns slug_warning when WordPress silently rewrites a requested slug due to collision with auto-drafts or trashed posts.
+* Fix: SVG upload error message now explains the XSS risk and suggests PNG/WebP alternatives.
+* Fix: wp_set_custom_css now returns structured alternatives when CSS loopback verification fails.
+* New: wp_get_kit_css and wp_set_kit_css read/write Elementor kit global CSS and can be more reliable than theme custom CSS on some sites.
+
+= 2.8.35 =
+* Fix: Admin role now automatically grants full scopes (read, write, admin).
+* UX: Scopes section hidden for preset roles; custom role shows scope controls.
+
+= 2.8.34 =
+* Security: Block SVG uploads through the base64 endpoint because SVGs can carry stored XSS via script tags.
+
+= 2.8.33 =
+* Security: Restore least-privilege default for API key scopes.
+* Security: MIME type validation for base64 uploads now verifies caller-supplied mime_type matches detected content type.
+
+= 2.8.32 =
+* Fix: API key creation no longer falls back to read-only scope when scopes are omitted.
+* Fix: wp_upload_media_b64 now accepts mime_type parameter.
+* Fix: REST schema for wp_create_api_key scopes param documents default and enum values.
 
 = 2.8.31 =
 * Fix: Harden Freemius update checks so admin update pages reliably refresh the update cache.
@@ -230,11 +254,11 @@ Each site needs its own plugin installation and API key.
 * Docs: Keep technical identifiers documented as stable while updating user-facing naming.
 
 = 2.8.5 =
-* Fix: Align text domain and WordPress.org package slug with the assigned mumega-mcp slug.
-* Fix: Build the WordPress.org ZIP as the free package.
+* Fix: Align text domain and WordPress.org package slug with the assigned WordPress.org slug.
+* Fix: Build the WordPress.org ZIP as the core package.
 * Fix: Exclude Freemius, the legacy updater, and Pro modules from the WordPress.org package.
 * Fix: Disable Pro MCP exposure in WordPress.org builds.
-* Docs: Update readme scope for the free WordPress.org package.
+* Docs: Update readme scope for the WordPress.org package.
 
 = 2.8.3 =
 * Fix: Resolve Plugin Check errors for WordPress.org submission.
@@ -445,5 +469,5 @@ Powers the built-in Chat assistant when no OpenAI key is configured.
 == Support ==
 
 * Documentation: [MCPWP docs](https://mcpwp.net/docs/)
-* Support Forum: [wordpress.org/support/plugin/mumega-mcp](https://wordpress.org/support/plugin/mumega-mcp)
+* Support: [mcpwp.net/docs/](https://mcpwp.net/docs/)
 * GitHub: [github.com/Mumega-com/mcp-for-wp](https://github.com/Mumega-com/mcp-for-wp)

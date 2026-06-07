@@ -87,7 +87,7 @@ curl -X POST "https://your-site.com/wp-json/site-pilot-ai/v1/mcp" \
 
 **Supported Methods:**
 - `initialize` - Initialize MCP session
-- `tools/list` - List all available tools (90+ tools, varies by license)
+- `tools/list` - List the available tools for the connected site (varies by active plugins, integrations, and API-key scope)
 - `tools/call` - Execute a tool
 - `resources/list` - List available resources
 - `resources/read` - Read a resource
@@ -988,7 +988,7 @@ Build a complete Elementor page from semantic section definitions. No raw Elemen
       "heading": "Frequently Asked Questions",
       "items": [
         {"question": "How does it work?", "answer": "Install the plugin, connect your AI assistant, and start building."},
-        {"question": "Is there a trial?", "answer": "Paid plans and trials are managed through Freemius."}
+        {"question": "How is access controlled?", "answer": "Access is controlled by the site configuration, license state, and API-key role."}
       ]
     },
     {
@@ -2235,7 +2235,7 @@ If a host WAF such as HostGator `ModSecurity` rejects nested JSON bodies on Elem
 
 Full WooCommerce integration for AI-powered e-commerce management.
 
-> **Paid Feature:** Requires MCPWP with a valid Freemius license or trial.
+> **Paid Feature:** Requires the appropriate MCPWP license tier.
 
 #### WooCommerce Status
 
@@ -2606,7 +2606,7 @@ GET /woocommerce/analytics
 
 Full multilingual site support for WPML, Polylang, and TranslatePress.
 
-> **Paid Feature:** Requires MCPWP with a valid Freemius license or trial.
+> **Paid Feature:** Requires the appropriate MCPWP license tier.
 
 #### Supported Plugins
 
@@ -2953,7 +2953,7 @@ if (hash_equals($expected, $signature)) {
 
 *New in v1.1.0.* Third-party AI services and design sources (OpenAI, Gemini, ElevenLabs, Pexels, Figma) integrate directly into MCPWP. Configure API keys via **WP Admin → MCPWP → Integrations**. Generated assets are auto-uploaded to the WordPress media library, while Figma is used as approved design context for archetypes and reusable parts.
 
-**Tier gating:** Stock photo search is available as a core integration. AI generation tools require a paid plan or trial.
+**Tier gating:** Stock photo search is available as a core integration. AI generation tools require the appropriate licensed tier.
 
 #### Provider Management (Admin)
 
@@ -3381,8 +3381,8 @@ MCPWP can use a self-hosted updater for non-Freemius builds.
 
 ### Canonical Sources
 
-- Version manifest: `https://mumega.com/spai-updates/version.json`
-- ZIP download: `https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip`
+- Version manifest: `https://mumega.com/mcp-updates/version.json`
+- ZIP download: `https://mumega.com/mcp-updates/mcpwp-latest.zip`
 
 ### How It Works
 
@@ -3393,7 +3393,7 @@ MCPWP can use a self-hosted updater for non-Freemius builds.
 
 ### Important Behavior
 
-`spai_update_info` is a site-level override. If it contains stale release data, it can block newer updates from the worker manifest.
+`spai_update_info` is a site-level override. If it contains stale release data, it can block newer updates from the static manifest.
 
 Recommended practice:
 
@@ -3435,7 +3435,7 @@ The current release artifacts are:
 | Asset | Description |
 |-------|-------------|
 | `version.json` | Worker-served update manifest |
-| `mumega-site-pilot-ai-latest.zip` | Canonical install/update ZIP |
+| `mcpwp-latest.zip` | Canonical install/update ZIP |
 
 ## Elementor 4 Compatibility
 

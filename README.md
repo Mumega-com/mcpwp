@@ -13,20 +13,20 @@
   <a href="#how-it-works">How It Works</a> •
   <a href="#tools">Tools</a> •
   <a href="#examples">Examples</a> •
-  <a href="#blueprints">24 Blueprints</a> •
+  <a href="#blueprints">Blueprints</a> •
   <a href="https://mcpwp.net">Website</a>
 </p>
 
 <p align="center">
   <a href="https://github.com/Mumega-com/mcp-for-wp/stargazers"><img src="https://img.shields.io/github/stars/Mumega-com/mcp-for-wp?style=flat-square" alt="Stars"></a>
   <a href="https://github.com/Mumega-com/mcp-for-wp/releases"><img src="https://img.shields.io/github/v/release/Mumega-com/mcp-for-wp?style=flat-square" alt="Release"></a>
-  <img src="https://img.shields.io/badge/tools-up%20to%20239-blue?style=flat-square" alt="Tools">
-  <img src="https://img.shields.io/badge/blueprints-24-blue?style=flat-square" alt="Blueprints">
+  <img src="https://img.shields.io/badge/tools-dynamic%20discovery-blue?style=flat-square" alt="Dynamic tools">
+  <img src="https://img.shields.io/badge/blueprints-reusable%20patterns-blue?style=flat-square" alt="Blueprints">
   <img src="https://img.shields.io/badge/MCP-compatible-brightgreen?style=flat-square" alt="MCP">
   <img src="https://img.shields.io/badge/WordPress-5.0%2B-21759b?style=flat-square" alt="WordPress">
   <img src="https://img.shields.io/badge/Elementor-4.x-92003B?style=flat-square" alt="Elementor">
   <img src="https://img.shields.io/badge/license-GPL--2.0-orange?style=flat-square" alt="License">
-  <img src="https://img.shields.io/badge/plans-paid%20%2B%20trial-blue?style=flat-square" alt="Paid plans and trial">
+  <img src="https://img.shields.io/badge/access-role--scoped-blue?style=flat-square" alt="Role-scoped access">
 </p>
 
 ---
@@ -38,11 +38,7 @@ You: "Build a landing page with a hero, 3 feature cards, and a CTA"
 AI:  wp_build_page → full Elementor page with styled sections, flex grid, shadows, hover effects
 ```
 
-<!-- TODO: Replace with actual demo GIF
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/docs/demo.gif" alt="mumcp demo" width="800">
-</p>
--->
+For a first proof, connect an MCP client to your site endpoint and ask it to inspect the site and list available MCPWP tools before enabling write workflows.
 
 ## How It Works
 
@@ -75,20 +71,20 @@ graph LR
 
 | | MCPWP | WordPress MCP Adapter | Royal MCP | InstaWP mcp-wp |
 |---|---|---|---|---|
-| **MCP Tools** | **Up to 239** | ~20 | 37 | ~30 |
-| **Blueprints** | **24 types** | 0 | 0 | 0 |
+| **MCP Tools** | **Dynamic, site-aware discovery** | Limited | Limited | Limited |
+| **Blueprints** | **Reusable page and section patterns** | No | No | No |
 | **Elementor** | Full (build + edit + templates + theme) | No | No | No |
-| **WooCommerce** | 21 tools | No | No | No |
-| **LearnPress** | 18 tools | No | No | No |
-| **Role-scoped keys** | 5 roles | No | No | No |
+| **WooCommerce** | Available when installed and enabled | No | No | No |
+| **LearnPress** | Available when installed and enabled | No | No | No |
+| **Role-scoped keys** | Yes | No | No | No |
 | **Validation** | Auto-fix IDs, keys, nesting | No | No | No |
 | **Install** | WordPress plugin | Requires Abilities API | WordPress plugin | External Node.js |
-| **Commercial model** | Paid plans + trial | Free | Free | Free |
+| **Commercial model** | See current product terms | Free | Free | Free |
 
 ## Install
 
 ```bash
-wp plugin install https://mumega.com/mcp-updates/mumega-mcp-latest.zip --activate
+wp plugin install /path/to/mcpwp.zip --activate
 ```
 
 Or download from [mcpwp.net](https://mcpwp.net) and upload via WP Admin > Plugins > Add New.
@@ -99,7 +95,7 @@ Or download from [mcpwp.net](https://mcpwp.net) and upload via WP Admin > Plugin
 ```json
 {
   "mcpServers": {
-    "mumega-mcp": {
+    "mcpwp": {
       "url": "https://your-site.com/wp-json/site-pilot-ai/v1/mcp",
       "headers": { "X-API-Key": "spai_your_key_here" }
     }
@@ -111,33 +107,29 @@ Or download from [mcpwp.net](https://mcpwp.net) and upload via WP Admin > Plugin
 Same URL and key — add in your MCP server settings.
 
 ### Claude Code Plugin
-```bash
-claude plugin marketplace add https://github.com/Mumega-com/mumcp-claude-plugin.git
-claude plugin install mumcp@mumcp
-```
-Adds `/mumcp:setup`, `/mumcp:tools`, `/mumcp:elementor`, `/mumcp:design` skills + `wp-builder` agent.
+MCPWP can be used from Claude Code through MCP configuration. A Claude Code helper plugin is available separately for setup and builder workflows; check the website/docs for the current package name and install command.
 
 ## Tools
 
-MCPWP exposes up to 239 tools across 15 categories. `tools/list` is dynamic: inactive integrations, disabled categories, WP.org builds, and role-scoped API keys reduce the live count for a given site.
+MCPWP uses live tool discovery. The exact `tools/list` result depends on active plugins, enabled categories, license state, build type, and the scopes attached to the API key.
 
-| Category | Tools | What |
-|----------|-------|------|
-| **content** | 28 | Pages, posts, drafts, bulk ops, search |
-| **elementor** | 12 | Get/set data, edit sections, edit widgets |
-| **elementor-build** | 8 | Build pages from blueprints, landing pages |
-| **elementor-templates** | 15 | Templates, archetypes, reusable parts |
-| **elementor-theme** | 10 | Theme builder, conditions, custom code |
-| **elementor-info** | 5 | Widget schemas, help, CSS regen |
-| **site** | 37 | Menus, options, CSS, design refs, guides |
-| **media** | 7 | Upload file/URL/base64, screenshot |
-| **woocommerce** | 21 | Products, orders, categories, analytics |
-| **learnpress** | 18 | Courses, lessons, quizzes, curriculum |
-| **seo** | 10 | Meta tags, analysis, bulk SEO, indexing |
-| **taxonomy** | 5 | Categories, tags, custom terms |
-| **gutenberg** | 4 | Blocks, patterns, block types |
-| **admin** | 16 | API keys, rate limits, settings, updates |
-| **webhooks** | 7 | Create, test, monitor deliveries |
+| Category | What |
+|----------|------|
+| **content** | Pages, posts, drafts, bulk ops, search |
+| **elementor** | Get/set data, edit sections, edit widgets |
+| **elementor-build** | Build pages from blueprints and landing-page patterns |
+| **elementor-templates** | Templates, archetypes, reusable parts |
+| **elementor-theme** | Theme builder, conditions, custom code when available |
+| **elementor-info** | Widget schemas, help, CSS regeneration |
+| **site** | Menus, options, CSS, design refs, guides |
+| **media** | Upload file/URL/base64, screenshot |
+| **woocommerce** | Products, orders, categories, analytics when WooCommerce is installed |
+| **learnpress** | Courses, lessons, quizzes, curriculum when LearnPress is installed |
+| **seo** | Meta tags, analysis, bulk SEO, indexing workflows |
+| **taxonomy** | Categories, tags, custom terms |
+| **gutenberg** | Blocks, patterns, block types |
+| **admin** | API keys, rate limits, settings, updates |
+| **webhooks** | Create, test, monitor deliveries |
 
 ## Role-Scoped API Keys
 
@@ -145,9 +137,9 @@ MCPWP exposes up to 239 tools across 15 categories. `tools/list` is dynamic: ina
 graph TD
     A[API Key] -->|role| B{Role}
     B -->|admin| C["🔓 all licensed tools — full access"]
-    B -->|designer| D["🎨 82 tools — Elementor + media + site"]
-    B -->|editor| E["✏️ 99 tools — content + design + SEO"]
-    B -->|author| F["📝 40 tools — content + media"]
+    B -->|designer| D["🎨 Elementor + media + site workflows"]
+    B -->|editor| E["✏️ content + design + SEO workflows"]
+    B -->|author| F["📝 content + media workflows"]
     B -->|custom| G["⚙️ pick categories"]
 ```
 
@@ -155,7 +147,7 @@ Create keys via WP Admin > MCPWP > Setup, or `wp_create_api_key(label, role)`.
 
 ## Blueprints
 
-Build full pages with one call. 24 section types:
+Build full pages with reusable section patterns:
 
 | Type | What it builds |
 |------|---------------|
@@ -216,7 +208,7 @@ wc_create_product(name: "T-Shirt", regular_price: "29.99", type: "simple")
 
 ## Elementor Features
 
-- **24 blueprint types** — hero, features, cta, pricing, team, portfolio, services, about, and more
+- **Blueprint patterns** — hero, features, cta, pricing, team, portfolio, services, about, and more
 - **Validation** — auto-fixes missing IDs, wrong widget keys, nesting errors
 - **Fuzzy matching** — typo in widget type? "Did you mean 'heading'?"
 - **Save persistence** — forces direct meta overwrite after Document::save()
@@ -225,12 +217,12 @@ wc_create_product(name: "T-Shirt", regular_price: "29.99", type: "simple")
 
 ## Roadmap
 
-- [x] Up to 239 MCP tools across 15 categories
-- [x] 24 page blueprints
-- [x] Role-scoped API keys (5 roles)
+- [x] Dynamic MCP tool discovery across site, content, builder, SEO, media, and admin workflows
+- [x] Reusable page blueprints and section patterns
+- [x] Role-scoped API keys
 - [x] Elementor validation + auto-fix
 - [x] Admin UI (Setup, Library, Tools, Settings)
-- [x] Claude Code plugin with 6 skills
+- [x] Claude Code workflow support
 - [ ] WordPress.org listing (submitted, pending)
 - [ ] Managed MCP proxy for agencies
 - [ ] 30+ blueprint types
@@ -249,14 +241,14 @@ See [SECURITY.md](SECURITY.md) for our vulnerability disclosure policy.
 ## Links
 
 - **Website:** [mcpwp.net](https://mcpwp.net)
-- **Claude Code Plugin:** [Mumega-com/mumcp-claude-plugin](https://github.com/Mumega-com/mumcp-claude-plugin)
-- **MCP Proxy:** [Mumega-com/mumcp-proxy](https://github.com/Mumega-com/mumcp-proxy)
-- **WordPress.org:** pending approval (slug: mumega-mcp)
-- **Download:** [mumega-mcp-latest.zip](https://mumega.com/mcp-updates/mumega-mcp-latest.zip)
+- **Claude Code Workflow:** see [mcpwp.net](https://mcpwp.net) for current setup docs
+- **Managed MCP Proxy:** see [mcpwp.net](https://mcpwp.net) for current agency setup docs
+- **WordPress.org:** pending approval
+- **Download:** [mcpwp.net](https://mcpwp.net)
 
 ## License
 
-GPL v2 or later. Paid plans and trials are managed through Freemius; check the product website for current pricing and plan terms.
+GPL v2 or later. Check the product website for current packaging, pricing, and plan terms.
 
 ---
 

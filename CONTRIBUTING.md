@@ -1,6 +1,6 @@
-# Contributing to mumcp
+# Contributing to MCPWP
 
-Thanks for your interest in contributing! mumcp is the most complete MCP server for WordPress — 239 tools and growing.
+Thanks for your interest in contributing! MCPWP is a dynamic, scoped-access MCP server for WordPress, and the available tools vary by active plugins, integrations, and API-key role.
 
 ## Quick Start
 

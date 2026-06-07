@@ -4,8 +4,8 @@ Current release flow for MCPWP.
 
 This project uses Freemius for paid licensing and can still publish self-hosted update artifacts when needed. The canonical self-hosted update path is:
 
-- Static manifest: `https://mumega.com/spai-updates/version.json`
-- Download ZIP: `https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip`
+- Static manifest: `https://mumega.com/mcp-updates/version.json`
+- Download ZIP: `https://mumega.com/mcp-updates/mcpwp-latest.zip`
 
 ## Pre-Release
 
@@ -21,10 +21,10 @@ This project uses Freemius for paid licensing and can still publish self-hosted 
 
 Update these locations together:
 
-1. [site-pilot-ai.php](/home/mumega/projects/mcp-for-wp/site-pilot-ai/site-pilot-ai.php)
+1. [site-pilot-ai.php](/Users/hadi/dev/mumega/mumcp/mcp-for-wp/site-pilot-ai/site-pilot-ai.php)
    - plugin header `Version`
    - `SPAI_VERSION`
-2. [version.json](/home/mumega/projects/mcp-for-wp/version.json)
+2. [version.json](/Users/hadi/dev/mumega/mumcp/mcp-for-wp/version.json)
    - `version`
    - `download_url`
    - compatibility fields
@@ -46,7 +46,7 @@ bash scripts/build-wporg.sh
 
 Expected output:
 
-- `scripts/mumega-site-pilot-ai-X.Y.Z.zip`
+- `scripts/mcpwp-X.Y.Z.zip`
 
 ## Publish
 
@@ -61,16 +61,16 @@ bash scripts/publish_update_release.sh --build
 This does all of the following:
 
 - verifies version consistency across plugin header, `SPAI_VERSION`, `readme.txt`, and `version.json`
-- builds `mumega-site-pilot-ai-X.Y.Z.zip`
-- publishes the ZIP to `/var/www/spai-updates/mumega-site-pilot-ai-latest.zip`
-- publishes `version.json` to `/var/www/spai-updates/version.json`
+- builds `mcpwp-X.Y.Z.zip`
+- publishes the ZIP to `/var/www/mcp-updates/mcpwp-latest.zip`
+- publishes `version.json` to `/var/www/mcp-updates/version.json`
 - verifies the live `mumega.com` artifact URLs
 
 Manual fallback:
 
 ```bash
-sudo cp scripts/mumega-site-pilot-ai-X.Y.Z.zip /var/www/spai-updates/mumega-site-pilot-ai-latest.zip
-sudo cp version.json /var/www/spai-updates/version.json
+sudo cp scripts/mcpwp-X.Y.Z.zip /var/www/mcp-updates/mcpwp-latest.zip
+sudo cp version.json /var/www/mcp-updates/version.json
 ```
 
 ### 2. Optional: Sync the legacy worker
@@ -112,16 +112,16 @@ That means stale override data can hide newer static-manifest releases.
 
 ### Artifact checks
 
-- [ ] `https://mumega.com/spai-updates/version.json` returns the new version
-- [ ] `https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip` exists
+- [ ] `https://mumega.com/mcp-updates/version.json` returns the new version
+- [ ] `https://mumega.com/mcp-updates/mcpwp-latest.zip` exists
 - [ ] ZIP and manifest versions match
 
 ### Site checks
 
 On a target site:
 
-- [ ] `spai_version_url` points at `https://mumega.com/spai-updates/version.json`
-- [ ] `spai_update_info` is empty or matches the worker manifest exactly
+- [ ] `spai_version_url` points at `https://mumega.com/mcp-updates/version.json`
+- [ ] `spai_update_info` is empty or matches the static manifest exactly
 - [ ] `/wp-json/site-pilot-ai/v1/update` reports the expected result
 
 Example checks:
@@ -166,7 +166,7 @@ If needed, trigger a direct package install via the REST update route:
 curl -fsSL -X POST "https://SITE/wp-json/site-pilot-ai/v1/update" \
   -H "X-API-Key: ..." \
   -H "Content-Type: application/json" \
-  --data '{"package_url":"https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip"}'
+  --data '{"package_url":"https://mumega.com/mcp-updates/mcpwp-latest.zip"}'
 ```
 
 ## Failure Mode: Update Not Appearing
@@ -205,7 +205,7 @@ Do not roll back by leaving mismatched manifests or stale `spai_update_info` on 
 - Live site `mcpwp.net` was manually updated from `1.7.4` to `1.8.2`
 - The site had a stale `spai_update_info` pinned to `1.7.6`
 - Clearing `spai_update_info` restored normal worker-based update detection
-- The permanent fix is to default all sites to `https://mumega.com/spai-updates/version.json` so the worker is no longer required for auto-updates
+- The permanent fix is to default all sites to `https://mumega.com/mcp-updates/version.json` so the worker is no longer required for auto-updates
 - A bind-mounted plugin directory is not a valid auto-update test environment because WordPress cannot replace the mounted plugin path during upgrade
 - A clean local volume-backed WordPress install successfully self-updated from `1.8.4` to `1.8.5` once the updater ran as the plugin service user and `wp-content/upgrade` was writable
 

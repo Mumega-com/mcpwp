@@ -1,0 +1,31 @@
+:root {
+  --mcpwp-ink-950: #0b1220;
+  --mcpwp-ink-900: #121a2b;
+  --mcpwp-slate-600: #5f6c86;
+  --mcpwp-slate-200: #d9e2f2;
+  --mcpwp-blue-600: #1b4dff;
+  --mcpwp-blue-500: #5b7cff;
+  --mcpwp-blue-100: #dce5ff;
+  --mcpwp-blue-50: #eff4ff;
+  --mcpwp-white: #ffffff;
+  --mcpwp-success: #12b981;
+  --mcpwp-warning: #f59e0b;
+  --mcpwp-danger: #e5484d;
+
+  --mcpwp-gradient-brand: linear-gradient(135deg, #0b1220 0%, #1b4dff 50%, #0b1220 100%);
+  --mcpwp-gradient-accent: linear-gradient(135deg, #1b4dff 0%, #5b7cff 100%);
+
+  --mcpwp-font-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --mcpwp-font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --mcpwp-font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+  --mcpwp-radius-sm: 10px;
+  --mcpwp-radius-md: 16px;
+  --mcpwp-radius-lg: 24px;
+
+  --mcpwp-shadow-card: 0 18px 40px rgba(11, 18, 32, 0.16);
+  --mcpwp-shadow-glow: 0 0 0 1px rgba(27, 77, 255, 0.08), 0 20px 60px rgba(27, 77, 255, 0.18);
+
+  --mcpwp-transition-fast: 180ms ease;
+  --mcpwp-transition-ui: 220ms ease;
+}

@@ -98,6 +98,9 @@ jQuery(function($) {
 		}, function(response) {
 			if (response.success) {
 				$status.text(enabled === '1' ? 'Enabled' : 'Disabled').css('color', '#00a32a');
+				if (window.posthog) {
+					posthog.capture('tool_category_toggled', { category: category, enabled: enabled === '1' });
+				}
 				setTimeout(function() { $status.fadeOut(); }, 1500);
 			} else {
 				$status.text(response.data.message || 'Error').css('color', '#d63638');

@@ -1167,7 +1167,7 @@ class Spai_Admin {
 		$manifest_url    = $manifest_url ? $manifest_url : 'https://mumega.com/mcp-updates/version.json';
 		$current_version = defined( 'SPAI_VERSION' ) ? SPAI_VERSION : '0.0.0';
 		$remote_version  = null;
-		$download_url    = 'https://mumega.com/mcp-updates/mumega-mcp-latest.zip';
+		$download_url    = 'https://mumega.com/mcp-updates/mcpwp-latest.zip';
 		$source          = 'remote';
 		$option_version  = null;
 		$warning         = '';
