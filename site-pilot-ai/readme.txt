@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.43
+Stable tag: 2.8.44
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,10 @@ Each site needs its own plugin installation and API key.
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.44 =
+* New: PostHog analytics integration — configure token via WP Admin > Integrations. Tracks 10 key admin actions (API key copy, connection test, upgrade click, key create/revoke, integration save/remove, tool toggle, client tab switch).
+* Fix: PostHog token no longer hardcoded — removed default public token, must be configured per-site.
 
 = 2.8.43 =
 * Fix: wp_set_template_conditions now accepts both object form ({type, name, sub_name, sub_id}) and positional array form (["include", "singular", "product"]) — positional arrays were previously flattened to include>general due to wrong key lookup (#210).

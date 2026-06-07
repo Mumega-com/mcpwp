@@ -123,6 +123,24 @@ class Spai_Integration_Manager {
 				),
 			),
 		),
+		'posthog'    => array(
+			'name'        => 'PostHog',
+			'url'         => 'https://us.posthog.com/settings/project-details',
+			'tier'        => 'free',
+			'description' => 'Product analytics for the MCPWP admin interface. Tracks key admin actions (API key copy, connection test, upgrade clicks) to help understand plugin adoption.',
+			'fields'      => array(
+				'token' => array(
+					'label'       => 'Project API Key',
+					'placeholder' => 'phc_...',
+					'type'        => 'text',
+				),
+				'host'  => array(
+					'label'       => 'API Host',
+					'placeholder' => 'https://us.i.posthog.com',
+					'type'        => 'text',
+				),
+			),
+		),
 	);
 
 	/**
@@ -139,6 +157,7 @@ class Spai_Integration_Manager {
 		'screenshots'      => array( 'screenshot' ),
 		'indexing'          => array( 'google_indexing' ),
 		'design_context'   => array( 'figma' ),
+		// posthog omitted: analytics-only integration, not capability-selectable via get_preferred_provider()
 	);
 
 	/**
@@ -256,6 +275,19 @@ class Spai_Integration_Manager {
 
 		// Single-key fallback.
 		return array( 'key' => $decrypted );
+	}
+
+	/**
+	 * Get PostHog analytics config with safe defaults.
+	 *
+	 * @return array{token: string, host: string}
+	 */
+	public function get_posthog_config() {
+		$config = $this->get_provider_config( 'posthog' );
+		return array(
+			'token' => ( is_array( $config ) && ! empty( $config['token'] ) ) ? $config['token'] : '',
+			'host'  => ( is_array( $config ) && ! empty( $config['host'] ) ) ? $config['host'] : SPAI_POSTHOG_DEFAULT_HOST,
+		);
 	}
 
 	/**
