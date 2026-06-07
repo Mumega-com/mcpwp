@@ -189,6 +189,74 @@
 	}
 
 	/**
+	 * Integrations page — save, remove, test, update-key toggle
+	 */
+	function initIntegrations() {
+		if (!$('.spai-integrations-page').length || typeof spaiIntegrations === 'undefined') return;
+
+		var ajaxUrl = spaiIntegrations.ajaxUrl;
+		var nonce   = spaiIntegrations.nonce;
+		var strings = spaiIntegrations.strings;
+
+		// Toggle update-key form
+		$(document).on('click', '.spai-update-key-toggle', function() {
+			var form = $(this).closest('.spai-integration-key-form');
+			form.find('.spai-multi-field-inputs, .spai-integration-key-input').toggleClass('is-hidden');
+			form.find('.spai-save-integration').toggleClass('is-hidden');
+		});
+
+		// Save integration
+		$(document).on('click', '.spai-save-integration', function() {
+			var btn = $(this);
+			var form = btn.closest('.spai-integration-key-form');
+			var provider = form.data('provider');
+			var isMulti = form.data('multi-field') === 1 || form.data('multi-field') === '1';
+			var status = form.find('.spai-integration-status');
+			var data = { action: 'spai_save_integration_key', nonce: nonce, provider: provider };
+
+			if (isMulti) {
+				data.config = {};
+				form.find('.spai-config-field').each(function() {
+					data.config[$(this).data('field')] = $(this).val();
+				});
+			} else {
+				data.key = form.find('.spai-integration-key-input').val();
+			}
+
+			btn.prop('disabled', true).text(strings.saving);
+			$.post(ajaxUrl, data, function(response) {
+				btn.prop('disabled', false).text(strings.saved || 'Save');
+				status.text(response.success ? strings.saved : (response.data && response.data.message ? response.data.message : strings.saveFailed));
+				if (response.success) setTimeout(function() { location.reload(); }, 800);
+			});
+		});
+
+		// Remove integration
+		$(document).on('click', '.spai-remove-integration', function() {
+			if (!confirm(strings.confirmRemove)) return;
+			var btn = $(this);
+			var provider = btn.data('provider');
+			btn.prop('disabled', true).text(strings.removing);
+			$.post(ajaxUrl, { action: 'spai_remove_integration_key', nonce: nonce, provider: provider }, function(response) {
+				if (response.success) location.reload();
+				else btn.prop('disabled', false).text('Remove');
+			});
+		});
+
+		// Test integration
+		$(document).on('click', '.spai-test-integration', function() {
+			var btn = $(this);
+			var provider = btn.data('provider');
+			var status = btn.closest('.spai-integration-key-form').find('.spai-integration-status');
+			btn.prop('disabled', true).text(strings.testing);
+			$.post(ajaxUrl, { action: 'spai_test_integration', nonce: nonce, provider: provider }, function(response) {
+				btn.prop('disabled', false).text('Test Connection');
+				status.text(response.success ? strings.connected : (response.data && response.data.message ? response.data.message : strings.testFailed));
+			});
+		});
+	}
+
+	/**
 	 * Initialize
 	 */
 	$(document).ready(function() {
@@ -196,6 +264,7 @@
 		initRegenerateConfirm();
 		initTestConnection();
 		initDismissWelcome();
+		initIntegrations();
 	});
 
 })(jQuery);

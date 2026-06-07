@@ -22,41 +22,20 @@ class Spai_Themes {
 	 * @var array
 	 */
 	private $supported_themes = array(
-		'astra'        => array(
-			'option_key' => 'astra-settings',
-			'name'       => 'Astra',
+		'astra'         => array(
+			'option_key'    => 'astra-settings',
+			'settings_type' => 'custom_option',
+			'name'          => 'Astra',
 		),
 		'generatepress' => array(
-			'option_key' => 'generate_settings',
-			'name'       => 'GeneratePress',
+			'option_key'    => 'generate_settings',
+			'settings_type' => 'custom_option',
+			'name'          => 'GeneratePress',
 		),
-		'kadence'      => array(
-			'option_key' => 'theme_mods_kadence',
-			'name'       => 'Kadence',
-		),
-		'oceanwp'      => array(
-			'option_key' => 'theme_mods_flavor', // OceanWP uses theme_mods
-			'name'       => 'OceanWP',
-		),
-		'flavor'       => array(
-			'option_key' => 'flavor_options',
-			'name'       => 'flavor Theme',
-		),
-		'flavflavor'       => array(
-			'option_key' => 'flavor_options',
-			'name'       => 'flavor Theme',
-		),
-		'flavor'       => array(
-			'option_key' => 'flavor_flavor',
-			'name'       => 'flavor',
-		),
-		'flavor'           => array(
-			'option_key' => 'flavor_flavor',
-			'name'       => 'flavor',
-		),
-		'flavor'           => array(
-			'option_key' => 'flavor_flavor',
-			'name'       => 'flavor',
+		'kadence'       => array(
+			'option_key'    => 'theme_mods',
+			'settings_type' => 'theme_mods',
+			'name'          => 'Kadence',
 		),
 	);
 
@@ -99,8 +78,8 @@ class Spai_Themes {
 	 * @return string Settings type.
 	 */
 	private function get_settings_type( $theme_slug ) {
-		if ( isset( $this->supported_themes[ $theme_slug ] ) ) {
-			return 'custom_option';
+		if ( isset( $this->supported_themes[ $theme_slug ]['settings_type'] ) ) {
+			return $this->supported_themes[ $theme_slug ]['settings_type'];
 		}
 		return 'theme_mods';
 	}

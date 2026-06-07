@@ -1817,3 +1817,118 @@
 .spai-inner-tab-content {
 	padding: 4px 0;
 }
+
+/* Chat page helpers */
+.spai-chat-brand {
+	color: #2271b1;
+}
+
+.spai-chat-intro {
+	margin: 4px 0 0;
+}
+
+/* Integrations page helpers */
+.spai-subtext {
+	margin-top: 4px;
+}
+
+.spai-api-link {
+	margin: 0 0 15px;
+}
+
+.spai-locked-msg {
+	color: #666;
+	font-style: italic;
+}
+
+.spai-key-code {
+	background: #f0f0f1;
+	border-radius: 3px;
+	padding: 2px 8px;
+}
+
+.spai-status-dot {
+	border-radius: 50%;
+	display: inline-block;
+	height: 10px;
+	margin-right: 6px;
+	width: 10px;
+}
+
+.spai-action-row {
+	display: flex;
+	gap: 8px;
+	margin-top: 10px;
+}
+
+.spai-remove-btn {
+	color: #d63638;
+}
+
+.spai-update-section {
+	margin-top: 10px;
+}
+
+.spai-desc-mb {
+	margin: 0 0 10px;
+}
+
+.spai-desc-mb-md {
+	margin: 0 0 12px;
+}
+
+.spai-desc-mb-sm {
+	margin: 0 0 8px;
+}
+
+.is-hidden {
+	display: none;
+}
+
+.spai-field-row {
+	margin-bottom: 8px;
+}
+
+.spai-field-label {
+	display: block;
+	font-size: 12px;
+	font-weight: 600;
+	margin-bottom: 2px;
+}
+
+.spai-inline-action {
+	align-items: center;
+	display: flex;
+	gap: 8px;
+}
+
+.spai-integration-status {
+	display: block;
+	font-size: 13px;
+	margin-top: 8px;
+}
+
+.spai-info-panel {
+	background: #f0f6fc;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	margin-top: 30px;
+	padding: 15px;
+}
+
+.spai-info-panel h3 {
+	margin: 0 0 8px;
+}
+
+.spai-info-panel h4 {
+	margin: 15px 0 8px;
+}
+
+.spai-info-text {
+	color: #50575e;
+	margin: 0 0 10px;
+}
+
+.spai-data-table {
+	max-width: 700px;
+}

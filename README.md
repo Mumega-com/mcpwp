@@ -17,7 +17,7 @@
   <a href="https://github.com/Mumega-com/mcpwp/stargazers"><img src="https://img.shields.io/github/stars/Mumega-com/mcpwp?style=flat-square" alt="Stars"></a>
   <a href="https://github.com/Mumega-com/mcpwp/releases"><img src="https://img.shields.io/github/v/release/Mumega-com/mcpwp?style=flat-square" alt="Release"></a>
   <a href="https://www.npmjs.com/package/@mcpwp.net/mcpwp"><img src="https://img.shields.io/npm/v/%40mcpwp.net%2Fmcpwp.svg?style=flat-square&label=npm" alt="npm"></a>
-  <img src="https://img.shields.io/badge/plugin-v2.8.31-21759b?style=flat-square" alt="Plugin version">
+  <img src="https://img.shields.io/badge/plugin-v2.8.41-21759b?style=flat-square" alt="Plugin version">
   <img src="https://img.shields.io/badge/tools-15%20categories-blue?style=flat-square" alt="Tools">
   <img src="https://img.shields.io/badge/MCP-compatible-brightgreen?style=flat-square" alt="MCP">
   <img src="https://img.shields.io/badge/license-GPL--2.0-orange?style=flat-square" alt="License">

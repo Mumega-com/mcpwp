@@ -30,8 +30,8 @@ $plugin_ver    = SPAI_VERSION;
 		</div>
 		<div id="spai-chat-messages" class="spai-chat-messages">
 			<div class="spai-chat-msg spai-chat-assistant">
-				<strong style="color:#2271b1;">MCPWP</strong>
-				<p style="margin:4px 0 0;">
+				<strong class="spai-chat-brand">MCPWP</strong>
+				<p class="spai-chat-intro">
 						<?php
 						printf(
 							/* translators: %s: site name */

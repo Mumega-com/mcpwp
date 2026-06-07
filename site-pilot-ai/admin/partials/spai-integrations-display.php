@@ -27,7 +27,7 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 	<p class="description spai-page-intro">
 		<?php esc_html_e( 'Connect third-party AI and design services to unlock image generation, vision analysis, text-to-speech, screenshots, stock photos, and design-context intake via MCP tools.', 'mumega-mcp' ); ?>
 	</p>
-	<p class="description" style="margin-top:4px;">
+	<p class="description spai-subtext">
 		<?php esc_html_e( 'AI assistants can also configure these integrations via the wp_configure_integration MCP tool.', 'mumega-mcp' ); ?>
 	</p>
 
@@ -69,7 +69,7 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 					</p>
 				<?php endif; ?>
 
-				<p style="margin:0 0 15px 0;">
+				<p class="spai-api-link">
 					<a href="<?php echo esc_url( $provider['url'] ); ?>" target="_blank" rel="noopener">
 						<?php echo $is_multi_field ? esc_html__( 'Setup Guide', 'mumega-mcp' ) : esc_html__( 'Get API Key', 'mumega-mcp' ); ?> &rarr;
 					</a>
@@ -97,7 +97,7 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 				<?php endif; ?>
 
 				<?php if ( $locked ) : ?>
-					<p style="color:#666;font-style:italic;">
+					<p class="spai-locked-msg">
 						<?php esc_html_e( 'Upgrade your plan to use this integration.', 'mumega-mcp' ); ?>
 						<?php if ( function_exists( 'spai_license' ) ) : ?>
 							<a href="<?php echo esc_url( admin_url( 'admin.php?page=site-pilot-ai-pricing' ) ); ?>">
@@ -109,8 +109,8 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 					<div class="spai-integration-key-form" data-provider="<?php echo esc_attr( $slug ); ?>" data-multi-field="<?php echo $is_multi_field ? '1' : '0'; ?>">
 						<?php if ( $provider['configured'] ) : ?>
 							<div class="spai-key-configured">
-								<span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;background:<?php echo 'ok' === $provider['test_status'] ? '#00a32a' : ( 'failed' === $provider['test_status'] ? '#d63638' : '#dba617' ); ?>;"></span>
-								<code style="background:#f0f0f1;padding:2px 8px;border-radius:3px;">
+								<span class="spai-status-dot" style="background:<?php echo 'ok' === $provider['test_status'] ? '#00a32a' : ( 'failed' === $provider['test_status'] ? '#d63638' : '#dba617' ); ?>;"></span>
+								<code class="spai-key-code">
 									<?php
 									esc_html_e( 'Configured', 'mumega-mcp' );
 									if ( $provider['configured_at'] ) {
@@ -119,11 +119,11 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 									?>
 								</code>
 							</div>
-							<div style="margin-top:10px;display:flex;gap:8px;">
+							<div class="spai-action-row">
 								<button type="button" class="button spai-test-integration" data-provider="<?php echo esc_attr( $slug ); ?>">
 									<?php esc_html_e( 'Test Connection', 'mumega-mcp' ); ?>
 								</button>
-								<button type="button" class="button spai-remove-integration" data-provider="<?php echo esc_attr( $slug ); ?>" style="color:#d63638;">
+								<button type="button" class="button spai-remove-integration spai-remove-btn" data-provider="<?php echo esc_attr( $slug ); ?>">
 									<?php esc_html_e( 'Remove', 'mumega-mcp' ); ?>
 								</button>
 								<?php if ( $is_figma && ! empty( $provider['oauth_ready'] ) ) : ?>
@@ -132,9 +132,9 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 									</a>
 								<?php endif; ?>
 							</div>
-							<div style="margin-top:10px;">
+							<div class="spai-update-section">
 								<?php if ( $is_figma && ! empty( $provider['auth_mode'] ) ) : ?>
-									<p class="description" style="margin:0 0 10px;">
+									<p class="description spai-desc-mb">
 										<?php
 										if ( 'personal_token' === $figma_auth_mode ) {
 											esc_html_e( 'Using a personal token. OAuth is ready if you want the cleaner long-term setup.', 'mumega-mcp' );
@@ -147,10 +147,10 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 									</p>
 								<?php endif; ?>
 								<?php if ( $is_multi_field ) : ?>
-									<div class="spai-multi-field-inputs" style="display:none;">
+									<div class="spai-multi-field-inputs is-hidden">
 										<?php foreach ( $provider['fields'] as $field_key => $field_info ) : ?>
-											<div style="margin-bottom:8px;">
-												<label style="display:block;font-size:12px;font-weight:600;margin-bottom:2px;"><?php echo esc_html( $field_info['label'] ); ?></label>
+											<div class="spai-field-row">
+												<label class="spai-field-label"><?php echo esc_html( $field_info['label'] ); ?></label>
 												<input type="<?php echo 'password' === $field_info['type'] ? 'password' : 'text'; ?>"
 													class="regular-text spai-config-field"
 													data-field="<?php echo esc_attr( $field_key ); ?>"
@@ -159,31 +159,31 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 										<?php endforeach; ?>
 									</div>
 								<?php else : ?>
-									<input type="text" class="regular-text spai-integration-key-input" placeholder="<?php esc_attr_e( 'Paste new key to update...', 'mumega-mcp' ); ?>" style="display:none;" />
+									<input type="text" class="regular-text spai-integration-key-input is-hidden" placeholder="<?php esc_attr_e( 'Paste new key to update...', 'mumega-mcp' ); ?>" />
 								<?php endif; ?>
 								<button type="button" class="button spai-update-key-toggle" data-provider="<?php echo esc_attr( $slug ); ?>">
 									<?php esc_html_e( 'Update', 'mumega-mcp' ); ?>
 								</button>
-								<button type="button" class="button button-primary spai-save-integration" data-provider="<?php echo esc_attr( $slug ); ?>" style="display:none;">
+								<button type="button" class="button button-primary spai-save-integration is-hidden" data-provider="<?php echo esc_attr( $slug ); ?>">
 									<?php esc_html_e( 'Save', 'mumega-mcp' ); ?>
 								</button>
 							</div>
 						<?php else : ?>
 							<?php if ( $is_figma && ! empty( $provider['oauth_ready'] ) ) : ?>
-								<p style="margin:0 0 8px;">
+								<p class="spai-desc-mb-sm">
 									<a href="<?php echo esc_url( $integrations_admin->get_figma_oauth_start_url() ); ?>" class="button">
 										<?php esc_html_e( 'Connect with Figma OAuth', 'mumega-mcp' ); ?>
 									</a>
 								</p>
-								<p class="description" style="margin:0 0 12px;">
+								<p class="description spai-desc-mb-md">
 									<?php esc_html_e( 'Recommended for production. Use a personal token only for quick testing or temporary access.', 'mumega-mcp' ); ?>
 								</p>
 							<?php endif; ?>
 							<?php if ( $is_multi_field ) : ?>
 								<div class="spai-multi-field-inputs">
 									<?php foreach ( $provider['fields'] as $field_key => $field_info ) : ?>
-										<div style="margin-bottom:8px;">
-											<label style="display:block;font-size:12px;font-weight:600;margin-bottom:2px;"><?php echo esc_html( $field_info['label'] ); ?></label>
+										<div class="spai-field-row">
+											<label class="spai-field-label"><?php echo esc_html( $field_info['label'] ); ?></label>
 											<input type="<?php echo 'password' === $field_info['type'] ? 'password' : 'text'; ?>"
 												class="regular-text spai-config-field"
 												data-field="<?php echo esc_attr( $field_key ); ?>"
@@ -195,7 +195,7 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 									<?php esc_html_e( 'Save', 'mumega-mcp' ); ?>
 								</button>
 							<?php else : ?>
-								<div style="display:flex;gap:8px;align-items:center;">
+								<div class="spai-inline-action">
 									<input type="text" class="regular-text spai-integration-key-input" placeholder="<?php esc_attr_e( 'Paste your API key...', 'mumega-mcp' ); ?>" />
 									<button type="button" class="button button-primary spai-save-integration" data-provider="<?php echo esc_attr( $slug ); ?>">
 										<?php esc_html_e( 'Save', 'mumega-mcp' ); ?>
@@ -203,19 +203,19 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 								</div>
 							<?php endif; ?>
 						<?php endif; ?>
-						<span class="spai-integration-status" style="display:block;margin-top:8px;font-size:13px;"></span>
+						<span class="spai-integration-status"></span>
 					</div>
 				<?php endif; ?>
 			</div>
 		<?php endforeach; ?>
 	</div>
 
-	<div style="margin-top:30px;padding:15px;background:#f0f6fc;border:1px solid #c3c4c7;border-radius:4px;">
-		<h3 style="margin:0 0 8px;"><?php esc_html_e( 'Available MCP Tools', 'mumega-mcp' ); ?></h3>
-		<p style="margin:0 0 10px;color:#50575e;">
+	<div class="spai-info-panel">
+		<h3><?php esc_html_e( 'Available MCP Tools', 'mumega-mcp' ); ?></h3>
+		<p class="spai-info-text">
 			<?php esc_html_e( 'Once configured, these tools become available to AI assistants via MCP:', 'mumega-mcp' ); ?>
 		</p>
-		<table class="widefat striped" style="max-width:700px;">
+		<table class="widefat striped spai-data-table">
 			<thead>
 				<tr>
 					<th><?php esc_html_e( 'Tool', 'mumega-mcp' ); ?></th>
@@ -238,11 +238,11 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 				<tr><td><code>wp_get_figma_node</code></td><td>Figma</td><td>Paid</td></tr>
 			</tbody>
 		</table>
-		<h4 style="margin:15px 0 8px;"><?php esc_html_e( 'Integration Management Tools', 'mumega-mcp' ); ?></h4>
-		<p style="margin:0 0 10px;color:#50575e;">
+		<h4><?php esc_html_e( 'Integration Management Tools', 'mumega-mcp' ); ?></h4>
+		<p class="spai-info-text">
 			<?php esc_html_e( 'AI assistants can manage integrations directly via MCP:', 'mumega-mcp' ); ?>
 		</p>
-		<table class="widefat striped" style="max-width:700px;">
+		<table class="widefat striped spai-data-table">
 			<thead>
 				<tr>
 					<th><?php esc_html_e( 'Tool', 'mumega-mcp' ); ?></th>
