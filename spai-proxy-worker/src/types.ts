@@ -1,6 +1,7 @@
 export interface Env {
   AGENCY_KV: KVNamespace;
   ENCRYPTION_KEY: string; // 64-char hex = 32-byte AES-GCM key
+  ADMIN_SECRET: string;
 }
 
 export interface SiteEntry {

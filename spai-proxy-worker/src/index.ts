@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import type { MiddlewareHandler } from 'hono';
 import type { Env } from './types';
 import { handleInitialize, handleToolsList, handleToolsCall } from './mcp';
 import { validateToken, generateToken, hashToken } from './auth';
@@ -6,13 +7,14 @@ import { getSites, addSite, removeSite } from './registry';
 import { encrypt } from './crypto';
 
 type Variables = { agencyId: string };
+type AppMiddleware = MiddlewareHandler<{ Bindings: Env; Variables: Variables }>;
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 
 // Health check
 app.get('/', (c) => c.json({ service: 'mcpwp-agency-proxy', version: '1.0.0' }));
 
 // Auth middleware factory
-async function requireAgencyToken(c: any, next: () => Promise<void>) {
+const requireAgencyToken: AppMiddleware = async (c, next) => {
   const auth = c.req.header('Authorization') ?? '';
   const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
   if (!token) {
@@ -32,7 +34,7 @@ async function requireAgencyToken(c: any, next: () => Promise<void>) {
   await next();
 }
 
-async function requireApiToken(c: any, next: () => Promise<void>) {
+const requireApiToken: AppMiddleware = async (c, next) => {
   const auth = c.req.header('Authorization') ?? '';
   const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
   if (!token) return c.json({ error: 'Missing Authorization: Bearer <agency_token>' }, 401);
@@ -59,6 +61,9 @@ app.post('/mcp', requireAgencyToken, async (c) => {
   if (method === 'ping') return c.json({ jsonrpc: '2.0', id, result: {} });
   if (method === 'tools/list') return c.json(await handleToolsList(id, agencyId, c.env));
   if (method === 'tools/call') {
+    if (!params || typeof params !== 'object') {
+      return c.json({ jsonrpc: '2.0', id, error: { code: -32602, message: 'params required for tools/call' } }, 400);
+    }
     return c.json(await handleToolsCall(id, params as any, agencyId, c.env));
   }
 
@@ -67,6 +72,11 @@ app.post('/mcp', requireAgencyToken, async (c) => {
 
 // Account creation — returns one-time agency token
 app.post('/api/accounts', async (c) => {
+  const adminSecret = c.req.header('X-Admin-Secret');
+  if (!adminSecret || adminSecret !== c.env.ADMIN_SECRET) {
+    return c.json({ error: 'Forbidden: X-Admin-Secret required' }, 403);
+  }
+
   let name = 'My Agency';
   try {
     const body = await c.req.json();
@@ -115,7 +125,7 @@ app.post('/api/sites', requireApiToken, async (c) => {
   }
 
   const hostname = parsedUrl.hostname.replace(/\./g, '-');
-  const site_id = providedId ?? (label ? label.toLowerCase().replace(/[^a-z0-9-]/g, '-') : hostname);
+  const site_id = (providedId ?? (label ? label.toLowerCase().replace(/[^a-z0-9-]/g, '-') : hostname)).slice(0, 64);
   const api_key_enc = await encrypt(api_key, c.env.ENCRYPTION_KEY);
 
   await addSite(
