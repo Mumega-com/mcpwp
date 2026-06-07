@@ -102,6 +102,9 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 			// Elementor Theme — theme builder + custom code
 			'wp_list_elementor_custom_code'      => 'elementor-theme',
+			'wp_get_elementor_custom_code'       => 'elementor-theme',
+			'wp_create_elementor_custom_code'    => 'elementor-theme',
+			'wp_update_elementor_custom_code'    => 'elementor-theme',
 			'wp_disable_elementor_custom_code'   => 'elementor-theme',
 			'wp_enable_elementor_custom_code'    => 'elementor-theme',
 			'wp_sanitize_elementor_custom_code'  => 'elementor-theme',
@@ -227,6 +230,9 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_elementor_globals'            => 'elementor',
 			'wp_set_elementor_globals'            => 'elementor',
 			'wp_list_elementor_custom_code'       => 'elementor_pro',
+			'wp_get_elementor_custom_code'        => 'elementor_pro',
+			'wp_create_elementor_custom_code'     => 'elementor_pro',
+			'wp_update_elementor_custom_code'     => 'elementor_pro',
 			'wp_disable_elementor_custom_code'    => 'elementor_pro',
 			'wp_enable_elementor_custom_code'     => 'elementor_pro',
 			'wp_sanitize_elementor_custom_code'   => 'elementor_pro',
@@ -1081,7 +1087,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_list_elementor_custom_code',
-			'List Elementor Pro Custom Code snippets (admin)',
+			'List Elementor Pro Custom Code snippets with location and display-condition readback.',
 			array(
 				'per_page' => array(
 					'type'        => 'number',
@@ -1098,6 +1104,91 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 				'search'   => array(
 					'type'        => 'string',
 					'description' => 'Search by snippet title',
+				),
+			)
+		);
+
+		$pro_tools[] = $this->define_tool(
+			'wp_get_elementor_custom_code',
+			'Get one Elementor Pro Custom Code snippet with raw code, injection location, status, and display-condition readback.',
+			array(
+				'id' => array(
+					'type'        => 'number',
+					'description' => 'Snippet post ID',
+					'required'    => true,
+				),
+			)
+		);
+
+		$pro_tools[] = $this->define_tool(
+			'wp_create_elementor_custom_code',
+			'Create an Elementor Pro Custom Code snippet with raw script/style preservation, injection location, and display conditions. Use dry_run=true before publishing tracking scripts.',
+			array(
+				'title'      => array(
+					'type'        => 'string',
+					'description' => 'Snippet title',
+					'required'    => true,
+				),
+				'code'       => array(
+					'type'        => 'string',
+					'description' => 'Raw HTML, CSS, or JavaScript code. PHP is not supported.',
+					'required'    => true,
+				),
+				'location'   => array(
+					'type'        => 'string',
+					'description' => 'Injection location: head, body_start, or body_end',
+					'default'     => 'head',
+				),
+				'status'     => array(
+					'type'        => 'string',
+					'description' => 'Initial status: draft or publish',
+					'default'     => 'draft',
+				),
+				'conditions' => array(
+					'type'        => 'array',
+					'description' => 'Display conditions. Default is entire site: [{"type":"include","name":"general"}]. Exclusions use type=exclude.',
+				),
+				'dry_run'    => array(
+					'type'        => 'boolean',
+					'description' => 'Validate and normalize without saving',
+					'default'     => false,
+				),
+			)
+		);
+
+		$pro_tools[] = $this->define_tool(
+			'wp_update_elementor_custom_code',
+			'Update an Elementor Pro Custom Code snippet. Supports changing raw code, location, status, and display conditions with readback.',
+			array(
+				'id'         => array(
+					'type'        => 'number',
+					'description' => 'Snippet post ID',
+					'required'    => true,
+				),
+				'title'      => array(
+					'type'        => 'string',
+					'description' => 'Snippet title',
+				),
+				'code'       => array(
+					'type'        => 'string',
+					'description' => 'Raw HTML, CSS, or JavaScript code. PHP is not supported.',
+				),
+				'location'   => array(
+					'type'        => 'string',
+					'description' => 'Injection location: head, body_start, or body_end',
+				),
+				'status'     => array(
+					'type'        => 'string',
+					'description' => 'Status: draft or publish',
+				),
+				'conditions' => array(
+					'type'        => 'array',
+					'description' => 'Display conditions, e.g. [{"type":"include","name":"general"}].',
+				),
+				'dry_run'    => array(
+					'type'        => 'boolean',
+					'description' => 'Validate and normalize without saving',
+					'default'     => false,
 				),
 			)
 		);
@@ -2909,6 +3000,18 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 			'wp_list_elementor_custom_code'  => array(
 				'method' => 'GET',
 				'route'  => '/elementor/custom-code',
+			),
+			'wp_get_elementor_custom_code' => array(
+				'method' => 'GET',
+				'route'  => '/elementor/custom-code/{id}',
+			),
+			'wp_create_elementor_custom_code' => array(
+				'method' => 'POST',
+				'route'  => '/elementor/custom-code',
+			),
+			'wp_update_elementor_custom_code' => array(
+				'method' => 'POST',
+				'route'  => '/elementor/custom-code/{id}',
 			),
 			'wp_disable_elementor_custom_code' => array(
 				'method' => 'POST',
