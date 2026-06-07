@@ -861,6 +861,16 @@ trait Spai_Api_Auth {
 		$all_cats        = array_keys( self::get_all_tool_category_labels() );
 		$tool_categories = array_values( array_intersect( array_map( 'sanitize_key', (array) $tool_categories ), $all_cats ) );
 
+		// Cap scopes to the role's maximum ceiling — prevents a non-admin role from
+		// claiming admin scope even if sanitize_scopes expanded it from 'admin' input.
+		$allowed_ceiling = ( 'admin' === $role )
+			? array( 'read', 'write', 'admin' )
+			: array( 'read', 'write' );
+		$scopes = array_values( array_intersect( $scopes, $allowed_ceiling ) );
+		if ( empty( $scopes ) ) {
+			$scopes = $allowed_ceiling;
+		}
+
 		$record = array(
 			'id'              => sanitize_key( (string) $key_id ),
 			'label'           => '' !== $label ? sanitize_text_field( $label ) : __( 'API Key', 'mumega-mcp' ),
