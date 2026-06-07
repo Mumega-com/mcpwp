@@ -18,7 +18,7 @@ export async function encrypt(plaintext: string, keyHex: string): Promise<string
   const combined = new Uint8Array(iv.byteLength + enc.byteLength);
   combined.set(iv, 0);
   combined.set(new Uint8Array(enc), 12);
-  return btoa(String.fromCharCode(...combined));
+  return btoa(Array.from(combined, (b) => String.fromCharCode(b)).join(''));
 }
 
 export async function decrypt(ciphertext: string, keyHex: string): Promise<string> {

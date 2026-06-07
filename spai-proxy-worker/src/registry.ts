@@ -10,6 +10,9 @@ export async function getSites(agencyId: string, env: Env): Promise<SiteEntry[]>
   }
 }
 
+// KV has no compare-and-swap; concurrent addSite calls for the same agency
+// could race and overwrite each other. Acceptable for low-frequency site
+// registration. Migrate to Durable Objects if concurrent writes become a concern.
 export async function addSite(agencyId: string, entry: SiteEntry, env: Env): Promise<void> {
   const sites = await getSites(agencyId, env);
   const idx = sites.findIndex((s) => s.site_id === entry.site_id);

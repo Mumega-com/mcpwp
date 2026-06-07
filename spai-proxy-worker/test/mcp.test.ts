@@ -34,6 +34,31 @@ async function makeEnvWithSite(): Promise<{ env: Env; site: SiteEntry }> {
   return { env, site };
 }
 
+async function makeEnvWithTwoSites(): Promise<{ env: Env; sites: SiteEntry[] }> {
+  const { encrypt } = await import('../src/crypto');
+  const sites: SiteEntry[] = [
+    {
+      site_id: 'client-a',
+      url: 'https://client-a.com',
+      api_key_enc: await encrypt('spai_key_a', TEST_KEY),
+      label: 'Client A',
+      added_at: '2026-06-07T00:00:00Z',
+    },
+    {
+      site_id: 'client-b',
+      url: 'https://client-b.com',
+      api_key_enc: await encrypt('spai_key_b', TEST_KEY),
+      label: 'Client B',
+      added_at: '2026-06-07T00:00:00Z',
+    },
+  ];
+  const kv = mockKV({
+    'agency:sites:agency-1': JSON.stringify(sites),
+  });
+  const env = { AGENCY_KV: kv, ENCRYPTION_KEY: TEST_KEY } as unknown as Env;
+  return { env, sites };
+}
+
 describe('handleInitialize', () => {
   it('returns MCP capabilities', () => {
     const result = handleInitialize(1) as any;
@@ -67,6 +92,36 @@ describe('handleToolsList', () => {
     expect(wpTool.inputSchema.properties._site).toBeDefined();
     expect(wpTool.inputSchema.required).toContain('_site');
     expect(wpTool.inputSchema.properties._site.enum).toEqual(['client-a']);
+  });
+
+  it('falls back to next site when first site tools/list fails', async () => {
+    const { env } = await makeEnvWithTwoSites();
+    const mockTools = [{ name: 'wp_create_post', description: 'Create post', inputSchema: { type: 'object', properties: {}, required: [] } }];
+    const fetchSpy = vi.spyOn(globalThis, 'fetch');
+    // First call (client-a) throws; second call (client-b) succeeds
+    fetchSpy.mockRejectedValueOnce(new Error('client-a unreachable'));
+    fetchSpy.mockResolvedValueOnce(
+      new Response(JSON.stringify({ jsonrpc: '2.0', id: 1, result: { tools: mockTools } }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    );
+    const result = await handleToolsList(1, 'agency-1', env) as any;
+    const tool = result.result.tools.find((t: any) => t.name === 'wp_create_post');
+    expect(tool).toBeDefined();
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('returns proxy-only tools when all sites fail tools/list', async () => {
+    const { env } = await makeEnvWithTwoSites();
+    vi.spyOn(globalThis, 'fetch')
+      .mockRejectedValueOnce(new Error('client-a down'))
+      .mockRejectedValueOnce(new Error('client-b down'));
+    const result = await handleToolsList(1, 'agency-1', env) as any;
+    const toolNames = result.result.tools.map((t: any) => t.name);
+    expect(toolNames).toContain('proxy_list_sites');
+    expect(toolNames).toContain('proxy_site_health');
+    expect(toolNames).not.toContain('wp_create_post');
   });
 });
 

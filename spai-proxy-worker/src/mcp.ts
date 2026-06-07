@@ -36,10 +36,19 @@ export async function handleToolsList(id: unknown, agencyId: string, env: Env): 
   }
 
   let upstreamTools: unknown[] = [];
-  try {
-    upstreamTools = await fetchToolsList(sites[0], env.ENCRYPTION_KEY);
-  } catch (err) {
-    console.warn('[mcpwp-proxy] tools/list fetch failed, returning proxy-only tools:', err);
+  let fetchError: unknown;
+  for (const site of sites) {
+    try {
+      upstreamTools = await fetchToolsList(site, env.ENCRYPTION_KEY);
+      fetchError = undefined;
+      break;
+    } catch (err) {
+      fetchError = err;
+      console.warn(`[mcpwp-proxy] tools/list fetch failed for ${site.site_id}, trying next:`, err);
+    }
+  }
+  if (fetchError !== undefined) {
+    console.warn('[mcpwp-proxy] tools/list failed for all sites, returning proxy-only tools');
     return { jsonrpc: '2.0', id, result: { tools: PROXY_TOOLS } };
   }
 

@@ -124,6 +124,10 @@ app.post('/api/sites', requireApiToken, async (c) => {
     return c.json({ error: 'url is not a valid URL' }, 400);
   }
 
+  if (parsedUrl.protocol !== 'https:') {
+    return c.json({ error: 'url must use HTTPS' }, 400);
+  }
+
   const hostname = parsedUrl.hostname.replace(/\./g, '-');
   const site_id = (providedId ?? (label ? label.toLowerCase().replace(/[^a-z0-9-]/g, '-') : hostname)).slice(0, 64);
   const api_key_enc = await encrypt(api_key, c.env.ENCRYPTION_KEY);
