@@ -11,6 +11,7 @@ export async function fetchToolsList(site: SiteEntry, encKey: string): Promise<u
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
     body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list', params: {} }),
+    signal: AbortSignal.timeout(10000),
   });
   if (!resp.ok) {
     throw new Error(`Upstream ${site.url} returned ${resp.status}`);
@@ -36,6 +37,7 @@ export async function forwardToolCall(
       method: 'tools/call',
       params: { name: toolName, arguments: args },
     }),
+    signal: AbortSignal.timeout(30000),
   });
   if (!resp.ok) {
     return {
