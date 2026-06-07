@@ -184,6 +184,14 @@ class Spai_Settings {
 			)
 		);
 
+		add_settings_field(
+			'analytics_enabled',
+			__( 'Usage Analytics', 'mumega-mcp' ),
+			array( $this, 'render_analytics_enabled_field' ),
+			'spai_settings',
+			'spai_general_section'
+		);
+
 		// Allowed origins (CORS)
 		add_settings_field(
 			'allowed_origins',
@@ -416,6 +424,7 @@ class Spai_Settings {
 			'alerts_cooldown_minutes' => 15,
 			'alerts_5xx_threshold'    => 5,
 			'alerts_auth_threshold'   => 10,
+			'analytics_enabled'       => false,
 		);
 	}
 
@@ -533,6 +542,8 @@ class Spai_Settings {
 		$sanitized['alerts_auth_threshold'] = isset( $input['alerts_auth_threshold'] )
 			? min( 10000, max( 1, absint( $input['alerts_auth_threshold'] ) ) )
 			: 10;
+
+		$sanitized['analytics_enabled'] = ! empty( $input['analytics_enabled'] );
 
 		// Screenshot worker (legacy — now managed via Integrations page, preserved for backward compat).
 		$sanitized['screenshot_worker_url'] = isset( $current['screenshot_worker_url'] ) ? $current['screenshot_worker_url'] : '';
@@ -812,6 +823,42 @@ class Spai_Settings {
 		}
 
 		return $this->get_settings();
+	}
+
+	/**
+	 * Render the analytics_enabled checkbox + site UUID display.
+	 */
+	public function render_analytics_enabled_field() {
+		$settings = $this->get_settings();
+		$enabled  = ! empty( $settings['analytics_enabled'] );
+		$uuid     = class_exists( 'Spai_Analytics' ) ? Spai_Analytics::get_site_uuid() : '';
+		?>
+		<label>
+			<input
+				type="checkbox"
+				name="<?php echo esc_attr( self::OPTION_NAME ); ?>[analytics_enabled]"
+				value="1"
+				<?php checked( $enabled ); ?>
+			/>
+			<?php esc_html_e( 'Share anonymous tool-usage data to help improve MCPWP', 'mumega-mcp' ); ?>
+		</label>
+		<p class="description">
+			<?php esc_html_e( 'Sends MCP tool names, success/failure status, and execution time to PostHog. No WordPress content or personal data is ever collected.', 'mumega-mcp' ); ?>
+			<a href="https://mcpwp.net/privacy" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Privacy policy', 'mumega-mcp' ); ?></a>
+		</p>
+		<?php if ( $uuid ) : ?>
+		<p class="description" style="margin-top:8px;">
+			<?php esc_html_e( 'Your site support ID:', 'mumega-mcp' ); ?>
+			<code id="spai-site-uuid"><?php echo esc_html( $uuid ); ?></code>
+			<button
+				type="button"
+				class="button button-small"
+				onclick="navigator.clipboard.writeText('<?php echo esc_js( $uuid ); ?>').then(function(){this.textContent='<?php echo esc_js( __( 'Copied!', 'mumega-mcp' ) ); ?>';}.bind(this));"
+			><?php esc_html_e( 'Copy', 'mumega-mcp' ); ?></button>
+			<span class="description"><?php esc_html_e( 'Share this with support when contacting us about your site.', 'mumega-mcp' ); ?></span>
+		</p>
+		<?php endif; ?>
+		<?php
 	}
 
 }

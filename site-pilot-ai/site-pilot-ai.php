@@ -14,7 +14,7 @@
  * Plugin Name:       MCPWP
  * Plugin URI:        https://mcpwp.net/
  * Description:       Connect WordPress to AI assistants via the Model Context Protocol (MCP). Manage posts, pages, media, and Elementor through natural language.
- * Version:           2.8.44
+ * Version:           2.8.45
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            Mumega
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin version.
  */
-define( 'SPAI_VERSION', '2.8.44' );
+define( 'SPAI_VERSION', '2.8.45' );
 
 /**
  * Plugin directory path.
@@ -229,6 +229,7 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-provider-gemini.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-provider-elevenlabs.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-provider-pexels.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-analytics.php';
 
 	// Load MCP tool registries
 	require_once SPAI_PLUGIN_DIR . 'includes/mcp/class-spai-mcp-tool-registry.php';
@@ -290,6 +291,9 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	// Initialize the plugin
 	$loader = new Spai_Loader();
 	$loader->run();
+
+	// Wire analytics: Spai_Analytics listens on every MCP tool call.
+	add_action( 'spai_tool_called', array( 'Spai_Analytics', 'on_tool_called' ), 10, 4 );
 
 	// Self-hosted update checker (excluded from WP.org builds).
 	if ( class_exists( 'Spai_Updater' ) ) {
