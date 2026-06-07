@@ -127,7 +127,7 @@ class Spai_Integration_Manager {
 			'name'        => 'PostHog',
 			'url'         => 'https://us.posthog.com/settings/project-details',
 			'tier'        => 'free',
-			'description' => 'Product analytics for the MCPWP admin interface. Tracks key admin actions (API key copy, connection test, upgrade clicks) to help understand plugin adoption. Token is public — safe to expose in browser JS.',
+			'description' => 'Product analytics for the MCPWP admin interface. Tracks key admin actions (API key copy, connection test, upgrade clicks) to help understand plugin adoption.',
 			'fields'      => array(
 				'token' => array(
 					'label'       => 'Project API Key',
@@ -157,6 +157,7 @@ class Spai_Integration_Manager {
 		'screenshots'      => array( 'screenshot' ),
 		'indexing'          => array( 'google_indexing' ),
 		'design_context'   => array( 'figma' ),
+		// posthog omitted: analytics-only integration, not capability-selectable via get_preferred_provider()
 	);
 
 	/**
