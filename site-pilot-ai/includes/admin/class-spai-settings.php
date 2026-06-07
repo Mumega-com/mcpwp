@@ -308,6 +308,95 @@ class Spai_Settings {
 			'spai_general_section'
 		);
 
+		// White-label section — standalone option.
+		register_setting(
+			'spai_settings_group',
+			'spai_white_label',
+			array(
+				'type'              => 'array',
+				'sanitize_callback' => array( $this, 'sanitize_white_label_settings' ),
+				'default'           => class_exists( 'Spai_White_Label' ) ? Spai_White_Label::defaults() : array(),
+			)
+		);
+
+		add_settings_section(
+			'spai_white_label_section',
+			__( 'White-Label & Chat Widget', 'mumega-mcp' ),
+			array( $this, 'render_white_label_section' ),
+			'spai_settings'
+		);
+
+		add_settings_field(
+			'wl_enabled',
+			__( 'Enable White-Label', 'mumega-mcp' ),
+			array( $this, 'render_white_label_enabled_field' ),
+			'spai_settings',
+			'spai_white_label_section'
+		);
+
+		add_settings_field(
+			'wl_agency_name',
+			__( 'Agency Name', 'mumega-mcp' ),
+			array( $this, 'render_white_label_text_field' ),
+			'spai_settings',
+			'spai_white_label_section',
+			array(
+				'key'         => 'agency_name',
+				'description' => __( 'Name shown in the chat widget and admin footer.', 'mumega-mcp' ),
+				'placeholder' => __( 'Acme Agency', 'mumega-mcp' ),
+			)
+		);
+
+		add_settings_field(
+			'wl_logo_url',
+			__( 'Logo URL', 'mumega-mcp' ),
+			array( $this, 'render_white_label_text_field' ),
+			'spai_settings',
+			'spai_white_label_section',
+			array(
+				'key'         => 'logo_url',
+				'description' => __( 'Public HTTPS URL of your agency logo (shown in chat button). Leave empty to use text only.', 'mumega-mcp' ),
+				'placeholder' => 'https://yoursite.com/logo.png',
+			)
+		);
+
+		add_settings_field(
+			'wl_primary_color',
+			__( 'Primary Color', 'mumega-mcp' ),
+			array( $this, 'render_white_label_color_field' ),
+			'spai_settings',
+			'spai_white_label_section',
+			array(
+				'key'         => 'primary_color',
+				'description' => __( 'Hex color for chat button and admin accents.', 'mumega-mcp' ),
+			)
+		);
+
+		add_settings_field(
+			'wl_chat_greeting',
+			__( 'Chat Greeting', 'mumega-mcp' ),
+			array( $this, 'render_white_label_text_field' ),
+			'spai_settings',
+			'spai_white_label_section',
+			array(
+				'key'         => 'chat_greeting',
+				'description' => __( 'Default greeting shown in the chat widget.', 'mumega-mcp' ),
+				'placeholder' => 'Hi! How can I help you today?',
+			)
+		);
+
+		add_settings_field(
+			'wl_hide_branding',
+			__( 'Hide MCPWP Branding', 'mumega-mcp' ),
+			array( $this, 'render_white_label_hide_branding_field' ),
+			'spai_settings',
+			'spai_white_label_section',
+			array(
+				'key'         => 'hide_mcpwp_branding',
+				'description' => __( 'Remove "MCPWP" labels from admin pages and chat widget.', 'mumega-mcp' ),
+			)
+		);
+
 		// Site Context section.
 		register_setting(
 			'spai_site_context_group',
@@ -895,6 +984,123 @@ class Spai_Settings {
 			><?php esc_html_e( 'Copy', 'mumega-mcp' ); ?></button>
 			<span class="description"><?php esc_html_e( 'Share this with support when contacting us about your site.', 'mumega-mcp' ); ?></span>
 		</p>
+		<?php endif; ?>
+		<?php
+	}
+
+	/**
+	 * Sanitize white-label settings submitted from the settings form.
+	 *
+	 * @param mixed $input Raw form input.
+	 * @return array
+	 */
+	public function sanitize_white_label_settings( $input ): array {
+		if ( class_exists( 'Spai_White_Label' ) ) {
+			$raw = is_array( $input ) ? $input : array();
+			// Normalize bool fields from form checkboxes.
+			$raw['enabled']             = ! empty( $raw['enabled'] );
+			$raw['hide_mcpwp_branding'] = ! empty( $raw['hide_mcpwp_branding'] );
+			Spai_White_Label::save_settings( $raw );
+			return Spai_White_Label::get_settings();
+		}
+		return is_array( $input ) ? $input : array();
+	}
+
+	/**
+	 * Render white-label section header.
+	 *
+	 * @return void
+	 */
+	public function render_white_label_section(): void {
+		echo '<p>' . esc_html__( 'Apply your agency branding to the plugin UI and enable the [mcpwp_chat] shortcode for client-facing chat widgets.', 'mumega-mcp' ) . '</p>';
+		if ( class_exists( 'Spai_White_Label' ) ) {
+			$s = Spai_White_Label::get_settings();
+			if ( $s['enabled'] && ! empty( $s['agency_name'] ) ) {
+				echo '<p><code>[mcpwp_chat]</code> — ' . esc_html__( 'shortcode is active. Add it to any page to embed the chat widget.', 'mumega-mcp' ) . '</p>';
+			}
+		}
+	}
+
+	/**
+	 * Render enabled toggle for white-label.
+	 *
+	 * @return void
+	 */
+	public function render_white_label_enabled_field(): void {
+		$s       = class_exists( 'Spai_White_Label' ) ? Spai_White_Label::get_settings() : array();
+		$checked = ! empty( $s['enabled'] );
+		?>
+		<label>
+			<input type="checkbox" name="spai_white_label[enabled]" value="1" <?php checked( $checked ); ?> />
+			<?php esc_html_e( 'Enable white-label branding', 'mumega-mcp' ); ?>
+		</label>
+		<?php
+	}
+
+	/**
+	 * Render hide branding checkbox.
+	 *
+	 * @param array $args Field args including 'key' and 'description'.
+	 * @return void
+	 */
+	public function render_white_label_hide_branding_field( array $args ): void {
+		$s       = class_exists( 'Spai_White_Label' ) ? Spai_White_Label::get_settings() : array();
+		$key     = $args['key'] ?? 'hide_mcpwp_branding';
+		$checked = ! empty( $s[ $key ] );
+		?>
+		<label>
+			<input type="checkbox" name="spai_white_label[<?php echo esc_attr( $key ); ?>]" value="1" <?php checked( $checked ); ?> />
+			<?php echo esc_html( $args['description'] ?? '' ); ?>
+		</label>
+		<?php
+	}
+
+	/**
+	 * Render a text input for a white-label field.
+	 *
+	 * @param array $args Field args: 'key', 'description', 'placeholder'.
+	 * @return void
+	 */
+	public function render_white_label_text_field( array $args ): void {
+		$s           = class_exists( 'Spai_White_Label' ) ? Spai_White_Label::get_settings() : array();
+		$key         = $args['key'] ?? '';
+		$value       = $s[ $key ] ?? '';
+		$placeholder = $args['placeholder'] ?? '';
+		$description = $args['description'] ?? '';
+		?>
+		<input
+			type="text"
+			name="spai_white_label[<?php echo esc_attr( $key ); ?>]"
+			value="<?php echo esc_attr( $value ); ?>"
+			placeholder="<?php echo esc_attr( $placeholder ); ?>"
+			class="regular-text"
+		/>
+		<?php if ( $description ) : ?>
+		<p class="description"><?php echo esc_html( $description ); ?></p>
+		<?php endif; ?>
+		<?php
+	}
+
+	/**
+	 * Render a color picker input for white-label primary color.
+	 *
+	 * @param array $args Field args.
+	 * @return void
+	 */
+	public function render_white_label_color_field( array $args ): void {
+		$s           = class_exists( 'Spai_White_Label' ) ? Spai_White_Label::get_settings() : array();
+		$key         = $args['key'] ?? 'primary_color';
+		$value       = $s[ $key ] ?? '#7c3aed';
+		$description = $args['description'] ?? '';
+		?>
+		<input
+			type="color"
+			name="spai_white_label[<?php echo esc_attr( $key ); ?>]"
+			value="<?php echo esc_attr( $value ); ?>"
+		/>
+		<code><?php echo esc_html( $value ); ?></code>
+		<?php if ( $description ) : ?>
+		<p class="description"><?php echo esc_html( $description ); ?></p>
 		<?php endif; ?>
 		<?php
 	}
