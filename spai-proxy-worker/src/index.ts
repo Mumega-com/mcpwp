@@ -129,7 +129,8 @@ app.post('/api/sites', requireApiToken, async (c) => {
   }
 
   const hostname = parsedUrl.hostname.replace(/\./g, '-');
-  const site_id = (providedId ?? (label ? label.toLowerCase().replace(/[^a-z0-9-]/g, '-') : hostname)).slice(0, 64);
+  const rawId = providedId ?? (label ? label.toLowerCase() : hostname);
+  const site_id = rawId.toLowerCase().replace(/[^a-z0-9-]/g, '-').slice(0, 64);
   const api_key_enc = await encrypt(api_key, c.env.ENCRYPTION_KEY);
 
   await addSite(
