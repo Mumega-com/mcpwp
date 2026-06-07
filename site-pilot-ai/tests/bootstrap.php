@@ -445,8 +445,18 @@ function wp_parse_args($args, $defaults = array())
     return array_merge($defaults, $args);
 }
 
-function register_rest_route()
+function register_rest_route($namespace = '', $route = '', $args = array())
 {
+    if (! isset($GLOBALS['_spai_test_registered_routes'])) {
+        $GLOBALS['_spai_test_registered_routes'] = array();
+    }
+
+    $GLOBALS['_spai_test_registered_routes'][] = array(
+        'namespace' => $namespace,
+        'route'     => $route,
+        'args'      => $args,
+    );
+
     return true;
 }
 
@@ -497,6 +507,45 @@ function get_posts($args = array())
     return $posts;
 }
 
+class WP_Query
+{
+    public $posts = array();
+    public $found_posts = 0;
+    public $max_num_pages = 0;
+
+    public function __construct($args = array())
+    {
+        $posts = array_values($GLOBALS['_spai_test_posts']);
+        $types = isset($args['post_type']) ? (array) $args['post_type'] : array();
+        $statuses = isset($args['post_status']) ? (array) $args['post_status'] : array();
+
+        $posts = array_values(array_filter($posts, function ($post) use ($types, $statuses, $args) {
+            if (! empty($types) && ! in_array($post->post_type, $types, true)) {
+                return false;
+            }
+            if (! empty($statuses) && ! in_array('any', $statuses, true) && ! in_array($post->post_status, $statuses, true)) {
+                return false;
+            }
+            if (isset($args['post_parent']) && (int) $post->post_parent !== (int) $args['post_parent']) {
+                return false;
+            }
+            if (! empty($args['post__in']) && ! in_array((int) $post->ID, $args['post__in'], true)) {
+                return false;
+            }
+            if (! empty($args['s']) && false === stripos($post->post_title . ' ' . $post->post_content, (string) $args['s'])) {
+                return false;
+            }
+            return true;
+        }));
+
+        $this->found_posts = count($posts);
+        $per_page = isset($args['posts_per_page']) ? max(1, (int) $args['posts_per_page']) : count($posts);
+        $paged = isset($args['paged']) ? max(1, (int) $args['paged']) : 1;
+        $this->max_num_pages = $per_page > 0 ? (int) ceil($this->found_posts / $per_page) : 0;
+        $this->posts = array_slice($posts, ($paged - 1) * $per_page, $per_page);
+    }
+}
+
 function wp_count_posts($type)
 {
     $counts = array(
@@ -542,6 +591,26 @@ function get_permalink($post)
 {
     $post_id = is_object($post) ? (int) $post->ID : (int) $post;
     return 'https://example.com/?p=' . $post_id;
+}
+
+function get_edit_post_link($post_id, $context = 'display')
+{
+    return 'https://example.com/wp-admin/post.php?post=' . (int) $post_id . '&action=edit';
+}
+
+function get_the_author_meta($field, $user_id)
+{
+    return 'Author ' . (int) $user_id;
+}
+
+function get_post_thumbnail_id($post_id)
+{
+    return 0;
+}
+
+function wp_get_attachment_image_src($attachment_id, $size = 'thumbnail')
+{
+    return false;
 }
 
 function wp_get_nav_menus()
@@ -601,11 +670,13 @@ require_once dirname(__DIR__) . '/includes/core/class-spai-seo-audit-store.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-seo-autofix.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-search-performance.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-woocommerce-seo.php';
+require_once dirname(__DIR__) . '/includes/core/class-spai-pages.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-api.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-tool-registry.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-free-tools.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-pro-tools.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-integration.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-mcp.php';
+require_once dirname(__DIR__) . '/includes/api/class-spai-rest-pages.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-menus.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-elementor-basic.php';
