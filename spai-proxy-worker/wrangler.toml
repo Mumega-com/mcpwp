@@ -9,8 +9,9 @@ routes = [
 
 [[kv_namespaces]]
 binding = "AGENCY_KV"
-id = "FILL_AFTER_wrangler_kv_create"
-preview_id = "FILL_AFTER_wrangler_kv_create"
+id = "de9e874892da476a8cd4fcc7e0be2502"
+preview_id = "f05c4784f1cb4b618c1652e60d08181f"
 
 # Secrets (set via wrangler secret put):
 # ENCRYPTION_KEY — 64-char hex (32 bytes)
+# ADMIN_SECRET   — arbitrary secret for POST /api/accounts
