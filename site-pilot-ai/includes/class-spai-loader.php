@@ -289,6 +289,10 @@ class Spai_Loader {
 		$approvals_controller = new Spai_REST_Approvals();
 		$approvals_controller->register_routes();
 
+		// Action log
+		$action_log_controller = new Spai_REST_Action_Log();
+		$action_log_controller->register_routes();
+
 		// MCP (Model Context Protocol)
 		$mcp_controller = new Spai_REST_MCP();
 		$mcp_controller->register_routes();

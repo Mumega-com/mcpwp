@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.45
+Stable tag: 2.8.46
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,12 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.46 =
+* New: AI action audit log — every write-tool call logged to DB with before/after state snapshots (EU AI Act compliance).
+* New: One-click rollback for post/page updates and Elementor writes from Control Room.
+* New: CSV export of action log for compliance reporting.
+* New: Configurable log retention (default 90 days, daily auto-prune).
 
 = 2.8.45 =
 * New: Server-side MCP tool analytics — when enabled, sends anonymous tool call data (tool name, success/failure, duration) to PostHog. Opt-in for free tier, opt-out for paid. No site content or PII is ever collected.
