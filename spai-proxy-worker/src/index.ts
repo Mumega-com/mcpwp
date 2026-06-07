@@ -4,7 +4,8 @@ import type { Env } from './types';
 import { handleInitialize, handleToolsList, handleToolsCall } from './mcp';
 import { validateToken, generateToken, hashToken } from './auth';
 import { getSites, addSite, removeSite } from './registry';
-import { encrypt } from './crypto';
+import { encrypt, decrypt } from './crypto';
+import { DASHBOARD_HTML } from './dashboard';
 
 type Variables = { agencyId: string };
 type AppMiddleware = MiddlewareHandler<{ Bindings: Env; Variables: Variables }>;
@@ -12,6 +13,29 @@ const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 
 // Health check
 app.get('/', (c) => c.json({ service: 'mcpwp-agency-proxy', version: '1.0.0' }));
+
+// Agency dashboard — HTML UI, protected by X-Admin-Secret header or Basic Auth password
+app.get('/dashboard', (c) => {
+  const auth = c.req.header('Authorization') ?? '';
+  let authed = false;
+
+  if (auth.startsWith('Basic ')) {
+    try {
+      const decoded = atob(auth.slice(6));
+      const password = decoded.includes(':') ? decoded.slice(decoded.indexOf(':') + 1) : decoded;
+      authed = password === c.env.ADMIN_SECRET;
+    } catch { /* ignore decode errors */ }
+  }
+
+  if (!authed) {
+    return new Response('Unauthorized — use HTTP Basic Auth (any username, password = ADMIN_SECRET)', {
+      status: 401,
+      headers: { 'WWW-Authenticate': 'Basic realm="MCPWP Agency Dashboard"', 'Content-Type': 'text/plain' },
+    });
+  }
+
+  return new Response(DASHBOARD_HTML, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+});
 
 // Auth middleware factory
 const requireAgencyToken: AppMiddleware = async (c, next) => {
@@ -103,6 +127,35 @@ app.post('/api/accounts', async (c) => {
 app.get('/api/sites', requireApiToken, async (c) => {
   const sites = await getSites(c.get('agencyId'), c.env);
   return c.json(sites.map((s) => ({ site_id: s.site_id, url: s.url, label: s.label, added_at: s.added_at })));
+});
+
+// Health check for all registered sites — probes each site's MCP initialize endpoint
+app.get('/api/sites/health', requireApiToken, async (c) => {
+  const sites = await getSites(c.get('agencyId'), c.env);
+
+  const checks = await Promise.all(
+    sites.map(async (site) => {
+      try {
+        const apiKey = await decrypt(site.api_key_enc, c.env.ENCRYPTION_KEY);
+        const mcpUrl = site.url.replace(/\/$/, '') + '/wp-json/site-pilot-ai/v1/mcp';
+        const resp = await fetch(mcpUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
+          body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {
+            protocolVersion: '2024-11-05',
+            capabilities: {},
+            clientInfo: { name: 'mcpwp-proxy-health', version: '1.0.0' },
+          }}),
+          signal: AbortSignal.timeout(8000),
+        });
+        return { site_id: site.site_id, url: site.url, label: site.label, online: resp.ok };
+      } catch {
+        return { site_id: site.site_id, url: site.url, label: site.label, online: false };
+      }
+    })
+  );
+
+  return c.json(checks);
 });
 
 // Add site
