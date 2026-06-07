@@ -276,5 +276,35 @@ class Spai_Activator {
 			KEY type_status (type, status)
 		) $charset_collate;";
 		dbDelta( $sql_feedback );
+
+		// Action log table — immutable per-tool audit trail (EU AI Act compliance)
+		$action_log_table = $wpdb->prefix . 'spai_action_log';
+		$sql_action_log   = "CREATE TABLE IF NOT EXISTS $action_log_table (
+			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			log_id varchar(44) NOT NULL,
+			timestamp datetime NOT NULL,
+			tool_name varchar(100) NOT NULL,
+			category varchar(50) NOT NULL DEFAULT '',
+			api_key_id varchar(100) NOT NULL DEFAULT '',
+			arguments longtext NOT NULL DEFAULT '',
+			before_snap longtext DEFAULT NULL,
+			after_snap longtext DEFAULT NULL,
+			resource_type varchar(50) NOT NULL DEFAULT '',
+			resource_id varchar(255) NOT NULL DEFAULT '',
+			duration_ms int(11) DEFAULT NULL,
+			success tinyint(1) NOT NULL DEFAULT 0,
+			error_code varchar(50) NOT NULL DEFAULT '',
+			rollback_supported tinyint(1) NOT NULL DEFAULT 0,
+			rolled_back tinyint(1) NOT NULL DEFAULT 0,
+			rolled_back_at datetime DEFAULT NULL,
+			rolled_back_by varchar(44) DEFAULT NULL,
+			PRIMARY KEY (id),
+			UNIQUE KEY log_id (log_id),
+			KEY timestamp (timestamp),
+			KEY tool_name (tool_name),
+			KEY resource (resource_type(50), resource_id(100)),
+			KEY success (success)
+		) $charset_collate;";
+		dbDelta( $sql_action_log );
 	}
 }

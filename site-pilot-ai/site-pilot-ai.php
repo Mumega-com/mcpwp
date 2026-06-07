@@ -14,7 +14,7 @@
  * Plugin Name:       MCPWP
  * Plugin URI:        https://mcpwp.net/
  * Description:       Connect WordPress to AI assistants via the Model Context Protocol (MCP). Manage posts, pages, media, and Elementor through natural language.
- * Version:           2.8.45
+ * Version:           2.8.46
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            Mumega
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin version.
  */
-define( 'SPAI_VERSION', '2.8.45' );
+define( 'SPAI_VERSION', '2.8.46' );
 
 /**
  * Plugin directory path.
@@ -220,6 +220,7 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-agent-playbooks.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-content-coherence.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-approvals.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-action-log.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-seo-audit-store.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-seo-autofix.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-search-performance.php';
@@ -268,6 +269,7 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-feedback.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-blocks.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-approvals.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-action-log.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-mcp.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-batch.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-integrations.php';
@@ -294,6 +296,16 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 
 	// Wire analytics: Spai_Analytics listens on every MCP tool call.
 	add_action( 'spai_tool_called', array( 'Spai_Analytics', 'on_tool_called' ), 10, 4 );
+
+	// Schedule daily prune of old action log entries.
+	add_action( 'spai_action_log_daily_prune', function() {
+		if ( class_exists( 'Spai_Action_Log' ) ) {
+			Spai_Action_Log::prune();
+		}
+	} );
+	if ( ! wp_next_scheduled( 'spai_action_log_daily_prune' ) ) {
+		wp_schedule_event( time(), 'daily', 'spai_action_log_daily_prune' );
+	}
 
 	// Self-hosted update checker (excluded from WP.org builds).
 	if ( class_exists( 'Spai_Updater' ) ) {

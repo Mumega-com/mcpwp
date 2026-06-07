@@ -286,6 +286,28 @@ class Spai_Settings {
 
 		// Note: Screenshot Worker is now configured via Integrations page.
 
+		// Action log retention — standalone option (not in spai_settings array).
+		register_setting(
+			'spai_settings_group',
+			'spai_action_log_retention_days',
+			array(
+				'type'              => 'integer',
+				'sanitize_callback' => function( $val ) {
+					$v = (int) $val;
+					return $v > 0 ? $v : 90;
+				},
+				'default'           => 90,
+			)
+		);
+
+		add_settings_field(
+			'action_log_retention_days',
+			__( 'Action Log Retention (days)', 'mumega-mcp' ),
+			array( $this, 'render_action_log_retention_field' ),
+			'spai_settings',
+			'spai_general_section'
+		);
+
 		// Site Context section.
 		register_setting(
 			'spai_site_context_group',
@@ -667,6 +689,22 @@ class Spai_Settings {
 		if ( ! empty( $args['description'] ) ) {
 			printf( '<p class="description">%s</p>', esc_html( $args['description'] ) );
 		}
+	}
+
+	/**
+	 * Render the action log retention field.
+	 */
+	public function render_action_log_retention_field() {
+		$value = (int) get_option( 'spai_action_log_retention_days', 90 );
+		printf(
+			'<input type="number" name="spai_action_log_retention_days" value="%d" min="1" max="3650" class="small-text" /> %s',
+			(int) $value,
+			esc_html__( 'days', 'mumega-mcp' )
+		);
+		printf(
+			'<p class="description">%s</p>',
+			esc_html__( 'AI action log entries older than this are automatically deleted. Default: 90. Required for EU AI Act compliance (minimum 90 days recommended).', 'mumega-mcp' )
+		);
 	}
 
 	/**
