@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.42
+Stable tag: 2.8.43
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,15 @@ Each site needs its own plugin installation and API key.
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.43 =
+* Fix: wp_set_template_conditions now accepts both object form ({type, name, sub_name, sub_id}) and positional array form (["include", "singular", "product"]) — positional arrays were previously flattened to include>general due to wrong key lookup (#210).
+* Fix: wp_get_elementor_globals now returns both system_typography and custom_typography under fonts, and system_colors + custom_colors under colors — previously only custom_typography was returned, hiding Elementor's 4 reserved defaults (#253).
+* Fix: wp_upload_media_from_url tool definition now exposes filename, title, and alt parameters — the underlying PHP already supported them but they were missing from tools/list (#252).
+* Fix: Elementor v4 atomic elements (e-heading, e-paragraph, e-button, etc.) now skip settings key validation — they use props/styles, not classic settings, so the validator was incorrectly flagging them (#211).
+* Fix: Form widget static schema now includes button styling keys (button_color, button_background_color, button_border_color, button_hover_color, button_background_hover_color) — these are valid Elementor Pro form button controls that were missing from the validator allow-list, generating false-positive warnings (#250, #255).
+* Fix: elementor_data_base64 JSON parse error now includes decoded_length in the response to help diagnose LLM-side truncation vs transport issues (#254).
+* Docs: Added docs/FREE_PRO_SPLIT.md with full free/pro tool split, WP.org build constraints, and gating pattern (#258).
 
 = 2.8.42 =
 * Fix: Theme handler ($supported_themes) — removed corrupted duplicate 'flavor'/'flavflavor' entries and 'oceanwp' entry with wrong option_key. Only Astra, GeneratePress, and Kadence remain with accurate settings_type. Applied to both plugin copies.

@@ -393,9 +393,10 @@ class Spai_Elementor_Basic {
 					'invalid_json',
 					__( 'Base64-decoded data is not valid JSON.', 'mumega-mcp' ),
 					array(
-						'status' => 400,
-						'hint'   => 'The base64 payload decoded successfully but the resulting string is not valid JSON. Error: ' . json_last_error_msg(),
-						'guide'  => 'wp_get_guide(topic=\'elementor\')',
+						'status'          => 400,
+						'decoded_length'  => strlen( $raw_decoded ),
+						'hint'            => 'Decoded ' . strlen( $raw_decoded ) . ' bytes but JSON parse failed: ' . json_last_error_msg() . '. If the base64 string was LLM-generated, it may have been truncated mid-stream. Try wp_set_elementor with elementor_data (plain JSON) for payloads under 100KB, or split into sections with wp_add_section.',
+						'guide'           => 'wp_get_guide(topic=\'elementor\')',
 					)
 				);
 			}
@@ -1315,7 +1316,9 @@ class Spai_Elementor_Basic {
 			}
 
 			// --- 6. Flag unknown settings keys using widget reference ---
-			if ( 'widget' === $el_type && '' !== $widget_type && ! empty( $el['settings'] ) && is_array( $el['settings'] ) ) {
+			// Skip validation for Elementor v4 atomic elements — they use props/styles, not settings (#211).
+			$is_atomic = in_array( $el_type, array( 'e-div-block', 'e-flexbox', 'e-heading', 'e-paragraph', 'e-button', 'e-image', 'e-svg', 'e-divider', 'e-youtube', 'e-self-hosted-video' ), true );
+			if ( ! $is_atomic && 'widget' === $el_type && '' !== $widget_type && ! empty( $el['settings'] ) && is_array( $el['settings'] ) ) {
 				$valid_keys = $this->get_valid_widget_keys( $widget_type );
 				if ( ! empty( $valid_keys ) ) {
 					// Common Elementor internal prefixes that should not trigger warnings.

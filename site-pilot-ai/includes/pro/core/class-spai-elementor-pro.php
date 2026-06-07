@@ -1154,8 +1154,14 @@ class Spai_Elementor_Pro {
 		}
 
 		$globals = array(
-			'colors' => array(),
-			'fonts'  => array(),
+			'colors' => array(
+				'system_colors' => array(),
+				'custom_colors' => array(),
+			),
+			'fonts'  => array(
+				'system_typography' => array(),
+				'custom_typography' => array(),
+			),
 		);
 
 		// Get kit settings.
@@ -1164,14 +1170,20 @@ class Spai_Elementor_Pro {
 			if ( $kit ) {
 				$kit_settings = $kit->get_settings();
 
-				// Extract global colors.
+				// Extract global colors — both system and custom.
+				if ( ! empty( $kit_settings['system_colors'] ) ) {
+					$globals['colors']['system_colors'] = $kit_settings['system_colors'];
+				}
 				if ( ! empty( $kit_settings['custom_colors'] ) ) {
-					$globals['colors'] = $kit_settings['custom_colors'];
+					$globals['colors']['custom_colors'] = $kit_settings['custom_colors'];
 				}
 
-				// Extract global fonts.
+				// Extract global fonts — both system and custom.
+				if ( ! empty( $kit_settings['system_typography'] ) ) {
+					$globals['fonts']['system_typography'] = $kit_settings['system_typography'];
+				}
 				if ( ! empty( $kit_settings['custom_typography'] ) ) {
-					$globals['fonts'] = $kit_settings['custom_typography'];
+					$globals['fonts']['custom_typography'] = $kit_settings['custom_typography'];
 				}
 			}
 		}

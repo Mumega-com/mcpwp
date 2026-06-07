@@ -262,14 +262,27 @@ class Spai_Theme_Builder {
 		}
 
 		// Validate and format conditions.
+		// Accept both object form: {"type":"include","name":"singular","sub_name":"product"}
+		// and positional array form: ["include", "singular", "product"] (#210).
 		$formatted_conditions = array();
 		foreach ( $conditions as $condition ) {
-			$formatted = array(
-				'type'     => isset( $condition['type'] ) && 'exclude' === $condition['type'] ? 'exclude' : 'include',
-				'name'     => isset( $condition['name'] ) ? sanitize_text_field( $condition['name'] ) : 'general',
-				'sub_name' => isset( $condition['sub_name'] ) ? sanitize_text_field( $condition['sub_name'] ) : '',
-				'sub_id'   => isset( $condition['sub_id'] ) ? sanitize_text_field( $condition['sub_id'] ) : '',
-			);
+			if ( isset( $condition[0] ) && ! isset( $condition['type'] ) ) {
+				// Positional array: [type, name, sub_name, sub_id].
+				$formatted = array(
+					'type'     => ( isset( $condition[0] ) && 'exclude' === $condition[0] ) ? 'exclude' : 'include',
+					'name'     => isset( $condition[1] ) ? sanitize_text_field( $condition[1] ) : 'general',
+					'sub_name' => isset( $condition[2] ) ? sanitize_text_field( $condition[2] ) : '',
+					'sub_id'   => isset( $condition[3] ) ? sanitize_text_field( $condition[3] ) : '',
+				);
+			} else {
+				// Object form: {type, name, sub_name, sub_id}.
+				$formatted = array(
+					'type'     => isset( $condition['type'] ) && 'exclude' === $condition['type'] ? 'exclude' : 'include',
+					'name'     => isset( $condition['name'] ) ? sanitize_text_field( $condition['name'] ) : 'general',
+					'sub_name' => isset( $condition['sub_name'] ) ? sanitize_text_field( $condition['sub_name'] ) : '',
+					'sub_id'   => isset( $condition['sub_id'] ) ? sanitize_text_field( $condition['sub_id'] ) : '',
+				);
+			}
 			$formatted_conditions[] = $formatted;
 		}
 

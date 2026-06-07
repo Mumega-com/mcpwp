@@ -1670,12 +1670,24 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_upload_media_from_url',
-			'Upload a media file from a URL',
+			'Upload a media file from a URL into the WordPress media library.',
 			array(
 				'url' => array(
 					'type'        => 'string',
-					'description' => 'URL of the file to upload',
+					'description' => 'Publicly accessible URL of the file to download and import',
 					'required'    => true,
+				),
+				'filename' => array(
+					'type'        => 'string',
+					'description' => 'Override the saved filename on disk (e.g., "ontario-workforce-guide.pdf"). Useful when the source URL has a meaningless slug.',
+				),
+				'title' => array(
+					'type'        => 'string',
+					'description' => 'Media library title shown in WP Admin',
+				),
+				'alt' => array(
+					'type'        => 'string',
+					'description' => 'Alt text for images',
 				),
 			)
 		);
