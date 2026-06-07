@@ -124,8 +124,9 @@ class Spai_Integration_Manager {
 			),
 		),
 		'posthog'    => array(
-			'label'       => 'PostHog',
+			'name'        => 'PostHog',
 			'url'         => 'https://us.posthog.com/settings/project-details',
+			'tier'        => 'free',
 			'description' => 'Product analytics for the MCPWP admin interface. Tracks key admin actions (API key copy, connection test, upgrade clicks) to help understand plugin adoption. Token is public — safe to expose in browser JS.',
 			'fields'      => array(
 				'token' => array(
