@@ -390,7 +390,7 @@ class Spai_Guides {
 					'heading' => 'Bulk SEO Operations',
 					'content' => "Use `wp_bulk_seo` to update SEO fields for multiple posts/pages at once:\n"
 						. "```json\n"
-						. "wp_bulk_seo(items=[\n"
+						. "wp_bulk_seo(updates=[\n"
 						. "  {\"id\": 10, \"title\": \"My Page Title\", \"description\": \"Page description\"},\n"
 						. "  {\"id\": 20, \"title\": \"Another Page\", \"noindex\": true}\n"
 						. "])\n"
@@ -404,20 +404,20 @@ class Spai_Guides {
 						. "```json\n"
 						. "wp_set_seo(id=123, noindex=true)\n"
 						. "```\n\n"
-						. "For site-wide noindex (e.g., staging sites):\n"
+						. "For the noindex convenience wrapper, include the page or post ID:\n"
 						. "```json\n"
-						. "wp_set_noindex(noindex=true)\n"
+						. "wp_set_noindex(id=123, noindex=true)\n"
 						. "```\n\n"
 						. "Use `wp_update_options(blog_public=false)` to discourage search engines via WordPress settings.",
 				),
 				array(
 					'heading' => 'Relevant Tools',
 					'content' => "- `wp_get_seo(id)` — Get SEO meta for a post/page\n"
-						. "- `wp_set_seo(id, ...)` — Set SEO meta fields\n"
+						. "- `wp_set_seo(id, title, description, ...)` — Set normalized SEO meta fields\n"
 						. "- `wp_analyze_seo(id)` — Analyze SEO and get score/recommendations\n"
-						. "- `wp_bulk_seo(items)` — Bulk update SEO for multiple items\n"
+						. "- `wp_bulk_seo(updates)` — Bulk update SEO for multiple items (`items` is accepted as an alias)\n"
 						. "- `wp_seo_status()` — Check active SEO plugin and config\n"
-						. "- `wp_set_noindex(noindex)` — Set site-wide noindex",
+						. "- `wp_set_noindex(id, noindex)` — Set per-page noindex",
 				),
 			),
 		);
