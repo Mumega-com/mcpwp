@@ -126,7 +126,7 @@ if [[ "$VERIFY_ONLY" -eq 0 ]]; then
 
 	# Upload to Cloudflare R2 — CF Worker serves from R2, not from nginx alias.
 	# --remote targets production R2; without it wrangler writes to local miniflare.
-	WORKER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/spai-updates-worker"
+	WORKER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/spai-updates-worker"
 	if [[ -d "$WORKER_DIR" ]] && command -v npx >/dev/null 2>&1; then
 		CF_TOKEN="${CLOUDFLARE_API_TOKEN:-$(grep CLOUDFLARE_API_TOKEN ~/.env.secrets 2>/dev/null | cut -d= -f2)}"
 		if [[ -n "$CF_TOKEN" ]]; then
