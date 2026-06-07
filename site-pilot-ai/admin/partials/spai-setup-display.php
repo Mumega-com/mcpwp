@@ -359,7 +359,6 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php endif; ?>
 			<script>
 			(function() {
 				document.querySelectorAll('[name="spai_revoke_scoped_key"]').forEach(function(btn) {
@@ -371,6 +370,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				});
 			})();
 			</script>
+			<?php endif; ?>
 		</div>
 
 		<!-- ============================= SECTION 2: CONNECT YOUR AI ============================= -->
