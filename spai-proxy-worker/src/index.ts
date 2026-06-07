@@ -50,31 +50,21 @@ async function resolveAgencyFromHostname(hostname: string, env: Env): Promise<st
 const requireAgencyToken: AppMiddleware = async (c, next) => {
   const auth = c.req.header('Authorization') ?? '';
   const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
-
-  if (token) {
-    const agencyId = await validateToken(token, c.env);
-    if (!agencyId) {
-      return c.json(
-        { jsonrpc: '2.0', id: null, error: { code: -32000, message: 'Invalid agency token' } },
-        401
-      );
-    }
-    c.set('agencyId', agencyId);
-    return next();
+  if (!token) {
+    return c.json(
+      { jsonrpc: '2.0', id: null, error: { code: -32000, message: 'Missing Authorization: Bearer <agency_token>' } },
+      401
+    );
   }
-
-  // No Bearer token — try hostname-based agency resolution (custom domain routing).
-  const host = new URL(c.req.url).hostname;
-  const agencyId = await resolveAgencyFromHostname(host, c.env);
-  if (agencyId) {
-    c.set('agencyId', agencyId);
-    return next();
+  const agencyId = await validateToken(token, c.env);
+  if (!agencyId) {
+    return c.json(
+      { jsonrpc: '2.0', id: null, error: { code: -32000, message: 'Invalid agency token' } },
+      401
+    );
   }
-
-  return c.json(
-    { jsonrpc: '2.0', id: null, error: { code: -32000, message: 'Missing Authorization: Bearer <agency_token>' } },
-    401
-  );
+  c.set('agencyId', agencyId);
+  await next();
 }
 
 const requireApiToken: AppMiddleware = async (c, next) => {
@@ -248,6 +238,12 @@ app.post('/api/hostname', requireApiToken, async (c) => {
   if (action === 'remove') {
     await c.env.AGENCY_KV.delete(kvKey);
     return c.json({ status: 'removed', hostname });
+  }
+
+  // Prevent hostname takeover: refuse if already owned by a different agency.
+  const existing = await c.env.AGENCY_KV.get(kvKey);
+  if (existing && existing !== agencyId) {
+    return c.json({ error: 'Hostname already registered by another agency' }, 409);
   }
 
   await c.env.AGENCY_KV.put(kvKey, agencyId);
