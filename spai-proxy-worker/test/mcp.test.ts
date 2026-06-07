@@ -80,6 +80,33 @@ describe('handleToolsCall — proxy-native', () => {
   });
 });
 
+describe('handleToolsCall — proxy_site_health', () => {
+  it('returns ok for responsive site using initialize probe', async () => {
+    const { env } = await makeEnvWithSite();
+    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(
+      new Response(JSON.stringify({ jsonrpc: '2.0', id: 1, result: { protocolVersion: '2024-11-05' } }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    );
+    const result = await handleToolsCall(1, { name: 'proxy_site_health', arguments: {} }, 'agency-1', env) as any;
+    const statuses = JSON.parse(result.result.content[0].text);
+    expect(statuses[0]).toEqual({ site_id: 'client-a', status: 'ok' });
+
+    const fetchCall = (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls[0];
+    const body = JSON.parse(fetchCall[1].body);
+    expect(body.method).toBe('initialize');
+  });
+
+  it('returns unreachable when fetch throws', async () => {
+    const { env } = await makeEnvWithSite();
+    vi.spyOn(globalThis, 'fetch').mockRejectedValueOnce(new Error('network error'));
+    const result = await handleToolsCall(1, { name: 'proxy_site_health', arguments: {} }, 'agency-1', env) as any;
+    const statuses = JSON.parse(result.result.content[0].text);
+    expect(statuses[0]).toEqual({ site_id: 'client-a', status: 'unreachable' });
+  });
+});
+
 describe('handleToolsCall — forwarding', () => {
   it('missing _site returns JSON-RPC error', async () => {
     const { env } = await makeEnvWithSite();

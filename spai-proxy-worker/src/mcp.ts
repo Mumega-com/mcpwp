@@ -38,7 +38,8 @@ export async function handleToolsList(id: unknown, agencyId: string, env: Env): 
   let upstreamTools: unknown[] = [];
   try {
     upstreamTools = await fetchToolsList(sites[0], env.ENCRYPTION_KEY);
-  } catch {
+  } catch (err) {
+    console.warn('[mcpwp-proxy] tools/list fetch failed, returning proxy-only tools:', err);
     return { jsonrpc: '2.0', id, result: { tools: PROXY_TOOLS } };
   }
 
@@ -92,7 +93,7 @@ export async function handleToolsCall(
         const resp = await fetch(siteUrl(s.url), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
-          body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'ping', params: {} }),
+          body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2024-11-05', capabilities: {}, clientInfo: { name: 'proxy-health', version: '1' } } }),
           signal: AbortSignal.timeout(5000),
         });
         return { site_id: s.site_id, status: resp.ok ? 'ok' : `error:${resp.status}` };
