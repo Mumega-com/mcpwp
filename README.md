@@ -63,17 +63,40 @@ graph LR
 
 ## Why MCPWP?
 
+### What it lets you do
+
+- **Build Elementor pages from a prompt** — hero, features, pricing, FAQs, testimonials — without touching the editor
+- **Run SEO audits and apply fixes** with approval gates so agents can't publish without your sign-off
+- **Manage WooCommerce products, orders, and categories** through natural language
+- **Scope API keys by role** — give a designer access to Elementor only; give an author access to posts only
+- **Validate and auto-fix Elementor data** — missing IDs, wrong widget keys, nesting errors caught before save
+- **Operate from any MCP-compatible agent** — Claude Desktop, Claude Code, Cursor, Windsurf, ChatGPT, n8n, AWS AgentCore, and any client that speaks MCP
+
+### Compared to alternatives
+
 | | MCPWP | WordPress MCP Adapter | Royal MCP | InstaWP mcp-wp |
 |---|---|---|---|---|
-| **MCP Tools** | **15 categories** | ~20 | 37 | ~30 |
-| **Blueprints** | **24 types** | 0 | 0 | 0 |
-| **Elementor** | Full (build + edit + templates + theme) | No | No | No |
+| **Approval gates** | ✓ | No | No | No |
+| **Elementor** | Full (build + edit + templates) | No | No | No |
 | **WooCommerce** | 21 tools | No | No | No |
-| **LearnPress** | 18 tools | No | No | No |
 | **Role-scoped keys** | 5 roles | No | No | No |
-| **Validation** | Auto-fix IDs, keys, nesting | No | No | No |
+| **Blueprints** | 24 types | 0 | 0 | 0 |
+| **Validation + auto-fix** | ✓ | No | No | No |
 | **Install** | WordPress plugin | Requires Abilities API | WordPress plugin | External Node.js |
 | **Commercial model** | Paid plans + trial | Free | Free | Free |
+
+### Works with any agent runtime
+
+MCPWP speaks standard MCP over HTTP — it does not require a specific agent or platform. Connect it to:
+
+- **Claude Desktop / Claude Code** — `npx @mcpwp.net/mcpwp --setup`
+- **Cursor / Windsurf / Zed** — paste the `mcpServers` config block
+- **ChatGPT** — via the ChatGPT MCP connector
+- **n8n / Zapier / Make** — use the MCP HTTP transport as a step
+- **AWS AgentCore / Google Vertex** — any harness that supports MCP HTTP
+- **Your own agent** — call `/wp-json/site-pilot-ai/v1/mcp` directly
+
+The WordPress site is the governed system of record. The agent runtime is interchangeable.
 
 ## Install
 
