@@ -1,6 +1,9 @@
 # MCPWP Backlog
 
-> **For Claude:** Read this file at the start of every session. Update status as tasks complete. Never lose context to compaction — this is the source of truth.
+> **For Claude:** Read this file at the start of every session. Tasks are tracked as GitHub issues — use `gh issue list --repo Mumega-com/mcpwp --label "status:ready"` to find work. Update issue status as you go. This file is the orientation layer; GH issues are the source of truth.
+>
+> **Project board:** https://github.com/orgs/Mumega-com/projects/1
+> **Quick queue:** `gh issue list --repo Mumega-com/mcpwp --label "status:ready" --state open`
 
 **Current version:** v2.8.49 (main)  
 **Last updated:** 2026-06-08
