@@ -118,6 +118,20 @@ M5: Content Engine + Chat Platforms (v4.0)
 
 ---
 
+## M2.5 — Custom Tool Registry (v2.9 add-on, can ship independently)
+
+MCPWP becomes a platform runtime. Third-party plugins (Digid, WooCommerce extensions, booking plugins) register their own MCP tools. Every WP site becomes a programmable agent surface specific to that business.
+
+| # | GH | Task | Notes |
+|---|-----|------|-------|
+| T71a | #439 | Plugin hook API (`spai_register_tools` filter) | Digid registers own tools in 10 lines of PHP. ~2–3h build. Ships first. |
+| T71b | #440 | REST proxy tools (no-code external endpoints) | Admin defines tool → MCPWP proxies to external URL. No PHP needed. |
+| T71c | #441 | Visual tool builder UI (WP Admin sandbox) | Form-based tool creator with inline test panel. Layer on top of T71b. |
+
+**T71a can ship in M2 — independent of OAuth, no blockers.**
+
+---
+
 ## M3 — Auth Layer (v3.0)
 
 ### Depends on: M2 shipped
