@@ -94,6 +94,9 @@ class Spai_Loader {
 		$this->add_action( 'wp_ajax_spai_dismiss_welcome', $admin, 'ajax_dismiss_welcome' );
 		$this->add_action( 'wp_ajax_spai_chat', $admin, 'ajax_chat' );
 		$this->add_action( 'wp_ajax_spai_chat_execute_tool', $admin, 'ajax_chat_execute_tool' );
+		$this->add_action( 'wp_ajax_spai_chat_stream', $admin, 'ajax_chat_stream' );
+		$this->add_action( 'wp_ajax_spai_chat_save_history', $admin, 'ajax_chat_save_history' );
+		$this->add_action( 'wp_ajax_spai_chat_clear_history', $admin, 'ajax_chat_clear_history' );
 
 		// Integrations AJAX handlers
 		$this->add_action( 'wp_ajax_spai_save_integration_key', $integrations_admin, 'ajax_save_key' );
@@ -303,6 +306,12 @@ class Spai_Loader {
 		if ( class_exists( 'Spai_REST_Signals' ) ) {
 			$signals_controller = new Spai_REST_Signals();
 			$signals_controller->register_routes();
+		}
+
+		// Site Blueprints (#364)
+		if ( class_exists( 'Spai_REST_Site_Blueprints' ) ) {
+			$blueprints_controller = new Spai_REST_Site_Blueprints();
+			$blueprints_controller->register_routes();
 		}
 
 		// MCP (Model Context Protocol)

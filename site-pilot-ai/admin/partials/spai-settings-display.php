@@ -203,6 +203,30 @@ $license_label = ucwords( str_replace( '_', ' ', $license_plan ) );
 			</div>
 		</div>
 
+		<div class="spai-settings-card">
+			<h2><?php esc_html_e( 'Chat Model', 'mumega-mcp' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Select the AI model used by the MCPWP Chat tab. Auto picks OpenAI if a key is configured, then Gemini, then the free Workers AI fallback.', 'mumega-mcp' ); ?></p>
+			<form method="post" action="options.php">
+				<?php settings_fields( 'spai_chat_group' ); ?>
+				<?php $model = get_option( 'spai_chat_model', 'auto' ); ?>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><label for="spai_chat_model"><?php esc_html_e( 'Model preference', 'mumega-mcp' ); ?></label></th>
+						<td>
+							<select name="spai_chat_model" id="spai_chat_model">
+								<option value="auto" <?php selected( $model, 'auto' ); ?>><?php esc_html_e( 'Auto (recommended)', 'mumega-mcp' ); ?></option>
+								<option value="openai" <?php selected( $model, 'openai' ); ?>><?php esc_html_e( 'OpenAI GPT-4o mini', 'mumega-mcp' ); ?></option>
+								<option value="gemini" <?php selected( $model, 'gemini' ); ?>><?php esc_html_e( 'Google Gemini 2.5 Flash', 'mumega-mcp' ); ?></option>
+								<option value="workers" <?php selected( $model, 'workers' ); ?>><?php esc_html_e( 'Cloudflare Workers AI (free)', 'mumega-mcp' ); ?></option>
+							</select>
+							<p class="description"><?php esc_html_e( 'Configure provider API keys in the Integrations tab.', 'mumega-mcp' ); ?></p>
+						</td>
+					</tr>
+				</table>
+				<?php submit_button( __( 'Save Chat Model', 'mumega-mcp' ) ); ?>
+			</form>
+		</div>
+
 		<?php
 		/**
 		 * Action for Pro add-on to render additional settings cards.

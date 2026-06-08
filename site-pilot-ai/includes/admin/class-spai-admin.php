@@ -870,55 +870,31 @@ class Spai_Admin {
 	}
 
 	/**
-	 * AJAX proxy for chat — calls Workers AI endpoint server-side.
+	 * Build OpenAI-format message array from history + current message.
+	 *
+	 * @param string $message Current user message.
+	 * @param array  $history Prior conversation turns.
+	 * @return array{system: string, messages: array}
 	 */
-	public function ajax_chat() {
-		check_ajax_referer( 'spai_admin_nonce', 'nonce' );
-
-		if ( ! current_user_can( 'activate_plugins' ) ) {
-			wp_send_json_error( array( 'message' => 'Chat requires administrator access.' ) );
-		}
-
-		$message  = isset( $_POST['message'] ) ? sanitize_text_field( wp_unslash( $_POST['message'] ) ) : '';
-		$history  = isset( $_POST['history'] ) ? json_decode( wp_unslash( $_POST['history'] ), true ) : array();
-
-		if ( empty( $message ) ) {
-			wp_send_json_error( array( 'message' => 'Message is required' ) );
-		}
-
-		// Determine which AI provider to use.
-		$manager     = Spai_Integration_Manager::get_instance();
-		$openai_key  = $manager->get_provider_key( 'openai' );
-		$gemini_key  = $manager->get_provider_key( 'gemini' );
-		$use_own_key = ! empty( $openai_key ); // Prefer OpenAI if configured.
-
-		$chat_endpoint = get_option( 'spai_chat_endpoint', 'https://mumcp-chat.weathered-scene-2272.workers.dev' );
-
-		// Build rich site context so the AI knows about the business.
-		$site_context_parts = array(
+	private function build_chat_messages( string $message, array $history ): array {
+		$parts = array(
 			'Site: ' . get_bloginfo( 'name' ),
 			'URL: ' . home_url(),
 			'Description: ' . get_bloginfo( 'description' ),
 			'Plugin: MCPWP v' . SPAI_VERSION,
 		);
-
-		// Add site character/context if configured.
 		$site_character = get_option( 'spai_site_context', '' );
 		if ( ! empty( $site_character ) ) {
-			$site_context_parts[] = 'Site Character: ' . wp_trim_words( $site_character, 200 );
+			$parts[] = 'Site Character: ' . wp_trim_words( $site_character, 200 );
 		}
-
-		// Add page list for context.
 		$pages = get_posts( array( 'post_type' => 'page', 'post_status' => 'publish', 'posts_per_page' => 20, 'fields' => 'ids' ) );
 		if ( ! empty( $pages ) ) {
-			$page_list = array();
+			$list = array();
 			foreach ( $pages as $pid ) {
-				$page_list[] = sprintf( '%d: %s', $pid, get_the_title( $pid ) );
+				$list[] = sprintf( '%d: %s', $pid, get_the_title( $pid ) );
 			}
-			$site_context_parts[] = 'Published pages: ' . implode( ', ', $page_list );
+			$parts[] = 'Published pages: ' . implode( ', ', $list );
 		}
-
-		// Capabilities.
 		$caps = array();
 		if ( defined( 'ELEMENTOR_VERSION' ) ) {
 			$caps[] = 'Elementor ' . ELEMENTOR_VERSION;
@@ -930,13 +906,11 @@ class Spai_Admin {
 			$caps[] = 'Yoast SEO';
 		}
 		if ( ! empty( $caps ) ) {
-			$site_context_parts[] = 'Active integrations: ' . implode( ', ', $caps );
+			$parts[] = 'Active integrations: ' . implode( ', ', $caps );
 		}
+		$site_context = implode( "\n", $parts );
 
-		$site_context = implode( "\n", $site_context_parts );
-
-		// Build the system prompt with site context.
-		$system_prompt = "You are MCPWP, an AI assistant embedded in a WordPress site. Help the user manage their site.\n\n"
+		$system = "You are MCPWP, an AI assistant embedded in a WordPress site. Help the user manage their site.\n\n"
 			. "When the user asks you to DO something (build, edit, create, delete, update), respond with a JSON tool call:\n"
 			. "{\"tool\": \"tool_name\", \"arguments\": {\"key\": \"value\"}}\n\n"
 			. "Available tools: wp_build_page, wp_edit_widget, wp_edit_section, wp_add_section, wp_create_page, wp_update_page, "
@@ -946,42 +920,98 @@ class Spai_Admin {
 			. "If the user asks a QUESTION, respond normally as text.\n\n"
 			. "Site context:\n" . $site_context;
 
-		$messages = array(
-			array( 'role' => 'system', 'content' => $system_prompt ),
-		);
-		if ( is_array( $history ) ) {
-			foreach ( array_slice( $history, -10 ) as $msg ) {
-				if ( isset( $msg['role'], $msg['content'] ) ) {
-					$messages[] = array( 'role' => sanitize_key( $msg['role'] ), 'content' => $msg['content'] );
-				}
+		$messages = array( array( 'role' => 'system', 'content' => $system ) );
+		foreach ( array_slice( $history, -10 ) as $msg ) {
+			if ( isset( $msg['role'], $msg['content'] ) ) {
+				$messages[] = array( 'role' => sanitize_key( $msg['role'] ), 'content' => wp_kses_post( $msg['content'] ) );
 			}
 		}
 		$messages[] = array( 'role' => 'user', 'content' => $message );
 
-		if ( $use_own_key ) {
-			// Use user's OpenAI key — better model, their cost.
+		return array( 'system' => $system, 'messages' => $messages, 'site_context' => $site_context );
+	}
+
+	/**
+	 * AJAX proxy for chat — multi-model: OpenAI, Gemini, Workers AI fallback.
+	 */
+	public function ajax_chat() {
+		check_ajax_referer( 'spai_admin_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			wp_send_json_error( array( 'message' => 'Chat requires administrator access.' ) );
+		}
+
+		$message = isset( $_POST['message'] ) ? sanitize_text_field( wp_unslash( $_POST['message'] ) ) : '';
+		$history = isset( $_POST['history'] ) ? json_decode( wp_unslash( $_POST['history'] ), true ) : array();
+
+		if ( empty( $message ) ) {
+			wp_send_json_error( array( 'message' => 'Message is required' ) );
+		}
+
+		$manager    = Spai_Integration_Manager::get_instance();
+		$openai_key = $manager->get_provider_key( 'openai' );
+		$gemini_key = $manager->get_provider_key( 'gemini' );
+		$pref       = get_option( 'spai_chat_model', 'auto' );
+
+		$built         = $this->build_chat_messages( $message, is_array( $history ) ? $history : array() );
+		$messages      = $built['messages'];
+		$system        = $built['system'];
+		$site_context  = $built['site_context'];
+
+		$ai_response = '';
+		$model_used  = '';
+
+		// Decide provider based on preference + key availability.
+		$use_openai  = ( 'openai' === $pref && ! empty( $openai_key ) )
+			|| ( 'auto' === $pref && ! empty( $openai_key ) );
+		$use_gemini  = ( 'gemini' === $pref && ! empty( $gemini_key ) )
+			|| ( 'auto' === $pref && empty( $openai_key ) && ! empty( $gemini_key ) );
+
+		if ( $use_openai ) {
 			$response = wp_remote_post( 'https://api.openai.com/v1/chat/completions', array(
 				'timeout' => 60,
 				'headers' => array(
 					'Content-Type'  => 'application/json',
 					'Authorization' => 'Bearer ' . $openai_key,
 				),
-				'body'    => wp_json_encode( array(
-					'model'    => 'gpt-4o-mini',
-					'messages' => $messages,
-				) ),
+				'body'    => wp_json_encode( array( 'model' => 'gpt-4o-mini', 'messages' => $messages ) ),
 			) );
-
 			if ( is_wp_error( $response ) ) {
 				wp_send_json_error( array( 'message' => $response->get_error_message() ) );
 			}
-
-			$body = json_decode( wp_remote_retrieve_body( $response ), true );
+			$body        = json_decode( wp_remote_retrieve_body( $response ), true );
 			$ai_response = $body['choices'][0]['message']['content'] ?? '';
 			$model_used  = 'openai/' . ( $body['model'] ?? 'gpt-4o-mini' );
+
+		} elseif ( $use_gemini ) {
+			// Build Gemini multi-turn contents (system instruction + history + user turn).
+			$contents = array();
+			foreach ( array_slice( $messages, 1 ) as $msg ) { // skip system message
+				$contents[] = array(
+					'role'  => 'user' === $msg['role'] ? 'user' : 'model',
+					'parts' => array( array( 'text' => $msg['content'] ) ),
+				);
+			}
+			$gemini_url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' . $gemini_key;
+			$response   = wp_remote_post( $gemini_url, array(
+				'timeout' => 60,
+				'headers' => array( 'Content-Type' => 'application/json' ),
+				'body'    => wp_json_encode( array(
+					'systemInstruction' => array( 'parts' => array( array( 'text' => $system ) ) ),
+					'contents'          => $contents,
+				) ),
+			) );
+			if ( is_wp_error( $response ) ) {
+				wp_send_json_error( array( 'message' => $response->get_error_message() ) );
+			}
+			$body        = json_decode( wp_remote_retrieve_body( $response ), true );
+			$ai_response = $body['candidates'][0]['content']['parts'][0]['text'] ?? '';
+			$model_used  = 'gemini/gemini-2.5-flash';
+
 		} else {
 			// Fall back to free Cloudflare Workers AI.
-			$chat_secret = get_option( 'spai_chat_secret', '' );
+			$chat_endpoint = get_option( 'spai_chat_endpoint', 'https://mumcp-chat.weathered-scene-2272.workers.dev' );
+			$chat_secret   = get_option( 'spai_chat_secret', '' );
 
 			$response = wp_remote_post( $chat_endpoint, array(
 				'timeout' => 30,
@@ -991,20 +1021,18 @@ class Spai_Admin {
 				),
 				'body'    => wp_json_encode( array(
 					'message'      => $message,
-					'history'      => is_array( $history ) ? array_slice( $history, -10 ) : array(),
+					'history'      => array_slice( is_array( $history ) ? $history : array(), -10 ),
 					'site_context' => $site_context,
 				) ),
 			) );
-
 			if ( is_wp_error( $response ) ) {
 				wp_send_json_error( array( 'message' => $response->get_error_message() ) );
 			}
-
 			$body = json_decode( wp_remote_retrieve_body( $response ), true );
 			if ( ! is_array( $body ) ) {
 				wp_send_json_error( array( 'message' => 'Invalid response from AI' ) );
 			}
-			wp_send_json_success( $body );
+			wp_send_json_success( array_merge( $body, array( 'model' => 'workers-ai' ) ) );
 			return;
 		}
 
@@ -1041,6 +1069,17 @@ class Spai_Admin {
 			wp_send_json_error( array( 'message' => 'Tool name is required' ) );
 		}
 
+		// Gate destructive tools behind explicit confirmation.
+		$destructive = array(
+			'wp_delete_page', 'wp_delete_post', 'wp_delete_media', 'wp_delete_all_drafts',
+			'wp_delete_menu', 'wp_delete_menu_item', 'wp_delete_webhook', 'wp_delete_content',
+			'wp_delete_custom_css', 'wp_delete_term', 'wp_revoke_api_key', 'wp_rollback_approval',
+		);
+		$confirmed = isset( $_POST['confirmed'] ) && 'true' === $_POST['confirmed'];
+		if ( in_array( $tool, $destructive, true ) && ! $confirmed ) {
+			wp_send_json_success( array( 'needs_confirmation' => true, 'tool' => $tool ) );
+		}
+
 		// Execute via internal REST dispatch — no API key needed, runs as current user.
 		$request = new WP_REST_Request( 'POST', '/site-pilot-ai/v1/mcp' );
 		$request->set_header( 'Content-Type', 'application/json' );
@@ -1070,6 +1109,124 @@ class Spai_Admin {
 		} else {
 			wp_send_json_success( $data );
 		}
+	}
+
+	/**
+	 * SSE streaming endpoint — proxies OpenAI token stream to the browser.
+	 * Outputs text/event-stream; never calls wp_send_json_*.
+	 */
+	public function ajax_chat_stream() {
+		if ( ! check_ajax_referer( 'spai_admin_nonce', 'nonce', false ) || ! current_user_can( 'activate_plugins' ) ) {
+			http_response_code( 403 );
+			exit;
+		}
+
+		$message = isset( $_POST['message'] ) ? sanitize_text_field( wp_unslash( $_POST['message'] ) ) : '';
+		$history = isset( $_POST['history'] ) ? json_decode( wp_unslash( $_POST['history'] ), true ) : array();
+
+		if ( empty( $message ) ) {
+			http_response_code( 400 );
+			exit;
+		}
+
+		$manager    = Spai_Integration_Manager::get_instance();
+		$openai_key = $manager->get_provider_key( 'openai' );
+
+		header( 'Content-Type: text/event-stream' );
+		header( 'Cache-Control: no-cache' );
+		header( 'X-Accel-Buffering: no' );
+		header( 'Connection: keep-alive' );
+
+		if ( ob_get_level() ) {
+			ob_end_flush();
+		}
+		flush();
+
+		if ( empty( $openai_key ) ) {
+			echo 'data: ' . wp_json_encode( array( 'error' => 'Streaming requires an OpenAI API key' ) ) . "\n\n";
+			flush();
+			exit;
+		}
+
+		$built    = $this->build_chat_messages( $message, is_array( $history ) ? $history : array() );
+		$messages = $built['messages'];
+
+		// Use cURL to forward OpenAI's SSE stream chunk-by-chunk.
+		if ( ! function_exists( 'curl_init' ) ) {
+			echo 'data: ' . wp_json_encode( array( 'error' => 'cURL not available' ) ) . "\n\n";
+			flush();
+			exit;
+		}
+
+		$ch = curl_init( 'https://api.openai.com/v1/chat/completions' );
+		curl_setopt_array( $ch, array(
+			CURLOPT_POST           => true,
+			CURLOPT_POSTFIELDS     => wp_json_encode( array(
+				'model'    => 'gpt-4o-mini',
+				'messages' => $messages,
+				'stream'   => true,
+			) ),
+			CURLOPT_HTTPHEADER     => array(
+				'Content-Type: application/json',
+				'Authorization: Bearer ' . $openai_key,
+			),
+			CURLOPT_WRITEFUNCTION  => static function ( $curl, $data ) {
+				$lines = explode( "\n", $data );
+				foreach ( $lines as $line ) {
+					$line = trim( $line );
+					if ( '' === $line || 'data: ' !== substr( $line, 0, 6 ) ) {
+						continue;
+					}
+					$payload = substr( $line, 6 );
+					if ( '[DONE]' === $payload ) {
+						echo "data: [DONE]\n\n";
+					} else {
+						$chunk = json_decode( $payload, true );
+						$token = $chunk['choices'][0]['delta']['content'] ?? null;
+						if ( null !== $token ) {
+							echo 'data: ' . wp_json_encode( array( 'token' => $token ) ) . "\n\n";
+						}
+					}
+					flush();
+				}
+				return strlen( $data );
+			},
+			CURLOPT_RETURNTRANSFER => false,
+			CURLOPT_TIMEOUT        => 90,
+		) );
+
+		curl_exec( $ch );
+		curl_close( $ch );
+		exit;
+	}
+
+	/**
+	 * Save chat conversation history for the current user.
+	 */
+	public function ajax_chat_save_history() {
+		check_ajax_referer( 'spai_admin_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			wp_send_json_error();
+		}
+
+		$history = isset( $_POST['history'] ) ? json_decode( wp_unslash( $_POST['history'] ), true ) : array();
+		update_option( 'spai_chat_history_' . get_current_user_id(), array_slice( (array) $history, -50 ), false );
+		wp_send_json_success();
+	}
+
+	/**
+	 * Clear saved chat history for the current user.
+	 */
+	public function ajax_chat_clear_history() {
+		check_ajax_referer( 'spai_admin_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			wp_send_json_error();
+		}
+
+		delete_option( 'spai_chat_history_' . get_current_user_id() );
+		wp_send_json_success();
 	}
 
 	/**
@@ -2500,6 +2657,7 @@ class Spai_Admin {
 			'page_archetypes'    => $this->get_elementor_archetypes_inventory( 'page' ),
 			'product_archetypes' => $this->get_product_archetypes_inventory(),
 			'design_references'  => $this->get_design_references_inventory(),
+			'site_blueprints'    => class_exists( 'Spai_Site_Blueprints' ) ? Spai_Site_Blueprints::list_all() : array(),
 		);
 	}
 

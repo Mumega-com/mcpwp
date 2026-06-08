@@ -14,7 +14,7 @@
  * Plugin Name:       MCPWP
  * Plugin URI:        https://mcpwp.net/
  * Description:       Connect WordPress to AI assistants via the Model Context Protocol (MCP). Manage posts, pages, media, and Elementor through natural language.
- * Version:           2.8.48
+ * Version:           2.8.49
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            Mumega
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin version.
  */
-define( 'SPAI_VERSION', '2.8.48' );
+define( 'SPAI_VERSION', '2.8.49' );
 
 /**
  * Plugin directory path.
@@ -234,6 +234,7 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-white-label.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-site-memory.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-signals.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-site-blueprints.php';
 
 	// Load MCP tool registries
 	require_once SPAI_PLUGIN_DIR . 'includes/mcp/class-spai-mcp-tool-registry.php';
@@ -275,6 +276,7 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-action-log.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-site-memory.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-signals.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-site-blueprints.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-mcp.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-batch.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-integrations.php';

@@ -242,6 +242,13 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 			// Signals (#363)
 			'wp_get_signals'             => 'site',
+
+			// Site Blueprints (#364)
+			'wp_list_site_blueprints'    => 'site',
+			'wp_get_site_blueprint'      => 'site',
+			'wp_create_site_blueprint'   => 'site',
+			'wp_deploy_site_blueprint'   => 'site',
+			'wp_extract_site_blueprint'  => 'site',
 		);
 
 		// Remove custom CSS tool categories in WP.org build.
@@ -646,6 +653,96 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 				'refresh' => array(
 					'type'        => 'boolean',
 					'description' => 'Recompute signals before returning. Adds latency — use sparingly.',
+				),
+			)
+		);
+
+		// Site Blueprints (#364) — multi-page site structure definitions.
+		$tools[] = $this->define_tool(
+			'wp_list_site_blueprints',
+			'List all available site blueprints — pre-built multi-page site structures for different business types (law firm, restaurant, SaaS, real estate, portfolio) plus any custom blueprints you\'ve saved. Each blueprint defines pages, sections, menus, and site context ready to deploy.',
+			array(
+				'category'         => array(
+					'type'        => 'string',
+					'description' => 'Filter by category: professional, hospitality, tech, creative, custom.',
+				),
+				'include_starters' => array(
+					'type'        => 'boolean',
+					'description' => 'Include built-in starter blueprints (default true).',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_get_site_blueprint',
+			'Get a single site blueprint by ID, including full page definitions, section types, menus, and site context.',
+			array(
+				'id' => array(
+					'type'        => 'string',
+					'description' => 'Blueprint ID (e.g. "law-firm", "restaurant", "saas", "real-estate", "portfolio", or a custom ID).',
+					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_create_site_blueprint',
+			'Save a new site blueprint — a reusable multi-page site structure. Blueprints can be deployed to any site to create all pages, menus, and site context in one step.',
+			array(
+				'name' => array(
+					'type'        => 'string',
+					'description' => 'Blueprint name.',
+					'required'    => true,
+				),
+				'pages' => array(
+					'description' => 'Array of page definitions. Each: {slug, title, template?, sections: []}.',
+					'required'    => true,
+				),
+				'menus' => array(
+					'description' => 'Array of menu definitions. Each: {name, items: [slug1, slug2]}.',
+				),
+				'site_context' => array(
+					'type'        => 'string',
+					'description' => 'Site context / AI brief to set when deploying.',
+				),
+				'description' => array(
+					'type'        => 'string',
+					'description' => 'Blueprint description.',
+				),
+				'category' => array(
+					'type'        => 'string',
+					'description' => 'Category for filtering: professional, hospitality, tech, creative, custom.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_deploy_site_blueprint',
+			'Deploy a site blueprint: creates all defined pages, navigation menus, and sets site context in one operation. Pages are created as drafts by default. After deployment, use wp_get_blueprint + wp_add_section to build Elementor layouts for each page\'s section types.',
+			array(
+				'id' => array(
+					'type'        => 'string',
+					'description' => 'Blueprint ID to deploy.',
+					'required'    => true,
+				),
+				'post_status' => array(
+					'type'        => 'string',
+					'description' => 'Page status after creation: draft (default) or publish.',
+				),
+				'name_prefix' => array(
+					'type'        => 'string',
+					'description' => 'Optional prefix for page titles (e.g. client name).',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_extract_site_blueprint',
+			'Analyze the current site and generate a blueprint definition from it. Extracts page structure, Elementor section types, navigation menus, and site context. Use save=true to store the result as a reusable custom blueprint.',
+			array(
+				'save' => array(
+					'type'        => 'boolean',
+					'description' => 'Save the extracted blueprint as a custom blueprint (default false).',
 				),
 			)
 		);
@@ -3224,6 +3321,26 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_signals' => array(
 				'method' => 'GET',
 				'route'  => '/signals',
+			),
+			'wp_list_site_blueprints' => array(
+				'method' => 'GET',
+				'route'  => '/site-blueprints',
+			),
+			'wp_get_site_blueprint' => array(
+				'method' => 'GET',
+				'route'  => '/site-blueprints/{id}',
+			),
+			'wp_create_site_blueprint' => array(
+				'method' => 'POST',
+				'route'  => '/site-blueprints',
+			),
+			'wp_deploy_site_blueprint' => array(
+				'method' => 'POST',
+				'route'  => '/site-blueprints/{id}/deploy',
+			),
+			'wp_extract_site_blueprint' => array(
+				'method' => 'GET',
+				'route'  => '/site-blueprints/extract',
 			),
 			'wp_get_site_state' => array(
 				'method' => 'GET',
