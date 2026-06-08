@@ -233,6 +233,15 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_workflow'            => 'site',
 			'wp_get_agent_playbook'      => 'site',
 			'wp_get_content_coherence_report' => 'seo',
+
+			// Site Memory (#362)
+			'wp_remember'                => 'site',
+			'wp_recall'                  => 'site',
+			'wp_forget'                  => 'site',
+			'wp_list_memories'           => 'site',
+
+			// Signals (#363)
+			'wp_get_signals'             => 'site',
 		);
 
 		// Remove custom CSS tool categories in WP.org build.
@@ -540,6 +549,103 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 					'type'        => 'string',
 					'description' => 'Markdown text defining site style rules, header/footer structure, predefined sections, color palette, typography, and page layout guidelines',
 					'required'    => true,
+				),
+			)
+		);
+
+		// Site Memory (#362) — structured key-value memory persisted across AI sessions.
+		$tools[] = $this->define_tool(
+			'wp_remember',
+			'Store a structured memory entry that persists across AI sessions. Use namespaces: identity (brand voice, colors, client name), constraints (rules the AI must follow), history (completed work, decisions), preferences (layout patterns, widget choices), contacts (client POC info).',
+			array(
+				'namespace' => array(
+					'type'        => 'string',
+					'description' => 'Memory namespace: identity, constraints, history, preferences, or contacts.',
+					'required'    => true,
+				),
+				'key' => array(
+					'type'        => 'string',
+					'description' => 'Memory key (snake_case, e.g. brand_voice, primary_color).',
+					'required'    => true,
+				),
+				'value' => array(
+					'description' => 'Value to store — string, number, array, or object.',
+					'required'    => true,
+				),
+				'ttl_days' => array(
+					'type'        => 'integer',
+					'description' => 'Optional TTL in days. 0 = no expiry.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_recall',
+			'Retrieve stored memory entries. Pass namespace + key for exact lookup, or namespace + query for keyword search. Leave both empty to return everything.',
+			array(
+				'namespace' => array(
+					'type'        => 'string',
+					'description' => 'Namespace filter: identity, constraints, history, preferences, contacts.',
+				),
+				'key' => array(
+					'type'        => 'string',
+					'description' => 'Exact key to retrieve (requires namespace).',
+				),
+				'query' => array(
+					'type'        => 'string',
+					'description' => 'Keyword to search across keys and values.',
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_forget',
+			'Delete a specific memory entry by namespace and key.',
+			array(
+				'namespace' => array(
+					'type'        => 'string',
+					'description' => 'Namespace: identity, constraints, history, preferences, or contacts.',
+					'required'    => true,
+				),
+				'key' => array(
+					'type'        => 'string',
+					'description' => 'Key to delete.',
+					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_list_memories',
+			'List all stored memory entries, optionally filtered by namespace. Returns grouped structure with all values and timestamps.',
+			array(
+				'namespace' => array(
+					'type'        => 'string',
+					'description' => 'Filter to this namespace only.',
+				),
+			)
+		);
+
+		// Site Signals (#363) — proactive signal feed.
+		$tools[] = $this->define_tool(
+			'wp_get_signals',
+			'Get the proactive site signal feed — actionable issues WordPress has detected without you asking. Signal types: stale_content (old posts), broken_elementor (invalid page data), missing_featured_image, draft_accumulation, pending_update (plugin updates), seo_issue. Each signal has severity (high/medium/low), entity reference, detail, and action_hint.',
+			array(
+				'types' => array(
+					'type'        => 'string',
+					'description' => 'Comma-separated signal types to filter (e.g. "stale_content,missing_featured_image"). Leave empty for all types.',
+				),
+				'since' => array(
+					'type'        => 'string',
+					'description' => 'ISO 8601 timestamp — return signals detected after this time.',
+				),
+				'limit' => array(
+					'type'        => 'integer',
+					'description' => 'Max results (1-200). Defaults to 50.',
+				),
+				'refresh' => array(
+					'type'        => 'boolean',
+					'description' => 'Recompute signals before returning. Adds latency — use sparingly.',
 				),
 			)
 		);
@@ -3098,6 +3204,26 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_set_site_context' => array(
 				'method' => 'POST',
 				'route'  => '/site-context',
+			),
+			'wp_remember' => array(
+				'method' => 'POST',
+				'route'  => '/memory',
+			),
+			'wp_recall' => array(
+				'method' => 'GET',
+				'route'  => '/memory',
+			),
+			'wp_forget' => array(
+				'method' => 'DELETE',
+				'route'  => '/memory/{namespace}/{key}',
+			),
+			'wp_list_memories' => array(
+				'method' => 'GET',
+				'route'  => '/memory',
+			),
+			'wp_get_signals' => array(
+				'method' => 'GET',
+				'route'  => '/signals',
 			),
 			'wp_get_site_state' => array(
 				'method' => 'GET',

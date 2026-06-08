@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.47
+Stable tag: 2.8.48
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,13 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.48 =
+* New: Dynamic site memory (wp_remember / wp_recall / wp_forget / wp_list_memories) — AI decisions, brand rules, and preferences persist across sessions in structured namespaces (identity, constraints, history, preferences, contacts).
+* New: Proactive site signals (wp_get_signals) — WordPress surfaces actionable issues without being asked: stale content, broken Elementor data, missing featured images, draft accumulation, plugin updates, SEO issues.
+* New: Site Signals panel in Control Room with severity indicators and direct edit links.
+* New: Memory count shown in Control Room alongside signal feed.
+* Fix: Legacy spai_site_context auto-migrated into identity namespace on first wp_recall call.
 
 = 2.8.47 =
 * New: White-label mode — set agency name, logo, primary color, and chat greeting in WP Admin > Settings.
