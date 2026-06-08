@@ -786,7 +786,51 @@ $unlinked_archetype_count = count(
 		 * Action for Pro add-on to render additional library cards.
 		 */
 		do_action( 'spai_admin_library_cards' );
-		?>
 
+		// ── Site Blueprints (#364) ──────────────────────────────────────────── ?>
+		<div style="margin-top:2rem">
+			<h2><?php esc_html_e( 'Site Blueprints', 'mumega-mcp' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Multi-page site structures ready to deploy. Use wp_deploy_site_blueprint to create all pages, menus, and site context in one step.', 'mumega-mcp' ); ?></p>
+			<?php
+			$site_blueprints = $library_inventory['site_blueprints'] ?? array();
+			if ( empty( $site_blueprints ) ) :
+			?>
+				<p><?php esc_html_e( 'No blueprints found.', 'mumega-mcp' ); ?></p>
+			<?php else : ?>
+			<table class="widefat" style="margin-top:.5rem">
+				<thead>
+					<tr>
+						<th><?php esc_html_e( 'Name', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'ID', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Category', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Pages', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Description', 'mumega-mcp' ); ?></th>
+						<th><?php esc_html_e( 'Type', 'mumega-mcp' ); ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ( $site_blueprints as $bp ) : ?>
+					<tr>
+						<td><strong><?php echo esc_html( $bp['name'] ?? '' ); ?></strong></td>
+						<td><code><?php echo esc_html( $bp['id'] ?? '' ); ?></code></td>
+						<td><?php echo esc_html( $bp['category'] ?? '' ); ?></td>
+						<td><?php echo esc_html( count( $bp['pages'] ?? array() ) ); ?> pages</td>
+						<td style="color:#555"><?php echo esc_html( $bp['description'] ?? '' ); ?></td>
+						<td><?php echo ! empty( $bp['is_starter'] ) ? '<span style="color:#7c3aed">starter</span>' : '<span style="color:#16a34a">custom</span>'; ?></td>
+					</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+			<?php endif; ?>
+			<p style="margin-top:.75rem;font-size:12px;color:#555">
+				<?php esc_html_e( 'Deploy with: ', 'mumega-mcp' ); ?>
+				<code>wp_deploy_site_blueprint(id="law-firm")</code>
+				&nbsp;·&nbsp;
+				<?php esc_html_e( 'Save current site as blueprint: ', 'mumega-mcp' ); ?>
+				<code>wp_extract_site_blueprint(save=true)</code>
+			</p>
+		</div>
+
+		<?php
 	</div><!-- .spai-tab-content -->
 </div><!-- .wrap -->

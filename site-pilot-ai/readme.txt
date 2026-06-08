@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.48
+Stable tag: 2.8.49
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,13 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.49 =
+* New: Blueprint Library (wp_list_site_blueprints / wp_get_site_blueprint / wp_deploy_site_blueprint / wp_extract_site_blueprint) — create multi-page site structures from 5 starter blueprints (law firm, restaurant, SaaS, real estate, portfolio) or save custom ones from your existing content.
+* New: Chat Excellence — multi-model routing (OpenAI GPT-4o mini, Google Gemini 2.5 Flash, Workers AI fallback), SSE streaming for token-by-token responses, persistent conversation history per user, Clear button, model indicator in header.
+* New: Destructive tool confirmation — delete and rollback tools require explicit confirmation in chat before executing.
+* New: Chat model picker in Settings — choose preferred model or let Auto detect the best available key.
+* New: Site Blueprints panel in Library showing all custom and starter blueprints with deploy hints.
 
 = 2.8.48 =
 * New: Dynamic site memory (wp_remember / wp_recall / wp_forget / wp_list_memories) — AI decisions, brand rules, and preferences persist across sessions in structured namespaces (identity, constraints, history, preferences, contacts).

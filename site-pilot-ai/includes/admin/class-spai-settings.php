@@ -52,6 +52,18 @@ class Spai_Settings {
 			)
 		);
 
+		register_setting(
+			'spai_chat_group',
+			'spai_chat_model',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => static function ( $v ) {
+					return in_array( $v, array( 'auto', 'openai', 'gemini', 'workers' ), true ) ? $v : 'auto';
+				},
+				'default'           => 'auto',
+			)
+		);
+
 		// General section
 		add_settings_section(
 			'spai_general_section',
