@@ -1,0 +1,56 @@
+name: New MCP Tool
+description: Propose a new MCP tool for MCPWP
+labels: ["enhancement", "backlog"]
+body:
+  - type: input
+    id: tool_name
+    attributes:
+      label: Tool name
+      description: snake_case, wp_ prefix
+      placeholder: "wp_get_custom_fields"
+    validations:
+      required: true
+  - type: textarea
+    id: operation
+    attributes:
+      label: What WordPress operation does it perform?
+    validations:
+      required: true
+  - type: textarea
+    id: inputs
+    attributes:
+      label: Inputs (parameters)
+      description: List each parameter name, type, and whether required
+      placeholder: "- post_id (integer, required)\n- field_key (string, required)"
+    validations:
+      required: true
+  - type: textarea
+    id: outputs
+    attributes:
+      label: Outputs (return value)
+      description: What does the tool return on success?
+    validations:
+      required: true
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Free or Pro tier?
+      description: See docs/FREE_PRO_SPLIT.md for the split rules
+      options:
+        - Free
+        - Pro
+    validations:
+      required: true
+  - type: input
+    id: rest_endpoint
+    attributes:
+      label: REST endpoint it would call
+      placeholder: "GET /wp-json/site-pilot-ai/v1/posts/{id}/meta"
+  - type: dropdown
+    id: contribute
+    attributes:
+      label: Would you contribute a PR?
+      options:
+        - "Yes"
+        - "No"
+        - "Maybe with guidance"

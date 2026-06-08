@@ -1,0 +1,38 @@
+name: Feature Request
+description: Suggest a new tool or capability
+labels: ["enhancement", "backlog"]
+body:
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use case
+      description: What are you trying to do?
+    validations:
+      required: true
+  - type: dropdown
+    id: client
+    attributes:
+      label: Which AI client would use this?
+      multiple: true
+      options:
+        - Claude Desktop / Claude Code
+        - OpenClaw
+        - Hermes Agent
+        - ChatGPT
+        - All clients
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Free or Pro tier?
+      options:
+        - Free
+        - Pro
+        - Either
+  - type: dropdown
+    id: contribute
+    attributes:
+      label: Would you contribute a PR?
+      options:
+        - "Yes"
+        - "No"
+        - "Maybe with guidance"
