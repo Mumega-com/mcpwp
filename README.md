@@ -5,14 +5,14 @@
 <h1 align="center">MCPWP</h1>
 
 <p align="center">
-  <strong>AI operations for WordPress through MCP. Built for agencies, builders, and site operators.</strong>
+  <strong>WordPress MCP server. 120+ tools. Works with Claude, ChatGPT, OpenClaw, Hermes, Cursor, and any MCP client.</strong>
 </p>
 
 <p align="center">
   <a href="#install">Install</a> •
-  <a href="#how-it-works">How It Works</a> •
+  <a href="#connect">Connect</a> •
   <a href="#tools">Tools</a> •
-  <a href="#examples">Examples</a> •
+  <a href="#agency">Agency</a> •
   <a href="#blueprints">Blueprints</a> •
   <a href="https://mcpwp.net">Website</a>
 </p>
@@ -20,35 +20,32 @@
 <p align="center">
   <a href="https://github.com/Mumega-com/mcp-for-wp/stargazers"><img src="https://img.shields.io/github/stars/Mumega-com/mcp-for-wp?style=flat-square" alt="Stars"></a>
   <a href="https://github.com/Mumega-com/mcp-for-wp/releases"><img src="https://img.shields.io/github/v/release/Mumega-com/mcp-for-wp?style=flat-square" alt="Release"></a>
-  <img src="https://img.shields.io/badge/tools-dynamic%20discovery-blue?style=flat-square" alt="Dynamic tools">
-  <img src="https://img.shields.io/badge/blueprints-reusable%20patterns-blue?style=flat-square" alt="Blueprints">
+  <img src="https://img.shields.io/badge/tools-120%2B-blue?style=flat-square" alt="120+ tools">
   <img src="https://img.shields.io/badge/MCP-compatible-brightgreen?style=flat-square" alt="MCP">
+  <img src="https://img.shields.io/badge/OpenClaw-skill%20available-orange?style=flat-square" alt="OpenClaw">
   <img src="https://img.shields.io/badge/WordPress-5.0%2B-21759b?style=flat-square" alt="WordPress">
   <img src="https://img.shields.io/badge/Elementor-4.x-92003B?style=flat-square" alt="Elementor">
   <img src="https://img.shields.io/badge/license-GPL--2.0-orange?style=flat-square" alt="License">
-  <img src="https://img.shields.io/badge/access-role--scoped-blue?style=flat-square" alt="Role-scoped access">
 </p>
 
 ---
 
-MCPWP turns a WordPress site into an MCP server. AI assistants (Claude, Gemini, GPT, Cursor, Windsurf) can manage site operations through natural language — pages, Elementor layouts, WooCommerce products, media, SEO, menus, and more. Tool availability depends on the active plugins and the current license plan.
+MCPWP turns any WordPress site into an MCP server. AI assistants manage site operations through natural language — pages, Elementor layouts, media, SEO, menus, approvals, analytics, and more. 120+ tools across 15+ categories, live-discovered on connect.
 
 ```
 You: "Build a landing page with a hero, 3 feature cards, and a CTA"
 AI:  wp_build_page → full Elementor page with styled sections, flex grid, shadows, hover effects
 ```
 
-For a first proof, connect an MCP client to your site endpoint and ask it to inspect the site and list available MCPWP tools before enabling write workflows.
-
 ## How It Works
 
 ```mermaid
 graph LR
-    A[🤖 AI Assistant] -->|MCP JSON-RPC| B[MCPWP Plugin]
+    A[🤖 AI Agent] -->|MCP JSON-RPC| B[MCPWP Plugin]
     B -->|REST API| C[WordPress]
     B -->|Document API| D[Elementor]
     B -->|WC API| E[WooCommerce]
-    
+
     subgraph "Your WordPress Site"
         C --- F[Pages & Posts]
         C --- G[Media Library]
@@ -57,29 +54,33 @@ graph LR
         D --- J[Templates & Parts]
         E --- K[Products & Orders]
     end
-    
+
     subgraph "AI Clients"
-        L[Claude Code] --> A
-        M[Claude Desktop] --> A
-        N[Cursor] --> A
-        O[Windsurf] --> A
-        P[Gemini] --> A
+        L[Claude Code / Desktop] --> A
+        M[OpenClaw] --> A
+        N[Hermes Agent] --> A
+        O[Cursor / Windsurf] --> A
+        P[ChatGPT Custom GPT] --> A
+        Q[Gemini] --> A
     end
 ```
 
 ## Why MCPWP?
 
-| | MCPWP | WordPress MCP Adapter | Royal MCP | InstaWP mcp-wp |
+| | MCPWP | AI Engine (Meow) | WordPress MCP Adapter | InstaWP mcp-wp |
 |---|---|---|---|---|
-| **MCP Tools** | **Dynamic, site-aware discovery** | Limited | Limited | Limited |
-| **Blueprints** | **Reusable page and section patterns** | No | No | No |
+| **Tools** | **120+** | ~30 | ~15 | ~10 |
 | **Elementor** | Full (build + edit + templates + theme) | No | No | No |
-| **WooCommerce** | Available when installed and enabled | No | No | No |
-| **LearnPress** | Available when installed and enabled | No | No | No |
+| **Agency proxy** | Multi-site (N clients, 1 token) | No | No | No |
+| **Audit log + rollback** | Yes (EU AI Act ready) | No | No | No |
+| **Site blueprints** | Yes (5 starters + custom) | No | No | No |
+| **White-label** | Yes (agency branding) | No | No | No |
+| **Site memory** | Persistent across sessions | No | No | No |
+| **Proactive signals** | WordPress → AI alerts | No | No | No |
+| **Approval workflow** | Request → approve → apply → rollback | No | No | No |
 | **Role-scoped keys** | Yes | No | No | No |
-| **Validation** | Auto-fix IDs, keys, nesting | No | No | No |
-| **Install** | WordPress plugin | Requires Abilities API | WordPress plugin | External Node.js |
-| **Commercial model** | See current product terms | Free | Free | Free |
+| **OpenClaw skill** | Yes | Yes | No | No |
+| **WooCommerce** | Yes | Yes | No | No |
 
 ## Install
 
@@ -87,11 +88,16 @@ graph LR
 wp plugin install https://mcpwp.net/download/mcpwp.zip --activate
 ```
 
-Or download from [mcpwp.net](https://mcpwp.net) and upload via WP Admin > Plugins > Add New.
+Or download from [mcpwp.net](https://mcpwp.net) and upload via **WP Admin → Plugins → Add New**.
+
+Generate an API key after activation: **WP Admin → Site Pilot AI → Setup → Generate API Key**.
+
+---
 
 ## Connect
 
 ### Claude Code / Claude Desktop
+
 ```json
 {
   "mcpServers": {
@@ -103,136 +109,229 @@ Or download from [mcpwp.net](https://mcpwp.net) and upload via WP Admin > Plugin
 }
 ```
 
-### Cursor / Windsurf
-Same URL and key — add in your MCP server settings.
+### OpenClaw
 
-### Claude Code Plugin
-MCPWP can be used from Claude Code through MCP configuration. A Claude Code helper plugin is available separately for setup and builder workflows; check the website/docs for the current package name and install command.
+A pre-configured [ClawHub skill](integrations/clawhub/) is available:
+
+```bash
+openclaw skill install mcpwp
+```
+
+Or configure manually:
+
+```bash
+openclaw mcp add mcpwp \
+  --url "https://your-site.com/wp-json/site-pilot-ai/v1/mcp" \
+  --transport streamable-http \
+  --header "X-API-Key: spai_your_key_here"
+```
+
+### Hermes Agent (Nous Research)
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "mcpwp": {
+        "url": "https://your-site.com/wp-json/site-pilot-ai/v1/mcp",
+        "transport": "streamable-http",
+        "headers": { "X-API-Key": "spai_your_key_here" }
+      }
+    }
+  }
+}
+```
+
+Hermes auto-discovers all 120+ tools. With [Tool Search](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp) enabled, large tool catalogs see 25–50% accuracy gains on tool selection.
+
+### Cursor / Windsurf / Zed
+
+Add as a custom MCP server — same URL and key in your MCP settings.
+
+### ChatGPT (Custom GPT)
+
+Search **MCPWP** in the GPT Store for a pre-built WordPress Agent GPT. Enter your site URL and API key when prompted.
+
+Or build your own using the [OpenAPI schema](integrations/chatgpt/openapi.yaml).
+
+---
 
 ## Tools
 
-MCPWP uses live tool discovery. The exact `tools/list` result depends on active plugins, enabled categories, license state, build type, and the scopes attached to the API key.
+MCPWP uses live tool discovery — the exact `tools/list` result adapts to active plugins, license plan, and API key scope. Always call `wp_onboard` first on a new connection — it returns a full site briefing with content inventory, active integrations, and recommended first actions.
 
-| Category | What |
-|----------|------|
-| **content** | Pages, posts, drafts, bulk ops, search |
-| **elementor** | Get/set data, edit sections, edit widgets |
-| **elementor-build** | Build pages from blueprints and landing-page patterns |
+| Category | Tools |
+|----------|-------|
+| **content** | Pages, posts, drafts, bulk ops, search, clone, template |
+| **elementor** | Get/set full data, edit sections/widgets, patch, find-replace |
+| **elementor-build** | Build pages from section blueprints |
 | **elementor-templates** | Templates, archetypes, reusable parts |
-| **elementor-theme** | Theme builder, conditions, custom code when available |
+| **elementor-theme** | Theme builder, conditions, custom code |
 | **elementor-info** | Widget schemas, help, CSS regeneration |
-| **site** | Menus, options, CSS, design refs, guides |
-| **media** | Upload file/URL/base64, screenshot |
-| **woocommerce** | Products, orders, categories, analytics when WooCommerce is installed |
-| **learnpress** | Courses, lessons, quizzes, curriculum when LearnPress is installed |
-| **seo** | Meta tags, analysis, bulk SEO, indexing workflows |
+| **site** | Menus, options, CSS, design refs, guides, workflows |
+| **media** | Upload file/URL/base64, screenshot, AI alt text |
+| **seo** | Audit, issues, autofix, search performance, structured data |
+| **memory** | Persist brand rules and decisions across sessions |
+| **blueprints** | Deploy starter sites, extract current structure |
+| **approvals** | Request → approve → apply → rollback any change |
 | **taxonomy** | Categories, tags, custom terms |
-| **gutenberg** | Blocks, patterns, block types |
-| **admin** | API keys, rate limits, settings, updates |
-| **webhooks** | Create, test, monitor deliveries |
+| **gutenberg** | Blocks, patterns, block types, serialize/parse |
+| **webhooks** | Create, test, monitor event deliveries |
+| **admin** | API keys, rate limits, settings, updates, analytics |
+| **woocommerce** | Products, orders, categories (when WooCommerce active) |
+| **learnpress** | Courses, lessons, quizzes (when LearnPress active) |
+
+---
+
+## Agency Features
+
+MCPWP includes a multi-site agency stack for managing client sites at scale.
+
+```
+1 MCP token  →  N client WordPress sites
+```
+
+### Multi-Site Proxy
+
+One Cloudflare Worker fronts all registered client sites. Claude (or any agent) lists sites and addresses them by domain:
+
+```
+wp_list_sites()
+wp_get_page(_site: "client.com", id: 5)
+wp_set_elementor(_site: "client.com", id: 5, elementor_data: [...])
+```
+
+### Audit Log + Rollback
+
+Every MCP write logged to DB with timestamp, tool, args, before/after state snapshots. One-click rollback from Control Room. CSV export for compliance. Configurable log retention (default 90 days). EU AI Act enforcement deadline: August 2, 2026.
+
+### White-Label
+
+Agency branding in the WP admin: logo, colors, custom chat greeting. `[mcpwp_chat]` shortcode embeds a branded AI chat widget on any page or Elementor layout.
+
+---
+
+## Site Memory
+
+AI decisions and brand rules persist across sessions in typed namespaces:
+
+```
+wp_remember(namespace: "brand", key: "tone", value: "professional, no jargon")
+wp_recall(namespace: "brand", key: "tone")    →  "professional, no jargon"
+wp_list_memories(namespace: "brand")
+wp_forget(namespace: "brand", key: "tone")
+```
+
+Namespaces: `brand`, `design`, `seo`, `decisions`, `custom`.
+
+---
+
+## Proactive Signals
+
+WordPress surfaces issues without being asked:
+
+```
+wp_get_signals() → [
+  { severity: "high",   message: "3 pages have broken Elementor data" },
+  { severity: "medium", message: "12 posts not updated in 6+ months" },
+  { severity: "low",    message: "Plugin updates available: Elementor 3.26" }
+]
+```
+
+Signal types: stale content, broken Elementor, missing featured images, draft accumulation, plugin updates, SEO issues.
+
+---
+
+## Site Blueprints
+
+Deploy a full multi-page site structure from a starter, or snapshot your current site as a reusable blueprint.
+
+**Starter blueprints:** law-firm, restaurant, saas, real-estate, portfolio
+
+```
+wp_deploy_site_blueprint(id: "saas")   →  creates all pages + nav menu
+wp_extract_site_blueprint()            →  snapshot current site as a blueprint
+wp_list_site_blueprints()              →  list starters + saved blueprints
+wp_create_site_blueprint(name: "...")  →  save a custom blueprint
+```
+
+---
+
+## Approval Workflow
+
+Every write can go through a human gate:
+
+```
+wp_create_approval_request(tool: "wp_set_elementor", params: {...})
+→ appears in Control Room for review
+→ wp_apply_approval(id: 42)    applies the change
+→ wp_rollback_approval(id: 42) undoes it
+```
+
+---
+
+## Elementor
+
+- **Section blueprints** — hero, features, cta, pricing, team, portfolio, services, 20+ more
+- **Validation** — auto-fixes missing IDs, wrong widget keys, nesting errors
+- **Fuzzy matching** — "headng" → "Did you mean 'heading'?"
+- **Partial edits** — `wp_edit_widget`, `wp_edit_section`, `wp_patch_elementor`
+- **CSS regeneration** — auto-rebuilds CSS, purges SiteGround/WP Rocket/LiteSpeed caches
+- **Container + classic mode** — works with both Elementor layout modes
+
+---
 
 ## Role-Scoped API Keys
 
 ```mermaid
 graph TD
     A[API Key] -->|role| B{Role}
-    B -->|admin| C["🔓 all licensed tools — full access"]
-    B -->|designer| D["🎨 Elementor + media + site workflows"]
-    B -->|editor| E["✏️ content + design + SEO workflows"]
-    B -->|author| F["📝 content + media workflows"]
+    B -->|admin| C["🔓 all licensed tools"]
+    B -->|designer| D["🎨 Elementor + media + site"]
+    B -->|editor| E["✏️ content + design + SEO"]
+    B -->|author| F["📝 content + media"]
     B -->|custom| G["⚙️ pick categories"]
 ```
 
-Create keys via WP Admin > MCPWP > Setup, or `wp_create_api_key(label, role)`.
+Create keys via **WP Admin → MCPWP → Setup**, or `wp_create_api_key(label, role)`.
 
-## Blueprints
-
-Build full pages with reusable section patterns:
-
-| Type | What it builds |
-|------|---------------|
-| `hero` | Full-width hero with heading, CTA, background |
-| `features` | Icon-box card grid with shadows, hover effects |
-| `cta` | Call-to-action banner with button |
-| `pricing` | Price table columns with feature lists |
-| `faq` | Accordion with Q&A |
-| `testimonials` | Quote cards with ratings |
-| `team` | Team member cards with images |
-| `portfolio` | Project showcase grid |
-| `blog_grid` | Blog post cards |
-| `services` | Service cards with pricing |
-| `about` | Image + text side-by-side |
-| `process_steps` | Numbered step cards |
-| `social_proof` | Star ratings + quotes |
-| `product_showcase` | Product highlight with features |
-| `before_after` | Comparison columns |
-| `newsletter` | Email signup CTA |
-| `stats` | Animated number counters |
-| `gallery` | Image gallery grid |
-| `text` | Simple text section |
-| `map` | Google Maps embed |
-| `countdown` | Countdown timer |
-| `logo_grid` | Partner/client logos |
-| `video` | Video embed |
-| `contact_form` | Contact form section |
-
-## Examples
-
-### Build a page
-```
-wp_build_page(title: "Services", sections: [
-  {type: "hero", heading: "Our Services", button_text: "Get Started"},
-  {type: "features", columns: 3, items: [
-    {icon: "fas fa-rocket", title: "Fast", desc: "Speed matters"},
-    {icon: "fas fa-shield-alt", title: "Secure", desc: "Bank-grade"},
-    {icon: "fas fa-heart", title: "Reliable", desc: "99.9% uptime"}
-  ]},
-  {type: "cta", heading: "Ready?", button_text: "Contact Us"}
-])
-```
-
-### Edit one widget
-```
-wp_edit_widget(page_id: 42, widget_id: "abc123", settings: {title_text: "New Title"})
-```
-
-### Upload an image
-```
-wp_upload_media_from_url(url: "https://example.com/photo.jpg", title: "Hero image")
-```
-
-### Manage WooCommerce
-```
-wc_create_product(name: "T-Shirt", regular_price: "29.99", type: "simple")
-```
-
-## Elementor Features
-
-- **Blueprint patterns** — hero, features, cta, pricing, team, portfolio, services, about, and more
-- **Validation** — auto-fixes missing IDs, wrong widget keys, nesting errors
-- **Fuzzy matching** — typo in widget type? "Did you mean 'heading'?"
-- **Save persistence** — forces direct meta overwrite after Document::save()
-- **CSS regeneration** — auto-rebuilds CSS, purges SiteGround/WP Rocket/LiteSpeed
-- **Container + classic mode** — works with both Elementor layout modes
+---
 
 ## Roadmap
 
-- [x] Dynamic MCP tool discovery across site, content, builder, SEO, media, and admin workflows
-- [x] Reusable page blueprints and section patterns
-- [x] Role-scoped API keys
-- [x] Elementor validation + auto-fix
-- [x] Admin UI (Setup, Library, Tools, Settings)
-- [x] Claude Code workflow support
-- [ ] WordPress.org listing (submitted, pending)
-- [ ] Managed MCP proxy for agencies
-- [ ] 30+ blueprint types
-- [ ] Visual diff — show what changed after MCP edits
-- [ ] Multi-site dashboard
-- [ ] WooCommerce product page blueprints
+### Shipped (v2.8.45–v2.8.49)
+- [x] Server-side MCP tool analytics (PostHog, opt-in/opt-out)
+- [x] Agency multi-site proxy (Cloudflare Worker, hybrid MCP routing)
+- [x] AI action audit log + rollback (EU AI Act ready, Aug 2026)
+- [x] Agency dashboard (health checks, request volume)
+- [x] White-label branding + `[mcpwp_chat]` shortcode
+- [x] Dynamic site memory (`wp_remember` / `wp_recall` / `wp_forget`)
+- [x] Proactive signals (`wp_get_signals`)
+- [x] Site blueprint library (5 starters, deploy + extract)
+- [x] Chat excellence (multi-model: OpenAI GPT-4o mini, Gemini 2.5 Flash, Workers AI; SSE streaming; history)
+
+### v2.9 — Multi-Client Distribution
+- [ ] ChatGPT Custom GPT + curated OpenAPI schema (GPT Store)
+- [ ] MCP Resources — WordPress content as browsable MCP resources
+- [ ] MCP Prompts — reusable editorial + SEO workflow templates
+- [ ] OpenClaw ClawHub skill + deep compatibility
+- [ ] Hermes Agent integration guide + BM25-optimized tool descriptions
+
+### v3.0 — Auth Layer
+- [ ] OAuth 2.1 server (unlocks ChatGPT MCP Connector + Claude Connector directory)
+- [ ] Claude Desktop Extension (MCPB format, per-user URL + API key)
+- [ ] ChatGPT native MCP Connector (120+ tools, live tool discovery)
+
+### v3.1 — Intelligence Layer
+- [ ] Tool Search / deferred tool loading (BM25 retrieval over 120+ tools)
+- [ ] Per-site custom tool registry (add tools without modifying the plugin)
+- [ ] Multi-agent handoffs (SEO + content + deploy agents in sequence)
+
+---
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions and what we need help with.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup and contribution guidelines.
 
 ## Security
 
@@ -241,14 +340,14 @@ See [SECURITY.md](SECURITY.md) for our vulnerability disclosure policy.
 ## Links
 
 - **Website:** [mcpwp.net](https://mcpwp.net)
-- **Claude Code Workflow:** see [mcpwp.net](https://mcpwp.net) for current setup docs
-- **Managed MCP Proxy:** see [mcpwp.net](https://mcpwp.net) for current agency setup docs
+- **OpenClaw skill:** [integrations/clawhub/](integrations/clawhub/)
+- **ChatGPT schema:** [integrations/chatgpt/](integrations/chatgpt/) *(coming in v2.9)*
 - **WordPress.org:** pending approval
 - **Download:** [mcpwp.net](https://mcpwp.net)
 
 ## License
 
-GPL v2 or later. Check the product website for current packaging, pricing, and plan terms.
+GPL v2 or later. See [mcpwp.net](https://mcpwp.net) for current packaging, pricing, and plan terms.
 
 ---
 
