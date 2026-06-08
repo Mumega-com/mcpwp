@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord Community
+    url: https://discord.gg/mcpwp
+    about: Questions, help, show and tell
+  - name: Documentation
+    url: https://mcpwp.net/docs
+    about: Setup guides and API reference

@@ -11,11 +11,51 @@ type Variables = { agencyId: string };
 type AppMiddleware = MiddlewareHandler<{ Bindings: Env; Variables: Variables }>;
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 
-// Health check
-app.get('/', (c) => c.json({ service: 'mcpwp-agency-proxy', version: '1.0.0' }));
+// T97: timing-safe string comparison via HMAC — prevents secret enumeration via timing
+async function timingSafeEqual(a: string, b: string): Promise<boolean> {
+  const enc = new TextEncoder();
+  const keyData = enc.encode('mcpwp-proxy-compare-v1');
+  const key = await crypto.subtle.importKey('raw', keyData, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const [aHash, bHash] = await Promise.all([
+    crypto.subtle.sign('HMAC', key, enc.encode(a)),
+    crypto.subtle.sign('HMAC', key, enc.encode(b)),
+  ]);
+  const aArr = new Uint8Array(aHash);
+  const bArr = new Uint8Array(bHash);
+  let diff = 0;
+  for (let i = 0; i < aArr.length; i++) diff |= aArr[i] ^ bArr[i];
+  return diff === 0;
+}
 
-// Agency dashboard — HTML UI, protected by X-Admin-Secret header or Basic Auth password
-app.get('/dashboard', (c) => {
+// T94: enforce Content-Type + body size on POST routes
+function assertJsonPost(c: Parameters<AppMiddleware>[0]): Response | null {
+  const ct = c.req.header('content-type') ?? '';
+  if (!ct.includes('application/json')) {
+    return c.json({ error: 'Content-Type must be application/json' }, 415) as unknown as Response;
+  }
+  const len = Number(c.req.header('content-length') ?? 0);
+  if (len > 1_048_576) {
+    return c.json({ error: 'Payload too large' }, 413) as unknown as Response;
+  }
+  return null;
+}
+
+// T95: security headers on all responses
+app.use('*', async (c, next) => {
+  await next();
+  c.header('X-Content-Type-Options', 'nosniff');
+  c.header('X-Frame-Options', 'DENY');
+  c.header('Referrer-Policy', 'no-referrer');
+  if (c.req.path === '/dashboard') {
+    c.header('Content-Security-Policy', "default-src 'self'; script-src 'none'; object-src 'none'");
+  }
+});
+
+// Health check — no version leak
+app.get('/', (c) => c.json({ status: 'ok' }));
+
+// Agency dashboard — HTML UI, protected by Basic Auth (password = ADMIN_SECRET)
+app.get('/dashboard', async (c) => {
   const auth = c.req.header('Authorization') ?? '';
   let authed = false;
 
@@ -23,18 +63,17 @@ app.get('/dashboard', (c) => {
     try {
       const decoded = atob(auth.slice(6));
       const password = decoded.includes(':') ? decoded.slice(decoded.indexOf(':') + 1) : decoded;
-      authed = password === c.env.ADMIN_SECRET;
+      authed = await timingSafeEqual(password, c.env.ADMIN_SECRET); // T97
     } catch { /* ignore decode errors */ }
   }
 
   if (!authed) {
-    return new Response('Unauthorized — use HTTP Basic Auth (any username, password = ADMIN_SECRET)', {
-      status: 401,
-      headers: { 'WWW-Authenticate': 'Basic realm="MCPWP Agency Dashboard"', 'Content-Type': 'text/plain' },
+    return c.text('Unauthorized — use HTTP Basic Auth (any username, password = ADMIN_SECRET)', 401, {
+      'WWW-Authenticate': 'Basic realm="MCPWP Agency Dashboard"',
     });
   }
 
-  return new Response(DASHBOARD_HTML, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+  return c.html(DASHBOARD_HTML);
 });
 
 /**
@@ -79,6 +118,17 @@ const requireApiToken: AppMiddleware = async (c, next) => {
 
 // MCP endpoint
 app.post('/mcp', requireAgencyToken, async (c) => {
+  // T96: rate limit per IP — blocks token brute-force
+  const ip = c.req.header('cf-connecting-ip') ?? 'unknown';
+  const { success: rateLimitOk } = await c.env.RATE_LIMITER_MCP.limit({ key: ip });
+  if (!rateLimitOk) {
+    return c.json({ jsonrpc: '2.0', id: null, error: { code: -32000, message: 'Rate limit exceeded' } }, 429);
+  }
+
+  // T94: Content-Type + body size enforcement
+  const badRequest = assertJsonPost(c);
+  if (badRequest) return badRequest;
+
   let body: { method?: string; id?: unknown; params?: unknown };
   try {
     body = await c.req.json();
@@ -105,8 +155,19 @@ app.post('/mcp', requireAgencyToken, async (c) => {
 
 // Account creation — returns one-time agency token
 app.post('/api/accounts', async (c) => {
-  const adminSecret = c.req.header('X-Admin-Secret');
-  if (!adminSecret || adminSecret !== c.env.ADMIN_SECRET) {
+  // T96: strict rate limit — account creation is admin-only, 10 req/min max
+  const ip = c.req.header('cf-connecting-ip') ?? 'unknown';
+  const { success: rateLimitOk } = await c.env.RATE_LIMITER_ADMIN.limit({ key: ip });
+  if (!rateLimitOk) {
+    return c.json({ error: 'Rate limit exceeded' }, 429);
+  }
+
+  // T94: Content-Type + body size
+  const badRequest = assertJsonPost(c);
+  if (badRequest) return badRequest;
+
+  const adminSecret = c.req.header('X-Admin-Secret') ?? '';
+  if (!adminSecret || !(await timingSafeEqual(adminSecret, c.env.ADMIN_SECRET))) { // T97
     return c.json({ error: 'Forbidden: X-Admin-Secret required' }, 403);
   }
 
@@ -169,6 +230,9 @@ app.get('/api/sites/health', requireApiToken, async (c) => {
 
 // Add site
 app.post('/api/sites', requireApiToken, async (c) => {
+  const badRequest = assertJsonPost(c); // T94
+  if (badRequest) return badRequest;
+
   let body: { url?: string; api_key?: string; label?: string; site_id?: string };
   try {
     body = await c.req.json();
@@ -215,6 +279,9 @@ app.delete('/api/sites/:siteId', requireApiToken, async (c) => {
 // Then calls POST /api/hostname with { hostname: "ai.agencyname.com" }
 // The proxy reads the Host header on /mcp requests and resolves the agency.
 app.post('/api/hostname', requireApiToken, async (c) => {
+  const badRequest = assertJsonPost(c); // T94
+  if (badRequest) return badRequest;
+
   let body: { hostname?: string; action?: string };
   try {
     body = await c.req.json();
