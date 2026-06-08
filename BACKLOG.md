@@ -176,6 +176,22 @@ ChatGPT App Store requires OAuth 2.1 with PKCE. Options:
 | T71 | Per-site custom tool registry | Site owners register custom MCP tools without modifying plugin |
 | T72 | Multi-agent handoffs | SEO agent + content agent + deploy agent in sequence |
 
+### v3.2 — Hosted Agent + Resold Compute
+
+| # | GH | Task | Notes |
+|---|-----|------|-------|
+| T100 | #429 | Hosted McpAgent Worker (agent.mcpwp.net) | Stateful DO per session. BYOK or pooled Workers AI. Resell CF compute as Pro+Hosted tier. Needs Opus for spec. |
+| T101 | #430 | AI Gateway for all LLM calls | Free logging + cost-per-site + provider fallback. One URL change in PHP providers. |
+| T102 | #431 | Vectorize semantic tool search | Embed 120+ tool descriptions. McpAgent fetches top-k, not full list. 85% token reduction. |
+
+### v4.0 — Content Engine
+
+| # | GH | Task | Notes |
+|---|-----|------|-------|
+| T110 | #432 | Content Engine spec (post → video → YouTube → GHL) | On publish: Remotion renders video → YouTube upload → GHL social schedule + CRM update. Needs Opus for spec. |
+| T111 | #433 | Remotion branded video templates | 3 templates (60s, 90s, 15s short). Accept brand props from wp_remember. |
+| T112 | #434 | GoHighLevel integration | Social scheduling + CRM contact timeline. OAuth via T60. |
+
 ---
 
 ## Key Files
