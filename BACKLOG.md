@@ -38,6 +38,40 @@
 
 ---
 
+## Pre-Launch Gaps (just added — #410–#423)
+
+### Security (BLOCKER)
+| # | GH | Task |
+|---|-----|------|
+| T85 | #410 | Fix 29 Dependabot alerts (2 critical, 6 high) — visible on GitHub, kills launch trust |
+
+### Contributor DX
+| # | GH | Task |
+|---|-----|------|
+| T80 | #411 | GitHub issue templates (bug / feature / new-tool) |
+| T81 | #412 | PR template |
+| T82 | #413 | GitHub Actions CI (PHP lint + smoke test) |
+| T83 | #414 | AGENTS.md for AI contributors |
+| T84 | #415 | Devcontainer for GitHub Codespaces |
+
+### Legal / Trust
+| # | GH | Task |
+|---|-----|------|
+| T86 | #416 | Privacy policy page at mcpwp.net/privacy (blocks WP.org, ChatGPT App, Claude Connector) |
+| T93 | #423 | DECISION: close premium source to private repo |
+
+### Website / Conversion
+| # | GH | Task |
+|---|-----|------|
+| T87 | #417 | Pricing page on mcpwp.net |
+| T88 | #418 | End-to-end install flow test (zero → first tool call, target <5 min) |
+| T89 | #419 | Email capture on mcpwp.net (PH traffic spike is one-time) |
+| T90 | #420 | Launch blog post ("How we built a 120-tool WP MCP server") |
+| T91 | #421 | Discord server + support channel |
+| T92 | #422 | Freemius onboarding email update for v2.8.49 |
+
+---
+
 ## Active Sprint — Launch Prep
 
 ### P0 — Integration Testing (do before any publish)
