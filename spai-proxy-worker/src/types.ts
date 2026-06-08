@@ -2,6 +2,8 @@ export interface Env {
   AGENCY_KV: KVNamespace;
   ENCRYPTION_KEY: string; // 64-char hex = 32-byte AES-GCM key
   ADMIN_SECRET: string;
+  RATE_LIMITER_MCP: RateLimit;   // 120 req/min per IP on /mcp
+  RATE_LIMITER_ADMIN: RateLimit; // 10 req/min per IP on /api/accounts
 }
 
 export interface SiteEntry {

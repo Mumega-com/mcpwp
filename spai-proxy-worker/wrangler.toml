@@ -13,6 +13,19 @@ binding = "AGENCY_KV"
 id = "de9e874892da476a8cd4fcc7e0be2502"
 preview_id = "f05c4784f1cb4b618c1652e60d08181f"
 
+# Rate limiting — 120 req/min per IP on /mcp, 10 req/min per IP on /api/accounts
+[[unsafe.bindings]]
+name = "RATE_LIMITER_MCP"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 120, period = 60 }
+
+[[unsafe.bindings]]
+name = "RATE_LIMITER_ADMIN"
+type = "ratelimit"
+namespace_id = "1002"
+simple = { limit = 10, period = 60 }
+
 # Secrets (set via wrangler secret put):
 # ENCRYPTION_KEY — 64-char hex (32 bytes)
 # ADMIN_SECRET   — arbitrary secret for POST /api/accounts
