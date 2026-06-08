@@ -26,6 +26,8 @@ $activity_rows   = isset( $control_room['recent_activity'] ) && is_array( $contr
 $recommendations = isset( $control_room['recommendations'] ) && is_array( $control_room['recommendations'] ) ? $control_room['recommendations'] : array();
 $event_summary   = isset( $event_inbox['summary'] ) && is_array( $event_inbox['summary'] ) ? $event_inbox['summary'] : array();
 $event_items     = isset( $event_inbox['events'] ) && is_array( $event_inbox['events'] ) ? $event_inbox['events'] : array();
+$signals         = isset( $control_room['signals'] ) && is_array( $control_room['signals'] ) ? $control_room['signals'] : array();
+$memory_count    = (int) ( $control_room['memory_count'] ?? 0 );
 
 $pending_count  = (int) ( $approval_counts['pending'] ?? 0 );
 $approved_count = (int) ( $approval_counts['approved'] ?? 0 );
@@ -498,4 +500,67 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 			</table>
 		<?php endif; ?>
 	</div>
+</div>
+
+<?php // ── Site Signals (#363) ────────────────────────────────────────────────── ?>
+<div class="spai-card" style="margin-top:1.5rem">
+	<div class="spai-control-card-header">
+		<h2 class="spai-control-card-title"><?php esc_html_e( 'Site Signals', 'mumega-mcp' ); ?></h2>
+		<div class="spai-control-card-actions">
+			<form method="post" style="display:inline">
+				<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
+				<input type="hidden" name="spai_control_room_action" value="refresh_signals" />
+				<button type="submit" class="button button-small"><?php esc_html_e( 'Refresh Signals', 'mumega-mcp' ); ?></button>
+			</form>
+		</div>
+	</div>
+	<?php if ( empty( $signals ) ) : ?>
+		<p style="padding:1rem;color:#666"><?php esc_html_e( 'No signals found. Signals are computed daily via WP Cron — or click Refresh Signals to compute now.', 'mumega-mcp' ); ?></p>
+	<?php else : ?>
+		<table class="widefat striped" style="margin-top:.5rem">
+			<thead>
+				<tr>
+					<th><?php esc_html_e( 'Severity', 'mumega-mcp' ); ?></th>
+					<th><?php esc_html_e( 'Type', 'mumega-mcp' ); ?></th>
+					<th><?php esc_html_e( 'Entity', 'mumega-mcp' ); ?></th>
+					<th><?php esc_html_e( 'Detail', 'mumega-mcp' ); ?></th>
+					<th><?php esc_html_e( 'Action Hint', 'mumega-mcp' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ( $signals as $signal ) :
+					$sev        = esc_html( $signal['severity'] ?? 'low' );
+					$sev_colors = array( 'high' => '#c0392b', 'medium' => '#e67e22', 'low' => '#7f8c8d' );
+					$sev_color  = $sev_colors[ $signal['severity'] ?? 'low' ] ?? '#7f8c8d';
+				?>
+				<tr>
+					<td><span style="background:<?php echo esc_attr( $sev_color ); ?>;color:#fff;padding:2px 7px;border-radius:3px;font-size:11px;text-transform:uppercase;display:inline-block"><?php echo $sev; ?></span></td>
+					<td><code><?php echo esc_html( $signal['type'] ?? '' ); ?></code></td>
+					<td>
+						<?php if ( ! empty( $signal['entity_id'] ) ) : ?>
+							<a href="<?php echo esc_url( get_edit_post_link( (int) $signal['entity_id'] ) ?? '#' ); ?>" target="_blank"><?php echo esc_html( $signal['entity_title'] ?? (string) $signal['entity_id'] ); ?></a>
+						<?php else : ?>
+							<?php echo esc_html( $signal['entity_title'] ?? '—' ); ?>
+						<?php endif; ?>
+					</td>
+					<td><?php echo esc_html( $signal['detail'] ?? '' ); ?></td>
+					<td style="color:#555;font-style:italic"><?php echo esc_html( $signal['action_hint'] ?? '' ); ?></td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	<?php endif; ?>
+	<?php if ( $memory_count > 0 ) : ?>
+	<p style="margin:.75rem 0 0;color:#555;font-size:12px">
+		<?php
+		printf(
+			/* translators: %1$d: entry count, %2$s: y or ies */
+			esc_html__( 'Site memory: %1$d entr%2$s stored across AI sessions.', 'mumega-mcp' ),
+			$memory_count,
+			1 === $memory_count ? 'y' : 'ies'
+		);
+		?>
+		&nbsp;<a href="<?php echo esc_url( rest_url( 'site-pilot-ai/v1/memory' ) . '?_wpnonce=' . wp_create_nonce( 'wp_rest' ) ); ?>" target="_blank"><?php esc_html_e( 'View JSON', 'mumega-mcp' ); ?></a>
+	</p>
+	<?php endif; ?>
 </div>

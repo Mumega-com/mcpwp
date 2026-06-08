@@ -14,7 +14,7 @@
  * Plugin Name:       MCPWP
  * Plugin URI:        https://mcpwp.net/
  * Description:       Connect WordPress to AI assistants via the Model Context Protocol (MCP). Manage posts, pages, media, and Elementor through natural language.
- * Version:           2.8.47
+ * Version:           2.8.48
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            Mumega
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin version.
  */
-define( 'SPAI_VERSION', '2.8.47' );
+define( 'SPAI_VERSION', '2.8.48' );
 
 /**
  * Plugin directory path.
@@ -232,6 +232,8 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-provider-pexels.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-analytics.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-white-label.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-site-memory.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-signals.php';
 
 	// Load MCP tool registries
 	require_once SPAI_PLUGIN_DIR . 'includes/mcp/class-spai-mcp-tool-registry.php';
@@ -271,6 +273,8 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-blocks.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-approvals.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-action-log.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-site-memory.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-signals.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-mcp.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-batch.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/api/class-spai-rest-integrations.php';
@@ -301,6 +305,12 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	// Initialize white-label (shortcode, branding hooks, Elementor widget).
 	if ( class_exists( 'Spai_White_Label' ) ) {
 		Spai_White_Label::init();
+	}
+
+	// Signals cron — compute signal feed on schedule.
+	if ( class_exists( 'Spai_Signals' ) ) {
+		Spai_Signals::schedule();
+		add_action( Spai_Signals::CRON_HOOK, array( 'Spai_Signals', 'compute' ) );
 	}
 
 	// Schedule daily prune of old action log entries.

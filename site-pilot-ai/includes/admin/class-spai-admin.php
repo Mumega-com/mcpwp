@@ -437,6 +437,11 @@ class Spai_Admin {
 
 		if ( 'run_seo_audit' === $action ) {
 			$result = $this->run_control_room_seo_audit();
+		} elseif ( 'refresh_signals' === $action ) {
+			if ( class_exists( 'Spai_Signals' ) ) {
+				$computed = Spai_Signals::compute();
+				$result   = sprintf( __( 'Signals refreshed: %d signal(s) found.', 'mumega-mcp' ), count( $computed ) );
+			}
 		} elseif ( 'rollback_action_log' === $action ) {
 			$log_id = isset( $_POST['action_log_id'] ) ? sanitize_text_field( wp_unslash( $_POST['action_log_id'] ) ) : '';
 			if ( class_exists( 'Spai_Action_Log' ) && $log_id ) {
@@ -625,6 +630,21 @@ class Spai_Admin {
 		);
 
 		$data['recommendations'] = $this->get_control_room_recommendations( $data );
+
+		// Site Signals (#363).
+		$data['signals'] = class_exists( 'Spai_Signals' )
+			? Spai_Signals::get_signals( array(), '', 20 )
+			: array();
+
+		// Site Memory summary (#362).
+		$data['memory_count'] = 0;
+		if ( class_exists( 'Spai_Site_Memory' ) ) {
+			Spai_Site_Memory::maybe_migrate_site_context();
+			$mem_grouped = Spai_Site_Memory::list_all();
+			foreach ( $mem_grouped as $entries ) {
+				$data['memory_count'] += count( $entries );
+			}
+		}
 
 		return $data;
 	}

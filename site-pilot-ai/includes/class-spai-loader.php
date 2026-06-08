@@ -293,6 +293,18 @@ class Spai_Loader {
 		$action_log_controller = new Spai_REST_Action_Log();
 		$action_log_controller->register_routes();
 
+		// Site Memory (#362)
+		if ( class_exists( 'Spai_REST_Site_Memory' ) ) {
+			$memory_controller = new Spai_REST_Site_Memory();
+			$memory_controller->register_routes();
+		}
+
+		// Site Signals (#363)
+		if ( class_exists( 'Spai_REST_Signals' ) ) {
+			$signals_controller = new Spai_REST_Signals();
+			$signals_controller->register_routes();
+		}
+
 		// MCP (Model Context Protocol)
 		$mcp_controller = new Spai_REST_MCP();
 		$mcp_controller->register_routes();
