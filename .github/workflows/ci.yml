@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  php-lint:
+    name: PHP Syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      - name: Lint PHP files
+        run: |
+          find site-pilot-ai -name "*.php" -not -path "*/freemius/*" -not -path "*/node_modules/*" \
+            -exec php -l {} \; | grep -v "No syntax errors" || true
+          # Fail if any syntax errors found
+          find site-pilot-ai -name "*.php" -not -path "*/freemius/*" \
+            -exec php -l {} \; 2>&1 | grep "Parse error" && exit 1 || exit 0
+
+  proxy-worker-tests:
+    name: Proxy Worker Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: spai-proxy-worker/package-lock.json
+      - name: Install dependencies
+        run: cd spai-proxy-worker && npm ci
+      - name: Run tests
+        run: cd spai-proxy-worker && npm test
+      - name: Audit dependencies
+        run: cd spai-proxy-worker && npm audit --audit-level=high
