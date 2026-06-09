@@ -12,16 +12,19 @@
 
 ## North Star (product thesis)
 
-> MCPWP is **autonomous brand marketing that lives in WordPress** — not "a WordPress plugin."
-> A sovereign Cloudflare "pot" ([mupot](https://github.com/Mumega-com/mupot)) runs a WordPress
-> business as living agents, packaged as **vertical snapshots** (mupot pack + MCPWP site-blueprint),
-> resold by agencies. GoHighLevel's go-to-market, on a far stronger substrate: open WordPress
-> capability + living agents + sovereign (customer's own CF) + no per-seat tax.
+> **`docs/STRATEGY.md` is the canonical single source** (thesis · money model · fleet/funnel · roadmap).
+> Pricing detail: `docs/PRICING_TIERS.md`. This file is the task tracker. When they disagree, STRATEGY wins.
 >
-> **Beachhead:** WooCommerce stores (vertical ROI), agencies as the resale channel. LearnPress = fast-follow vertical.
-> **Moat:** governance (approval → apply → **rollback** + audit) + the brand-crystal (site-context +
-> content-coherence + site-memory → on-brand, not slop). Full thesis + pricing + unit economics live in
-> agent memory `mcpwp-gtm-strategy.md`.
+> **mupot is the product; MCPWP is the gateway.** mupot is a sovereign agent organization
+> ([repo](https://github.com/Mumega-com/mupot)) the customer forks onto their own Cloudflare to run a
+> business as governed agents; MCPWP is its biggest-market WordPress on-ramp. We give the engine away and
+> sell **vertical snapshots** (squad-pack + MCPWP blueprint + brand-crystal) + the **agency resale layer**.
+> GoHighLevel's go-to-market, sovereign substrate. Land-and-expand is **agents + surfaces, not sites.**
+>
+> **Beachhead:** WooCommerce stores (vertical ROI), agencies as the resale channel. LearnPress = fast-follow.
+> **Moat (off-code):** governance (approval → rollback + audit + hard-capped metered loops) + brand-crystal
+> (on-brand, not slop) + sovereignty + a runtime-agnostic fleet (every BYO agent runtime is a door in).
+> **The keystone build:** OAuth 2.1 + DCR (v2.9) opens the ChatGPT Business + Claude Managed fleet.
 
 ---
 
@@ -51,8 +54,11 @@ NOW ─ MVP PILOT (no version bump, runs on current builds) ──────�
 
 PHASE A — Foundation & Distribution ──────────────────────────────────────────────────────
   M1  Launch-Ready              v2.8.x   free plugin + Pro; beachhead entry   ← Hadi gates (T87 pricing)
-  M2  Distribution              v2.9     WP.org · ChatGPT GPT · MCP registries · Claude Connector
-  M3  Auth Layer                v3.0     OAuth 2.1 — unblocks hosted agent + app directories
+  M2  Auth Keystone (PULLED ▲)  v2.9     OAuth 2.1 + DCR on the bus/MCP — the funnel-opener. Bearer
+                                         runtimes (Hermes·openclaw·Codex·Claude-remote) connect NOW;
+                                         OAuth+DCR adds the BIG doors: ChatGPT Business + Claude Managed.
+  M3  Distribution              v2.9     WP.org · MCP registries · ChatGPT GPT/App · Claude Connector
+                                         (rides on M2 auth — one OAuth flow, one submission URL)
 
 PHASE B — Autonomous Marketing (productize the MVP) ───────────────────────────────────────
   M4  Hosted Marketing Agent    v3.2     agent.mcpwp.net + mupot integration = the MVP loop, productized
@@ -67,8 +73,15 @@ PHASE C — Platform & THE FULL VISION ─────────────�
 
 **The MVP→Full trace (the spine):** P0 is one hand-built snapshot loop → M4 productizes that loop as a
 hosted agent → M7 generalizes it into reusable vertical snapshots → M8 sells/resells them at scale (the
-GHL model). The full vision lands at **v6.0–v6.x**, gated behind M3 (auth) + M4 (hosted agent) + M6
+GHL model). The full vision lands at **v6.0–v6.x**, gated behind M2 (auth) + M4 (hosted agent) + M6
 (platform hardening). **The MVP pilot is doable NOW on current builds** — don't wait for v3 to prove it.
+
+**Why auth moved up (M3→M2, v3.0→v2.9):** OAuth 2.1 + **DCR** is not a wall someone else holds — it's a
+build *we* control, and it's the single highest-leverage one. Bearer runtimes already connect with no new
+auth; OAuth+DCR is the ONE thing that converts the two biggest, otherwise-unreachable markets — **ChatGPT
+Business** (connectors mandate OAuth 2.1 + Dynamic Client Registration, no bearer) and **Claude Managed
+Agents** (OAuth Vaults) — into reachable funnel. It opens both doors at once, so it ships with Distribution,
+not after it. The **fleet is the funnel**: every BYO-agent runtime that connects = a door into a pot.
 
 ---
 
@@ -151,7 +164,7 @@ Epics: M4 #451 · M7 #452 · M8 #453.
 
 ---
 
-## M2 — Multi-Client Distribution (v2.9)
+## M3 — Multi-Client Distribution (v2.9) — rides on M2 auth (below)
 
 ### Depends on: M1 complete, T03/T04 testing passed
 
@@ -200,19 +213,33 @@ MCPWP becomes a platform runtime. Third-party plugins (Digid, WooCommerce extens
 
 ---
 
-## M3 — Auth Layer (v3.0)
+## M2 — Auth Keystone (v2.9) — PULLED FORWARD
 
-### Depends on: M2 shipped
+> Was M3/v3.0. Moved up because it is the funnel-opener, not a downstream gate. Ships *with* Distribution.
+> Not blocked — a build we own. Bearer runtimes connect today; this adds the OAuth-only enterprise fleet.
+
+### Depends on: M1 shipped (nothing else)
 
 | # | GH | Task | Notes |
 |---|-----|------|-------|
-| T60 | #408 | OAuth 2.1 central CF Worker (auth.mcpwp.net) | Unlocks ChatGPT App + Claude Connector + YouTube + GHL |
-| T61 | — | ChatGPT App Directory submission | Needs T60 |
+| T60 | #408 | OAuth 2.1 + **DCR** authorization server (CF Worker, auth.mcpwp.net) | **DCR (Dynamic Client Registration) is mandatory for ChatGPT Business connectors** — no bearer accepted. Also unlocks Claude Managed (OAuth Vaults), ChatGPT App, Claude Connector, YouTube, GHL. Add PKCE. |
+| T60b | — | Wire OAuth 2.1 + DCR into the mupot bus flock plane | Same auth server admits OAuth runtimes (ChatGPT Business, Claude Managed) into a pot's flock, not just MCPWP-on-WP. |
+| T61 | — | ChatGPT App Directory + Workspace-Agent connector submission | Needs T60 (OAuth 2.1 + DCR) |
 | T62 | — | Claude Connector directory submission | Needs T60 |
 
-### What I lack for M3
+### Bearer fleet — connects NOW, no new auth (do these in parallel, pre-OAuth)
 
-OAuth 2.1 + PKCE is a significant build. Needs Opus-level spec session before implementation.
+| Runtime | Always-on? | Pack priority | Why |
+|---------|-----------|---------------|-----|
+| Hermes Agent (Nous) v0.16 | ✅ daemon + subagents + cron | **1st** | Persistent + bearer → the unattended autonomous loop, zero auth dependency |
+| openclaw (systemd) | ✅ daemon | **1st** | Native streamable-http + bearer = cleanest bus client |
+| Codex (desktop/CLI, GPT-5.4-Codex) | partial (Automations) | 2nd | Clean `url`+`bearer_token_env_var`; supervise CLI for true always-on |
+| Claude Code / Cowork desktop | machine-bound | 2nd | Human-in-loop *flights*, not unattended *loops* |
+
+### What I lack for M2-auth
+
+OAuth 2.1 + PKCE + **DCR** is a significant build. Needs Opus-level spec session before implementation.
+**Transport note:** confirm the bus serves **streamable-http** (SSE deprecated 2026-04) — required by Codex + openclaw.
 
 ---
 
