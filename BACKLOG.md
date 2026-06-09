@@ -5,21 +5,77 @@
 > **Project board:** https://github.com/orgs/Mumega-com/projects/1
 > **Quick queue:** `gh issue list --repo Mumega-com/mcpwp --label "status:ready" --state open`
 
-**Current version:** v2.8.50 (main)
+**Current version:** v2.8.51 (main)
 **Last updated:** 2026-06-09
 
 ---
 
-## Milestone Map
+## North Star (product thesis)
+
+> MCPWP is **autonomous brand marketing that lives in WordPress** — not "a WordPress plugin."
+> A sovereign Cloudflare "pot" ([mupot](https://github.com/Mumega-com/mupot)) runs a WordPress
+> business as living agents, packaged as **vertical snapshots** (mupot pack + MCPWP site-blueprint),
+> resold by agencies. GoHighLevel's go-to-market, on a far stronger substrate: open WordPress
+> capability + living agents + sovereign (customer's own CF) + no per-seat tax.
+>
+> **Beachhead:** WooCommerce stores (vertical ROI), agencies as the resale channel. LearnPress = fast-follow vertical.
+> **Moat:** governance (approval → apply → **rollback** + audit) + the brand-crystal (site-context +
+> content-coherence + site-memory → on-brand, not slop). Full thesis + pricing + unit economics live in
+> agent memory `mcpwp-gtm-strategy.md`.
+
+---
+
+## Milestone Map — MVP → Full (traced to major versions)
 
 ```
-M1: Launch-Ready          ← AGENT DONE — awaiting Hadi gates
-M2: Multi-Client Distribution (v2.9)
-M3: Auth Layer (v3.0)
-M4: Hosted Agent + Resold Compute (v3.2)
-M5: Content Engine (v4.0)
-M6: Platform Foundations (v5.0) — rebrand + microkernel
+SHIPPED  v2.8.45–v2.8.51  analytics · agency proxy · audit+rollback · white-label · site-memory
+                          · signals · blueprints · chat · hook API · find-replace fix
+                          └─ these are the BONES of the autonomous-marketing engine
+
+NOW ─ MVP PILOT (no version bump, runs on current builds) ───────────────────────────────
+  P0  Autonomous-Marketing PROOF LOOP — hand-wired, one instance:
+      1 Woo store → MCPWP + 1 mupot pot → marketing squad (keyword→on-brand content→SEO→product page)
+      → Telegram channel (owner approves) → 1 agency.  + measure real $/task.
+      Validates the ENTIRE thesis before anything is productized.
+
+PHASE A — Foundation & Distribution ──────────────────────────────────────────────────────
+  M1  Launch-Ready              v2.8.x   free plugin + Pro; beachhead entry   ← Hadi gates (T87 pricing)
+  M2  Distribution              v2.9     WP.org · ChatGPT GPT · MCP registries · Claude Connector
+  M3  Auth Layer                v3.0     OAuth 2.1 — unblocks hosted agent + app directories
+
+PHASE B — Autonomous Marketing (productize the MVP) ───────────────────────────────────────
+  M4  Hosted Marketing Agent    v3.2     agent.mcpwp.net + mupot integration = the MVP loop, productized
+  M5  Content Engine            v4.0     keyword research · Telegram/social distribution · Remotion video
+
+PHASE C — Platform & THE FULL VISION ──────────────────────────────────────────────────────
+  M6  Platform Foundations      v5.0     spai_→mcpwp_ rebrand + microkernel
+  M7  Snapshot System           v6.0     vertical snapshots (mupot pack + MCPWP blueprint): Woo, LearnPress
+  M8  Agency Reseller (FULL)    v6.x     white-label SaaS-mode · client sub-billing · snapshot marketplace
+                                         · sovereign deploy  =  THE FULL ONE
 ```
+
+**The MVP→Full trace (the spine):** P0 is one hand-built snapshot loop → M4 productizes that loop as a
+hosted agent → M7 generalizes it into reusable vertical snapshots → M8 sells/resells them at scale (the
+GHL model). The full vision lands at **v6.0–v6.x**, gated behind M3 (auth) + M4 (hosted agent) + M6
+(platform hardening). **The MVP pilot is doable NOW on current builds** — don't wait for v3 to prove it.
+
+---
+
+## P0 — Autonomous-Marketing MVP Proof Loop (do this FIRST)
+
+The smallest thing that validates the whole North Star. Runs on **current builds** — no v3 dependency.
+Build ONE loop end-to-end, measure it, decide go/no-go before productizing anything.
+
+| # | GH | Who | Task | Status |
+|---|-----|-----|------|--------|
+| P0a | #449 | agent | **Measure real $/task** — instrument one "build a Woo product page" agent run through AI Gateway; record token in/out per task type. Unblocks ALL pricing. | ⏳ ready |
+| P0b | #454 | agent | **Keyword-research MCP tool** — the one missing Phase-1 capability (no tool today). Feeds the content loop. | ⏳ ready |
+| P0c | #450 | both | **Wire the loop** — 1 Woo store → MCPWP + 1 mupot pot → marketing squad → Telegram approval. Hand-wired, no productization. | ⏳ |
+| P0d | — | Hadi | **1 pilot agency + 1 pilot store** — the human side of the proof (would they pay?). | ⏳ |
+
+Epics: M4 #451 · M7 #452 · M8 #453.
+
+**Exit test:** loop runs, content is on-brand (brand-crystal holds), agency says yes → thesis validated → build M4.
 
 ---
 
@@ -192,6 +248,47 @@ Clean-slate internals. One breaking release, done right.
 
 ---
 
+## M7 — Snapshot System (v6.0)
+
+### Depends on: M4 (hosted agent) + M6 (microkernel makes packaging clean)
+
+Generalize the P0 proof loop into reusable **vertical snapshots**. A snapshot = a **mupot pack**
+(agent squad + marketing skills + channel binding + governance) **+ an MCPWP site-blueprint**
+(WordPress site: pages, Woo/LearnPress config, SEO, brand-crystal). Both halves already exist as
+contract-defined bundles (mupot `packs/` + `wp_deploy_site_blueprint`).
+
+| # | Task | Notes |
+|---|------|-------|
+| T130 | Snapshot format spec (mupot pack ⊕ MCPWP blueprint) | The contract that fuses both halves. **Spec: Opus** |
+| T131 | WooCommerce vertical snapshot | First productized snapshot — opinionated stack (ship theme + required plugins → portability) |
+| T132 | LearnPress vertical snapshot | Second vertical (course creators) |
+| T133 | mupot ↔ MCPWP harness pack | A mupot flock agent gets a scoped MCP connection to the client's WP site + marketing skills. Seam already in pack contract. |
+| T134 | Snapshot deploy/clone flow | One-click deploy a snapshot into a fresh pot + WP site (the GHL-clone equivalent) |
+
+**Hard problem to respect:** WordPress is heterogeneous (themes/builders/plugins) where GHL is uniform.
+Solve with **opinionated stack per vertical** (snapshot ships the theme + plugin set) — uniformity is
+what makes snapshots portable. Do NOT target arbitrary existing sites first.
+
+---
+
+## M8 — Agency Reseller / SaaS-Mode (v6.x) — THE FULL VISION
+
+### Depends on: M7 (snapshots) + M3 (auth) + sovereign mupot deploy
+
+The full GHL-style motion, on the sovereign substrate.
+
+| # | Task | Notes |
+|---|------|-------|
+| T140 | Agency white-label SaaS-mode | Rebrand + resell snapshots as the agency's own product |
+| T141 | Client sub-billing + compute markup | Agency rebills clients; pass model cost through with markup (GHL SaaS-mode model) |
+| T142 | Snapshot marketplace | Agencies publish/sell vertical snapshots (the GHL snapshot-marketplace analog) |
+| T143 | Sovereign one-click deploy | Fork → deploy mupot to the customer's OWN Cloudflare ("fork it, own it") |
+
+**This is THE FULL ONE.** Build NOTHING here until the P0 loop + at least one M7 snapshot are proven.
+Marketplace before a working snapshot = death.
+
+---
+
 ## Technical Debt (fix as we go)
 
 | # | GH | Severity | Task |
@@ -205,7 +302,7 @@ Clean-slate internals. One breaking release, done right.
 
 ---
 
-## Shipped (v2.8.45–v2.8.50)
+## Shipped (v2.8.45–v2.8.51)
 
 - Server-side PostHog analytics
 - Agency multi-site proxy (CF Worker)
@@ -217,6 +314,7 @@ Clean-slate internals. One breaking release, done right.
 - Site blueprint library (5 starters)
 - Chat excellence (multi-model, SSE, history)
 - **v2.8.50:** `spai_register_tools` filter hook API; 56 BM25-optimized tool descriptions; openapi-chatgpt.yaml 49 operations; 5 pre-existing PHP syntax errors cleared; test bootstrap fixed
+- **v2.8.51:** find-replace false-negative + structural-corruption fix (decoded-tree match, protected keys); update-channel drift cured (manifest 2.8.43→2.8.51, R2 download_url 404 fixed); ElementorFindReplaceTest regression suite (PR #448)
 - README rebuilt (OpenClaw/Hermes/ChatGPT sections)
 - ClawHub skill (`integrations/clawhub/SKILL.md`)
 - Hermes integration (`integrations/hermes/`)
