@@ -139,6 +139,7 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 == Changelog ==
 
 = 2.8.56 =
+* Fix: front-end fatal error ("Class Spai_Elementor_Chat_Widget not found") when Elementor initialized widgets before the chat-widget class was defined. The Elementor chat widget is defined conditionally on Elementor being loaded; under some plugin load orders the file loaded first, leaving the class undefined while registration still ran. Registration is now guarded and skips safely instead of crashing the site.
 * Fix: capability detection now refreshes immediately when a plugin is activated or deactivated. Previously the capabilities response (woocommerce, learnpress, etc.) was cached for up to an hour, so a newly-enabled integration could report as unavailable — making connected AI agents blind to tools that were actually ready to use. The cache is now cleared on plugin activate/deactivate.
 
 = 2.8.55 =
