@@ -263,7 +263,14 @@ if ( ! function_exists( 'mcpwp_load_plugin' ) ) {
 	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-posts.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-pages.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-media.php';
-	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-site.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-site-info.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-site-settings.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-site-content.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-site-taxonomy.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-site-custom-css.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-site-updates.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-site-library.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-site-network.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-content-graph.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-seo-audit.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-content-quality.php';
