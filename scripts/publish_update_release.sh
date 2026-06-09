@@ -134,7 +134,11 @@ if [[ "$VERIFY_ONLY" -eq 0 ]]; then
 				--file="$STATIC_MANIFEST" --content-type="application/json" --remote 2>&1 | grep -v "^$" || true
 			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mumcp-updates/mumega-mcp-latest.zip \
 				--file="$STATIC_ZIP" --content-type="application/zip" --remote 2>&1 | grep -v "^$" || true
-			echo "  R2 upload: version.json + mumega-mcp-latest.zip → mumcp-updates bucket"
+			# The manifest's download_url is mcpwp-latest.zip. The CF Worker serves from R2,
+			# not the nginx symlink above, so this key MUST exist in R2 or downloads 404.
+			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mumcp-updates/mcpwp-latest.zip \
+				--file="$STATIC_ZIP" --content-type="application/zip" --remote 2>&1 | grep -v "^$" || true
+			echo "  R2 upload: version.json + mumega-mcp-latest.zip + mcpwp-latest.zip → mumcp-updates bucket"
 		else
 			echo "Note: CLOUDFLARE_API_TOKEN not set — skipping R2 upload (CF Worker will serve stale version)" >&2
 		fi
@@ -168,9 +172,15 @@ if [[ "$LIVE_STATIC_VERSION" != "$VERSION" ]]; then
 	echo "Note: live manifest still shows $LIVE_STATIC_VERSION (R2 upload may have failed or CF propagation in progress)" >&2
 fi
 
-LIVE_ZIP_HEADERS="$(curl -I -fsSL https://mumega.com/mcp-updates/mumega-mcp-latest.zip 2>/dev/null)" || true
-if ! grep -q "200 OK" <<<"$LIVE_ZIP_HEADERS"; then
-	echo "Note: live ZIP returned non-200 (may be CF cache in progress)" >&2
+# Verify the ACTUAL download_url advertised in the manifest resolves — not a
+# hardcoded name. The two diverged once (manifest said mcpwp-latest.zip while only
+# mumega-mcp-latest.zip was uploaded to R2), silently 404ing every site's download.
+DOWNLOAD_URL="$(python3 -c 'import json,sys; print(json.load(sys.stdin).get("download_url",""))' <<<"$LIVE_STATIC_JSON" 2>/dev/null || echo "")"
+if [[ -n "$DOWNLOAD_URL" ]]; then
+	ZIP_STATUS="$(curl -o /dev/null -s -w '%{http_code}' "$DOWNLOAD_URL" 2>/dev/null || echo "000")"
+	if [[ "$ZIP_STATUS" != "200" ]]; then
+		echo "Note: manifest download_url ($DOWNLOAD_URL) returned $ZIP_STATUS (CF cache, or the R2 key does not match download_url)" >&2
+	fi
 fi
 
 echo "Published Site Pilot AI $VERSION"

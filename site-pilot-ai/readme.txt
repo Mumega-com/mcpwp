@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.50
+Stable tag: 2.8.51
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,12 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.51 =
+* Fix: wp_bulk_find_replace no longer returns "not found" for searches containing HTML tags or URL slashes. The pre-check ran on raw JSON (where < is stored as < and / as \/); it now matches on the decoded element tree.
+* Fix: wp_bulk_find_replace no longer corrupts page structure when a search term overlaps Elementor vocabulary. Structural keys (elType, widgetType, id, isInner, structure) are excluded from replacement.
+* Hardening: find-replace search term now requires a minimum length of 1.
+* Tests: added Elementor find/replace regression suite.
 
 = 2.8.50 =
 * New: spai_register_tools filter — third-party plugins register MCP tools with a simple array, no PHP class required.
