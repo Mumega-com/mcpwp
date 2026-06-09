@@ -12,4 +12,4 @@ Closes #[issue number] — [or explain motivation]
 - [ ] If new REST endpoints: `CLAUDE.md` endpoint table updated
 - [ ] Version bump NOT included (maintainer handles version bumps)
 - [ ] No `var_dump`, `error_log`, `console.log` debug statements left in
-- [ ] PHP syntax clean: `find site-pilot-ai -name "*.php" -exec php -l {} \;`
+- [ ] PHP syntax clean: `find mcpwp -name "*.php" -exec php -l {} \;`

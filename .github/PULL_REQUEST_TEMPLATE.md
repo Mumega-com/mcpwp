@@ -12,5 +12,5 @@
 
 - [ ] Tested on Docker test site
 - [ ] No new `console.log` or `error_log` in production code
-- [ ] All functions/classes prefixed with `spai_` / `Spai_` / `SPAI_`
-- [ ] Text domain `site-pilot-ai` on all translatable strings
+- [ ] All functions/classes prefixed with `mcpwp_` / `Mcpwp_` / `MCPWP_`
+- [ ] Text domain `mcpwp` on all translatable strings

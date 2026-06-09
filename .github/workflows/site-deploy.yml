@@ -24,12 +24,12 @@ jobs:
 
       - name: Verify secrets
         run: |
-          if [[ -z "${{ secrets.SPAI_URL }}" ]]; then
-            echo "::error::SPAI_URL secret is not set. Add it in repo Settings > Secrets."
+          if [[ -z "${{ secrets.MCPWP_URL }}" ]]; then
+            echo "::error::MCPWP_URL secret is not set. Add it in repo Settings > Secrets."
             exit 1
           fi
-          if [[ -z "${{ secrets.SPAI_API_KEY }}" ]]; then
-            echo "::error::SPAI_API_KEY secret is not set. Add it in repo Settings > Secrets."
+          if [[ -z "${{ secrets.MCPWP_API_KEY }}" ]]; then
+            echo "::error::MCPWP_API_KEY secret is not set. Add it in repo Settings > Secrets."
             exit 1
           fi
 
@@ -42,8 +42,8 @@ jobs:
 
       - name: Push site content
         env:
-          SPAI_URL: ${{ secrets.SPAI_URL }}
-          SPAI_API_KEY: ${{ secrets.SPAI_API_KEY }}
+          MCPWP_URL: ${{ secrets.MCPWP_URL }}
+          MCPWP_API_KEY: ${{ secrets.MCPWP_API_KEY }}
         run: |
           FLAGS=""
           if [[ "${{ inputs.dry_run }}" == "true" ]]; then
