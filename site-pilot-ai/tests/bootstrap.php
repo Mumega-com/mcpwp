@@ -749,6 +749,7 @@ require_once dirname(__DIR__) . '/includes/core/class-spai-woocommerce-seo.php';
 require_once dirname(__DIR__) . '/includes/core/class-spai-pages.php';
 require_once dirname(__DIR__) . '/includes/api/class-spai-rest-api.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-tool-registry.php';
+require_once dirname(__DIR__) . '/includes/mcp/class-spai-custom-tool-registry.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-free-tools.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-mcp-pro-tools.php';
 require_once dirname(__DIR__) . '/includes/mcp/class-spai-integration.php';
