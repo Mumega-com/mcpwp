@@ -607,7 +607,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_forget',
-			'Delete a specific memory entry by namespace and key.',
+			'Delete a stored memory entry by namespace and key. Removes a saved rule, preference, or value from site memory.',
 			array(
 				'namespace' => array(
 					'type'        => 'string',
@@ -1108,7 +1108,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_list_menu_locations',
-			'List theme menu locations and which menus are assigned',
+			'List all theme menu locations with assigned menu names and IDs. Use to find where navigation menus are displayed.',
 			array()
 		);
 
@@ -1255,7 +1255,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_delete_menu_item',
-			'Remove a single item from a menu',
+			'Remove a single item from a WordPress navigation menu by item ID. Use to clean up or restructure navigation.',
 			array(
 				'menu_id' => array(
 					'type'        => 'number',
@@ -1272,7 +1272,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_reorder_menu_items',
-			'Bulk reorder and reparent menu items in a single call',
+			'Reorder and reparent navigation menu items in a single call. Use to restructure menu hierarchy or move items.',
 			array(
 				'menu_id' => array(
 					'type'        => 'number',
@@ -1289,7 +1289,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_delete_menu',
-			'Delete an entire navigation menu and all its items',
+			'Delete an entire navigation menu and all its items. Use when removing or replacing a navigation menu.',
 			array(
 				'menu_id' => array(
 					'type'        => 'number',
@@ -1335,7 +1335,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_list_page_templates',
-			'List all available page templates for the active theme',
+			'List all available page templates for the active WordPress theme. Use to find template options before assigning one to a page.',
 			array()
 		);
 
@@ -1363,7 +1363,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_get_kit_css',
-			'Read the Elementor kit\'s global custom_css setting. Works on any Elementor site without Elementor Pro. Use this before wp_set_kit_css to see what is already there.',
+			'Read the Elementor Kit global CSS. Returns custom CSS rules applied site-wide via the Elementor Kit settings.'s global custom_css setting. Works on any Elementor site without Elementor Pro. Use this before wp_set_kit_css to see what is already there.',
 			array()
 		);
 
@@ -1492,7 +1492,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_fetch',
-			'Fetch a single post or page by ID or URL',
+			'Fetch a single post or page by its WordPress ID or public URL. Returns content, status, metadata, and edit URL.',
 			array(
 				'id' => array(
 					'type'        => 'number',
@@ -1602,7 +1602,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_update_post',
-			'Update an existing blog post',
+			'Update an existing blog post: title, content, status, categories, tags, excerpt, or featured image.',
 			array(
 				'id'      => array(
 					'type'        => 'number',
@@ -1686,7 +1686,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_create_page',
-			'Create a new page. Defaults to draft status.',
+			'Create a new WordPress page. Defaults to draft status — confirm before publishing.',
 			array(
 				'title'   => array(
 					'type'        => 'string',
@@ -1712,7 +1712,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_update_page',
-			'Update an existing page',
+			'Update an existing WordPress page: title, content, status, parent, or template.',
 			array(
 				'id'      => array(
 					'type'        => 'number',
@@ -1778,7 +1778,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_get_page_by_slug',
-			'Fetch a page by its URL slug (e.g., "about", "contact")',
+			'Fetch a WordPress page by its URL slug (e.g., "about", "contact"). Use when you know the page URL but not the ID.',
 			array(
 				'slug' => array(
 					'type'        => 'string',
@@ -1827,7 +1827,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_list_tags',
-			'List post tags with IDs, names, slugs, and post counts',
+			'List all post tags with IDs, names, slugs, and post counts. Use to find tag IDs before assigning them to posts.',
 			array(
 				'per_page' => array(
 					'type'        => 'number',
@@ -1922,7 +1922,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_delete_media',
-			'Delete a media attachment from the WordPress media library',
+			'Delete a media attachment from the WordPress media library. Permanently removes the file. Confirm with user first.',
 			array(
 				'id' => array(
 					'type'        => 'number',
@@ -1968,7 +1968,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 		// Drafts
 		$tools[] = $this->define_tool(
 			'wp_list_drafts',
-			'List all draft posts and pages',
+			'List all draft posts and pages. Use to review unpublished content or find work in progress.',
 			array(
 				'type' => array(
 					'type'        => 'string',
@@ -1980,7 +1980,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_delete_all_drafts',
-			'Delete all draft posts and pages (use with caution)',
+			'Bulk delete all draft posts and pages. Permanent — cannot be undone. Always confirm with user first.',
 			array(
 				'type'  => array(
 					'type'        => 'string',
@@ -1998,7 +1998,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 		// Elementor Basic
 		$tools[] = $this->define_tool(
 			'wp_get_elementor',
-			'Get Elementor page data for a specific page or post',
+			'Get the full Elementor JSON data for a page or post. Returns sections, columns, widgets, and settings. Check elementor_layout_mode from wp_onboard before editing.',
 			array(
 				'id' => array(
 					'type'        => 'number',
@@ -2070,7 +2070,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_edit_widget',
-			'Edit a single Elementor widget\'s settings by its element ID, without requiring the full page JSON round-trip. Much more efficient than get+set for updating text, colors, or other widget properties. The widget must be a widget element (not section/container).',
+			'Edit a single Elementor widget by ID on a page. Updates widget settings without replacing the full page data.'s settings by its element ID, without requiring the full page JSON round-trip. Much more efficient than get+set for updating text, colors, or other widget properties. The widget must be a widget element (not section/container).',
 			array(
 				'id'              => array(
 					'type'        => 'number',
@@ -2254,7 +2254,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_preview_elementor',
-			'Get rendered HTML preview of a page\'s Elementor content. Returns HTML output, text summary, and element statistics (sections, columns, widgets, widget types, word count). Use "summary" format (default) to save tokens — returns truncated text + stats without HTML. Use "text" for full text extraction, or "html" for full rendered HTML.',
+			'Get rendered HTML preview of a page built with Elementor. Useful for reading content or checking layout before edits.'s Elementor content. Returns HTML output, text summary, and element statistics (sections, columns, widgets, widget types, word count). Use "summary" format (default) to save tokens — returns truncated text + stats without HTML. Use "text" for full text extraction, or "html" for full rendered HTML.',
 			array(
 				'id'     => array(
 					'type'        => 'number',
@@ -2303,7 +2303,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 		// API Keys
 		$tools[] = $this->define_tool(
 			'wp_list_api_keys',
-			'List scoped API keys (metadata only)',
+			'List all MCPWP API keys with scopes and metadata. Does not return secret values.',
 			array(
 				'include_revoked' => array(
 					'type'        => 'boolean',
@@ -2339,7 +2339,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_revoke_api_key',
-			'Revoke a scoped API key by id',
+			'Revoke a scoped API key by ID. Immediately disables the key — any agent using it will get 401 errors.',
 			array(
 				'id' => array(
 					'type'        => 'string',
@@ -2358,7 +2358,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_update_rate_limit',
-			'Update rate-limit settings (admin only)',
+			'Update rate-limit settings for this site (admin only). Sets max requests per window for MCP calls.',
 			array(
 				'enabled'             => array(
 					'type'        => 'boolean',
@@ -2539,7 +2539,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 		// Webhooks
 		$tools[] = $this->define_tool(
 			'wp_list_webhook_events',
-			'List available webhook event names',
+			'List all available webhook event names and descriptions. Use to discover events before creating a webhook subscription.',
 			array()
 		);
 
@@ -2567,7 +2567,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_list_webhooks',
-			'List webhooks with optional filters',
+			'List registered webhook endpoints with URL, events, and delivery status. Use to audit webhook subscriptions.',
 			array(
 				'status'   => array(
 					'type'        => 'string',
@@ -2588,7 +2588,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_create_webhook',
-			'Create a webhook endpoint subscription',
+			'Create a new webhook endpoint subscription. Registers a URL to receive POST notifications on specified events.',
 			array(
 				'name'   => array(
 					'type'        => 'string',
@@ -2614,7 +2614,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_update_webhook',
-			'Update an existing webhook',
+			'Update an existing webhook: URL, events, secret, or enabled/disabled status.',
 			array(
 				'id'     => array(
 					'type'        => 'number',
@@ -2658,7 +2658,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_test_webhook',
-			'Send a test delivery for a webhook',
+			'Send a test delivery payload to a webhook endpoint. Use to verify the receiving server is working.',
 			array(
 				'id' => array(
 					'type'        => 'number',
@@ -2670,7 +2670,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_list_webhook_logs',
-			'List delivery logs for a webhook',
+			'List delivery logs for a webhook. Returns timestamps, response codes, and payload details for debugging.',
 			array(
 				'id'       => array(
 					'type'        => 'number',
@@ -2970,7 +2970,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_reject_request',
-			'Reject a pending mutation request.',
+			'Reject a pending approval request. Prevents the staged change from being applied.',
 			array(
 				'id' => array(
 					'type'        => 'string',
@@ -3151,7 +3151,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_delete_term',
-			'Delete a taxonomy term',
+			'Delete a WordPress taxonomy term (category or tag) by ID. Does not delete associated posts.',
 			array(
 				'id'       => array(
 					'type'        => 'number',
