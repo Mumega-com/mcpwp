@@ -560,7 +560,7 @@ class Mcpwp_Admin {
 	 * @return string|WP_Error Message on success.
 	 */
 	private function run_control_room_seo_audit() {
-		if ( ! class_exists( 'Mcpwp_REST_Site' ) || ! class_exists( 'WP_REST_Request' ) ) {
+		if ( ! class_exists( 'Mcpwp_REST_SEO_Audit' ) || ! class_exists( 'WP_REST_Request' ) ) {
 			return new WP_Error( 'mcpwp_seo_audit_unavailable', __( 'SEO audit tools are unavailable.', 'mcpwp' ) );
 		}
 
@@ -570,7 +570,7 @@ class Mcpwp_Admin {
 		$request->set_param( 'include_drafts', false );
 		$request->set_param( 'store', true );
 
-		$response = ( new Mcpwp_REST_Site() )->audit_seo_site( $request );
+		$response = ( new Mcpwp_REST_SEO_Audit() )->audit_seo_site( $request );
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
