@@ -18,7 +18,7 @@
 > **It's an economy, not a product. We design it and tax the flows.** Currency = **coherence**; territory =
 > **AI-attention**. Components: **MCPWP** = the basin (WordPress hands) · **mupot** = the rules engine
 > (sovereign agent org on the customer's own Cloudflare, metered/capped/gated loops) · **addons/skills** =
-> items (third-party, unlimited; `spai_register_tools` + bus `register_skill`) · **snapshots** = recipes
+> items (third-party, unlimited; `mcpwp_register_tools` + bus `register_skill`) · **snapshots** = recipes
 > (curated addon-mixes, performance-ranked by our PostHog-everywhere observability) · **the fleet** = any BYO
 > runtime joined over MCP. **Flagship loop:** a site that acquires its own traffic (Google News/Discover,
 > auto-included) and converts it (edge A/B), governed — coherence is the admission ticket + penalty shield.
@@ -225,7 +225,7 @@ MCPWP becomes a platform runtime. Third-party plugins (Digid, WooCommerce extens
 
 | # | GH | Task | Notes |
 |---|-----|------|-------|
-| ~~T71a~~ | #439 | ~~Plugin hook API (`spai_register_tools` filter)~~ | ✅ PR #446 — Spai_Custom_Tool_Registry, dispatch via rest_path |
+| ~~T71a~~ | #439 | ~~Plugin hook API (`mcpwp_register_tools` filter)~~ | ✅ PR #446 — Mcpwp_Custom_Tool_Registry, dispatch via rest_path |
 | T71b | #440 | REST proxy tools (no-code external endpoints) | Admin defines tool → MCPWP proxies to external URL. No PHP needed. |
 | T71c | #441 | Visual tool builder UI (WP Admin sandbox) | Form-based tool creator with inline test panel. Layer on top of T71b. |
 
@@ -355,8 +355,8 @@ Marketplace before a working snapshot = death.
 | T121 | #443 | high | PHPUnit tests — zero PHP test coverage, silent deploy failures |
 | ~~T122~~ | #444 | high | ~~Rewrite 120+ tool descriptions for BM25/vector accuracy~~ | ✅ PR #446 |
 | ~~T123~~ | #445 | launch-blocker | ~~Update openapi-chatgpt.yaml to v2.8.49~~ | ✅ PR #446 (v2.8.50) |
-| T124 | — | medium | `mcpwp:dev` skill — agent onboarding for plugin dev: add-a-tool pattern, version bump 3-file rule, local test stack, CI, `spai_register_tools` usage |
-| T125 | — | medium | Update `mumcp:tools` skill — stale at 239 tools, missing custom tool registry, missing new endpoints |
+| T124 | — | medium | `mcpwp:dev` skill — agent onboarding for plugin dev: add-a-tool pattern, version bump 3-file rule, local test stack, CI, `mcpwp_register_tools` usage |
+| T125 | — | medium | Update `mcpwp:tools` skill — stale at 239 tools, missing custom tool registry, missing new endpoints |
 
 ---
 

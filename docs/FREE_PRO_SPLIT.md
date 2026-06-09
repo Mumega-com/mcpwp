@@ -10,7 +10,7 @@ Source of truth for what tools are available on Free vs Pro. Updated when tools 
 | **Pro** | Active Freemius license (paid or trial) |
 | **Agency** | Active Freemius Agency license — all Pro + unlimited sites |
 
-## Free Tools (class-spai-mcp-free-tools.php)
+## Free Tools (class-mcpwp-mcp-free-tools.php)
 
 Available on all installs. Gated only by API key scope.
 
@@ -38,15 +38,15 @@ Available on all installs. Gated only by API key scope.
 
 **Analytics:** wp_analytics, wp_fetch
 
-## Pro Tools (class-spai-mcp-pro-tools.php)
+## Pro Tools (class-mcpwp-mcp-pro-tools.php)
 
-Require active Freemius license. Loaded only when `spai_license()->is_pro()` is true.
+Require active Freemius license. Loaded only when `mcpwp_license()->is_pro()` is true.
 
 **Elementor Pro:** wp_build_page, wp_create_landing_page, wp_list_blueprints, wp_get_blueprint, wp_list_elementor_parts, wp_get_elementor_part, wp_create_elementor_part, wp_create_elementor_part_from_section, wp_apply_elementor_part, wp_save_section_as_template, wp_list_elementor_templates, wp_get_elementor_template, wp_create_elementor_template, wp_update_elementor_template, wp_delete_elementor_template, wp_apply_elementor_template, wp_list_elementor_archetypes, wp_get_elementor_archetype, wp_create_elementor_archetype, wp_apply_elementor_archetype, wp_list_elementor_custom_code, wp_get_elementor_custom_code, wp_create_elementor_custom_code, wp_update_elementor_custom_code, wp_enable_elementor_custom_code, wp_disable_elementor_custom_code, wp_sanitize_elementor_custom_code, wp_get_elementor_globals, wp_set_elementor_globals, wp_theme_builder_status, wp_list_theme_templates, wp_get_theme_template, wp_create_theme_template, wp_set_template_conditions, wp_assign_template, wp_add_widget, wp_get_widget, wp_update_widget, wp_delete_widget, wp_move_widget, wp_reorder_widgets, wp_list_sidebars, wp_get_sidebar, wp_get_sidebar_widgets, wp_get_widget_types
 
 **SEO (Pro):** wp_get_seo, wp_set_seo, wp_set_noindex, wp_seo_report, wp_seo_scan, wp_seo_status, wp_bulk_seo, wp_analyze_seo, wp_google_index_status, wp_submit_to_google_index, wp_get_woocommerce_seo_report, wp_get_event_schema, wp_validate_structured_data (extended)
 
-**WooCommerce:** Available via includes/mcp/class-spai-mcp-woocommerce-tools.php when WC is active + Pro
+**WooCommerce:** Available via includes/mcp/class-mcpwp-mcp-woocommerce-tools.php when WC is active + Pro
 
 **LearnPress LMS:** wp_list_courses, wp_get_course, wp_create_course, wp_update_course, wp_delete_course_category, wp_list_course_categories, wp_create_course_category, wp_update_course_category, wp_list_lessons, wp_create_lesson, wp_update_lesson, wp_list_quizzes, wp_create_quiz, wp_update_quiz, wp_get_quiz_questions, wp_set_curriculum, wp_get_curriculum, wp_lms_stats
 
@@ -63,21 +63,21 @@ Require active Freemius license. Loaded only when `spai_license()->is_pro()` is 
 ## WP.org Build Constraints
 
 The WP.org (free) build must:
-- Not include `site-pilot-ai/includes/pro/` directory
-- Not include `site-pilot-ai/includes/mcp/class-spai-mcp-pro-tools.php`
-- Not include `site-pilot-ai/includes/mcp/class-spai-mcp-woocommerce-tools.php`
+- Not include `mcpwp/includes/pro/` directory
+- Not include `mcpwp/includes/mcp/class-mcpwp-mcp-pro-tools.php`
+- Not include `mcpwp/includes/mcp/class-mcpwp-mcp-woocommerce-tools.php`
 - Not reference Freemius SDK (alternative: use freemius-init-lite.php stub)
 - Pass WP.org plugin review (no obfuscation, no remote code execution)
 
-The Freemius/paid build includes all files and loads Pro tools conditionally via `spai_license()->is_pro()`.
+The Freemius/paid build includes all files and loads Pro tools conditionally via `mcpwp_license()->is_pro()`.
 
 ## Gating Pattern
 
 ```php
 // In REST handler:
-if ( ! spai_license()->is_pro() ) {
+if ( ! mcpwp_license()->is_pro() ) {
     return new WP_Error( 'pro_required', 'This feature requires MCPWP Pro.', array( 'status' => 403 ) );
 }
 ```
 
-MCP tools in class-spai-mcp-pro-tools.php are only registered when `spai_license()->is_pro()` is true, so they don't appear in `tools/list` for free users.
+MCP tools in class-mcpwp-mcp-pro-tools.php are only registered when `mcpwp_license()->is_pro()` is true, so they don't appear in `tools/list` for free users.

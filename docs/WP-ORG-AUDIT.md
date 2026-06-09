@@ -21,7 +21,7 @@ Requires at least: 5.0
 Requires PHP:      7.4
 Author:            Mumega
 Author URI:        https://mumega.com/
-Text Domain:       mumega-mcp
+Text Domain:       mcpwp
 License:           GPL v2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 ```
@@ -30,13 +30,13 @@ All required header fields present.
 
 ## Text Domain ✅
 
-Text domain: `mumega-mcp` (declared in header and used in `load_plugin_textdomain()`).
+Text domain: `mcpwp` (declared in header and used in `load_plugin_textdomain()`).
 Domain path: `/languages`.
 
-**Action required before submission:** Confirm all `__()`, `_e()`, `esc_html__()` calls use `mumega-mcp` as text domain. Run:
+**Action required before submission:** Confirm all `__()`, `_e()`, `esc_html__()` calls use `mcpwp` as text domain. Run:
 
 ```bash
-grep -r "__(\|_e(\|esc_html__(\|esc_attr__(" site-pilot-ai/includes/ | grep -v "mumega-mcp" | grep -v "vendor/"
+grep -r "__(\|_e(\|esc_html__(\|esc_attr__(" mcpwp/includes/ | grep -v "mcpwp" | grep -v "vendor/"
 ```
 
 Any hits with a different domain need fixing.
@@ -80,33 +80,33 @@ when checking for plugin updates via the WordPress admin.
 
 ## Pro / Free Split
 
-Pro-only code lives in `includes/pro/`. The free WP.org zip should exclude this directory entirely. The `Spai_License` class degrades gracefully when Freemius is not active.
+Pro-only code lives in `includes/pro/`. The free WP.org zip should exclude this directory entirely. The `Mcpwp_License` class degrades gracefully when Freemius is not active.
 
 Pro features (excluded from WP.org free zip):
-- `includes/pro/api/class-spai-rest-elementor-pro.php` — Elementor Pro template conditions
+- `includes/pro/api/class-mcpwp-rest-elementor-pro.php` — Elementor Pro template conditions
 - `includes/pro/core/` — any pro-only core classes
 
-Verify via: `grep -r "spai_get_fs_instance\|is_paying" site-pilot-ai/includes/ --include="*.php" | grep -v "class-spai-license\|class-spai-loader"`
+Verify via: `grep -r "mcpwp_get_fs_instance\|is_paying" mcpwp/includes/ --include="*.php" | grep -v "class-mcpwp-license\|class-mcpwp-loader"`
 
 ## Files to Exclude from WP.org Zip
 
 ```
-site-pilot-ai/tests/
-site-pilot-ai/docs/
-site-pilot-ai/scripts/
-site-pilot-ai/composer.json
-site-pilot-ai/composer.lock
-site-pilot-ai/.github/
-site-pilot-ai/CLAUDE.md
-site-pilot-ai/CHANGELOG.md
-site-pilot-ai/MCP_IMPLEMENTATION.md
-site-pilot-ai/includes/pro/          ← pro features
+mcpwp/tests/
+mcpwp/docs/
+mcpwp/scripts/
+mcpwp/composer.json
+mcpwp/composer.lock
+mcpwp/.github/
+mcpwp/CLAUDE.md
+mcpwp/CHANGELOG.md
+mcpwp/MCP_IMPLEMENTATION.md
+mcpwp/includes/pro/          ← pro features
 ```
 
 Keep:
-- `site-pilot-ai/freemius/` — Freemius SDK (GPL, allowed, required for upgrade flow)
-- `site-pilot-ai/readme.txt` — WP.org readme
-- `site-pilot-ai/LICENSE`
+- `mcpwp/freemius/` — Freemius SDK (GPL, allowed, required for upgrade flow)
+- `mcpwp/readme.txt` — WP.org readme
+- `mcpwp/LICENSE`
 
 ## WP.org readme.txt Requirements
 
@@ -123,9 +123,9 @@ Keep:
 
 1. **No `eval()`** — grep confirms none present
 2. **No remote code execution** — no `preg_replace` with `/e` modifier
-3. **Sanitize all inputs** — uses `Spai_Sanitization` trait throughout
+3. **Sanitize all inputs** — uses `Mcpwp_Sanitization` trait throughout
 4. **Nonces on all forms** — admin forms use `wp_nonce_field`
-5. **Prefix everything** — all functions/classes use `spai_` or `Spai_` prefix ✅
+5. **Prefix everything** — all functions/classes use `mcpwp_` or `Mcpwp_` prefix ✅
 6. **No hardcoded credentials** — all keys stored in `wp_options` ✅
 7. **Stable tag must match version** — currently in sync ✅
 

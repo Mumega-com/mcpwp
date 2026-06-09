@@ -79,12 +79,12 @@ Use this order when writing homepage copy, deck titles, ads, or demo intros:
 
 Canonical brand assets live in:
 
-- `site-pilot-ai/assets/icon.svg`
-- `site-pilot-ai/assets/banner.svg`
-- `site-pilot-ai/assets/icon-128x128.png`
-- `site-pilot-ai/assets/icon-256x256.png`
-- `site-pilot-ai/assets/banner-772x250.png`
-- `site-pilot-ai/assets/banner-1544x500.png`
+- `mcpwp/assets/icon.svg`
+- `mcpwp/assets/banner.svg`
+- `mcpwp/assets/icon-128x128.png`
+- `mcpwp/assets/icon-256x256.png`
+- `mcpwp/assets/banner-772x250.png`
+- `mcpwp/assets/banner-1544x500.png`
 
 ### Mark meaning
 

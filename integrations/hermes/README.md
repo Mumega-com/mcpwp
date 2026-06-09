@@ -7,13 +7,13 @@ Hermes discovers all 120+ MCPWP tools automatically. With Tool Search enabled, l
 ## Setup
 
 **1. Install MCPWP** on your WordPress site and generate an API key:
-> WP Admin → Site Pilot AI → Setup → Generate API Key
+> WP Admin → MCPWP → Setup → Generate API Key
 
 **2. Set environment variables:**
 
 ```bash
-export MCPWP_URL="https://your-site.com/wp-json/site-pilot-ai/v1/mcp"
-export MCPWP_API_KEY="spai_xxxxxxxxxxxxxxxx"
+export MCPWP_URL="https://your-site.com/wp-json/mcpwp/v1/mcp"
+export MCPWP_API_KEY="mcpwp_xxxxxxxxxxxxxxxx"
 ```
 
 **3. Add to `~/.hermes/config.yaml`:**
@@ -147,7 +147,7 @@ Use mcp_mcpwp_wp_onboard to get a full site briefing
 - Check that MCPWP is active: WP Admin → Plugins
 
 **401 Unauthorized**
-- API key expired or wrong. Regenerate: WP Admin → Site Pilot AI → Setup.
+- API key expired or wrong. Regenerate: WP Admin → MCPWP → Setup.
 - Confirm the `X-API-Key` header is exactly as shown (case-sensitive).
 
 **404 on MCP URL**

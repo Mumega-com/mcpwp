@@ -2,7 +2,7 @@
 
 > The first dogfood. mcpwp.net runs itself as the proof of the flagship loop, in our own niche
 > (**MCP · WordPress · WP plugins**). Strategy: `docs/STRATEGY.md` §4, §4b. This doc is the *how* —
-> grounded in the site's actual current state and executable now via REST (`mumega-mcp-mcpwp`).
+> grounded in the site's actual current state and executable now via REST (`mcpwp`).
 >
 > **Last updated:** 2026-06-09.
 
@@ -30,7 +30,7 @@ It is the **safest** dogfood and serves four goals at once:
 | WPForms 1.10.1.1 | ✅ | lead capture available |
 | AI providers: OpenAI, Gemini, ElevenLabs | ✅ | content + alt-text + TTS for courses |
 | 10 published posts — all in-niche (MCP/WP/plugins) | ✅ | content lane already coherent and live |
-| **Brand-crystal (`spai_site_context`)** | ❌ **empty** | **gap #1 — the coherence foundation is unset** |
+| **Brand-crystal (`mcpwp_site_context`)** | ❌ **empty** | **gap #1 — the coherence foundation is unset** |
 | **LearnPress** | ❌ not installed | **dependency — courses blocked until installed** |
 | WooCommerce | ❌ not installed | the commerce dogfood is a *separate* site (P0d) |
 | Pages | all drafts | site structure incomplete; homepage is a draft |
@@ -44,7 +44,7 @@ It is the **safest** dogfood and serves four goals at once:
 
 The brand-crystal is the coherence constraint everything conforms to — and per `docs/STRATEGY.md` it is the
 economy's anti-inflation mechanism and Google's safe-harbor signal. It is currently empty. Proposed
-`spai_site_context` (markdown), ready to apply via `wp_set_site_context`:
+`mcpwp_site_context` (markdown), ready to apply via `wp_set_site_context`:
 
 ```markdown
 # MCPWP — Brand Crystal
@@ -172,5 +172,5 @@ its first real, performance-ranked shelf.
 
 ## Access note
 mcpwp.net is reachable now via REST (`MCPWP_NET_API_KEY` in `~/.env.secrets`, endpoint
-`https://mcpwp.net/wp-json/site-pilot-ai/v1`). The `mumega-mcp-mcpwp` MCP server is configured in
+`https://mcpwp.net/wp-json/mcpwp/v1`). The `mcpwp` MCP server is configured in
 `~/.claude.json` but loads as tools only after a session restart — not required; REST is the same surface.

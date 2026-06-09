@@ -24,12 +24,12 @@ git push origin v1.0.45
 
 1. **Version Verification**
    - Extracts version from tag (strips `v` prefix)
-   - Verifies version in `site-pilot-ai.php` matches tag
-   - Verifies `SPAI_VERSION` constant matches tag
+   - Verifies version in `mcpwp.php` matches tag
+   - Verifies `MCPWP_VERSION` constant matches tag
    - Fails if any mismatch detected
 
 2. **WP.org-Compatible Distribution Build**
-   - Copies `site-pilot-ai/` directory
+   - Copies `mcpwp/` directory
    - **Removes** `includes/pro/` (licensed features stripped)
    - **Removes** development files:
      - `.git`, `.github`, `tests/`
@@ -38,13 +38,13 @@ git push origin v1.0.45
      - `composer.json`, `package.json`
      - `README.md`, `CHANGELOG.md`
      - Build scripts
-   - Creates: `site-pilot-ai-{version}-wporg.zip`
+   - Creates: `mcpwp-{version}-wporg.zip`
 
 3. **Paid/Self-Hosted Distribution Build**
-   - Copies `site-pilot-ai/` directory
+   - Copies `mcpwp/` directory
    - **Keeps** `includes/pro/` (licensed features included)
    - **Removes** same development files as the WP.org-compatible build
-   - Creates: `site-pilot-ai-{version}.zip`
+   - Creates: `mcpwp-{version}.zip`
 
 4. **Release Notes Generation**
    - Fetches commits since last version tag
@@ -60,19 +60,19 @@ git push origin v1.0.45
 
 ### File Naming
 
-- **WP.org-compatible:** `site-pilot-ai-1.0.45-wporg.zip`
-- **Paid/self-hosted:** `site-pilot-ai-1.0.45.zip`
+- **WP.org-compatible:** `mcpwp-1.0.45-wporg.zip`
+- **Paid/self-hosted:** `mcpwp-1.0.45.zip`
 
 ### Usage Example
 
 ```bash
 # 1. Update version in code
-vim site-pilot-ai/site-pilot-ai.php
+vim mcpwp/mcpwp.php
 # Change: * Version: 1.0.45
-# Change: define( 'SPAI_VERSION', '1.0.45' );
+# Change: define( 'MCPWP_VERSION', '1.0.45' );
 
 # 2. Commit changes
-git add site-pilot-ai/site-pilot-ai.php
+git add mcpwp/mcpwp.php
 git commit -m "release: 1.0.45 - Elementor template CRUD"
 
 # 3. Push to main
@@ -95,15 +95,15 @@ After the workflow runs, you'll have:
 
 - GitHub Release at: `https://github.com/Mumega-com/mcp-for-wp/releases/tag/v1.0.45`
 - Two downloadable assets:
-  - `site-pilot-ai-1.0.45-wporg.zip` (licensed modules removed)
-  - `site-pilot-ai-1.0.45.zip` (licensed modules included)
+  - `mcpwp-1.0.45-wporg.zip` (licensed modules removed)
+  - `mcpwp-1.0.45.zip` (licensed modules included)
 
 ## Validate Workflow
 
 ### Trigger
 
 Runs automatically on pull requests to `main` that touch:
-- `site-pilot-ai/**` files
+- `mcpwp/**` files
 - `.github/workflows/validate.yml`
 
 ### What It Checks
@@ -115,7 +115,7 @@ Runs automatically on pull requests to `main` that touch:
 2. **Plugin Headers Validation**
    - Verifies `Plugin Name` exists
    - Checks `Version` header is present and valid
-   - Confirms `SPAI_VERSION` constant matches version header
+   - Confirms `MCPWP_VERSION` constant matches version header
    - Validates all required headers:
      - Description
      - Author
@@ -124,12 +124,12 @@ Runs automatically on pull requests to `main` that touch:
      - License
 
 3. **Required Files Check**
-   - `site-pilot-ai/site-pilot-ai.php`
-   - `site-pilot-ai/index.php`
-   - `site-pilot-ai/readme.txt`
-   - `site-pilot-ai/includes/api/class-spai-rest-mcp.php`
-   - `site-pilot-ai/includes/core/class-spai-plugin.php`
-   - `site-pilot-ai/includes/admin/class-spai-admin.php`
+   - `mcpwp/mcpwp.php`
+   - `mcpwp/index.php`
+   - `mcpwp/readme.txt`
+   - `mcpwp/includes/api/class-mcpwp-rest-mcp.php`
+   - `mcpwp/includes/core/class-mcpwp-plugin.php`
+   - `mcpwp/includes/admin/class-mcpwp-admin.php`
 
 4. **Directory Structure Validation**
    - `includes/`, `includes/api/`, `includes/core/`
@@ -142,7 +142,7 @@ Runs automatically on pull requests to `main` that touch:
    - Basic security pattern scanning
 
 6. **Pro Structure Validation** (if Pro exists)
-   - Checks for `includes/pro/class-spai-pro-bootstrap.php`
+   - Checks for `includes/pro/class-mcpwp-pro-bootstrap.php`
    - Validates Pro directory structure
 
 ### Matrix Testing
@@ -160,7 +160,7 @@ Validates against multiple PHP versions in parallel:
 git checkout -b feature/new-endpoint
 
 # 2. Make changes
-vim site-pilot-ai/includes/api/class-spai-rest-new.php
+vim mcpwp/includes/api/class-mcpwp-rest-new.php
 
 # 3. Commit and push
 git add .
@@ -183,7 +183,7 @@ git push origin feature/new-endpoint
 |------|---------|
 | `.github/workflows/release.yml` | Automated releases on version tags |
 | `.github/workflows/validate.yml` | PR validation and testing |
-| `.github/workflows/site-pilot-ai-ci.yml` | Existing CI (lint + unit tests) |
+| `.github/workflows/mcpwp-ci.yml` | Existing CI (lint + unit tests) |
 | `.github/RELEASE_TEMPLATE.md` | Manual release documentation template |
 
 ## Best Practices
@@ -192,9 +192,9 @@ git push origin feature/new-endpoint
 
 1. **Always update both places:**
    ```php
-   // In site-pilot-ai/site-pilot-ai.php
+   // In mcpwp/mcpwp.php
    * Version: 1.0.45
-   define( 'SPAI_VERSION', '1.0.45' );
+   define( 'MCPWP_VERSION', '1.0.45' );
    ```
 
 2. **Use semantic versioning:**
@@ -234,10 +234,10 @@ Error: Version mismatch! Plugin file has 1.0.44 but tag is v1.0.45
 **Solution:**
 ```bash
 # Update version in PHP file
-vim site-pilot-ai/site-pilot-ai.php
+vim mcpwp/mcpwp.php
 
 # Commit the fix
-git add site-pilot-ai/site-pilot-ai.php
+git add mcpwp/mcpwp.php
 git commit -m "fix: correct version to 1.0.45"
 git push
 
@@ -253,7 +253,7 @@ git push origin v1.0.45
 Error: No such file or directory
 ```
 
-**Solution:** Verify `site-pilot-ai/` directory exists and has correct structure.
+**Solution:** Verify `mcpwp/` directory exists and has correct structure.
 
 ### Validate Workflow Fails
 
@@ -266,7 +266,7 @@ Parse error: syntax error, unexpected token
 
 **Missing file error:**
 ```
-Required file missing: site-pilot-ai/includes/api/class-spai-rest-mcp.php
+Required file missing: mcpwp/includes/api/class-mcpwp-rest-mcp.php
 ```
 
 **Solution:** Ensure file exists or update validation to reflect new structure.
@@ -276,7 +276,7 @@ Required file missing: site-pilot-ai/includes/api/class-spai-rest-mcp.php
 Version mismatch! Header: 1.0.45, Constant: 1.0.44
 ```
 
-**Solution:** Update both version locations in `site-pilot-ai.php`.
+**Solution:** Update both version locations in `mcpwp.php`.
 
 ## Security Considerations
 

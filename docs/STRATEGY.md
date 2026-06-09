@@ -60,7 +60,7 @@ the economy the place value concentrates, so we never have to lock the code.
 |-----------|---------------|------------|
 | **MCPWP** | the **basin** | The WordPress surface — the hands that make changes on the site. The biggest-market on-ramp. |
 | **mupot** | the **rules engine** | Sovereign agent org on the customer's own Cloudflare: departments→squads→agents+humans, capability RBAC, and the metered/capped/**gated** loop runtime. |
-| **Addons / skills** | **items** | Third-party capabilities — Telegram, WhatsApp, service bindings, tools. **Unlimited.** We curate + tax, we don't build them all. Primitives already exist: `spai_register_tools` (MCPWP), `register_skill`/`list_skills`/`invoke_skill` (bus), squad-packs (mupot). |
+| **Addons / skills** | **items** | Third-party capabilities — Telegram, WhatsApp, service bindings, tools. **Unlimited.** We curate + tax, we don't build them all. Primitives already exist: `mcpwp_register_tools` (MCPWP), `register_skill`/`list_skills`/`invoke_skill` (bus), squad-packs (mupot). |
 | **Snapshots** | **recipes / loadouts** | A curated **mix of addons + skills + config** = a complete playable vertical (dropship store, news publisher, local-business). Tradeable; performance-ranked. |
 | **The fleet** | **controllers / avatars** | Any BYO agent runtime the customer already pays for, joined to a pot over MCP. The funnel surface. |
 | **Observability (PostHog per project)** | the **game-master's screen** | We alone see the whole board — every basin's state, every loop's performance, the aggregate. |
@@ -205,7 +205,7 @@ sell flows + recipes + rent, never compute.
 | **M1.5** | v2.9 | **Distribution + feedback build** | News sitemap + NewsArticle schema + image/E-E-A-T emitters; GSC/PostHog/Woo ingestion; Cloudflare edge A/B engine; blocking originality gate; two-speed agent cadence (§4b). |
 | **M2** | v2.9 | **Auth keystone** (OAuth 2.1 + DCR) | Opens the OAuth fleet — ChatGPT Business + Claude Managed. Bearer fleet (Hermes/openclaw/Codex) connects now. |
 | **M3** | v2.9 | **Distribution channels** | WP.org · MCP registries · ChatGPT GPT/App · Claude Connector. |
-| **M4** | v3.x | **The marketplace** | Storefront for addons + snapshots; the cut; performance-ranking from observability; `spai_register_tools` + `register_skill` made first-class. **This is the revenue engine.** |
+| **M4** | v3.x | **The marketplace** | Storefront for addons + snapshots; the cut; performance-ranking from observability; `mcpwp_register_tools` + `register_skill` made first-class. **This is the revenue engine.** |
 | **M5** | v4.0 | **Composition layer** | Snapshots as curated addon-mixes; the recipe builder; data-validated loadouts. |
 | **M6** | v5.0 | **Platform hardening** | `spai_`→`mcpwp_` rebrand + microkernel. |
 | **M7+** | v6.x | **Scale** | More verticals (LearnPress, local-business), more channels, the full self-operating economy. |
@@ -225,7 +225,7 @@ store.** Everything else is supporting cast until that happens.
 | Capability | State | Earliest |
 |-----------|-------|----------|
 | On-brand content, SEO, content-graph, images, approvals/rollback, brand-crystal, Woo SEO, blueprints, keyword research, PostHog (outbound) | ✅ built | now |
-| Metered/capped/gated loop, squad-packs, harness-pack contract, MCP ResourceRef seam, `spai_register_tools`, bus `register_skill` | ✅ built | now |
+| Metered/capped/gated loop, squad-packs, harness-pack contract, MCP ResourceRef seam, `mcpwp_register_tools`, bus `register_skill` | ✅ built | now |
 | News sitemap + NewsArticle schema, image/E-E-A-T emitters, GSC/PostHog ingestion, edge A/B, blocking originality gate | 🔶 to build | v2.9 |
 | OAuth 2.1 + DCR, streamable-http on the bus | 🔶 to build | v2.9 |
 | Marketplace storefront + cut + performance-ranking · snapshot composition layer | 🔶 primitives exist, not productized | v3.x–v4.0 |

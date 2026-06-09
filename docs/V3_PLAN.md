@@ -1,6 +1,6 @@
 > **ARCHIVED** — This is historical planning (v3 era, "mumcp" brand). Current brand is MCPWP. Do not publish.
 
-# mumcp v3.0 — White-Label AI for WordPress Agencies
+# mcpwp v3.0 — White-Label AI for WordPress Agencies
 
 ## Vision
 
@@ -11,7 +11,7 @@ Agencies install MCPWP on client sites, connect their branded AI, charge clients
 ```
 Agency Dashboard (mumega.com)
     ↓ manages
-Client WordPress Sites (each has mumcp installed)
+Client WordPress Sites (each has mcpwp installed)
     ↓ powered by
 AI Chat (OpenAI/Gemini via agency's key, or our CF Workers AI)
     ↓ executes
@@ -45,7 +45,7 @@ MCP tools → WordPress/Elementor/WooCommerce
 **Goal:** Agency's brand, our infrastructure.
 
 - [ ] Custom branding: agency sets their name, logo, colors in dashboard
-- [ ] White-label chat: "Powered by [Agency Name]" instead of "mumcp"
+- [ ] White-label chat: "Powered by [Agency Name]" instead of "mcpwp"
 - [ ] Custom domain: agency's MCP proxy at `ai.agencyname.com`
 - [ ] Client-facing chat widget: end clients talk to AI on their own site
 - [ ] Embeddable chat for any page (shortcode + Elementor widget)
@@ -74,18 +74,18 @@ Agency Dashboard (Next.js on Vercel/CF Pages)
     ↓ manages sites via
 mumcp Proxy (CF Worker)
     ↓ routes to
-Client Sites (each with mumcp plugin)
+Client Sites (each with mcpwp plugin)
     ↓ chat powered by
 Agency's AI key (OpenAI/Claude) or shared CF Workers AI
     ↓ white-label chat widget
-Client sees "Agency AI" — never sees "mumcp"
+Client sees "Agency AI" — never sees "mcpwp"
 ```
 
 ### Data Flow
 ```
 Agency creates account → gets proxy subdomain → adds client sites
     ↓
-Client site installs mumcp → generates API key → registers with proxy
+Client site installs mcpwp → generates API key → registers with proxy
     ↓
 Agency dashboard shows site status → can manage all sites from one place
     ↓
@@ -115,7 +115,7 @@ Conversation logs → anonymized → train better models → everyone benefits
 - Add Anthropic Claude API support alongside OpenAI
 - Add Google Gemini API support
 - Model picker in Settings → Integrations
-- Store conversations in `spai_chat_history` custom post type
+- Store conversations in `mcpwp_chat_history` custom post type
 - Add confirmation dialog for destructive tools (delete, replace, update)
 - SSE streaming endpoint for real-time responses
 
@@ -128,9 +128,9 @@ Conversation logs → anonymized → train better models → everyone benefits
 - WebSocket for real-time site status
 
 ### White-Label (v3.0)
-- Plugin settings: `spai_white_label` option with name, logo_url, colors
+- Plugin settings: `mcpwp_white_label` option with name, logo_url, colors
 - Chat widget renders from these settings
-- Shortcode: `[mumcp_chat]`
+- Shortcode: `[mcpwp_chat]`
 - Elementor widget: drag-and-drop chat
 - Custom domain via Cloudflare for SaaS (CF for Platforms)
 - Stripe Billing integration with metered usage

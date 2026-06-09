@@ -21,7 +21,7 @@ info:
     url: https://www.gnu.org/licenses/gpl-2.0.html
 
 servers:
-  - url: https://{site}/wp-json/site-pilot-ai/v1
+  - url: https://{site}/wp-json/mcpwp/v1
     description: WordPress Site
     variables:
       site:

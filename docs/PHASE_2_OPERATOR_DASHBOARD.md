@@ -16,7 +16,7 @@ Phase 2 gives humans "eyes" — a dashboard to see what the operators are doing,
 mumega.com (brand + blog)        ← WordPress on HostGator
 app.mumega.com (dashboard)       ← Cloudflare Pages + Workers
 gateway.mumega.com (MCP gateway) ← Cloudflare Worker (EXISTS)
-npm: site-pilot-ai (CLI)         ← Node.js (EXISTS)
+npm: mcpwp (CLI)                 ← Node.js (EXISTS)
 ```
 
 ---
@@ -117,8 +117,8 @@ This is the "River as operator" interface — the dashboard becomes the face of 
        ▼              ▼              ▼
 ┌──────────┐  ┌──────────┐  ┌─────────────────┐
 │    D1    │  │    KV    │  │ WordPress Sites  │
-│ Analytics│  │ Sessions │  │ (via Site Pilot  │
-│ Sites DB │  │ Cache    │  │  AI REST API)    │
+│ Analytics│  │ Sessions │  │ (via MCPWP       │
+│ Sites DB │  │ Cache    │  │  REST API)       │
 └──────────┘  └──────────┘  └─────────────────┘
 ```
 

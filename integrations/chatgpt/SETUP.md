@@ -14,7 +14,7 @@ Connect MCPWP to ChatGPT as a Custom GPT using the OpenAPI schema.
 WP Admin → MCPWP → Setup → Generate API Key
 ```
 
-Copy the key — it starts with `spai_`. Store it somewhere safe; it's shown once.
+Copy the key — it starts with `mcpwp_`. Store it somewhere safe; it's shown once.
 
 ## Step 2 — Create the Custom GPT
 
@@ -41,7 +41,7 @@ Copy the key — it starts with `spai_`. Store it somewhere safe; it's shown onc
    - Type: **API Key**
    - Auth type: **Custom**
    - Header name: `X-API-Key`
-   - Value: your `spai_...` key
+   - Value: your `mcpwp_...` key
 
 4. Under **Privacy policy URL**: `https://mcpwp.net/privacy`
 
@@ -53,7 +53,7 @@ In the imported schema, replace `{site}` with your WordPress domain:
 
 ```yaml
 servers:
-  - url: https://yourdomain.com/wp-json/site-pilot-ai/v1
+  - url: https://yourdomain.com/wp-json/mcpwp/v1
 ```
 
 If you uploaded the YAML file, edit line 17 directly.
@@ -123,9 +123,9 @@ Full reference: `docs/openapi-chatgpt.yaml`
 For Claude Code / Claude Desktop, use the MCP endpoint directly instead of the OpenAPI schema:
 
 ```
-Endpoint: https://yourdomain.com/wp-json/site-pilot-ai/v1/mcp
+Endpoint: https://yourdomain.com/wp-json/mcpwp/v1/mcp
 Method:   POST
-Auth:     X-API-Key: spai_...
+Auth:     X-API-Key: mcpwp_...
 Protocol: JSON-RPC 2.0
 ```
 

@@ -476,10 +476,10 @@ Where `{control}` is the prefix like `title`, `description`, `button`, etc.
 ## Testing Workflow
 
 ```bash
-# 1. Edit PHP in mcp-for-wp/site-pilot-ai/ (changes are live instantly via Docker volume)
+# 1. Edit PHP in mcp-for-wp/mcpwp/ (changes are live instantly via Docker volume)
 
 # 2. Test locally (no rate limits, no cache, no deploy wait)
-curl -s -X POST "http://localhost:8080/wp-json/site-pilot-ai/v1/elementor/PAGE_ID" \
+curl -s -X POST "http://localhost:8080/wp-json/mcpwp/v1/elementor/PAGE_ID" \
   -H "X-API-Key: $KEY" -H "Content-Type: application/json" \
   -d '{"elementor_data": "..."}' | jq .warnings
 
@@ -497,18 +497,18 @@ Pre-built section templates saved in the Elementor library. Use these to maintai
 
 | ID | Name | Widgets | Use For |
 |----|------|---------|---------|
-| 146 | SPAI: CTA Section | heading, text-editor, button | Dark CTA blocks at page bottom |
-| 147 | SPAI: Feature Grid (3-col) | icon-box ×3 | Feature/benefit showcases |
-| 148 | SPAI: Pricing Card | price-table | Pricing sections |
-| 149 | SPAI: Testimonial Strip | testimonial ×3 | Social proof sections |
-| 150 | SPAI: FAQ Accordion | heading, accordion | FAQ sections |
-| 151 | SPAI: Hero Banner | heading, text-editor, button | Page hero sections |
+| 146 | MCPWP: CTA Section | heading, text-editor, button | Dark CTA blocks at page bottom |
+| 147 | MCPWP: Feature Grid (3-col) | icon-box ×3 | Feature/benefit showcases |
+| 148 | MCPWP: Pricing Card | price-table | Pricing sections |
+| 149 | MCPWP: Testimonial Strip | testimonial ×3 | Social proof sections |
+| 150 | MCPWP: FAQ Accordion | heading, accordion | FAQ sections |
+| 151 | MCPWP: Hero Banner | heading, text-editor, button | Page hero sections |
 
 ### Workflow: Using Templates
 
 ```bash
 # 1. List available templates
-curl -s "$URL/elementor/templates" -H "X-API-Key: $KEY" | jq '.templates[] | select(.title | startswith("SPAI:")) | {id, title, type}'
+curl -s "$URL/elementor/templates" -H "X-API-Key: $KEY" | jq '.templates[] | select(.title | startswith("MCPWP:")) | {id, title, type}'
 
 # 2. Get template data (to inspect or modify before use)
 curl -s "$URL/elementor/templates/146" -H "X-API-Key: $KEY" | jq .elementor_data

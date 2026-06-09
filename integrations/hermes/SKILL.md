@@ -20,12 +20,12 @@ Connect Hermes to any WordPress site running the [MCPWP plugin](https://mcpwp.ne
 ## Prerequisites
 
 1. MCPWP plugin installed and active on your WordPress site
-2. API key generated: **WP Admin → Site Pilot AI → Setup → Generate API Key**
+2. API key generated: **WP Admin → MCPWP → Setup → Generate API Key**
 3. Environment variables set:
 
 ```bash
-export MCPWP_URL="https://your-site.com/wp-json/site-pilot-ai/v1/mcp"
-export MCPWP_API_KEY="spai_xxxxxxxxxxxxxxxx"
+export MCPWP_URL="https://your-site.com/wp-json/mcpwp/v1/mcp"
+export MCPWP_API_KEY="mcpwp_xxxxxxxxxxxxxxxx"
 ```
 
 ## MCP Server Config
