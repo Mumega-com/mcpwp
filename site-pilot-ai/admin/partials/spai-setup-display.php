@@ -290,57 +290,6 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				</button>
 			</form>
 
-			<script>
-			(function() {
-				var roleSelect = document.getElementById('spai_scoped_key_role');
-				var customDiv  = document.getElementById('spai-custom-categories');
-				var previewDiv = document.getElementById('spai-role-preview');
-				var previewCat = document.getElementById('spai-role-preview-categories');
-				var checkboxes = document.querySelectorAll('.spai-category-checkbox');
-				var catLabels  = <?php echo wp_json_encode( $all_cat_labels ); ?>;
-
-				function updateRoleUI() {
-					var sel  = roleSelect.options[roleSelect.selectedIndex];
-					var role = sel.value;
-					var cats = JSON.parse(sel.getAttribute('data-categories') || '[]');
-
-					if (role === 'custom') {
-						customDiv.style.display = 'block';
-						previewDiv.style.display = 'none';
-					} else if (role === 'admin') {
-						customDiv.style.display = 'none';
-						previewDiv.style.display = 'block';
-						previewCat.textContent = '<?php echo esc_js( __( 'All categories (unrestricted)', 'mumega-mcp' ) ); ?>';
-					} else {
-						customDiv.style.display = 'none';
-						previewDiv.style.display = 'block';
-						var labels = cats.map(function(c) { return catLabels[c] || c; });
-						previewCat.textContent = labels.join(', ');
-					}
-					if (role !== 'custom') {
-						checkboxes.forEach(function(cb) {
-							cb.checked = cats.indexOf(cb.value) !== -1;
-						});
-					}
-				}
-
-				roleSelect.addEventListener('change', updateRoleUI);
-				updateRoleUI();
-
-				// Track scoped key creation
-				var createForm = document.querySelector('form [name="spai_create_scoped_key"]');
-				if (createForm) {
-					createForm.closest('form').addEventListener('submit', function() {
-						if (window.posthog) {
-							posthog.capture('scoped_key_created', {
-								role: roleSelect ? roleSelect.value : 'unknown'
-							});
-						}
-					});
-				}
-			})();
-			</script>
-
 			<!-- Active keys table -->
 			<?php if ( ! empty( $scoped_keys ) ) : ?>
 			<h3 style="margin-top:24px;"><?php esc_html_e( 'Active Keys', 'mumega-mcp' ); ?></h3>
@@ -408,17 +357,6 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<script>
-			(function() {
-				document.querySelectorAll('[name="spai_revoke_scoped_key"]').forEach(function(btn) {
-					btn.closest('form').addEventListener('submit', function() {
-						if (window.posthog) {
-							posthog.capture('scoped_key_revoked');
-						}
-					});
-				});
-			})();
-			</script>
 			<?php endif; ?>
 		</div>
 
@@ -539,29 +477,6 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				</div>
 			</div>
 
-			<script>
-			(function() {
-				var tabs    = document.querySelectorAll('#spai-connect-tabs .spai-inner-tab');
-				var panels  = document.querySelectorAll('.spai-inner-tab-content');
-
-				tabs.forEach(function(tab) {
-					tab.addEventListener('click', function(e) {
-						e.preventDefault();
-						var target = this.getAttribute('data-tab');
-
-						tabs.forEach(function(t) { t.classList.remove('nav-tab-active'); });
-						this.classList.add('nav-tab-active');
-
-						panels.forEach(function(p) {
-							p.style.display = p.id === 'spai-tab-' + target ? '' : 'none';
-						});
-						if (window.posthog) {
-							posthog.capture('ai_client_tab_switched', { client: target });
-						}
-					});
-				});
-			})();
-			</script>
 		</div>
 
 		<!-- ============================= SECTION 3: CONNECTION STATUS ============================= -->

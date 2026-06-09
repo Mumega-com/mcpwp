@@ -211,11 +211,13 @@ class Spai_Admin {
 	/**
 	 * Enqueue admin scripts.
 	 *
+	 * Fires on ALL MCPWP admin pages under one canonical handle ('spai-admin').
+	 * All PHP→JS data is passed via wp_localize_script — no inline <script> blocks.
+	 *
 	 * @param string $hook Current admin page.
 	 */
 	public function enqueue_scripts( $hook ) {
-		// Fire on Setup, Library, and Settings pages.
-		if ( ! in_array( $this->get_current_admin_page_slug(), array( self::PAGE_SLUG, self::LIBRARY_PAGE_SLUG, self::SETTINGS_PAGE_SLUG ), true ) ) {
+		if ( ! $this->is_mcpwp_admin_page() ) {
 			return;
 		}
 
@@ -227,27 +229,58 @@ class Spai_Admin {
 			true
 		);
 
-		$posthog          = Spai_Integration_Manager::get_instance()->get_posthog_config();
-		$posthog_token    = $posthog['token'];
-		$posthog_host     = $posthog['host'];
+		$posthog       = Spai_Integration_Manager::get_instance()->get_posthog_config();
+		$posthog_token = $posthog['token'];
+		$posthog_host  = $posthog['host'];
 
+		// Integrations nonce only needed on the Integrations page, but generating
+		// it on every MCPWP page is harmless and keeps one unified data object.
 		wp_localize_script(
 			'spai-admin',
 			'spaiAdmin',
 			array(
-				'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
-				'nonce'        => wp_create_nonce( 'spai_admin_nonce' ),
-				'restUrl'      => rest_url( 'site-pilot-ai/v1/' ),
-				'siteUrl'      => site_url(),
-				'posthogToken' => $posthog_token,
-				'posthogHost'  => $posthog_host,
-				'strings' => array(
-					'copied'      => __( 'Copied!', 'mumega-mcp' ),
-					'copyFailed'  => __( 'Copy failed', 'mumega-mcp' ),
-					'confirm'     => __( 'Are you sure you want to regenerate the API key? The old key will stop working immediately.', 'mumega-mcp' ),
-					'testing'     => __( 'Testing...', 'mumega-mcp' ),
-					'connected'   => __( 'Connected!', 'mumega-mcp' ),
-					'testFailed'  => __( 'Connection failed', 'mumega-mcp' ),
+				'ajaxUrl'              => admin_url( 'admin-ajax.php' ),
+				'nonce'                => wp_create_nonce( 'spai_admin_nonce' ),
+				'integrationsNonce'    => wp_create_nonce( 'spai_integrations_nonce' ),
+				'toolsNonce'           => wp_create_nonce( 'spai_tools_nonce' ),
+				'restUrl'              => rest_url( 'site-pilot-ai/v1/' ),
+				'siteUrl'              => site_url(),
+				'posthogToken'         => $posthog_token,
+				'posthogHost'          => $posthog_host,
+				// Category labels for the role-based key UI on the Setup page.
+				'catLabels'            => self::get_all_tool_category_labels(),
+				'chatGreeting'         => sprintf(
+					/* translators: %s: site name */
+					__( 'Hi! I can help you manage %s. Try: "Build a services page" or "List all pages" or "Add a testimonials section to the homepage."', 'mumega-mcp' ),
+					get_bloginfo( 'name' )
+				),
+				'streamOk'             => ( function () {
+					$manager    = Spai_Integration_Manager::get_instance();
+					$chat_model = get_option( 'spai_chat_model', 'auto' );
+					$has_openai = ! empty( $manager->get_provider_key( 'openai' ) );
+					return ( $has_openai && in_array( $chat_model, array( 'openai', 'auto' ), true ) );
+				} )(),
+				'strings'              => array(
+					'copied'             => __( 'Copied!', 'mumega-mcp' ),
+					'copyFailed'         => __( 'Copy failed', 'mumega-mcp' ),
+					'confirm'            => __( 'Are you sure you want to regenerate the API key? The old key will stop working immediately.', 'mumega-mcp' ),
+					'testing'            => __( 'Testing...', 'mumega-mcp' ),
+					'connected'          => __( 'Connected!', 'mumega-mcp' ),
+					'testFailed'         => __( 'Connection failed', 'mumega-mcp' ),
+					'saving'             => __( 'Saving...', 'mumega-mcp' ),
+					'saved'              => __( 'Saved!', 'mumega-mcp' ),
+					'saveFailed'         => __( 'Save failed', 'mumega-mcp' ),
+					'removing'           => __( 'Removing...', 'mumega-mcp' ),
+					'removed'            => __( 'Removed!', 'mumega-mcp' ),
+					'requestFailed'      => __( 'Request failed', 'mumega-mcp' ),
+					'confirmRemove'      => __( 'Are you sure you want to remove this API key?', 'mumega-mcp' ),
+					'fillOneField'       => __( 'Please fill in at least one field.', 'mumega-mcp' ),
+					'enterApiKey'        => __( 'Please enter an API key.', 'mumega-mcp' ),
+					'revokeKey'          => __( 'Revoke this key?', 'mumega-mcp' ),
+					'clearHistory'       => __( 'Clear all chat history?', 'mumega-mcp' ),
+					'yesProceed'         => __( 'Yes, proceed', 'mumega-mcp' ),
+					'cancel'             => __( 'Cancel', 'mumega-mcp' ),
+					'allCategoriesLabel' => __( 'All categories (unrestricted)', 'mumega-mcp' ),
 				),
 			)
 		);
