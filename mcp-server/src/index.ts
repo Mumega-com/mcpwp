@@ -3,7 +3,7 @@
  * MCPWP - MCP Server (Proxy Mode)
  *
  * Thin stdio-to-HTTP proxy: forwards all MCP requests to the PHP plugin's
- * /wp-json/site-pilot-ai/v1/mcp endpoint. Tools are always in sync with
+ * /wp-json/mcpwp/v1/mcp endpoint. Tools are always in sync with
  * the WordPress plugin — zero local tool definitions needed.
  */
 
@@ -61,7 +61,7 @@ Environment Variables:
   WP_SITE_NAME  Site name (for multi-site configs)
 
 Config File:
-  ~/.mcpwp/config.json  (or ~/.mumega-mcp/config.json for existing installs)
+  ~/.mcpwp/config.json
 
 Documentation:
   https://github.com/Mumega-com/mcpwp
@@ -89,7 +89,7 @@ if (args.includes("--test")) {
   console.log(`🔍 Testing connection to ${baseUrl}...`);
   try {
     const response = await fetch(
-      `${baseUrl}/wp-json/site-pilot-ai/v1/site-info`,
+      `${baseUrl}/wp-json/mcpwp/v1/site-info`,
       { headers: { "X-API-Key": site.apiKey } }
     );
     if (response.ok) {
@@ -111,7 +111,7 @@ if (args.includes("--test")) {
       if (extras.length) console.log(`   Integrations: ${extras.join(", ")}`);
       // Count tools
       try {
-        const toolsRes = await fetch(`${baseUrl}/wp-json/site-pilot-ai/v1/mcp`, {
+        const toolsRes = await fetch(`${baseUrl}/wp-json/mcpwp/v1/mcp`, {
           method: "POST",
           headers: { "Content-Type": "application/json", "X-API-Key": site.apiKey },
           body: JSON.stringify({ jsonrpc: "2.0", method: "tools/list", id: 1 }),

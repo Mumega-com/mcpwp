@@ -26,7 +26,7 @@ export async function runSetup(): Promise<void> {
   const cleanUrl = url.replace(/\/+$/, '');
   const siteName = name || 'default';
 
-  const configDir = join(homedir(), '.mumega-mcp');
+  const configDir = join(homedir(), '.mcpwp');
   const configPath = join(configDir, 'config.json');
 
   // Load existing config or create new
@@ -61,7 +61,7 @@ export async function runSetup(): Promise<void> {
   // Test connection
   console.log('\n🔍 Testing connection...');
   try {
-    const response = await fetch(`${cleanUrl}/wp-json/site-pilot-ai/v1/site-info`, {
+    const response = await fetch(`${cleanUrl}/wp-json/mcpwp/v1/site-info`, {
       headers: { 'X-API-Key': apiKey },
     });
     if (response.ok) {
