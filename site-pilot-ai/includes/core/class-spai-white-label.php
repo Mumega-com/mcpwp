@@ -247,75 +247,75 @@ class Spai_White_Label {
 			return;
 		}
 
-		if ( ! class_exists( 'Spai_Elementor_Chat_Widget' ) ) {
-			/**
-			 * Elementor chat widget for the [mcpwp_chat] shortcode.
-			 */
-			class Spai_Elementor_Chat_Widget extends \Elementor\Widget_Base {
+		$widgets_manager->register( new Spai_Elementor_Chat_Widget() );
+	}
+}
 
-				public function get_name(): string {
-					return 'spai_chat';
-				}
+if ( ! class_exists( 'Spai_Elementor_Chat_Widget' ) && class_exists( '\Elementor\Widget_Base' ) ) {
+	/**
+	 * Elementor chat widget for the [mcpwp_chat] shortcode.
+	 */
+	class Spai_Elementor_Chat_Widget extends \Elementor\Widget_Base {
 
-				public function get_title(): string {
-					return esc_html__( 'AI Chat Widget', 'mumega-mcp' );
-				}
-
-				public function get_icon(): string {
-					return 'eicon-chat';
-				}
-
-				public function get_categories(): array {
-					return array( 'general' );
-				}
-
-				protected function register_controls(): void {
-					$this->start_controls_section(
-						'content_section',
-						array(
-							'label' => esc_html__( 'Chat Settings', 'mumega-mcp' ),
-							'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
-						)
-					);
-
-					$this->add_control(
-						'greeting',
-						array(
-							'label'       => esc_html__( 'Greeting', 'mumega-mcp' ),
-							'type'        => \Elementor\Controls_Manager::TEXT,
-							'default'     => esc_html__( 'Hi! How can I help?', 'mumega-mcp' ),
-							'placeholder' => esc_html__( 'Hi! How can I help?', 'mumega-mcp' ),
-						)
-					);
-
-					$this->add_control(
-						'position',
-						array(
-							'label'   => esc_html__( 'Position', 'mumega-mcp' ),
-							'type'    => \Elementor\Controls_Manager::SELECT,
-							'default' => 'bottom-right',
-							'options' => array(
-								'bottom-right' => esc_html__( 'Bottom Right', 'mumega-mcp' ),
-								'bottom-left'  => esc_html__( 'Bottom Left', 'mumega-mcp' ),
-								'inline'       => esc_html__( 'Inline', 'mumega-mcp' ),
-							),
-						)
-					);
-
-					$this->end_controls_section();
-				}
-
-				protected function render(): void {
-					$settings = $this->get_settings_for_display();
-					echo do_shortcode( sprintf(
-						'[mcpwp_chat greeting="%s" position="%s"]',
-						esc_attr( $settings['greeting'] ?? '' ),
-						esc_attr( $settings['position'] ?? 'bottom-right' )
-					) );
-				}
-			}
+		public function get_name(): string {
+			return 'spai_chat';
 		}
 
-		$widgets_manager->register( new Spai_Elementor_Chat_Widget() );
+		public function get_title(): string {
+			return esc_html__( 'AI Chat Widget', 'mumega-mcp' );
+		}
+
+		public function get_icon(): string {
+			return 'eicon-chat';
+		}
+
+		public function get_categories(): array {
+			return array( 'general' );
+		}
+
+		protected function register_controls(): void {
+			$this->start_controls_section(
+				'content_section',
+				array(
+					'label' => esc_html__( 'Chat Settings', 'mumega-mcp' ),
+					'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
+				)
+			);
+
+			$this->add_control(
+				'greeting',
+				array(
+					'label'       => esc_html__( 'Greeting', 'mumega-mcp' ),
+					'type'        => \Elementor\Controls_Manager::TEXT,
+					'default'     => esc_html__( 'Hi! How can I help?', 'mumega-mcp' ),
+					'placeholder' => esc_html__( 'Hi! How can I help?', 'mumega-mcp' ),
+				)
+			);
+
+			$this->add_control(
+				'position',
+				array(
+					'label'   => esc_html__( 'Position', 'mumega-mcp' ),
+					'type'    => \Elementor\Controls_Manager::SELECT,
+					'default' => 'bottom-right',
+					'options' => array(
+						'bottom-right' => esc_html__( 'Bottom Right', 'mumega-mcp' ),
+						'bottom-left'  => esc_html__( 'Bottom Left', 'mumega-mcp' ),
+						'inline'       => esc_html__( 'Inline', 'mumega-mcp' ),
+					),
+				)
+			);
+
+			$this->end_controls_section();
+		}
+
+		protected function render(): void {
+			$settings = $this->get_settings_for_display();
+			echo do_shortcode( sprintf(
+				'[mcpwp_chat greeting="%s" position="%s"]',
+				esc_attr( $settings['greeting'] ?? '' ),
+				esc_attr( $settings['position'] ?? 'bottom-right' )
+			) );
+		}
 	}
 }
