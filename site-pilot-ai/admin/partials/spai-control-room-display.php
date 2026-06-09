@@ -80,12 +80,27 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		</div>
 	</div>
 
+	<!-- F-07: in-page anchor nav strip -->
+	<nav class="spai-anchor-nav nav-tab-wrapper" aria-label="<?php esc_attr_e( 'Jump to section', 'mumega-mcp' ); ?>">
+		<a class="nav-tab" href="#spai-section-approvals"><?php esc_html_e( 'Approvals', 'mumega-mcp' ); ?></a>
+		<a class="nav-tab" href="#spai-section-seo"><?php esc_html_e( 'SEO', 'mumega-mcp' ); ?></a>
+		<a class="nav-tab" href="#spai-section-events"><?php esc_html_e( 'Events', 'mumega-mcp' ); ?></a>
+		<a class="nav-tab" href="#spai-section-activity"><?php esc_html_e( 'Activity', 'mumega-mcp' ); ?></a>
+		<a class="nav-tab" href="#spai-section-signals"><?php esc_html_e( 'Signals', 'mumega-mcp' ); ?></a>
+	</nav>
+
 	<div class="spai-control-grid">
 		<div class="spai-card">
 			<h2>
 				<span class="dashicons dashicons-yes-alt"></span>
 				<?php esc_html_e( 'Recommended Next Actions', 'mumega-mcp' ); ?>
 			</h2>
+			<?php if ( empty( $recommendations ) ) : ?>
+				<div class="spai-control-empty is-muted">
+					<span class="dashicons dashicons-yes-alt"></span>
+					<p><?php esc_html_e( 'No actions needed right now — your site is in good shape.', 'mumega-mcp' ); ?></p>
+				</div>
+			<?php else : ?>
 			<?php foreach ( $recommendations as $recommendation ) : ?>
 				<div class="spai-control-action spai-control-action--<?php echo esc_attr( sanitize_html_class( $recommendation['priority'] ?? 'low' ) ); ?>">
 					<span class="spai-control-priority spai-control-priority--<?php echo esc_attr( sanitize_html_class( $recommendation['priority'] ?? 'low' ) ); ?>">
@@ -97,9 +112,10 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 					</div>
 				</div>
 			<?php endforeach; ?>
+			<?php endif; ?>
 		</div>
 
-		<div class="spai-card">
+		<div class="spai-card" id="spai-section-approvals">
 			<h2>
 				<span class="dashicons dashicons-shield"></span>
 				<?php esc_html_e( 'Pending Approvals', 'mumega-mcp' ); ?>
@@ -113,20 +129,38 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 				<ul class="spai-control-list">
 					<?php foreach ( $pending_items as $item ) : ?>
 						<?php
-						$resource = isset( $item['resource'] ) && is_array( $item['resource'] ) ? $item['resource'] : array();
-						$post_id  = isset( $resource['id'] ) ? absint( $resource['id'] ) : 0;
-						$edit_url = $post_id ? get_edit_post_link( $post_id, 'raw' ) : '';
+						$resource     = isset( $item['resource'] ) && is_array( $item['resource'] ) ? $item['resource'] : array();
+						$post_id      = isset( $resource['id'] ) ? absint( $resource['id'] ) : 0;
+						$edit_url     = $post_id ? get_edit_post_link( $post_id, 'raw' ) : '';
+						// F-08: one-line change summary — resource type + id + short description.
+						$res_type     = ! empty( $resource['type'] ) ? $resource['type'] : '';
+						$res_id       = ! empty( $resource['id'] ) ? (string) $resource['id'] : '';
+						$res_label    = trim( $res_type . ( $res_id ? ' #' . $res_id : '' ) );
+						$short_desc   = ! empty( $item['description'] ) ? $item['description'] : ( ! empty( $item['detail'] ) ? $item['detail'] : '' );
+						$short_desc   = $short_desc ? wp_html_excerpt( $short_desc, 120, '…' ) : '';
 						?>
 						<li class="spai-control-list__item is-warning">
 							<span class="spai-control-list__icon dashicons dashicons-clock"></span>
 							<strong><?php echo esc_html( $item['title'] ?? $item['id'] ?? '' ); ?></strong>
 							<span><?php echo esc_html( $item['tool'] ?? $item['action'] ?? '' ); ?></span>
+							<?php if ( $res_label || $short_desc ) : ?>
+								<span class="spai-approval-summary">
+									<?php if ( $res_label ) : ?>
+										<code><?php echo esc_html( $res_label ); ?></code>
+									<?php endif; ?>
+									<?php if ( $short_desc ) : ?>
+										<?php echo esc_html( $short_desc ); ?>
+									<?php endif; ?>
+								</span>
+							<?php endif; ?>
 							<div class="spai-control-actions">
 								<form method="post">
 									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
 									<input type="hidden" name="spai_control_room_action" value="approve">
 									<input type="hidden" name="spai_approval_id" value="<?php echo esc_attr( $item['id'] ?? '' ); ?>">
-									<button type="submit" class="button button-primary"><?php esc_html_e( 'Approve', 'mumega-mcp' ); ?></button>
+									<button type="submit" class="button button-primary"
+										onclick="return confirm('<?php esc_attr_e( 'Apply this change to the live site? You can roll it back from the Rollback Ready section.', 'mumega-mcp' ); ?>')"
+									><?php esc_html_e( 'Approve', 'mumega-mcp' ); ?></button>
 								</form>
 								<form method="post">
 									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
@@ -135,7 +169,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 									<button type="submit" class="button"><?php esc_html_e( 'Reject', 'mumega-mcp' ); ?></button>
 								</form>
 								<?php if ( $edit_url ) : ?>
-									<a class="button" href="<?php echo esc_url( $edit_url ); ?>"><?php esc_html_e( 'Open resource', 'mumega-mcp' ); ?></a>
+									<a class="button" href="<?php echo esc_url( $edit_url ); ?>"><?php esc_html_e( 'Preview in WordPress', 'mumega-mcp' ); ?></a>
 								<?php endif; ?>
 							</div>
 						</li>
@@ -177,7 +211,9 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
 									<input type="hidden" name="spai_control_room_action" value="apply">
 									<input type="hidden" name="spai_approval_id" value="<?php echo esc_attr( $item['id'] ?? '' ); ?>">
-									<button type="submit" class="button button-primary"><?php esc_html_e( 'Apply', 'mumega-mcp' ); ?></button>
+									<button type="submit" class="button button-primary"
+										onclick="return confirm('<?php esc_attr_e( 'Apply this change to the live site? You can roll it back from the Rollback Ready section.', 'mumega-mcp' ); ?>')"
+									><?php esc_html_e( 'Apply', 'mumega-mcp' ); ?></button>
 								</form>
 								<form method="post">
 									<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
@@ -192,7 +228,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 			<?php endif; ?>
 		</div>
 
-		<div class="spai-card">
+		<div class="spai-card" id="spai-section-seo">
 			<div class="spai-control-card-header">
 				<h2>
 					<span class="dashicons dashicons-search"></span>
@@ -298,7 +334,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		</div>
 	</div>
 
-	<div class="spai-card">
+	<div class="spai-card" id="spai-section-events">
 		<div class="spai-control-card-header">
 			<h2>
 				<span class="dashicons dashicons-bell"></span>
@@ -368,7 +404,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		<?php endif; ?>
 	</div>
 
-	<div class="spai-card">
+	<div class="spai-card" id="spai-section-activity">
 		<h2>
 			<span class="dashicons dashicons-list-view"></span>
 			<?php esc_html_e( 'Recent Agent Activity', 'mumega-mcp' ); ?>
@@ -503,7 +539,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 </div>
 
 <?php // ── Site Signals (#363) ────────────────────────────────────────────────── ?>
-<div class="spai-card" style="margin-top:1.5rem">
+<div class="spai-card" id="spai-section-signals" style="margin-top:1.5rem">
 	<div class="spai-control-card-header">
 		<h2 class="spai-control-card-title"><?php esc_html_e( 'Site Signals', 'mumega-mcp' ); ?></h2>
 		<div class="spai-control-card-actions">

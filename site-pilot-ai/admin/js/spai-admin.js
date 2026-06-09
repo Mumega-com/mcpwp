@@ -242,6 +242,13 @@
 			form.find('.spai-save-integration').toggleClass('is-hidden');
 		});
 
+		// Helper: apply visual affordance class to a status span (F-15).
+		function setStatusText(status, text, isSuccess) {
+			status.text(text)
+				.removeClass('spai-status-active spai-status-inactive')
+				.addClass(isSuccess ? 'spai-status-active' : 'spai-status-inactive');
+		}
+
 		// Save integration
 		$(document).on('click', '.spai-save-integration', function() {
 			var btn = $(this);
@@ -263,7 +270,8 @@
 			btn.prop('disabled', true).text(strings.saving);
 			$.post(ajaxUrl, data, function(response) {
 				btn.prop('disabled', false).text(strings.saved || 'Save');
-				status.text(response.success ? strings.saved : (response.data && response.data.message ? response.data.message : strings.saveFailed));
+				var msg = response.success ? strings.saved : (response.data && response.data.message ? response.data.message : strings.saveFailed);
+				setStatusText(status, msg, response.success);
 				if (response.success) setTimeout(function() { location.reload(); }, 800);
 			});
 		});
@@ -288,7 +296,8 @@
 			btn.prop('disabled', true).text(strings.testing);
 			$.post(ajaxUrl, { action: 'spai_test_integration', nonce: nonce, provider: provider }, function(response) {
 				btn.prop('disabled', false).text('Test Connection');
-				status.text(response.success ? strings.connected : (response.data && response.data.message ? response.data.message : strings.testFailed));
+				var msg = response.success ? (response.data && response.data.message ? response.data.message : strings.connected) : (response.data && response.data.message ? response.data.message : strings.testFailed);
+				setStatusText(status, msg, response.success);
 			});
 		});
 	}
