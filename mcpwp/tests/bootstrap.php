@@ -758,3 +758,11 @@ require_once dirname(__DIR__) . '/includes/api/class-mcpwp-rest-pages.php';
 require_once dirname(__DIR__) . '/includes/api/class-mcpwp-rest-menus.php';
 require_once dirname(__DIR__) . '/includes/core/class-mcpwp-elementor-basic.php';
 require_once dirname(__DIR__) . '/includes/pro/api/class-mcpwp-rest-elementor-pro.php';
+
+// Microkernel (v5) — additive; not yet wired into the live boot path.
+require_once dirname(__DIR__) . '/includes/kernel/class-mcpwp-container.php';
+require_once dirname(__DIR__) . '/includes/kernel/class-mcpwp-module-manifest.php';
+require_once dirname(__DIR__) . '/includes/kernel/interface-mcpwp-module.php';
+require_once dirname(__DIR__) . '/includes/kernel/class-mcpwp-module-registry.php';
+require_once dirname(__DIR__) . '/includes/kernel/class-mcpwp-kernel.php';
+require_once dirname(__DIR__) . '/includes/kernel/class-mcpwp-legacy-core-module.php';
