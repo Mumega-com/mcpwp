@@ -168,6 +168,12 @@ echo "Building zip package"
 		while IFS= read -r line; do
 			line="$(echo "$line" | sed 's/#.*//' | xargs)"
 			[[ -z "$line" ]] && continue
+			# Freemius deployment REQUIRES the SDK + bootstrap in the zip
+			# (upload rejected with fs_sdk_missing otherwise). The wp.org /
+			# self-hosted .distignore strips them, so keep them for Freemius.
+			case "$line" in
+				/freemius|/freemius/*|/includes/freemius-init.php) continue ;;
+			esac
 			RSYNC_EXCLUDES+=("--exclude=$line")
 		done < "$DISTIGNORE"
 	fi

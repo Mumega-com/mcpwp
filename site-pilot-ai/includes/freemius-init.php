@@ -51,20 +51,29 @@ if ( ! function_exists( 'spa_fs' ) ) {
 
 			$spa_fs = fs_dynamic_init( array(
 				'id'                  => '23824',
-				'slug'                => 'site-pilot-ai',
+				'slug'                => 'MCPWP',
 				'type'                => 'plugin',
 				'public_key'          => 'pk_24f806380f2ccf8a5e3283dac895b',
-				// Single-plugin distribution: paid plans unlock features via license gates.
-				// This avoids the "download premium zip" step after checkout.
-				'is_premium'          => basename( dirname( __DIR__ ) ) === 'site-pilot-ai-premium',
+				// Free + premium distribution. The premium source sets is_premium
+				// true; Freemius auto-generates the free wp.org version (is_premium
+				// flipped) using wp_org_gatekeeper.
+				'is_premium'          => true,
 				'is_premium_only'     => false,
-				'has_premium_version' => false,
+				'has_premium_version' => true,
 				'has_addons'          => false,
 				'has_paid_plans'      => true,
+				'is_org_compliant'    => true,
+				// Authorizes Freemius to generate the free wp.org build. Stripped
+				// from the free version automatically.
+				'wp_org_gatekeeper'   => 'OA7#BoRiBNqdf52FvzEf!!074aRLPs8fspif$7K1#4u4Csys1fQlCecVcUTOs2mcpeVHi#C2j9d09fOTvbC0HloPT7fFee5WdS3G',
 				'trial'               => array(
 					'days'               => 14,
 					'is_require_payment' => true,
 				),
+				// NOTE: menu kept as the plugin's real TOP-LEVEL page
+				// (admin.php?page=site-pilot-ai). The dashboard snippet's
+				// tools.php first-path would 404 after opt-in since the menu is
+				// not under Tools. account/pricing kept so Freemius renders those.
 				'menu'                => array(
 					'slug'       => 'site-pilot-ai',
 					'parent'     => array(
