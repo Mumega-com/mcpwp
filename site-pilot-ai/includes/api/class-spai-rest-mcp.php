@@ -1021,7 +1021,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 			return $this->jsonrpc_error(
 				$id,
 				-32000,
-				$error_message . ' (route: ' . $method . ' /site-pilot-ai/v1' . $route . ')',
+				$error_message . ' (route: ' . $method . ' ' . $full_route . ')',
 				$error_data
 			);
 		}
