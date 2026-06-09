@@ -1,50 +1,58 @@
 # MCPWP Naming Reference
 
-Canonical brand: **MCPWP** (mcpwp.net). Internal code uses legacy `spai_` / `site-pilot-ai` prefixes for backward compatibility — intentional, do not change.
+Canonical brand and code name: **MCPWP** (mcpwp.net).
 
-## Source of truth
+As of **v3.0.0** (2026-06-09) the plugin was hard-renamed. There is **one** name everywhere —
+no `spai_` / `site-pilot-ai` / `mumcp` / `mumega-mcp` aliases, no backward-compat dual naming.
+Those prefixes are dead. If you find one in live plugin code, it is a bug — fix it.
 
-| Surface | Canonical value | Status |
-|---------|----------------|--------|
-| Plugin Name header | `MCPWP` | ✓ correct |
-| npm package | `@mcpwp.net/mcpwp` | ✓ correct |
-| MCP registry id | `io.github.mumega848/mcpwp` | ✓ correct |
-| CLI binary | `mcpwp` | ✓ correct |
-| version.json name | `MCPWP` | ✓ correct |
-| README H1 | `MCPWP` | ✓ correct |
+## Canonical values (the only correct forms)
 
-## Locked for backward compatibility (do NOT change)
+| Surface | Value |
+|---------|-------|
+| Plugin folder + main file | `mcpwp/` · `mcpwp.php` |
+| Plugin Name header | `MCPWP` |
+| PHP classes | `Mcpwp_*` |
+| Functions / hooks / option keys | `mcpwp_*` |
+| PHP constants | `MCPWP_*` (e.g. `MCPWP_VERSION`) |
+| `@package` docblock | `MCPWP` |
+| REST namespace | `mcpwp/v1` |
+| API key prefix | `mcpwp_` |
+| Text domain | `mcpwp` |
+| HTTP headers | `X-MCPWP-*` |
+| npm package | `@mcpwp.net/mcpwp` |
+| MCP registry id | `io.github.mumega848/mcpwp` |
+| CLI binary | `mcpwp` |
+| version.json `name` | `MCPWP` |
+| README H1 | `MCPWP` |
+| Freemius slug | `MCPWP` |
 
-| Surface | Value | Why locked |
-|---------|-------|-----------|
-| REST namespace | `site-pilot-ai/v1` | Existing Claude Desktop / MCP client configs depend on this URL |
-| WP option keys | `spai_*` | 189+ stored options in production databases |
-| WP action/filter hooks | `spai_*` | Third-party integrations hook into these |
-| HTTP headers | `X-SPAI-*` | Webhook subscribers validate these signatures |
-| PHP constant | `SPAI_VERSION` | Referenced by update checks across installs |
-| PHP package docblock | `MumegaMCP` | Internal, low priority |
-| Text Domain | `mumega-mcp` | i18n — change only in a major version with translation migration plan |
-| Pro plugin text domain | `site-pilot-ai-pro` | Same |
+## No migration
 
-## Known stale references (fix on sight)
+User is the only operator and reinstalls fresh on the two sites (mcpwp.net, crophelp.ai).
+No stored-option migration, no client-config compat shim, no deprecation window. The rebrand
+was clean precisely because there was no external contract to preserve — only our own
+Cloudflare worker and our own MCP client configs consume the surface, and both we control.
 
-| File | Problem | Fix |
-|------|---------|-----|
-| `docs/COMPATIBILITY.md` | Says "mumcp" throughout | → MCPWP |
-| `docs/KNOWN_ISSUES.md` | Says "mumcp" throughout | → MCPWP |
-| `docs/blog-launch-post.md` | Says "mumcp", "mumcp-claude-plugin", "free forever" | → MCPWP + paid copy |
-| `docs/V3_PLAN.md` | Says "mumcp", lists $0 free plan | → update or archive |
-| `mcp-server/src/index.ts:64` | Config path shown as `~/.mumega-mcp/config.json` | → `~/.mcpwp/config.json` |
-| `mcp-server/src/config.ts:31,70` | Config dir `~/.wp-ai-operator` | → `~/.mcpwp` with fallback |
-| `site-pilot-ai/composer.json:2` | `mumega/mumega-mcp-dev` | → `mumega/mcpwp-dev` (low priority) |
-| `.github/PULL_REQUEST_TEMPLATE.md` | References `spai_` and `site-pilot-ai` | Acceptable for dev checklist, update when convenient |
+## Known stale references (documentation only — fix on sight)
 
-## Name history (do not resurface)
+These are docs/records, not live code. Some are *frozen historical records that should keep the
+old names* — do not "fix" those.
 
-`WP AI Operator` → `DigID` → `Site Pilot AI` → `mumcp` / `Mumega MCP` → **MCPWP**
+| File | Status |
+|------|--------|
+| `docs/REBRAND-PLAN.md` | **keep** — documents the rename; old names are the subject matter |
+| `docs/superpowers/plans/*` | **keep** — frozen plan records |
+| `docs/website-gtm/**/backups/*.json` | **keep** — frozen Elementor snapshots |
+| `docs/V3_PLAN.md`, `docs/COMPATIBILITY.md`, `docs/KNOWN_ISSUES.md` | update or archive (pre-rebrand) |
+| `docs/blog-launch-post.md` | update to MCPWP + paid copy |
+| `mcp-server/src/{index,config,setup}.ts` | live code — config paths `~/.mumega-mcp` / `~/.wp-ai-operator` → `~/.mcpwp` (separate npm artifact; own change) |
+| `SECURITY.md`, `CONTRIBUTING.md` | contributor-facing — update when convenient |
+| `.github/PULL_REQUEST_TEMPLATE.md` | dev checklist — update when convenient |
 
-## Rule of thumb
+## Deferred cross-repo / infra renames (tracked, not yet done)
 
-- **Public-facing copy** (README, docs, UI strings, blog): always `MCPWP`
-- **Code identifiers** (options, hooks, PHP classes, REST routes): keep `spai_` / `site-pilot-ai` / `Spai_` — these are internal and backward-compat locked
-- **New code**: use `spai_` prefix for WP options/hooks, `MCPWP` for any user-visible strings
+| Item | Why deferred |
+|------|--------------|
+| `spai-proxy-worker/` → `mcpwp-proxy-worker` | changes deployed Cloudflare worker name (DNS/routing) — needs explicit go |
+| repo/dir `wp-ai-operator` → `mcpwp` | filesystem rename; breaks active worktrees mid-session |
