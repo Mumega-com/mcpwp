@@ -366,6 +366,7 @@ class Spai_REST_Elementor extends Spai_REST_API {
 							'description' => __( 'Text to search for.', 'mumega-mcp' ),
 							'type'        => 'string',
 							'required'    => true,
+							'minLength'   => 1,
 						),
 						'replace' => array(
 							'description' => __( 'Replacement text.', 'mumega-mcp' ),
@@ -842,20 +843,11 @@ class Spai_REST_Elementor extends Spai_REST_API {
 			);
 		}
 
-		// Quick check: does the search string even appear?
-		if ( 0 === substr_count( $raw, $search ) ) {
-			return $this->success_response(
-				array(
-					'replacements' => 0,
-					'message'      => __( 'Search text not found in Elementor data.', 'mumega-mcp' ),
-				)
-			);
-		}
-
-		// Decode first — replace on raw JSON string can corrupt serialization
-		// (e.g. a URL replacement that changes string length inside a quoted value
-		// breaks nothing structurally, but replacing JSON-significant characters
-		// like quote chars, brackets, or slashes silently destroys the data).
+		// Decode first, then match on the decoded element tree. A raw-JSON substring
+		// check produces false negatives: Elementor stores '<' as <, '>' as >,
+		// and '/' as \/, so any search containing HTML tags or URL slashes never matches
+		// the raw string even when the text is plainly present. Replacing on the raw JSON
+		// string would also corrupt serialization, so the decode is required regardless.
 		$decoded = json_decode( $raw, true );
 		if ( JSON_ERROR_NONE !== json_last_error() ) {
 			return $this->error_response(
@@ -865,9 +857,21 @@ class Spai_REST_Elementor extends Spai_REST_API {
 			);
 		}
 
-		$count   = 0;
+		$count           = 0;
 		$updated_decoded = $this->recursive_str_replace( $search, $replace, $decoded, $count );
-		$updated         = wp_json_encode( $updated_decoded );
+
+		// Nothing matched on the decoded tree — report cleanly without a write.
+		if ( 0 === $count ) {
+			return $this->success_response(
+				array(
+					'replacements' => 0,
+					'post_id'      => $page_id,
+					'message'      => __( 'Search text not found in Elementor data.', 'mumega-mcp' ),
+				)
+			);
+		}
+
+		$updated = wp_json_encode( $updated_decoded );
 
 		if ( false === $updated ) {
 			return $this->error_response(
@@ -993,6 +997,11 @@ class Spai_REST_Elementor extends Spai_REST_API {
 	 * @return mixed Updated structure.
 	 */
 	private function recursive_str_replace( $search, $replace, $data, &$count ) {
+		// Structural Elementor keys whose string values are identifiers, not user
+		// content. Replacing inside them silently breaks rendering — e.g. searching
+		// "section" would clobber every "elType":"section". Never descend into these.
+		static $protected_keys = array( 'id', 'elType', 'widgetType', 'isInner', 'structure' );
+
 		if ( is_string( $data ) ) {
 			$new_data = str_replace( $search, $replace, $data, $n );
 			$count   += $n;
@@ -1000,6 +1009,9 @@ class Spai_REST_Elementor extends Spai_REST_API {
 		}
 		if ( is_array( $data ) ) {
 			foreach ( $data as $key => $value ) {
+				if ( is_string( $key ) && in_array( $key, $protected_keys, true ) ) {
+					continue; // Leave structural identifiers untouched.
+				}
 				$data[ $key ] = $this->recursive_str_replace( $search, $replace, $value, $count );
 			}
 		}
