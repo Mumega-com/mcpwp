@@ -5,8 +5,8 @@
 > **Project board:** https://github.com/orgs/Mumega-com/projects/1
 > **Quick queue:** `gh issue list --repo Mumega-com/mcpwp --label "status:ready" --state open`
 
-**Current version:** v2.8.49 (main)
-**Last updated:** 2026-06-08
+**Current version:** v2.8.50 (main)
+**Last updated:** 2026-06-09
 
 ---
 
@@ -26,47 +26,47 @@ M5: Content Engine + Chat Platforms (v4.0)
 
 ### What blocks launch — hard stops
 
-| # | GH | Who | Task |
-|---|-----|-----|------|
-| T85 | #410 | agent | Fix 29 Dependabot alerts (2 critical, 6 high) — visible on GitHub |
-| T86 | #416 | Hadi | Privacy policy at mcpwp.net/privacy — blocks WP.org + ChatGPT App + Claude Connector |
-| T87 | #417 | Hadi | Pricing page on mcpwp.net — #1 PH question |
-| T88 | #418 | Hadi | Install flow test: zero → first tool call < 5 min |
+| # | GH | Who | Task | Status |
+|---|-----|-----|------|--------|
+| ~~T85~~ | #410 | agent | ~~Fix 29 Dependabot alerts~~ | ✅ PR #438 |
+| T86 | #416 | Hadi | Privacy policy at mcpwp.net/privacy — blocks WP.org + ChatGPT App + Claude Connector | ⏳ |
+| T87 | #417 | Hadi | Pricing page on mcpwp.net — #1 PH question | ⏳ |
+| T88 | #418 | Hadi | Install flow test: zero → first tool call < 5 min | ⏳ |
 
 ### Security hardening — must ship before launch
 
-| # | GH | Who | Task |
-|---|-----|-----|------|
-| T94 | #424 | agent | Body size limit + Content-Type enforcement in proxy worker |
-| T95 | #425 | agent | Security response headers (nosniff, X-Frame-Options, CSP) |
-| T96 | #426 | agent | Workers Rate Limiting binding on /mcp + /api/accounts |
-| T97 | #427 | agent | Timing-safe ADMIN_SECRET comparison |
-| T98 | #428 | Hadi | WAF edge rate-limit rule (Cloudflare dashboard — 2 rules) |
+| # | GH | Who | Task | Status |
+|---|-----|-----|------|--------|
+| ~~T94~~ | #424 | agent | ~~Body size limit + Content-Type enforcement in proxy worker~~ | ✅ PR #438 |
+| ~~T95~~ | #425 | agent | ~~Security response headers (nosniff, X-Frame-Options, CSP)~~ | ✅ PR #438 |
+| ~~T96~~ | #426 | agent | ~~Workers Rate Limiting binding on /mcp + /api/accounts~~ | ✅ PR #438 |
+| ~~T97~~ | #427 | agent | ~~Timing-safe ADMIN_SECRET comparison~~ | ✅ PR #438 |
+| T98 | #428 | Hadi | WAF edge rate-limit rule (Cloudflare dashboard — 2 rules) | ⏳ |
 
 ### Contributor DX — should be live at launch (contributors arrive)
 
-| # | GH | Who | Task |
-|---|-----|-----|------|
-| T80 | #411 | agent | GitHub issue templates (bug / feature / new-tool) |
-| T81 | #412 | agent | PR template |
-| T82 | #413 | agent | GitHub Actions CI (PHP lint + smoke test) |
-| T83 | #414 | agent | AGENTS.md for AI contributors |
-| T84 | #415 | agent | Devcontainer for GitHub Codespaces |
+| # | GH | Who | Task | Status |
+|---|-----|-----|------|--------|
+| ~~T80~~ | #411 | agent | ~~GitHub issue templates (bug / feature / new-tool)~~ | ✅ PR #438 |
+| ~~T81~~ | #412 | agent | ~~PR template~~ | ✅ PR #438 |
+| ~~T82~~ | #413 | agent | ~~GitHub Actions CI (PHP lint + smoke test)~~ | ✅ PR #438 |
+| ~~T83~~ | #414 | agent | ~~AGENTS.md for AI contributors~~ | ✅ PR #438 |
+| ~~T84~~ | #415 | agent | ~~Devcontainer for GitHub Codespaces~~ | ✅ PR #438 |
 
 ### Launch assets + community
 
-| # | GH | Who | Task |
-|---|-----|-----|------|
-| T89 | #419 | Hadi | Email capture on mcpwp.net |
-| T90 | #420 | agent | Launch blog post |
-| T91 | #421 | Hadi | Discord server setup |
-| T92 | #422 | Hadi | Freemius onboarding email update |
-| T40 | #394 | Hadi | Record demo video (90s) |
-| T41 | #395 | Hadi | Product Hunt gallery images (5x) |
-| T42 | #396 | Hadi | Update mcpwp.net landing page |
-| T43 | #402 | agent | PH maker first comment |
-| T44 | #403 | Hadi | Twitter teaser thread |
-| T46 | #404 | Hadi | Set Product Hunt launch date |
+| # | GH | Who | Task | Status |
+|---|-----|-----|------|--------|
+| T89 | #419 | Hadi | Email capture on mcpwp.net | ⏳ |
+| ~~T90~~ | #420 | agent | ~~Launch blog post~~ | ✅ PR #446 — docs/blog-launch-post.md |
+| T91 | #421 | Hadi | Discord server setup | ⏳ |
+| T92 | #422 | Hadi | Freemius onboarding email update | ⏳ |
+| T40 | #394 | Hadi | Record demo video (90s) | ⏳ |
+| T41 | #395 | Hadi | Product Hunt gallery images (5x) | ⏳ |
+| T42 | #396 | Hadi | Update mcpwp.net landing page | ⏳ |
+| ~~T43~~ | #402 | agent | ~~PH maker first comment~~ | ✅ PR #446 — docs/ph-maker-comment.md |
+| T44 | #403 | Hadi | Twitter teaser thread | ⏳ |
+| T46 | #404 | Hadi | Set Product Hunt launch date | ⏳ |
 
 ### What I (Claude) lack to complete M1
 
@@ -79,7 +79,7 @@ M5: Content Engine + Chat Platforms (v4.0)
 | Privacy policy review | Can draft, Hadi must approve legal text |
 | WP.org account | Hadi submits manually |
 
-**What agent can do unblocked right now:** T85, T80-T84, T90, T94-T97, T43
+**Agent tasks remaining in M1:** none — all done. Launch blocked on Hadi gates above.
 
 ---
 
@@ -93,7 +93,7 @@ M5: Content Engine + Chat Platforms (v4.0)
 | T02 | #379 | Test Claude Code against localhost:8080 |
 | T03 | #380 | Test OpenClaw streamable-http + X-API-Key header (bug #65590) |
 | T04 | #381 | Test Hermes Agent + Tool Search activation |
-| T10 | #383 | Update openapi-chatgpt.yaml for v2.8.49 |
+| ~~T10~~ | #383 | ~~Update openapi-chatgpt.yaml for v2.8.49~~ — ✅ PR #446 (now v2.8.50, 49 ops) |
 | T11 | — | Create ChatGPT Custom GPT in GPT Store |
 | T13 | #385 | integrations/chatgpt/ setup guide |
 | T20 | #388 | WP.org audit (free tier, GPL clean) |
@@ -106,7 +106,7 @@ M5: Content Engine + Chat Platforms (v4.0)
 | T34 | #398 | Claude Desktop Extension (MCPB format) |
 | T50 | #405 | MCP Resources |
 | T51 | #406 | MCP Prompts |
-| T52 | #407 | BM25-optimized tool descriptions |
+| ~~T52~~ | #407 | ~~BM25-optimized tool descriptions~~ — ✅ PR #446 (56 descriptions rewritten) |
 
 ### What I lack for M2
 
@@ -124,7 +124,7 @@ MCPWP becomes a platform runtime. Third-party plugins (Digid, WooCommerce extens
 
 | # | GH | Task | Notes |
 |---|-----|------|-------|
-| T71a | #439 | Plugin hook API (`spai_register_tools` filter) | Digid registers own tools in 10 lines of PHP. ~2–3h build. Ships first. |
+| ~~T71a~~ | #439 | ~~Plugin hook API (`spai_register_tools` filter)~~ | ✅ PR #446 — Spai_Custom_Tool_Registry, dispatch via rest_path |
 | T71b | #440 | REST proxy tools (no-code external endpoints) | Admin defines tool → MCPWP proxies to external URL. No PHP needed. |
 | T71c | #441 | Visual tool builder UI (WP Admin sandbox) | Form-based tool creator with inline test panel. Layer on top of T71b. |
 
@@ -181,12 +181,12 @@ OAuth 2.1 + PKCE is a significant build. Needs Opus-level spec session before im
 |---|-----|----------|------|
 | T120 | #442 | medium | Split free/pro tool files — 2000+ line classes block contributors |
 | T121 | #443 | high | PHPUnit tests — zero PHP test coverage, silent deploy failures |
-| T122 | #444 | high | Rewrite 120+ tool descriptions for BM25/vector accuracy — **agent:auto, status:ready** |
-| T123 | #445 | launch-blocker | Update openapi-chatgpt.yaml to v2.8.49 — **agent:auto, status:ready** |
+| ~~T122~~ | #444 | high | ~~Rewrite 120+ tool descriptions for BM25/vector accuracy~~ | ✅ PR #446 |
+| ~~T123~~ | #445 | launch-blocker | ~~Update openapi-chatgpt.yaml to v2.8.49~~ | ✅ PR #446 (v2.8.50) |
 
 ---
 
-## Shipped (v2.8.45–v2.8.49)
+## Shipped (v2.8.45–v2.8.50)
 
 - Server-side PostHog analytics
 - Agency multi-site proxy (CF Worker)
@@ -197,6 +197,7 @@ OAuth 2.1 + PKCE is a significant build. Needs Opus-level spec session before im
 - Proactive signals (`wp_get_signals`)
 - Site blueprint library (5 starters)
 - Chat excellence (multi-model, SSE, history)
+- **v2.8.50:** `spai_register_tools` filter hook API; 56 BM25-optimized tool descriptions; openapi-chatgpt.yaml 49 operations; 5 pre-existing PHP syntax errors cleared; test bootstrap fixed
 - README rebuilt (OpenClaw/Hermes/ChatGPT sections)
 - ClawHub skill (`integrations/clawhub/SKILL.md`)
 - Hermes integration (`integrations/hermes/`)
