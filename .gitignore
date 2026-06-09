@@ -44,6 +44,8 @@ scripts/*.php
 scripts/*.sh
 !scripts/release_freemius.sh
 !scripts/site-sync.sh
+!scripts/build-wporg.sh
+!scripts/publish_update_release.sh
 
 # Test caches
 site-pilot-ai/tests/.phpunit.result.cache
