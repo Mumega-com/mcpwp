@@ -64,6 +64,13 @@ class Spai_REST_MCP extends Spai_REST_API {
 	private $pro_registry;
 
 	/**
+	 * Custom tools registry (spai_register_tools filter).
+	 *
+	 * @var Spai_Custom_Tool_Registry
+	 */
+	private $custom_registry;
+
+	/**
 	 * Output buffer level that existed before this controller was created.
 	 *
 	 * @var int
@@ -142,6 +149,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 		foreach ( Spai_Integration::resolve_all() as $integration ) {
 			$tools = array_merge( $tools, $integration->get_tools() );
 		}
+		$tools = array_merge( $tools, $this->custom_registry->get_tools() );
 
 		// Filter out tools whose required plugins are not active.
 		$reqs = $this->get_all_required_capabilities();
@@ -192,6 +200,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 		foreach ( Spai_Integration::resolve_all() as $integration ) {
 			$cats = array_merge( $cats, $integration->get_tool_categories() );
 		}
+		$cats = array_merge( $cats, $this->custom_registry->get_tool_categories() );
 		return $cats;
 	}
 
@@ -210,6 +219,7 @@ class Spai_REST_MCP extends Spai_REST_API {
 		foreach ( Spai_Integration::resolve_all() as $integration ) {
 			$tool_map = array_merge( $tool_map, $integration->get_tool_map() );
 		}
+		$tool_map = array_merge( $tool_map, $this->custom_registry->get_tool_map() );
 		return $tool_map;
 	}
 
@@ -230,6 +240,9 @@ class Spai_REST_MCP extends Spai_REST_API {
 			if ( isset( $integration->get_tool_map()[ $tool_name ] ) ) {
 				return $integration;
 			}
+		}
+		if ( isset( $this->custom_registry->get_tool_map()[ $tool_name ] ) ) {
+			return $this->custom_registry;
 		}
 		return $this->free_registry; // fallback
 	}
@@ -360,8 +373,9 @@ class Spai_REST_MCP extends Spai_REST_API {
 		$site_name            = function_exists( 'get_bloginfo' ) ? get_bloginfo( 'name' ) : '';
 		$this->server_name    = 'site-pilot-ai' . ( '' !== $site_name ? ':' . $site_name : '' );
 		$this->initial_ob_level = ob_get_level();
-		$this->free_registry  = new Spai_MCP_Free_Tools();
-		$this->pro_registry   = new Spai_MCP_Pro_Tools();
+		$this->free_registry    = new Spai_MCP_Free_Tools();
+		$this->pro_registry     = new Spai_MCP_Pro_Tools();
+		$this->custom_registry  = new Spai_Custom_Tool_Registry();
 
 		// Force JSON content type for MCP responses. During rapid sequential calls,
 		// WordPress or PHP output buffering can send wrong Content-Type headers
@@ -921,8 +935,13 @@ class Spai_REST_MCP extends Spai_REST_API {
 			}
 		}
 
-		// Build internal REST request
-		$internal_request = new WP_REST_Request( $method, '/site-pilot-ai/v1' . $route );
+		// Build internal REST request.
+		// Custom tools (spai_register_tools) store 'rest_path' as the full WP REST route.
+		// Built-in tools store a relative path that is prefixed with the MCPWP namespace.
+		$full_route = isset( $mapping['rest_path'] )
+			? $mapping['rest_path']
+			: '/site-pilot-ai/v1' . $route;
+		$internal_request = new WP_REST_Request( $method, $full_route );
 
 		// Set remaining arguments as params.
 		// For write methods, also set body params so get_param() finds them

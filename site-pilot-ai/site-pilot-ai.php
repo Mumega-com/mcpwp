@@ -243,6 +243,7 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/mcp/class-spai-mcp-pro-tools.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/mcp/class-spai-mcp-ai-integration.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/mcp/class-spai-mcp-figma-integration.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/mcp/class-spai-custom-tool-registry.php';
 
 	// Load Pro modules only for non-WP.org builds with an active entitlement.
 	$pro_bootstrap = SPAI_PLUGIN_DIR . 'includes/pro/class-spai-pro-bootstrap.php';
