@@ -18,7 +18,7 @@ info:
     email: support@mcpwp.net
 
 servers:
-  - url: https://{site}/wp-json/site-pilot-ai/v1
+  - url: https://{site}/wp-json/mcpwp/v1
     description: Your WordPress site
     variables:
       site:
@@ -1625,7 +1625,7 @@ components:
       name: X-API-Key
       description: |
         MCPWP API key. Get from WordPress Admin → MCPWP → Setup → Generate API Key.
-        Format: spai_xxxxxxxxxxxxxxxxxxxxxxxx
+        Format: mcpwp_xxxxxxxxxxxxxxxxxxxxxxxx
 
   parameters:
     PostId:

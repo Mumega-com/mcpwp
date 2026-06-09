@@ -5,8 +5,8 @@ Record this with asciinema or screen recorder. Target: 60 seconds.
 ## Setup
 ```bash
 # Use the Docker test site
-export KEY="spai_YOUR_TEST_KEY"
-export MCP="http://localhost:8080/wp-json/site-pilot-ai/v1/mcp"
+export KEY="mcpwp_YOUR_TEST_KEY"
+export MCP="http://localhost:8080/wp-json/mcpwp/v1/mcp"
 ```
 
 ## Scene 1: One command builds a full page (30 sec)
@@ -38,7 +38,7 @@ curl -s -X POST $MCP \
 ```bash
 echo "MCP tools. 24 blueprints. Paid plans + trial."
 echo ""
-echo "Install: wp plugin install https://mumega.com/mcp-updates/mumega-mcp-latest.zip --activate"
+echo "Install: wp plugin install https://mumega.com/mcp-updates/mcpwp-latest.zip --activate"
 echo "GitHub:  https://github.com/Mumega-com/mcp-for-wp"
 ```
 

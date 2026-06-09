@@ -5,7 +5,7 @@ The batch endpoint allows executing multiple REST API operations in a single HTT
 ## Endpoint
 
 ```
-POST /wp-json/site-pilot-ai/v1/batch
+POST /wp-json/mcpwp/v1/batch
 ```
 
 ## Authentication
@@ -70,7 +70,7 @@ Each result contains:
 ### Example 1: List posts and pages
 
 ```bash
-curl -X POST "https://example.com/wp-json/site-pilot-ai/v1/batch" \
+curl -X POST "https://example.com/wp-json/mcpwp/v1/batch" \
   -H "X-API-Key: your-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -92,7 +92,7 @@ curl -X POST "https://example.com/wp-json/site-pilot-ai/v1/batch" \
 ### Example 2: Create multiple posts
 
 ```bash
-curl -X POST "https://example.com/wp-json/site-pilot-ai/v1/batch" \
+curl -X POST "https://example.com/wp-json/mcpwp/v1/batch" \
   -H "X-API-Key: your-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -122,7 +122,7 @@ curl -X POST "https://example.com/wp-json/site-pilot-ai/v1/batch" \
 ### Example 3: Update multiple posts
 
 ```bash
-curl -X POST "https://example.com/wp-json/site-pilot-ai/v1/batch" \
+curl -X POST "https://example.com/wp-json/mcpwp/v1/batch" \
   -H "X-API-Key: your-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -149,7 +149,7 @@ curl -X POST "https://example.com/wp-json/site-pilot-ai/v1/batch" \
 ### Example 4: Mixed operations
 
 ```bash
-curl -X POST "https://example.com/wp-json/site-pilot-ai/v1/batch" \
+curl -X POST "https://example.com/wp-json/mcpwp/v1/batch" \
   -H "X-API-Key: your-key" \
   -H "Content-Type: application/json" \
   -d '{

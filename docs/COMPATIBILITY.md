@@ -116,7 +116,7 @@ Tools for inactive plugins are automatically hidden from the MCP tools/list resp
 Third-party plugins can register their own MCP tools:
 
 ```php
-add_filter('spai_integrations', function($integrations) {
+add_filter('mcpwp_integrations', function($integrations) {
     $integrations[] = new My_Plugin_MCP_Integration();
     return $integrations;
 });

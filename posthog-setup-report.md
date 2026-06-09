@@ -1,20 +1,20 @@
 <wizard-report>
 # PostHog post-wizard report
 
-The wizard has completed a deep integration of PostHog analytics into the MCPWP WordPress plugin admin interface. PostHog is initialized via the `posthog-js` async snippet in `spai-admin.js`, which is loaded on the Setup, Library, Settings, and Integrations admin pages. The Integrations page reads its token from the `spaiIntegrations` localized object (also injected with the PostHog config). The Tools admin page receives a dedicated inline PostHog init script injected via `wp_add_inline_script`. All PostHog configuration (public token and host) is passed from PHP to JavaScript via `wp_localize_script`, with PHP-constant overrides supported (`SPAI_POSTHOG_TOKEN`, `SPAI_POSTHOG_HOST`). Environment variables are stored in `.env`.
+The wizard has completed a deep integration of PostHog analytics into the MCPWP WordPress plugin admin interface. PostHog is initialized via the `posthog-js` async snippet in `mcpwp-admin.js`, which is loaded on the Setup, Library, Settings, and Integrations admin pages. The Integrations page reads its token from the `mcpwpIntegrations` localized object (also injected with the PostHog config). The Tools admin page receives a dedicated inline PostHog init script injected via `wp_add_inline_script`. All PostHog configuration (public token and host) is passed from PHP to JavaScript via `wp_localize_script`, with PHP-constant overrides supported (`MCPWP_POSTHOG_TOKEN`, `MCPWP_POSTHOG_HOST`). Environment variables are stored in `.env`.
 
 | Event | Description | File |
 |---|---|---|
-| `api_key_copied` | User copied an API key (master or scoped) from the setup page | `site-pilot-ai/admin/js/spai-admin.js` |
-| `welcome_banner_dismissed` | User dismissed the first-time welcome banner after initial activation | `site-pilot-ai/admin/js/spai-admin.js` |
-| `connection_tested` | User clicked Test Connection — captures `result: success/failure` | `site-pilot-ai/admin/js/spai-admin.js` |
-| `upgrade_link_clicked` | User clicked the Manage pricing or Upgrade link — conversion intent | `site-pilot-ai/admin/js/spai-admin.js` |
-| `ai_client_tab_switched` | User switched between AI client tabs (Claude Code, Desktop, Cursor, Windsurf) — captures `client` | `site-pilot-ai/admin/partials/spai-setup-display.php` |
-| `scoped_key_created` | User submitted the form to create a role-based API key — captures `role` | `site-pilot-ai/admin/partials/spai-setup-display.php` |
-| `scoped_key_revoked` | User revoked an active scoped API key | `site-pilot-ai/admin/partials/spai-setup-display.php` |
-| `integration_saved` | User saved an AI integration — captures `provider` | `site-pilot-ai/admin/partials/spai-integrations-display.php` |
-| `integration_removed` | User removed a configured AI integration — captures `provider` | `site-pilot-ai/admin/partials/spai-integrations-display.php` |
-| `tool_category_toggled` | User enabled or disabled an MCP tool category — captures `category` and `enabled` | `site-pilot-ai/admin/partials/spai-tools-display.php` |
+| `api_key_copied` | User copied an API key (master or scoped) from the setup page | `mcpwp/admin/js/mcpwp-admin.js` |
+| `welcome_banner_dismissed` | User dismissed the first-time welcome banner after initial activation | `mcpwp/admin/js/mcpwp-admin.js` |
+| `connection_tested` | User clicked Test Connection — captures `result: success/failure` | `mcpwp/admin/js/mcpwp-admin.js` |
+| `upgrade_link_clicked` | User clicked the Manage pricing or Upgrade link — conversion intent | `mcpwp/admin/js/mcpwp-admin.js` |
+| `ai_client_tab_switched` | User switched between AI client tabs (Claude Code, Desktop, Cursor, Windsurf) — captures `client` | `mcpwp/admin/partials/mcpwp-setup-display.php` |
+| `scoped_key_created` | User submitted the form to create a role-based API key — captures `role` | `mcpwp/admin/partials/mcpwp-setup-display.php` |
+| `scoped_key_revoked` | User revoked an active scoped API key | `mcpwp/admin/partials/mcpwp-setup-display.php` |
+| `integration_saved` | User saved an AI integration — captures `provider` | `mcpwp/admin/partials/mcpwp-integrations-display.php` |
+| `integration_removed` | User removed a configured AI integration — captures `provider` | `mcpwp/admin/partials/mcpwp-integrations-display.php` |
+| `tool_category_toggled` | User enabled or disabled an MCP tool category — captures `category` and `enabled` | `mcpwp/admin/partials/mcpwp-tools-display.php` |
 
 ## Next steps
 

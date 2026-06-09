@@ -16,7 +16,7 @@ WordPress Site ──pull──> site-data/ (JSON) ──git push──> CI ─�
 # 1. Pull content from your site
 bash scripts/site-sync.sh pull \
   --url https://mysite.com \
-  --key spai_your_api_key
+  --key mcpwp_your_api_key
 
 # 2. Review and commit
 git add site-data/
@@ -25,7 +25,7 @@ git commit -m "Snapshot site content"
 # 3. Push to another site (or same site after changes)
 bash scripts/site-sync.sh push \
   --url https://staging.mysite.com \
-  --key spai_staging_key
+  --key mcpwp_staging_key
 ```
 
 ## Commands
@@ -77,8 +77,8 @@ Tests API key authentication and required permissions.
 
 | Flag | Env Var | Description |
 |------|---------|-------------|
-| `--url URL` | `SPAI_URL` | WordPress site URL |
-| `--key KEY` | `SPAI_API_KEY` | MCPWP API key |
+| `--url URL` | `MCPWP_URL` | WordPress site URL |
+| `--key KEY` | `MCPWP_API_KEY` | MCPWP API key |
 | `--dir DIR` | — | Data directory (default: `site-data`) |
 | `--dry-run` | — | Show what would happen, no changes |
 | `--skip-elementor` | — | Skip Elementor data pull/push |
@@ -88,8 +88,8 @@ Tests API key authentication and required permissions.
 ### GitHub Actions
 
 1. Add repository secrets:
-   - `SPAI_URL` — your WordPress site URL
-   - `SPAI_API_KEY` — your API key
+   - `MCPWP_URL` — your WordPress site URL
+   - `MCPWP_API_KEY` — your API key
 
 2. The workflow at `.github/workflows/site-deploy.yml` automatically runs `push` when `site-data/` files change on `main`.
 
@@ -99,7 +99,7 @@ Tests API key authentication and required permissions.
 
 ```bash
 # Any CI that has bash, curl, python3
-SPAI_URL="$YOUR_URL" SPAI_API_KEY="$YOUR_KEY" bash scripts/site-sync.sh push
+MCPWP_URL="$YOUR_URL" MCPWP_API_KEY="$YOUR_KEY" bash scripts/site-sync.sh push
 ```
 
 ## How Page Matching Works
@@ -127,14 +127,14 @@ This makes the export portable between sites, staging environments, and fresh in
 
 ```bash
 # Pull from staging
-bash scripts/site-sync.sh pull --url https://staging.mysite.com --key spai_staging
+bash scripts/site-sync.sh pull --url https://staging.mysite.com --key mcpwp_staging
 
 # Review changes
 git diff site-data/
 
 # Commit and push to trigger CI deploy to production
 git add site-data/ && git commit -m "Update homepage hero section"
-git push  # CI deploys to production via SPAI_URL secret
+git push  # CI deploys to production via MCPWP_URL secret
 ```
 
 ### Fresh Install Setup
@@ -143,14 +143,14 @@ git push  # CI deploys to production via SPAI_URL secret
 # On a fresh WordPress with MCPWP + Elementor installed:
 bash scripts/site-sync.sh push \
   --url http://localhost:8080 \
-  --key spai_local_key \
+  --key mcpwp_local_key \
   --dir site-data
 ```
 
 ### Dry Run
 
 ```bash
-bash scripts/site-sync.sh push --url https://mysite.com --key spai_xxx --dry-run
+bash scripts/site-sync.sh push --url https://mysite.com --key mcpwp_xxx --dry-run
 # Output:
 #   [DRY RUN] would update: home
 #              + Elementor data

@@ -5,16 +5,16 @@ version: 1.0.0
 metadata:
   openclaw:
     emoji: "🦑"
-    primaryEnv: SPAI_API_KEY
+    primaryEnv: MCPWP_API_KEY
     requires:
       env:
-        - SPAI_API_KEY
-        - SPAI_SITE_URL
+        - MCPWP_API_KEY
+        - MCPWP_SITE_URL
     envVars:
-      - name: SPAI_API_KEY
+      - name: MCPWP_API_KEY
         required: true
-        description: "API key generated in WP Admin → Site Pilot AI → Setup. Format: spai_xxxxxxxxxxxxxxxx"
-      - name: SPAI_SITE_URL
+        description: "API key generated in WP Admin → MCPWP → Setup. Format: mcpwp_xxxxxxxxxxxxxxxx"
+      - name: MCPWP_SITE_URL
         required: true
         description: "Full URL of your WordPress site, e.g. https://example.com (no trailing slash)"
     homepage: https://mcpwp.net
@@ -41,22 +41,22 @@ wp plugin install https://mcpwp.net/download/mcpwp.zip --activate
 
 Or download from [mcpwp.net](https://mcpwp.net) and upload via WP Admin → Plugins → Add New.
 
-**Step 2.** Generate an API key: **WP Admin → Site Pilot AI → Setup → Generate API Key**
+**Step 2.** Generate an API key: **WP Admin → MCPWP → Setup → Generate API Key**
 
 **Step 3.** Set your environment variables:
 
 ```bash
-export SPAI_API_KEY=spai_xxxxxxxxxxxxxxxx
-export SPAI_SITE_URL=https://your-site.com
+export MCPWP_API_KEY=mcpwp_xxxxxxxxxxxxxxxx
+export MCPWP_SITE_URL=https://your-site.com
 ```
 
 **Step 4.** Register the MCP server:
 
 ```bash
 openclaw mcp add mcpwp \
-  --url "${SPAI_SITE_URL}/wp-json/site-pilot-ai/v1/mcp" \
+  --url "${MCPWP_SITE_URL}/wp-json/mcpwp/v1/mcp" \
   --transport streamable-http \
-  --header "X-API-Key: ${SPAI_API_KEY}"
+  --header "X-API-Key: ${MCPWP_API_KEY}"
 ```
 
 **Step 5.** Verify the connection:
@@ -173,15 +173,15 @@ See [mcpwp.net](https://mcpwp.net) for agency proxy setup.
 ## Rules
 
 - Always call `wp_onboard` first on a new site connection.
-- Never hardcode the API key — always read from `${SPAI_API_KEY}`.
-- The MCP endpoint pattern is always: `{SPAI_SITE_URL}/wp-json/site-pilot-ai/v1/mcp`
+- Never hardcode the API key — always read from `${MCPWP_API_KEY}`.
+- The MCP endpoint pattern is always: `{MCPWP_SITE_URL}/wp-json/mcpwp/v1/mcp`
 - If you get a `401 Unauthorized`, the key is wrong or expired — ask the user to regenerate one in WP Admin.
 - For Elementor edits, check `elementor_layout_mode` from `wp_onboard` first — classic uses sections, flexbox uses containers.
 - Destructive operations (delete page, rollback) require the user to confirm before proceeding.
 
 ## Troubleshooting
 
-**401 Unauthorized** — API key invalid or expired. Regenerate in WP Admin → Site Pilot AI → Setup.
+**401 Unauthorized** — API key invalid or expired. Regenerate in WP Admin → MCPWP → Setup.
 
 **404 on the MCP URL** — MCPWP plugin not active, or permalink structure not set to "Post name". Go to WP Admin → Settings → Permalinks and save.
 

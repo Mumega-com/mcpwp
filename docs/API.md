@@ -2,7 +2,7 @@
 
 > Control WordPress with AI through a powerful REST API
 
-**Base URL:** `https://your-site.com/wp-json/site-pilot-ai/v1`
+**Base URL:** `https://your-site.com/wp-json/mcpwp/v1`
 **Version:** 1.1.8
 
 ## Table of Contents
@@ -44,8 +44,8 @@
 
 ## Native MCP Endpoint
 
-**POST** `/wp-json/site-pilot-ai/v1/mcp`
-**GET** `/wp-json/site-pilot-ai/v1/mcp` *(v1.1.8+ — server info / health check)*
+**POST** `/wp-json/mcpwp/v1/mcp`
+**GET** `/wp-json/mcpwp/v1/mcp` *(v1.1.8+ — server info / health check)*
 
 Direct JSON-RPC 2.0 MCP endpoint. Supports `initialize`, `tools/list`, `tools/call`, `resources/list`, `resources/read`, and batch requests.
 
@@ -74,8 +74,8 @@ Operational rules:
 **Example Request:**
 
 ```bash
-curl -X POST "https://your-site.com/wp-json/site-pilot-ai/v1/mcp" \
-  -H "X-API-Key: spai_your_api_key" \
+curl -X POST "https://your-site.com/wp-json/mcpwp/v1/mcp" \
+  -H "X-API-Key: mcpwp_your_api_key" \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -116,8 +116,8 @@ Every tool includes an `annotations.category` field. Tools are organized into 11
 Filter `tools/list` by category to reduce context noise:
 
 ```bash
-curl -X POST "https://your-site.com/wp-json/site-pilot-ai/v1/mcp" \
-  -H "X-API-Key: spai_your_api_key" \
+curl -X POST "https://your-site.com/wp-json/mcpwp/v1/mcp" \
+  -H "X-API-Key: mcpwp_your_api_key" \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -131,7 +131,7 @@ curl -X POST "https://your-site.com/wp-json/site-pilot-ai/v1/mcp" \
 
 Site administrators can disable entire tool categories from **WordPress Admin → Tools → MCP Tools**. Disabled categories are excluded from `tools/list` responses, reducing token usage for AI assistants.
 
-Disabled categories are stored in the `spai_disabled_tool_categories` WordPress option.
+Disabled categories are stored in the `mcpwp_disabled_tool_categories` WordPress option.
 
 **Direct Claude Desktop/Code Connection:**
 
@@ -153,15 +153,15 @@ All API requests require authentication via API key.
 #### Header Authentication (Recommended)
 
 ```bash
-curl -H "X-API-Key: spai_your_api_key_here" \
-  https://your-site.com/wp-json/site-pilot-ai/v1/site-info
+curl -H "X-API-Key: mcpwp_your_api_key_here" \
+  https://your-site.com/wp-json/mcpwp/v1/site-info
 ```
 
 #### Bearer Token
 
 ```bash
-curl -H "Authorization: Bearer spai_your_api_key_here" \
-  https://your-site.com/wp-json/site-pilot-ai/v1/site-info
+curl -H "Authorization: Bearer mcpwp_your_api_key_here" \
+  https://your-site.com/wp-json/mcpwp/v1/site-info
 ```
 
 #### Query Parameter
@@ -169,7 +169,7 @@ curl -H "Authorization: Bearer spai_your_api_key_here" \
 For MCP clients that don't support custom headers (e.g., Claude Desktop custom connectors):
 
 ```bash
-curl "https://your-site.com/wp-json/site-pilot-ai/v1/mcp?api_key=spai_your_api_key_here"
+curl "https://your-site.com/wp-json/mcpwp/v1/mcp?api_key=mcpwp_your_api_key_here"
 ```
 
 > **Note:** Prefer header authentication when possible. Query parameters may appear in server access logs.
@@ -360,8 +360,8 @@ GET /posts
 **Example:**
 
 ```bash
-curl -H "X-API-Key: spai_xxx" \
-  "https://example.com/wp-json/site-pilot-ai/v1/posts?per_page=5&status=publish"
+curl -H "X-API-Key: mcpwp_xxx" \
+  "https://example.com/wp-json/mcpwp/v1/posts?per_page=5&status=publish"
 ```
 
 **Response:**
@@ -616,11 +616,11 @@ Content-Type: multipart/form-data
 **Example with curl:**
 
 ```bash
-curl -H "X-API-Key: spai_xxx" \
+curl -H "X-API-Key: mcpwp_xxx" \
   -F "file=@/path/to/image.jpg" \
   -F "title=My Image" \
   -F "alt=Description of image" \
-  https://example.com/wp-json/site-pilot-ai/v1/media
+  https://example.com/wp-json/mcpwp/v1/media
 ```
 
 #### Upload from URL
@@ -701,8 +701,8 @@ Delete a media attachment (move to trash or permanently delete).
 **Example:**
 
 ```bash
-curl -X DELETE -H "X-API-Key: spai_xxx" \
-  "https://example.com/wp-json/site-pilot-ai/v1/media/456?force=true"
+curl -X DELETE -H "X-API-Key: mcpwp_xxx" \
+  "https://example.com/wp-json/mcpwp/v1/media/456?force=true"
 ```
 
 **Response:**
@@ -1710,8 +1710,8 @@ Retrieve a single WordPress option by key. Only whitelisted keys are allowed.
 **Example:**
 
 ```bash
-curl -H "X-API-Key: spai_xxx" \
-  "https://example.com/wp-json/site-pilot-ai/v1/option?key=blogname"
+curl -H "X-API-Key: mcpwp_xxx" \
+  "https://example.com/wp-json/mcpwp/v1/option?key=blogname"
 ```
 
 **Response:**
@@ -1750,7 +1750,7 @@ Update a single WordPress option. Only whitelisted keys are allowed.
 }
 ```
 
-**Whitelisted Keys:** Only safe, non-sensitive options are allowed. These include site identity options (`blogname`, `blogdescription`), reading settings (`show_on_front`, `page_on_front`, `page_for_posts`, `posts_per_page`), site context keys (`spai_site_context`, `spai_site_context_updated`), and other general settings. Attempting to read or write a non-whitelisted key returns a `permission_denied` error.
+**Whitelisted Keys:** Only safe, non-sensitive options are allowed. These include site identity options (`blogname`, `blogdescription`), reading settings (`show_on_front`, `page_on_front`, `page_for_posts`, `posts_per_page`), site context keys (`mcpwp_site_context`, `mcpwp_site_context_updated`), and other general settings. Attempting to read or write a non-whitelisted key returns a `permission_denied` error.
 
 ---
 
@@ -2913,10 +2913,10 @@ When an event triggers, MCPWP sends a POST request with:
 
 ```
 Content-Type: application/json
-X-SPAI-Event: post.published
-X-SPAI-Signature: sha256-hmac-of-body
-X-SPAI-Webhook-ID: 1
-X-SPAI-Delivery-ID: uuid
+X-MCPWP-Event: post.published
+X-MCPWP-Signature: sha256-hmac-of-body
+X-MCPWP-Webhook-ID: 1
+X-MCPWP-Delivery-ID: uuid
 ```
 
 **Body:**
@@ -2935,11 +2935,11 @@ X-SPAI-Delivery-ID: uuid
 
 #### Verifying Webhook Signatures
 
-Verify the `X-SPAI-Signature` header using HMAC-SHA256:
+Verify the `X-MCPWP-Signature` header using HMAC-SHA256:
 
 ```php
 $payload = file_get_contents('php://input');
-$signature = $_SERVER['HTTP_X_SPAI_SIGNATURE'];
+$signature = $_SERVER['HTTP_X_MCPWP_SIGNATURE'];
 $expected = hash_hmac('sha256', $payload, $your_webhook_secret);
 
 if (hash_equals($expected, $signature)) {
@@ -3381,24 +3381,24 @@ MCPWP can use a self-hosted updater for non-Freemius builds.
 
 ### Canonical Sources
 
-- Version manifest: `https://mumega.com/spai-updates/version.json`
-- ZIP download: `https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip`
+- Version manifest: `https://mumega.com/mcp-updates/version.json`
+- ZIP download: `https://mumega.com/mcp-updates/mcpwp-latest.zip`
 
 ### How It Works
 
-1. The plugin checks the `spai_update_info` option first
-2. If that option is empty, it falls back to `spai_version_url`
-3. If `spai_version_url` is empty, it falls back to the built-in static `mumega.com` manifest URL
+1. The plugin checks the `mcpwp_update_info` option first
+2. If that option is empty, it falls back to `mcpwp_version_url`
+3. If `mcpwp_version_url` is empty, it falls back to the built-in static `mumega.com` manifest URL
 4. If a newer version is found, WordPress displays an update notice and installs from `download_url`
 
 ### Important Behavior
 
-`spai_update_info` is a site-level override. If it contains stale release data, it can block newer updates from the worker manifest.
+`mcpwp_update_info` is a site-level override. If it contains stale release data, it can block newer updates from the worker manifest.
 
 Recommended practice:
 
-- leave `spai_update_info` empty unless you explicitly need an override
-- if you do write `spai_update_info`, keep it identical to the static manifest
+- leave `mcpwp_update_info` empty unless you explicitly need an override
+- if you do write `mcpwp_update_info`, keep it identical to the static manifest
 
 ### Manual Update Check
 
@@ -3410,14 +3410,14 @@ To force an update check:
 Or use the plugin REST route, which clears the update caches before checking:
 
 ```bash
-curl -fsSL "https://SITE/wp-json/site-pilot-ai/v1/update" -H "X-API-Key: ..."
+curl -fsSL "https://SITE/wp-json/mcpwp/v1/update" -H "X-API-Key: ..."
 ```
 
 You can also inspect the update-related options:
 
 ```bash
-curl -fsSL "https://SITE/wp-json/site-pilot-ai/v1/option?key=spai_version_url" -H "X-API-Key: ..."
-curl -fsSL "https://SITE/wp-json/site-pilot-ai/v1/option?key=spai_update_info" -H "X-API-Key: ..."
+curl -fsSL "https://SITE/wp-json/mcpwp/v1/option?key=mcpwp_version_url" -H "X-API-Key: ..."
+curl -fsSL "https://SITE/wp-json/mcpwp/v1/option?key=mcpwp_update_info" -H "X-API-Key: ..."
 ```
 
 ### Version Numbering
@@ -3435,7 +3435,7 @@ The current release artifacts are:
 | Asset | Description |
 |-------|-------------|
 | `version.json` | Worker-served update manifest |
-| `mumega-site-pilot-ai-latest.zip` | Canonical install/update ZIP |
+| `mcpwp-latest.zip` | Canonical install/update ZIP |
 
 ## Elementor 4 Compatibility
 
@@ -3456,7 +3456,7 @@ Landing page generation was also verified on the local Elementor 4 test stack.
 
 ## MCP Server Configuration
 
-MCPWP includes a built-in MCP (Model Context Protocol) server. The MCP endpoint is at `/wp-json/site-pilot-ai/v1/mcp` — no external server needed.
+MCPWP includes a built-in MCP (Model Context Protocol) server. The MCP endpoint is at `/wp-json/mcpwp/v1/mcp` — no external server needed.
 
 ### Server Info
 
@@ -3465,7 +3465,7 @@ On `initialize`, the server returns:
 ```json
 {
   "serverInfo": {
-    "name": "site-pilot-ai:Your Site Name",
+    "name": "mcpwp:Your Site Name",
     "version": "1.1.8"
   }
 }
@@ -3477,25 +3477,25 @@ The server name includes the WordPress site title so you can distinguish multipl
 
 In Claude Desktop, go to **Settings → Connectors → Add custom connector**:
 
-- **Name:** `sitepilotai-mysite`
-- **Remote MCP server URL:** `https://your-site.com/wp-json/site-pilot-ai/v1/mcp?api_key=spai_your_api_key`
+- **Name:** `mcpwp-mysite`
+- **Remote MCP server URL:** `https://your-site.com/wp-json/mcpwp/v1/mcp?api_key=mcpwp_your_api_key`
 - Leave OAuth fields empty
 
 This connects Claude Desktop directly to your WordPress site — no npm package or proxy needed.
 
 ### Claude Desktop — npm Package
 
-Alternatively, use the `site-pilot-ai` npm package (stdio proxy):
+Alternatively, use the `mcpwp` npm package (stdio proxy):
 
 ```json
 {
   "mcpServers": {
-    "sitepilotai-mysite": {
+    "mcpwp-mysite": {
       "command": "npx",
-      "args": ["-y", "site-pilot-ai"],
+      "args": ["-y", "mcpwp"],
       "env": {
         "WP_URL": "https://your-site.com",
-        "WP_API_KEY": "spai_your_api_key",
+        "WP_API_KEY": "mcpwp_your_api_key",
         "WP_SITE_NAME": "mysite"
       }
     }
@@ -3503,7 +3503,7 @@ Alternatively, use the `site-pilot-ai` npm package (stdio proxy):
 }
 ```
 
-The server registers as `sitepilotai-<sitename>` for unique identification with multiple sites.
+The server registers as `mcpwp-<sitename>` for unique identification with multiple sites.
 
 ### Claude Code
 
@@ -3548,7 +3548,7 @@ Claude Code connects directly via the Streamable HTTP transport — no proxy or 
 | `wp_delete_all_drafts` | Bulk delete drafts |
 | `wp_get_post_meta` | Get all public meta fields for a post/page |
 | `wp_set_post_meta` | Set meta fields on a post/page (blocked-key safety) |
-| `wp_get_option` | Get a single WordPress option. Supports core WP options and prefix-based matching: `elementor_*`, `wpseo_*`, `rank_math_*`, `astra_*`, `theme_mods_*`, `woocommerce_*`, `spai_*`. Sensitive keys (passwords, tokens, secrets) are always blocked |
+| `wp_get_option` | Get a single WordPress option. Supports core WP options and prefix-based matching: `elementor_*`, `wpseo_*`, `rank_math_*`, `astra_*`, `theme_mods_*`, `woocommerce_*`, `mcpwp_*`. Sensitive keys (passwords, tokens, secrets) are always blocked |
 | `wp_update_option` | Update a single WordPress option (same allowlist as `wp_get_option`) |
 | `wp_batch_update` | Execute up to 25 REST operations in one call (v1.0.69: fixed error handling for mixed success/failure batches) |
 | **Menus** | |
@@ -3679,9 +3679,9 @@ Done! I've created the post. You can view it at https://example.com/ai-trends-20
 ```python
 import requests
 
-class SitePilotAI:
+class MCPWP:
     def __init__(self, url, api_key):
-        self.base_url = f"{url}/wp-json/site-pilot-ai/v1"
+        self.base_url = f"{url}/wp-json/mcpwp/v1"
         self.headers = {"X-API-Key": api_key}
 
     def create_post(self, title, content, status="draft"):
@@ -3701,7 +3701,7 @@ class SitePilotAI:
         return response.json()
 
 # Usage
-wp = SitePilotAI("https://example.com", "spai_your_key")
+wp = MCPWP("https://example.com", "mcpwp_your_key")
 post = wp.create_post("My Post", "<p>Content here</p>", "publish")
 wp.update_seo(post["id"], "SEO Title", "Meta description")
 ```
@@ -3711,10 +3711,10 @@ wp.update_seo(post["id"], "SEO Title", "Meta description")
 ```javascript
 const axios = require('axios');
 
-class SitePilotAI {
+class MCPWP {
   constructor(url, apiKey) {
     this.client = axios.create({
-      baseURL: `${url}/wp-json/site-pilot-ai/v1`,
+      baseURL: `${url}/wp-json/mcpwp/v1`,
       headers: { 'X-API-Key': apiKey }
     });
   }
@@ -3736,7 +3736,7 @@ class SitePilotAI {
 }
 
 // Usage
-const wp = new SitePilotAI('https://example.com', 'spai_your_key');
+const wp = new MCPWP('https://example.com', 'mcpwp_your_key');
 
 (async () => {
   const post = await wp.createPost('Hello World', '<p>Content</p>', 'publish');
@@ -3748,22 +3748,22 @@ const wp = new SitePilotAI('https://example.com', 'spai_your_key');
 
 ```bash
 # Get site info
-curl -H "X-API-Key: spai_xxx" https://example.com/wp-json/site-pilot-ai/v1/site-info
+curl -H "X-API-Key: mcpwp_xxx" https://example.com/wp-json/mcpwp/v1/site-info
 
 # Create a post
-curl -X POST -H "X-API-Key: spai_xxx" -H "Content-Type: application/json" \
+curl -X POST -H "X-API-Key: mcpwp_xxx" -H "Content-Type: application/json" \
   -d '{"title":"New Post","content":"<p>Hello</p>","status":"publish"}' \
-  https://example.com/wp-json/site-pilot-ai/v1/posts
+  https://example.com/wp-json/mcpwp/v1/posts
 
 # Upload image from URL
-curl -X POST -H "X-API-Key: spai_xxx" -H "Content-Type: application/json" \
+curl -X POST -H "X-API-Key: mcpwp_xxx" -H "Content-Type: application/json" \
   -d '{"url":"https://example.com/image.jpg","title":"My Image"}' \
-  https://example.com/wp-json/site-pilot-ai/v1/media/from-url
+  https://example.com/wp-json/mcpwp/v1/media/from-url
 
 # Update SEO
-curl -X PUT -H "X-API-Key: spai_xxx" -H "Content-Type: application/json" \
+curl -X PUT -H "X-API-Key: mcpwp_xxx" -H "Content-Type: application/json" \
   -d '{"title":"SEO Title","description":"Meta description"}' \
-  https://example.com/wp-json/site-pilot-ai/v1/seo/123
+  https://example.com/wp-json/mcpwp/v1/seo/123
 ```
 
 ---

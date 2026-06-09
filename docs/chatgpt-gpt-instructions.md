@@ -279,7 +279,7 @@ Would you like me to:
 ### Step 2: Get Your API Key
 
 1. Go to **WordPress Admin > MCPWP > Settings**
-2. Copy your API key (it looks like `spai_xxxxxxxxxxxx`)
+2. Copy your API key (it looks like `mcpwp_xxxxxxxxxxxx`)
 3. Keep this secure - it provides full access to your site's content
 
 ### Step 3: Create the GPT
@@ -324,7 +324,7 @@ Add these for quick access:
 1. In the Action settings, find **Server**
 2. Click the edit icon
 3. Set your WordPress site domain:
-   - URL: `https://musicalunicornfarm.com/wp-json/site-pilot-ai/v1`
+   - URL: `https://musicalunicornfarm.com/wp-json/mcpwp/v1`
    - Replace `musicalunicornfarm.com` with your actual domain
 4. Save the configuration
 
@@ -495,7 +495,7 @@ Your site is active and healthy! Would you like to work on those 3 draft posts?"
 
 **Cause:** Action configuration issue
 **Fix:**
-1. Check server URL is correct (must include `/wp-json/site-pilot-ai/v1`)
+1. Check server URL is correct (must include `/wp-json/mcpwp/v1`)
 2. Verify authentication is set up correctly
 3. Test with a simple command like "Get site info"
 

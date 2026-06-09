@@ -22,7 +22,7 @@ We will acknowledge within 48 hours and provide a fix timeline within 7 days.
 
 ## Security Features
 
-mumcp requires API key authentication for all MCP and REST operations. Keys are hashed using WordPress password hashing (not stored in plain text). A dedicated service account with limited capabilities handles API requests.
+mcpwp requires API key authentication for all MCP and REST operations. Keys are hashed using WordPress password hashing (not stored in plain text). A dedicated service account with limited capabilities handles API requests.
 
 - All endpoints require `X-API-Key` header
 - Role-scoped keys limit tool access per API key

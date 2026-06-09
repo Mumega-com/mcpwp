@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/site-pilot-ai/assets/banner-1544x500.png" alt="MCPWP — AI operations for WordPress" width="100%">
+  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/mcpwp/assets/banner-1544x500.png" alt="MCPWP — AI operations for WordPress" width="100%">
 </p>
 
 <h1 align="center">MCPWP</h1>
@@ -90,7 +90,7 @@ wp plugin install https://mcpwp.net/download/mcpwp.zip --activate
 
 Or download from [mcpwp.net](https://mcpwp.net) and upload via **WP Admin → Plugins → Add New**.
 
-Generate an API key after activation: **WP Admin → Site Pilot AI → Setup → Generate API Key**.
+Generate an API key after activation: **WP Admin → MCPWP → Setup → Generate API Key**.
 
 ---
 
@@ -102,8 +102,8 @@ Generate an API key after activation: **WP Admin → Site Pilot AI → Setup →
 {
   "mcpServers": {
     "mcpwp": {
-      "url": "https://your-site.com/wp-json/site-pilot-ai/v1/mcp",
-      "headers": { "X-API-Key": "spai_your_key_here" }
+      "url": "https://your-site.com/wp-json/mcpwp/v1/mcp",
+      "headers": { "X-API-Key": "mcpwp_your_key_here" }
     }
   }
 }
@@ -121,9 +121,9 @@ Or configure manually:
 
 ```bash
 openclaw mcp add mcpwp \
-  --url "https://your-site.com/wp-json/site-pilot-ai/v1/mcp" \
+  --url "https://your-site.com/wp-json/mcpwp/v1/mcp" \
   --transport streamable-http \
-  --header "X-API-Key: spai_your_key_here"
+  --header "X-API-Key: mcpwp_your_key_here"
 ```
 
 ### Hermes Agent (Nous Research)
@@ -133,9 +133,9 @@ openclaw mcp add mcpwp \
   "mcp": {
     "servers": {
       "mcpwp": {
-        "url": "https://your-site.com/wp-json/site-pilot-ai/v1/mcp",
+        "url": "https://your-site.com/wp-json/mcpwp/v1/mcp",
         "transport": "streamable-http",
-        "headers": { "X-API-Key": "spai_your_key_here" }
+        "headers": { "X-API-Key": "mcpwp_your_key_here" }
       }
     }
   }

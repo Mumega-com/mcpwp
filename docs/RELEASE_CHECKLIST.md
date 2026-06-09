@@ -4,37 +4,37 @@ Current release flow for MCPWP.
 
 This project uses Freemius for paid licensing and can still publish self-hosted update artifacts when needed. The canonical self-hosted update path is:
 
-- Static manifest: `https://mumega.com/spai-updates/version.json`
-- Download ZIP: `https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip`
+- Static manifest: `https://mumega.com/mcp-updates/version.json`
+- Download ZIP: `https://mumega.com/mcp-updates/mcpwp-latest.zip`
 
 ## Pre-Release
 
 - [ ] All update-related changes committed to `main`
 - [ ] Local tests passing
 - [ ] Version number decided
-- [ ] `site-pilot-ai/site-pilot-ai.php` updated
+- [ ] `mcpwp/mcpwp.php` updated
 - [ ] `version.json` updated
 - [ ] `readme.txt` updated if needed
-- [ ] `site-pilot-ai/CHANGELOG.md` updated if needed
+- [ ] `mcpwp/CHANGELOG.md` updated if needed
 
 ## Version Bump
 
 Update these locations together:
 
-1. `site-pilot-ai/site-pilot-ai.php`
+1. `mcpwp/mcpwp.php`
    - plugin header `Version:`
-   - `SPAI_VERSION` constant
+   - `MCPWP_VERSION` constant
 2. `version.json`
    - `version`
    - prepend changelog HTML fragment
-3. `site-pilot-ai/readme.txt`
+3. `mcpwp/readme.txt`
    - `Stable tag:`
    - Add entry under `== Changelog ==`
 
 Quick check:
 
 ```bash
-grep -E "(Version:|SPAI_VERSION)" site-pilot-ai/site-pilot-ai.php
+grep -E "(Version:|MCPWP_VERSION)" mcpwp/mcpwp.php
 cat version.json
 ```
 
@@ -46,7 +46,7 @@ bash scripts/build-wporg.sh
 
 Expected output:
 
-- `scripts/mumega-site-pilot-ai-X.Y.Z.zip`
+- `scripts/mcpwp-X.Y.Z.zip`
 
 ## Publish
 
@@ -60,17 +60,17 @@ bash scripts/publish_update_release.sh --build
 
 This does all of the following:
 
-- verifies version consistency across plugin header, `SPAI_VERSION`, `readme.txt`, and `version.json`
-- builds `mumega-site-pilot-ai-X.Y.Z.zip`
-- publishes the ZIP to `/var/www/spai-updates/mumega-site-pilot-ai-latest.zip`
-- publishes `version.json` to `/var/www/spai-updates/version.json`
+- verifies version consistency across plugin header, `MCPWP_VERSION`, `readme.txt`, and `version.json`
+- builds `mcpwp-X.Y.Z.zip`
+- publishes the ZIP to `/var/www/mcp-updates/mcpwp-latest.zip`
+- publishes `version.json` to `/var/www/mcp-updates/version.json`
 - verifies the live `mumega.com` artifact URLs
 
 Manual fallback:
 
 ```bash
-sudo cp scripts/mumega-site-pilot-ai-X.Y.Z.zip /var/www/spai-updates/mumega-site-pilot-ai-latest.zip
-sudo cp version.json /var/www/spai-updates/version.json
+sudo cp scripts/mcpwp-X.Y.Z.zip /var/www/mcp-updates/mcpwp-latest.zip
+sudo cp version.json /var/www/mcp-updates/version.json
 ```
 
 ### 2. Optional: Sync the legacy worker
@@ -92,18 +92,18 @@ git push origin main
 ## Canonical Update Rules
 
 - The static `mumega.com` manifest and ZIP are the only canonical release artifacts.
-- `spai_update_info` is an optional site-level override, not the source of truth.
-- If `spai_update_info` is used during deploys, it must match the static manifest exactly.
-- If no override is required, leave `spai_update_info` empty.
+- `mcpwp_update_info` is an optional site-level override, not the source of truth.
+- If `mcpwp_update_info` is used during deploys, it must match the static manifest exactly.
+- If no override is required, leave `mcpwp_update_info` empty.
 
 ### Critical Warning
 
-A stale `spai_update_info` option can block future updates even when `spai_version_url` is correct.
+A stale `mcpwp_update_info` option can block future updates even when `mcpwp_version_url` is correct.
 
 The updater currently checks:
 
-1. `spai_update_info`
-2. `spai_version_url`
+1. `mcpwp_update_info`
+2. `mcpwp_version_url`
 3. built-in worker URL fallback
 
 That means stale override data can hide newer static-manifest releases.
@@ -112,25 +112,25 @@ That means stale override data can hide newer static-manifest releases.
 
 ### Artifact checks
 
-- [ ] `https://mumega.com/spai-updates/version.json` returns the new version
-- [ ] `https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip` exists
+- [ ] `https://mumega.com/mcp-updates/version.json` returns the new version
+- [ ] `https://mumega.com/mcp-updates/mcpwp-latest.zip` exists
 - [ ] ZIP and manifest versions match
 
 ### Site checks
 
 On a target site:
 
-- [ ] `spai_version_url` points at `https://mumega.com/spai-updates/version.json`
-- [ ] `spai_update_info` is empty or matches the manifest exactly
-- [ ] `/wp-json/site-pilot-ai/v1/update` reports the expected result
+- [ ] `mcpwp_version_url` points at `https://mumega.com/mcp-updates/version.json`
+- [ ] `mcpwp_update_info` is empty or matches the manifest exactly
+- [ ] `/wp-json/mcpwp/v1/update` reports the expected result
 - [ ] If analytics enabled: PostHog Live Events shows `mcp_tool_called` after a tool call
 
 Example checks:
 
 ```bash
-curl -fsSL "https://SITE/wp-json/site-pilot-ai/v1/option?key=spai_version_url" -H "X-API-Key: ..."
-curl -fsSL "https://SITE/wp-json/site-pilot-ai/v1/option?key=spai_update_info" -H "X-API-Key: ..."
-curl -fsSL "https://SITE/wp-json/site-pilot-ai/v1/update" -H "X-API-Key: ..."
+curl -fsSL "https://SITE/wp-json/mcpwp/v1/option?key=mcpwp_version_url" -H "X-API-Key: ..."
+curl -fsSL "https://SITE/wp-json/mcpwp/v1/option?key=mcpwp_update_info" -H "X-API-Key: ..."
+curl -fsSL "https://SITE/wp-json/mcpwp/v1/update" -H "X-API-Key: ..."
 ```
 
 ### If a site is already on the new version
@@ -155,8 +155,8 @@ Let WordPress discover updates naturally from the static `mumega.com` manifest.
 Requirements:
 
 - target site plugin version is recent enough to use the self-update flow
-- `spai_version_url` is correct
-- `spai_update_info` is empty or current
+- `mcpwp_version_url` is correct
+- `mcpwp_update_info` is empty or current
 - `wp-content/upgrade` is writable by the actual web/PHP user on the host
 
 ### Forced
@@ -164,27 +164,27 @@ Requirements:
 If needed, trigger a direct package install via the REST update route:
 
 ```bash
-curl -fsSL -X POST "https://SITE/wp-json/site-pilot-ai/v1/update" \
+curl -fsSL -X POST "https://SITE/wp-json/mcpwp/v1/update" \
   -H "X-API-Key: ..." \
   -H "Content-Type: application/json" \
-  --data '{"package_url":"https://mumega.com/spai-updates/mumega-site-pilot-ai-latest.zip"}'
+  --data '{"package_url":"https://mumega.com/mcp-updates/mcpwp-latest.zip"}'
 ```
 
 ## Failure Mode: Update Not Appearing
 
 Check these in order:
 
-1. `spai_update_info` is stale
+1. `mcpwp_update_info` is stale
 2. static manifest version is wrong
 3. ZIP URL is wrong or unreachable
 4. `wp-content/upgrade` or the plugin directory is not writable by the runtime PHP user
 5. site is still on an older plugin build with weaker self-update behavior
-6. `update_plugins` / `spai_update_check` caches need clearing
+6. `update_plugins` / `mcpwp_update_check` caches need clearing
 
 Useful reset:
 
 ```bash
-curl -fsSL "https://SITE/wp-json/site-pilot-ai/v1/update" -H "X-API-Key: ..."
+curl -fsSL "https://SITE/wp-json/mcpwp/v1/update" -H "X-API-Key: ..."
 ```
 
 That route clears update caches before checking.
@@ -199,11 +199,11 @@ If a release is bad:
 4. Replace the `mumega.com` ZIP
 5. Verify static manifest + ZIP + site update checks again
 
-Do not roll back by leaving mismatched manifests or stale `spai_update_info` on sites.
+Do not roll back by leaving mismatched manifests or stale `mcpwp_update_info` on sites.
 
 ## Historical Notes
 
-- **2026-03-31:** mcpwp.net had stale `spai_update_info` pinned to `1.7.6`; clearing it restored auto-update. `spai_version_url` switched to `https://mumega.com/spai-updates/version.json`.
+- **2026-03-31:** mcpwp.net had stale `mcpwp_update_info` pinned to `1.7.6`; clearing it restored auto-update. `mcpwp_version_url` switched to `https://mumega.com/mcp-updates/version.json`.
 - Bind-mounted plugin dirs are not valid auto-update test environments — WordPress cannot replace the mounted path during upgrade.
 
 ---
