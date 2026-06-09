@@ -101,6 +101,43 @@ admission is a *compliance* problem, not a permission problem. And the complianc
   Discover/News have no query/position; Clarity API is 10 req/day, 3-day window. Don't architect dependencies
   on these.
 
+### The two dogfoods (our niche is MCP · WordPress · WP plugins)
+- **mcpwp.net — content + courses (do this FIRST, it's the safest).** The system publishes in our own lane
+  (MCP/WP/plugins) where *we are the domain expert* → real E-E-A-T, **zero slop risk** (the #1 distribution
+  risk disappears when you actually know the subject). It also hosts **LearnPress video courses teaching
+  MCPWP** — dogfooding LearnPress, doubling as onboarding (cuts support, lifts activation), and feeding the
+  funnel. "MCPWP runs MCPWP's own education + marketing site" is the cleanest possible proof of the
+  distribution loop.
+- **A Woo dropship/arbitrage store — the commerce dogfood.** Proves the *conversion* loop in dollars, under
+  caps, our-risk. Second, because commerce content carries more slop/policy risk than our own expertise.
+
+---
+
+## 4b. Cadence + agent representation (the governance layer)
+
+**Two-speed agents — the energy discipline.** The economy runs the energy sink on two clocks:
+- **Continuous + cheap:** small agents (Haiku-class) run frequently on the interval — *perceive* (pull
+  analytics + Search Console), do small tasks, and **log what they did**.
+- **Periodic + expensive:** one expensive agent (Opus-class) runs **once per interval** — reads the data
+  gathered *and* what the small agents already did → makes the strategic decision → dispatches the next work,
+  then sleeps. A warm-cache burst, not an always-on drain.
+
+Why: Opus-continuous bleeds the sink. **Cheap-continuous perception + expensive-periodic decision** is the
+cost-optimal shape of the coherence loop and the only way a loop stays net-positive (faucet > sink). This is
+mupot's flight/loop split, made explicit.
+
+**Agent representation — declared identity, scope, and goal.** When an agent connects over MCP it **declares
+itself** through a short start-up questionnaire returning `{ identity, represents, scope_of_work, goal }`. We
+accept the agent's representation and bind it. Three payoffs:
+- **Owner-facing Fleet page (MCPWP admin):** the owner sees *every* connected agent — identity, declared
+  scope, goal, status (active/idle), and what it has done. The site is never operated by anonymous access.
+- **Second security layer:** the declared scope becomes an **enforcement boundary on top of the API key** — an
+  agent may act only within what it declared; deviation is flagged + gated. Intent is on record → a real
+  audit story (EU AI Act). *Auth answers "allowed in?"; representation answers "who are you, what will you do,
+  did you stay in bounds?"*
+- Maps to mupot's `boot_context` + `check_in` + capability RBAC — brought into MCPWP itself so it works even
+  without a full pot.
+
 ---
 
 ## 5. The moat: three compounding network effects + the all-seeing screen
@@ -161,9 +198,11 @@ sell flows + recipes + rent, never compute.
 
 | # | Version | Milestone | What it does for the economy |
 |---|---------|-----------|------------------------------|
-| **P0** | current builds | **Dogfood store + flagship loop** | Build OUR dropship/arbitrage Woo store, distribution-ready, governed auto-publish + edge A/B, run under caps → make real money. Solves cold-start + proves the loop. |
+| **P0a** | current builds | **mcpwp.net dogfood — content + courses** | Our-niche (MCP/WP/plugins) content engine + LearnPress video courses teaching MCPWP. Safest first dogfood (real E-E-A-T, zero slop risk); proves the distribution loop + onboarding + cold-start. |
+| **P0b** | current builds | **Woo store dogfood — commerce loop** | Dropship/arbitrage store, governed auto-publish + edge A/B under caps → make real dollars. Proves the conversion loop. |
 | **M1** | v2.8.x | **On-ramp launch** | Free plugin + cheap Pro (adoption toll). Admin UI ✅. Gates on Hadi: pricing (T87), privacy, install test, WAF. |
-| **M1.5** | v2.9 | **Distribution + feedback build** | News sitemap + NewsArticle schema + image/E-E-A-T emitters; GSC/PostHog/Woo ingestion; Cloudflare edge A/B engine; blocking originality gate. (The §4 build list.) |
+| **M1.3** | v2.9 | **Agent representation & Fleet** | Connect-time MCP questionnaire (`identity·represents·scope·goal`) → owner-facing admin Fleet page → scope-as-enforcement **second security layer** + audit. (§4b — sensitive surface: adversarial-gate the build.) |
+| **M1.5** | v2.9 | **Distribution + feedback build** | News sitemap + NewsArticle schema + image/E-E-A-T emitters; GSC/PostHog/Woo ingestion; Cloudflare edge A/B engine; blocking originality gate; two-speed agent cadence (§4b). |
 | **M2** | v2.9 | **Auth keystone** (OAuth 2.1 + DCR) | Opens the OAuth fleet — ChatGPT Business + Claude Managed. Bearer fleet (Hermes/openclaw/Codex) connects now. |
 | **M3** | v2.9 | **Distribution channels** | WP.org · MCP registries · ChatGPT GPT/App · Claude Connector. |
 | **M4** | v3.x | **The marketplace** | Storefront for addons + snapshots; the cut; performance-ranking from observability; `spai_register_tools` + `register_skill` made first-class. **This is the revenue engine.** |
