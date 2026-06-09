@@ -831,6 +831,5 @@ $unlinked_archetype_count = count(
 			</p>
 		</div>
 
-		<?php
 	</div><!-- .spai-tab-content -->
 </div><!-- .wrap -->
