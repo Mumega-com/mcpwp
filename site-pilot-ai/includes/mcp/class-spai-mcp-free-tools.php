@@ -2070,7 +2070,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_edit_widget',
-			'Edit a single Elementor widget by ID on a page. Updates widget settings without replacing the full page data.'s settings by its element ID, without requiring the full page JSON round-trip. Much more efficient than get+set for updating text, colors, or other widget properties. The widget must be a widget element (not section/container).',
+			'Edit a single Elementor widget by ID on a page. Updates widget settings without replacing the full page data. More efficient than get+set for updating text, colors, or other widget properties. Widget must be a widget element, not section or container.',
 			array(
 				'id'              => array(
 					'type'        => 'number',
@@ -2254,7 +2254,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_preview_elementor',
-			'Get rendered HTML preview of a page built with Elementor. Useful for reading content or checking layout before edits.'s Elementor content. Returns HTML output, text summary, and element statistics (sections, columns, widgets, widget types, word count). Use "summary" format (default) to save tokens — returns truncated text + stats without HTML. Use "text" for full text extraction, or "html" for full rendered HTML.',
+			'Get rendered HTML preview of a page built with Elementor. Useful for reading content or checking layout before edits. Returns HTML output, text summary, and element statistics (sections, columns, widgets, widget types, word count). Use "summary" format (default) to save tokens — returns truncated text + stats without HTML. Use "text" for full text extraction, or "html" for full rendered HTML.',
 			array(
 				'id'     => array(
 					'type'        => 'number',
