@@ -341,13 +341,13 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 		// Multilanguage Tools (WPML, Polylang, TranslatePress).
 		$pro_tools[] = $this->define_tool(
 			'wp_languages',
-			'Get multilingual plugin status and available languages',
+			'Get multilingual plugin status and list of available site languages. Returns language codes and active language.',
 			array()
 		);
 
 		$pro_tools[] = $this->define_tool(
 			'wp_set_language',
-			'Set current language for subsequent translation operations',
+			'Set the active language for subsequent content and translation operations. Use before reading or writing translated content.',
 			array(
 				'language' => array(
 					'type'        => 'string',
@@ -359,7 +359,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_get_translations',
-			'Get translations for a post or page',
+			'Get all translations for a specific post or page. Returns translated versions by language code.',
 			array(
 				'id' => array(
 					'type'        => 'number',
@@ -500,7 +500,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_analyze_seo',
-			'Analyze SEO for a specific page or post',
+			'Analyze SEO quality for a post or page. Returns score, keyword density, readability grade, and specific recommendations.',
 			array(
 				'id' => array(
 					'type'        => 'number',
@@ -512,7 +512,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_bulk_seo',
-			'Update SEO metadata for multiple posts/pages',
+			'Update SEO metadata for multiple posts or pages in one call. Batch-set titles, descriptions, and focus keywords.',
 			array(
 				'updates' => array(
 					'type'        => 'array',
@@ -527,7 +527,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_seo_status',
-			'Get SEO plugin status and configuration',
+			'Get active SEO plugin status and configuration. Returns which plugin is active (Yoast, Rank Math, AIOSEO) and its settings.',
 			array()
 		);
 
@@ -566,7 +566,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_get_form',
-			'Get form details from a specific form plugin',
+			'Get details and configuration for a specific contact or lead-capture form. Returns fields, settings, and submission counts.',
 			array(
 				'plugin' => array(
 					'type'        => 'string',
@@ -583,7 +583,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_get_form_entries',
-			'Get form entries/submissions from a specific form',
+			'Get form submission entries from a contact form. Returns lead data, timestamps, and field values.',
 			array(
 				'plugin' => array(
 					'type'        => 'string',
@@ -600,14 +600,14 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_forms_status',
-			'Get status of all installed form plugins',
+			'Get status of all installed form plugins. Returns plugin name, version, active forms count, and feature availability.',
 			array()
 		);
 
 		// Elementor Pro Tools
 		$pro_tools[] = $this->define_tool(
 			'wp_list_elementor_templates',
-			'List all Elementor templates',
+			'List all saved Elementor templates (page, section, header, footer, popup). Use to find template IDs before applying.',
 			array()
 		);
 
@@ -646,7 +646,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_update_elementor_template',
-			'Update an Elementor template',
+			'Update an existing Elementor template: title, content, or Elementor data.',
 			array(
 				'id'             => array(
 					'type'        => 'number',
@@ -666,7 +666,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_delete_elementor_template',
-			'Delete an Elementor template',
+			'Delete an Elementor template. Permanent — cannot be undone. Confirm before deleting shared templates.',
 			array(
 				'id'    => array(
 					'type'        => 'number',
@@ -914,7 +914,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_create_landing_page',
-			'Create a new landing page with Elementor',
+			'Create a new Elementor landing page from a template or blueprint. Returns page ID and edit URL.',
 			array(
 				'title'       => array(
 					'type'        => 'string',
@@ -930,7 +930,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_clone_elementor_page',
-			'Clone an Elementor page',
+			'Clone an Elementor page including all design data. Creates a draft copy with "(Copy)" appended to the title.',
 			array(
 				'source_id' => array(
 					'type'        => 'number',
@@ -1026,7 +1026,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_get_elementor_globals',
-			'Get Elementor global settings (colors, fonts, etc.)',
+			'Get Elementor global settings: global colors, global fonts, and kit settings applied site-wide.',
 			array()
 		);
 
@@ -1370,7 +1370,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_update_menu',
-			'Rename a menu or change its theme location assignment',
+			'Rename a navigation menu or change its assigned theme location. Use to reorganize site navigation.',
 			array(
 				'id' => array(
 					'type'        => 'number',
@@ -1397,7 +1397,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_get_sidebar',
-			'Get a single sidebar with its widgets',
+			'Get a single widget area (sidebar) and its metadata. Returns registered widget area ID, name, and description.',
 			array(
 				'id' => array(
 					'type'        => 'string',
@@ -1409,7 +1409,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_get_sidebar_widgets',
-			'Get all widgets in a specific sidebar',
+			'Get all widgets in a specific sidebar (widget area). Returns widget types, IDs, and settings.',
 			array(
 				'id' => array(
 					'type'        => 'string',
@@ -1427,7 +1427,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_get_widget',
-			'Get a single widget by ID with its settings',
+			'Get a single sidebar widget by ID with its full settings and configuration.',
 			array(
 				'id' => array(
 					'type'        => 'string',
@@ -1439,7 +1439,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_add_widget',
-			'Add a widget to a sidebar',
+			'Add a new widget to a sidebar widget area. Use to insert text, HTML, navigation, or custom widgets.',
 			array(
 				'id' => array(
 					'type'        => 'string',
@@ -1464,7 +1464,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_update_widget',
-			'Update widget settings',
+			'Update settings for a sidebar widget by ID. Use to edit text, links, or configuration of an existing widget.',
 			array(
 				'id' => array(
 					'type'        => 'string',
@@ -1493,7 +1493,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_move_widget',
-			'Move a widget to a different sidebar',
+			'Move a widget from one sidebar widget area to another. Use to reorganize widget placement across sidebars.',
 			array(
 				'id' => array(
 					'type'        => 'string',
@@ -1514,7 +1514,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_reorder_widgets',
-			'Reorder widgets within a sidebar',
+			'Reorder widgets within a sidebar widget area. Changes the display order of widgets in a sidebar.',
 			array(
 				'id' => array(
 					'type'        => 'string',
@@ -2565,7 +2565,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_create_course_category',
-			'Create a LearnPress course category.',
+			'Create a new LearnPress course category. Returns the new category ID, slug, and URL.',
 			array(
 				'name'        => array(
 					'type'        => 'string',
@@ -2589,7 +2589,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_update_course_category',
-			'Update a LearnPress course category.',
+			'Update a LearnPress course category name, slug, or description.',
 			array(
 				'id'          => array(
 					'type'        => 'number',
@@ -2617,7 +2617,7 @@ class Spai_MCP_Pro_Tools extends Spai_MCP_Tool_Registry {
 
 		$pro_tools[] = $this->define_tool(
 			'wp_delete_course_category',
-			'Delete a LearnPress course category by term ID.',
+			'Delete a LearnPress course category by term ID. Does not delete courses in the category.',
 			array(
 				'id' => array(
 					'type'        => 'number',
