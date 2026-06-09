@@ -5,7 +5,7 @@
 > **Project board:** https://github.com/orgs/Mumega-com/projects/1
 > **Quick queue:** `gh issue list --repo Mumega-com/mcpwp --label "status:ready" --state open`
 
-**Current version:** v2.8.51 (main)
+**Current version:** v2.8.55 (live on channel + crophelp.ai)
 **Last updated:** 2026-06-09
 
 ---
@@ -29,8 +29,9 @@
 
 Agent mandate (refocused 2026-06-09): **MCPWP repo health + GTM enablement + pricing.** Not tenant ops, not mupot infra. Build reusable product capability; keep the repo clean; make go-to-market easy.
 
-- **Admin UI audit → 10 issues (#458–#467)**, milestone "Sprint 11 — Admin UI Polish + Conversion". Two Sonnet audits found: solid visual base, but conversion-path gaps (no onboarding checklist, key not pre-filled into connect snippet, chat silently degrades w/o AI provider), WCAG AA toggle-focus fail, partial design-token coverage (179 raw hex), inline-JS sprawl, a dead 104KB partial.
-- **Also this phase:** pricing-tier spec (closes T87 with real token-economics reasoning), directory-listing hygiene (LobeHub/mcp.so/Smithery — manifest now synced to 270+/v1.2.0), mcpwp.net agent onboarding (needs a scoped API key from Hadi).
+- **Admin UI audit → 10 issues (#458–#467) — ✅ ALL SHIPPED** across 3 batches (v2.8.53/54/55, live on channel + crophelp.ai). Onboarding checklist, chat empty-state, toggle focus (WCAG AA), Control Room/Library/Integrations UX, a11y + 1024px breakpoint, dead 104KB partial removed, inline-JS consolidated into one enqueued asset, PostHog double-init fixed, design tokens + badge consolidation, chat-history XSS hardening (reviewer-caught).
+- **Pricing-tier spec — ✅ analysis shipped** → `docs/PRICING_TIERS.md` (PR #471). Measured economics, 4 tiers, margin proof; **T87 now awaits Hadi's number sign-off** (§6).
+- **Still open this phase:** directory-listing hygiene (LobeHub/mcp.so/Smithery — manifest now synced to 270+/v1.2.0), mcpwp.net agent onboarding (needs a scoped API key from Hadi).
 - Tracked as GH issues (`admin-ui`/`status:ready`); roll up via `sprint-stats` at close.
 
 ---
@@ -38,7 +39,7 @@ Agent mandate (refocused 2026-06-09): **MCPWP repo health + GTM enablement + pri
 ## Milestone Map — MVP → Full (traced to major versions)
 
 ```
-SHIPPED  v2.8.45–v2.8.51  analytics · agency proxy · audit+rollback · white-label · site-memory
+SHIPPED  v2.8.45–v2.8.55  analytics · agency proxy · audit+rollback · white-label · site-memory
                           · signals · blueprints · chat · hook API · find-replace fix
                           └─ these are the BONES of the autonomous-marketing engine
 
@@ -97,7 +98,7 @@ Epics: M4 #451 · M7 #452 · M8 #453.
 |---|-----|-----|------|--------|
 | ~~T85~~ | #410 | agent | ~~Fix 29 Dependabot alerts~~ | ✅ PR #438 |
 | T86 | #416 | Hadi | Privacy policy at mcpwp.net/privacy — blocks WP.org + ChatGPT App + Claude Connector | ⏳ |
-| T87 | #417 | Hadi | Pricing page on mcpwp.net — #1 PH question | ⏳ |
+| T87 | #417 | Hadi | Pricing page on mcpwp.net — #1 PH question. Analysis done → `docs/PRICING_TIERS.md` (measured economics, 4 tiers, sign-off list in §6). Awaiting Hadi: confirm numbers → page copy writes in one pass. | 🟡 numbers pending |
 | T88 | #418 | Hadi | Install flow test: zero → first tool call < 5 min | ⏳ |
 
 ### Security hardening — must ship before launch
@@ -312,7 +313,7 @@ Marketplace before a working snapshot = death.
 
 ---
 
-## Shipped (v2.8.45–v2.8.51)
+## Shipped (v2.8.45–v2.8.55)
 
 - Server-side PostHog analytics
 - Agency multi-site proxy (CF Worker)
@@ -326,6 +327,9 @@ Marketplace before a working snapshot = death.
 - **v2.8.50:** `spai_register_tools` filter hook API; 56 BM25-optimized tool descriptions; openapi-chatgpt.yaml 49 operations; 5 pre-existing PHP syntax errors cleared; test bootstrap fixed
 - **v2.8.51:** find-replace false-negative + structural-corruption fix (decoded-tree match, protected keys); update-channel drift cured (manifest 2.8.43→2.8.51, R2 download_url 404 fixed); ElementorFindReplaceTest regression suite (PR #448)
 - **v2.8.52:** `wp_keyword_research` — keyless keyword research via Google Suggest (keywords + grouped questions); first Phase-1 capability for the autonomous content loop (PR #456, closes #454)
+- **v2.8.53:** Sprint 11 batch 1 — Setup onboarding checklist (3-step), chat empty-state notice, WCAG-AA toggle focus ring, dead 104KB partial removed (PR #468)
+- **v2.8.54:** Sprint 11 batch 2 — Control Room / Library / Integrations UX, a11y label associations + 1024px breakpoint + fluid chat height (PR #469, closes #463-466)
+- **v2.8.55:** Sprint 11 batch 3 — inline JS consolidated to one enqueued asset, PostHog double-init fixed, design tokens + radius scale + badge consolidation, chat-history JSON tag-escaped (XSS hardening, reviewer-caught) (PR #470, closes #461-462)
 - README rebuilt (OpenClaw/Hermes/ChatGPT sections)
 - ClawHub skill (`integrations/clawhub/SKILL.md`)
 - Hermes integration (`integrations/hermes/`)
