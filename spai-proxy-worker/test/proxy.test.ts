@@ -16,8 +16,8 @@ afterEach(() => vi.restoreAllMocks());
 
 describe('siteUrl', () => {
   it('appends WP REST MCP path', () => {
-    expect(siteUrl('https://example.com')).toBe('https://example.com/wp-json/site-pilot-ai/v1/mcp');
-    expect(siteUrl('https://example.com/')).toBe('https://example.com/wp-json/site-pilot-ai/v1/mcp');
+    expect(siteUrl('https://example.com')).toBe('https://example.com/wp-json/mcpwp/v1/mcp');
+    expect(siteUrl('https://example.com/')).toBe('https://example.com/wp-json/mcpwp/v1/mcp');
   });
 });
 

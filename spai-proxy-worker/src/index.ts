@@ -207,7 +207,7 @@ app.get('/api/sites/health', requireApiToken, async (c) => {
     sites.map(async (site) => {
       try {
         const apiKey = await decrypt(site.api_key_enc, c.env.ENCRYPTION_KEY);
-        const mcpUrl = site.url.replace(/\/$/, '') + '/wp-json/site-pilot-ai/v1/mcp';
+        const mcpUrl = site.url.replace(/\/$/, '') + '/wp-json/mcpwp/v1/mcp';
         const resp = await fetch(mcpUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },

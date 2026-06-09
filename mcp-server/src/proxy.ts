@@ -26,7 +26,7 @@ export class McpProxy {
 
   constructor(site: SiteConfig, sessionId = "") {
     const base = site.url.replace(/\/+$/, "");
-    this.endpoint = `${base}/wp-json/site-pilot-ai/v1/mcp`;
+    this.endpoint = `${base}/wp-json/mcpwp/v1/mcp`;
     this.apiKey = site.apiKey;
     this.sessionId = sessionId;
   }

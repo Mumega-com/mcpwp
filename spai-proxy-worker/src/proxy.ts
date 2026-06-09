@@ -2,7 +2,7 @@ import { decrypt } from './crypto';
 import type { SiteEntry } from './types';
 
 export function siteUrl(baseUrl: string): string {
-  return baseUrl.replace(/\/$/, '') + '/wp-json/site-pilot-ai/v1/mcp';
+  return baseUrl.replace(/\/$/, '') + '/wp-json/mcpwp/v1/mcp';
 }
 
 export async function fetchToolsList(site: SiteEntry, encKey: string): Promise<unknown[]> {

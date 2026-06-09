@@ -28,9 +28,7 @@ export function loadConfig(): Config {
   // 1. Load from config file
   const configPath =
     process.env.WP_CONFIG_PATH ||
-    (existsSync(join(homedir(), ".mcpwp", "config.json"))
-      ? join(homedir(), ".mcpwp", "config.json")
-      : join(homedir(), ".mumega-mcp", "config.json")); // legacy fallback
+    join(homedir(), ".mcpwp", "config.json");
 
   if (existsSync(configPath)) {
     try {
