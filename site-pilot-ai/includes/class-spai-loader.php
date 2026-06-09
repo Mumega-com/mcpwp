@@ -144,6 +144,12 @@ class Spai_Loader {
 		$this->add_filter( 'cron_schedules', $this, 'register_cron_schedules' );
 		$this->add_action( 'init', $this, 'maybe_schedule_alert_checks' );
 		$this->add_action( 'spai_check_alerts', $this, 'check_alerts' );
+
+		// Invalidate the capabilities cache when any plugin is activated or
+		// deactivated, so newly-enabled integrations (WooCommerce, LearnPress, …)
+		// are detected immediately instead of after the 1-hour transient TTL.
+		$this->add_action( 'activated_plugin', 'Spai_Core', 'clear_capabilities_cache' );
+		$this->add_action( 'deactivated_plugin', 'Spai_Core', 'clear_capabilities_cache' );
 	}
 
 	/**

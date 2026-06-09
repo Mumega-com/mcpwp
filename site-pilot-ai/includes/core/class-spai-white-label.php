@@ -243,7 +243,13 @@ class Spai_White_Label {
 	 * @return void
 	 */
 	public static function register_elementor_widget( $widgets_manager ): void {
-		if ( ! class_exists( '\Elementor\Widget_Base' ) ) {
+		// The widget class is defined conditionally at the bottom of this file,
+		// guarded on \Elementor\Widget_Base existing AT FILE-LOAD time. If this
+		// file loaded before Elementor was ready (load-order varies with other
+		// plugins), the class was never defined — so guard registration here too,
+		// otherwise instantiating a missing class fatals the entire front-end
+		// during Elementor's widget init.
+		if ( ! class_exists( '\Elementor\Widget_Base' ) || ! class_exists( 'Spai_Elementor_Chat_Widget' ) ) {
 			return;
 		}
 
