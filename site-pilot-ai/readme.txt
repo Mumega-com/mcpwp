@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.54
+Stable tag: 2.8.55
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,13 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.55 =
+* Improvement: Admin JavaScript consolidated into a single enqueued, cacheable asset — inline scripts removed from Setup, Tools, Chat, and Integrations pages; data now passed via wp_localize_script.
+* Fix: PostHog analytics now initializes exactly once (was double-initialized on the Tools and Integrations pages).
+* Fix: admin script now loads on every MCPWP page (Control Room and Chat previously missing it).
+* Security: chat history JSON data element is now tag-escaped, preventing a stored message containing markup from breaking out of the script element.
+* Design system: added surface/border/text and status color tokens plus a radius scale; consolidated the two badge styles into one; replaced hardcoded color/background values with tokens and status classes.
 
 = 2.8.54 =
 * Improvement: Control Room — empty-state guidance, in-page section navigation, change summaries on pending approvals, and a confirm step before applying changes.

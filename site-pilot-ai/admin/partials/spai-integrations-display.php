@@ -272,6 +272,6 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 	</div>
 </div>
 
-<!-- F-15: Inline JS removed; all integration interactions handled by spai-admin.js
-     using the i18n strings object from wp_localize_script('spai-integrations', 'spaiIntegrations', ...).
-     Visual affordance (success/fail class) applied by spai-admin.js via spai-status-active/inactive. -->
+<!-- Inline JS removed in sprint11-batch3; all integration interactions handled by
+     spai-admin.js, reading spaiAdmin.integrationsNonce and spaiAdmin.strings.
+     Visual affordance (success/fail class) applied via spai-status-active/inactive. -->

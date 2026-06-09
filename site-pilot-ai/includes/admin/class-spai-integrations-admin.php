@@ -55,56 +55,15 @@ class Spai_Integrations_Admin {
 	/**
 	 * Enqueue admin assets for integrations page.
 	 *
+	 * The canonical 'spai-admin' handle and its localized data are already
+	 * enqueued by Spai_Admin::enqueue_scripts() for all MCPWP admin pages.
+	 * This method is intentionally a no-op — kept to avoid removing a hook
+	 * that may be registered by the loader; it simply returns early.
+	 *
 	 * @param string $hook Current admin page hook.
 	 */
 	public function enqueue_assets( $hook ) {
-		if ( 'site-pilot-ai_page_' . self::PAGE_SLUG !== $hook ) {
-			return;
-		}
-
-		wp_enqueue_style(
-			'spai-admin',
-			SPAI_PLUGIN_URL . 'admin/css/spai-admin.css',
-			array(),
-			SPAI_VERSION
-		);
-
-		wp_enqueue_script(
-			'spai-integrations',
-			SPAI_PLUGIN_URL . 'admin/js/spai-admin.js',
-			array( 'jquery' ),
-			SPAI_VERSION,
-			true
-		);
-
-		$posthog          = Spai_Integration_Manager::get_instance()->get_posthog_config();
-		$posthog_token    = $posthog['token'];
-		$posthog_host     = $posthog['host'];
-
-		wp_localize_script(
-			'spai-integrations',
-			'spaiIntegrations',
-			array(
-				'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
-				'nonce'        => wp_create_nonce( 'spai_integrations_nonce' ),
-				'posthogToken' => $posthog_token,
-				'posthogHost'  => $posthog_host,
-				'strings' => array(
-					'saving'        => __( 'Saving...', 'mumega-mcp' ),
-					'saved'         => __( 'Saved!', 'mumega-mcp' ),
-					'saveFailed'    => __( 'Save failed', 'mumega-mcp' ),
-					'testing'       => __( 'Testing...', 'mumega-mcp' ),
-					'connected'     => __( 'Connected!', 'mumega-mcp' ),
-					'testFailed'    => __( 'Connection failed', 'mumega-mcp' ),
-					'removing'      => __( 'Removing...', 'mumega-mcp' ),
-					'removed'       => __( 'Removed!', 'mumega-mcp' ),
-					'requestFailed' => __( 'Request failed', 'mumega-mcp' ),
-					'confirmRemove' => __( 'Are you sure you want to remove this API key?', 'mumega-mcp' ),
-					'fillOneField'  => __( 'Please fill in at least one field.', 'mumega-mcp' ),
-					'enterApiKey'   => __( 'Please enter an API key.', 'mumega-mcp' ),
-				),
-			)
-		);
+		// All assets handled by Spai_Admin::enqueue_scripts() and enqueue_styles().
 	}
 
 	/**
