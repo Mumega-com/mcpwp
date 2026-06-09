@@ -14,7 +14,7 @@
  * Plugin Name:       MCPWP
  * Plugin URI:        https://mcpwp.net/
  * Description:       Connect WordPress to AI assistants via the Model Context Protocol (MCP). Manage posts, pages, media, and Elementor through natural language.
- * Version:           2.8.51
+ * Version:           2.8.52
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            Mumega
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin version.
  */
-define( 'SPAI_VERSION', '2.8.51' );
+define( 'SPAI_VERSION', '2.8.52' );
 
 /**
  * Plugin directory path.
@@ -225,6 +225,7 @@ if ( ! function_exists( 'spai_load_plugin' ) ) {
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-seo-autofix.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-search-performance.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-woocommerce-seo.php';
+	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-keyword-research.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-figma.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-provider-openai.php';
 	require_once SPAI_PLUGIN_DIR . 'includes/core/class-spai-provider-gemini.php';

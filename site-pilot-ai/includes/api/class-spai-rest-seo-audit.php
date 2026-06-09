@@ -324,6 +324,48 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 				),
 			)
 		);
+
+		// Keyword research — Google Suggest autocomplete expansion.
+		register_rest_route(
+			$this->namespace,
+			'/keyword-research',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'keyword_research' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+					'args'                => array(
+						'seed' => array(
+							'description'       => __( 'Seed keyword phrase to expand.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'required'          => true,
+							'minLength'         => 1,
+							'sanitize_callback' => 'sanitize_text_field',
+						),
+						'hl'   => array(
+							'description'       => __( 'Language code for Google Suggest, e.g. en.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'default'           => 'en',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'gl'   => array(
+							'description'       => __( 'Country code for Google Suggest, e.g. us.', 'mumega-mcp' ),
+							'type'              => 'string',
+							'default'           => 'us',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'max'  => array(
+							'description'       => __( 'Overall cap on returned suggestion items, 1-500. Defaults to 100.', 'mumega-mcp' ),
+							'type'              => 'integer',
+							'default'           => 100,
+							'minimum'           => 1,
+							'maximum'           => 500,
+							'sanitize_callback' => 'absint',
+						),
+					),
+				),
+			)
+		);
 	}
 
 	/**
@@ -972,6 +1014,37 @@ class Spai_REST_SEO_Audit extends Spai_REST_API {
 		);
 
 		return $this->success_response( $report );
+	}
+
+	/**
+	 * Keyword research via Google Suggest autocomplete.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response|WP_Error Response.
+	 */
+	public function keyword_research( $request ) {
+		$seed = sanitize_text_field( (string) $request->get_param( 'seed' ) );
+
+		if ( '' === $seed ) {
+			return $this->error_response( 'empty_seed', __( 'Seed phrase must not be empty.', 'mumega-mcp' ), 400 );
+		}
+
+		$this->log_activity( 'keyword_research', $request, array( 'seed' => $seed ) );
+
+		$result = Spai_Keyword_Research::research(
+			$seed,
+			array(
+				'hl'  => sanitize_key( (string) $request->get_param( 'hl' ) ),
+				'gl'  => sanitize_key( (string) $request->get_param( 'gl' ) ),
+				'max' => absint( $request->get_param( 'max' ) ),
+			)
+		);
+
+		if ( is_wp_error( $result ) ) {
+			return $this->error_response( $result->get_error_code(), $result->get_error_message(), 400 );
+		}
+
+		return $this->success_response( $result );
 	}
 
 	// --- Private helpers ---

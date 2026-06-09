@@ -233,6 +233,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_get_workflow'            => 'site',
 			'wp_get_agent_playbook'      => 'site',
 			'wp_get_content_coherence_report' => 'seo',
+			'wp_keyword_research'            => 'seo',
 
 			// Site Memory (#362)
 			'wp_remember'                => 'site',
@@ -1033,6 +1034,31 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 					'type'        => 'number',
 					'description' => 'Post or page ID to audit.',
 					'required'    => true,
+				),
+			)
+		);
+
+		$tools[] = $this->define_tool(
+			'wp_keyword_research',
+			'Discover related searches, long-tail keywords, and question clusters for any seed phrase using Google Suggest autocomplete (keyless — no API key required). Returns a deduplicated keyword set and grouped questions to fuel SEO topic expansion, content ideas, blog post planning, and autonomous content-marketing loops. Similar to AnswerThePublic. Does not require a paid provider.',
+			array(
+				'seed' => array(
+					'type'        => 'string',
+					'description' => 'Seed keyword phrase to expand, e.g. "organic coffee".',
+					'required'    => true,
+					'minLength'   => 1,
+				),
+				'hl'   => array(
+					'type'        => 'string',
+					'description' => 'Language code for Google Suggest (default: en).',
+				),
+				'gl'   => array(
+					'type'        => 'string',
+					'description' => 'Country code for Google Suggest (default: us).',
+				),
+				'max'  => array(
+					'type'        => 'number',
+					'description' => 'Overall cap on returned suggestion items, 1-500. Defaults to 100.',
 				),
 			)
 		);
@@ -3401,6 +3427,10 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 			'wp_audit_content_quality' => array(
 				'method' => 'GET',
 				'route'  => '/seo/content-quality/{id}',
+			),
+			'wp_keyword_research' => array(
+				'method' => 'GET',
+				'route'  => '/keyword-research',
 			),
 			'wp_get_custom_css' => array(
 				'method' => 'GET',
