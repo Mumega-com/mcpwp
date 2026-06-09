@@ -139,6 +139,22 @@ class Spai_Core {
 	}
 
 	/**
+	 * Clear the cached capabilities.
+	 *
+	 * Hooked to activated_plugin / deactivated_plugin so that enabling or
+	 * disabling an integration (WooCommerce, LearnPress, an SEO plugin, …) is
+	 * reflected in the capabilities response immediately, instead of being
+	 * masked by the 1-hour transient TTL. Without this, an agent reading
+	 * `capabilities` after a plugin is activated sees stale flags and is blind
+	 * to tools that are actually available.
+	 *
+	 * @return void
+	 */
+	public static function clear_capabilities_cache() {
+		delete_transient( 'spai_capabilities_cache' );
+	}
+
+	/**
 	 * Check whether cached capabilities still match the current license state.
 	 *
 	 * @param mixed $cached Cached capabilities.
