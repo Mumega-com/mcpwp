@@ -52,6 +52,41 @@ $unlinked_archetype_count = count(
 	<?php settings_errors( 'spai_messages' ); ?>
 
 	<div class="spai-tab-content">
+		<!-- F-19: Operating Sequence moved to first card after page header -->
+		<div class="spai-card">
+			<h2><?php esc_html_e( 'Operating Sequence', 'mumega-mcp' ); ?></h2>
+			<p class="description">
+				<?php esc_html_e( 'This is the operator loop MCPWP is designed around. New models and humans should follow this path instead of building pages from scratch every time.', 'mumega-mcp' ); ?>
+			</p>
+			<div class="spai-workflow-sequence">
+				<div class="spai-workflow-step">
+					<span class="spai-workflow-step__number">1</span>
+					<strong><?php esc_html_e( 'Define Character', 'mumega-mcp' ); ?></strong>
+					<div class="spai-design-reference__meta"><?php esc_html_e( 'Set the site voice, audience, and structure rules first.', 'mumega-mcp' ); ?></div>
+				</div>
+				<div class="spai-workflow-step">
+					<span class="spai-workflow-step__number">2</span>
+					<strong><?php esc_html_e( 'Store References', 'mumega-mcp' ); ?></strong>
+					<div class="spai-design-reference__meta"><?php esc_html_e( 'Turn screenshots, mockups, and approved designs into reusable references.', 'mumega-mcp' ); ?></div>
+				</div>
+				<div class="spai-workflow-step">
+					<span class="spai-workflow-step__number">3</span>
+					<strong><?php esc_html_e( 'Reuse Archetypes', 'mumega-mcp' ); ?></strong>
+					<div class="spai-design-reference__meta"><?php esc_html_e( 'Start from saved page or product structures before inventing anything new.', 'mumega-mcp' ); ?></div>
+				</div>
+				<div class="spai-workflow-step">
+					<span class="spai-workflow-step__number">4</span>
+					<strong><?php esc_html_e( 'Build Drafts', 'mumega-mcp' ); ?></strong>
+					<div class="spai-design-reference__meta"><?php esc_html_e( 'Create draft pages and products, then review instead of publishing blindly.', 'mumega-mcp' ); ?></div>
+				</div>
+				<div class="spai-workflow-step">
+					<span class="spai-workflow-step__number">5</span>
+					<strong><?php esc_html_e( 'Save Reusable Parts', 'mumega-mcp' ); ?></strong>
+					<div class="spai-design-reference__meta"><?php esc_html_e( 'Good sections should compound into the library for the next build.', 'mumega-mcp' ); ?></div>
+				</div>
+			</div>
+		</div>
+
 		<div class="spai-card">
 			<h2>
 				<span class="dashicons dashicons-screenoptions"></span>
@@ -148,46 +183,15 @@ $unlinked_archetype_count = count(
 		</div>
 
 		<div class="spai-card">
-			<h2><?php esc_html_e( 'Operating Sequence', 'mumega-mcp' ); ?></h2>
-			<p class="description">
-				<?php esc_html_e( 'This is the operator loop MCPWP is designed around. New models and humans should follow this path instead of building pages from scratch every time.', 'mumega-mcp' ); ?>
-			</p>
-			<div class="spai-workflow-sequence">
-				<div class="spai-workflow-step">
-					<span class="spai-workflow-step__number">1</span>
-					<strong><?php esc_html_e( 'Define Character', 'mumega-mcp' ); ?></strong>
-					<div class="spai-design-reference__meta"><?php esc_html_e( 'Set the site voice, audience, and structure rules first.', 'mumega-mcp' ); ?></div>
-				</div>
-				<div class="spai-workflow-step">
-					<span class="spai-workflow-step__number">2</span>
-					<strong><?php esc_html_e( 'Store References', 'mumega-mcp' ); ?></strong>
-					<div class="spai-design-reference__meta"><?php esc_html_e( 'Turn screenshots, mockups, and approved designs into reusable references.', 'mumega-mcp' ); ?></div>
-				</div>
-				<div class="spai-workflow-step">
-					<span class="spai-workflow-step__number">3</span>
-					<strong><?php esc_html_e( 'Reuse Archetypes', 'mumega-mcp' ); ?></strong>
-					<div class="spai-design-reference__meta"><?php esc_html_e( 'Start from saved page or product structures before inventing anything new.', 'mumega-mcp' ); ?></div>
-				</div>
-				<div class="spai-workflow-step">
-					<span class="spai-workflow-step__number">4</span>
-					<strong><?php esc_html_e( 'Build Drafts', 'mumega-mcp' ); ?></strong>
-					<div class="spai-design-reference__meta"><?php esc_html_e( 'Create draft pages and products, then review instead of publishing blindly.', 'mumega-mcp' ); ?></div>
-				</div>
-				<div class="spai-workflow-step">
-					<span class="spai-workflow-step__number">5</span>
-					<strong><?php esc_html_e( 'Save Reusable Parts', 'mumega-mcp' ); ?></strong>
-					<div class="spai-design-reference__meta"><?php esc_html_e( 'Good sections should compound into the library for the next build.', 'mumega-mcp' ); ?></div>
-				</div>
-			</div>
-		</div>
-
-		<div class="spai-card">
 			<h2><?php esc_html_e( 'Design References', 'mumega-mcp' ); ?></h2>
 			<p class="description">
 				<?php esc_html_e( 'Store screenshots, mockups, and design inspiration here before turning them into archetypes or reusable Elementor parts. This gives models a visual source of truth to work from.', 'mumega-mcp' ); ?>
 			</p>
 			<?php if ( empty( $library_inventory['design_references'] ) ) : ?>
-				<p><em><?php esc_html_e( 'No design references saved yet.', 'mumega-mcp' ); ?></em></p>
+				<div class="spai-control-empty is-muted">
+					<span class="dashicons dashicons-format-image"></span>
+					<p><?php esc_html_e( 'No design references saved yet — add one below to give models a visual source of truth.', 'mumega-mcp' ); ?></p>
+				</div>
 			<?php else : ?>
 				<table class="widefat striped">
 					<thead>
@@ -304,61 +308,79 @@ $unlinked_archetype_count = count(
 				<?php esc_html_e( 'Upload a screenshot, paste a design URL, or point at existing media. Save the intent and reuse rules now so future models can turn it into archetypes and reusable parts.', 'mumega-mcp' ); ?>
 			</p>
 
+			<!-- F-11: split into Required / Optional fieldsets -->
 			<form method="post" enctype="multipart/form-data" class="spai-library-form">
 				<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
-				<p>
-					<label for="spai_design_reference_title"><strong><?php esc_html_e( 'Title', 'mumega-mcp' ); ?></strong></label><br />
-					<input type="text" id="spai_design_reference_title" name="spai_design_reference_title" class="regular-text" placeholder="<?php esc_attr_e( 'Homepage Hero Inspiration / SaaS', 'mumega-mcp' ); ?>" required />
-				</p>
-				<p>
-					<label for="spai_design_reference_file"><strong><?php esc_html_e( 'Upload Image', 'mumega-mcp' ); ?></strong></label><br />
-					<input type="file" id="spai_design_reference_file" name="spai_design_reference_file" accept="image/*" />
-				</p>
-				<p>
-					<label for="spai_design_reference_url"><strong><?php esc_html_e( 'Image URL', 'mumega-mcp' ); ?></strong></label><br />
-					<input type="url" id="spai_design_reference_url" name="spai_design_reference_url" class="large-text" placeholder="<?php esc_attr_e( 'https://example.com/reference.png', 'mumega-mcp' ); ?>" />
-				</p>
-				<p>
-					<label for="spai_design_reference_media_id"><strong><?php esc_html_e( 'Existing Media ID', 'mumega-mcp' ); ?></strong></label><br />
-					<input type="number" min="1" id="spai_design_reference_media_id" name="spai_design_reference_media_id" class="small-text" />
-				</p>
-				<p>
-					<label for="spai_design_reference_intent"><strong><?php esc_html_e( 'Page Intent', 'mumega-mcp' ); ?></strong></label><br />
-					<input type="text" id="spai_design_reference_intent" name="spai_design_reference_intent" class="regular-text" placeholder="<?php esc_attr_e( 'landing_page, blog_post, product_page', 'mumega-mcp' ); ?>" />
-				</p>
-				<p>
-					<label for="spai_design_reference_class"><strong><?php esc_html_e( 'Archetype Class', 'mumega-mcp' ); ?></strong></label><br />
-					<input type="text" id="spai_design_reference_class" name="spai_design_reference_class" class="regular-text" placeholder="<?php esc_attr_e( 'saas_landing, editorial_blog, digital_product', 'mumega-mcp' ); ?>" />
-				</p>
-				<p>
-					<label for="spai_design_reference_style"><strong><?php esc_html_e( 'Style', 'mumega-mcp' ); ?></strong></label><br />
-					<input type="text" id="spai_design_reference_style" name="spai_design_reference_style" class="regular-text" placeholder="<?php esc_attr_e( 'showcase, editorial, premium', 'mumega-mcp' ); ?>" />
-				</p>
-				<p>
-					<label for="spai_design_reference_tags"><strong><?php esc_html_e( 'Tags', 'mumega-mcp' ); ?></strong></label><br />
-					<input type="text" id="spai_design_reference_tags" name="spai_design_reference_tags" class="regular-text" placeholder="<?php esc_attr_e( 'hero, pricing, b2b', 'mumega-mcp' ); ?>" />
-				</p>
-				<p>
-					<label for="spai_design_reference_notes"><strong><?php esc_html_e( 'Notes', 'mumega-mcp' ); ?></strong></label><br />
-					<textarea id="spai_design_reference_notes" name="spai_design_reference_notes" rows="4" class="large-text" placeholder="<?php esc_attr_e( 'Why this design matters and where it should be used.', 'mumega-mcp' ); ?>"></textarea>
-				</p>
-				<p>
-					<label for="spai_design_reference_summary"><strong><?php esc_html_e( 'Analysis Summary', 'mumega-mcp' ); ?></strong></label><br />
-					<textarea id="spai_design_reference_summary" name="spai_design_reference_summary" rows="4" class="large-text" placeholder="<?php esc_attr_e( 'Short structural summary of the design.', 'mumega-mcp' ); ?>"></textarea>
-				</p>
-				<p>
-					<label for="spai_design_reference_must_keep"><strong><?php esc_html_e( 'Must Keep', 'mumega-mcp' ); ?></strong></label><br />
-					<textarea id="spai_design_reference_must_keep" name="spai_design_reference_must_keep" rows="4" class="large-text" placeholder="<?php esc_attr_e( "One item per line:\nstrong headline\nleft-aligned proof strip", 'mumega-mcp' ); ?>"></textarea>
-				</p>
-				<p>
-					<label for="spai_design_reference_avoid"><strong><?php esc_html_e( 'Avoid', 'mumega-mcp' ); ?></strong></label><br />
-					<textarea id="spai_design_reference_avoid" name="spai_design_reference_avoid" rows="4" class="large-text" placeholder="<?php esc_attr_e( "One item per line:\ncarousel\ndense paragraph blocks", 'mumega-mcp' ); ?>"></textarea>
-				</p>
-				<p>
-					<label for="spai_design_reference_outline"><strong><?php esc_html_e( 'Section Outline', 'mumega-mcp' ); ?></strong></label><br />
-					<textarea id="spai_design_reference_outline" name="spai_design_reference_outline" rows="5" class="large-text" placeholder="<?php esc_attr_e( "One section per line:\nhero\nfeature grid\ntestimonials\ncta", 'mumega-mcp' ); ?>"></textarea>
-				</p>
-				<p>
+
+				<fieldset class="spai-fieldset">
+					<legend class="spai-fieldset__legend"><?php esc_html_e( 'Required', 'mumega-mcp' ); ?></legend>
+					<p>
+						<label for="spai_design_reference_title">
+							<strong><?php esc_html_e( 'Title', 'mumega-mcp' ); ?></strong>
+							<span class="required" aria-label="<?php esc_attr_e( 'required', 'mumega-mcp' ); ?>"> *</span>
+						</label><br />
+						<input type="text" id="spai_design_reference_title" name="spai_design_reference_title" class="regular-text" placeholder="<?php esc_attr_e( 'Homepage Hero Inspiration / SaaS', 'mumega-mcp' ); ?>" required aria-required="true" />
+					</p>
+					<p>
+						<label for="spai_design_reference_file"><strong><?php esc_html_e( 'Upload Image', 'mumega-mcp' ); ?></strong></label><br />
+						<input type="file" id="spai_design_reference_file" name="spai_design_reference_file" accept="image/*" />
+					</p>
+					<p>
+						<label for="spai_design_reference_url"><strong><?php esc_html_e( 'Image URL', 'mumega-mcp' ); ?></strong></label><br />
+						<input type="url" id="spai_design_reference_url" name="spai_design_reference_url" class="large-text" placeholder="<?php esc_attr_e( 'https://example.com/reference.png', 'mumega-mcp' ); ?>" />
+					</p>
+					<p>
+						<label for="spai_design_reference_media_id"><strong><?php esc_html_e( 'Existing Media ID', 'mumega-mcp' ); ?></strong></label><br />
+						<input type="number" min="1" id="spai_design_reference_media_id" name="spai_design_reference_media_id" class="small-text" />
+					</p>
+					<p>
+						<label for="spai_design_reference_intent"><strong><?php esc_html_e( 'Page Intent', 'mumega-mcp' ); ?></strong></label><br />
+						<input type="text" id="spai_design_reference_intent" name="spai_design_reference_intent" class="regular-text" placeholder="<?php esc_attr_e( 'landing_page, blog_post, product_page', 'mumega-mcp' ); ?>" />
+					</p>
+				</fieldset>
+
+				<details class="spai-advanced-fields">
+					<summary class="spai-advanced-fields__toggle">
+						<?php esc_html_e( 'Show advanced fields', 'mumega-mcp' ); ?> <span class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></span>
+					</summary>
+					<fieldset class="spai-fieldset spai-fieldset--optional">
+						<legend class="spai-fieldset__legend"><?php esc_html_e( 'Optional: Analysis &amp; Rules', 'mumega-mcp' ); ?></legend>
+						<p>
+							<label for="spai_design_reference_class"><strong><?php esc_html_e( 'Archetype Class', 'mumega-mcp' ); ?></strong></label><br />
+							<input type="text" id="spai_design_reference_class" name="spai_design_reference_class" class="regular-text" placeholder="<?php esc_attr_e( 'saas_landing, editorial_blog, digital_product', 'mumega-mcp' ); ?>" />
+						</p>
+						<p>
+							<label for="spai_design_reference_style"><strong><?php esc_html_e( 'Style', 'mumega-mcp' ); ?></strong></label><br />
+							<input type="text" id="spai_design_reference_style" name="spai_design_reference_style" class="regular-text" placeholder="<?php esc_attr_e( 'showcase, editorial, premium', 'mumega-mcp' ); ?>" />
+						</p>
+						<p>
+							<label for="spai_design_reference_tags"><strong><?php esc_html_e( 'Tags', 'mumega-mcp' ); ?></strong></label><br />
+							<input type="text" id="spai_design_reference_tags" name="spai_design_reference_tags" class="regular-text" placeholder="<?php esc_attr_e( 'hero, pricing, b2b', 'mumega-mcp' ); ?>" />
+						</p>
+						<p>
+							<label for="spai_design_reference_notes"><strong><?php esc_html_e( 'Notes', 'mumega-mcp' ); ?></strong></label><br />
+							<textarea id="spai_design_reference_notes" name="spai_design_reference_notes" rows="4" class="large-text" placeholder="<?php esc_attr_e( 'Why this design matters and where it should be used.', 'mumega-mcp' ); ?>"></textarea>
+						</p>
+						<p>
+							<label for="spai_design_reference_summary"><strong><?php esc_html_e( 'Analysis Summary', 'mumega-mcp' ); ?></strong></label><br />
+							<textarea id="spai_design_reference_summary" name="spai_design_reference_summary" rows="4" class="large-text" placeholder="<?php esc_attr_e( 'Short structural summary of the design.', 'mumega-mcp' ); ?>"></textarea>
+						</p>
+						<p>
+							<label for="spai_design_reference_must_keep"><strong><?php esc_html_e( 'Must Keep', 'mumega-mcp' ); ?></strong></label><br />
+							<textarea id="spai_design_reference_must_keep" name="spai_design_reference_must_keep" rows="4" class="large-text" placeholder="<?php esc_attr_e( "One item per line:\nstrong headline\nleft-aligned proof strip", 'mumega-mcp' ); ?>"></textarea>
+						</p>
+						<p>
+							<label for="spai_design_reference_avoid"><strong><?php esc_html_e( 'Avoid', 'mumega-mcp' ); ?></strong></label><br />
+							<textarea id="spai_design_reference_avoid" name="spai_design_reference_avoid" rows="4" class="large-text" placeholder="<?php esc_attr_e( "One item per line:\ncarousel\ndense paragraph blocks", 'mumega-mcp' ); ?>"></textarea>
+						</p>
+						<p>
+							<label for="spai_design_reference_outline"><strong><?php esc_html_e( 'Section Outline', 'mumega-mcp' ); ?></strong></label><br />
+							<textarea id="spai_design_reference_outline" name="spai_design_reference_outline" rows="5" class="large-text" placeholder="<?php esc_attr_e( "One section per line:\nhero\nfeature grid\ntestimonials\ncta", 'mumega-mcp' ); ?>"></textarea>
+						</p>
+					</fieldset>
+				</details>
+
+				<p style="margin-top:14px">
 					<button type="submit" name="spai_create_design_reference" class="button button-primary"><?php esc_html_e( 'Save Design Reference', 'mumega-mcp' ); ?></button>
 				</p>
 			</form>
@@ -370,7 +392,10 @@ $unlinked_archetype_count = count(
 				<?php esc_html_e( 'Page archetypes are Elementor templates marked as canonical structures for blog posts, landing pages, service pages, and other repeatable layouts. Models should start from one of these before generating a page from scratch.', 'mumega-mcp' ); ?>
 			</p>
 			<?php if ( empty( $library_inventory['page_archetypes'] ) ) : ?>
-				<p><em><?php esc_html_e( 'No page archetypes saved yet.', 'mumega-mcp' ); ?></em></p>
+				<div class="spai-control-empty is-muted">
+					<span class="dashicons dashicons-layout"></span>
+					<p><?php esc_html_e( 'No page archetypes saved yet — promote an Elementor template below to create the first one.', 'mumega-mcp' ); ?></p>
+				</div>
 			<?php else : ?>
 				<table class="widefat striped">
 					<thead>
@@ -442,7 +467,10 @@ $unlinked_archetype_count = count(
 				<?php esc_html_e( 'Use product archetypes to standardize WooCommerce product pages and field structure. This is where simple products, variable products, and other catalog patterns should live.', 'mumega-mcp' ); ?>
 			</p>
 			<?php if ( empty( $library_inventory['product_archetypes'] ) ) : ?>
-				<p><em><?php esc_html_e( 'No product archetypes saved yet.', 'mumega-mcp' ); ?></em></p>
+				<div class="spai-control-empty is-muted">
+					<span class="dashicons dashicons-cart"></span>
+					<p><?php esc_html_e( 'No product archetypes saved yet — define one below to standardize WooCommerce product pages.', 'mumega-mcp' ); ?></p>
+				</div>
 			<?php else : ?>
 				<table class="widefat striped">
 					<thead>
@@ -578,7 +606,10 @@ $unlinked_archetype_count = count(
 				<?php esc_html_e( 'Reusable parts are Elementor templates marked as reusable sections. Every strong hero, feature grid, FAQ block, testimonial strip, and CTA should be saved here so future models can reuse it instead of reinventing it.', 'mumega-mcp' ); ?>
 			</p>
 			<?php if ( empty( $library_inventory['parts'] ) ) : ?>
-				<p><em><?php esc_html_e( 'No reusable parts saved yet.', 'mumega-mcp' ); ?></em></p>
+				<div class="spai-control-empty is-muted">
+					<span class="dashicons dashicons-forms"></span>
+					<p><?php esc_html_e( 'No reusable parts saved yet — extract a strong section from a live page or promote an Elementor template below.', 'mumega-mcp' ); ?></p>
+				</div>
 			<?php else : ?>
 				<table class="widefat striped">
 					<thead>
@@ -624,7 +655,8 @@ $unlinked_archetype_count = count(
 									<form method="post" class="spai-inline-action spai-inline-action--grid">
 										<?php wp_nonce_field( 'spai_library_actions', 'spai_library_nonce' ); ?>
 										<input type="hidden" name="spai_action_part_id" value="<?php echo esc_attr( $item['id'] ); ?>" />
-										<input type="number" min="1" name="spai_target_page_id" class="small-text" placeholder="<?php esc_attr_e( 'Page ID', 'mumega-mcp' ); ?>" required />
+										<label for="spai_target_page_id_<?php echo esc_attr( (string) $item['id'] ); ?>" class="screen-reader-text"><?php esc_html_e( 'Target page ID', 'mumega-mcp' ); ?></label>
+								<input type="number" min="1" id="spai_target_page_id_<?php echo esc_attr( (string) $item['id'] ); ?>" name="spai_target_page_id" class="small-text" placeholder="<?php esc_attr_e( 'Page ID', 'mumega-mcp' ); ?>" required />
 										<select name="spai_part_apply_mode">
 											<option value="insert"><?php esc_html_e( 'Insert', 'mumega-mcp' ); ?></option>
 											<option value="replace"><?php esc_html_e( 'Replace', 'mumega-mcp' ); ?></option>
@@ -788,14 +820,18 @@ $unlinked_archetype_count = count(
 		do_action( 'spai_admin_library_cards' );
 
 		// ── Site Blueprints (#364) ──────────────────────────────────────────── ?>
-		<div style="margin-top:2rem">
+		<!-- F-12: wrapped in .spai-card like every other section -->
+		<div class="spai-card">
 			<h2><?php esc_html_e( 'Site Blueprints', 'mumega-mcp' ); ?></h2>
 			<p class="description"><?php esc_html_e( 'Multi-page site structures ready to deploy. Use wp_deploy_site_blueprint to create all pages, menus, and site context in one step.', 'mumega-mcp' ); ?></p>
 			<?php
 			$site_blueprints = $library_inventory['site_blueprints'] ?? array();
 			if ( empty( $site_blueprints ) ) :
 			?>
-				<p><?php esc_html_e( 'No blueprints found.', 'mumega-mcp' ); ?></p>
+				<div class="spai-control-empty is-muted">
+					<span class="dashicons dashicons-admin-site"></span>
+					<p><?php esc_html_e( 'No blueprints found — extract the current site as a blueprint to create one.', 'mumega-mcp' ); ?></p>
+				</div>
 			<?php else : ?>
 			<table class="widefat" style="margin-top:.5rem">
 				<thead>
@@ -814,9 +850,15 @@ $unlinked_archetype_count = count(
 						<td><strong><?php echo esc_html( $bp['name'] ?? '' ); ?></strong></td>
 						<td><code><?php echo esc_html( $bp['id'] ?? '' ); ?></code></td>
 						<td><?php echo esc_html( $bp['category'] ?? '' ); ?></td>
-						<td><?php echo esc_html( count( $bp['pages'] ?? array() ) ); ?> pages</td>
+						<td><?php echo esc_html( (string) count( $bp['pages'] ?? array() ) ); ?> <?php esc_html_e( 'pages', 'mumega-mcp' ); ?></td>
 						<td style="color:#555"><?php echo esc_html( $bp['description'] ?? '' ); ?></td>
-						<td><?php echo ! empty( $bp['is_starter'] ) ? '<span style="color:#7c3aed">starter</span>' : '<span style="color:#16a34a">custom</span>'; ?></td>
+						<td>
+							<?php if ( ! empty( $bp['is_starter'] ) ) : ?>
+								<span style="color:#7c3aed"><?php esc_html_e( 'starter', 'mumega-mcp' ); ?></span>
+							<?php else : ?>
+								<span style="color:#16a34a"><?php esc_html_e( 'custom', 'mumega-mcp' ); ?></span>
+							<?php endif; ?>
+						</td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>
@@ -825,7 +867,7 @@ $unlinked_archetype_count = count(
 			<p style="margin-top:.75rem;font-size:12px;color:#555">
 				<?php esc_html_e( 'Deploy with: ', 'mumega-mcp' ); ?>
 				<code>wp_deploy_site_blueprint(id="law-firm")</code>
-				&nbsp;·&nbsp;
+				&nbsp;&middot;&nbsp;
 				<?php esc_html_e( 'Save current site as blueprint: ', 'mumega-mcp' ); ?>
 				<code>wp_extract_site_blueprint(save=true)</code>
 			</p>

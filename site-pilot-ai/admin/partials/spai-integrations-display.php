@@ -23,6 +23,8 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 			<span class="dashicons dashicons-admin-plugins"></span>
 		</span>
 		<?php esc_html_e( 'AI Integrations', 'mumega-mcp' ); ?>
+		<!-- F-20: version pill matching other pages -->
+		<span class="spai-version">v<?php echo esc_html( SPAI_VERSION ); ?></span>
 	</h1>
 	<p class="description spai-page-intro">
 		<?php esc_html_e( 'Connect third-party AI and design services to unlock image generation, vision analysis, text-to-speech, screenshots, stock photos, and design-context intake via MCP tools.', 'mumega-mcp' ); ?>
@@ -97,13 +99,24 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 				<?php endif; ?>
 
 				<?php if ( $locked ) : ?>
+					<?php
+					// F-14: per-provider unlock descriptions; always show upgrade link regardless of license function.
+					$unlock_descriptions = array(
+						'openai'          => __( 'Unlocks AI image generation, vision analysis, alt-text generation, and content summarisation via GPT models.', 'mumega-mcp' ),
+						'gemini'          => __( 'Unlocks image generation and vision analysis via Google Gemini — use alongside or instead of OpenAI.', 'mumega-mcp' ),
+						'elevenlabs'      => __( 'Unlocks text-to-speech audio generation from any page content via the ElevenLabs API.', 'mumega-mcp' ),
+						'google_indexing' => __( 'Unlocks direct URL submission to Google Search via the Indexing API — speeds up content discovery.', 'mumega-mcp' ),
+						'figma'           => __( 'Unlocks Figma design context intake — inspect approved frames and convert them into archetypes and reusable parts.', 'mumega-mcp' ),
+					);
+					$unlock_desc = isset( $unlock_descriptions[ $slug ] ) ? $unlock_descriptions[ $slug ] : '';
+					?>
 					<p class="spai-locked-msg">
-						<?php esc_html_e( 'Upgrade your plan to use this integration.', 'mumega-mcp' ); ?>
-						<?php if ( function_exists( 'spai_license' ) ) : ?>
-							<a href="<?php echo esc_url( admin_url( 'admin.php?page=site-pilot-ai-pricing' ) ); ?>">
-								<?php esc_html_e( 'Upgrade', 'mumega-mcp' ); ?>
-							</a>
+						<?php if ( $unlock_desc ) : ?>
+							<?php echo esc_html( $unlock_desc ); ?><br />
 						<?php endif; ?>
+						<a href="<?php echo esc_url( 'https://mcpwp.net/pricing/' ); ?>" target="_blank" rel="noopener">
+							<?php esc_html_e( 'Upgrade to Pro &rarr;', 'mumega-mcp' ); ?>
+						</a>
 					</p>
 				<?php else : ?>
 					<div class="spai-integration-key-form" data-provider="<?php echo esc_attr( $slug ); ?>" data-multi-field="<?php echo $is_multi_field ? '1' : '0'; ?>">
@@ -259,123 +272,6 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 	</div>
 </div>
 
-<script type="text/javascript">
-jQuery(function($) {
-	var nonce = typeof spaiIntegrations !== 'undefined' ? spaiIntegrations.nonce : '<?php echo esc_js( wp_create_nonce( 'spai_integrations_nonce' ) ); ?>';
-	var ajaxUrl = '<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>';
-
-	// Save key (supports both single-key and multi-field providers).
-	$(document).on('click', '.spai-save-integration', function() {
-		var $btn = $(this);
-		var provider = $btn.data('provider');
-		var $form = $btn.closest('.spai-integration-key-form');
-		var isMultiField = $form.data('multi-field') === 1 || $form.data('multi-field') === '1';
-		var $status = $form.find('.spai-integration-status');
-		var postData = {
-			action: 'spai_save_integration_key',
-			nonce: nonce,
-			provider: provider
-		};
-
-		if (isMultiField) {
-			var config = {};
-			var hasValue = false;
-			$form.find('.spai-config-field').each(function() {
-				var val = $(this).val().trim();
-				if (val) hasValue = true;
-				config[$(this).data('field')] = val;
-			});
-			if (!hasValue) {
-				$status.text('Please fill in at least one field.').css('color', '#d63638');
-				return;
-			}
-			postData.config = config;
-		} else {
-			var key = $form.find('.spai-integration-key-input').val().trim();
-			if (!key) {
-				$status.text('Please enter an API key.').css('color', '#d63638');
-				return;
-			}
-			postData.key = key;
-		}
-
-		$btn.prop('disabled', true).text('Saving...');
-		$.post(ajaxUrl, postData, function(response) {
-			if (response.success) {
-				$status.text('Saved! Reloading...').css('color', '#00a32a');
-				if (window.posthog) {
-					posthog.capture('integration_saved', { provider: provider });
-				}
-				location.reload();
-			} else {
-				$status.text(response.data.message || 'Save failed').css('color', '#d63638');
-				$btn.prop('disabled', false).text('Save');
-			}
-		}).fail(function() {
-			$status.text('Request failed').css('color', '#d63638');
-			$btn.prop('disabled', false).text('Save');
-		});
-	});
-
-	// Remove key.
-	$(document).on('click', '.spai-remove-integration', function() {
-		if (!confirm('Are you sure you want to remove this configuration?')) return;
-
-		var $btn = $(this);
-		var provider = $btn.data('provider');
-		var $form = $btn.closest('.spai-integration-key-form');
-		var $status = $form.find('.spai-integration-status');
-
-		$btn.prop('disabled', true).text('Removing...');
-		$.post(ajaxUrl, {
-			action: 'spai_remove_integration_key',
-			nonce: nonce,
-			provider: provider
-		}, function(response) {
-			if (response.success) {
-				$status.text('Removed! Reloading...').css('color', '#00a32a');
-				if (window.posthog) {
-					posthog.capture('integration_removed', { provider: provider });
-				}
-				location.reload();
-			} else {
-				$status.text(response.data.message || 'Remove failed').css('color', '#d63638');
-				$btn.prop('disabled', false).text('Remove');
-			}
-		});
-	});
-
-	// Test connection.
-	$(document).on('click', '.spai-test-integration', function() {
-		var $btn = $(this);
-		var provider = $btn.data('provider');
-		var $form = $btn.closest('.spai-integration-key-form');
-		var $status = $form.find('.spai-integration-status');
-
-		$btn.prop('disabled', true).text('Testing...');
-		$.post(ajaxUrl, {
-			action: 'spai_test_integration',
-			nonce: nonce,
-			provider: provider
-		}, function(response) {
-			if (response.success) {
-				$status.text(response.data.message || 'Connected!').css('color', '#00a32a');
-			} else {
-				$status.text(response.data.message || 'Connection failed').css('color', '#d63638');
-			}
-			$btn.prop('disabled', false).text('Test Connection');
-		}).fail(function() {
-			$status.text('Request failed').css('color', '#d63638');
-			$btn.prop('disabled', false).text('Test Connection');
-		});
-	});
-
-	// Toggle update key/config inputs.
-	$(document).on('click', '.spai-update-key-toggle', function() {
-		var $form = $(this).closest('.spai-integration-key-form');
-		$form.find('.spai-multi-field-inputs, .spai-integration-key-input').toggle();
-		$form.find('.spai-save-integration').toggle();
-		$form.find('.spai-config-field:first, .spai-integration-key-input').focus();
-	});
-});
-</script>
+<!-- F-15: Inline JS removed; all integration interactions handled by spai-admin.js
+     using the i18n strings object from wp_localize_script('spai-integrations', 'spaiIntegrations', ...).
+     Visual affordance (success/fail class) applied by spai-admin.js via spai-status-active/inactive. -->

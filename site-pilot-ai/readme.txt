@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.53
+Stable tag: 2.8.54
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,12 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.54 =
+* Improvement: Control Room — empty-state guidance, in-page section navigation, change summaries on pending approvals, and a confirm step before applying changes.
+* Improvement: Library — design-reference form split into Required/Optional groups, consistent cards, clearer empty states with calls to action.
+* Improvement: Integrations — upgrade link always shown on Pro cards with per-provider unlock descriptions; version pill added; status messages translatable.
+* Accessibility: input label associations, a tablet (1024px) responsive breakpoint, and fluid chat height.
 
 = 2.8.53 =
 * New: Setup onboarding checklist — a 3-step guide (generate key → connect → first tool call) so new users always know the next step.
