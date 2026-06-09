@@ -198,7 +198,7 @@ sell flows + recipes + rent, never compute.
 
 | # | Version | Milestone | What it does for the economy |
 |---|---------|-----------|------------------------------|
-| **P0a** | current builds | **mcpwp.net dogfood — content + courses** | Our-niche (MCP/WP/plugins) content engine + LearnPress video courses teaching MCPWP. Safest first dogfood (real E-E-A-T, zero slop risk); proves the distribution loop + onboarding + cold-start. |
+| **P0a** | current builds | **mcpwp.net dogfood — content + courses** | Our-niche (MCP/WP/plugins) content engine + LearnPress video courses teaching MCPWP. Safest first dogfood (real E-E-A-T, zero slop risk); proves the distribution loop + onboarding + cold-start. **Full execution spec: `docs/DOGFOOD-MCPWP-NET.md`.** |
 | **P0b** | current builds | **Woo store dogfood — commerce loop** | Dropship/arbitrage store, governed auto-publish + edge A/B under caps → make real dollars. Proves the conversion loop. |
 | **M1** | v2.8.x | **On-ramp launch** | Free plugin + cheap Pro (adoption toll). Admin UI ✅. Gates on Hadi: pricing (T87), privacy, install test, WAF. |
 | **M1.3** | v2.9 | **Agent representation & Fleet** | Connect-time MCP questionnaire (`identity·represents·scope·goal`) → owner-facing admin Fleet page → scope-as-enforcement **second security layer** + audit. (§4b — sensitive surface: adversarial-gate the build.) |
