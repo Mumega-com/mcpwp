@@ -68,8 +68,8 @@ Build ONE loop end-to-end, measure it, decide go/no-go before productizing anyth
 
 | # | GH | Who | Task | Status |
 |---|-----|-----|------|--------|
-| P0a | #449 | agent | **Measure real $/task** — instrument one "build a Woo product page" agent run through AI Gateway; record token in/out per task type. Unblocks ALL pricing. | ⏳ ready |
-| P0b | #454 | agent | **Keyword-research MCP tool** — the one missing Phase-1 capability (no tool today). Feeds the content loop. | ⏳ ready |
+| P0a | #449 | agent | **Measure real $/task** — ✅ measured tool-schema weight (free ~20k / all 269 = ~35k tokens/turn); page-build ≈ $0.9 Haiku / $2.5 Sonnet cached. Caching + tool-subsetting mandatory. Full hosted-agent run pending M4. | ✅ done |
+| P0b | #454 | agent | **Keyword-research MCP tool** — ✅ shipped v2.8.52: `wp_keyword_research` (keyless Google Suggest → keywords + questions). 17 tests, Sonnet SSRF review, live on crophelp.ai. | ✅ done |
 | P0c | #450 | both | **Wire the loop** — 1 Woo store → MCPWP + 1 mupot pot → marketing squad → Telegram approval. Hand-wired, no productization. | ⏳ |
 | P0d | — | Hadi | **1 pilot agency + 1 pilot store** — the human side of the proof (would they pay?). | ⏳ |
 
@@ -315,6 +315,7 @@ Marketplace before a working snapshot = death.
 - Chat excellence (multi-model, SSE, history)
 - **v2.8.50:** `spai_register_tools` filter hook API; 56 BM25-optimized tool descriptions; openapi-chatgpt.yaml 49 operations; 5 pre-existing PHP syntax errors cleared; test bootstrap fixed
 - **v2.8.51:** find-replace false-negative + structural-corruption fix (decoded-tree match, protected keys); update-channel drift cured (manifest 2.8.43→2.8.51, R2 download_url 404 fixed); ElementorFindReplaceTest regression suite (PR #448)
+- **v2.8.52:** `wp_keyword_research` — keyless keyword research via Google Suggest (keywords + grouped questions); first Phase-1 capability for the autonomous content loop (PR #456, closes #454)
 - README rebuilt (OpenClaw/Hermes/ChatGPT sections)
 - ClawHub skill (`integrations/clawhub/SKILL.md`)
 - Hermes integration (`integrations/hermes/`)
