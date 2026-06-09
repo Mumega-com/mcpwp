@@ -87,21 +87,39 @@ not after it. The **fleet is the funnel**: every BYO-agent runtime that connects
 
 ---
 
-## P0 — Autonomous-Marketing MVP Proof Loop (do this FIRST)
+## P0 — Be the First Player: dogfood the loop on our OWN sites (do this FIRST)
 
-The smallest thing that validates the whole North Star. Runs on **current builds** — no v3 dependency.
-Build ONE loop end-to-end, measure it, decide go/no-go before productizing anything.
+The smallest thing that validates the whole North Star AND solves marketplace cold-start. Runs on **current
+builds**. Two dogfoods, our niche = **MCP · WordPress · WP plugins**.
 
 | # | GH | Who | Task | Status |
 |---|-----|-----|------|--------|
-| P0a | #449 | agent | **Measure real $/task** — ✅ measured tool-schema weight (free ~20k / all 269 = ~35k tokens/turn); page-build ≈ $0.9 Haiku / $2.5 Sonnet cached. Caching + tool-subsetting mandatory. Full hosted-agent run pending M4. | ✅ done |
-| P0b | #454 | agent | **Keyword-research MCP tool** — ✅ shipped v2.8.52: `wp_keyword_research` (keyless Google Suggest → keywords + questions). 17 tests, Sonnet SSRF review, live on crophelp.ai. | ✅ done |
-| P0c | #450 | both | **Wire the loop** — 1 Woo store → MCPWP + 1 mupot pot → marketing squad → Telegram approval. Hand-wired, no productization. | ⏳ |
-| P0d | — | Hadi | **1 pilot agency + 1 pilot store** — the human side of the proof (would they pay?). | ⏳ |
+| P0a | #449 | agent | **Measure real $/task** — ✅ measured (free ~20k / all 269 ~35k tokens/turn; page-build ≈ $0.9 Haiku / $2.5 Sonnet cached). | ✅ done |
+| P0b | #454 | agent | **Keyword-research MCP tool** — ✅ shipped v2.8.52: `wp_keyword_research`. | ✅ done |
+| **P0c** | — | both | **mcpwp.net content + courses dogfood (FIRST — safest).** Our-niche content engine (MCP/WP/plugins, real E-E-A-T, zero slop risk) + **LearnPress video courses teaching MCPWP** (dogfoods LearnPress + onboarding + funnel). Proves the distribution loop. | ⏳ |
+| **P0d** | #450 | both | **Woo store dogfood — commerce loop.** Dropship/arbitrage store, governed auto-publish + edge A/B under caps → real dollars. Proves the conversion loop. | ⏳ |
 
 Epics: M4 #451 · M7 #452 · M8 #453.
 
-**Exit test:** loop runs, content is on-brand (brand-crystal holds), agency says yes → thesis validated → build M4.
+**Exit test:** the loop runs on our own sites, content is on-brand + gets distributed (Google picks it up,
+no penalty), and a real number moves (signups/sales) → thesis validated + the marketplace has its first
+seeded shelves → build the productized loop.
+
+---
+
+## P0.5 — Agent Representation & Fleet (second security layer + governance)
+
+When an agent connects over MCP it must **declare itself** — a start-up questionnaire returning
+`{ identity, represents, scope_of_work, goal }`. Builds on the API key, doesn't replace it.
+
+| # | GH | Who | Task | Status |
+|---|-----|-----|------|--------|
+| AR1 | — | agent | **Connect-time questionnaire** — MCP onboarding handshake captures identity/represents/scope/goal; stored per-agent. | ⏳ |
+| AR2 | — | agent | **Admin Fleet page** — owner sees every connected agent: identity, declared scope, goal, status (active/idle), recent actions. | ⏳ |
+| AR3 | — | agent | **Scope-as-enforcement (2nd security layer)** — agent may act only within declared scope; deviation flagged + gated; intent on the audit trail (EU AI Act). **Sensitive surface — adversarial-gate the build.** | ⏳ |
+| AR4 | — | agent | **Two-speed cadence support** — interval data-gathering hooks so cheap-continuous agents perceive + log, and the expensive periodic agent reads the interval's data + prior small-agent actions before deciding. | ⏳ |
+
+Maps to mupot `boot_context` + `check_in` + capability RBAC, brought into MCPWP itself. See STRATEGY.md §4b.
 
 ---
 
