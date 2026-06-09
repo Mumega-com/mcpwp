@@ -175,6 +175,17 @@ OAuth 2.1 + PKCE is a significant build. Needs Opus-level spec session before im
 
 ---
 
+## Technical Debt (fix as we go)
+
+| # | GH | Severity | Task |
+|---|-----|----------|------|
+| T120 | #442 | medium | Split free/pro tool files — 2000+ line classes block contributors |
+| T121 | #443 | high | PHPUnit tests — zero PHP test coverage, silent deploy failures |
+| T122 | #444 | high | Rewrite 120+ tool descriptions for BM25/vector accuracy — **agent:auto, status:ready** |
+| T123 | #445 | launch-blocker | Update openapi-chatgpt.yaml to v2.8.49 — **agent:auto, status:ready** |
+
+---
+
 ## Shipped (v2.8.45–v2.8.49)
 
 - Server-side PostHog analytics
