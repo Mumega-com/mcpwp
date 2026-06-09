@@ -207,3 +207,82 @@ Large, mechanical-with-judgment, correctness-critical → subagent-driven, one m
 the spec-then-quality review loop, characterization tests first. Estimated 6–8 focused build
 sessions across v5.0-a…g. The rebrand already paid the naming cost; this is the structural cost,
 de-risked by doing it on a clean, consistently-named base.
+
+---
+
+## 7. Mirror findings — inkwell (TS) + SOS (Python), 2026-06-09
+
+Before building, we studied the two Mumega microkernels the plan referenced. Verdict from deep
+reads of both codebases:
+
+**No code is reusable. The contract is.** inkwell is TS/Astro/Cloudflare-Workers; SOS is Python;
+MCPWP is PHP/WordPress. Not a line lifts. But both converge on the same *shape* worth mirroring.
+
+### What to mirror (from inkwell's `PluginManifest` — the cleanest kin)
+inkwell's kernel (`kernel/types.ts`, `plugin-loader.ts`, `adapter-registry.ts`) is a genuine
+microkernel: kernel owns only contracts; each `plugins/{name}/manifest.ts` declares
+`name, version, requiredRole, mountRoutes(app), mcpTools[], dashboardWidgets[], configDefaults,
+migrations[]`; an `inkwell.config.ts` allowlist decides what loads; a hexagonal port/adapter
+registry means features never touch infrastructure directly. Its `McpToolDef`
+(`{name, description, inputSchema, handler}`) **is already our MCP tool shape**. The PHP module
+manifest mirrors this:
+
+```php
+// includes/modules/{id}/module.php
+return array(
+  'id'        => 'elementor',
+  'version'   => '1.0.0',
+  'requires'  => array(),            // module ids (topo-ordered)
+  'tier'      => 'free',             // free|pro  (our concept; SOS/inkwell differ)
+  'depends_on'=> array(),            // WP plugins, optional (graceful skip)
+  'services'  => array(/* id => fn($c) lazy factory */),
+  'tools'     => array(/* McpToolDef-shaped providers */),
+  'routes'    => array(/* REST controller classes */),
+  'admin'     => array(/* admin page providers */),
+  'boot'      => function ( $kernel ) {},
+);
+```
+
+### What to DROP (SOS machinery that doesn't fit a single-process WP plugin)
+SOS's strengths are multi-process: a Redis-backed `ServiceRegistry` with TTL heartbeats, HTTP
+service routing + health endpoints, content-addressed (CID) Ed25519-signed plugin artifacts, and
+signed delegable capability tokens. **None translate** to one PHP process per request. Replace with:
+in-memory per-request registry array; in-process callable dispatch (array lookup, no network hop);
+trusted local module files (no CID/signing); and **reuse MCPWP's existing gate** — API key + role
+scope + `mcpwp_disabled_tool_categories` + the `mcpwp_tool_called` choke point — as the call-time
+capability check. SOS also gives us **no topological ordering and no free/pro tier model**; both are
+net-new (simple `requires` + Kahn's algorithm; tier as a per-module attribute).
+
+### Reuse what already exists
+The proto-seam is real: `mcpwp_register_tools` filter + `Mcpwp_Custom_Tool_Registry` +
+`mcpwp_tool_called`. The kernel generalizes that one good pattern; `mcpwp_register_tools` becomes a
+thin shim over the kernel in v5.0-g.
+
+### Sync angle (SEPARATE track, not the kernel)
+inkwell (brand/CRM/strategy brain, 41 MCP tools at `inkwell.mumega.com/mcp`) and MCPWP (WP execution,
+250+ tools) are **complementary, integrate over MCP-to-MCP, share no code**. Pipeline: inkwell
+`onboard_client`/`content_strategy` → page briefs → MCPWP `wp_create_page`/`wp_set_elementor`
+publishes them; brand vector synced via `wp_set_site_context` ↔ inkwell `remember`/`recall`. This is
+its own spec (tracked in v5.0-g notes), **not** part of the kernel refactor.
+
+---
+
+## 8. Revised v5.0-a — additive & v3-safe
+
+**Hard constraint (Hadi, 2026-06-09): the refactor must not break the shipped v3.0.0.** Therefore
+v5.0-a is **additive, live boot path UNTOUCHED**:
+
+- Land the kernel primitives as NEW files under `includes/kernel/`: `Mcpwp_Kernel`,
+  `Mcpwp_Module` (interface) + `Mcpwp_Module_Manifest`, `Mcpwp_Module_Registry`, `Mcpwp_Container`
+  (array-of-closures lazy DI), and a `Mcpwp_Legacy_Core_Module` placeholder.
+- **Do NOT rewire `mcpwp.php` / `mcpwp_load_plugin`.** The plugin boots exactly as v3.0.0. The kernel
+  is proven by full PHPUnit unit tests (discover → topo-order → tier/depends gate → register
+  services/tools/routes/admin → boot lifecycle), not by taking over the live path yet.
+- DoD for v5.0-a: kernel + contracts + tests land, `php -l` clean, full suite + 7 CI checks green,
+  **zero change to any runtime behavior** (live path untouched by construction).
+
+The first *live* carve happens in **v5.0-b**: the site/discovery surface is the first to route
+through the kernel, at which point the kernel enters the boot path behind that one module while
+everything else still loads the legacy way. Strangler-fig proceeds module by module from there. This
+ordering trades a little of the original "host all legacy as one module in step a" purity for an
+absolute guarantee that step a cannot break production.
