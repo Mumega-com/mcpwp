@@ -18,10 +18,10 @@ jobs:
           php-version: '8.2'
       - name: Lint PHP files
         run: |
-          find site-pilot-ai -name "*.php" -not -path "*/freemius/*" -not -path "*/node_modules/*" \
+          find mcpwp -name "*.php" -not -path "*/freemius/*" -not -path "*/node_modules/*" \
             -exec php -l {} \; | grep -v "No syntax errors" || true
           # Fail if any syntax errors found
-          find site-pilot-ai -name "*.php" -not -path "*/freemius/*" \
+          find mcpwp -name "*.php" -not -path "*/freemius/*" \
             -exec php -l {} \; 2>&1 | grep "Parse error" && exit 1 || exit 0
 
   proxy-worker-tests:

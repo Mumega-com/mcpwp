@@ -14,8 +14,8 @@ Commands:
   verify    Check API connectivity and required scopes
 
 Required (env or flags):
-  --url URL            WordPress site URL (or SPAI_URL)
-  --key KEY            API key (or SPAI_API_KEY)
+  --url URL            WordPress site URL (or MCPWP_URL)
+  --key KEY            API key (or MCPWP_API_KEY)
 
 Options:
   --dir DIR            Data directory (default: site-data)
@@ -25,13 +25,13 @@ Options:
 
 Examples:
   # Pull from production
-  scripts/site-sync.sh pull --url https://mysite.com --key spai_xxx
+  scripts/site-sync.sh pull --url https://mysite.com --key mcpwp_xxx
 
   # Push to staging (dry run)
-  scripts/site-sync.sh push --url https://staging.mysite.com --key spai_xxx --dry-run
+  scripts/site-sync.sh push --url https://staging.mysite.com --key mcpwp_xxx --dry-run
 
   # CI usage
-  SPAI_URL=https://mysite.com SPAI_API_KEY=spai_xxx scripts/site-sync.sh push
+  MCPWP_URL=https://mysite.com MCPWP_API_KEY=mcpwp_xxx scripts/site-sync.sh push
 EOF
 }
 
@@ -45,8 +45,8 @@ require_cmd() {
 # ── Arg parsing ──────────────────────────────────────────────
 
 COMMAND=""
-URL="${SPAI_URL:-}"
-KEY="${SPAI_API_KEY:-}"
+URL="${MCPWP_URL:-}"
+KEY="${MCPWP_API_KEY:-}"
 DIR="site-data"
 DRY_RUN=0
 SKIP_ELEMENTOR=0
@@ -65,8 +65,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ -z "$COMMAND" ]] && { echo "Command required: pull|push|verify" >&2; usage; exit 1; }
-[[ -z "$URL" ]]     && { echo "--url or SPAI_URL required" >&2; exit 1; }
-[[ -z "$KEY" ]]     && { echo "--key or SPAI_API_KEY required" >&2; exit 1; }
+[[ -z "$URL" ]]     && { echo "--url or MCPWP_URL required" >&2; exit 1; }
+[[ -z "$KEY" ]]     && { echo "--key or MCPWP_API_KEY required" >&2; exit 1; }
 
 URL="${URL%/}"  # strip trailing slash
 
@@ -77,9 +77,9 @@ require_cmd python3
 
 PUSH_WARNINGS=0
 
-spai_request() {
+mcpwp_request() {
 	local method="$1" endpoint="$2" body="${3:-}"
-	local full_url="$URL/wp-json/site-pilot-ai/v1/$endpoint"
+	local full_url="$URL/wp-json/mcpwp/v1/$endpoint"
 	local args=(-sS -w '\n%{http_code}' -X "$method" -H "X-API-Key: $KEY")
 
 	if [[ -n "$body" ]]; then
@@ -116,9 +116,9 @@ spai_request() {
 	printf '%s' "$body_out"
 }
 
-spai_get()  { spai_request GET  "$1"; }
-spai_post() { spai_request POST "$1" "$2"; }
-spai_put()  { spai_request PUT  "$1" "$2"; }
+mcpwp_get()  { mcpwp_request GET  "$1"; }
+mcpwp_post() { mcpwp_request POST "$1" "$2"; }
+mcpwp_put()  { mcpwp_request PUT  "$1" "$2"; }
 
 # ── Preflight ────────────────────────────────────────────────
 
@@ -127,7 +127,7 @@ ELEMENTOR_ACTIVE=0
 preflight_check() {
 	echo "Checking connectivity to $URL ..."
 	local info
-	info="$(spai_get "site-info")"
+	info="$(mcpwp_get "site-info")"
 
 	local name version
 	name="$(printf '%s' "$info" | python3 -c 'import json,sys; d=json.load(sys.stdin); print(d.get("name","?"))')"
@@ -153,7 +153,7 @@ cmd_pull() {
 
 	while [[ $page_num -le $max_pages ]]; do
 		local resp
-		resp="$(spai_get "pages?per_page=100&page=$page_num&status=any")"
+		resp="$(mcpwp_get "pages?per_page=100&page=$page_num&status=any")"
 		max_pages="$(printf '%s' "$resp" | python3 -c 'import json,sys; d=json.load(sys.stdin); print(d.get("pages_count",1))')"
 
 		all_pages="$(python3 -c "
@@ -202,7 +202,7 @@ for p in pages:
 		while IFS=: read -r slug page_id has_el; do
 			if [[ "$has_el" == "1" ]]; then
 				echo "  Fetching Elementor: $slug (id=$page_id)"
-				spai_get "elementor/$page_id" | python3 -c "
+				mcpwp_get "elementor/$page_id" | python3 -c "
 import json, sys, os
 el_resp = json.load(sys.stdin)
 page_file = os.path.join(sys.argv[1], 'pages', sys.argv[2] + '.json')
@@ -222,7 +222,7 @@ with open(page_file, 'w') as f:
 	echo ""
 	echo "Pulling options..."
 	local options_raw
-	options_raw="$(spai_get "options")"
+	options_raw="$(mcpwp_get "options")"
 
 	python3 -c "
 import json, sys, os
@@ -259,7 +259,7 @@ if out['page_on_front_slug']:
 	# 3. Pull custom CSS
 	echo ""
 	echo "Pulling custom CSS..."
-	spai_get "custom-css" > "$DIR/custom-css.json"
+	mcpwp_get "custom-css" > "$DIR/custom-css.json"
 	local css_len
 	css_len="$(python3 -c "import json; d=json.load(open('$DIR/custom-css.json')); print(len(d.get('css','')))")"
 	echo "  $css_len bytes"
@@ -268,7 +268,7 @@ if out['page_on_front_slug']:
 	echo ""
 	echo "Pulling site context..."
 	local ctx_resp
-	ctx_resp="$(spai_get "site-context" 2>/dev/null || echo '{"context":""}')"
+	ctx_resp="$(mcpwp_get "site-context" 2>/dev/null || echo '{"context":""}')"
 	printf '%s' "$ctx_resp" > "$DIR/site-context.json"
 
 	# 5. Write manifest
@@ -308,7 +308,7 @@ cmd_push() {
 	echo ""
 	echo "Building target page map..."
 	local target_pages
-	target_pages="$(spai_get "pages?per_page=100&status=any")"
+	target_pages="$(mcpwp_get "pages?per_page=100&status=any")"
 
 	# Parse into slug=id pairs
 	declare -A SLUG_MAP
@@ -374,7 +374,7 @@ import json
 print(json.dumps({'title': $(python3 -c "import json; print(json.dumps(json.load(open('$page_file')).get('title','')))"
 ), 'slug': '$slug', 'status': 'draft'}))")"
 			local create_resp
-			create_resp="$(spai_post "pages" "$create_body")"
+			create_resp="$(mcpwp_post "pages" "$create_body")"
 			page_id="$(printf '%s' "$create_resp" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("id",0))')"
 			SLUG_MAP["$slug"]="$page_id"
 			created=$((created + 1))
@@ -391,7 +391,7 @@ print(json.dumps({
     'template': d.get('template','default'),
     'menu_order': d.get('menu_order',0),
 }))")"
-		spai_put "pages/$page_id" "$update_body" > /dev/null
+		mcpwp_put "pages/$page_id" "$update_body" > /dev/null
 		[[ "$action" == "update" ]] && updated=$((updated + 1))
 
 		# Push Elementor data via base64
@@ -410,7 +410,7 @@ else:
 
 			if [[ "$el_body" != "{}" ]]; then
 				local el_resp
-				el_resp="$(spai_post "elementor/$page_id" "$el_body")"
+				el_resp="$(mcpwp_post "elementor/$page_id" "$el_body")"
 
 				local saved submitted
 				saved="$(printf '%s' "$el_resp" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("sections_saved","?"))' 2>/dev/null || echo "?")"
@@ -441,7 +441,7 @@ else:
 import json
 d = json.load(open('$DIR/custom-css.json'))
 print(json.dumps({'css': d.get('css','')}))")"
-			spai_put "custom-css" "$css_body" > /dev/null
+			mcpwp_put "custom-css" "$css_body" > /dev/null
 			echo "  Updated"
 		fi
 	fi
@@ -458,7 +458,7 @@ print(json.dumps({'css': d.get('css','')}))")"
 import json
 d = json.load(open('$DIR/site-context.json'))
 print(json.dumps({'context': d.get('context','')}))")"
-			spai_put "site-context" "$ctx_body" > /dev/null 2>/dev/null || true
+			mcpwp_put "site-context" "$ctx_body" > /dev/null 2>/dev/null || true
 			echo "  Updated"
 		fi
 	fi
@@ -491,7 +491,7 @@ import json
 m = {$(for slug in "${!SLUG_MAP[@]}"; do printf "'%s': %s, " "$slug" "${SLUG_MAP[$slug]}"; done)}
 print(json.dumps(m))
 ")")"
-			spai_put "options" "$options_body" > /dev/null
+			mcpwp_put "options" "$options_body" > /dev/null
 			echo "  Updated (homepage: $(python3 -c "import json; print(json.load(open('$DIR/options.json')).get('page_on_front_slug','none'))"))"
 		fi
 	fi
@@ -518,17 +518,17 @@ cmd_verify() {
 
 	echo ""
 	echo "Verifying read scope..."
-	spai_get "pages?per_page=1" > /dev/null
+	mcpwp_get "pages?per_page=1" > /dev/null
 	echo "  OK: can read pages"
 
 	echo ""
 	echo "Verifying options scope..."
-	spai_get "options" > /dev/null
+	mcpwp_get "options" > /dev/null
 	echo "  OK: can read options"
 
 	echo ""
 	echo "Verifying custom CSS scope..."
-	spai_get "custom-css" > /dev/null
+	mcpwp_get "custom-css" > /dev/null
 	echo "  OK: can read custom CSS"
 
 	echo ""

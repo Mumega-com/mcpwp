@@ -45,7 +45,7 @@ body:
     id: rest_endpoint
     attributes:
       label: REST endpoint it would call
-      placeholder: "GET /wp-json/site-pilot-ai/v1/posts/{id}/meta"
+      placeholder: "GET /wp-json/mcpwp/v1/posts/{id}/meta"
   - type: dropdown
     id: contribute
     attributes:

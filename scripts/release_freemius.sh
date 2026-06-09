@@ -135,17 +135,17 @@ if [[ "$DRY_RUN" -eq 0 && -z "$TOKEN" ]]; then
 	exit 1
 fi
 
-FREE_MAIN_FILE="site-pilot-ai/site-pilot-ai.php"
-FREE_README_FILE="site-pilot-ai/readme.txt"
-FREE_CHANGELOG_FILE="site-pilot-ai/CHANGELOG.md"
-FREE_FS_INIT_FILE="site-pilot-ai/includes/freemius-init.php"
-FREE_LICENSE_FILE="site-pilot-ai/includes/class-spai-license.php"
+FREE_MAIN_FILE="mcpwp/mcpwp.php"
+FREE_README_FILE="mcpwp/readme.txt"
+FREE_CHANGELOG_FILE="mcpwp/CHANGELOG.md"
+FREE_FS_INIT_FILE="mcpwp/includes/freemius-init.php"
+FREE_LICENSE_FILE="mcpwp/includes/class-mcpwp-license.php"
 
 if [[ "$SKIP_BUMP" -eq 0 ]]; then
 	echo "Bumping plugin versions to $VERSION"
 
 	replace_or_fail "$FREE_MAIN_FILE" "^ \\* Version:[[:space:]]+.*$" " * Version:           $VERSION"
-	replace_or_fail "$FREE_MAIN_FILE" "^define\( 'SPAI_VERSION', '[^']+' \);$" "define( 'SPAI_VERSION', '$VERSION' );"
+	replace_or_fail "$FREE_MAIN_FILE" "^define\( 'MCPWP_VERSION', '[^']+' \);$" "define( 'MCPWP_VERSION', '$VERSION' );"
 	replace_or_fail "$FREE_README_FILE" "^Stable tag: .*$" "Stable tag: $VERSION"
 
 	if ! grep -q "^## \[$VERSION\]" "$FREE_CHANGELOG_FILE"; then
@@ -154,13 +154,13 @@ if [[ "$SKIP_BUMP" -eq 0 ]]; then
 	fi
 fi
 
-FREE_ZIP="site-pilot-ai-$VERSION.zip"
-PREMIUM_ZIP="site-pilot-ai-premium-$VERSION.zip"
+FREE_ZIP="mcpwp-$VERSION.zip"
+PREMIUM_ZIP="mcpwp-premium-$VERSION.zip"
 
 echo "Building zip package"
 (
 	BUILD_DIR="$(mktemp -d)"
-	DISTIGNORE="site-pilot-ai/.distignore"
+	DISTIGNORE="mcpwp/.distignore"
 
 	# Build rsync exclude list from .distignore
 	RSYNC_EXCLUDES=()
@@ -180,9 +180,9 @@ echo "Building zip package"
 	# Always exclude .sh files (test scripts) and hidden files
 	RSYNC_EXCLUDES+=("--exclude=*.sh" "--exclude=.git" "--exclude=.github")
 
-	rsync -a "${RSYNC_EXCLUDES[@]}" "site-pilot-ai/" "$BUILD_DIR/site-pilot-ai/"
+	rsync -a "${RSYNC_EXCLUDES[@]}" "mcpwp/" "$BUILD_DIR/mcpwp/"
 	cd "$BUILD_DIR"
-	zip -qr "$ROOT_DIR/$FREE_ZIP" "site-pilot-ai"
+	zip -qr "$ROOT_DIR/$FREE_ZIP" "mcpwp"
 	rm -rf "$BUILD_DIR" || true
 )
 
@@ -190,9 +190,9 @@ if [[ "$UPLOAD_PREMIUM_ZIP" -eq 1 ]]; then
 	echo "Building premium zip package"
 	(
 		BUILD_DIR="$(mktemp -d)"
-		cp -R "site-pilot-ai" "$BUILD_DIR/site-pilot-ai-premium"
+		cp -R "mcpwp" "$BUILD_DIR/mcpwp-premium"
 		cd "$BUILD_DIR"
-		zip -qr "$ROOT_DIR/$PREMIUM_ZIP" "site-pilot-ai-premium"
+		zip -qr "$ROOT_DIR/$PREMIUM_ZIP" "mcpwp-premium"
 		rm -rf "$BUILD_DIR" || true
 	)
 fi

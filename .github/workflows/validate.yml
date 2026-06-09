@@ -5,11 +5,11 @@ on:
     branches:
       - main
     paths:
-      - "site-pilot-ai/**"
+      - "mcpwp/**"
       - ".github/workflows/validate.yml"
 
 env:
-  PLUGIN_SLUG: site-pilot-ai
+  PLUGIN_SLUG: mcpwp
 
 jobs:
   validate:
@@ -35,7 +35,7 @@ jobs:
       - name: PHP Syntax Check
         run: |
           echo "Checking PHP syntax for all .php files..."
-          find site-pilot-ai -name "*.php" -exec php -l {} \; | tee syntax-check.log
+          find mcpwp -name "*.php" -exec php -l {} \; | tee syntax-check.log
 
           if grep -q "Parse error" syntax-check.log; then
             echo "::error::PHP syntax errors found!"
@@ -49,23 +49,23 @@ jobs:
           echo "Checking plugin headers..."
 
           # Check Plugin Name
-          if ! grep -q "Plugin Name:" site-pilot-ai/site-pilot-ai.php; then
+          if ! grep -q "Plugin Name:" mcpwp/mcpwp.php; then
             echo "::error::Plugin Name header not found"
             exit 1
           fi
 
           # Check Version
-          VERSION=$(grep -E "^\s+\* Version:\s+" site-pilot-ai/site-pilot-ai.php | sed -E 's/.*Version:\s+//' | tr -d '[:space:]')
+          VERSION=$(grep -E "^\s+\* Version:\s+" mcpwp/mcpwp.php | sed -E 's/.*Version:\s+//' | tr -d '[:space:]')
           if [ -z "${VERSION}" ]; then
             echo "::error::Version header not found or empty"
             exit 1
           fi
           echo "✓ Version: ${VERSION}"
 
-          # Check SPAI_VERSION constant
-          DEFINE_VERSION=$(grep -E "^define\( 'SPAI_VERSION'" site-pilot-ai/site-pilot-ai.php | sed -E "s/.*'([0-9.]+)'.*/\1/")
+          # Check MCPWP_VERSION constant
+          DEFINE_VERSION=$(grep -E "^define\( 'MCPWP_VERSION'" mcpwp/mcpwp.php | sed -E "s/.*'([0-9.]+)'.*/\1/")
           if [ -z "${DEFINE_VERSION}" ]; then
-            echo "::error::SPAI_VERSION constant not found"
+            echo "::error::MCPWP_VERSION constant not found"
             exit 1
           fi
 
@@ -78,7 +78,7 @@ jobs:
 
           # Check required headers
           for HEADER in "Description:" "Author:" "Requires at least:" "Requires PHP:" "License:"; do
-            if ! grep -q "${HEADER}" site-pilot-ai/site-pilot-ai.php; then
+            if ! grep -q "${HEADER}" mcpwp/mcpwp.php; then
               echo "::error::Required header '${HEADER}' not found"
               exit 1
             fi
@@ -90,9 +90,9 @@ jobs:
         run: |
           echo "Checking release metadata consistency..."
 
-          HEADER_VERSION=$(grep -E "^\s+\* Version:\s+" site-pilot-ai/site-pilot-ai.php | sed -E 's/.*Version:\s+//' | tr -d '[:space:]')
-          DEFINE_VERSION=$(grep -E "^define\( 'SPAI_VERSION'" site-pilot-ai/site-pilot-ai.php | sed -E "s/.*'([0-9.]+)'.*/\1/")
-          README_VERSION=$(grep -m1 '^Stable tag:' site-pilot-ai/readme.txt | sed 's/Stable tag:[[:space:]]*//')
+          HEADER_VERSION=$(grep -E "^\s+\* Version:\s+" mcpwp/mcpwp.php | sed -E 's/.*Version:\s+//' | tr -d '[:space:]')
+          DEFINE_VERSION=$(grep -E "^define\( 'MCPWP_VERSION'" mcpwp/mcpwp.php | sed -E "s/.*'([0-9.]+)'.*/\1/")
+          README_VERSION=$(grep -m1 '^Stable tag:' mcpwp/readme.txt | sed 's/Stable tag:[[:space:]]*//')
           MANIFEST_VERSION=$(python3 -c 'import json; print(json.load(open("version.json"))["version"])')
           MANIFEST_URL=$(python3 -c 'import json; print(json.load(open("version.json"))["download_url"])')
 
@@ -103,7 +103,7 @@ jobs:
           echo "Download URL:     ${MANIFEST_URL}"
 
           if [ "${HEADER_VERSION}" != "${DEFINE_VERSION}" ] || [ "${HEADER_VERSION}" != "${README_VERSION}" ] || [ "${HEADER_VERSION}" != "${MANIFEST_VERSION}" ]; then
-            echo "::error::Release metadata mismatch across plugin header, SPAI_VERSION, readme Stable tag, and version.json"
+            echo "::error::Release metadata mismatch across plugin header, MCPWP_VERSION, readme Stable tag, and version.json"
             exit 1
           fi
 
@@ -119,12 +119,12 @@ jobs:
           echo "Checking required files..."
 
           REQUIRED_FILES=(
-            "site-pilot-ai/site-pilot-ai.php"
-            "site-pilot-ai/index.php"
-            "site-pilot-ai/readme.txt"
-            "site-pilot-ai/includes/api/class-spai-rest-mcp.php"
-            "site-pilot-ai/includes/core/class-spai-core.php"
-            "site-pilot-ai/includes/admin/class-spai-admin.php"
+            "mcpwp/mcpwp.php"
+            "mcpwp/index.php"
+            "mcpwp/readme.txt"
+            "mcpwp/includes/api/class-mcpwp-rest-mcp.php"
+            "mcpwp/includes/core/class-mcpwp-core.php"
+            "mcpwp/includes/admin/class-mcpwp-admin.php"
           )
 
           MISSING_FILES=()
@@ -150,13 +150,13 @@ jobs:
           echo "Checking directory structure..."
 
           REQUIRED_DIRS=(
-            "site-pilot-ai/includes"
-            "site-pilot-ai/includes/api"
-            "site-pilot-ai/includes/core"
-            "site-pilot-ai/includes/admin"
-            "site-pilot-ai/includes/traits"
-            "site-pilot-ai/admin"
-            "site-pilot-ai/languages"
+            "mcpwp/includes"
+            "mcpwp/includes/api"
+            "mcpwp/includes/core"
+            "mcpwp/includes/admin"
+            "mcpwp/includes/traits"
+            "mcpwp/admin"
+            "mcpwp/languages"
           )
 
           MISSING_DIRS=()
@@ -182,7 +182,7 @@ jobs:
           echo "Checking for common security issues..."
 
           # Check for direct file access protection
-          FILES_WITHOUT_PROTECTION=$(find site-pilot-ai -name "*.php" -type f -exec grep -L "ABSPATH" {} \; | grep -v "vendor/" | grep -v "freemius/" || true)
+          FILES_WITHOUT_PROTECTION=$(find mcpwp -name "*.php" -type f -exec grep -L "ABSPATH" {} \; | grep -v "vendor/" | grep -v "freemius/" || true)
 
           if [ -n "${FILES_WITHOUT_PROTECTION}" ]; then
             echo "::warning::The following PHP files may be missing ABSPATH protection:"
@@ -192,7 +192,7 @@ jobs:
           fi
 
           # Check for eval() usage
-          EVAL_USAGE=$(find site-pilot-ai -name "*.php" -type f -exec grep -n "eval(" {} \; | grep -v "vendor/" | grep -v "freemius/" || true)
+          EVAL_USAGE=$(find mcpwp -name "*.php" -type f -exec grep -n "eval(" {} \; | grep -v "vendor/" | grep -v "freemius/" || true)
 
           if [ -n "${EVAL_USAGE}" ]; then
             echo "::error::Found eval() usage (security risk):"
@@ -205,15 +205,15 @@ jobs:
           echo "✓ Basic security checks passed"
 
       - name: Validate Pro Structure
-        if: hashFiles('site-pilot-ai/includes/pro') != ''
+        if: hashFiles('mcpwp/includes/pro') != ''
         run: |
           echo "Checking Pro structure..."
 
-          if [ -d "site-pilot-ai/includes/pro" ]; then
+          if [ -d "mcpwp/includes/pro" ]; then
             echo "✓ Pro directory exists"
 
             # Check for pro bootstrap
-            if [ ! -f "site-pilot-ai/includes/pro/class-spai-pro-bootstrap.php" ]; then
+            if [ ! -f "mcpwp/includes/pro/class-mcpwp-pro-bootstrap.php" ]; then
               echo "::error::Pro bootstrap file missing"
               exit 1
             fi

@@ -5,9 +5,9 @@
 
 set -euo pipefail
 
-PLUGIN_DIR="$(cd "$(dirname "$0")/.." && pwd)/site-pilot-ai"
+PLUGIN_DIR="$(cd "$(dirname "$0")/.." && pwd)/mcpwp"
 PLUGIN_SLUG="mcpwp"
-VERSION="$(grep "^ \* Version:" "$PLUGIN_DIR/site-pilot-ai.php" | awk '{print $3}')"
+VERSION="$(grep "^ \* Version:" "$PLUGIN_DIR/mcpwp.php" | awk '{print $3}')"
 BUILD_DIR="/tmp/${PLUGIN_SLUG}-wporg-build"
 OUT_ZIP="/tmp/${PLUGIN_SLUG}-wporg-${VERSION}.zip"
 DRY_RUN=0
@@ -51,8 +51,8 @@ echo "File count: $(find "$BUILD_DIR/$PLUGIN_SLUG" -type f | wc -l)"
 echo "Size: $(du -sh "$BUILD_DIR/$PLUGIN_SLUG" | cut -f1)"
 
 # Verify version consistency
-HEADER_VER="$(grep "^ \* Version:" "$BUILD_DIR/$PLUGIN_SLUG/site-pilot-ai.php" | awk '{print $3}')"
-CONST_VER="$(grep "define( 'SPAI_VERSION'" "$BUILD_DIR/$PLUGIN_SLUG/site-pilot-ai.php" | grep -o "'[0-9.]*'" | tr -d "'")"
+HEADER_VER="$(grep "^ \* Version:" "$BUILD_DIR/$PLUGIN_SLUG/mcpwp.php" | awk '{print $3}')"
+CONST_VER="$(grep "define( 'MCPWP_VERSION'" "$BUILD_DIR/$PLUGIN_SLUG/mcpwp.php" | grep -o "'[0-9.]*'" | tr -d "'")"
 README_VER="$(grep "^Stable tag:" "$BUILD_DIR/$PLUGIN_SLUG/readme.txt" | awk '{print $3}')"
 
 echo ""

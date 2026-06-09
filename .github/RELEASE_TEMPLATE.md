@@ -32,8 +32,8 @@ Example:
 - Corrected edge case in feature W
 
 #### API Changes
-- Added endpoint: `POST /wp-json/site-pilot-ai/v1/new-endpoint`
-- Modified endpoint: `GET /wp-json/site-pilot-ai/v1/existing-endpoint` now accepts `param_name`
+- Added endpoint: `POST /wp-json/mcpwp/v1/new-endpoint`
+- Modified endpoint: `GET /wp-json/mcpwp/v1/existing-endpoint` now accepts `param_name`
 - Deprecated: `old_parameter` (will be removed in v2.0.0)
 
 #### Licensed Features
@@ -60,7 +60,7 @@ Example:
 ### Installation
 
 #### WP.org-Compatible Version
-1. Download `site-pilot-ai-X.X.X-wporg.zip`
+1. Download `mcpwp-X.X.X-wporg.zip`
 2. Go to WordPress Admin > Plugins > Add New > Upload
 3. Upload the zip file and activate
 4. Configure API keys in Mumega MCP > Setup
@@ -70,7 +70,7 @@ Example:
 - Basic MCP endpoints only
 
 #### Paid/Self-Hosted Version
-1. Download `site-pilot-ai-X.X.X.zip`
+1. Download `mcpwp-X.X.X.zip`
 2. Ensure you have a valid Freemius license or trial
 3. Go to WordPress Admin > Plugins > Add New > Upload
 4. Upload the zip file and activate
@@ -177,10 +177,10 @@ This is a backward-compatible release. All existing API endpoints continue to wo
 ### Installation
 
 #### WP.org-Compatible Version
-Download `site-pilot-ai-1.0.44-wporg.zip` and install via WordPress Admin > Plugins > Add New > Upload.
+Download `mcpwp-1.0.44-wporg.zip` and install via WordPress Admin > Plugins > Add New > Upload.
 
 #### Paid/Self-Hosted Version
-Download `site-pilot-ai-1.0.44.zip`. Requires valid Freemius license for paid features.
+Download `mcpwp-1.0.44.zip`. Requires valid Freemius license for paid features.
 
 ### Requirements
 
