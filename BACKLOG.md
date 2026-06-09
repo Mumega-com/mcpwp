@@ -183,6 +183,10 @@ OAuth 2.1 + PKCE is a significant build. Needs Opus-level spec session before im
 | T121 | #443 | high | PHPUnit tests — zero PHP test coverage, silent deploy failures |
 | ~~T122~~ | #444 | high | ~~Rewrite 120+ tool descriptions for BM25/vector accuracy~~ | ✅ PR #446 |
 | ~~T123~~ | #445 | launch-blocker | ~~Update openapi-chatgpt.yaml to v2.8.49~~ | ✅ PR #446 (v2.8.50) |
+| T124 | — | medium | `mcpwp:dev` skill — agent onboarding for plugin dev: add-a-tool pattern, version bump 3-file rule, local test stack, CI, `spai_register_tools` usage |
+| T125 | — | medium | Update `mumcp:tools` skill — stale at 239 tools, missing custom tool registry, missing new endpoints |
+| T126 | — | high | **Rebrand: `spai_` → `mcpwp_`, REST namespace `site-pilot-ai/v1` → `mcpwp/v1`** — breaking change, v3.0, deprecation shims required. See architecture note below. |
+| T127 | — | high | **Microkernel refactor** — dissolve Spai_MCP_Free_Tools/Pro_Tools class hierarchy; each tool category becomes a self-registering module via `mcpwp_register_tools`. See architecture note below. |
 
 ---
 
@@ -202,6 +206,65 @@ OAuth 2.1 + PKCE is a significant build. Needs Opus-level spec session before im
 - ClawHub skill (`integrations/clawhub/SKILL.md`)
 - Hermes integration (`integrations/hermes/`)
 - GH label taxonomy + 60+ issues filed
+
+---
+
+## Architecture Notes
+
+### T126 — Rebrand (`spai_` → `mcpwp_`)
+
+Every public surface uses the wrong prefix today:
+- WP option keys: `spai_api_keys`, `spai_settings`, `spai_site_uuid`, …
+- Hook names: `spai_tool_called`, `spai_register_rest_routes`, `spai_register_tools`, …
+- REST namespace: `site-pilot-ai/v1` (should be `mcpwp/v1`)
+- Class names: `Spai_*` throughout
+- MCP tool names: `wp_*` (these are fine — keep)
+
+**Breaking change scope:** Any site with custom hooks on `spai_*` or hitting `site-pilot-ai/v1` directly breaks. Must ship with:
+1. Deprecated aliases for all old option keys (copy on read, write new)
+2. Old REST namespace forwarded to new for one major version
+3. `spai_tool_called` → fires both old + new name during transition
+
+**When:** v3.0, after WP.org submission. Do not do before launch — WP.org review + existing installs.
+
+### T127 — Microkernel Refactor
+
+Current structure: two monolithic classes (`Spai_MCP_Free_Tools`, `Spai_MCP_Pro_Tools`) each 2000+ lines, extending a base registry. All 250+ tools live in two files.
+
+**Target structure (microkernel):**
+```
+includes/
+  kernel/
+    class-mcpwp-kernel.php        # bootstrap, hook registry, dispatch
+    class-mcpwp-tool-dispatch.php # MCP tool routing (replaces class-spai-rest-mcp.php core)
+  modules/
+    pages/       module.php       # registers wp_create_page, wp_update_page, …
+    elementor/   module.php       # registers wp_get_elementor, wp_set_elementor, …
+    media/       module.php
+    seo/         module.php
+    memory/      module.php
+    blueprints/  module.php
+    …
+  api/           (unchanged — REST controllers stay)
+```
+
+Each `module.php`:
+```php
+add_filter('mcpwp_register_tools', function($tools) {
+    $tools[] = [ 'name' => 'wp_create_page', ... ];
+    return $tools;
+});
+```
+
+**Result:**
+- T120 (split files) becomes the first migration step
+- Free/Pro split is a capability filter on the module, not a class hierarchy
+- Third-party plugins (Digid, WooCommerce ext) use exact same pattern as built-ins — no special case
+- Contributors can add a tool by editing one focused module file
+- Modules are independently testable
+
+**Dependency:** T126 (rebrand) should ship same release — do both as v3.0.
+**Spec:** Needs Opus session before implementation. Not mechanical work.
 
 ---
 
