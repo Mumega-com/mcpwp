@@ -47,6 +47,13 @@ if ( isset( $new_key ) && $new_key ) {
 $role_definitions = Spai_Admin::get_role_definitions();
 $all_cat_labels   = Spai_Admin::get_all_tool_category_labels();
 
+// Onboarding checklist state.
+$onboard_key_done  = ! empty( $stored_key_hash );
+$onboard_conn_done = ! empty( $last_activity_time );
+$onboard_tool_done = class_exists( 'Spai_Action_Log' )
+	&& ( Spai_Action_Log::list_entries( array( 'limit' => 1 ) )['total'] ?? 0 ) > 0;
+$onboard_all_done  = $onboard_key_done && $onboard_conn_done && $onboard_tool_done;
+
 // Role badge colours.
 $role_colors = array(
 	'admin'    => '#d63638',
@@ -123,6 +130,48 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 	<?php settings_errors( 'spai_messages' ); ?>
 
 	<div class="spai-setup-page">
+
+		<?php if ( ! $onboard_all_done ) : ?>
+		<!-- ============================= ONBOARDING CHECKLIST ============================= -->
+		<div class="spai-card">
+			<h2>
+				<span class="dashicons dashicons-yes-alt"></span>
+				<?php esc_html_e( 'Getting Started', 'mumega-mcp' ); ?>
+			</h2>
+			<p class="description">
+				<?php esc_html_e( 'Complete these three steps to connect your first AI client.', 'mumega-mcp' ); ?>
+			</p>
+			<div class="spai-onboarding-checklist">
+				<div class="spai-onboarding-step">
+					<span class="spai-onboarding-step__status <?php echo $onboard_key_done ? 'is-done' : 'is-open'; ?>">
+						<?php echo $onboard_key_done ? esc_html__( 'Done', 'mumega-mcp' ) : esc_html__( 'To do', 'mumega-mcp' ); ?>
+					</span>
+					<div class="spai-onboarding-step__body">
+						<strong><?php esc_html_e( 'Generate an API key', 'mumega-mcp' ); ?></strong>
+						<p class="description"><?php esc_html_e( 'Create your first key in the "Your API Key" section below.', 'mumega-mcp' ); ?></p>
+					</div>
+				</div>
+				<div class="spai-onboarding-step">
+					<span class="spai-onboarding-step__status <?php echo $onboard_conn_done ? 'is-done' : 'is-open'; ?>">
+						<?php echo $onboard_conn_done ? esc_html__( 'Done', 'mumega-mcp' ) : esc_html__( 'To do', 'mumega-mcp' ); ?>
+					</span>
+					<div class="spai-onboarding-step__body">
+						<strong><?php esc_html_e( 'Make your first connection', 'mumega-mcp' ); ?></strong>
+						<p class="description"><?php esc_html_e( 'Paste the config snippet into your AI client and send a request. The "Test Connection" button below can verify connectivity.', 'mumega-mcp' ); ?></p>
+					</div>
+				</div>
+				<div class="spai-onboarding-step">
+					<span class="spai-onboarding-step__status <?php echo $onboard_tool_done ? 'is-done' : 'is-open'; ?>">
+						<?php echo $onboard_tool_done ? esc_html__( 'Done', 'mumega-mcp' ) : esc_html__( 'To do', 'mumega-mcp' ); ?>
+					</span>
+					<div class="spai-onboarding-step__body">
+						<strong><?php esc_html_e( 'Run your first AI tool call', 'mumega-mcp' ); ?></strong>
+						<p class="description"><?php esc_html_e( 'Ask your AI client to list pages or read site info. The first write-tool action will appear in the AI Action Log.', 'mumega-mcp' ); ?></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php endif; ?>
 
 		<!-- ============================= SECTION 1: YOUR API KEY ============================= -->
 		<div class="spai-card">
@@ -380,7 +429,13 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				<?php esc_html_e( 'Connect Your AI', 'mumega-mcp' ); ?>
 			</h2>
 			<p class="description">
-				<?php esc_html_e( 'Copy the config for your AI client and paste it in. Replace YOUR_API_KEY with the key from above.', 'mumega-mcp' ); ?>
+				<?php
+				if ( $is_hidden ) {
+					esc_html_e( 'Your key is saved. Generate a new one above to auto-fill this config.', 'mumega-mcp' );
+				} else {
+					esc_html_e( 'Copy the config for your AI client and paste it in. Your API key has been pre-filled below.', 'mumega-mcp' );
+				}
+				?>
 			</p>
 
 			<nav class="nav-tab-wrapper spai-tabs spai-tabs--inner" id="spai-connect-tabs">
@@ -592,8 +647,9 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 					</button>
 				</form>
 				<p class="description" style="margin-top:8px;">
-					<?php esc_html_e( 'Manifest:', 'mumega-mcp' ); ?>
+					<?php esc_html_e( 'Update channel:', 'mumega-mcp' ); ?>
 					<code><?php echo esc_html( $update_channel['manifest_url'] ); ?></code>
+					<br /><span class="description"><?php esc_html_e( 'This is the URL MCPWP checks for new versions. It should point to the mumega.com manifest.', 'mumega-mcp' ); ?></span>
 				</p>
 			</div>
 		</div>

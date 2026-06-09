@@ -25,6 +25,16 @@
 
 ---
 
+## Current Sprint — Sprint 11: Admin UI Polish + Conversion
+
+Agent mandate (refocused 2026-06-09): **MCPWP repo health + GTM enablement + pricing.** Not tenant ops, not mupot infra. Build reusable product capability; keep the repo clean; make go-to-market easy.
+
+- **Admin UI audit → 10 issues (#458–#467)**, milestone "Sprint 11 — Admin UI Polish + Conversion". Two Sonnet audits found: solid visual base, but conversion-path gaps (no onboarding checklist, key not pre-filled into connect snippet, chat silently degrades w/o AI provider), WCAG AA toggle-focus fail, partial design-token coverage (179 raw hex), inline-JS sprawl, a dead 104KB partial.
+- **Also this phase:** pricing-tier spec (closes T87 with real token-economics reasoning), directory-listing hygiene (LobeHub/mcp.so/Smithery — manifest now synced to 270+/v1.2.0), mcpwp.net agent onboarding (needs a scoped API key from Hadi).
+- Tracked as GH issues (`admin-ui`/`status:ready`); roll up via `sprint-stats` at close.
+
+---
+
 ## Milestone Map — MVP → Full (traced to major versions)
 
 ```

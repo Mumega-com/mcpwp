@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.52
+Stable tag: 2.8.53
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,12 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.53 =
+* New: Setup onboarding checklist — a 3-step guide (generate key → connect → first tool call) so new users always know the next step.
+* Improvement: Chat shows a "connect OpenAI or Gemini" notice when no AI provider is configured, instead of silently degrading.
+* Accessibility: tool toggles now show a visible keyboard focus ring (WCAG 2.1 AA).
+* Polish: clearer "Update channel" labeling on Setup; removed a large stale admin template; design-system font-weight and Action Log style cleanups.
 
 = 2.8.52 =
 * New: wp_keyword_research — keyless keyword research via Google Suggest. Expands a seed phrase into related keywords and grouped questions (long-tail terms, content ideas, SEO topic discovery). No API key required.

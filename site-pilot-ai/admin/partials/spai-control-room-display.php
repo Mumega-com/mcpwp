@@ -408,9 +408,9 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 	$action_log_entries = is_array( isset( $action_log_data['entries'] ) ? $action_log_data['entries'] : null ) ? $action_log_data['entries'] : array();
 	$action_log_total   = (int) ( isset( $action_log_data['total'] ) ? $action_log_data['total'] : 0 );
 	?>
-	<div class="spai-card" style="margin-top:1.5rem">
-		<div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1rem 0">
-			<h2 style="margin:0">
+	<div class="spai-card spai-action-log">
+		<div class="spai-action-log__header">
+			<h2>
 				<span class="dashicons dashicons-backup"></span>
 				<?php esc_html_e( 'AI Action Log', 'mumega-mcp' ); ?>
 			</h2>
@@ -421,12 +421,12 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		</div>
 
 		<?php if ( empty( $action_log_entries ) ) : ?>
-			<div class="spai-control-empty is-muted" style="padding:1.5rem">
+			<div class="spai-control-empty is-muted spai-action-log__empty">
 				<span class="dashicons dashicons-backup"></span>
 				<p><?php esc_html_e( 'No write-tool actions logged yet. Actions appear here the first time an AI agent calls a write tool (update, create, delete, set, etc.).', 'mumega-mcp' ); ?></p>
 			</div>
 		<?php else : ?>
-			<p class="description" style="padding:.5rem 1rem">
+			<p class="description spai-action-log__count">
 				<?php
 				printf(
 					/* translators: 1: shown count, 2: total */
@@ -436,7 +436,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 				);
 				?>
 			</p>
-			<table class="widefat striped" style="border-top:1px solid #ddd">
+			<table class="widefat striped spai-action-log__table">
 				<thead>
 					<tr>
 						<th><?php esc_html_e( 'Tool', 'mumega-mcp' ); ?></th>
@@ -463,12 +463,12 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 						$le_ts        = isset( $log_entry['timestamp'] ) ? $log_entry['timestamp'] : '';
 						?>
 						<tr>
-							<td><code style="font-size:11px"><?php echo esc_html( (string) ( isset( $log_entry['tool_name'] ) ? $log_entry['tool_name'] : '' ) ); ?></code></td>
-							<td style="font-size:12px"><?php echo esc_html( $le_resource ? $le_resource : '—' ); ?></td>
-							<td style="font-size:12px">
+							<td class="spai-action-log__td-code"><code><?php echo esc_html( (string) ( isset( $log_entry['tool_name'] ) ? $log_entry['tool_name'] : '' ) ); ?></code></td>
+							<td class="spai-action-log__td-sm"><?php echo esc_html( $le_resource ? $le_resource : '—' ); ?></td>
+							<td class="spai-action-log__td-sm">
 								<?php echo esc_html( $le_ts ? human_time_diff( (int) strtotime( $le_ts ) ) . ' ago' : '—' ); ?>
 							</td>
-							<td style="font-size:12px"><?php echo esc_html( isset( $log_entry['duration_ms'] ) ? (string) $log_entry['duration_ms'] : '—' ); ?></td>
+							<td class="spai-action-log__td-sm"><?php echo esc_html( isset( $log_entry['duration_ms'] ) ? (string) $log_entry['duration_ms'] : '—' ); ?></td>
 							<td>
 								<?php if ( $le_success ) : ?>
 									<span class="spai-badge is-good"><?php esc_html_e( 'OK', 'mumega-mcp' ); ?></span>
@@ -481,7 +481,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 							</td>
 							<td>
 								<?php if ( $le_rollback && ! $le_rolled && $le_success ) : ?>
-									<form method="post" style="display:inline">
+									<form method="post" class="spai-inline-action">
 										<?php wp_nonce_field( 'spai_control_room_actions', 'spai_control_room_nonce' ); ?>
 										<input type="hidden" name="spai_control_room_action" value="rollback_action_log" />
 										<input type="hidden" name="action_log_id" value="<?php echo $le_log_id; ?>" />
@@ -491,7 +491,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 										</button>
 									</form>
 								<?php else : ?>
-									<span style="color:#999">—</span>
+									<span class="spai-action-log__muted">—</span>
 								<?php endif; ?>
 							</td>
 						</tr>

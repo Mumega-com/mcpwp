@@ -35,6 +35,22 @@ $model_label = $model_labels[ $chat_model ] ?? 'Workers AI';
 	</h1>
 	<p class="description spai-page-intro"><?php esc_html_e( 'Ask your site for help, then keep meaningful changes inside the MCPWP approval and audit loop.', 'mumega-mcp' ); ?></p>
 
+	<?php if ( ! $has_openai && ! $has_gemini ) : ?>
+	<div class="spai-chat-safety" style="background:#fffbeb;border-bottom:1px solid #f6c90e;color:#92400e;">
+		<span class="dashicons dashicons-info-outline"></span>
+		<?php
+		printf(
+			/* translators: %s: link to integrations page */
+			wp_kses(
+				__( 'For the best results, <a href="%s">connect OpenAI or Gemini</a>.', 'mumega-mcp' ),
+				array( 'a' => array( 'href' => array() ) )
+			),
+			esc_url( admin_url( 'admin.php?page=' . Spai_Integrations_Admin::PAGE_SLUG ) )
+		);
+		?>
+	</div>
+	<?php endif; ?>
+
 	<div id="spai-chat-container" class="spai-chat-panel">
 		<div class="spai-chat-toolbar">
 			<div class="spai-chat-safety">
@@ -70,7 +86,7 @@ $model_label = $model_labels[ $chat_model ] ?? 'Workers AI';
 		</div>
 
 		<div class="spai-chat-composer">
-			<input type="text" id="spai-chat-input" placeholder="<?php esc_attr_e( 'Ask MCPWP what to inspect or prepare...', 'mumega-mcp' ); ?>" />
+			<input type="text" id="spai-chat-input" placeholder="<?php esc_attr_e( 'Try: \'Build a services page\' or \'List recent drafts\'...', 'mumega-mcp' ); ?>" />
 			<button type="button" id="spai-chat-send" class="button button-primary">
 				<?php esc_html_e( 'Send', 'mumega-mcp' ); ?>
 			</button>

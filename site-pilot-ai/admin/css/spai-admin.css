@@ -40,7 +40,7 @@
 	align-items: center;
 	gap: 12px;
 	font-size: 28px;
-	font-weight: 750;
+	font-weight: 700;
 	letter-spacing: -0.03em;
 	margin: 12px 0 18px;
 	padding: 22px 24px;
@@ -67,7 +67,7 @@
 .spai-wrap > h1:not(.spai-header) {
 	color: var(--spai-ink);
 	font-size: 28px;
-	font-weight: 750;
+	font-weight: 700;
 	letter-spacing: -0.03em;
 	margin: 18px 0 8px;
 }
@@ -116,7 +116,7 @@
 	align-items: center;
 	gap: 8px;
 	color: var(--spai-ink);
-	font-weight: 750;
+	font-weight: 700;
 	letter-spacing: -0.02em;
 }
 
@@ -1235,7 +1235,7 @@
 .spai-integration-card h3 {
 	color: var(--spai-ink);
 	font-size: 15px;
-	font-weight: 750;
+	font-weight: 700;
 	line-height: 1.25;
 	margin: 0;
 }
@@ -1253,7 +1253,7 @@
 .spai-integration-status {
 	color: var(--spai-slate-500);
 	font-size: 12px;
-	font-weight: 650;
+	font-weight: 600;
 }
 
 .spai-toggle {
@@ -1291,6 +1291,11 @@
 	width: 18px;
 }
 
+.spai-toggle input:focus-visible ~ .spai-toggle-track {
+	outline: 2px solid var(--spai-blue);
+	outline-offset: 2px;
+}
+
 .spai-category-toggle:checked + .spai-toggle-track {
 	background: var(--spai-green);
 }
@@ -1303,7 +1308,7 @@
 	border-radius: 999px;
 	display: inline-block;
 	font-size: 11px;
-	font-weight: 750;
+	font-weight: 700;
 	letter-spacing: 0.02em;
 	line-height: 1;
 	padding: 6px 9px;
@@ -1356,7 +1361,7 @@
 	display: flex;
 	gap: 8px;
 	font-size: 13px;
-	font-weight: 650;
+	font-weight: 600;
 	padding: 12px 16px;
 }
 
@@ -1931,4 +1936,44 @@
 
 .spai-data-table {
 	max-width: 700px;
+}
+
+/* AI Action Log card */
+.spai-action-log {
+	margin-top: 1.5rem;
+}
+
+.spai-action-log__header {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	padding: 1rem 1rem 0;
+}
+
+.spai-action-log__header h2 {
+	margin: 0;
+}
+
+.spai-action-log__empty {
+	padding: 1.5rem;
+}
+
+.spai-action-log__count {
+	padding: .5rem 1rem;
+}
+
+.spai-action-log__table {
+	border-top: 1px solid #ddd;
+}
+
+.spai-action-log__td-sm {
+	font-size: 12px;
+}
+
+.spai-action-log__td-code code {
+	font-size: 11px;
+}
+
+.spai-action-log__muted {
+	color: #999;
 }
