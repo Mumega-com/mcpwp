@@ -13,11 +13,12 @@
 ## Milestone Map
 
 ```
-M1: Launch-Ready ← YOU ARE HERE
+M1: Launch-Ready          ← AGENT DONE — awaiting Hadi gates
 M2: Multi-Client Distribution (v2.9)
 M3: Auth Layer (v3.0)
 M4: Hosted Agent + Resold Compute (v3.2)
-M5: Content Engine + Chat Platforms (v4.0)
+M5: Content Engine (v4.0)
+M6: Platform Foundations (v5.0) — rebrand + microkernel
 ```
 
 ---
@@ -175,6 +176,22 @@ OAuth 2.1 + PKCE is a significant build. Needs Opus-level spec session before im
 
 ---
 
+## M6 — Platform Foundations (v5.0)
+
+### Depends on: M5 shipped, community stable
+
+Clean-slate internals. One breaking release, done right.
+
+| # | GH | Task | Notes |
+|---|-----|------|-------|
+| T126 | — | Rebrand: `spai_` → `mcpwp_`, REST `site-pilot-ai/v1` → `mcpwp/v1` | Deprecation shims for one major version. **Spec: Opus** |
+| T127 | — | Microkernel refactor: dissolve monolithic tool classes into self-registering modules | Each tool category = one `module.php` using `mcpwp_register_tools`. Same pattern as third-party. **Spec: Opus** |
+| T128 | — | `mcpwp:dev` skill (updated post-microkernel) | Agent onboarding for the new module pattern |
+
+**Rule:** T126 + T127 ship together in v5.0. One breaking change window, not two.
+
+---
+
 ## Technical Debt (fix as we go)
 
 | # | GH | Severity | Task |
@@ -185,8 +202,6 @@ OAuth 2.1 + PKCE is a significant build. Needs Opus-level spec session before im
 | ~~T123~~ | #445 | launch-blocker | ~~Update openapi-chatgpt.yaml to v2.8.49~~ | ✅ PR #446 (v2.8.50) |
 | T124 | — | medium | `mcpwp:dev` skill — agent onboarding for plugin dev: add-a-tool pattern, version bump 3-file rule, local test stack, CI, `spai_register_tools` usage |
 | T125 | — | medium | Update `mumcp:tools` skill — stale at 239 tools, missing custom tool registry, missing new endpoints |
-| T126 | — | high | **Rebrand: `spai_` → `mcpwp_`, REST namespace `site-pilot-ai/v1` → `mcpwp/v1`** — breaking change, v3.0, deprecation shims required. See architecture note below. |
-| T127 | — | high | **Microkernel refactor** — dissolve Spai_MCP_Free_Tools/Pro_Tools class hierarchy; each tool category becomes a self-registering module via `mcpwp_register_tools`. See architecture note below. |
 
 ---
 
