@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.51
+Stable tag: 2.8.52
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,9 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.52 =
+* New: wp_keyword_research — keyless keyword research via Google Suggest. Expands a seed phrase into related keywords and grouped questions (long-tail terms, content ideas, SEO topic discovery). No API key required.
 
 = 2.8.51 =
 * Fix: wp_bulk_find_replace no longer returns "not found" for searches containing HTML tags or URL slashes. The pre-check ran on raw JSON (where < is stored as < and / as \/); it now matches on the decoded element tree.
