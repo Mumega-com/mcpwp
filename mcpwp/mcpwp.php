@@ -306,6 +306,13 @@ if ( ! function_exists( 'mcpwp_load_plugin' ) ) {
 	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-figma.php';
 
 	// Load admin
+	// Admin page-area trait groups (mixed into Mcpwp_Admin — G3 split).
+	require_once MCPWP_PLUGIN_DIR . 'includes/admin/traits/trait-mcpwp-admin-setup.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/admin/traits/trait-mcpwp-admin-control-room.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/admin/traits/trait-mcpwp-admin-chat.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/admin/traits/trait-mcpwp-admin-library.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/admin/traits/trait-mcpwp-admin-settings.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/admin/traits/trait-mcpwp-admin-activity.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/admin/class-mcpwp-admin.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/admin/class-mcpwp-activity-log.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/admin/class-mcpwp-settings.php';
