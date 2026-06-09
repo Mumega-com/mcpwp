@@ -12,19 +12,21 @@
 
 ## North Star (product thesis)
 
-> **`docs/STRATEGY.md` is the canonical single source** (thesis · money model · fleet/funnel · roadmap).
-> Pricing detail: `docs/PRICING_TIERS.md`. This file is the task tracker. When they disagree, STRATEGY wins.
+> **`docs/STRATEGY.md` is the canonical single source** (the economy frame · components · flagship loop ·
+> moat · roadmap). Taxation/numbers: `docs/PRICING_TIERS.md`. This file is the task tracker. STRATEGY wins.
 >
-> **mupot is the product; MCPWP is the gateway.** mupot is a sovereign agent organization
-> ([repo](https://github.com/Mumega-com/mupot)) the customer forks onto their own Cloudflare to run a
-> business as governed agents; MCPWP is its biggest-market WordPress on-ramp. We give the engine away and
-> sell **vertical snapshots** (squad-pack + MCPWP blueprint + brand-crystal) + the **agency resale layer**.
-> GoHighLevel's go-to-market, sovereign substrate. Land-and-expand is **agents + surfaces, not sites.**
+> **It's an economy, not a product. We design it and tax the flows.** Currency = **coherence**; territory =
+> **AI-attention**. Components: **MCPWP** = the basin (WordPress hands) · **mupot** = the rules engine
+> (sovereign agent org on the customer's own Cloudflare, metered/capped/gated loops) · **addons/skills** =
+> items (third-party, unlimited; `spai_register_tools` + bus `register_skill`) · **snapshots** = recipes
+> (curated addon-mixes, performance-ranked by our PostHog-everywhere observability) · **the fleet** = any BYO
+> runtime joined over MCP. **Flagship loop:** a site that acquires its own traffic (Google News/Discover,
+> auto-included) and converts it (edge A/B), governed — coherence is the admission ticket + penalty shield.
 >
-> **Beachhead:** WooCommerce stores (vertical ROI), agencies as the resale channel. LearnPress = fast-follow.
-> **Moat (off-code):** governance (approval → rollback + audit + hard-capped metered loops) + brand-crystal
-> (on-brand, not slop) + sovereignty + a runtime-agnostic fleet (every BYO agent runtime is a door in).
-> **The keystone build:** OAuth 2.1 + DCR (v2.9) opens the ChatGPT Business + Claude Managed fleet.
+> **Revenue = taxing flows:** marketplace cut (addons + snapshots) + performance-ranked snapshot premium +
+> infra rent + cheap adoption toll (MCPWP Pro). Never compute. **Moat:** marketplace + attractor + learning +
+> observability — none forks with the code. **Cold-start solved by being the first player:** our own dogfood
+> dropship store. **Keystone build:** OAuth 2.1 + DCR (v2.9) opens the ChatGPT Business + Claude Managed fleet.
 
 ---
 
