@@ -52,6 +52,7 @@ if ( ! function_exists( 'mcpwp_fs' ) ) {
 			$mcpwp_fs = fs_dynamic_init( array(
 				'id'                  => '23824',
 				'slug'                => 'mcpwp',
+				'premium_slug'        => 'mcpwp-premium',
 				'type'                => 'plugin',
 				'public_key'          => 'pk_24f806380f2ccf8a5e3283dac895b',
 				// Free + premium distribution. The premium source sets is_premium
