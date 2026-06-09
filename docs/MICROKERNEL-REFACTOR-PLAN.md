@@ -1,5 +1,17 @@
 # Microkernel Refactor Plan — MCPWP v5
 
+> **⛔ SUPERSEDED (2026-06-09) by [`docs/adr/0001-extension-architecture.md`](adr/0001-extension-architecture.md).**
+> An in-process PHP microkernel was found to be the wrong instrument: overkill for first-party file
+> organization (WordPress hooks already host modules) and — critically — *unable to isolate
+> untrusted code* (a third-party PHP module can still fatal the site, so the safety you'd want from
+> "let others run code" is never delivered). The replacement architecture is **Modular Monolith
+> (first-party, WP-native) + MCPWP-as-MCP-Gateway (untrusted addons out-of-process behind the
+> protocol boundary)**. The decomposition targets below (§2) are still correct and carry over into
+> the ADR's migration sequence (G1–G4); the kernel/manifest/DI machinery (§1, §3) does not.
+> Kept for history. The v5.0-a kernel skeleton (PR #486) is shelved.
+
+---
+
 > **Status: PLAN (capture-only). Do NOT execute now.** Target: **v5.0 / M6**.
 > Written 2026-06-09, after the v3.0.0 rebrand gave us a clean, consistently-named base.
 > The rebrand was the prerequisite: you don't redesign architecture while also renaming 117 classes.
