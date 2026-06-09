@@ -1363,7 +1363,7 @@ class Spai_MCP_Free_Tools extends Spai_MCP_Tool_Registry {
 
 		$tools[] = $this->define_tool(
 			'wp_get_kit_css',
-			'Read the Elementor Kit global CSS. Returns custom CSS rules applied site-wide via the Elementor Kit settings.'s global custom_css setting. Works on any Elementor site without Elementor Pro. Use this before wp_set_kit_css to see what is already there.',
+			'Read the Elementor Kit global CSS. Returns custom CSS rules applied site-wide via the Elementor Kit settings.',
 			array()
 		);
 
