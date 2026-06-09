@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.49
+Stable tag: 2.8.50
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,11 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 2.8.50 =
+* New: spai_register_tools filter — third-party plugins register MCP tools with a simple array, no PHP class required.
+* Improvement: 56 tool descriptions rewritten for BM25 accuracy — more specific verbs, synonyms, and use-case context.
+* Docs: openapi-chatgpt.yaml updated to v2.8.50 (was stale at v1.0.60) — adds /onboard, menus, approvals, full Elementor edit suite, /batch, /settings, and 24 other missing endpoints. Now 49 operations.
 
 = 2.8.49 =
 * New: Blueprint Library (wp_list_site_blueprints / wp_get_site_blueprint / wp_deploy_site_blueprint / wp_extract_site_blueprint) — create multi-page site structures from 5 starter blueprints (law firm, restaurant, SaaS, real estate, portfolio) or save custom ones from your existing content.
