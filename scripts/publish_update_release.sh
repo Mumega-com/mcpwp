@@ -2,15 +2,15 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PLUGIN_DIR="$ROOT_DIR/site-pilot-ai"
-PLUGIN_MAIN="$PLUGIN_DIR/site-pilot-ai.php"
+PLUGIN_DIR="$ROOT_DIR/mcpwp"
+PLUGIN_MAIN="$PLUGIN_DIR/mcpwp.php"
 README_FILE="$PLUGIN_DIR/readme.txt"
 MANIFEST_FILE="$ROOT_DIR/version.json"
 BUILD_SCRIPT="$PLUGIN_DIR/scripts/build-selfhosted.sh"
 STATIC_DIR="/var/www/mcp-updates"
-STATIC_ZIP="$STATIC_DIR/mumega-mcp-latest.zip"
+STATIC_ZIP="$STATIC_DIR/mcpwp-latest.zip"
 STATIC_MANIFEST="$STATIC_DIR/version.json"
-WORKER_FILE="${SPAI_WORKER_FILE:-$HOME/projects/sitepilotai/spai-updates-worker/src/index.js}"
+WORKER_FILE="${MCPWP_WORKER_FILE:-$HOME/projects/sitepilotai/mcpwp-updates-worker/src/index.js}"
 
 BUILD=0
 DEPLOY_WORKER=0
@@ -72,7 +72,7 @@ require_cmd curl
 require_cmd unzip
 
 PLUGIN_VERSION="$(grep -m1 "Version:" "$PLUGIN_MAIN" | sed 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')"
-DEFINE_VERSION="$(grep -E "^define\( 'SPAI_VERSION'" "$PLUGIN_MAIN" | sed -E "s/.*'([0-9.]+)'.*/\1/")"
+DEFINE_VERSION="$(grep -E "^define\( 'MCPWP_VERSION'" "$PLUGIN_MAIN" | sed -E "s/.*'([0-9.]+)'.*/\1/")"
 README_VERSION="$(grep -m1 '^Stable tag:' "$README_FILE" | sed 's/Stable tag:[[:space:]]*//')"
 MANIFEST_VERSION="$(python3 - "$MANIFEST_FILE" <<'PY'
 import json, sys
@@ -85,14 +85,14 @@ PY
 if [[ "$PLUGIN_VERSION" != "$DEFINE_VERSION" || "$PLUGIN_VERSION" != "$README_VERSION" || "$PLUGIN_VERSION" != "$MANIFEST_VERSION" ]]; then
 	echo "Version mismatch detected:" >&2
 	echo "  plugin header: $PLUGIN_VERSION" >&2
-	echo "  SPAI_VERSION:  $DEFINE_VERSION" >&2
+	echo "  MCPWP_VERSION:  $DEFINE_VERSION" >&2
 	echo "  readme tag:    $README_VERSION" >&2
 	echo "  version.json:  $MANIFEST_VERSION" >&2
 	exit 1
 fi
 
 VERSION="$PLUGIN_VERSION"
-ZIP_PATH="$PLUGIN_DIR/scripts/mumega-mcp-selfhosted-$VERSION.zip"
+ZIP_PATH="$PLUGIN_DIR/scripts/mcpwp-selfhosted-$VERSION.zip"
 
 if [[ "$BUILD" -eq 1 ]]; then
 	bash "$BUILD_SCRIPT" --version "$VERSION"
@@ -105,14 +105,14 @@ if [[ ! -f "$ZIP_PATH" ]]; then
 fi
 
 ZIP_ROOT="$(unzip -Z1 "$ZIP_PATH" | sed -n '1p' | cut -d/ -f1)"
-ZIP_VERSION="$(unzip -p "$ZIP_PATH" "$ZIP_ROOT/site-pilot-ai.php" | grep -m1 'Version:' | sed 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')"
+ZIP_VERSION="$(unzip -p "$ZIP_PATH" "$ZIP_ROOT/mcpwp.php" | grep -m1 'Version:' | sed 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')"
 if [[ "$ZIP_VERSION" != "$VERSION" ]]; then
 	echo "ZIP version mismatch: expected $VERSION, got $ZIP_VERSION" >&2
 	exit 1
 fi
 
 # grep -q closes the pipe early, causing SIGPIPE (141) under pipefail — use grep -c instead.
-UPDATER_COUNT=$(unzip -Z1 "$ZIP_PATH" | grep -c 'includes/class-spai-updater.php' || true)
+UPDATER_COUNT=$(unzip -Z1 "$ZIP_PATH" | grep -c 'includes/class-mcpwp-updater.php' || true)
 if [[ "$UPDATER_COUNT" -eq 0 ]]; then
 	echo "Updater missing from canonical self-hosted ZIP: $ZIP_PATH" >&2
 	exit 1
@@ -126,19 +126,19 @@ if [[ "$VERIFY_ONLY" -eq 0 ]]; then
 
 	# Upload to Cloudflare R2 — CF Worker serves from R2, not from nginx alias.
 	# --remote targets production R2; without it wrangler writes to local miniflare.
-	WORKER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/spai-updates-worker"
+	WORKER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/mcpwp-updates-worker"
 	if [[ -d "$WORKER_DIR" ]] && command -v npx >/dev/null 2>&1; then
 		CF_TOKEN="${CLOUDFLARE_API_TOKEN:-$(grep CLOUDFLARE_API_TOKEN ~/.env.secrets 2>/dev/null | cut -d= -f2)}"
 		if [[ -n "$CF_TOKEN" ]]; then
-			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mumcp-updates/version.json \
+			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mcpwp-updates/version.json \
 				--file="$STATIC_MANIFEST" --content-type="application/json" --remote 2>&1 | grep -v "^$" || true
-			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mumcp-updates/mumega-mcp-latest.zip \
+			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mcpwp-updates/mcpwp-latest.zip \
 				--file="$STATIC_ZIP" --content-type="application/zip" --remote 2>&1 | grep -v "^$" || true
 			# The manifest's download_url is mcpwp-latest.zip. The CF Worker serves from R2,
 			# not the nginx symlink above, so this key MUST exist in R2 or downloads 404.
-			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mumcp-updates/mcpwp-latest.zip \
+			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mcpwp-updates/mcpwp-latest.zip \
 				--file="$STATIC_ZIP" --content-type="application/zip" --remote 2>&1 | grep -v "^$" || true
-			echo "  R2 upload: version.json + mumega-mcp-latest.zip + mcpwp-latest.zip → mumcp-updates bucket"
+			echo "  R2 upload: version.json + mcpwp-latest.zip + mcpwp-latest.zip → mcpwp-updates bucket"
 		else
 			echo "Note: CLOUDFLARE_API_TOKEN not set — skipping R2 upload (CF Worker will serve stale version)" >&2
 		fi
@@ -174,7 +174,7 @@ fi
 
 # Verify the ACTUAL download_url advertised in the manifest resolves — not a
 # hardcoded name. The two diverged once (manifest said mcpwp-latest.zip while only
-# mumega-mcp-latest.zip was uploaded to R2), silently 404ing every site's download.
+# mcpwp-latest.zip was uploaded to R2), silently 404ing every site's download.
 DOWNLOAD_URL="$(python3 -c 'import json,sys; print(json.load(sys.stdin).get("download_url",""))' <<<"$LIVE_STATIC_JSON" 2>/dev/null || echo "")"
 if [[ -n "$DOWNLOAD_URL" ]]; then
 	ZIP_STATUS="$(curl -o /dev/null -s -w '%{http_code}' "$DOWNLOAD_URL" 2>/dev/null || echo "000")"
@@ -185,7 +185,7 @@ fi
 
 echo "Published Site Pilot AI $VERSION"
 echo "  static manifest: https://mumega.com/mcp-updates/version.json"
-echo "  static zip:      https://mumega.com/mcp-updates/mumega-mcp-latest.zip"
+echo "  static zip:      https://mumega.com/mcp-updates/mcpwp-latest.zip"
 if [[ "$DEPLOY_WORKER" -eq 1 ]]; then
 	echo "  worker source synced: $WORKER_FILE"
 fi
