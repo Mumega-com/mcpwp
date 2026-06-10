@@ -67,10 +67,14 @@ PHASE B — Autonomous Marketing (productize the MVP) ────────�
   M5  Content Engine            v4.0     keyword research · Telegram/social distribution · Remotion video
 
 PHASE C — Platform & THE FULL VISION ──────────────────────────────────────────────────────
-  M6  Platform Foundations      v5.0     spai_→mcpwp_ rebrand + microkernel
+  M6  Platform Foundations      v3.x ✅  spai_→mcpwp_ rebrand (v3.0.0) + Modular-Monolith refactor
+                                         (G1-G5, ADR 0001 — microkernel REJECTED, gateway model). DONE.
   M7  Snapshot System           v6.0     vertical snapshots (mupot pack + MCPWP blueprint): Woo, LearnPress
   M8  Agency Reseller (FULL)    v6.x     white-label SaaS-mode · client sub-billing · snapshot marketplace
                                          · sovereign deploy  =  THE FULL ONE
+  M9  Addon/Tool Marketplace    v7.0     G7: tool-registry marketplace (curation, ranking, the cut) for
+                                         mcpwp_register_tools addons. DEFERRED to v7 — must not precede the
+                                         P0 proof loop (ADR 0001). Distinct from M8's snapshot marketplace.
 ```
 
 **The MVP→Full trace (the spine):** P0 is one hand-built snapshot loop → M4 productizes that loop as a
@@ -299,7 +303,7 @@ Clean-slate internals. One breaking release, done right.
 | # | GH | Task | Notes |
 |---|-----|------|-------|
 | T126 | — | Rebrand: `spai_` → `mcpwp_`, REST `site-pilot-ai/v1` → `mcpwp/v1` | Deprecation shims for one major version. **Spec: Opus** |
-| T127 | — | Microkernel refactor: dissolve monolithic tool classes into self-registering modules | Each tool category = one `module.php` using `mcpwp_register_tools`. Same pattern as third-party. **Spec: Opus** |
+| ~~T127~~ | — | ~~Microkernel refactor~~ → **DONE as Modular Monolith** (ADR 0001) | Microkernel rejected (can't isolate untrusted code). Shipped G1-G5: 5 big files split (rest-site/free/pro/admin/elementor) + gateway contract on `mcpwp_register_tools`. PRs #488-492. |
 | T128 | — | `mcpwp:dev` skill (updated post-microkernel) | Agent onboarding for the new module pattern |
 
 **Rule:** T126 + T127 ship together in v5.0. One breaking change window, not two.

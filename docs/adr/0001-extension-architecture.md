@@ -1,6 +1,9 @@
 # ADR 0001 — MCPWP Extension Architecture: Gateway + Modular Monolith
 
-**Status:** Proposed · **Date:** 2026-06-09 · **Supersedes:** `docs/MICROKERNEL-REFACTOR-PLAN.md`
+**Status:** Accepted — G1–G5 implemented (v3.x) · **Date:** 2026-06-09 (updated 2026-06-10) · **Supersedes:** `docs/MICROKERNEL-REFACTOR-PLAN.md`
+
+> **Progress:** The Modular Monolith (G1–G4) and the gateway contract (G5) are **done and merged**.
+> G6 (untrusted-addon path) is next when prioritized; **G7 (marketplace) is deferred to v7** — see §Migration.
 
 ---
 
@@ -143,18 +146,22 @@ MCP-to-MCP integration track, unaffected by this decision.)
 
 ## Migration sequence (strangler-fig; every step behavior-identical, branch+PR, v3 never breaks)
 
-| Step | Work | Risk |
-|---|---|---|
-| **G1** | Split `rest-site` (4531) → per-surface controllers; WP-native `register_rest_route`. Characterization tests first. | low (move + re-register) |
-| **G2** | Split free/pro tool mega-files → per-category providers, each registering via `mcpwp_register_tools` — first-party **dogfoods** the addon hook. | med |
-| **G3** | Split `admin` (3491) → one renderer per page (`admin_menu`). | low |
-| **G4** | Split `elementor-basic` (3299) → reader/writer/validator/css classes. | med |
-| **G5** | **Gateway contract:** schema validation on registration + tier/scope/rate/capability gate in dispatch. | med (sensitive surface → adversarial review) |
-| **G6** | **Remote/proxy tools** (T71b) + **visual tool builder** (T71c) — the untrusted-addon path goes live. | med |
-| **G7** | **Marketplace registry** — curation, ranking, the cut (M4 productization). | product, not refactor |
+| Step | Target | Status | Work | Risk |
+|---|---|---|---|---|
+| **G1** | v3.x | ✅ done (PR #488) | Split `rest-site` (4531) → 8 per-surface controllers; WP-native `register_rest_route`. | low |
+| **G2** | v3.x | ✅ done (PR #489) | Split free/pro tool mega-files → per-category trait groups (3992→1046, 3332→824). | med |
+| **G3** | v3.x | ✅ done (PR #490) | Split `admin` (3491→612) → per-page trait groups (`admin_menu`). | low |
+| **G4** | v3.x | ✅ done (PR #491) | Split `elementor-basic` (3299→39) → reader/writer/validator/css traits. | med |
+| **G5** | v3.x | ✅ done (PR #492) | **Gateway contract:** schema validation + tier/capability gate; adversarial review closed P0 `rest_path` SSRF + P1 name-shadowing. | med (sensitive → adversarial review) |
+| **G6** | v4–v5 | next | **Remote/proxy tools** (T71b) + **visual tool builder** (T71c) — the untrusted-addon path goes live. Gated behind validating the P0 marketing-proof loop first. | med |
+| **G7** | **v7** | **deferred** | **Marketplace registry** — curation, ranking, the cut. Productization of the open ecosystem. Deferred to **v7**: it is the revenue engine but must NOT be built before the P0 proof loop (`docs/STRATEGY.md`) validates the thesis — "marketplace before a working snapshot = death." | product, not refactor |
 
-G1–G4 are pure file hygiene (ship anytime, no contract change). G5–G7 build the open ecosystem on
-the gateway. Each step is its own PR, CI-green, main stays shippable.
+**G1–G5 are complete** (the Modular Monolith + the gateway contract — all merged, behavior-identical,
+each its own CI-green PR; main stayed shippable throughout). G6 is the next build when the
+untrusted-addon path is prioritized. **G7 (marketplace) is explicitly deferred to v7** — pulling it
+forward before the marketing-proof loop is validated would build the revenue engine on an unproven
+thesis. Deferred lower-severity G5 follow-ups: derive custom-tool write/admin scope from
+`method`+`destructive` (auth trait); `rawurlencode` path-param substitution (dispatcher).
 
 ## Consequences
 
