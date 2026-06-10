@@ -22,6 +22,10 @@ if (! defined('DAY_IN_SECONDS')) {
     define('DAY_IN_SECONDS', 86400);
 }
 
+if (! defined('HOUR_IN_SECONDS')) {
+    define('HOUR_IN_SECONDS', 3600);
+}
+
 $GLOBALS['mcpwp_test_options'] = array();
 $GLOBALS['mcpwp_test_transients'] = array();
 $GLOBALS['mcpwp_test_current_user'] = 0;
@@ -734,6 +738,59 @@ function wp_slash($value)
     return is_string($value) ? addslashes($value) : $value;
 }
 
+// -------------------------------------------------------------------------
+// Freemius double. Mcpwp_License treats Freemius as the single source of
+// truth via mcpwp_get_fs_instance(). Tests drive entitlement state by setting
+// $GLOBALS['mcpwp_test_fs'] to a Mcpwp_Test_Fs_Stub (or null for "no Freemius").
+// -------------------------------------------------------------------------
+
+$GLOBALS['mcpwp_test_fs'] = null;
+
+function mcpwp_get_fs_instance()
+{
+    return $GLOBALS['mcpwp_test_fs'];
+}
+
+class Mcpwp_Test_Fs_Stub
+{
+    private $is_paying;
+    private $is_trial;
+    private $can_use_premium_code;
+    private $plan;
+
+    public function __construct(
+        bool $can_use_premium_code = false,
+        bool $is_paying = false,
+        bool $is_trial = false,
+        $plan = ''
+    ) {
+        $this->can_use_premium_code = $can_use_premium_code;
+        $this->is_paying            = $is_paying;
+        $this->is_trial             = $is_trial;
+        $this->plan                 = $plan;
+    }
+
+    public function can_use_premium_code()
+    {
+        return $this->can_use_premium_code;
+    }
+
+    public function is_paying()
+    {
+        return $this->is_paying;
+    }
+
+    public function is_trial()
+    {
+        return $this->is_trial;
+    }
+
+    public function get_plan()
+    {
+        return $this->plan;
+    }
+}
+
 require_once dirname(__DIR__) . '/includes/traits/trait-mcpwp-api-auth.php';
 require_once dirname(__DIR__) . '/includes/traits/trait-mcpwp-sanitization.php';
 require_once dirname(__DIR__) . '/includes/traits/trait-mcpwp-logging.php';
@@ -774,3 +831,6 @@ require_once dirname(__DIR__) . '/includes/core/traits/trait-mcpwp-elementor-val
 require_once dirname(__DIR__) . '/includes/core/traits/trait-mcpwp-elementor-css.php';
 require_once dirname(__DIR__) . '/includes/core/class-mcpwp-elementor-basic.php';
 require_once dirname(__DIR__) . '/includes/pro/api/class-mcpwp-rest-elementor-pro.php';
+require_once dirname(__DIR__) . '/includes/class-mcpwp-license.php';
+require_once dirname(__DIR__) . '/includes/core/class-mcpwp-core.php';
+require_once dirname(__DIR__) . '/includes/pro/class-mcpwp-pro-bootstrap.php';

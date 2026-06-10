@@ -101,15 +101,17 @@ class Mcpwp_Pro_Bootstrap {
 	}
 
 	/**
-	 * Add Pro capabilities to the capabilities array.
+	 * Add pro-module-only capability flags.
+	 *
+	 * Note: plan / pro_active are intentionally NOT set here. They are derived
+	 * from the canonical Mcpwp_License::get_license_info() in Mcpwp_Core after
+	 * this filter runs, so the entitlement state has a single source of truth.
+	 * Pro bootstrap only loads when licensed, so it must not define plan/pro_active.
 	 *
 	 * @param array $capabilities Capabilities array.
 	 * @return array
 	 */
 	public static function add_pro_capabilities( $capabilities ) {
-		$license = class_exists( 'Mcpwp_License' ) ? Mcpwp_License::get_instance() : null;
-		$capabilities['pro_active']  = $license ? $license->is_pro() : false;
-		$capabilities['plan']        = $license ? $license->get_plan() : 'unlicensed';
 		$capabilities['learnpress']  = class_exists( 'LearnPress' ) || post_type_exists( 'lp_course' );
 		$capabilities['tp_events']   = post_type_exists( 'tp_event' );
 		return $capabilities;

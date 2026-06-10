@@ -1,7 +1,8 @@
 # Dependencies
 node_modules/
 mcp-server/node_modules/
-site-pilot-ai/vendor/
+mcpwp/vendor/
+mcpwp/composer.lock
 
 # Build output
 mcp-server/dist/
@@ -30,13 +31,12 @@ npm-debug.log*
 
 # Plugin zip (built artifacts)
 plugin/*.zip
-site-pilot-ai/scripts/*.zip
+mcpwp/scripts/*.zip
 
 # Local release artifacts (repo root)
-site-pilot-ai-*.zip
-site-pilot-ai-premium-*.zip
-site-pilot-ai-pro-*.zip
-ziQ9IgA7
+mcpwp-*.zip
+mcpwp-premium-*.zip
+mcpwp-pro-*.zip
 
 # Local tooling scratch (keep the real release script)
 scripts/*.py
@@ -48,8 +48,6 @@ scripts/*.sh
 !scripts/publish_update_release.sh
 
 # Test caches
-site-pilot-ai/tests/.phpunit.result.cache
-.claude/
-.claude/
+mcpwp/tests/.phpunit.result.cache
 .claude/
 mcp-server/*.mcpb
