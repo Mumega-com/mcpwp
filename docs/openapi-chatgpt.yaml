@@ -11,7 +11,7 @@ info:
     **First call:** Always call `GET /onboard` first on a new site. It returns the complete
     site briefing: content inventory, active plugins, Elementor layout mode, and recommended
     first actions.
-  version: 2.8.50
+  version: 3.0.0
   contact:
     name: MCPWP
     url: https://mcpwp.net
@@ -1704,7 +1704,7 @@ components:
         admin_url: {type: string, format: uri}
         wp_version: {type: string, example: "6.7.2"}
         php_version: {type: string}
-        mcpwp_version: {type: string, example: "2.8.49"}
+        mcpwp_version: {type: string, example: "3.0.0"}
         theme:
           type: object
           properties:

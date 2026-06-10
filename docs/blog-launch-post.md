@@ -66,8 +66,8 @@ For Claude Desktop or Claude Code, add to `claude_desktop_config.json`:
 {
   "mcpServers": {
     "wordpress": {
-      "url": "https://your-site.com/wp-json/site-pilot-ai/v1/mcp",
-      "headers": {"X-API-Key": "spai_your_key_here"}
+      "url": "https://your-site.com/wp-json/mcpwp/v1/mcp",
+      "headers": {"X-API-Key": "mcpwp_your_key_here"}
     }
   }
 }
