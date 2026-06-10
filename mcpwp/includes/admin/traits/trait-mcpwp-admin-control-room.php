@@ -47,7 +47,7 @@ trait Mcpwp_Admin_Control_Room_Trait {
 			$result = $this->run_control_room_seo_audit();
 		} elseif ( 'refresh_signals' === $action ) {
 			if ( class_exists( 'Mcpwp_Signals' ) ) {
-				$computed = Mcpwp_Signals::compute();
+				$computed = Mcpwp_Signals::compute( array(), Mcpwp_Signals::request_time_budget() );
 				$result   = sprintf( __( 'Signals refreshed: %d signal(s) found.', 'mcpwp' ), count( $computed ) );
 			}
 		} elseif ( 'rollback_action_log' === $action ) {

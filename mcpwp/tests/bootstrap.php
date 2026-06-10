@@ -529,6 +529,32 @@ function post_type_exists($post_type)
     return in_array((string) $post_type, $known, true);
 }
 
+function post_type_supports($post_type, $feature)
+{
+    return in_array((string) $post_type, array( 'post', 'page' ), true);
+}
+
+// ── Cron / plugin-update stubs (drive via globals) ───────────────────────
+
+$GLOBALS['mcpwp_test_doing_cron']            = false;
+$GLOBALS['mcpwp_test_plugin_updates']        = array();
+$GLOBALS['mcpwp_test_update_plugins_called'] = false;
+
+function wp_doing_cron()
+{
+    return (bool) $GLOBALS['mcpwp_test_doing_cron'];
+}
+
+function wp_update_plugins()
+{
+    $GLOBALS['mcpwp_test_update_plugins_called'] = true;
+}
+
+function get_plugin_updates()
+{
+    return $GLOBALS['mcpwp_test_plugin_updates'];
+}
+
 function get_post_type_object($post_type)
 {
     if (! post_type_exists($post_type)) {
@@ -834,3 +860,5 @@ require_once dirname(__DIR__) . '/includes/pro/api/class-mcpwp-rest-elementor-pr
 require_once dirname(__DIR__) . '/includes/class-mcpwp-license.php';
 require_once dirname(__DIR__) . '/includes/core/class-mcpwp-core.php';
 require_once dirname(__DIR__) . '/includes/pro/class-mcpwp-pro-bootstrap.php';
+require_once dirname(__DIR__) . '/includes/core/class-mcpwp-signals.php';
+require_once dirname(__DIR__) . '/includes/api/class-mcpwp-rest-signals.php';
