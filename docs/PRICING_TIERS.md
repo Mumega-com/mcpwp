@@ -1,10 +1,11 @@
 # Pricing — taxing the economy (decision spec)
 
-> **Status:** proposal for Hadi sign-off (the analysis half of T87 / #417).
-> **Decision owner:** Hadi — this supplies the model + the numbers; public pages don't ship until confirmed.
+> **Status:** **DECIDED 2026-06-10** (Hadi sign-off, T87 / #417) — numbers validated against
+> market evidence in `docs/PRICING_RESEARCH_2026-06.md`. One cell deliberately blank:
+> the managed-energy credit price awaits the #449 $/task measurement.
 > **Frame:** see `docs/STRATEGY.md` — **we design an economy and tax its flows.** We do not price a tool.
 > This supersedes the per-site-license-spine and compute-spine drafts.
-> **Last updated:** 2026-06-09.
+> **Last updated:** 2026-06-10.
 
 ---
 
@@ -48,12 +49,12 @@ before third parties arrive.
 
 ## 3. Infra rent + the on-ramp toll (the recurring floor)
 
-| SKU | Price (sketch) | What it is |
+| SKU | Price (decided 2026-06-10) | What it is |
 |-----|---------------|-----------|
 | **MCPWP Free** | $0 | WP.org build, full tool surface, brand-crystal, approvals/rollback. BYOK. The funnel. |
-| **MCPWP Pro** | **$99/site/yr** ($199/3, $299/25) | Official build + updates + support + Pro convenience/plugin-ops tools. BYOK. Adoption-priced toll. (AI Engine $59 · Yoast $118 · Elementor 1/3/25 anchors.) |
-| **Pot hosting / bus rent** | **$/mo per pot** | Hosted flock plane (mcp.mumega.com), observability, distribution pipes — for tenants who don't fully self-host. |
-| **Managed energy** (add-on) | **capped $/mo or BYOK** | For owners who won't BYOK: we run the loop. Metered — platform actions separate from model cost; hard caps; never flat-unlimited. Most tenants self-host → ~$0 COGS to us. |
+| **MCPWP Pro** | **$59/yr/1 · $99/yr/3 (headline) · $199/yr/25** + lifetime $199/$349/$699 | Official build + updates + support + Pro tools. BYOK. The $59 entry is the real adoption toll (entry cluster is $49–59: AI Engine, Elementor, WP Rocket; Novamira €49/3); $99 buys 3 sites, mirroring Elementor Advanced. Lifetime ≈3.5× annual — proven WP segment. |
+| **Pot hosting / bus rent** | **$59/mo incl. 10 sites + $4/site/mo**, white-label bundled | Hosted flock plane (mcp.mumega.com), observability, distribution pipes. Sits in the empty $5–15/site band above commodity management tools ($2–5/site). |
+| **Managed energy** (add-on) | **credits = measured $/task × 4 — price blank until #449** | For owners who won't BYOK: we run the loop. Monthly credits (no rollover) + top-ups (roll over), hard stop at 0, ~10k-token/task ceiling via `cap_micro_usd`, BYOK tier = platform fee with zero model markup. Never flat-unlimited. |
 
 The toll is deliberately cheap. Its job is **adoption into the economy**, not revenue. The economy taxes the
 flows above it.
@@ -71,16 +72,33 @@ flows above it.
 
 ---
 
-## 5. Open items for Hadi
+## 5. Decisions (signed 2026-06-10 — evidence: `docs/PRICING_RESEARCH_2026-06.md`)
 
-1. **Marketplace cut %** — 20% standard / 15% small-builder / 30% certified-snapshot? (recommend those)
-2. **Snapshot pricing model** — one-time vs subscription per vertical? This is the real product price.
-3. **MCPWP Pro toll** — $99/yr + 1/3/25 site ladder? (recommend yes — adoption over revenue)
-4. **Pot-hosting / bus-rent price** — $/mo per pot for the managed flock plane?
-5. **Managed-energy caps** — task cap + per-task ceiling + action/model-cost split.
-6. **Freemius vs own checkout** — toll via Freemius; marketplace needs its own transaction layer + payout.
+1. **Marketplace cut** — **0% founding-builder window** (until June 2027 or first $25K per
+   builder, whichever first), pre-announced in the listing terms from day one, stepping up to
+   **15% small-builder / 20% standard / 30% certified**. Rationale: every successful challenger
+   marketplace bought liquidity at 0% (GHL through 2026, Atlassian/Shopify 0%/first-$1M);
+   builders' fallback is Freemius at ~10.5% all-in. The 30% certified tier activates only once
+   the certification badge demonstrably lifts conversions.
+2. **Snapshot pricing model** — **builder's choice** (one-time or subscription) for standard
+   snapshots; **certified snapshots are subscription-only** — certification is re-validated
+   monthly from live performance data, which is what justifies both the recurring price and
+   the larger cut.
+3. **MCPWP Pro toll** — **$59/yr/1 site · $99/yr/3 sites (headline) · $199/yr/25 sites**, plus
+   lifetime at $199/$349/$699 (~3.5× annual). The earlier $99/single-site draft was mid-market,
+   not an adoption toll; the adoption story requires the $59 entry.
+4. **Pot-hosting / bus-rent** — **$59/mo including 10 sites, then $4/site/mo**, white-label
+   bundled (not an add-on).
+5. **Managed-energy caps** — structure signed: monthly credits (no rollover) + purchasable
+   top-ups (roll over), **hard stop at 0** (never auto-overage), ~10k-token per-task ceiling
+   enforced via the `cap_micro_usd` meter, BYOK tier = platform fee with zero model markup.
+   **Credit price = measured $/task × 4 — the one blank cell, filled by #449.**
+6. **Checkout rails** — **Freemius for the toll** (MoR/VAT + licensing + updates worth ~10.5%
+   all-in at launch volume; revisit vs EDD self-hosted around 500+ sales/yr); **Stripe Connect
+   for the marketplace cut** (platform absorbs ~3.5% processing from its application fee).
 
-Once 1–4 are confirmed, the public pricing + the marketplace listing terms write in one pass.
+The public pricing page and marketplace listing terms now write in one pass; only the energy
+credit price waits on #449.
 
 ---
 
