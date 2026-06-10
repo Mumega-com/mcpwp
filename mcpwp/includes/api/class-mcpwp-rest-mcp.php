@@ -130,6 +130,9 @@ class Mcpwp_REST_MCP extends Mcpwp_REST_API {
 		foreach ( Mcpwp_Integration::resolve_all() as $integration ) {
 			$reqs = array_merge( $reqs, $integration->get_required_capabilities() );
 		}
+		// Custom/registered tools (mcpwp_register_tools) may declare a required
+		// site capability — gate them the same way as first-party tools.
+		$reqs = array_merge( $reqs, $this->custom_registry->get_required_capabilities() );
 		return $reqs;
 	}
 
@@ -376,6 +379,18 @@ class Mcpwp_REST_MCP extends Mcpwp_REST_API {
 		$this->free_registry    = new Mcpwp_MCP_Free_Tools();
 		$this->pro_registry     = new Mcpwp_MCP_Pro_Tools();
 		$this->custom_registry  = new Mcpwp_Custom_Tool_Registry();
+
+		// Reserve every first-party tool name so a registered (mcpwp_register_tools)
+		// tool can never shadow a built-in's route. Pro names are reserved too,
+		// regardless of tier, so the guard holds on free sites as well.
+		$reserved = array_merge(
+			array_keys( $this->free_registry->get_tool_categories() ),
+			array_keys( $this->pro_registry->get_tool_categories() )
+		);
+		foreach ( Mcpwp_Integration::resolve_all() as $integration ) {
+			$reserved = array_merge( $reserved, array_keys( $integration->get_tool_categories() ) );
+		}
+		$this->custom_registry->set_reserved_names( $reserved );
 
 		// Force JSON content type for MCP responses. During rapid sequential calls,
 		// WordPress or PHP output buffering can send wrong Content-Type headers
