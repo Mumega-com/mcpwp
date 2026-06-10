@@ -206,6 +206,11 @@ if ( ! function_exists( 'mcpwp_load_plugin' ) ) {
 	require_once MCPWP_PLUGIN_DIR . 'includes/core/class-mcpwp-pages.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/core/class-mcpwp-media.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/core/class-mcpwp-drafts.php';
+	// Elementor engine verb traits (mixed into Mcpwp_Elementor_Basic — G4 split).
+	require_once MCPWP_PLUGIN_DIR . 'includes/core/traits/trait-mcpwp-elementor-reader.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/core/traits/trait-mcpwp-elementor-writer.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/core/traits/trait-mcpwp-elementor-validator.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/core/traits/trait-mcpwp-elementor-css.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/core/class-mcpwp-elementor-basic.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/core/class-mcpwp-elementor-widgets.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/core/class-mcpwp-screenshot.php';
