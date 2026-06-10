@@ -110,14 +110,16 @@ Keep:
 
 ## WP.org readme.txt Requirements
 
-- [x] `=== Plugin Name ===` header
-- [x] `Stable tag:` matches current version
-- [x] `License:` and `License URI:`
+- [x] `=== Plugin Name ===` header (`=== MCPWP ===`)
+- [x] `Contributors:` / `Tags:` (5) / `Requires at least:` / `Tested up to:` / `Requires PHP:`
+- [x] `Stable tag:` matches current version (3.0.0)
+- [x] `License:` and `License URI:` (GPLv2+)
 - [x] `== Description ==`
 - [x] `== Installation ==`
 - [x] `== Changelog ==`
-- [ ] `== Third Party Services ==` — **ADD THIS** (see above)
-- [ ] `== Screenshots ==` — add after screenshots are ready (T41)
+- [x] `== External Services ==` — full disclosure (mShots, Feedback Relay, GitHub, OpenAI; each with data-sent/when/service/privacy). Satisfies WP.org's third-party-disclosure requirement.
+- [x] `== Privacy ==` — analytics opt-in for free, where-sent (PostHog), opt-out documented
+- [x] `== Screenshots ==` — 4 entries + matching `assets/screenshot-{1..4}.png`
 
 ## Known WP.org Review Gotchas
 
@@ -129,12 +131,29 @@ Keep:
 6. **No hardcoded credentials** — all keys stored in `wp_options` ✅
 7. **Stable tag must match version** — currently in sync ✅
 
-## Action Items Before Submission
+## v3.0.0 readiness — GREEN (code/package), audited 2026-06-10
+
+Full audit on the `build-wporg.sh` free build (`mcpwp-3.0.0.zip`, 159 files):
+
+| Check | Result |
+|-------|--------|
+| Version consistency (header / `MCPWP_VERSION` / Stable tag) | ✅ all 3.0.0 |
+| readme.txt required headers + sections | ✅ complete (Privacy + External Services + Screenshots) |
+| No Freemius SDK / Pro modules / self-updater in free build | ✅ stripped (sanity checks pass) |
+| No `eval` / `create_function` / code-exec base64 | ✅ none |
+| No remote CDN script/style enqueues | ✅ all local |
+| Analytics phone-home | ✅ **opt-in for free tier**, disclosed, no hardcoded token |
+| Standalone safety (no fatal without Pro) | ✅ pro refs `class_exists`-guarded; free main `php -l` clean |
+| ABSPATH guards | ✅ on all class files (index.php are "Silence is golden" stubs) |
+| Text domain `mcpwp` + `load_plugin_textdomain` | ✅ |
+| Leftover debug (var_dump/print_r/console.log) | ✅ none |
+| WP.org assets (icon 128/256, banner 1544×500/772×250, 4 screenshots) | ✅ present in `assets/` |
+
+**Verdict: the v3.0.0 free package is WP.org-ready.** Remaining steps are human/process, not code:
 
 | # | Action | Owner |
 |---|--------|-------|
-| 1 | Add `== Third Party Services ==` to readme.txt | agent |
-| 2 | Verify text domain consistency (grep check above) | agent |
-| 3 | Run build-wporg.sh and inspect output zip | agent |
-| 4 | Create WP.org account | Hadi |
-| 5 | Upload zip + screenshots | Hadi |
+| 1 | Create WP.org account / submit plugin for initial review (T25) | Hadi |
+| 2 | On approval: SVN commit `trunk/` (the free zip contents) + place icon/banner/screenshots in SVN sibling `assets/` (not in the plugin folder) | Hadi |
+| 3 | Pricing page (T87) for the free→Pro upgrade link — not a package blocker, but the upgrade CTA points there | Hadi |
+| 4 | (optional) Run the official WP **Plugin Check (PCP)** plugin locally for the final automated lint before submit | Hadi/agent |
