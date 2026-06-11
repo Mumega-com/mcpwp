@@ -570,7 +570,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 					$sev_color  = $sev_colors[ $signal['severity'] ?? 'low' ] ?? '#7f8c8d';
 				?>
 				<tr>
-					<td><span style="background:<?php echo esc_attr( $sev_color ); ?>;color:#fff;padding:2px 7px;border-radius:3px;font-size:11px;text-transform:uppercase;display:inline-block"><?php echo esc_html( $sev ); ?></span></td>
+					<td><span style="background:<?php echo esc_attr( $sev_color ); ?>;color:#fff;padding:2px 7px;border-radius:3px;font-size:11px;text-transform:uppercase;display:inline-block"><?php echo $sev; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $sev is pre-escaped with esc_html() at assignment ?></span></td>
 					<td><code><?php echo esc_html( $signal['type'] ?? '' ); ?></code></td>
 					<td>
 						<?php if ( ! empty( $signal['entity_id'] ) ) : ?>
