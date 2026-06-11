@@ -4,7 +4,7 @@
 > (**MCP · WordPress · WP plugins**). Strategy: `docs/STRATEGY.md` §4, §4b. This doc is the *how* —
 > grounded in the site's actual current state and executable now via REST (`mcpwp`).
 >
-> **Last updated:** 2026-06-09.
+> **Last updated:** 2026-06-10 (added §2b live-site audit + nav/conversion fix plan).
 
 ---
 
@@ -37,6 +37,60 @@ It is the **safest** dogfood and serves four goals at once:
 
 **Net:** the content half is already coherent and live; the missing foundations are the **brand-crystal**
 (unset) and **LearnPress** (not installed). Everything else needed is present.
+
+> **State change since this probe** (verified 2026-06-10 via MCP): LearnPress 4.3.9 and WooCommerce 10.8.1
+> are now **installed and active** (§5's blocker is gone), 52 pages are published (52 posts too), and both
+> plugins dropped their default template pages live. See §2b for the full audit.
+
+---
+
+## 2b. Live-site audit — 2026-06-10 (probed via MCP)
+
+Read-only audit through the plugin's own tools (`wp_site_info`, `wp_get_site_health`, `wp_list_menus`,
+`wp_list_menu_items`, `wp_get_page_by_slug`, `wp_get_signals`). Two classes of findings: **site fixes**
+(this plan) and **plugin bugs** (GH issues).
+
+### The conversion path is broken in three places
+
+1. **The pricing page is a placeholder** — `/pricing/` (id 502) is 62 words, no tiers, no numbers, no buy
+   button. Blocked on T87 sign-off; once numbers are confirmed the page writes itself (see
+   `docs/PRICING_TIERS.md` + the 2026-06 market research).
+2. **Pricing is not in the header menu** — 27 nav items, none is "Pricing". The page is orphaned.
+3. **Header "Demo" and "Integrations" link off-site to the pre-rebrand domain**
+   (`sitepilotai.mumega.com`) while an on-site demo page (id 506) sits orphaned. The rebrand never
+   reached the nav.
+
+### Nav / content debris
+
+- Homepage menu item uses a raw `?page_id=95` URL and a 40-char SEO title as its nav label.
+- "Brand Canon" (internal doc) sits in the public header under Features.
+- Stale pre-rebrand **"SPAI Header Nav"** menu (6 items) + empty "Primary Menu" linger unassigned.
+- LearnPress/Woo default template pages are **published**: Instructor, Become an Instructor, Instructors,
+  Courses, Cart, Checkout ×2, Shop, My account, Profile, Terms and Conditions (auto-generated).
+- **52 published pages have no featured image** → broken OG/social previews site-wide (matters for the
+  AI-attention thesis and §4's image standards).
+- 24 orphan pages total; the six SEO landing pages (connect-claude/-chatgpt/-cursor, alternatives,
+  secure-mcp, wordpress-mcp-plugin) are intentionally nav-free but should get internal links from posts.
+
+### Fix plan (writes to production — execute on Hadi's go, all reversible)
+
+- **A. Nav repair:** add Pricing + on-site Demo to the header; repoint Integrations on-site; fix the
+  homepage item label/URL; move Brand Canon out of public nav; delete the stale SPAI menu + empty
+  Primary Menu.
+- **B. Content cleanup:** unpublish (→ draft) the LearnPress/Woo template-debris pages; LP/Woo regenerate
+  them on demand. Keep the LP core pages (checkout/profile) only once courses ship (§5).
+- **C. Featured images:** set lead images on the ~20 marketing/docs pages first (the 1200px 16:9 standard
+  from §3); template/system pages excluded.
+
+### Plugin bugs found while auditing (filed as GH issues, not site ops)
+
+- **Signals feed empty + `refresh:true` 502s the origin** on a site with obvious signal conditions
+  (14 page drafts, 24 orphans, 52 missing thumbnails). The flagship proactive-signals feature does not
+  work on our own site — likely the cron never ran and the synchronous recompute exceeds origin limits.
+- **Entitlement display contradiction in production:** `plan: unlicensed, is_pro: false` while five AI
+  integrations are configured and active. The repo-side consistency fix landed 2026-06-10
+  (Freemius single-source-of-truth port); the dogfood site should also run a real Pro license —
+  we should be customer #1 of our own paid plan.
 
 ---
 
@@ -146,16 +200,18 @@ layer before shipping it to customers. (Sensitive surface — adversarial-gate t
 
 ## 8. Concrete first steps (sequenced)
 
-**Can do now via REST (on Hadi's go — live product site):**
-1. **Set the brand-crystal** (§3) — `wp_set_site_context`. Foundation, reversible.
-2. **Author entities** — create credentialed author bio pages; wire bylines.
-3. **Distribution eligibility** — verify/extend NewsArticle schema dates, `max-image-preview:large`, news
-   sitemap; lead-image standards on the 10 existing posts.
-4. **Publish the draft pages** that should be live (home, pricing, get-started) after a coherence pass.
+**Can do now via REST/MCP (on Hadi's go — live product site):**
+1. **Nav repair + content cleanup** (§2b A/B) — fixes the broken conversion path; smallest, do first.
+2. **Set the brand-crystal** (§3) — `wp_set_site_context`. Foundation, reversible.
+3. **Author entities** — create credentialed author bio pages; wire bylines.
+4. **Distribution eligibility** — verify/extend NewsArticle schema dates, `max-image-preview:large`, news
+   sitemap; lead-image standards on existing posts + the §2b-C featured-image pass.
+5. **Real pricing page content** — blocked on T87 numbers; ship the page the same day the numbers sign.
 
 **Needs Hadi / admin (not REST-doable):**
-5. **Install + activate LearnPress** → unblocks the course track (§5).
-6. Confirm PostHog + Search Console property access for the feedback loop.
+6. ~~Install + activate LearnPress~~ ✅ done (LP 4.3.9 active as of 2026-06-10) → course track (§5) unblocked.
+7. Confirm PostHog + Search Console property access for the feedback loop.
+8. Put mcpwp.net on a real Pro license (dogfood the paid plan — §2b).
 
 **Then the loop runs:** cheap-continuous perceive → expensive-periodic decide → gated publish → measure.
 

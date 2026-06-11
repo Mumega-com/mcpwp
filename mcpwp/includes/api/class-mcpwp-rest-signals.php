@@ -88,8 +88,16 @@ class Mcpwp_REST_Signals extends Mcpwp_REST_API {
 	}
 
 	public function get_signals( WP_REST_Request $request ): WP_REST_Response {
-		if ( $request->get_param( 'refresh' ) ) {
-			Mcpwp_Signals::compute();
+		$meta = Mcpwp_Signals::get_meta();
+
+		// Compute when explicitly asked, or lazily on first read — an empty
+		// feed that has never been computed is indistinguishable from "no
+		// issues" otherwise (cron is unreliable on low-traffic hosts). Both
+		// paths run under the request time budget; types that don't fit are
+		// skipped and reported as partial.
+		if ( $request->get_param( 'refresh' ) || '' === $meta['last_computed'] ) {
+			Mcpwp_Signals::compute( array(), Mcpwp_Signals::request_time_budget() );
+			$meta = Mcpwp_Signals::get_meta();
 		}
 
 		$types = array_filter( array_map( 'trim', explode( ',', $request->get_param( 'types' ) ?? '' ) ) );
@@ -104,28 +112,37 @@ class Mcpwp_REST_Signals extends Mcpwp_REST_API {
 			$counts[ $t ] = ( $counts[ $t ] ?? 0 ) + 1;
 		}
 
-		return new WP_REST_Response(
-			array(
-				'signals'    => $signals,
-				'count'      => count( $signals ),
-				'by_type'    => $counts,
-				'signal_types' => Mcpwp_Signals::SIGNAL_TYPES,
-			),
-			200
+		$response = array(
+			'signals'       => $signals,
+			'count'         => count( $signals ),
+			'by_type'       => $counts,
+			'signal_types'  => Mcpwp_Signals::SIGNAL_TYPES,
+			'last_computed' => '' !== $meta['last_computed'] ? $meta['last_computed'] : null,
+			'partial'       => (bool) $meta['partial'],
 		);
+		if ( ! empty( $meta['skipped_types'] ) ) {
+			$response['skipped_types'] = $meta['skipped_types'];
+			$response['hint']          = 'Some signal types were skipped to stay within the request time budget. Call again with refresh=true and types=<skipped> to compute them.';
+		}
+
+		return new WP_REST_Response( $response, 200 );
 	}
 
 	public function refresh_signals( WP_REST_Request $request ): WP_REST_Response {
 		$types = array_filter( array_map( 'trim', explode( ',', $request->get_param( 'types' ) ?? '' ) ) );
 		$types = array_values( array_intersect( $types, Mcpwp_Signals::SIGNAL_TYPES ) );
 
-		$signals = Mcpwp_Signals::compute( $types );
+		$signals = Mcpwp_Signals::compute( $types, Mcpwp_Signals::request_time_budget() );
+		$meta    = Mcpwp_Signals::get_meta();
 
 		return new WP_REST_Response(
 			array(
-				'success'  => true,
-				'computed' => count( $signals ),
-				'signals'  => $signals,
+				'success'       => true,
+				'computed'      => count( $signals ),
+				'signals'       => $signals,
+				'last_computed' => '' !== $meta['last_computed'] ? $meta['last_computed'] : null,
+				'partial'       => (bool) $meta['partial'],
+				'skipped_types' => $meta['skipped_types'],
 			),
 			200
 		);

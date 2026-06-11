@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Mcpwp_Signals {
 
 	const OPTION_KEY     = 'mcpwp_signals';
+	const META_KEY       = 'mcpwp_signals_meta';
 	const SETTINGS_KEY   = 'mcpwp_signal_settings';
 	const CRON_HOOK      = 'mcpwp_compute_signals';
 	const CRON_INTERVAL  = 'daily';
@@ -89,48 +90,73 @@ class Mcpwp_Signals {
 	}
 
 	/**
-	 * Compute all signals and persist. Returns computed signals.
+	 * Compute signals and persist. Returns the signals computed in this run.
 	 *
-	 * @param array $types Compute only these types (empty = all).
+	 * Safe to call from a web request: pass a $time_budget and computation
+	 * stops between signal types once the budget is exhausted (at least one
+	 * type is always computed). Skipped types keep their previously stored
+	 * signals. Cron calls with no budget compute everything.
+	 *
+	 * @param array $types       Compute only these types (empty = all).
+	 * @param float $time_budget Max seconds to spend; 0 = unlimited.
 	 * @return array
 	 */
-	public static function compute( array $types = array() ): array {
-		$settings = self::get_settings();
-		$all_types = empty( $types ) ? self::SIGNAL_TYPES : $types;
+	public static function compute( array $types = array(), float $time_budget = 0 ): array {
+		$start     = microtime( true );
+		$settings  = self::get_settings();
+		$requested = empty( $types )
+			? self::SIGNAL_TYPES
+			: array_values( array_intersect( $types, self::SIGNAL_TYPES ) );
 		$signals   = array();
+		$computed  = array();
+		$skipped   = array();
 		$now       = gmdate( 'c' );
 
-		foreach ( $all_types as $type ) {
-			// Respect per-type enabled setting.
-			if ( isset( $settings['enabled_types'] ) && is_array( $settings['enabled_types'] ) ) {
-				if ( ! in_array( $type, $settings['enabled_types'], true ) ) {
-					continue;
-				}
+		foreach ( $requested as $type ) {
+			if ( $time_budget > 0 && ! empty( $computed ) && ( microtime( true ) - $start ) > $time_budget ) {
+				$skipped[] = $type;
+				continue;
 			}
 
-			$computed = self::compute_type( $type, $settings );
-			foreach ( $computed as $signal ) {
+			// Respect per-type enabled setting. A disabled type still counts as
+			// computed so its stale stored signals are cleared below.
+			if ( isset( $settings['enabled_types'] ) && is_array( $settings['enabled_types'] )
+				&& ! in_array( $type, $settings['enabled_types'], true ) ) {
+				$computed[] = $type;
+				continue;
+			}
+
+			$result = self::compute_type( $type, $settings );
+			foreach ( $result as $signal ) {
 				$signal['detected_at'] = $now;
 				$signals[]             = $signal;
 			}
+			$computed[] = $type;
 		}
 
-		// If computing all types, replace stored; if partial, merge by type.
-		if ( empty( $types ) ) {
-			update_option( self::OPTION_KEY, $signals, false );
-		} else {
-			$existing = self::load();
-			// Remove existing signals of computed types then re-add.
-			$existing = array_values(
-				array_filter(
-					$existing,
-					function ( $s ) use ( $all_types ) {
-						return ! in_array( $s['type'] ?? '', $all_types, true );
-					}
-				)
-			);
-			update_option( self::OPTION_KEY, array_merge( $existing, $signals ), false );
-		}
+		// Replace stored signals of the types actually computed; preserve the
+		// rest (including any types skipped by the time budget).
+		$existing = array_values(
+			array_filter(
+				self::load(),
+				function ( $s ) use ( $computed ) {
+					return ! in_array( $s['type'] ?? '', $computed, true );
+				}
+			)
+		);
+		update_option( self::OPTION_KEY, array_merge( $existing, $signals ), false );
+
+		update_option(
+			self::META_KEY,
+			array(
+				'last_computed'  => $now,
+				'duration_ms'    => (int) round( ( microtime( true ) - $start ) * 1000 ),
+				'computed_types' => $computed,
+				'skipped_types'  => $skipped,
+				'partial'        => ! empty( $skipped ),
+			),
+			false
+		);
 
 		// Fire webhooks for HIGH-severity signals.
 		$high = array_filter( $signals, fn( $s ) => ( $s['severity'] ?? '' ) === 'high' );
@@ -139,6 +165,37 @@ class Mcpwp_Signals {
 		}
 
 		return $signals;
+	}
+
+	/**
+	 * Computation metadata — lets consumers distinguish "no issues" from
+	 * "signals were never computed" and detect partial runs.
+	 *
+	 * @return array { last_computed, duration_ms, computed_types, skipped_types, partial }
+	 */
+	public static function get_meta(): array {
+		$defaults = array(
+			'last_computed'  => '',
+			'duration_ms'    => 0,
+			'computed_types' => array(),
+			'skipped_types'  => array(),
+			'partial'        => false,
+		);
+		$meta = get_option( self::META_KEY, array() );
+		return array_merge( $defaults, is_array( $meta ) ? $meta : array() );
+	}
+
+	/**
+	 * Seconds of compute we can safely spend inside a web request.
+	 *
+	 * @return float
+	 */
+	public static function request_time_budget(): float {
+		$max = (int) ini_get( 'max_execution_time' );
+		if ( $max <= 0 ) {
+			return 15.0;
+		}
+		return max( 5.0, min( 15.0, (float) $max - 5.0 ) );
 	}
 
 	// -------------------------------------------------------------------------
@@ -231,22 +288,27 @@ class Mcpwp_Signals {
 		global $wpdb;
 		$signals = array();
 
-		// Find pages with _elementor_data meta that is invalid JSON.
+		// Find pages with _elementor_data meta that is invalid JSON. Fetch IDs
+		// only — loading 100 Elementor data blobs in one result set can exhaust
+		// memory on Elementor-heavy sites. The blobs are read one at a time.
 		$results = $wpdb->get_results(
-			"SELECT p.ID, p.post_title, pm.meta_value
+			"SELECT p.ID, p.post_title
 			 FROM {$wpdb->posts} p
 			 INNER JOIN {$wpdb->postmeta} pm ON pm.post_id = p.ID
 			 WHERE p.post_status = 'publish'
 			   AND pm.meta_key = '_elementor_data'
+			   AND pm.meta_value <> ''
 			 LIMIT 100",
 			ARRAY_A
 		);
 
 		foreach ( $results as $row ) {
-			if ( empty( $row['meta_value'] ) ) {
+			$raw = get_post_meta( (int) $row['ID'], '_elementor_data', true );
+			if ( ! is_string( $raw ) || '' === $raw ) {
 				continue;
 			}
-			$decoded = json_decode( $row['meta_value'], true );
+			$decoded = json_decode( $raw, true );
+			unset( $raw );
 			if ( json_last_error() !== JSON_ERROR_NONE ) {
 				$signals[] = array(
 					'type'         => 'broken_elementor',
@@ -331,11 +393,20 @@ class Mcpwp_Signals {
 
 	private static function compute_pending_updates(): array {
 		if ( ! function_exists( 'get_plugin_updates' ) ) {
+			if ( ! file_exists( ABSPATH . 'wp-admin/includes/update.php' ) ) {
+				return array();
+			}
 			require_once ABSPATH . 'wp-admin/includes/update.php';
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
-		wp_update_plugins();
+		// Only refresh the update cache from cron — wp_update_plugins() makes
+		// remote requests to wordpress.org for every installed plugin and must
+		// never run inside a web/REST request (it can exceed the request budget
+		// on its own). Web requests read the existing update_plugins transient.
+		if ( function_exists( 'wp_doing_cron' ) && wp_doing_cron() && function_exists( 'wp_update_plugins' ) ) {
+			wp_update_plugins();
+		}
 		$updates = get_plugin_updates();
 		if ( empty( $updates ) ) {
 			return array();
@@ -363,11 +434,18 @@ class Mcpwp_Signals {
 	}
 
 	private static function compute_seo_issues(): array {
-		if ( ! class_exists( 'Mcpwp_SEO_Audit_Store' ) ) {
+		if ( ! class_exists( 'Mcpwp_SEO_Audit_Store' ) || ! method_exists( 'Mcpwp_SEO_Audit_Store', 'list_issues' ) ) {
 			return array();
 		}
 
-		$issues = Mcpwp_SEO_Audit_Store::get_issues( array( 'per_page' => 10, 'severity' => 'critical' ) );
+		// Stored-issue severities are error/warning/info; surface open errors.
+		$issues = Mcpwp_SEO_Audit_Store::list_issues(
+			array(
+				'status'   => 'open',
+				'severity' => 'error',
+				'limit'    => 10,
+			)
+		);
 		if ( empty( $issues['issues'] ) ) {
 			return array();
 		}
@@ -378,9 +456,9 @@ class Mcpwp_Signals {
 				'type'         => 'seo_issue',
 				'severity'     => 'medium',
 				'entity_id'    => (int) ( $issue['post_id'] ?? 0 ),
-				'entity_title' => $issue['post_title'] ?? 'Unknown',
-				'entity_type'  => $issue['post_type'] ?? 'post',
-				'detail'       => $issue['description'] ?? $issue['type'] ?? 'SEO issue detected',
+				'entity_title' => $issue['title'] ?? 'Unknown',
+				'entity_type'  => $issue['type'] ?? 'post',
+				'detail'       => $issue['message'] ?? $issue['code'] ?? 'SEO issue detected',
 				'action_hint'  => 'Use wp_seo_audit_site or wp_run_seo_autofix_plan.',
 			);
 		}

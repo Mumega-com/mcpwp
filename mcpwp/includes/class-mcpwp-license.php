@@ -2,8 +2,11 @@
 /**
  * License management for MCPWP.
  *
- * Paid plans and trials are managed through Freemius in the production build.
- * A legacy local license store remains for backwards compatibility.
+ * Freemius is the single source of truth for entitlement. Paid plans and trials
+ * are resolved entirely through the Freemius SDK in the production build, with
+ * two developer/distribution overrides:
+ *   - MCPWP_WPORG_BUILD defined => always free (WP.org build).
+ *   - MCPWP_PRO constant true   => always pro (developer override).
  *
  * @package MCPWP
  */
@@ -25,34 +28,6 @@ class Mcpwp_License {
 	private static $instance = null;
 
 	/**
-	 * Cached license data.
-	 *
-	 * @var array|null
-	 */
-	private $license_data = null;
-
-	/**
-	 * Trial duration in days.
-	 *
-	 * @var int
-	 */
-	const TRIAL_DAYS = 14;
-
-	/**
-	 * Option key for license.
-	 *
-	 * @var string
-	 */
-	const OPTION_KEY = 'mcpwp_pro_license';
-
-	/**
-	 * Option key for trial start.
-	 *
-	 * @var string
-	 */
-	const TRIAL_KEY = 'mcpwp_trial_started';
-
-	/**
 	 * Get singleton instance.
 	 *
 	 * @return Mcpwp_License
@@ -72,10 +47,9 @@ class Mcpwp_License {
 	/**
 	 * Check if licensed features are active.
 	 *
-	 * Pro is active when:
-	 * 1. Valid license key is stored and not expired, OR
-	 * 2. Trial period is active (14 days from first activation), OR
-	 * 3. MCPWP_PRO constant is defined (developer override)
+	 * Always false when MCPWP_WPORG_BUILD is defined (free build). Otherwise
+	 * pro is active when the MCPWP_PRO developer override is set, or when
+	 * Freemius reports premium access, a paying plan, or an active trial.
 	 *
 	 * @return bool
 	 */
@@ -104,22 +78,11 @@ class Mcpwp_License {
 			}
 		}
 
-		// Check stored license.
-		$license = $this->get_license_data();
-		if ( ! empty( $license['key'] ) && ! empty( $license['valid'] ) && ! $this->is_expired() ) {
-			return true;
-		}
-
-		// Check trial.
-		if ( $this->is_trial_active() ) {
-			return true;
-		}
-
 		return false;
 	}
 
 	/**
-	 * Check if user is paying (has a license, not trial).
+	 * Check if user is paying (has a paid plan, not a trial).
 	 *
 	 * @return bool
 	 */
@@ -133,15 +96,11 @@ class Mcpwp_License {
 		}
 		if ( function_exists( 'mcpwp_get_fs_instance' ) ) {
 			$fs = mcpwp_get_fs_instance();
-			if ( is_object( $fs ) && method_exists( $fs, 'is_trial' ) && $fs->is_trial() ) {
-				return true;
-			}
 			if ( is_object( $fs ) && method_exists( $fs, 'is_paying' ) && $fs->is_paying() ) {
 				return true;
 			}
 		}
-		$license = $this->get_license_data();
-		return ! empty( $license['key'] ) && ! empty( $license['valid'] ) && ! $this->is_expired();
+		return false;
 	}
 
 	/**
@@ -163,17 +122,13 @@ class Mcpwp_License {
 			return 'unlicensed';
 		}
 
-		if ( $this->is_trial_active() && ! $this->is_paying() ) {
-			return 'trial';
-		}
-
 		$freemius_plan = $this->get_freemius_plan();
 		if ( '' !== $freemius_plan ) {
 			return $freemius_plan;
 		}
 
-		$license = $this->get_license_data();
-		return ! empty( $license['plan'] ) ? $license['plan'] : 'pro';
+		// MCPWP_PRO developer override with no Freemius instance.
+		return 'pro';
 	}
 
 	/**
@@ -225,11 +180,9 @@ class Mcpwp_License {
 		if ( false !== strpos( $raw_plan, 'trial' ) ) {
 			return 'trial';
 		}
-		// 'free' is the Freemius slug for the unpaid tier. When Freemius reports
-		// the free plan, treat it as "no Freemius plan" so get_plan() can fall
-		// through to the stored license data (Lemon Squeezy / MCPWP_PRO) instead
-		// of returning 'free' while pro_active is simultaneously true — the
-		// contradiction reported in GitHub issue #319.
+		// 'free' is the Freemius slug for the unpaid tier. A pro entitlement
+		// must never resolve to a free plan (issue #319), so fall through to
+		// the is_paying check / 'pro' default instead.
 		if ( 'free' === $raw_plan ) {
 			$raw_plan = '';
 		}
@@ -244,113 +197,17 @@ class Mcpwp_License {
 	}
 
 	/**
-	 * Check if trial is active.
+	 * Check if a Freemius trial is active.
 	 *
 	 * @return bool
 	 */
 	public function is_trial_active() {
-		$trial_started = get_option( self::TRIAL_KEY, '' );
-		if ( empty( $trial_started ) ) {
+		if ( ! function_exists( 'mcpwp_get_fs_instance' ) ) {
 			return false;
 		}
-		$elapsed = time() - (int) $trial_started;
-		return $elapsed < ( self::TRIAL_DAYS * DAY_IN_SECONDS );
-	}
 
-	/**
-	 * Get trial days remaining.
-	 *
-	 * @return int Days remaining, 0 if expired or not started.
-	 */
-	public function get_trial_days_remaining() {
-		$trial_started = get_option( self::TRIAL_KEY, '' );
-		if ( empty( $trial_started ) ) {
-			return 0;
-		}
-		$elapsed   = time() - (int) $trial_started;
-		$remaining = ( self::TRIAL_DAYS * DAY_IN_SECONDS ) - $elapsed;
-		return max( 0, (int) ceil( $remaining / DAY_IN_SECONDS ) );
-	}
-
-	/**
-	 * Start free trial.
-	 *
-	 * @return array Result.
-	 */
-	public function start_trial() {
-		$existing = get_option( self::TRIAL_KEY, '' );
-		if ( ! empty( $existing ) ) {
-			return array(
-				'success' => false,
-				'message' => __( 'Trial already started.', 'mcpwp' ),
-				'days_remaining' => $this->get_trial_days_remaining(),
-			);
-		}
-		update_option( self::TRIAL_KEY, time() );
-		return array(
-			'success' => true,
-			/* translators: %d: number of trial days */
-			'message' => sprintf( __( '%d-day Pro trial started. All integrations unlocked.', 'mcpwp' ), self::TRIAL_DAYS ),
-			'days_remaining' => self::TRIAL_DAYS,
-		);
-	}
-
-	/**
-	 * Get stored license data.
-	 *
-	 * @return array License data or empty array.
-	 */
-	private function get_license_data() {
-		if ( null === $this->license_data ) {
-			$this->license_data = get_option( self::OPTION_KEY, array() );
-			if ( ! is_array( $this->license_data ) ) {
-				$this->license_data = array();
-			}
-		}
-		return $this->license_data;
-	}
-
-	/**
-	 * Get license key.
-	 *
-	 * @return string|null
-	 */
-	public function get_license_key() {
-		$license = $this->get_license_data();
-		return ! empty( $license['key'] ) ? $license['key'] : null;
-	}
-
-	/**
-	 * Get expiration date.
-	 *
-	 * @return string|null ISO date or null.
-	 */
-	public function get_expiration() {
-		$license = $this->get_license_data();
-		return ! empty( $license['expires_at'] ) ? $license['expires_at'] : null;
-	}
-
-	/**
-	 * Check if license is expired.
-	 *
-	 * @return bool
-	 */
-	public function is_expired() {
-		$expires = $this->get_expiration();
-		if ( empty( $expires ) ) {
-			return false; // No expiration = lifetime.
-		}
-		return strtotime( $expires ) < time();
-	}
-
-	/**
-	 * Get site limit.
-	 *
-	 * @return int|null Null = unlimited.
-	 */
-	public function get_site_limit() {
-		$license = $this->get_license_data();
-		return isset( $license['site_limit'] ) ? (int) $license['site_limit'] : null;
+		$fs = mcpwp_get_fs_instance();
+		return is_object( $fs ) && method_exists( $fs, 'is_trial' ) && $fs->is_trial();
 	}
 
 	/**
@@ -372,133 +229,57 @@ class Mcpwp_License {
 	}
 
 	/**
-	 * Activate a license key.
+	 * Canonical license/entitlement accessor.
 	 *
-	 * Validates against Lemon Squeezy API and stores locally.
+	 * Returns a single, internally consistent snapshot of the entitlement state
+	 * so every consumer (MCP / REST / CLI / admin) reports the same plan and pro
+	 * status. Plan and is_pro can never contradict.
 	 *
-	 * @param string $license_key License key.
-	 * @return array Result with success, message, plan.
+	 * Consistency guarantees:
+	 * - When is_pro is false, plan is always 'unlicensed'.
+	 * - When is_pro is true, plan is always a non-free value ('pro', 'agency',
+	 *   'trial', or a Freemius-provided slug). If the resolved plan is empty or
+	 *   collapses to a free/unlicensed value, it is coerced to a sane paid value.
+	 *
+	 * @return array {
+	 *     @type string $plan      Plan slug ('unlicensed', 'trial', 'pro', 'agency', ...).
+	 *     @type bool   $is_pro    Whether licensed features are active.
+	 *     @type bool   $is_paying Whether the site has a paid (non-trial) entitlement.
+	 *     @type bool   $is_agency Whether the agency tier is active.
+	 * }
 	 */
-	public function activate( $license_key ) {
-		$license_key = sanitize_text_field( trim( $license_key ) );
-		if ( empty( $license_key ) ) {
+	public function get_license_info() {
+		$is_pro    = $this->is_pro();
+		$is_paying = $this->is_paying();
+
+		// When not pro, plan is unconditionally unlicensed regardless of stale data.
+		if ( ! $is_pro ) {
 			return array(
-				'success' => false,
-				'message' => __( 'License key is required.', 'mcpwp' ),
+				'plan'      => 'unlicensed',
+				'is_pro'    => false,
+				'is_paying' => false,
+				'is_agency' => false,
 			);
 		}
 
-		// Validate with Lemon Squeezy.
-		$response = wp_remote_post( 'https://api.lemonsqueezy.com/v1/licenses/validate', array(
-			'timeout' => 15,
-			'body'    => array(
-				'license_key'   => $license_key,
-				'instance_name' => home_url(),
-			),
-		) );
+		$plan = $this->get_plan();
 
-		if ( is_wp_error( $response ) ) {
-			// Network error — accept key locally with a warning.
-			$data = array(
-				'key'        => $license_key,
-				'valid'      => true,
-				'plan'       => 'pro',
-				'offline'    => true,
-				'activated'  => current_time( 'mysql' ),
-			);
-			update_option( self::OPTION_KEY, $data );
-			$this->license_data = $data;
-
-			return array(
-				'success' => true,
-				'message' => __( 'License saved (offline validation — will verify on next check).', 'mcpwp' ),
-				'plan'    => 'pro',
-			);
+		// Self-validate: a pro entitlement must never resolve to a free/unlicensed plan.
+		if ( '' === $plan || 'unlicensed' === $plan || 'free' === $plan ) {
+			if ( $is_paying ) {
+				$plan = 'pro';
+			} elseif ( $this->is_trial_active() ) {
+				$plan = 'trial';
+			} else {
+				$plan = 'pro';
+			}
 		}
-
-		$body = json_decode( wp_remote_retrieve_body( $response ), true );
-		$valid = isset( $body['valid'] ) && $body['valid'];
-
-		if ( ! $valid ) {
-			$error = isset( $body['error'] ) ? $body['error'] : __( 'Invalid license key.', 'mcpwp' );
-			return array(
-				'success' => false,
-				'message' => $error,
-			);
-		}
-
-		// Determine plan from Lemon Squeezy meta.
-		$meta       = isset( $body['meta'] ) ? $body['meta'] : array();
-		$variant    = isset( $meta['variant_name'] ) ? strtolower( $meta['variant_name'] ) : '';
-		$plan       = ( false !== strpos( $variant, 'agency' ) ) ? 'agency' : 'pro';
-		$expires_at = isset( $body['license_key']['expires_at'] ) ? $body['license_key']['expires_at'] : null;
-		$site_limit = isset( $meta['activation_limit'] ) ? (int) $meta['activation_limit'] : null;
-
-		$data = array(
-			'key'        => $license_key,
-			'valid'      => true,
-			'plan'       => $plan,
-			'expires_at' => $expires_at,
-			'site_limit' => $site_limit,
-			'activated'  => current_time( 'mysql' ),
-		);
-
-		update_option( self::OPTION_KEY, $data );
-		$this->license_data = $data;
 
 		return array(
-			'success' => true,
-			/* translators: %s: license plan name */
-			'message' => sprintf( __( 'License activated. Plan: %s', 'mcpwp' ), ucfirst( $plan ) ),
-			'plan'    => $plan,
-		);
-	}
-
-	/**
-	 * Deactivate license.
-	 *
-	 * @return array Result.
-	 */
-	public function deactivate() {
-		$license = $this->get_license_data();
-		if ( ! empty( $license['key'] ) ) {
-			// Notify Lemon Squeezy (best effort).
-			wp_remote_post( 'https://api.lemonsqueezy.com/v1/licenses/deactivate', array(
-				'timeout' => 10,
-				'body'    => array(
-					'license_key'   => $license['key'],
-					'instance_id'   => md5( home_url() ),
-				),
-			) );
-		}
-
-		delete_option( self::OPTION_KEY );
-		$this->license_data = null;
-
-		return array(
-			'success' => true,
-			'message' => __( 'License deactivated. Paid features disabled.', 'mcpwp' ),
-		);
-	}
-
-	/**
-	 * Get license info for API responses.
-	 *
-	 * @return array
-	 */
-	public function get_info() {
-		return array(
-			'provider'        => 'lemon_squeezy',
-			'is_paying'       => $this->is_paying(),
-			'plan'            => $this->get_plan(),
-			'is_pro'          => $this->is_pro(),
-			'is_agency'       => $this->is_agency(),
-			'license_key'     => $this->get_license_key() ? substr( $this->get_license_key(), 0, 8 ) . '...' : null,
-			'expiration'      => $this->get_expiration(),
-			'is_expired'      => $this->is_expired(),
-			'site_limit'      => $this->get_site_limit(),
-			'trial_active'    => $this->is_trial_active(),
-			'trial_remaining' => $this->get_trial_days_remaining(),
+			'plan'      => $plan,
+			'is_pro'    => true,
+			'is_paying' => $is_paying,
+			'is_agency' => ( 'agency' === $plan ) || $this->is_agency(),
 		);
 	}
 }
