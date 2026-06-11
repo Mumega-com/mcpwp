@@ -145,6 +145,14 @@ class Mcpwp_Site_Memory {
 		$out    = array();
 
 		foreach ( $memory as $ns => $entries ) {
+			// Skip internal markers (e.g. _migrated_site_context) — these are
+			// bookkeeping flags, not namespaces, and must not leak into wp_recall.
+			if ( '' !== $ns && '_' === $ns[0] ) {
+				continue;
+			}
+			if ( ! is_array( $entries ) ) {
+				continue;
+			}
 			if ( $namespace !== null && sanitize_key( $namespace ) !== $ns ) {
 				continue;
 			}
