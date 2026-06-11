@@ -324,6 +324,12 @@ if ( ! function_exists( 'mcpwp_load_plugin' ) ) {
 	require_once MCPWP_PLUGIN_DIR . 'includes/admin/class-mcpwp-integrations-admin.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/admin/class-mcpwp-tools-admin.php';
 
+	// Bridge migration: copy spai_* options → mcpwp_* options (idempotent).
+	// Runs early, before REST routes are registered, so auth is available
+	// on the first request after cutover.  Guarded by mcpwp_migrated_from_spai.
+	require_once MCPWP_PLUGIN_DIR . 'includes/class-mcpwp-migrate.php';
+	Mcpwp_Migrate::run();
+
 	// Check if database needs updating
 	$installed_db_version = get_option( 'mcpwp_db_version', '0' );
 	if ( version_compare( $installed_db_version, MCPWP_VERSION, '<' ) ) {
@@ -376,16 +382,20 @@ if ( ! function_exists( 'mcpwp_load_plugin' ) ) {
 if ( ! function_exists( 'mcpwp_activate' ) ) {
 	function mcpwp_activate( $network_wide = false ) {
 	require_once MCPWP_PLUGIN_DIR . 'includes/class-mcpwp-activator.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/core/class-mcpwp-encryption.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/class-mcpwp-migrate.php';
 
 	if ( $network_wide && function_exists( 'is_multisite' ) && is_multisite() ) {
 		$sites = get_sites( array( 'fields' => 'ids' ) );
 		foreach ( $sites as $blog_id ) {
 			switch_to_blog( $blog_id );
 			Mcpwp_Activator::activate();
+			Mcpwp_Migrate::run();
 			restore_current_blog();
 		}
 	} else {
 		Mcpwp_Activator::activate();
+		Mcpwp_Migrate::run();
 	}
 	}
 }
