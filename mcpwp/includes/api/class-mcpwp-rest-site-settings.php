@@ -622,6 +622,13 @@ class Mcpwp_REST_Site_Settings extends Mcpwp_REST_API {
 			'stripe_',
 			'paypal_',
 			'_session',
+			// Entitlement / bridge surfaces — must never be settable through the
+			// options API. The licensing bridge (issue #505) reads spai_ originals
+			// only, but block the writable mcpwp_ copies + the migration flag too,
+			// as defence in depth against entitlement forgery (Warden 3.1.0 P0).
+			'pro_license',
+			'trial_started',
+			'migrated_from',
 		);
 	}
 

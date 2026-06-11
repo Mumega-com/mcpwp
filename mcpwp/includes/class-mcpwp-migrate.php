@@ -40,9 +40,12 @@
  * access independently of Freemius:
  *   - spai_pro_license  (Spai_License::OPTION_KEY)  — stored license blob.
  *   - spai_trial_started (Spai_License::TRIAL_KEY)  — Unix trial timestamp.
- * Both are copied to their mcpwp_ equivalents so Mcpwp_License::is_pro()
- * can honour them via its bridge fallback (gated on mcpwp_migrated_from_spai).
- * See class-mcpwp-license.php bridge_local_license_is_valid() and
+ * Both are copied to their mcpwp_ equivalents for completeness, but
+ * Mcpwp_License::is_pro() deliberately reads the ORIGINAL spai_ options for the
+ * bridge entitlement decision — the spai_ namespace cannot be written through
+ * any REST/MCP surface, so it is un-forgeable, whereas the mcpwp_ copies and the
+ * mcpwp_migrated_from_spai flag are settable by a write-scope token (Warden
+ * 3.1.0 P0). See class-mcpwp-license.php bridge_local_license_is_valid() and
  * bridge_trial_is_active() for the exact validity checks used.
  *
  * @package MCPWP

@@ -119,28 +119,32 @@ class Mcpwp_License {
 		// ----------------------------------------------------------------
 		// BRIDGE FALLBACK — issue #505
 		//
-		// Applies ONLY on sites that migrated from site-pilot-ai 2.8.x,
-		// identified by the presence of the mcpwp_migrated_from_spai flag.
-		// If Freemius has not (yet) confirmed entitlement, honour the local
-		// license / trial that was copied from the spai_ options.
+		// Applies ONLY to sites that genuinely migrated from site-pilot-ai
+		// 2.8.x. If Freemius has not (yet) confirmed entitlement, honour the
+		// local license / trial the site carried over.
 		//
 		// Validity rules mirror Spai_License::is_pro() from 2.8.56:
 		//   (a) Stored license: must have key + valid=true + not expired.
 		//       expires_at absent/null => lifetime (never expired).
-		//   (b) Trial: unix timestamp in mcpwp_trial_started; active when
-		//       elapsed < BRIDGE_TRIAL_DAYS * DAY_IN_SECONDS.
+		//   (b) Trial: unix timestamp; active when elapsed < BRIDGE_TRIAL_DAYS.
 		//
-		// SAFETY: the outer guard on mcpwp_migrated_from_spai prevents this
-		// path from firing on fresh v3 installs — the flag is only set by
-		// Mcpwp_Migrate::run() after it confirms spai_ data was present.
+		// SECURITY (Warden 3.1.0 regression sweep — entitlement-bypass P0):
+		// entitlement is read EXCLUSIVELY from the ORIGINAL spai_ options, never
+		// the migrated mcpwp_ copies, and is NOT gated on mcpwp_migrated_from_spai.
+		// All three mcpwp_ items live in the writable mcpwp_ option namespace,
+		// which the settings REST/MCP surface ( PUT /option, wp_update_option )
+		// exposes to any write-scope token via the `mcpwp_` allow-list prefix.
+		// Trusting them let a write-scope token forge Pro on ANY install with no
+		// migration. The spai_ prefix is NOT in that allow-list and cannot be set
+		// through any REST/MCP surface, so a migrated spai_ original is an
+		// un-forgeable proof of a real 2.8.x entitlement. A fresh v3 install has
+		// no spai_ options, so both helpers return false and this path is inert.
 		// ----------------------------------------------------------------
-		if ( get_option( self::BRIDGE_MIGRATED_FLAG ) ) {
-			if ( $this->bridge_local_license_is_valid() ) {
-				return true;
-			}
-			if ( $this->bridge_trial_is_active() ) {
-				return true;
-			}
+		if ( $this->bridge_local_license_is_valid() ) {
+			return true;
+		}
+		if ( $this->bridge_trial_is_active() ) {
+			return true;
 		}
 
 		return false;
@@ -150,17 +154,20 @@ class Mcpwp_License {
 	 * Check whether the migrated local license blob grants Pro access.
 	 *
 	 * Replicates the Spai_License stored-license check from 2.8.56:
-	 *   - Option: mcpwp_pro_license (array)
+	 *   - Option: spai_pro_license (array) — the ORIGINAL, un-forgeable source.
 	 *   - Valid when: key non-empty AND valid===true AND not expired.
 	 *   - expires_at absent or null => lifetime license (no expiry check).
 	 *   - expires_at present => compare strtotime(expires_at) vs time().
+	 *
+	 * SECURITY: reads spai_pro_license (NOT the writable mcpwp_pro_license copy)
+	 * so a write-scope token cannot forge entitlement. See is_pro() for detail.
 	 *
 	 * This is a private bridge helper — not part of the public API.
 	 *
 	 * @return bool
 	 */
 	private function bridge_local_license_is_valid(): bool {
-		$license = get_option( 'mcpwp_pro_license', array() );
+		$license = get_option( 'spai_pro_license', array() );
 		if ( ! is_array( $license ) ) {
 			return false;
 		}
@@ -185,15 +192,18 @@ class Mcpwp_License {
 	 * Check whether the migrated trial timestamp indicates an active trial.
 	 *
 	 * Replicates Spai_License::is_trial_active() from 2.8.56:
-	 *   - Option: mcpwp_trial_started (unix timestamp, set by start_trial())
+	 *   - Option: spai_trial_started (unix timestamp) — the ORIGINAL source.
 	 *   - Active when elapsed time < BRIDGE_TRIAL_DAYS * DAY_IN_SECONDS.
+	 *
+	 * SECURITY: reads spai_trial_started (NOT the writable mcpwp_trial_started
+	 * copy) so a write-scope token cannot forge a trial. See is_pro() for detail.
 	 *
 	 * This is a private bridge helper — not part of the public API.
 	 *
 	 * @return bool
 	 */
 	private function bridge_trial_is_active(): bool {
-		$trial_started = get_option( 'mcpwp_trial_started', '' );
+		$trial_started = get_option( 'spai_trial_started', '' );
 		if ( empty( $trial_started ) ) {
 			return false;
 		}

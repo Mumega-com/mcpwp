@@ -3,23 +3,20 @@
 /**
  * Tests for the #505 bridge local-entitlement fallback in Mcpwp_License.
  *
- * The bridge fallback (is_pro() local path) applies ONLY when:
- *   1. mcpwp_migrated_from_spai is set (real migration completed).
- *   2. Freemius is NOT paying/trial (not present or reports free).
- *   3. Either mcpwp_pro_license is a valid non-expired blob, OR
- *      mcpwp_trial_started is within the 14-day window.
+ * SECURITY MODEL (Warden 3.1.0 regression sweep — entitlement-bypass P0):
+ * The bridge entitlement decision reads the ORIGINAL spai_ options only:
+ *   - spai_pro_license   (stored license blob)
+ *   - spai_trial_started (Unix trial timestamp)
+ * The spai_ namespace cannot be written through any REST/MCP surface (the
+ * options allow-list has no spai_ prefix), so a migrated spai_ original is an
+ * un-forgeable proof of a real 2.8.x entitlement. The migrated mcpwp_ COPIES and
+ * the mcpwp_migrated_from_spai flag live in the writable mcpwp_ namespace and are
+ * therefore NOT trusted for entitlement — an earlier 3.1.0 draft trusted them and
+ * any write-scope token could forge Pro on any install. These tests lock that out.
  *
- * Covered scenarios:
- *   - Valid license (no expiry) → is_pro() true.
- *   - Valid license (future expiry) → is_pro() true.
- *   - Expired license → is_pro() false.
- *   - License missing 'valid' flag → is_pro() false.
- *   - Active trial (within 14 days) → is_pro() true.
- *   - Lapsed trial (>14 days ago) → is_pro() false.
- *   - Trial not set → is_pro() false.
- *   - Fallback does NOT fire when migrated-flag is absent (anti-injection).
- *   - Freemius paying → is_pro() true regardless of local state.
- *   - Both local license valid AND Freemius paying → is_pro() true (belt+suspenders).
+ * The fallback (is_pro() local path) grants Pro only when Freemius is NOT
+ * paying/trial AND either spai_pro_license is a valid non-expired blob OR
+ * spai_trial_started is within the 14-day window.
  *
  * Run command (in wp-test docker):
  *   docker exec wp-test-wordpress-1 bash -c \
@@ -57,16 +54,19 @@ final class BridgeLicenseEntitlementTest extends TestCase {
 
 	/**
 	 * Set the migrated-from-spai flag (simulates completed bridge migration).
+	 * NOTE: this flag is NOT trusted for entitlement; genuine tests also seed a
+	 * spai_ original. It is set here only to prove it neither helps nor is needed.
 	 */
 	private function set_migrated_flag(): void {
 		update_option( 'mcpwp_migrated_from_spai', '1' );
 	}
 
 	/**
-	 * Seed a valid (non-expired, lifetime) local license.
+	 * Seed a genuine, valid (non-expired, lifetime) license in the ORIGINAL
+	 * spai_ option — the un-forgeable source the bridge actually reads.
 	 */
 	private function seed_valid_license(): void {
-		update_option( 'mcpwp_pro_license', array(
+		update_option( 'spai_pro_license', array(
 			'key'        => 'ls-test-key-abc123',
 			'valid'      => true,
 			'plan'       => 'pro',
@@ -76,10 +76,10 @@ final class BridgeLicenseEntitlementTest extends TestCase {
 	}
 
 	/**
-	 * Seed an expired local license.
+	 * Seed a genuine expired license in the spai_ original.
 	 */
 	private function seed_expired_license(): void {
-		update_option( 'mcpwp_pro_license', array(
+		update_option( 'spai_pro_license', array(
 			'key'        => 'ls-expired-key',
 			'valid'      => true,
 			'plan'       => 'pro',
@@ -89,19 +89,19 @@ final class BridgeLicenseEntitlementTest extends TestCase {
 	}
 
 	/**
-	 * Seed an active trial (N days ago, within 14-day window).
+	 * Seed a genuine active trial (N days ago, within 14-day window).
 	 *
 	 * @param int $days_ago Number of days since trial started.
 	 */
 	private function seed_active_trial( int $days_ago = 3 ): void {
-		update_option( 'mcpwp_trial_started', time() - ( $days_ago * DAY_IN_SECONDS ) );
+		update_option( 'spai_trial_started', time() - ( $days_ago * DAY_IN_SECONDS ) );
 	}
 
 	/**
-	 * Seed a lapsed trial (>14 days ago).
+	 * Seed a genuine lapsed trial (>14 days ago).
 	 */
 	private function seed_lapsed_trial(): void {
-		update_option( 'mcpwp_trial_started', time() - ( 15 * DAY_IN_SECONDS ) );
+		update_option( 'spai_trial_started', time() - ( 15 * DAY_IN_SECONDS ) );
 	}
 
 	private function license(): Mcpwp_License {
@@ -109,7 +109,7 @@ final class BridgeLicenseEntitlementTest extends TestCase {
 	}
 
 	// -----------------------------------------------------------------------
-	// Baseline: no Freemius, no migration flag, no local license
+	// Baseline: no Freemius, no migration, no local license
 	// -----------------------------------------------------------------------
 
 	public function test_no_freemius_no_flag_no_local_is_not_pro(): void {
@@ -118,41 +118,54 @@ final class BridgeLicenseEntitlementTest extends TestCase {
 	}
 
 	// -----------------------------------------------------------------------
-	// Anti-injection: fallback must NOT fire without migrated-from-spai flag
+	// ANTI-FORGERY (the 3.1.0 P0 regression lock): the writable mcpwp_ copies
+	// and the migrated flag must NEVER grant Pro. These are exactly the options
+	// a write-scope token can set via PUT /option / wp_update_option.
 	// -----------------------------------------------------------------------
 
-	public function test_local_license_without_flag_does_not_grant_pro(): void {
-		// Inject mcpwp_pro_license WITHOUT the migrated flag.
-		$this->seed_valid_license();
-		// No migrated flag set.
-
-		$this->assertFalse( $this->license()->is_pro(),
-			'Local license must NOT grant pro without the migrated-from-spai flag (anti-injection)' );
-	}
-
-	public function test_trial_started_without_flag_does_not_grant_pro(): void {
-		$this->seed_active_trial( 2 );
-		// No migrated flag.
-
-		$this->assertFalse( $this->license()->is_pro(),
-			'Trial timestamp must NOT grant pro without the migrated-from-spai flag (anti-injection)' );
-	}
-
-	// -----------------------------------------------------------------------
-	// FIX 1a: Valid local license with migrated flag → is_pro() true
-	// -----------------------------------------------------------------------
-
-	public function test_valid_lifetime_license_with_flag_is_pro(): void {
+	public function test_forged_mcpwp_license_with_flag_does_not_grant_pro(): void {
+		// Everything a write-scope attacker could set — and NO genuine spai_ source.
 		$this->set_migrated_flag();
+		update_option( 'mcpwp_pro_license', array(
+			'key'        => 'forged',
+			'valid'      => true,
+			'plan'       => 'pro',
+			'expires_at' => null,
+		) );
+
+		$this->assertFalse( $this->license()->is_pro(),
+			'Forged mcpwp_pro_license + flag must NOT grant pro — entitlement reads spai_ only' );
+	}
+
+	public function test_forged_mcpwp_trial_with_flag_does_not_grant_pro(): void {
+		$this->set_migrated_flag();
+		update_option( 'mcpwp_trial_started', (string) time() );
+
+		$this->assertFalse( $this->license()->is_pro(),
+			'Forged mcpwp_trial_started + flag must NOT grant pro — entitlement reads spai_ only' );
+	}
+
+	public function test_migrated_flag_alone_does_not_grant_pro(): void {
+		$this->set_migrated_flag();
+
+		$this->assertFalse( $this->license()->is_pro(),
+			'The self-settable migrated flag alone must NOT grant pro' );
+	}
+
+	// -----------------------------------------------------------------------
+	// Genuine valid license (spai_ original) → is_pro() true.
+	// No flag required: spai_ presence is itself the un-forgeable proof.
+	// -----------------------------------------------------------------------
+
+	public function test_valid_lifetime_license_is_pro(): void {
 		$this->seed_valid_license();
 
 		$this->assertTrue( $this->license()->is_pro(),
-			'Migrated valid lifetime license must grant pro' );
+			'Genuine valid lifetime spai_ license must grant pro' );
 	}
 
-	public function test_valid_future_expiry_license_with_flag_is_pro(): void {
-		$this->set_migrated_flag();
-		update_option( 'mcpwp_pro_license', array(
+	public function test_valid_future_expiry_license_is_pro(): void {
+		update_option( 'spai_pro_license', array(
 			'key'        => 'ls-future-key',
 			'valid'      => true,
 			'plan'       => 'pro',
@@ -161,83 +174,76 @@ final class BridgeLicenseEntitlementTest extends TestCase {
 		) );
 
 		$this->assertTrue( $this->license()->is_pro(),
-			'Migrated license with future expiry must grant pro' );
+			'Genuine spai_ license with future expiry must grant pro' );
 	}
 
 	// -----------------------------------------------------------------------
-	// FIX 1a: Expired license → is_pro() false
+	// Genuine license edge cases → is_pro() false (fail-closed).
 	// -----------------------------------------------------------------------
 
-	public function test_expired_license_with_flag_is_not_pro(): void {
-		$this->set_migrated_flag();
+	public function test_expired_license_is_not_pro(): void {
 		$this->seed_expired_license();
 
 		$this->assertFalse( $this->license()->is_pro(),
-			'Migrated expired license must NOT grant pro' );
+			'Genuine expired spai_ license must NOT grant pro' );
 	}
 
 	public function test_license_missing_valid_flag_is_not_pro(): void {
-		$this->set_migrated_flag();
-		update_option( 'mcpwp_pro_license', array(
+		update_option( 'spai_pro_license', array(
 			'key'  => 'ls-incomplete-key',
 			// 'valid' key missing
 			'plan' => 'pro',
 		) );
 
 		$this->assertFalse( $this->license()->is_pro(),
-			'License blob without valid=true must NOT grant pro' );
+			'spai_ license blob without valid=true must NOT grant pro' );
 	}
 
 	public function test_license_with_valid_false_is_not_pro(): void {
-		$this->set_migrated_flag();
-		update_option( 'mcpwp_pro_license', array(
+		update_option( 'spai_pro_license', array(
 			'key'   => 'ls-invalid-key',
 			'valid' => false,
 			'plan'  => 'pro',
 		) );
 
 		$this->assertFalse( $this->license()->is_pro(),
-			'License blob with valid=false must NOT grant pro' );
+			'spai_ license blob with valid=false must NOT grant pro' );
 	}
 
 	// -----------------------------------------------------------------------
-	// FIX 1b: Active trial with migrated flag → is_pro() true
+	// Genuine active trial (spai_ original) → is_pro() true.
 	// -----------------------------------------------------------------------
 
-	public function test_active_trial_with_flag_is_pro(): void {
-		$this->set_migrated_flag();
+	public function test_active_trial_is_pro(): void {
 		$this->seed_active_trial( 5 ); // 5 days ago — within 14 days.
 
 		$this->assertTrue( $this->license()->is_pro(),
-			'Migrated active trial must grant pro' );
+			'Genuine active spai_ trial must grant pro' );
 	}
 
-	public function test_trial_started_today_with_flag_is_pro(): void {
-		$this->set_migrated_flag();
+	public function test_trial_started_today_is_pro(): void {
 		$this->seed_active_trial( 0 ); // started now
 
 		$this->assertTrue( $this->license()->is_pro(),
-			'Trial started today must grant pro' );
+			'Genuine trial started today must grant pro' );
 	}
 
 	// -----------------------------------------------------------------------
-	// FIX 1b: Lapsed trial → is_pro() false
+	// Genuine lapsed / empty trial → is_pro() false.
 	// -----------------------------------------------------------------------
 
-	public function test_lapsed_trial_with_flag_is_not_pro(): void {
-		$this->set_migrated_flag();
+	public function test_lapsed_trial_is_not_pro(): void {
 		$this->seed_lapsed_trial();
 
 		$this->assertFalse( $this->license()->is_pro(),
-			'Migrated lapsed trial (>14 days) must NOT grant pro' );
+			'Genuine lapsed spai_ trial (>14 days) must NOT grant pro' );
 	}
 
-	public function test_empty_trial_started_with_flag_is_not_pro(): void {
-		$this->set_migrated_flag();
-		update_option( 'mcpwp_trial_started', '' );
+	public function test_empty_trial_started_is_not_pro(): void {
+		update_option( 'spai_trial_started', '' );
 
 		$this->assertFalse( $this->license()->is_pro(),
-			'Empty trial_started must NOT grant pro' );
+			'Empty spai_trial_started must NOT grant pro' );
 	}
 
 	// -----------------------------------------------------------------------
@@ -245,7 +251,7 @@ final class BridgeLicenseEntitlementTest extends TestCase {
 	// -----------------------------------------------------------------------
 
 	public function test_freemius_paying_is_pro_regardless_of_local(): void {
-		// No migration flag, no local license — but Freemius says paying.
+		// No local license — but Freemius says paying.
 		$GLOBALS['mcpwp_test_fs'] = new Mcpwp_Test_Fs_Stub( true, true, false, 'pro' );
 
 		$this->assertTrue( $this->license()->is_pro(),
@@ -253,7 +259,6 @@ final class BridgeLicenseEntitlementTest extends TestCase {
 	}
 
 	public function test_freemius_paying_with_expired_local_license_is_pro(): void {
-		$this->set_migrated_flag();
 		$this->seed_expired_license();
 		$GLOBALS['mcpwp_test_fs'] = new Mcpwp_Test_Fs_Stub( true, true, false, 'pro' );
 
@@ -262,16 +267,15 @@ final class BridgeLicenseEntitlementTest extends TestCase {
 	}
 
 	// -----------------------------------------------------------------------
-	// Freemius free + valid local license → fallback applies
+	// Freemius free + genuine valid local license → fallback applies
 	// -----------------------------------------------------------------------
 
 	public function test_freemius_free_with_valid_local_license_is_pro(): void {
-		$this->set_migrated_flag();
 		$this->seed_valid_license();
 		// Freemius says free (not paying, not trial).
 		$GLOBALS['mcpwp_test_fs'] = new Mcpwp_Test_Fs_Stub( false, false, false, '' );
 
 		$this->assertTrue( $this->license()->is_pro(),
-			'When Freemius says free but migration has a valid local license, fallback must grant pro' );
+			'When Freemius says free but a genuine spai_ license is present, fallback must grant pro' );
 	}
 }

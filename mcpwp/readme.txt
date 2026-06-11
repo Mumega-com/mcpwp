@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 6.1
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.1
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,12 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 3.1.0 =
+* New: Seamless migration bridge — sites upgrading from the earlier `site-pilot-ai` build carry over all content, API keys, OAuth access tokens, plugin settings, and licensing entitlement automatically. Existing API keys keep authenticating during and after the change; migration is idempotent and non-destructive (original data is left intact for rollback).
+* New: Dual-prefix authentication — legacy keys and OAuth tokens continue to work alongside new `mcpwp_` credentials, with original scopes preserved.
+* Compliance: WordPress.org Plugin Check clean (0 errors) — the WordPress.org build makes no third-party network calls and ships under GPL-2.0.
+* Docs: per-site cutover runbook and verified MCP client connect matrix added.
 
 = 3.0.1 =
 * Fix: signals fatal on every compute — `compute_seo_issues()` was calling the private `get_issues()` method and filtering on severity `critical` (which the store never writes). Now uses the public `list_issues(status=open, severity=error)`.
