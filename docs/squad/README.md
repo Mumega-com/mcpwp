@@ -16,6 +16,10 @@
 4. **[GTM-DESIGN-THINKING.md](GTM-DESIGN-THINKING.md)** — the 5-phase pass: 4 personas (incl. the AI agent
    as first-class user), POVs, HMWs, ideation verdicts, test hypotheses.
 5. **[GTM-RUNBOOK.md](../GTM-RUNBOOK.md)** — phases A–F sequencing the launch issues with owners + gates.
+6. **[AGILE-OPERATING-MODEL.md](AGILE-OPERATING-MODEL.md)** — how the squad runs: user stories + enablers,
+   the "Increment 1 = first sale" slice, Kanban-lite board, Definition of Done.
+7. **[DISTRIBUTION-AND-TOOLS.md](DISTRIBUTION-AND-TOOLS.md)** — every channel ranked (MCP registries,
+   WP.org, PH, Show HN, GitHub moves), the mcp-publisher pipeline, and the have/need/ask-kasra tools inventory.
 
 ## Research & evidence (sourced sweeps, 2026-06-11)
 
