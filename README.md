@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Mumega-com/mcp-for-wp/main/mcpwp/assets/banner-1544x500.png" alt="MCPWP — AI operations for WordPress" width="100%">
+  <img src="https://raw.githubusercontent.com/Mumega-com/mcpwp/main/mcpwp/assets/banner-1544x500.png" alt="MCPWP — AI operations for WordPress" width="100%">
 </p>
 
 <h1 align="center">MCPWP</h1>
@@ -18,8 +18,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Mumega-com/mcp-for-wp/stargazers"><img src="https://img.shields.io/github/stars/Mumega-com/mcp-for-wp?style=flat-square" alt="Stars"></a>
-  <a href="https://github.com/Mumega-com/mcp-for-wp/releases"><img src="https://img.shields.io/github/v/release/Mumega-com/mcp-for-wp?style=flat-square" alt="Release"></a>
+  <a href="https://github.com/Mumega-com/mcpwp/stargazers"><img src="https://img.shields.io/github/stars/Mumega-com/mcpwp?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/Mumega-com/mcpwp/releases"><img src="https://img.shields.io/github/v/release/Mumega-com/mcpwp?style=flat-square" alt="Release"></a>
   <img src="https://img.shields.io/badge/tools-120%2B-blue?style=flat-square" alt="120+ tools">
   <img src="https://img.shields.io/badge/MCP-compatible-brightgreen?style=flat-square" alt="MCP">
   <img src="https://img.shields.io/badge/OpenClaw-skill%20available-orange?style=flat-square" alt="OpenClaw">
@@ -299,33 +299,44 @@ Create keys via **WP Admin → MCPWP → Setup**, or `wp_create_api_key(label, r
 
 ## Roadmap
 
-### Shipped (v2.8.45–v2.8.49)
+### Shipped
+
+**v3.0.1** (current)
+- [x] Signals fatal fix — `compute_seo_issues()` 502 on every compute resolved; time-budgeted compute with `partial`/`skipped_types` reporting
+- [x] `GET /signals` lazy-computes on first read — fixes empty feed on low-traffic hosts
+- [x] Freemius single source of truth — removed legacy local trial and parallel entitlement paths; canonical `get_license_info()` accessor
+- [x] G1–G5 modular monolith — split 4 monolithic files (REST Site 4531 lines, tool mega-files, Admin 3491 lines, Elementor Basic 3299 lines) into focused per-surface controllers; gateway hardening
+
+**v3.0.0**
+- [x] Full rebrand — plugin folder, main file, classes, function/option prefixes, constants, text domain, REST namespace (`mcpwp/v1`). Clean break from `site-pilot-ai` / `spai_`.
+
+**v2.8.x**
 - [x] Server-side MCP tool analytics (PostHog, opt-in/opt-out)
 - [x] Agency multi-site proxy (Cloudflare Worker, hybrid MCP routing)
 - [x] AI action audit log + rollback (EU AI Act ready, Aug 2026)
-- [x] Agency dashboard (health checks, request volume)
 - [x] White-label branding + `[mcpwp_chat]` shortcode
 - [x] Dynamic site memory (`wp_remember` / `wp_recall` / `wp_forget`)
 - [x] Proactive signals (`wp_get_signals`)
 - [x] Site blueprint library (5 starters, deploy + extract)
 - [x] Chat excellence (multi-model: OpenAI GPT-4o mini, Gemini 2.5 Flash, Workers AI; SSE streaming; history)
+- [x] BM25-optimized tool descriptions (56 tools rewritten for accuracy)
+- [x] Keyword research (`wp_keyword_research` — keyless, no API required)
 
-### v2.9 — Multi-Client Distribution
-- [ ] ChatGPT Custom GPT + curated OpenAPI schema (GPT Store)
-- [ ] MCP Resources — WordPress content as browsable MCP resources
-- [ ] MCP Prompts — reusable editorial + SEO workflow templates
-- [ ] OpenClaw ClawHub skill + deep compatibility
-- [ ] Hermes Agent integration guide + BM25-optimized tool descriptions
+### Next — Launch + Distribution
+- [ ] WordPress.org submission (free tier, GPL clean)
+- [ ] Privacy policy at mcpwp.net/privacy (blocks WP.org + ChatGPT App + Claude Connector)
+- [ ] MCP registry submissions (official registry, mcp.so, smithery.ai, glama.ai)
+- [ ] Claude Desktop Extension (`.mcpb` format, per-user URL + API key)
 
-### v3.0 — Auth Layer
-- [ ] OAuth 2.1 server (unlocks ChatGPT MCP Connector + Claude Connector directory)
-- [ ] Claude Desktop Extension (MCPB format, per-user URL + API key)
+### Auth Keystone
+- [ ] OAuth 2.1 + Dynamic Client Registration — unlocks ChatGPT Business connectors (mandate OAuth+DCR, no bearer) and Claude Managed Agents (OAuth Vaults)
 - [ ] ChatGPT native MCP Connector (120+ tools, live tool discovery)
+- [ ] Claude Connector directory listing
 
-### v3.1 — Intelligence Layer
-- [ ] Tool Search / deferred tool loading (BM25 retrieval over 120+ tools)
-- [ ] Per-site custom tool registry (add tools without modifying the plugin)
-- [ ] Multi-agent handoffs (SEO + content + deploy agents in sequence)
+### Platform
+- [ ] Per-site custom tool registry — add tools without modifying the plugin
+- [ ] Multi-agent handoffs — SEO + content + deploy agents in sequence
+- [ ] Hosted marketing agent (agent.mcpwp.net)
 
 ---
 
@@ -342,7 +353,7 @@ See [SECURITY.md](SECURITY.md) for our vulnerability disclosure policy.
 - **Website:** [mcpwp.net](https://mcpwp.net)
 - **OpenClaw skill:** [integrations/clawhub/](integrations/clawhub/)
 - **ChatGPT schema:** [integrations/chatgpt/](integrations/chatgpt/) *(coming in v2.9)*
-- **WordPress.org:** pending approval
+- **WordPress.org:** submission pending
 - **Download:** [mcpwp.net](https://mcpwp.net)
 
 ## License
