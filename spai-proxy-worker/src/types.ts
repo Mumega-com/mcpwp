@@ -7,10 +7,10 @@ export interface Env {
 }
 
 export interface SiteEntry {
-  site_id: string;       // slug, e.g. "client-a"
+  site_id: string;       // UUID v4, e.g. "550e8400-e29b-41d4-a716-446655440000" (#544)
   url: string;           // e.g. "https://client-a.com"
-  api_key_enc: string;   // AES-GCM encrypted, base64
-  label: string;         // human-readable name
+  api_key_enc: string;   // AES-GCM encrypted under per-agency HKDF-derived key, base64 (#546)
+  label: string;         // human-readable name (slug/hostname — display field only, #544)
   added_at: string;      // ISO timestamp
 }
 
@@ -18,4 +18,5 @@ export interface AgencyAccount {
   id: string;
   name: string;
   created_at: string;
+  token_hash?: string;   // current active HMAC token hash — for revocation/rotation (#543)
 }
