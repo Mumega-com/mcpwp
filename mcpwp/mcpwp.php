@@ -324,11 +324,25 @@ if ( ! function_exists( 'mcpwp_load_plugin' ) ) {
 	require_once MCPWP_PLUGIN_DIR . 'includes/admin/class-mcpwp-integrations-admin.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/admin/class-mcpwp-tools-admin.php';
 
-	// Bridge migration: copy spai_* options → mcpwp_* options (idempotent).
+	// Bridge migration: copy spai_* options + tables → mcpwp_* (idempotent).
 	// Runs early, before REST routes are registered, so auth is available
 	// on the first request after cutover.  Guarded by mcpwp_migrated_from_spai.
+	// Wrapped in try/catch so a migration error never fatals the site.
 	require_once MCPWP_PLUGIN_DIR . 'includes/class-mcpwp-migrate.php';
-	Mcpwp_Migrate::run();
+	try {
+		Mcpwp_Migrate::run();
+	} catch ( \Throwable $e ) {
+		if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log( 'MCPWP migration error (plugins_loaded): ' . $e->getMessage() );
+		}
+		// Log-and-continue — never fatal the site.
+	} catch ( \Exception $e ) {
+		if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log( 'MCPWP migration error (plugins_loaded): ' . $e->getMessage() );
+		}
+	}
 
 	// Check if database needs updating
 	$installed_db_version = get_option( 'mcpwp_db_version', '0' );
@@ -390,12 +404,36 @@ if ( ! function_exists( 'mcpwp_activate' ) ) {
 		foreach ( $sites as $blog_id ) {
 			switch_to_blog( $blog_id );
 			Mcpwp_Activator::activate();
-			Mcpwp_Migrate::run();
+			try {
+				Mcpwp_Migrate::run();
+			} catch ( \Throwable $e ) {
+				if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+					error_log( 'MCPWP migration error (activate, blog ' . $blog_id . '): ' . $e->getMessage() );
+				}
+			} catch ( \Exception $e ) {
+				if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+					error_log( 'MCPWP migration error (activate, blog ' . $blog_id . '): ' . $e->getMessage() );
+				}
+			}
 			restore_current_blog();
 		}
 	} else {
 		Mcpwp_Activator::activate();
-		Mcpwp_Migrate::run();
+		try {
+			Mcpwp_Migrate::run();
+		} catch ( \Throwable $e ) {
+			if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log( 'MCPWP migration error (activate): ' . $e->getMessage() );
+			}
+		} catch ( \Exception $e ) {
+			if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log( 'MCPWP migration error (activate): ' . $e->getMessage() );
+			}
+		}
 	}
 	}
 }

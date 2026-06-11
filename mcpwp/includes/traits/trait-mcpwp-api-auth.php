@@ -439,15 +439,31 @@ trait Mcpwp_Api_Auth {
 	/**
 	 * Check whether a token looks like a generated OAuth access token.
 	 *
+	 * Accepts both the v3 prefix (mcpwp_at_) and the legacy 2.8.x prefix
+	 * (spai_at_) so that OAuth-connected clients (Claude Desktop, ChatGPT)
+	 * continue to work through the slug-rename cutover without needing to
+	 * re-authenticate.  The token lookup logic in authenticate_oauth_access_token
+	 * handles the transient-key difference (spai_ tokens were stored under
+	 * spai_oauth_token_<md5>; v3 stores under mcpwp_oauth_token_<md5>).
+	 *
 	 * @param string $token Access token.
-	 * @return bool True when token has OAuth prefix.
+	 * @return bool True when token has an OAuth prefix (v3 or legacy).
 	 */
 	protected function looks_like_oauth_access_token( $token ) {
-		return 0 === strpos( (string) $token, 'mcpwp_at_' );
+		$token = (string) $token;
+		return 0 === strpos( $token, 'mcpwp_at_' ) || 0 === strpos( $token, 'spai_at_' );
 	}
 
 	/**
 	 * Validate and authenticate OAuth bearer access token.
+	 *
+	 * Handles both v3 tokens (mcpwp_at_) and legacy 2.8.x tokens (spai_at_).
+	 * 2.8.56 stored OAuth tokens under the transient key spai_oauth_token_<md5(token)>.
+	 * v3 stores them under mcpwp_oauth_token_<md5(token)>.  Because the md5 is of
+	 * the full token string (including its prefix), the transient key differs and
+	 * we must use the correct prefix-aware lookup.  For spai_at_ tokens we first
+	 * check the legacy spai_oauth_token_ transient namespace.  OAuth must be
+	 * enabled on this site for either path to work.
 	 *
 	 * @param string          $token   Access token.
 	 * @param WP_REST_Request $request Request object.
@@ -463,7 +479,19 @@ trait Mcpwp_Api_Auth {
 			);
 		}
 
-		$record = get_transient( $this->get_oauth_token_transient_key( $token ) );
+		// For legacy spai_at_ tokens we check the legacy transient namespace first.
+		// 2.8.56 used 'spai_oauth_token_' . md5($token); v3 uses 'mcpwp_oauth_token_' . md5($token).
+		// We try the legacy key first when the token has the spai_ prefix, then fall
+		// through to the standard path in case it was already re-issued under v3 naming.
+		$record = false;
+		if ( 0 === strpos( (string) $token, 'spai_at_' ) ) {
+			$legacy_transient_key = 'spai_oauth_token_' . md5( (string) $token );
+			$record               = get_transient( $legacy_transient_key );
+		}
+		if ( ! is_array( $record ) || empty( $record['scopes'] ) ) {
+			$record = get_transient( $this->get_oauth_token_transient_key( $token ) );
+		}
+
 		if ( ! is_array( $record ) || empty( $record['scopes'] ) ) {
 			$this->log_auth_failure( $request );
 			return new WP_Error(

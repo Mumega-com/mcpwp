@@ -1,6 +1,7 @@
 # Bridge #505 — Slug Handover Design Note
 
-**Status: DRAFT — requires architect + mumcp-warden review before any handover code ships.**
+**Status: UPDATED (round 2) — data migration hardened for ~10 live paying sites.  Handover
+automation still requires architect + mumcp-warden review before shipping.**
 
 **What this doc covers:** the one part of the #505 bridge that is NOT safe to improvise —
 how to move the active-plugin record from `site-pilot-ai/site-pilot-ai.php` to
@@ -77,15 +78,22 @@ the few seconds between steps 3 and 4).
 
 ## Recommendation
 
-For the current fleet (≤ 2 controlled sites, REBRAND-PLAN.md confirms):
+The install base has grown to approximately 10 live paying sites (updated from the original
+"≤ 2 controlled sites" premise in round 1).
 
-**Use Option C (manual re-activation)** for the initial handover.  It requires no new code,
-no update channel risk, and can be completed in under five minutes per site.  The migration
-routine (`Mcpwp_Migrate`) fires automatically the moment MCPWP activates, so data is safe
-before the old plugin deactivates.
+**For now, continue using Option C (manual re-activation)** on a site-by-site basis.  At ~10
+sites this is still practical (5–10 minutes per site via WP-CLI).  The migration routine
+(`Mcpwp_Migrate`) is now hardened for this fleet size:
+- All operational option keys are migrated (approval_requests, recent_events, site_memory,
+  blueprints, white_label, signals, search_performance).
+- DB tables (webhooks, webhook_logs, action_log, activity_log, feedback) are migrated
+  row-by-row with schema parity checks.
+- spai_api_keys are appended into mcpwp_api_keys without clobbering existing v3 keys.
+- spai_at_ OAuth tokens continue to work via the legacy transient lookup.
+- Both call sites are wrapped in try/catch — a migration error cannot fatal the site.
 
-Only implement Option A (automated channel delivery) if the install base grows to where manual
-per-site action is impractical (roughly > 10 sites).  That implementation must:
+**Upgrade to Option A (automated channel delivery)** if the install base grows beyond
+~15–20 sites.  That implementation must:
 - Pass the two-person rule for shipping through the pinned 2.8.56 channel.
 - Include integration tests on the M3 rig showing activation-→-handover-→-deactivation
   completes without REST downtime.

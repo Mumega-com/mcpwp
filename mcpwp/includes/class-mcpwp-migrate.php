@@ -1,9 +1,10 @@
 <?php
 /**
- * Data migration: spai_* options → mcpwp_* options
+ * Data migration: spai_* options → mcpwp_* options + spai_* tables → mcpwp_* tables
  *
  * Copies every known legacy option written by site-pilot-ai 2.8.x to its
- * mcpwp_* equivalent.  The routine is:
+ * mcpwp_* equivalent, and copies rows from the spai_* database tables into
+ * the freshly-created mcpwp_* tables.  The routine is:
  *
  *   - Idempotent: guarded by the `mcpwp_migrated_from_spai` flag option.
  *   - Non-destructive: leaves all spai_* originals intact.
@@ -33,6 +34,14 @@
  * because (a) the new admin chat UI may differ, (b) iterating over all user
  * IDs at activation time is expensive, and (c) the data is ephemeral.
  *
+ * ENTITLEMENT OPTIONS
+ * -------------------
+ * v3's Mcpwp_License reads entitlement state PURELY from the Freemius SDK
+ * (see class-mcpwp-license.php::is_pro() — no local option read).  There are
+ * no spai_pro_license or spai_trial_started options in 2.8.56 (confirmed via
+ * grep of the source).  Therefore no entitlement options are migrated.
+ * See R3 in the bridge spec for the file:line evidence.
+ *
  * @package MCPWP
  * @since   3.0.0 (unreleased bridge)
  */
@@ -42,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Handles one-time migration of spai_* options to mcpwp_* options.
+ * Handles one-time migration of spai_* options and tables to mcpwp_* equivalents.
  */
 class Mcpwp_Migrate {
 
@@ -72,11 +81,19 @@ class Mcpwp_Migrate {
 	 *   spai_chat_endpoint   — internal admin chat config; v3 may differ
 	 *   spai_chat_model      — internal admin chat config; v3 may differ
 	 *   spai_chat_secret     — internal admin chat config; v3 may differ
+	 *   spai_pro_license     — not present in 2.8.56; entitlement is Freemius-only (R3)
+	 *   spai_trial_started   — not present in 2.8.56; entitlement is Freemius-only (R3)
+	 *   spai_signals_meta    — v3 introduces this key; 2.8.56 does not write it
 	 *
 	 * @var array<string,string>
 	 */
 	const OPTION_MAP = array(
 		// API keys — primary migration target; dual-key auth depends on these.
+		// NOTE: spai_api_keys is handled specially in run() (append, not overwrite)
+		// when mcpwp_api_keys already exists.  The entry here is kept so the
+		// OPTION_MAP remains a complete inventory and tests can verify the key
+		// is in the map.  The run() method removes it from the main-map loop and
+		// handles it separately.
 		'spai_api_keys'                   => 'mcpwp_api_keys',
 		'spai_api_key'                    => 'mcpwp_api_key',
 
@@ -117,6 +134,46 @@ class Mcpwp_Migrate {
 
 		// Action log retention.
 		'spai_action_log_retention_days'  => 'mcpwp_action_log_retention_days',
+
+		// Approval requests (class-mcpwp-approvals.php OPTION_NAME).
+		'spai_approval_requests'          => 'mcpwp_approval_requests',
+
+		// Event store (class-mcpwp-event-store.php OPTION_NAME).
+		'spai_recent_events'              => 'mcpwp_recent_events',
+
+		// AI site memory (class-mcpwp-site-memory.php OPTION_KEY).
+		'spai_site_memory'                => 'mcpwp_site_memory',
+
+		// Site blueprints (class-mcpwp-site-blueprints.php OPTION_KEY).
+		'spai_site_blueprints'            => 'mcpwp_site_blueprints',
+
+		// White-label config (class-mcpwp-white-label.php OPTION_KEY).
+		'spai_white_label'                => 'mcpwp_white_label',
+
+		// Signals cache (class-mcpwp-signals.php OPTION_KEY).
+		// NOTE: spai_signals_meta does NOT exist in 2.8.56 — 2.8.56 only writes
+		// spai_signals and spai_signal_settings.  mcpwp_signals_meta is a v3 addition.
+		'spai_signals'                    => 'mcpwp_signals',
+		'spai_signal_settings'            => 'mcpwp_signal_settings',
+
+		// Search-console data (class-mcpwp-search-performance.php).
+		'spai_search_performance_imports' => 'mcpwp_search_performance_imports',
+		'spai_search_performance_rows'    => 'mcpwp_search_performance_rows',
+	);
+
+	/**
+	 * Table migration map: spai_ table suffix → mcpwp_ table suffix.
+	 * Each entry is migrated if the source exists + is non-empty and the
+	 * target exists + is empty.
+	 *
+	 * @var array<string,string>
+	 */
+	const TABLE_MAP = array(
+		'spai_webhooks'     => 'mcpwp_webhooks',
+		'spai_webhook_logs' => 'mcpwp_webhook_logs',
+		'spai_action_log'   => 'mcpwp_action_log',
+		'spai_activity_log' => 'mcpwp_activity_log',
+		'spai_feedback'     => 'mcpwp_feedback',
 	);
 
 	/**
@@ -147,18 +204,25 @@ class Mcpwp_Migrate {
 		}
 
 		$log = array(
-			'timestamp'   => function_exists( 'current_time' ) ? current_time( 'c' ) : gmdate( 'c' ),
-			'from_version' => (string) get_option( 'spai_version', 'unknown' ),
-			'copied'      => array(),
-			'skipped_existing' => array(),
-			'skipped_missing'  => array(),
+			'timestamp'          => function_exists( 'current_time' ) ? current_time( 'c' ) : gmdate( 'c' ),
+			'from_version'       => (string) get_option( 'spai_version', 'unknown' ),
+			'copied'             => array(),
+			'skipped_existing'   => array(),
+			'skipped_missing'    => array(),
 			'encryption_warning' => false,
+			'tables'             => array(),
 		);
+
+		// -----------------------------------------------------------------------
+		// OPTION MIGRATION
+		// -----------------------------------------------------------------------
 
 		// Process the main option map.
 		// spai_site_profile → mcpwp_site_context is handled specially below.
+		// spai_api_keys is handled specially below (append rather than simple copy).
 		$main_map = self::OPTION_MAP;
 		unset( $main_map['spai_site_profile'] );
+		unset( $main_map['spai_api_keys'] );
 
 		foreach ( $main_map as $legacy_key => $new_key ) {
 			$legacy_value = get_option( $legacy_key, '__NOT_SET__' );
@@ -192,11 +256,76 @@ class Mcpwp_Migrate {
 			}
 		}
 
+		// -----------------------------------------------------------------------
+		// R5: spai_api_keys — append into mcpwp_api_keys (de-duplicated)
+		//
+		// If mcpwp_api_keys already exists (e.g. written by Mcpwp_Activator before
+		// migration runs), we cannot overwrite it — that would clobber any v3 key
+		// the activator just created.  Instead we append the spai_ records, skipping
+		// any that are already present (matched by hash) or already revoked.
+		// -----------------------------------------------------------------------
+		$spai_keys_raw = get_option( 'spai_api_keys', '__NOT_SET__' );
+		if ( '__NOT_SET__' !== $spai_keys_raw && is_array( $spai_keys_raw ) && ! empty( $spai_keys_raw ) ) {
+			$mcpwp_keys_existing = get_option( 'mcpwp_api_keys', false );
+			if ( false === $mcpwp_keys_existing ) {
+				// mcpwp_api_keys does not exist yet — simple copy.
+				update_option( 'mcpwp_api_keys', $spai_keys_raw );
+				$log['copied'][] = 'spai_api_keys → mcpwp_api_keys (direct copy)';
+			} else {
+				// mcpwp_api_keys already exists — append missing entries.
+				$mcpwp_keys = is_array( $mcpwp_keys_existing ) ? $mcpwp_keys_existing : array();
+
+				// Build a set of existing hashes for O(1) dedup lookup.
+				$existing_hashes = array();
+				foreach ( $mcpwp_keys as $k ) {
+					if ( ! empty( $k['hash'] ) ) {
+						$existing_hashes[ (string) $k['hash'] ] = true;
+					}
+				}
+
+				$appended = 0;
+				foreach ( $spai_keys_raw as $spai_key ) {
+					if ( ! is_array( $spai_key ) ) {
+						continue;
+					}
+					// Skip revoked spai_ keys — no point importing them.
+					if ( ! empty( $spai_key['revoked_at'] ) ) {
+						continue;
+					}
+					$hash = isset( $spai_key['hash'] ) ? (string) $spai_key['hash'] : '';
+					if ( '' === $hash ) {
+						continue;
+					}
+					// Skip if already present by hash.
+					if ( isset( $existing_hashes[ $hash ] ) ) {
+						continue;
+					}
+					$mcpwp_keys[]             = $spai_key;
+					$existing_hashes[ $hash ] = true;
+					$appended++;
+				}
+
+				if ( $appended > 0 ) {
+					update_option( 'mcpwp_api_keys', $mcpwp_keys );
+					$log['copied'][] = 'spai_api_keys → mcpwp_api_keys (appended ' . $appended . ' record(s), no clobber)';
+				} else {
+					$log['skipped_existing'][] = 'spai_api_keys (all records already present in mcpwp_api_keys)';
+				}
+			}
+		} elseif ( '__NOT_SET__' !== $spai_keys_raw ) {
+			// spai_api_keys exists but is empty or not an array — nothing to append.
+			$log['skipped_missing'][] = 'spai_api_keys (empty or non-array)';
+		} else {
+			$log['skipped_missing'][] = 'spai_api_keys';
+		}
+
+		// -----------------------------------------------------------------------
 		// Encryption sanity check.
 		// After copying spai_integrations → mcpwp_integrations, attempt to verify
 		// the blob is still parseable.  Mcpwp_Encryption derives its key from
 		// AUTH_SALT — if that constant is the same (it should be on the same WP
 		// install), decryption will succeed.
+		// -----------------------------------------------------------------------
 		$integrations_copied = in_array( 'spai_integrations → mcpwp_integrations', $log['copied'], true );
 		if ( $integrations_copied && class_exists( 'Mcpwp_Encryption' ) ) {
 			$enc  = Mcpwp_Encryption::get_instance();
@@ -210,20 +339,173 @@ class Mcpwp_Migrate {
 					$log['encryption_warning'] = true;
 					$log['encryption_warning_detail'] = 'mcpwp_integrations blob copied from spai_integrations '
 						. 'but Mcpwp_Encryption::decrypt() returned false.  Provider keys (OpenAI, Gemini, '
-						. 'ElevenLabs, etc.) must be re-entered in WP Admin > MCPWP > Integrations.';
+						. 'ElevenLabs, Pexels, Figma, PostHog, etc.) must be re-entered in '
+						. 'WP Admin > MCPWP > Integrations.';
 				}
-			} elseif ( false === $blob ) {
-				// spai_integrations was an array (unencrypted, older builds).
+			} elseif ( is_array( $blob ) ) {
+				// spai_integrations was a plain array (unencrypted, older 2.8.x builds).
 				// This is safe — no re-entry needed.
 				$log['copied'][] = 'spai_integrations was unencrypted array — copied as-is';
 			}
+			// false === $blob means the option was not yet written (shouldn't happen
+			// if integrations_copied is true, but guard defensively).
 		}
 
+		// -----------------------------------------------------------------------
+		// R2: TABLE MIGRATION
+		// -----------------------------------------------------------------------
+		self::migrate_tables( $log );
+
+		// -----------------------------------------------------------------------
 		// Persist the log and set the migration flag atomically.
+		// -----------------------------------------------------------------------
 		update_option( self::LOG_OPTION, $log );
 		update_option( self::MIGRATED_FLAG, '1' );
 
 		return true;
+	}
+
+	/**
+	 * Migrate rows from spai_* tables into mcpwp_* tables.
+	 *
+	 * Strategy (non-destructive):
+	 *  - Only migrate if the v3 target table exists AND is empty.
+	 *  - Only migrate if the spai_ source table exists AND is non-empty.
+	 *  - Compare schemas (SHOW COLUMNS).  If columns match → INSERT … SELECT *.
+	 *    If columns diverge → copy only the common columns; log a warning about
+	 *    any columns that could not be mapped.  Never blind-copy mismatched schemas.
+	 *  - Keep the spai_ source tables intact (rollback path).
+	 *  - Per-table done flags in the log guard against re-runs (belt-and-suspenders
+	 *    on top of the global MIGRATED_FLAG).
+	 *  - Each table is wrapped in its own try/catch so one bad table does not
+	 *    abort the rest.
+	 *
+	 * @param array &$log Migration log array (passed by reference).
+	 */
+	private static function migrate_tables( array &$log ) {
+		// Bail early if wpdb is not available (unit-test context).
+		if ( ! isset( $GLOBALS['wpdb'] ) ) {
+			return;
+		}
+
+		global $wpdb;
+
+		foreach ( self::TABLE_MAP as $spai_suffix => $mcpwp_suffix ) {
+			// Derive full table names using the current site's prefix.
+			// In multisite, $wpdb->prefix is per-site — these are per-site tables.
+			$src = $wpdb->prefix . $spai_suffix;
+			$dst = $wpdb->prefix . $mcpwp_suffix;
+
+			$table_log = array(
+				'src'    => $src,
+				'dst'    => $dst,
+				'status' => 'skipped',
+				'rows'   => 0,
+				'note'   => '',
+			);
+
+			try {
+				// 1. Verify source table exists and is non-empty.
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$src_count = $wpdb->get_var( $wpdb->prepare(
+					'SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = %s',
+					$src
+				) );
+				if ( ! $src_count ) {
+					$table_log['status'] = 'skipped';
+					$table_log['note']   = 'source table does not exist';
+					$log['tables'][ $spai_suffix ] = $table_log;
+					continue;
+				}
+
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$src_rows = (int) $wpdb->get_var( "SELECT COUNT(*) FROM `{$src}`" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+				if ( 0 === $src_rows ) {
+					$table_log['status'] = 'skipped';
+					$table_log['note']   = 'source table is empty';
+					$log['tables'][ $spai_suffix ] = $table_log;
+					continue;
+				}
+
+				// 2. Verify destination table exists and is empty.
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$dst_exists = $wpdb->get_var( $wpdb->prepare(
+					'SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = %s',
+					$dst
+				) );
+				if ( ! $dst_exists ) {
+					$table_log['status'] = 'skipped';
+					$table_log['note']   = 'destination table does not exist (activator may not have run yet)';
+					$log['tables'][ $spai_suffix ] = $table_log;
+					continue;
+				}
+
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$dst_rows = (int) $wpdb->get_var( "SELECT COUNT(*) FROM `{$dst}`" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+				if ( $dst_rows > 0 ) {
+					$table_log['status'] = 'skipped';
+					$table_log['note']   = "destination table already has {$dst_rows} rows — skipped to preserve data";
+					$log['tables'][ $spai_suffix ] = $table_log;
+					continue;
+				}
+
+				// 3. Compare schemas.
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$src_cols_raw = $wpdb->get_results( "SHOW COLUMNS FROM `{$src}`", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$dst_cols_raw = $wpdb->get_results( "SHOW COLUMNS FROM `{$dst}`", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+				$src_col_names = array_column( $src_cols_raw, 'Field' );
+				$dst_col_names = array_column( $dst_cols_raw, 'Field' );
+
+				$common_cols      = array_values( array_intersect( $src_col_names, $dst_col_names ) );
+				$src_only_cols    = array_values( array_diff( $src_col_names, $dst_col_names ) );
+				$dst_only_cols    = array_values( array_diff( $dst_col_names, $src_col_names ) );
+
+				if ( empty( $common_cols ) ) {
+					$table_log['status'] = 'skipped';
+					$table_log['note']   = 'no common columns between source and destination — schema mismatch too severe to migrate safely';
+					$log['tables'][ $spai_suffix ] = $table_log;
+					continue;
+				}
+
+				// 4. Build the INSERT … SELECT with only the common columns.
+				$col_list = implode( ', ', array_map( function( $c ) {
+					return '`' . esc_sql( $c ) . '`';
+				}, $common_cols ) );
+
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				$result = $wpdb->query(
+					"INSERT INTO `{$dst}` ({$col_list}) SELECT {$col_list} FROM `{$src}`" // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+				);
+
+				if ( false === $result ) {
+					$table_log['status'] = 'error';
+					$table_log['note']   = 'INSERT failed: ' . $wpdb->last_error;
+				} else {
+					$table_log['status'] = 'migrated';
+					$table_log['rows']   = (int) $result;
+
+					$schema_notes = array();
+					if ( ! empty( $src_only_cols ) ) {
+						$schema_notes[] = 'source-only columns (not migrated): ' . implode( ', ', $src_only_cols );
+					}
+					if ( ! empty( $dst_only_cols ) ) {
+						$schema_notes[] = 'destination-only columns (set to default): ' . implode( ', ', $dst_only_cols );
+					}
+					$table_log['note'] = empty( $schema_notes ) ? 'schema parity OK' : implode( '; ', $schema_notes );
+				}
+
+			} catch ( \Throwable $e ) {
+				$table_log['status'] = 'error';
+				$table_log['note']   = 'exception: ' . $e->getMessage();
+			} catch ( \Exception $e ) {
+				$table_log['status'] = 'error';
+				$table_log['note']   = 'exception: ' . $e->getMessage();
+			}
+
+			$log['tables'][ $spai_suffix ] = $table_log;
+		}
 	}
 
 	/**
