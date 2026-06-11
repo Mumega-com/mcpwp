@@ -3,6 +3,10 @@
 //           link-local (169.254/16, fe80::), loopback (127/8, ::1, localhost),
 //           .internal/.local suffixes. Enforced at add-site time and re-checked
 //           on every forward (DNS rebinding defense).
+//
+// Blocker A fix: all upstream fetch() calls use redirect:'manual' and treat
+// 3xx as an error — prevents a redirect-follow SSRF bypass where an allowed
+// host returns 302 → metadata/RFC1918 endpoint.
 
 import { decryptForAgency } from './crypto';
 import type { SiteEntry } from './types';
@@ -28,7 +32,9 @@ export function checkSsrfUrl(url: string): string | null {
     return 'url must use HTTPS';
   }
 
-  const host = parsed.hostname.toLowerCase();
+  // Strip a single trailing dot (FQDN root) — 'localhost.' resolves to loopback.
+  let host = parsed.hostname.toLowerCase();
+  if (host.endsWith('.')) host = host.slice(0, -1);
 
   // Block IP-literal IPv6 (e.g. [::1], [fe80::1], [10.0.0.1])
   if (host.startsWith('[')) {
@@ -47,6 +53,17 @@ export function checkSsrfUrl(url: string): string | null {
     return null; // public IPv4 literal — allowed
   }
 
+  // Fail closed on non-canonical numeric IP forms that bypass the strict
+  // dotted-quad check above: decimal int (2130706433), hex int (0x7f000001),
+  // octal int (017700000001), and short dotted forms (127.1, 10.0.1).
+  // A legitimate DNS hostname is never one of these (TLDs are never all-numeric).
+  if (/^\d+$/.test(host) || /^0x[0-9a-f]+$/.test(host) || /^0[0-7]+$/.test(host)) {
+    return `host '${host}' is a numeric IP form — not allowed`;
+  }
+  if (/^\d{1,3}(\.\d{1,3}){1,2}$/.test(host)) {
+    return `host '${host}' is a non-canonical IPv4 form — not allowed`;
+  }
+
   // Block loopback hostname
   if (host === 'localhost') {
     return "hostname 'localhost' is not allowed";
@@ -57,6 +74,11 @@ export function checkSsrfUrl(url: string): string | null {
     return `hostname '${host}' uses a blocked suffix (.internal/.local)`;
   }
 
+  // NOTE: this is a string-level guard. A public hostname that RESOLVES to a
+  // private IP (DNS rebinding) is not caught here — Cloudflare Workers cannot
+  // resolve + pin at the app layer. Residual risk is documented; re-validation
+  // on every forward (below) limits the window. Network-layer egress controls
+  // are the complete fix if/when available.
   return null; // passes
 }
 
@@ -64,6 +86,8 @@ function isBlockedIpv4(ip: string): boolean {
   const parts = ip.split('.').map(Number);
   if (parts.length !== 4 || parts.some((p) => isNaN(p) || p < 0 || p > 255)) return false;
   const [a, b] = parts;
+  // 0.0.0.0/8 — "this host" / unspecified (0.0.0.0 routes to loopback on many stacks)
+  if (a === 0) return true;
   // 127.0.0.0/8 — loopback
   if (a === 127) return true;
   // 10.0.0.0/8 — RFC1918
@@ -79,22 +103,52 @@ function isBlockedIpv4(ip: string): boolean {
 
 function isBlockedIpv6(addr: string): boolean {
   const lower = addr.toLowerCase();
-  // ::1 loopback
-  if (lower === '::1') return true;
+  // :: unspecified, ::1 loopback
+  if (lower === '::' || lower === '::1' || lower === '0:0:0:0:0:0:0:0' || lower === '0:0:0:0:0:0:0:1') return true;
   // fe80::/10 link-local
   if (lower.startsWith('fe8') || lower.startsWith('fe9') ||
       lower.startsWith('fea') || lower.startsWith('feb')) return true;
   // fc00::/7 unique local (fd00::/8, fc00::/8)
   if (lower.startsWith('fc') || lower.startsWith('fd')) return true;
-  // ::ffff:0:0/96 IPv4-mapped — block if mapped address is private
+  // ::ffff:0:0/96 IPv4-mapped — block if the mapped address is private, in
+  // BOTH the dotted-decimal (::ffff:127.0.0.1) and hex-hextet (::ffff:7f00:1)
+  // forms. The hex form was a loopback bypass before this guard.
   if (lower.startsWith('::ffff:')) {
-    const mapped = lower.slice(7); // e.g. "10.0.0.1" or "0a00:0001"
-    // dotted-decimal form
+    const mapped = lower.slice(7);
     if (/^\d{1,3}(\.\d{1,3}){3}$/.test(mapped)) {
       return isBlockedIpv4(mapped);
     }
+    const hx = mapped.match(/^([0-9a-f]{1,4}):([0-9a-f]{1,4})$/);
+    if (hx) {
+      const hi = parseInt(hx[1], 16);
+      const lo = parseInt(hx[2], 16);
+      const dotted = [(hi >> 8) & 0xff, hi & 0xff, (lo >> 8) & 0xff, lo & 0xff].join('.');
+      return isBlockedIpv4(dotted);
+    }
+    // Unrecognized mapped form → fail closed.
+    return true;
   }
   return false;
+}
+
+// ─── Redirect-safe fetch helper (Blocker A) ──────────────────────────────────
+//
+// Uses redirect:'manual' so the Worker never follows a 3xx returned by an
+// upstream site. MCPWP endpoints never legitimately redirect; following would
+// let an allowed host 302 → cloud-metadata / RFC1918 and bypass the SSRF guard.
+//
+// Returns the Response on 1xx/2xx/4xx/5xx.
+// Throws an Error with `status` for 3xx — callers convert to appropriate errors.
+
+export async function fetchNoRedirect(
+  url: string,
+  init: RequestInit
+): Promise<Response> {
+  const resp = await fetch(url, { ...init, redirect: 'manual' });
+  if (resp.status >= 300 && resp.status < 400) {
+    throw new Error(`Upstream returned redirect ${resp.status} — not followed (SSRF guard)`);
+  }
+  return resp;
 }
 
 // ─── Fetch helpers that use decryptForAgency (#546) ─────────────────────────
@@ -109,7 +163,8 @@ export async function fetchToolsList(
   if (ssrfErr) throw new Error(`SSRF guard: ${ssrfErr}`);
 
   const { plaintext: apiKey } = await decryptForAgency(site.api_key_enc, encKey, agencyId);
-  const resp = await fetch(siteUrl(site.url), {
+  // Blocker A: redirect:'manual' via fetchNoRedirect — 3xx throws rather than follows.
+  const resp = await fetchNoRedirect(siteUrl(site.url), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
     body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list', params: {} }),
@@ -141,17 +196,28 @@ export async function forwardToolCall(
   }
 
   const { plaintext: apiKey } = await decryptForAgency(site.api_key_enc, encKey, agencyId);
-  const resp = await fetch(siteUrl(site.url), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
-    body: JSON.stringify({
+  let resp: Response;
+  try {
+    // Blocker A: redirect:'manual' via fetchNoRedirect — 3xx throws rather than follows.
+    resp = await fetchNoRedirect(siteUrl(site.url), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: reqId,
+        method: 'tools/call',
+        params: { name: toolName, arguments: args },
+      }),
+      signal: AbortSignal.timeout(30000),
+    });
+  } catch (err) {
+    // Covers redirect-refusal errors and network failures.
+    return {
       jsonrpc: '2.0',
       id: reqId,
-      method: 'tools/call',
-      params: { name: toolName, arguments: args },
-    }),
-    signal: AbortSignal.timeout(30000),
-  });
+      error: { code: -32000, message: `Upstream fetch error: ${String(err)}` },
+    };
+  }
   if (!resp.ok) {
     return {
       jsonrpc: '2.0',

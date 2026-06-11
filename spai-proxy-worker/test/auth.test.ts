@@ -158,3 +158,102 @@ describe('auth — #543 rotateToken', () => {
     expect(result).toBeNull();
   });
 });
+
+// ─── Blocker B: migrate-on-validate for legacy SHA-256 tokens ────────────────
+
+describe('Blocker B — migrate-on-validate (legacy SHA-256 tokens become revocable)', () => {
+  /**
+   * Helper: seed KV with a legacy-style account (no token_hash) and a
+   * SHA-256 forward-index entry simulating a token minted before HMAC upgrade.
+   */
+  async function seedLegacyToken(token: string, agencyId: string): Promise<{ kv: KVNamespace; env: Env }> {
+    const sha256 = await hashToken(token);
+    const accountRaw = JSON.stringify({
+      id: agencyId,
+      name: 'Legacy Agency',
+      created_at: '2025-01-01T00:00:00Z',
+      // token_hash intentionally absent — legacy account
+    });
+    const kv = mockKV({
+      [`agency:token:${sha256}`]: agencyId,
+      [`agency:account:${agencyId}`]: accountRaw,
+    });
+    const env = makeEnv(kv);
+    return { kv, env };
+  }
+
+  it('(a) legacy token still validates after migration', async () => {
+    const token = 'mcpwp_agency_legacytoken_a';
+    const { env } = await seedLegacyToken(token, 'agency-legacy-a');
+    const result = await validateToken(token, env);
+    expect(result).toBe('agency-legacy-a');
+  });
+
+  it('(b) token now lives under HMAC key after first validation', async () => {
+    const token = 'mcpwp_agency_legacytoken_b';
+    const { kv, env } = await seedLegacyToken(token, 'agency-legacy-b');
+    await validateToken(token, env);
+
+    const hmac = await hmacToken(token, TEST_KEY);
+    const fromHmac = await kv.get(`agency:token:${hmac}`);
+    expect(fromHmac).toBe('agency-legacy-b');
+  });
+
+  it('(c) SHA-256 key is deleted after first validation', async () => {
+    const token = 'mcpwp_agency_legacytoken_c';
+    const { kv, env } = await seedLegacyToken(token, 'agency-legacy-c');
+    const sha256 = await hashToken(token);
+
+    // Confirm SHA-256 entry exists before migration
+    expect(await kv.get(`agency:token:${sha256}`)).toBe('agency-legacy-c');
+
+    await validateToken(token, env);
+
+    // SHA-256 entry must be gone after migration
+    expect(await kv.get(`agency:token:${sha256}`)).toBeNull();
+  });
+
+  it('(d) revokeToken invalidates legacy token after migration (resurrection closed)', async () => {
+    const token = 'mcpwp_agency_legacytoken_d';
+    const { env } = await seedLegacyToken(token, 'agency-legacy-d');
+
+    // Trigger migration
+    expect(await validateToken(token, env)).toBe('agency-legacy-d');
+
+    // Revoke — should now work because token_hash is set
+    const revoked = await revokeToken('agency-legacy-d', env);
+    expect(revoked).toBe(true);
+
+    // Token must now be dead
+    expect(await validateToken(token, env)).toBeNull();
+  });
+
+  it('(d) rotateToken invalidates legacy token after migration (resurrection closed)', async () => {
+    const token = 'mcpwp_agency_legacytoken_e';
+    const { env } = await seedLegacyToken(token, 'agency-legacy-e');
+
+    // Trigger migration
+    expect(await validateToken(token, env)).toBe('agency-legacy-e');
+
+    // Rotate — should issue a new token and kill the old one
+    const newToken = await rotateToken('agency-legacy-e', env);
+    expect(newToken).not.toBeNull();
+    expect(newToken).not.toBe(token);
+
+    // Old token must be dead
+    expect(await validateToken(token, env)).toBeNull();
+
+    // New token must be alive
+    expect(await validateToken(newToken!, env)).toBe('agency-legacy-e');
+  });
+
+  it('migration is idempotent — second validation also returns agencyId', async () => {
+    const token = 'mcpwp_agency_legacytoken_f';
+    const { env } = await seedLegacyToken(token, 'agency-legacy-f');
+
+    // First validate (migrates)
+    expect(await validateToken(token, env)).toBe('agency-legacy-f');
+    // Second validate (HMAC path, migration is no-op)
+    expect(await validateToken(token, env)).toBe('agency-legacy-f');
+  });
+});

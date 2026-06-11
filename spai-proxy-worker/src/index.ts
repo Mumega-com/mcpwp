@@ -11,7 +11,7 @@ import {
 } from './auth';
 import { getSites, addSite, removeSite } from './registry';
 import { encryptForAgency, decryptForAgency } from './crypto';
-import { checkSsrfUrl } from './proxy';
+import { checkSsrfUrl, fetchNoRedirect } from './proxy';
 import { DASHBOARD_HTML } from './dashboard';
 
 type Variables = { agencyId: string };
@@ -260,7 +260,8 @@ app.get('/api/sites/health', requireApiToken, async (c) => {
           agencyId
         );
         const mcpUrl = site.url.replace(/\/$/, '') + '/wp-json/mcpwp/v1/mcp';
-        const resp = await fetch(mcpUrl, {
+        // Blocker A: refuse redirects — a legitimate WP endpoint never redirects here.
+        const resp = await fetchNoRedirect(mcpUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
           body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {

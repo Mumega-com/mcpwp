@@ -14,7 +14,7 @@
 
 import { getSites } from './registry';
 import { decryptForAgency } from './crypto';
-import { fetchToolsList, forwardToolCall, siteUrl } from './proxy';
+import { fetchToolsList, forwardToolCall, siteUrl, fetchNoRedirect } from './proxy';
 import type { Env, SiteEntry } from './types';
 
 const PROXY_TOOLS = [
@@ -174,7 +174,8 @@ export async function handleToolsCall(
           env.ENCRYPTION_KEY,
           agencyId
         );
-        const resp = await fetch(siteUrl(s.url), {
+        // Blocker A: refuse redirects — health check should not follow 3xx.
+        const resp = await fetchNoRedirect(siteUrl(s.url), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
           body: JSON.stringify({

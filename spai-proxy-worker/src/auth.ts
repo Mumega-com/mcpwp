@@ -5,6 +5,13 @@
 //
 // Legacy tokens (pre-HKDF) stored under plain SHA-256 hash are still looked up
 // as a fallback so existing sessions survive the upgrade.
+//
+// Blocker B fix (migrate-on-validate): when validateToken succeeds via the
+// SHA-256 legacy path it immediately:
+//   1. Writes the HMAC KV entry  (agency:token:<hmac> → agencyId)
+//   2. Sets account.token_hash = hmac  (makes revoke/rotate work)
+//   3. Deletes the old SHA-256 entry   (closes the resurrection window)
+// After the first successful validation the token is fully revocable/rotatable.
 
 import type { Env, AgencyAccount } from './types';
 import { hmacToken } from './crypto';
@@ -34,6 +41,12 @@ export async function hashToken(token: string): Promise<string> {
  * Checks the HMAC-keyed KV entry first (new tokens post-#546), then falls back
  * to the plain SHA-256 entry (legacy tokens).
  * Returns the agencyId string on success, null on failure.
+ *
+ * Blocker B: when the legacy SHA-256 path succeeds, migrate-on-validate:
+ *   - write HMAC KV entry so the token is now revocable/rotatable
+ *   - persist token_hash on the account record
+ *   - delete the old SHA-256 entry (closes the resurrection window)
+ * After migration the next validation hits the HMAC path directly.
  */
 export async function validateToken(token: string, env: Env): Promise<string | null> {
   // Primary lookup: HMAC-keyed entry (tokens issued after #546/#543)
@@ -43,7 +56,30 @@ export async function validateToken(token: string, env: Env): Promise<string | n
 
   // Legacy fallback: plain SHA-256 (tokens created before this upgrade)
   const sha256 = await hashToken(token);
-  return env.AGENCY_KV.get(`agency:token:${sha256}`);
+  const agencyId = await env.AGENCY_KV.get(`agency:token:${sha256}`);
+  if (!agencyId) return null;
+
+  // Migrate-on-validate (Blocker B): upgrade legacy token to HMAC key atomically.
+  // Idempotent: if HMAC entry already exists we just overwrite with the same value.
+  await env.AGENCY_KV.put(`agency:token:${hmac}`, agencyId);
+
+  // Update account record so revokeToken / rotateToken can find the HMAC key.
+  const accountRaw = await env.AGENCY_KV.get(`agency:account:${agencyId}`);
+  if (accountRaw) {
+    const account = JSON.parse(accountRaw) as AgencyAccount;
+    // Only update if token_hash is absent or still pointing at the old SHA-256 value.
+    // (After migration token_hash === hmac, so this is idempotent on repeat calls.)
+    if (account.token_hash !== hmac) {
+      const updated: AgencyAccount = { ...account, token_hash: hmac };
+      await env.AGENCY_KV.put(`agency:account:${agencyId}`, JSON.stringify(updated));
+    }
+  }
+
+  // Delete the legacy SHA-256 entry — token is no longer revocable via SHA-256
+  // resurrection after this point.
+  await env.AGENCY_KV.delete(`agency:token:${sha256}`);
+
+  return agencyId;
 }
 
 /**
