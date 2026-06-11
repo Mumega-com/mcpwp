@@ -119,30 +119,37 @@ if [[ "$UPDATER_COUNT" -eq 0 ]]; then
 fi
 
 if [[ "$VERIFY_ONLY" -eq 0 ]]; then
-	sudo -n cp "$ZIP_PATH" "$STATIC_ZIP"
+	# Copy to a versioned file and point mcpwp-latest.zip at it (resolves #339).
+	# Never cp to $STATIC_ZIP then ln -sf the same path — that produces a
+	# self-referencing symlink and breaks every later publish.
+	STATIC_VERSIONED_ZIP="$STATIC_DIR/mcpwp-$VERSION.zip"
+	sudo -n cp "$ZIP_PATH" "$STATIC_VERSIONED_ZIP"
 	sudo -n cp "$MANIFEST_FILE" "$STATIC_MANIFEST"
-	# Keep mcpwp-latest.zip symlink pointing at the canonical zip (resolves #339).
-	sudo -n ln -sf "$STATIC_ZIP" "$STATIC_DIR/mcpwp-latest.zip"
+	sudo -n ln -sfn "$STATIC_VERSIONED_ZIP" "$STATIC_ZIP"
 
-	# Upload to Cloudflare R2 — CF Worker serves from R2, not from nginx alias.
+	# Upload to Cloudflare R2 — CF Worker (spai-updates) serves mumega.com/mcp-updates/*
+	# from the mumcp-updates bucket, not from the nginx alias.
 	# --remote targets production R2; without it wrangler writes to local miniflare.
-	WORKER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/mcpwp-updates-worker"
-	if [[ -d "$WORKER_DIR" ]] && command -v npx >/dev/null 2>&1; then
-		CF_TOKEN="${CLOUDFLARE_API_TOKEN:-$(grep CLOUDFLARE_API_TOKEN ~/.env.secrets 2>/dev/null | cut -d= -f2)}"
-		if [[ -n "$CF_TOKEN" ]]; then
-			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mcpwp-updates/version.json \
-				--file="$STATIC_MANIFEST" --content-type="application/json" --remote 2>&1 | grep -v "^$" || true
-			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mcpwp-updates/mcpwp-latest.zip \
-				--file="$STATIC_ZIP" --content-type="application/zip" --remote 2>&1 | grep -v "^$" || true
-			# The manifest's download_url is mcpwp-latest.zip. The CF Worker serves from R2,
-			# not the nginx symlink above, so this key MUST exist in R2 or downloads 404.
-			CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mcpwp-updates/mcpwp-latest.zip \
-				--file="$STATIC_ZIP" --content-type="application/zip" --remote 2>&1 | grep -v "^$" || true
-			echo "  R2 upload: version.json + mcpwp-latest.zip + mcpwp-latest.zip → mcpwp-updates bucket"
-		else
-			echo "Note: CLOUDFLARE_API_TOKEN not set — skipping R2 upload (CF Worker will serve stale version)" >&2
-		fi
+	WORKER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/spai-updates-worker"
+	if [[ ! -d "$WORKER_DIR" ]]; then
+		echo "ERROR: worker dir not found ($WORKER_DIR) — R2 not updated, live manifest stays stale" >&2
+		exit 1
 	fi
+	if ! command -v npx >/dev/null 2>&1; then
+		echo "ERROR: npx not found — R2 not updated, live manifest stays stale" >&2
+		exit 1
+	fi
+	CF_TOKEN="${CLOUDFLARE_API_TOKEN:-$(grep CLOUDFLARE_API_TOKEN ~/.env.secrets 2>/dev/null | cut -d= -f2)}"
+	if [[ -z "$CF_TOKEN" ]]; then
+		echo "ERROR: CLOUDFLARE_API_TOKEN not set — R2 not updated, live manifest stays stale" >&2
+		exit 1
+	fi
+	CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mumcp-updates/version.json \
+		--file="$MANIFEST_FILE" --content-type="application/json" --remote
+	# The manifest's download_url is mcpwp-latest.zip — this key MUST exist in R2 or downloads 404.
+	CLOUDFLARE_API_TOKEN="$CF_TOKEN" npx --prefix "$WORKER_DIR" wrangler r2 object put mumcp-updates/mcpwp-latest.zip \
+		--file="$ZIP_PATH" --content-type="application/zip" --remote
+	echo "  R2 upload: version.json + mcpwp-latest.zip → mumcp-updates bucket"
 fi
 
 if [[ "$DEPLOY_WORKER" -eq 1 ]]; then
