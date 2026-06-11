@@ -330,6 +330,11 @@ class Mcpwp_Loader {
 		$mcp_controller = new Mcpwp_REST_MCP();
 		$mcp_controller->register_routes();
 
+		// OAuth 2.1 — authorize + token REST routes.
+		if ( class_exists( 'Mcpwp_REST_OAuth' ) ) {
+			( new Mcpwp_REST_OAuth() )->register_routes();
+		}
+
 		// Batch
 		$batch_controller = new Mcpwp_REST_Batch();
 		$batch_controller->register_routes();

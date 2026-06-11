@@ -461,6 +461,11 @@ function wp_parse_args($args, $defaults = array())
     return array_merge($defaults, $args);
 }
 
+function wp_parse_url($url, $component = -1)
+{
+    return parse_url($url, $component);
+}
+
 function register_rest_route($namespace = '', $route = '', $args = array())
 {
     if (! isset($GLOBALS['_mcpwp_test_registered_routes'])) {
@@ -862,3 +867,6 @@ require_once dirname(__DIR__) . '/includes/core/class-mcpwp-core.php';
 require_once dirname(__DIR__) . '/includes/pro/class-mcpwp-pro-bootstrap.php';
 require_once dirname(__DIR__) . '/includes/core/class-mcpwp-signals.php';
 require_once dirname(__DIR__) . '/includes/api/class-mcpwp-rest-signals.php';
+// OAuth 2.1 server (#531).
+require_once dirname(__DIR__) . '/includes/api/class-mcpwp-rest-oauth.php';
+require_once dirname(__DIR__) . '/includes/class-mcpwp-oauth-well-known.php';

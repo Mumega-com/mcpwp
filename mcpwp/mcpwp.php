@@ -14,7 +14,7 @@
  * Plugin Name:       MCPWP
  * Plugin URI:        https://mcpwp.net/
  * Description:       Connect WordPress to AI assistants via the Model Context Protocol (MCP). Manage posts, pages, media, and Elementor through natural language.
- * Version:           3.1.0
+ * Version:           3.2.0
  * Requires at least: 6.1
  * Requires PHP:      7.4
  * Author:            Mumega
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin version.
  */
-define( 'MCPWP_VERSION', '3.1.0' );
+define( 'MCPWP_VERSION', '3.2.0' );
 
 /**
  * Plugin directory path.
@@ -309,6 +309,8 @@ if ( ! function_exists( 'mcpwp_load_plugin' ) ) {
 	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-batch.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-integrations.php';
 	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-figma.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/api/class-mcpwp-rest-oauth.php';
+	require_once MCPWP_PLUGIN_DIR . 'includes/class-mcpwp-oauth-well-known.php';
 
 	// Load admin
 	// Admin page-area trait groups (mixed into Mcpwp_Admin — G3 split).
@@ -358,6 +360,11 @@ if ( ! function_exists( 'mcpwp_load_plugin' ) ) {
 
 	// Wire analytics: Mcpwp_Analytics listens on every MCP tool call.
 	add_action( 'mcpwp_tool_called', array( 'Mcpwp_Analytics', 'on_tool_called' ), 10, 4 );
+
+	// OAuth 2.1 well-known discovery endpoints + WWW-Authenticate hint on 401.
+	if ( class_exists( 'Mcpwp_OAuth_Well_Known' ) ) {
+		Mcpwp_OAuth_Well_Known::init();
+	}
 
 	// Initialize white-label (shortcode, branding hooks, Elementor widget).
 	if ( class_exists( 'Mcpwp_White_Label' ) ) {
