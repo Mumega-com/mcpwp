@@ -1042,10 +1042,180 @@ final class OAuthServerTest extends TestCase {
 	public function test_unsupported_grant_type_returns_400(): void {
 		$ctrl    = $this->controller();
 		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
-			'grant_type' => 'client_credentials',
+			'grant_type' => 'implicit', // truly unsupported
 		) );
 		$response = $ctrl->handle_token( $request );
 		$this->assertSame( 400, $response->get_status() );
 		$this->assertSame( 'unsupported_grant_type', $response->get_data()['error'] );
+	}
+
+	// ── client_credentials grant ──────────────────────────────────────────
+
+	/**
+	 * client_credentials with valid client_id + client_secret issues a token.
+	 * This is the legacy machine-to-machine path previously in Mcpwp_REST_Site_Updates.
+	 */
+	public function test_client_credentials_valid_creds_issues_token(): void {
+		$secret_plaintext = 'supersecret123';
+		update_option( 'mcpwp_settings', array(
+			'oauth_enabled'            => true,
+			'oauth_client_id'          => 'test_client',
+			'oauth_client_secret_hash' => wp_hash_password( $secret_plaintext ),
+			'oauth_token_ttl'          => 3600,
+			'oauth_redirect_uris'      => array( 'https://client.example.com/callback' ),
+		) );
+
+		$ctrl    = $this->controller();
+		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'client_credentials',
+			'client_id'     => 'test_client',
+			'client_secret' => $secret_plaintext,
+		) );
+
+		$response = $ctrl->handle_token( $request );
+
+		$this->assertSame( 200, $response->get_status(), 'Valid client_credentials must succeed' );
+		$data = $response->get_data();
+		$this->assertArrayHasKey( 'access_token', $data );
+		$this->assertStringStartsWith( 'mcpwp_at_', $data['access_token'] );
+		$this->assertSame( 'Bearer', $data['token_type'] );
+		// No refresh_token for client_credentials (machine flow — legacy parity).
+		$this->assertArrayNotHasKey( 'refresh_token', $data );
+	}
+
+	/**
+	 * client_credentials with wrong client_secret must return 401.
+	 */
+	public function test_client_credentials_wrong_secret_returns_401(): void {
+		$secret_plaintext = 'supersecret123';
+		update_option( 'mcpwp_settings', array(
+			'oauth_enabled'            => true,
+			'oauth_client_id'          => 'test_client',
+			'oauth_client_secret_hash' => wp_hash_password( $secret_plaintext ),
+			'oauth_token_ttl'          => 3600,
+			'oauth_redirect_uris'      => array( 'https://client.example.com/callback' ),
+		) );
+
+		$ctrl    = $this->controller();
+		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'client_credentials',
+			'client_id'     => 'test_client',
+			'client_secret' => 'WRONG-secret',
+		) );
+
+		$response = $ctrl->handle_token( $request );
+
+		$this->assertSame( 401, $response->get_status(), 'Wrong secret must return 401' );
+		$this->assertSame( 'invalid_client', $response->get_data()['error'] );
+	}
+
+	/**
+	 * client_credentials with missing client_secret must return 400.
+	 */
+	public function test_client_credentials_missing_secret_returns_400(): void {
+		$ctrl    = $this->controller();
+		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type' => 'client_credentials',
+			'client_id'  => 'test_client',
+			// client_secret intentionally absent
+		) );
+
+		$response = $ctrl->handle_token( $request );
+
+		$this->assertSame( 400, $response->get_status(), 'Missing client_secret must return 400' );
+		$this->assertSame( 'invalid_request', $response->get_data()['error'] );
+	}
+
+	/**
+	 * client_credentials with missing client_id must return 400.
+	 */
+	public function test_client_credentials_missing_client_id_returns_400(): void {
+		$ctrl    = $this->controller();
+		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'client_credentials',
+			'client_secret' => 'somesecret',
+			// client_id intentionally absent
+		) );
+
+		$response = $ctrl->handle_token( $request );
+
+		$this->assertSame( 400, $response->get_status(), 'Missing client_id must return 400' );
+		$this->assertSame( 'invalid_request', $response->get_data()['error'] );
+	}
+
+	/**
+	 * client_credentials empty scope defaults to ['read'] only (no silent admin grant).
+	 */
+	public function test_client_credentials_empty_scope_defaults_to_read(): void {
+		$secret_plaintext = 'supersecret123';
+		update_option( 'mcpwp_settings', array(
+			'oauth_enabled'            => true,
+			'oauth_client_id'          => 'test_client',
+			'oauth_client_secret_hash' => wp_hash_password( $secret_plaintext ),
+			'oauth_token_ttl'          => 3600,
+			'oauth_redirect_uris'      => array( 'https://client.example.com/callback' ),
+		) );
+
+		$ctrl    = $this->controller();
+		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'client_credentials',
+			'client_id'     => 'test_client',
+			'client_secret' => $secret_plaintext,
+			// scope absent
+		) );
+
+		$response = $ctrl->handle_token( $request );
+		$this->assertSame( 200, $response->get_status() );
+
+		$data = $response->get_data();
+		$scope_str = isset( $data['scope'] ) ? $data['scope'] : '';
+		$this->assertStringNotContainsString( 'admin', $scope_str, 'Empty scope for client_credentials must not grant admin' );
+		$this->assertStringContainsString( 'read', $scope_str, 'Empty scope for client_credentials must grant read' );
+	}
+
+	// ── Route collision regression — single /oauth/token owner ───────────────
+
+	/**
+	 * Route collision fix: a public-client authorization_code request with a valid
+	 * code+verifier and NO client_secret must not be rejected for "missing parameter".
+	 *
+	 * Before the fix, the legacy Mcpwp_REST_Site_Updates registration for
+	 * POST /oauth/token declared client_id and client_secret as required:true.
+	 * WP REST merges duplicate route registrations, so both required constraints
+	 * applied — breaking PKCE-only public clients.
+	 *
+	 * This test exercises handle_token() directly (simulating what the WP REST
+	 * dispatcher would call) and asserts that absent client_secret is never the
+	 * cause of a 400/failure when grant_type=authorization_code.
+	 */
+	public function test_public_client_authorization_code_not_rejected_for_missing_client_secret(): void {
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code( array( 'client_id' => 'test_client' ) );
+
+		// Request exactly as a public PKCE client would send it:
+		//   - grant_type=authorization_code
+		//   - code + redirect_uri + code_verifier present
+		//   - client_id present (public client identification)
+		//   - client_secret ABSENT
+		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'authorization_code',
+			'code'          => $seed['code'],
+			'redirect_uri'  => 'https://client.example.com/callback',
+			'code_verifier' => $seed['verifier'],
+			'client_id'     => 'test_client',
+			// client_secret intentionally absent — public client
+		) );
+
+		$response = $ctrl->handle_token( $request );
+
+		// Must succeed — the fix removes the route collision that caused
+		// rest_missing_callback_param: Missing parameter(s): client_secret.
+		$this->assertSame( 200, $response->get_status(),
+			'Public-client authorization_code without client_secret must succeed (route collision fix)' );
+		$data = $response->get_data();
+		$this->assertArrayHasKey( 'access_token', $data );
+
+		// Confirm the error is NOT about a missing client_secret parameter.
+		$this->assertNotSame( 'rest_missing_callback_param', $data['error'] ?? '' );
 	}
 }

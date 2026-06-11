@@ -215,7 +215,14 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 	/**
 	 * Handle POST /oauth/token.
 	 *
-	 * Supports grant_type=authorization_code and grant_type=refresh_token.
+	 * Supports grant_type=authorization_code, grant_type=refresh_token, and
+	 * grant_type=client_credentials (legacy machine-to-machine path).
+	 *
+	 * This is the SINGLE registered handler for POST /mcpwp/v1/oauth/token.
+	 * The legacy registration in class-mcpwp-rest-site-updates.php has been
+	 * removed to eliminate the route collision that caused WP REST to merge
+	 * required:true args (client_id, client_secret) onto this endpoint, breaking
+	 * public-client PKCE flows.
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response
@@ -235,7 +242,11 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 			return $this->handle_token_refresh( $request );
 		}
 
-		return $this->oauth_error_response( 'unsupported_grant_type', 'Only authorization_code and refresh_token are supported.', 400 );
+		if ( 'client_credentials' === $grant_type ) {
+			return $this->handle_token_client_credentials( $request );
+		}
+
+		return $this->oauth_error_response( 'unsupported_grant_type', 'Supported grant types: authorization_code, refresh_token, client_credentials.', 400 );
 	}
 
 	// -------------------------------------------------------------------------
@@ -385,6 +396,56 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 		$token_response = $this->issue_oauth_access_token_with_user( $scopes, $ttl, $user_id );
 
 		return new WP_REST_Response( $token_response, 200 );
+	}
+
+	// -------------------------------------------------------------------------
+	// Token exchange — client_credentials (machine-to-machine)
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Process the client_credentials grant.
+	 *
+	 * This reproduces the behavior previously handled by
+	 * Mcpwp_REST_Site_Updates::issue_oauth_token() before the route collision fix.
+	 *
+	 * Security notes:
+	 * - Both client_id and client_secret are REQUIRED for this grant (enforced
+	 *   in the handler, not as route-level args, so public PKCE flows are unaffected).
+	 * - Scopes are NOT user-clamped — there is no WP user in a machine flow.
+	 *   However, empty/absent scope defaults to ['read'] (same as authorization_code).
+	 *   The caller must explicitly request write or admin.
+	 * - No refresh token is issued (parity with legacy behavior).
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return WP_REST_Response
+	 */
+	private function handle_token_client_credentials( $request ) {
+		$rate_limit_check = $this->check_rate_limit( 'oauth-client:' . $this->get_client_ip() );
+		if ( is_wp_error( $rate_limit_check ) ) {
+			return $rate_limit_check;
+		}
+
+		$client_id     = sanitize_key( (string) $request->get_param( 'client_id' ) );
+		$client_secret = (string) $request->get_param( 'client_secret' );
+
+		if ( empty( $client_id ) ) {
+			return $this->oauth_error_response( 'invalid_request', 'client_id is required for client_credentials grant.', 400 );
+		}
+
+		if ( empty( $client_secret ) ) {
+			return $this->oauth_error_response( 'invalid_request', 'client_secret is required for client_credentials grant.', 400 );
+		}
+
+		if ( ! $this->verify_oauth_client_credentials( $client_id, $client_secret ) ) {
+			return $this->oauth_error_response( 'invalid_client', 'Invalid client credentials.', 401 );
+		}
+
+		$scope_string   = (string) $request->get_param( 'scope' );
+		$scopes         = $this->parse_oauth_scope_string( $scope_string );
+		$oauth_settings = $this->get_oauth_settings();
+		$token_data     = $this->issue_oauth_access_token( $scopes, $oauth_settings['oauth_token_ttl'] );
+
+		return new WP_REST_Response( $token_data, 200 );
 	}
 
 	// -------------------------------------------------------------------------
