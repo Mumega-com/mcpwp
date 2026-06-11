@@ -2,7 +2,7 @@
 
 > **For Claude:** Read this file at the start of every session. Tasks are tracked as GitHub issues — use `gh issue list --repo Mumega-com/mcpwp --label "status:ready"` to find work. Update issue status as you go. This file is the orientation layer; GH issues are source of truth.
 >
-> **Project board:** https://github.com/orgs/Mumega-com/projects/1
+> **Project board (MCPWP — tenant-scoped, NOT the org board):** https://github.com/orgs/Mumega-com/projects/2
 > **Quick queue:** `gh issue list --repo Mumega-com/mcpwp --label "status:ready" --state open`
 
 **Current version:** v3.0.1 in repo. **Update channel PINNED at 2.8.56** — ~10 customer sites + our 2 dogfood sites run 2.8.56 under folder `site-pilot-ai/`. NEVER serve v3 to them across the slug change (see #503/#505). v3 GTM unblocks via the #505 bridge release.
