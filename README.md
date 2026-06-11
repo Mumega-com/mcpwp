@@ -322,7 +322,11 @@ Create keys via **WP Admin → MCPWP → Setup**, or `wp_create_api_key(label, r
 - [x] BM25-optimized tool descriptions (56 tools rewritten for accuracy)
 - [x] Keyword research (`wp_keyword_research` — keyless, no API required)
 
-### Next — Launch + Distribution
+### Next — v3.1 "Launch" train (toward Product Hunt)
+- [ ] Bridge release (2.8.57 → 3.1) — safe `site-pilot-ai/` → `mcpwp/` slug crossing + data migration + dual-prefix key auth (keystone; channel stays pinned at 2.8.56 until verified)
+- [ ] Freemius + connected Stripe checkout, signed pricing live (US-first)
+- [ ] Pricing page render fix + conversion surface (excerpts, internal links, email capture)
+- [ ] Local e2e test rig (dev / upgrade / multisite) + install matrix across runtimes
 - [ ] WordPress.org submission (free tier, GPL clean)
 - [ ] Privacy policy at mcpwp.net/privacy (blocks WP.org + ChatGPT App + Claude Connector)
 - [ ] MCP registry submissions (official registry, mcp.so, smithery.ai, glama.ai)

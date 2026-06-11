@@ -5,8 +5,26 @@
 > **Project board:** https://github.com/orgs/Mumega-com/projects/1
 > **Quick queue:** `gh issue list --repo Mumega-com/mcpwp --label "status:ready" --state open`
 
-**Current version:** v2.8.55 (live on channel + crophelp.ai)
-**Last updated:** 2026-06-09
+**Current version:** v3.0.1 in repo. **Update channel PINNED at 2.8.56** — ~10 customer sites + our 2 dogfood sites run 2.8.56 under folder `site-pilot-ai/`. NEVER serve v3 to them across the slug change (see #503/#505). v3 GTM unblocks via the #505 bridge release.
+**Last updated:** 2026-06-11
+
+---
+
+## Squad orientation (read after this file)
+
+The mumcp squad operates MCPWP as a product/business toward a Product Hunt launch.
+Architect = systems + docs + dispatch (does not hand-operate sites). Strategy + plan live in
+`docs/squad/` — index: `docs/squad/README.md`. Start there for the launch roadmap, team, and money rail.
+
+**Launch train:** v3.1 "Launch" (bridge + checkout + conversion surface) → PH target Jun 30 / Jul 2.
+See `docs/squad/VERSIONING-AND-ROADMAP.md`.
+
+**Open launch issues (filed 2026-06-11):** #502 content pass · #503 manual cutover · #504 pricing render ·
+#505 bridge release (keystone) · #506 distribution off mumega.com · #507 test rig · #508 education vertical ·
+#509 affiliates · #510 addon economy · #511 substrate-agnostic (Shopify-ready) · #512 Freemius+Stripe checkout ·
+#513 self-distribution loop (Remotion+Telegram).
+
+**Money rail:** keep Freemius (connected to Hadi's Stripe → Mercury); US-market first. #512.
 
 ---
 
