@@ -22,6 +22,17 @@ sensitive surfaces) → Kasra merges → Loom reconciles cost.
 Take MCPWP from "working product with 10 friendly customer installs" to a self-measuring,
 gated, revenue-generating operation — without ever breaking a customer site.
 
+## Tenant-setup pattern (org SOP — every tenant, not just MCPWP)
+
+A tenant is self-contained. In setup each gets its OWN:
+- **GitHub repo** (e.g. `Mumega-com/mcpwp`)
+- **GitHub Project board** (tenant-scoped — MCPWP = projects/2; NOT the org "Mumega Platform" board #1)
+- **Squad agents** committed in the repo at `.claude/agents/` (via a `.gitignore` exception)
+- **Version milestones** (the tenant's own release trains)
+
+Tenant isolation applies to project management, not just data. Persisted to SOS memory
+(`sos:tenant-onboarding-sop`) as an addition to `sprout_tenant` / `sop:onboard`.
+
 ## The two planes (Kasra's law, 2026-06-09 bus msg)
 
 1. **Flock plane** = SOS bus / pot: identity, presence, tasks, the human gate.
