@@ -2,8 +2,8 @@
 Contributors: mumega
 Donate link: https://mcpwp.net/
 Tags: ai, claude, mcp, elementor, api
-Requires at least: 5.0
-Tested up to: 6.9
+Requires at least: 6.1
+Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 3.0.1
 License: GPLv2 or later
@@ -516,7 +516,7 @@ This plugin is provided "as is" without warranty of any kind, express or implied
 
 MCPWP stores API keys, settings, and activity logs locally in WordPress. The plugin does not transmit site content to external services unless you configure an optional integration or ask an AI client connected to your site to send that data.
 
-== External Services ==
+== Third Party Services ==
 
 This plugin may connect to the following external services depending on your configuration:
 

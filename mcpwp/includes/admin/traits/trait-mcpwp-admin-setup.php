@@ -163,6 +163,21 @@ trait Mcpwp_Admin_Setup_Trait {
 	 * @return array
 	 */
 	public function get_update_channel_status() {
+		// In the WP.org build, all update-channel/phone-home logic is disabled.
+		if ( defined( 'MCPWP_WPORG_BUILD' ) ) {
+			return array(
+				'current_version'  => defined( 'MCPWP_VERSION' ) ? MCPWP_VERSION : '0.0.0',
+				'remote_version'   => null,
+				'download_url'     => '',
+				'manifest_url'     => '',
+				'option_version'   => null,
+				'source'           => 'wporg',
+				'update_available' => false,
+				'warning'          => '',
+				'manual_steps'     => array(),
+			);
+		}
+
 		$manifest_url    = get_option( 'mcpwp_version_url', 'https://mumega.com/mcp-updates/version.json' );
 		$manifest_url    = $manifest_url ? $manifest_url : 'https://mumega.com/mcp-updates/version.json';
 		$current_version = defined( 'MCPWP_VERSION' ) ? MCPWP_VERSION : '0.0.0';

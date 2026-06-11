@@ -467,8 +467,8 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 				printf(
 					/* translators: 1: shown count, 2: total */
 					esc_html__( 'Showing %1$d of %2$d logged actions (most recent first).', 'mcpwp' ),
-					count( $action_log_entries ),
-					$action_log_total
+					(int) count( $action_log_entries ),
+					(int) $action_log_total
 				);
 				?>
 			</p>
@@ -520,7 +520,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 									<form method="post" class="mcpwp-inline-action">
 										<?php wp_nonce_field( 'mcpwp_control_room_actions', 'mcpwp_control_room_nonce' ); ?>
 										<input type="hidden" name="mcpwp_control_room_action" value="rollback_action_log" />
-										<input type="hidden" name="action_log_id" value="<?php echo $le_log_id; ?>" />
+										<input type="hidden" name="action_log_id" value="<?php echo esc_attr( $le_log_id ); ?>" />
 										<button type="submit" class="button button-small"
 											onclick="return confirm('<?php esc_attr_e( 'Roll back this action? The before-state will be restored.', 'mcpwp' ); ?>')">
 											<?php esc_html_e( 'Rollback', 'mcpwp' ); ?>
@@ -570,7 +570,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 					$sev_color  = $sev_colors[ $signal['severity'] ?? 'low' ] ?? '#7f8c8d';
 				?>
 				<tr>
-					<td><span style="background:<?php echo esc_attr( $sev_color ); ?>;color:#fff;padding:2px 7px;border-radius:3px;font-size:11px;text-transform:uppercase;display:inline-block"><?php echo $sev; ?></span></td>
+					<td><span style="background:<?php echo esc_attr( $sev_color ); ?>;color:#fff;padding:2px 7px;border-radius:3px;font-size:11px;text-transform:uppercase;display:inline-block"><?php echo $sev; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $sev is pre-escaped with esc_html() at assignment ?></span></td>
 					<td><code><?php echo esc_html( $signal['type'] ?? '' ); ?></code></td>
 					<td>
 						<?php if ( ! empty( $signal['entity_id'] ) ) : ?>
@@ -592,7 +592,7 @@ $event_escalated_count = (int) ( $event_summary['escalated'] ?? 0 );
 		printf(
 			/* translators: %1$d: entry count, %2$s: y or ies */
 			esc_html__( 'Site memory: %1$d entr%2$s stored across AI sessions.', 'mcpwp' ),
-			$memory_count,
+			(int) $memory_count,
 			1 === $memory_count ? 'y' : 'ies'
 		);
 		?>

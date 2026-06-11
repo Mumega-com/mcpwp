@@ -255,6 +255,7 @@ class Mcpwp_Action_Log {
 		);
 
 		ob_start();
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- writing to php://output stream for CSV export; WP_Filesystem does not support stream wrappers.
 		$handle = fopen( 'php://output', 'w' );
 		fputcsv( $handle, $cols );
 
@@ -266,6 +267,7 @@ class Mcpwp_Action_Log {
 			fputcsv( $handle, $row );
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- closing php://output stream; WP_Filesystem not applicable here.
 		fclose( $handle );
 		return ob_get_clean();
 	}

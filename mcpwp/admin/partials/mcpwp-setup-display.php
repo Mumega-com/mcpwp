@@ -21,6 +21,7 @@ $rest_base       = rest_url( 'mcpwp/v1/' );
 $mcp_url         = rest_url( 'mcpwp/v1/mcp' );
 $site_name       = get_bloginfo( 'name' );
 $site_slug       = sanitize_title( $site_name );
+// In the WP.org build no update-channel data is needed — the method early-returns a neutral stub.
 $update_channel  = $admin->get_update_channel_status();
 $license         = class_exists( 'Mcpwp_License' ) ? Mcpwp_License::get_instance() : null;
 $license_plan    = $license ? $license->get_plan() : 'unlicensed';
@@ -530,6 +531,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 				</div>
 			</div>
 
+			<?php if ( ! defined( 'MCPWP_WPORG_BUILD' ) ) : ?>
 			<div style="margin-top:16px;">
 				<?php if ( $update_channel['update_available'] ) : ?>
 				<div class="notice notice-warning inline" style="margin-bottom:12px;">
@@ -567,6 +569,7 @@ $last_activity_time = ! empty( $recent_activity[0]['created_at'] ) ? $recent_act
 					<br /><span class="description"><?php esc_html_e( 'This is the URL MCPWP checks for new versions. It should point to the mumega.com manifest.', 'mcpwp' ); ?></span>
 				</p>
 			</div>
+			<?php endif; // ! MCPWP_WPORG_BUILD ?>
 		</div>
 
 		<!-- ============================= SECTION 4: QUICK LINKS ============================= -->

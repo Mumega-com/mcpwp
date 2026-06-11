@@ -38,10 +38,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<h3><?php echo esc_html( $meta['name'] ); ?></h3>
 					</div>
 					<label class="mcpwp-toggle">
+						<?php
+						/* translators: %s: tool category name */
+						$toggle_label = sprintf( __( 'Toggle %s tools', 'mcpwp' ), $meta['name'] );
+						?>
 						<input type="checkbox" class="mcpwp-category-toggle"
 							data-category="<?php echo esc_attr( $slug ); ?>"
 							<?php checked( ! $is_disabled ); ?>
-							aria-label="<?php echo esc_attr( sprintf( __( 'Toggle %s tools', 'mcpwp' ), $meta['name'] ) ); ?>" />
+							aria-label="<?php echo esc_attr( $toggle_label ); ?>" />
 						<span class="mcpwp-toggle-track"></span>
 						<span class="mcpwp-toggle-knob"></span>
 					</label>
