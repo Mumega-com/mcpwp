@@ -2,9 +2,16 @@ import { Hono } from 'hono';
 import type { MiddlewareHandler } from 'hono';
 import type { Env } from './types';
 import { handleInitialize, handleToolsList, handleToolsCall } from './mcp';
-import { validateToken, generateToken, hashToken } from './auth';
+import {
+  validateToken,
+  generateToken,
+  storeToken,
+  revokeToken,
+  rotateToken,
+} from './auth';
 import { getSites, addSite, removeSite } from './registry';
-import { encrypt, decrypt } from './crypto';
+import { encryptForAgency, decryptForAgency } from './crypto';
+import { checkSsrfUrl } from './proxy';
 import { DASHBOARD_HTML } from './dashboard';
 
 type Variables = { agencyId: string };
@@ -104,7 +111,7 @@ const requireAgencyToken: AppMiddleware = async (c, next) => {
   }
   c.set('agencyId', agencyId);
   await next();
-}
+};
 
 const requireApiToken: AppMiddleware = async (c, next) => {
   const auth = c.req.header('Authorization') ?? '';
@@ -114,7 +121,7 @@ const requireApiToken: AppMiddleware = async (c, next) => {
   if (!agencyId) return c.json({ error: 'Invalid token' }, 401);
   c.set('agencyId', agencyId);
   await next();
-}
+};
 
 // MCP endpoint
 app.post('/mcp', requireAgencyToken, async (c) => {
@@ -142,7 +149,18 @@ app.post('/mcp', requireAgencyToken, async (c) => {
   if (method === 'initialize') return c.json(handleInitialize(id));
   if (method === 'notifications/initialized') return c.json({ jsonrpc: '2.0', id, result: {} });
   if (method === 'ping') return c.json({ jsonrpc: '2.0', id, result: {} });
-  if (method === 'tools/list') return c.json(await handleToolsList(id, agencyId, c.env));
+
+  if (method === 'tools/list') {
+    // #542: pass _site hint from params or X-Mcpwp-Site header
+    const paramSite =
+      params && typeof params === 'object' && '_site' in params
+        ? String((params as Record<string, unknown>)._site ?? '')
+        : undefined;
+    const headerSite = c.req.header('X-Mcpwp-Site') ?? undefined;
+    const siteHint = paramSite || headerSite;
+    return c.json(await handleToolsList(id, agencyId, c.env, siteHint));
+  }
+
   if (method === 'tools/call') {
     if (!params || typeof params !== 'object') {
       return c.json({ jsonrpc: '2.0', id, error: { code: -32602, message: 'params required for tools/call' } }, 400);
@@ -178,17 +196,46 @@ app.post('/api/accounts', async (c) => {
   } catch { /* name stays default */ }
 
   const token = generateToken();
-  const hash = await hashToken(token);
   const agencyId = crypto.randomUUID();
 
-  await c.env.AGENCY_KV.put(`agency:token:${hash}`, agencyId);
-  await c.env.AGENCY_KV.put(
-    `agency:account:${agencyId}`,
-    JSON.stringify({ id: agencyId, name, created_at: new Date().toISOString() })
-  );
+  // #543: storeToken writes HMAC KV entry + records token_hash on account
+  await storeToken(token, agencyId, name, c.env);
 
   return c.json(
     { agency_id: agencyId, token, warning: 'Store this token securely — it cannot be retrieved again.' },
+    201
+  );
+});
+
+// #543: Revoke token — admin-gated, deletes the token KV entry
+app.delete('/api/accounts/:id/token', async (c) => {
+  const adminSecret = c.req.header('X-Admin-Secret') ?? '';
+  if (!adminSecret || !(await timingSafeEqual(adminSecret, c.env.ADMIN_SECRET))) {
+    return c.json({ error: 'Forbidden: X-Admin-Secret required' }, 403);
+  }
+
+  const agencyId = c.req.param('id');
+  const revoked = await revokeToken(agencyId, c.env);
+  if (!revoked) {
+    return c.json({ error: 'Agency not found or no active token' }, 404);
+  }
+  return c.json({ status: 'revoked', agency_id: agencyId });
+});
+
+// #543: Rotate token — admin-gated, issues new token and invalidates old
+app.post('/api/accounts/:id/token/rotate', async (c) => {
+  const adminSecret = c.req.header('X-Admin-Secret') ?? '';
+  if (!adminSecret || !(await timingSafeEqual(adminSecret, c.env.ADMIN_SECRET))) {
+    return c.json({ error: 'Forbidden: X-Admin-Secret required' }, 403);
+  }
+
+  const agencyId = c.req.param('id');
+  const newToken = await rotateToken(agencyId, c.env);
+  if (!newToken) {
+    return c.json({ error: 'Agency not found' }, 404);
+  }
+  return c.json(
+    { agency_id: agencyId, token: newToken, warning: 'Store this token securely — it cannot be retrieved again.' },
     201
   );
 });
@@ -201,12 +248,17 @@ app.get('/api/sites', requireApiToken, async (c) => {
 
 // Health check for all registered sites — probes each site's MCP initialize endpoint
 app.get('/api/sites/health', requireApiToken, async (c) => {
-  const sites = await getSites(c.get('agencyId'), c.env);
+  const agencyId = c.get('agencyId');
+  const sites = await getSites(agencyId, c.env);
 
   const checks = await Promise.all(
     sites.map(async (site) => {
       try {
-        const apiKey = await decrypt(site.api_key_enc, c.env.ENCRYPTION_KEY);
+        const { plaintext: apiKey } = await decryptForAgency(
+          site.api_key_enc,
+          c.env.ENCRYPTION_KEY,
+          agencyId
+        );
         const mcpUrl = site.url.replace(/\/$/, '') + '/wp-json/mcpwp/v1/mcp';
         const resp = await fetch(mcpUrl, {
           method: 'POST',
@@ -233,39 +285,52 @@ app.post('/api/sites', requireApiToken, async (c) => {
   const badRequest = assertJsonPost(c); // T94
   if (badRequest) return badRequest;
 
-  let body: { url?: string; api_key?: string; label?: string; site_id?: string };
+  let body: { url?: string; api_key?: string; label?: string; update?: boolean };
   try {
     body = await c.req.json();
   } catch {
     return c.json({ error: 'Invalid JSON body' }, 400);
   }
 
-  const { url, api_key, label, site_id: providedId } = body;
+  const { url, api_key, label, update } = body;
   if (!url || !api_key) return c.json({ error: 'url and api_key are required' }, 400);
 
-  let parsedUrl: URL;
-  try {
-    parsedUrl = new URL(url);
-  } catch {
-    return c.json({ error: 'url is not a valid URL' }, 400);
-  }
+  // #545: SSRF guard at registration time
+  const ssrfErr = checkSsrfUrl(url);
+  if (ssrfErr) return c.json({ error: ssrfErr }, 400);
 
-  if (parsedUrl.protocol !== 'https:') {
-    return c.json({ error: 'url must use HTTPS' }, 400);
-  }
+  // Parse URL for display label derivation (protocol already validated by checkSsrfUrl)
+  const parsedUrl = new URL(url);
+  const displayLabel = label ?? parsedUrl.hostname.replace(/\./g, '-');
 
-  const hostname = parsedUrl.hostname.replace(/\./g, '-');
-  const rawId = providedId ?? (label ? label.toLowerCase() : hostname);
-  const site_id = rawId.toLowerCase().replace(/[^a-z0-9-]/g, '-').slice(0, 64);
-  const api_key_enc = await encrypt(api_key, c.env.ENCRYPTION_KEY);
+  // #544: always generate UUID site_id server-side — slug is display-only
+  const site_id = crypto.randomUUID();
 
-  await addSite(
-    c.get('agencyId'),
-    { site_id, url, api_key_enc, label: label ?? hostname, added_at: new Date().toISOString() },
-    c.env
+  const agencyId = c.get('agencyId');
+
+  // #546: encrypt site key under per-agency HKDF-derived key
+  const api_key_enc = await encryptForAgency(api_key, c.env.ENCRYPTION_KEY, agencyId);
+
+  const result = await addSite(
+    agencyId,
+    {
+      site_id,
+      url,
+      api_key_enc,
+      label: displayLabel,
+      added_at: new Date().toISOString(),
+    },
+    c.env,
+    { update: update === true }
   );
 
-  return c.json({ site_id, status: 'registered' }, 201);
+  if (!result.ok) {
+    // #544: conflict on explicit site_id collision — should not happen with UUID generation
+    // but guard the contract nonetheless
+    return c.json({ error: `site_id '${site_id}' already exists. Pass update:true to overwrite.` }, 409);
+  }
+
+  return c.json({ site_id, label: displayLabel, status: 'registered' }, 201);
 });
 
 // Remove site
