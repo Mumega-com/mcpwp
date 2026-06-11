@@ -60,6 +60,30 @@ Distribution (DISTRIBUTION-AND-TOOLS.md): the mcp-publisher afternoon pipeline +
 - **Per increment:** ship → measure (PostHog) → learn → re-rank the backlog. The design-thinking §5 hypothesis table is the learn step.
 - **Re-rank ruthlessly:** anything not on the current increment's slice is backlog, not work.
 
+## Sprints? No — one timebox, scope-boxed increments inside
+
+A sprint is a 1–2 week timebox to give a HUMAN team a commitment window + demo checkpoint + sync rhythm.
+For a solo founder + AI agents at machine speed the boundary is artificial — work finishes in hours/days,
+so a fixed sprint makes us cram or idle. We drop the calendar boundary and keep the valuable kernel
+(a regular human-review-and-realign checkpoint).
+
+| Layer | Unit | Boxed by |
+|---|---|---|
+| The deadline | **Product Hunt launch (Jun 30 / Jul 2)** | TIME — one real external deadline supplies the urgency |
+| Work units | **Increments** (1 first sale · 2 fleet crossing · 3 discovery) | SCOPE — ship when the slice is done |
+| Flow | stories pulled off the board, WIP-limited | continuous, no iteration boundary |
+| Checkpoint | at each increment-ship + each session/night-run end | the "review + retro" kernel, no calendar |
+
+**Org sync:** the Mumega org DOES run sprints (Sprint 004, S008…) to coordinate many agents across tenants
+on shared substrate (mupot, SOS). MCPWP work is mostly independent → continuous flow internally, but
+**sync to the org sprint boundary** at the seams: kasra merge-gate on shared tooling, loom cost
+reconciliation, brain portfolio scoring. Flow inside, sprint-aligned at the edges.
+
+## Task mechanics — two layers
+- **Durable backlog = GitHub issues** (source of truth; milestones = increments; labels for state).
+- **Execution tracking = in-session todos** (ephemeral, per work-session).
+- **Board = GitHub Projects** (Backlog → Ready → In Progress → Review → Done, WIP limit) — the visual flow.
+
 ## Why this is the right amount of process
 
 Too little = chaos (we'd lose the why behind 14 issues). Too much = the ceremony tax that agile itself
