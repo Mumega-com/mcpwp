@@ -1,0 +1,8 @@
+{
+  "version": "2.8.56",
+  "requires": "5.8",
+  "tested": "6.9",
+  "changelog": "<ul><li>Version 2.8.56 - local test channel seed</li></ul>",
+  "download_url": "http://channel/mumega-mcp-selfhosted-2.8.56.zip",
+  "homepage": "https://mcpwp.net"
+}
