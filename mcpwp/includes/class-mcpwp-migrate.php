@@ -36,11 +36,14 @@
  *
  * ENTITLEMENT OPTIONS
  * -------------------
- * v3's Mcpwp_License reads entitlement state PURELY from the Freemius SDK
- * (see class-mcpwp-license.php::is_pro() — no local option read).  There are
- * no spai_pro_license or spai_trial_started options in 2.8.56 (confirmed via
- * grep of the source).  Therefore no entitlement options are migrated.
- * See R3 in the bridge spec for the file:line evidence.
+ * site-pilot-ai 2.8.56 has TWO local entitlement options that grant Pro
+ * access independently of Freemius:
+ *   - spai_pro_license  (Spai_License::OPTION_KEY)  — stored license blob.
+ *   - spai_trial_started (Spai_License::TRIAL_KEY)  — Unix trial timestamp.
+ * Both are copied to their mcpwp_ equivalents so Mcpwp_License::is_pro()
+ * can honour them via its bridge fallback (gated on mcpwp_migrated_from_spai).
+ * See class-mcpwp-license.php bridge_local_license_is_valid() and
+ * bridge_trial_is_active() for the exact validity checks used.
  *
  * @package MCPWP
  * @since   3.0.0 (unreleased bridge)
@@ -81,8 +84,6 @@ class Mcpwp_Migrate {
 	 *   spai_chat_endpoint   — internal admin chat config; v3 may differ
 	 *   spai_chat_model      — internal admin chat config; v3 may differ
 	 *   spai_chat_secret     — internal admin chat config; v3 may differ
-	 *   spai_pro_license     — not present in 2.8.56; entitlement is Freemius-only (R3)
-	 *   spai_trial_started   — not present in 2.8.56; entitlement is Freemius-only (R3)
 	 *   spai_signals_meta    — v3 introduces this key; 2.8.56 does not write it
 	 *
 	 * @var array<string,string>
@@ -96,6 +97,13 @@ class Mcpwp_Migrate {
 		// handles it separately.
 		'spai_api_keys'                   => 'mcpwp_api_keys',
 		'spai_api_key'                    => 'mcpwp_api_key',
+
+		// Entitlement — local license blob and trial timestamp written by
+		// Spai_License in 2.8.56 (OPTION_KEY / TRIAL_KEY constants).
+		// Copied so Mcpwp_License::is_pro() bridge fallback can honour them.
+		// Simple non-destructive copy — same guard as all other options.
+		'spai_pro_license'                => 'mcpwp_pro_license',
+		'spai_trial_started'              => 'mcpwp_trial_started',
 
 		// Plugin settings (logging, analytics toggle, rate limits, etc.).
 		'spai_settings'                   => 'mcpwp_settings',
@@ -220,9 +228,11 @@ class Mcpwp_Migrate {
 		// Process the main option map.
 		// spai_site_profile → mcpwp_site_context is handled specially below.
 		// spai_api_keys is handled specially below (append rather than simple copy).
+		// spai_settings is handled specially below (deep-merge rather than skip).
 		$main_map = self::OPTION_MAP;
 		unset( $main_map['spai_site_profile'] );
 		unset( $main_map['spai_api_keys'] );
+		unset( $main_map['spai_settings'] );
 
 		foreach ( $main_map as $legacy_key => $new_key ) {
 			$legacy_value = get_option( $legacy_key, '__NOT_SET__' );
@@ -254,6 +264,71 @@ class Mcpwp_Migrate {
 			} else {
 				$log['skipped_existing'][] = 'spai_site_profile (mcpwp_site_context already set)';
 			}
+		}
+
+		// -----------------------------------------------------------------------
+		// FIX2: spai_settings → mcpwp_settings — sub-key deep-merge
+		//
+		// The activator always writes mcpwp_settings with its own defaults before
+		// migration runs, so a simple copy/skip would silently lose all customer
+		// settings including OAuth config.  Instead we load both arrays and overlay
+		// every sub-key the customer set in spai_settings on top of the existing
+		// mcpwp_settings — customer value wins over v3 default; v3-only keys keep
+		// their defaults; the result is written back.
+		//
+		// Customer values that must survive (all live inside the settings array in
+		// 2.8.56 — see class-spai-settings.php::get_defaults()):
+		//   oauth_enabled, oauth_client_id, oauth_client_secret_hash, oauth_token_ttl
+		//   alerts_enabled, alerts_window_minutes, alerts_cooldown_minutes,
+		//   alerts_5xx_threshold, alerts_auth_threshold
+		//   enable_logging, log_retention_days, log_store_response_data
+		//   allowed_origins, analytics_enabled
+		//
+		// Non-destructive: spai_settings is never modified.
+		// Idempotent: re-merging the same spai_settings always produces the same
+		// result because the customer-value-wins rule is stable.
+		// -----------------------------------------------------------------------
+		$spai_settings_raw = get_option( 'spai_settings', '__NOT_SET__' );
+		if ( '__NOT_SET__' !== $spai_settings_raw ) {
+			if ( is_array( $spai_settings_raw ) && ! empty( $spai_settings_raw ) ) {
+				$mcpwp_settings_existing = get_option( 'mcpwp_settings', false );
+				if ( false === $mcpwp_settings_existing ) {
+					// mcpwp_settings not yet written — simple copy.
+					update_option( 'mcpwp_settings', $spai_settings_raw );
+					$log['copied'][] = 'spai_settings → mcpwp_settings (direct copy)';
+				} else {
+					// mcpwp_settings already exists (written by activator) — deep-merge.
+					// Customer sub-keys win over v3 defaults.
+					$base    = is_array( $mcpwp_settings_existing ) ? $mcpwp_settings_existing : array();
+					$merged  = $base;
+					$applied = array();
+
+					foreach ( $spai_settings_raw as $sub_key => $customer_value ) {
+						if ( ! is_string( $sub_key ) || '' === $sub_key ) {
+							continue;
+						}
+						// Only overlay scalar and simple-array values that differ from
+						// the existing setting — avoids re-writing identical defaults.
+						if ( ! array_key_exists( $sub_key, $base ) ||
+							json_encode( $base[ $sub_key ] ) !== json_encode( $customer_value ) ) {
+							$merged[ $sub_key ] = $customer_value;
+							$applied[]          = $sub_key;
+						}
+					}
+
+					if ( ! empty( $applied ) ) {
+						update_option( 'mcpwp_settings', $merged );
+						$log['copied'][] = 'spai_settings → mcpwp_settings (deep-merge; overlaid: ' . implode( ', ', $applied ) . ')';
+					} else {
+						$log['skipped_existing'][] = 'spai_settings (all sub-keys already match mcpwp_settings)';
+					}
+				}
+			} else {
+				// spai_settings exists but is empty or non-array — nothing to merge.
+				$log['skipped_missing'][] = 'spai_settings (empty or non-array)';
+			}
+		} else {
+			$log['skipped_missing'][] = 'spai_settings';
 		}
 
 		// -----------------------------------------------------------------------
@@ -357,12 +432,81 @@ class Mcpwp_Migrate {
 		self::migrate_tables( $log );
 
 		// -----------------------------------------------------------------------
-		// Persist the log and set the migration flag atomically.
+		// Persist the log.
 		// -----------------------------------------------------------------------
 		update_option( self::LOG_OPTION, $log );
+
+		// -----------------------------------------------------------------------
+		// FIX3: Conditional migration flag.
+		//
+		// Only set mcpwp_migrated_from_spai when ALL table migrations ended with
+		// status='migrated' or status='skipped'.  A status='error' means a table
+		// INSERT failed and the data was NOT copied; we must leave the flag UNSET
+		// so plugins_loaded retries on the next request.
+		//
+		// The target-empty guard (dst_rows > 0 → skipped) already prevents
+		// successfully-migrated tables from being double-copied on retry.
+		//
+		// If any table errored:
+		//   - Leave MIGRATED_FLAG unset (run() will re-enter next request).
+		//   - Set mcpwp_migration_incomplete with the list of failed tables so
+		//     the admin notice can surface it.
+		//   - Register an admin_notices action to show a persistent WP notice.
+		//
+		// If all tables are clean:
+		//   - Clear mcpwp_migration_incomplete (previous failed run may have set it).
+		//   - Set MIGRATED_FLAG to '1' — short-circuits all future calls.
+		// -----------------------------------------------------------------------
+		$failed_tables = array();
+		foreach ( $log['tables'] as $table_key => $table_entry ) {
+			if ( isset( $table_entry['status'] ) && 'error' === $table_entry['status'] ) {
+				$failed_tables[] = $table_key;
+			}
+		}
+
+		if ( ! empty( $failed_tables ) ) {
+			// Partial migration — record which tables failed and register notice.
+			update_option( 'mcpwp_migration_incomplete', $failed_tables );
+
+			// Register the admin notice if we are in an admin context.
+			if ( function_exists( 'add_action' ) ) {
+				add_action( 'admin_notices', array( __CLASS__, 'show_migration_incomplete_notice' ) );
+			}
+
+			// Return false to signal a partial run — caller / plugins_loaded will
+			// re-invoke next request to retry only the errored tables.
+			return false;
+		}
+
+		// All tables succeeded or were cleanly skipped.
+		delete_option( 'mcpwp_migration_incomplete' );
 		update_option( self::MIGRATED_FLAG, '1' );
 
 		return true;
+	}
+
+	/**
+	 * Admin notice displayed when one or more table migrations failed.
+	 *
+	 * Reads the mcpwp_migration_incomplete option (array of table suffixes)
+	 * and renders a dismissable WP error notice.  Fires on admin_notices.
+	 *
+	 * @return void
+	 */
+	public static function show_migration_incomplete_notice(): void {
+		$failed = get_option( 'mcpwp_migration_incomplete', array() );
+		if ( empty( $failed ) || ! is_array( $failed ) ) {
+			return;
+		}
+
+		$tables = implode( ', ', array_map( 'esc_html', $failed ) );
+		printf(
+			'<div class="notice notice-error"><p><strong>MCPWP migration incomplete:</strong> '
+			. 'The following database tables could not be migrated from site-pilot-ai and will be retried on the next page load: %s. '
+			. 'Check the migration log under WP Admin &gt; MCPWP &gt; Settings for details. '
+			. 'If the error persists, re-activate the MCPWP plugin.</p></div>',
+			esc_html( $tables )
+		);
 	}
 
 	/**
@@ -375,8 +519,11 @@ class Mcpwp_Migrate {
 	 *    If columns diverge → copy only the common columns; log a warning about
 	 *    any columns that could not be mapped.  Never blind-copy mismatched schemas.
 	 *  - Keep the spai_ source tables intact (rollback path).
-	 *  - Per-table done flags in the log guard against re-runs (belt-and-suspenders
-	 *    on top of the global MIGRATED_FLAG).
+	 *  - Each table records its status in the log ('migrated', 'skipped', 'error').
+	 *    On retry (MIGRATED_FLAG not set), the target-empty guard (dst_rows > 0)
+	 *    protects already-migrated tables from double-copy; only genuinely empty
+	 *    targets are attempted again.  There are no separate per-table done flags —
+	 *    idempotency relies entirely on the dst_rows check.
 	 *  - Each table is wrapped in its own try/catch so one bad table does not
 	 *    abort the rest.
 	 *

@@ -2,11 +2,29 @@
 /**
  * License management for MCPWP.
  *
- * Freemius is the single source of truth for entitlement. Paid plans and trials
- * are resolved entirely through the Freemius SDK in the production build, with
- * two developer/distribution overrides:
+ * Freemius is the single source of truth for entitlement in the production
+ * build, with two developer/distribution overrides:
  *   - MCPWP_WPORG_BUILD defined => always free (WP.org build).
  *   - MCPWP_PRO constant true   => always pro (developer override).
+ *
+ * BRIDGE FALLBACK (issue #505)
+ * When a site migrated from site-pilot-ai 2.8.x and Freemius has not yet
+ * re-confirmed entitlement (e.g. the site has not yet loaded the Freemius
+ * SDK or the SDK reports free), a local-entitlement fallback may apply.
+ * The fallback is gated on the `mcpwp_migrated_from_spai` migration flag
+ * (written by Mcpwp_Migrate::run()) so it can never be triggered by an
+ * arbitrarily-injected option on a fresh install.
+ *
+ * The fallback honours the same validity rules as Spai_License::is_pro()
+ * in site-pilot-ai 2.8.56:
+ *   (a) mcpwp_pro_license — valid array with key='...', valid=true, and not
+ *       expired (empty/absent expires_at = lifetime; strtotime test otherwise).
+ *   (b) mcpwp_trial_started — Unix timestamp; active when elapsed < 14 days.
+ *
+ * Both options are copied from their spai_ equivalents by Mcpwp_Migrate
+ * (see OPTION_MAP entries). The fallback is intentionally minimal and
+ * auditable — it replicates only the subset of Spai_License logic that
+ * determines is_pro(), not the full plan hierarchy.
  *
  * @package MCPWP
  */
@@ -19,6 +37,22 @@ if ( ! defined( 'ABSPATH' ) ) {
  * License handler.
  */
 class Mcpwp_License {
+
+	/**
+	 * Trial duration in days — mirrors Spai_License::TRIAL_DAYS from 2.8.56.
+	 *
+	 * @var int
+	 */
+	const BRIDGE_TRIAL_DAYS = 14;
+
+	/**
+	 * Migrated-from-spai flag option name.  Presence means this was a 2.8.x
+	 * site.  Used to gate the local-entitlement fallback so it cannot be
+	 * triggered by an arbitrary option injection on a fresh v3 install.
+	 *
+	 * @var string
+	 */
+	const BRIDGE_MIGRATED_FLAG = 'mcpwp_migrated_from_spai';
 
 	/**
 	 * Singleton instance.
@@ -78,7 +112,85 @@ class Mcpwp_License {
 			}
 		}
 
+		// ----------------------------------------------------------------
+		// BRIDGE FALLBACK — issue #505
+		//
+		// Applies ONLY on sites that migrated from site-pilot-ai 2.8.x,
+		// identified by the presence of the mcpwp_migrated_from_spai flag.
+		// If Freemius has not (yet) confirmed entitlement, honour the local
+		// license / trial that was copied from the spai_ options.
+		//
+		// Validity rules mirror Spai_License::is_pro() from 2.8.56:
+		//   (a) Stored license: must have key + valid=true + not expired.
+		//       expires_at absent/null => lifetime (never expired).
+		//   (b) Trial: unix timestamp in mcpwp_trial_started; active when
+		//       elapsed < BRIDGE_TRIAL_DAYS * DAY_IN_SECONDS.
+		//
+		// SAFETY: the outer guard on mcpwp_migrated_from_spai prevents this
+		// path from firing on fresh v3 installs — the flag is only set by
+		// Mcpwp_Migrate::run() after it confirms spai_ data was present.
+		// ----------------------------------------------------------------
+		if ( get_option( self::BRIDGE_MIGRATED_FLAG ) ) {
+			if ( $this->bridge_local_license_is_valid() ) {
+				return true;
+			}
+			if ( $this->bridge_trial_is_active() ) {
+				return true;
+			}
+		}
+
 		return false;
+	}
+
+	/**
+	 * Check whether the migrated local license blob grants Pro access.
+	 *
+	 * Replicates the Spai_License stored-license check from 2.8.56:
+	 *   - Option: mcpwp_pro_license (array)
+	 *   - Valid when: key non-empty AND valid===true AND not expired.
+	 *   - expires_at absent or null => lifetime license (no expiry check).
+	 *   - expires_at present => compare strtotime(expires_at) vs time().
+	 *
+	 * This is a private bridge helper — not part of the public API.
+	 *
+	 * @return bool
+	 */
+	private function bridge_local_license_is_valid(): bool {
+		$license = get_option( 'mcpwp_pro_license', array() );
+		if ( ! is_array( $license ) ) {
+			return false;
+		}
+		if ( empty( $license['key'] ) || empty( $license['valid'] ) ) {
+			return false;
+		}
+		// Check expiry only when expires_at is present and non-empty.
+		if ( ! empty( $license['expires_at'] ) ) {
+			$expiry = strtotime( (string) $license['expires_at'] );
+			if ( false !== $expiry && $expiry < time() ) {
+				return false; // Expired.
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Check whether the migrated trial timestamp indicates an active trial.
+	 *
+	 * Replicates Spai_License::is_trial_active() from 2.8.56:
+	 *   - Option: mcpwp_trial_started (unix timestamp, set by start_trial())
+	 *   - Active when elapsed time < BRIDGE_TRIAL_DAYS * DAY_IN_SECONDS.
+	 *
+	 * This is a private bridge helper — not part of the public API.
+	 *
+	 * @return bool
+	 */
+	private function bridge_trial_is_active(): bool {
+		$trial_started = get_option( 'mcpwp_trial_started', '' );
+		if ( empty( $trial_started ) ) {
+			return false;
+		}
+		$elapsed = time() - (int) $trial_started;
+		return $elapsed < ( self::BRIDGE_TRIAL_DAYS * DAY_IN_SECONDS );
 	}
 
 	/**
