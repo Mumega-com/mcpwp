@@ -95,7 +95,7 @@ class Mcpwp_Activator {
 			'delete_others_pages' => true,
 			'upload_files'       => true,
 			'list_users'         => true,
-			// Custom SPAI capabilities (NOT admin-level).
+			// Custom MCPWP capabilities (NOT admin-level).
 			'mcpwp_manage_settings' => true,
 			'mcpwp_manage_webhooks' => true,
 		) );

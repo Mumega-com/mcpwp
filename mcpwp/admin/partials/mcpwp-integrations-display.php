@@ -273,5 +273,5 @@ $figma_oauth_message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unsla
 </div>
 
 <!-- Inline JS removed in sprint11-batch3; all integration interactions handled by
-     mcpwp-admin.js, reading spaiAdmin.integrationsNonce and spaiAdmin.strings.
+     mcpwp-admin.js, reading mcpwpAdmin.integrationsNonce and mcpwpAdmin.strings.
      Visual affordance (success/fail class) applied via mcpwp-status-active/inactive. -->

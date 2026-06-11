@@ -422,7 +422,10 @@ class Mcpwp_Screenshot {
 				'sslverify'   => true,
 				'headers'     => array(
 					'Content-Type'  => 'application/json',
+					// X-SPAI-* kept for backward-compat; remove in a future major.
 					'X-SPAI-Event'  => 'screenshot.ready',
+					// X-MCPWP-* alias (new canonical name).
+					'X-MCPWP-Event' => 'screenshot.ready',
 				),
 				'body'        => $body,
 			)

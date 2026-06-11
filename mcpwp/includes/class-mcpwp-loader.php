@@ -162,7 +162,7 @@ class Mcpwp_Loader {
 		if ( ! isset( $schedules['mcpwp_every_five_minutes'] ) ) {
 			$schedules['mcpwp_every_five_minutes'] = array(
 				'interval' => 5 * MINUTE_IN_SECONDS,
-				'display'  => __( 'Every 5 Minutes (SPAI)', 'mcpwp' ),
+				'display'  => __( 'Every 5 Minutes (MCPWP)', 'mcpwp' ),
 			);
 		}
 
@@ -355,7 +355,7 @@ class Mcpwp_Loader {
 	}
 
 	/**
-	 * Add SPAI rate-limit headers to REST responses.
+	 * Add MCPWP rate-limit headers to REST responses.
 	 *
 	 * @param WP_HTTP_Response $response Result to send to the client.
 	 * @param WP_REST_Server   $server   Server instance.

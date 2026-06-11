@@ -10,8 +10,8 @@
  *
  *     add_filter( 'mcpwp_integrations', function( $integrations ) {
  *         if ( class_exists( 'Mcpwp_Integration' ) ) {
- *             require_once __DIR__ . '/includes/class-my-plugin-spai.php';
- *             $integrations[] = new My_Plugin_SPAI();
+ *             require_once __DIR__ . '/includes/class-my-plugin-mcpwp.php';
+ *             $integrations[] = new My_Plugin_MCPWP();
  *         }
  *         return $integrations;
  *     } );

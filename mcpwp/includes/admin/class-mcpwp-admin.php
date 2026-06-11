@@ -244,7 +244,7 @@ class Mcpwp_Admin {
 		// it on every MCPWP page is harmless and keeps one unified data object.
 		wp_localize_script(
 			'mcpwp-admin',
-			'spaiAdmin',
+			'mcpwpAdmin',
 			array(
 				'ajaxUrl'              => admin_url( 'admin-ajax.php' ),
 				'nonce'                => wp_create_nonce( 'mcpwp_admin_nonce' ),

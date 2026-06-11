@@ -463,10 +463,15 @@ class Mcpwp_Webhooks {
 				'sslverify'   => true,
 				'headers'     => array(
 					'Content-Type'           => 'application/json',
+					// X-SPAI-* kept for backward-compat; remove in a future major.
 					'X-SPAI-Event'           => $event,
 					'X-SPAI-Signature'       => $signature,
 					'X-SPAI-Webhook-ID'      => $webhook['id'],
 					'X-SPAI-Delivery-ID'     => wp_generate_uuid4(),
+					// X-MCPWP-* aliases (new canonical names).
+					'X-MCPWP-Event'          => $event,
+					'X-MCPWP-Signature'      => $signature,
+					'X-MCPWP-Webhook-ID'     => $webhook['id'],
 				),
 				'body'        => $body,
 			)
@@ -603,10 +608,15 @@ class Mcpwp_Webhooks {
 				'sslverify'   => true,
 				'headers'     => array(
 					'Content-Type'      => 'application/json',
+					// X-SPAI-* kept for backward-compat; remove in a future major.
 					'X-SPAI-Event'      => 'test',
 					'X-SPAI-Signature'  => $signature,
 					'X-SPAI-Webhook-ID' => $webhook['id'],
 					'X-SPAI-Test'       => 'true',
+					// X-MCPWP-* aliases (new canonical names).
+					'X-MCPWP-Event'     => 'test',
+					'X-MCPWP-Signature' => $signature,
+					'X-MCPWP-Webhook-ID' => $webhook['id'],
 				),
 				'body'        => $body,
 			)
