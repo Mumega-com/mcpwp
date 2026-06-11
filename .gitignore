@@ -50,4 +50,8 @@ scripts/*.sh
 # Test caches
 mcpwp/tests/.phpunit.result.cache
 .claude/
+# but track the mumcp squad's agent definitions — they belong to the MCPWP tenant's repo
+!.claude/
+!.claude/agents/
+!.claude/agents/*.md
 mcp-server/*.mcpb
