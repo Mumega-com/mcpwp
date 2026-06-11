@@ -223,8 +223,11 @@ class Mcpwp_OAuth_Well_Known {
 	/**
 	 * Get the canonical HTTPS origin of this WordPress site.
 	 *
-	 * Honours X-Forwarded-Proto so reverse-proxy setups (Cloudflare, nginx SSL
-	 * termination) are handled correctly.
+	 * P2-F: Scheme is derived from get_site_url() as the source of truth.
+	 * X-Forwarded-Proto is only honoured when a trusted-proxy constant is
+	 * explicitly set (MCPWP_TRUST_PROXY_HEADERS === true), preventing a
+	 * scheme-downgrade attack where a request with
+	 * X-Forwarded-Proto: http causes an https site to emit an http issuer URL.
 	 *
 	 * @return string Origin without trailing slash, e.g. "https://example.com".
 	 */
@@ -232,17 +235,23 @@ class Mcpwp_OAuth_Well_Known {
 		$site_url = get_site_url();
 		$parsed   = wp_parse_url( $site_url );
 
-		// Detect actual protocol from proxy headers.
-		$proto = 'https';
-		if ( ! empty( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) {
+		// P2-F: Start from the site_url scheme as the canonical source of truth.
+		$proto = isset( $parsed['scheme'] ) ? $parsed['scheme'] : 'https';
+
+		// Only honour X-Forwarded-Proto when an explicit trusted-proxy opt-in is set.
+		// This prevents a spoofed X-Forwarded-Proto: http from downgrading https origins.
+		$trust_proxy = defined( 'MCPWP_TRUST_PROXY_HEADERS' ) && MCPWP_TRUST_PROXY_HEADERS;
+
+		if ( $trust_proxy && ! empty( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) {
 			$forwarded = strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) );
 			if ( in_array( $forwarded, array( 'https', 'http' ), true ) ) {
 				$proto = $forwarded;
 			}
-		} elseif ( ! empty( $_SERVER['HTTPS'] ) && 'off' !== strtolower( $_SERVER['HTTPS'] ) ) {
+		}
+
+		// Additional guard: if site_url is https, never downgrade to http.
+		if ( 'https' === ( isset( $parsed['scheme'] ) ? $parsed['scheme'] : '' ) ) {
 			$proto = 'https';
-		} elseif ( isset( $parsed['scheme'] ) ) {
-			$proto = $parsed['scheme'];
 		}
 
 		$host = isset( $parsed['host'] ) ? $parsed['host'] : '';

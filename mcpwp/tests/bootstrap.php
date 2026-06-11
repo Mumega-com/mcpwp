@@ -29,6 +29,10 @@ if (! defined('HOUR_IN_SECONDS')) {
 $GLOBALS['mcpwp_test_options'] = array();
 $GLOBALS['mcpwp_test_transients'] = array();
 $GLOBALS['mcpwp_test_current_user'] = 0;
+// Per-user capability overrides for OAuth scope-clamping tests.
+// Key: user_id (int), Value: array of capability => bool.
+// When empty (or user_id not present), current_user_can() grants all caps.
+$GLOBALS['mcpwp_test_user_caps'] = array();
 $GLOBALS['mcpwp_test_users'] = array(
     (object) array( 'ID' => 2, 'roles' => array( 'mcpwp_api_agent' ) ),
 );
@@ -282,8 +286,25 @@ function get_users($args = array())
 
 function current_user_can($capability)
 {
-    // Test harness grants all permissions to service user.
-    return 0 !== (int) $GLOBALS['mcpwp_test_current_user'];
+    $user_id = (int) $GLOBALS['mcpwp_test_current_user'];
+    if (0 === $user_id) {
+        return false;
+    }
+
+    // If per-user caps are configured for this user_id, check them.
+    // This lets OAuth scope-clamping tests drive subscriber/editor/admin behavior.
+    if (isset($GLOBALS['mcpwp_test_user_caps'][ $user_id ])) {
+        $caps = $GLOBALS['mcpwp_test_user_caps'][ $user_id ];
+        // Explicit true/false per capability key.
+        if (array_key_exists($capability, $caps)) {
+            return (bool) $caps[ $capability ];
+        }
+        // If the caps array exists but the key is absent, deny the cap.
+        return false;
+    }
+
+    // Default: grant all capabilities to any logged-in user (original behaviour).
+    return true;
 }
 
 function get_option($name, $default = false)

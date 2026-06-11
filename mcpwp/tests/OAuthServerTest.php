@@ -17,6 +17,13 @@
  *   - OAuth disabled gating on all three token/authorize paths.
  *   - WWW-Authenticate header emitted on 401 when OAuth enabled.
  *
+ *   P0-A: Scope escalation — subscriber can't get admin; editor can't get admin.
+ *   P0-B: Empty/absent scope defaults to read only (never admin).
+ *   P0-C: Public client (no client_secret) can complete full PKCE exchange.
+ *   P1-D: Refresh token rotation — used refresh token can't be reused.
+ *   P1-E: client_id must match the code's stored client_id.
+ *   P2-F: X-Forwarded-Proto: http on an https site still emits https origin.
+ *
  * Run:
  *   docker exec wp-rig-wp-dev bash -c \
  *     "cd /var/www/html/wp-content/plugins/mcpwp && \
@@ -122,6 +129,16 @@ if ( ! function_exists( 'get_bloginfo' ) ) {
 	}
 }
 
+// user_can() stub — checks $GLOBALS['mcpwp_test_user_caps'][$user_id][$cap].
+if ( ! function_exists( 'user_can' ) ) {
+	function user_can( $user_id, $capability ) {
+		$caps = isset( $GLOBALS['mcpwp_test_user_caps'][ (int) $user_id ] )
+			? $GLOBALS['mcpwp_test_user_caps'][ (int) $user_id ]
+			: array();
+		return ! empty( $caps[ $capability ] );
+	}
+}
+
 if ( ! function_exists( 'header' ) ) {
 	// header() is a built-in but may be redefined in test context.
 	// PHPUnit typically runs CLI so headers_sent() is always false.
@@ -144,7 +161,9 @@ require_once dirname( __DIR__ ) . '/includes/class-mcpwp-oauth-well-known.php';
 class Mcpwp_OAuth_Test_Controller extends Mcpwp_REST_OAuth {
 	// All target methods are already public (extract_authorize_params,
 	// validate_authorize_params, compute_pkce_challenge, is_redirect_uri_allowed,
-	// get_allowed_redirect_uris, oauth_error_response).
+	// get_allowed_redirect_uris, oauth_error_response, clamp_scope_to_user_capability,
+	// parse_oauth_scope_string, clamp_scope_array_to_user_id,
+	// get_oauth_refresh_token_transient_key).
 }
 
 // ── Test suite ─────────────────────────────────────────────────────────────
@@ -157,6 +176,7 @@ final class OAuthServerTest extends TestCase {
 		$GLOBALS['mcpwp_test_current_user']    = 0;
 		$GLOBALS['_mcpwp_test_redirected_to']  = null;
 		$GLOBALS['_mcpwp_test_valid_nonces']   = array();
+		$GLOBALS['mcpwp_test_user_caps']       = array();
 
 		// Enable OAuth with a known client ID and redirect URI.
 		update_option( 'mcpwp_settings', array(
@@ -188,6 +208,32 @@ final class OAuthServerTest extends TestCase {
 			'scope'                 => 'read write',
 			'state'                 => 'test_state_xyz',
 		);
+	}
+
+	/**
+	 * Seed an auth code transient for direct /token tests.
+	 *
+	 * @param array  $overrides Override default stored values.
+	 * @return array{code:string, verifier:string}
+	 */
+	private function seed_auth_code( $overrides = array() ): array {
+		$ctrl      = $this->controller();
+		$verifier  = 'dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk';
+		$challenge = $ctrl->compute_pkce_challenge( $verifier );
+		$code      = 'testcode_' . bin2hex( random_bytes( 8 ) );
+
+		$defaults = array(
+			'client_id'      => 'test_client',
+			'redirect_uri'   => 'https://client.example.com/callback',
+			'code_challenge' => $challenge,
+			'scope'          => 'read write',
+			'user_id'        => 1,
+			'expires'        => time() + 60,
+		);
+
+		set_transient( 'mcpwp_oauth_code_' . $code, array_merge( $defaults, $overrides ), 60 );
+
+		return array( 'code' => $code, 'verifier' => $verifier );
 	}
 
 	// ── RFC 9728 Protected Resource Metadata ──────────────────────────────
@@ -374,24 +420,13 @@ final class OAuthServerTest extends TestCase {
 	 */
 	public function test_token_exchange_correct_verifier_succeeds(): void {
 		$ctrl      = $this->controller();
-		$verifier  = 'dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk';
-		$challenge = $ctrl->compute_pkce_challenge( $verifier );
-		$code      = 'testcode_' . bin2hex( random_bytes( 8 ) );
-
-		set_transient( 'mcpwp_oauth_code_' . $code, array(
-			'client_id'      => 'test_client',
-			'redirect_uri'   => 'https://client.example.com/callback',
-			'code_challenge' => $challenge,
-			'scope'          => 'read write',
-			'user_id'        => 1,
-			'expires'        => time() + 60,
-		), 60 );
+		$seed      = $this->seed_auth_code();
 
 		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
 			'grant_type'    => 'authorization_code',
-			'code'          => $code,
+			'code'          => $seed['code'],
 			'redirect_uri'  => 'https://client.example.com/callback',
-			'code_verifier' => $verifier,
+			'code_verifier' => $seed['verifier'],
 		) );
 
 		$response = $ctrl->handle_token( $request );
@@ -411,23 +446,12 @@ final class OAuthServerTest extends TestCase {
 	 * Wrong verifier must fail PKCE check.
 	 */
 	public function test_token_exchange_wrong_verifier_fails(): void {
-		$ctrl      = $this->controller();
-		$verifier  = 'dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk';
-		$challenge = $ctrl->compute_pkce_challenge( $verifier );
-		$code      = 'testcode_' . bin2hex( random_bytes( 8 ) );
-
-		set_transient( 'mcpwp_oauth_code_' . $code, array(
-			'client_id'      => 'test_client',
-			'redirect_uri'   => 'https://client.example.com/callback',
-			'code_challenge' => $challenge,
-			'scope'          => 'read write',
-			'user_id'        => 1,
-			'expires'        => time() + 60,
-		), 60 );
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code();
 
 		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
 			'grant_type'    => 'authorization_code',
-			'code'          => $code,
+			'code'          => $seed['code'],
 			'redirect_uri'  => 'https://client.example.com/callback',
 			'code_verifier' => 'wrong_verifier_that_does_not_match',
 		) );
@@ -443,25 +467,14 @@ final class OAuthServerTest extends TestCase {
 	 * Auth code must be single-use: a second exchange on the same code fails.
 	 */
 	public function test_token_exchange_single_use_replay_fails(): void {
-		$ctrl      = $this->controller();
-		$verifier  = 'dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk';
-		$challenge = $ctrl->compute_pkce_challenge( $verifier );
-		$code      = 'testcode_' . bin2hex( random_bytes( 8 ) );
-
-		set_transient( 'mcpwp_oauth_code_' . $code, array(
-			'client_id'      => 'test_client',
-			'redirect_uri'   => 'https://client.example.com/callback',
-			'code_challenge' => $challenge,
-			'scope'          => 'read write',
-			'user_id'        => 1,
-			'expires'        => time() + 60,
-		), 60 );
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code();
 
 		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
 			'grant_type'    => 'authorization_code',
-			'code'          => $code,
+			'code'          => $seed['code'],
 			'redirect_uri'  => 'https://client.example.com/callback',
-			'code_verifier' => $verifier,
+			'code_verifier' => $seed['verifier'],
 		) );
 
 		// First exchange — must succeed.
@@ -478,27 +491,14 @@ final class OAuthServerTest extends TestCase {
 	 * An expired code (expires timestamp in the past) must fail.
 	 */
 	public function test_token_exchange_expired_code_fails(): void {
-		$ctrl      = $this->controller();
-		$verifier  = 'dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk';
-		$challenge = $ctrl->compute_pkce_challenge( $verifier );
-		$code      = 'expired_code_' . bin2hex( random_bytes( 8 ) );
-
-		// Store code with expires in the past.
-		// NOTE: transient TTL is also set to 1s, but expires is our in-payload check.
-		set_transient( 'mcpwp_oauth_code_' . $code, array(
-			'client_id'      => 'test_client',
-			'redirect_uri'   => 'https://client.example.com/callback',
-			'code_challenge' => $challenge,
-			'scope'          => 'read write',
-			'user_id'        => 1,
-			'expires'        => time() - 10, // already expired
-		), 120 );
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code( array( 'expires' => time() - 10 ) );
 
 		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
 			'grant_type'    => 'authorization_code',
-			'code'          => $code,
+			'code'          => $seed['code'],
 			'redirect_uri'  => 'https://client.example.com/callback',
-			'code_verifier' => $verifier,
+			'code_verifier' => $seed['verifier'],
 		) );
 
 		$response = $ctrl->handle_token( $request );
@@ -510,25 +510,14 @@ final class OAuthServerTest extends TestCase {
 	 * redirect_uri mismatch in token exchange must fail.
 	 */
 	public function test_token_exchange_redirect_uri_mismatch_fails(): void {
-		$ctrl      = $this->controller();
-		$verifier  = 'dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk';
-		$challenge = $ctrl->compute_pkce_challenge( $verifier );
-		$code      = 'testcode_' . bin2hex( random_bytes( 8 ) );
-
-		set_transient( 'mcpwp_oauth_code_' . $code, array(
-			'client_id'      => 'test_client',
-			'redirect_uri'   => 'https://client.example.com/callback',
-			'code_challenge' => $challenge,
-			'scope'          => 'read write',
-			'user_id'        => 1,
-			'expires'        => time() + 60,
-		), 60 );
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code();
 
 		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
 			'grant_type'    => 'authorization_code',
-			'code'          => $code,
+			'code'          => $seed['code'],
 			'redirect_uri'  => 'https://evil.example.com/steal', // mismatch
-			'code_verifier' => $verifier,
+			'code_verifier' => $seed['verifier'],
 		) );
 
 		$response = $ctrl->handle_token( $request );
@@ -553,6 +542,375 @@ final class OAuthServerTest extends TestCase {
 		$response = $ctrl->handle_token( $request );
 		$this->assertSame( 400, $response->get_status() );
 		$this->assertSame( 'invalid_request', $response->get_data()['error'] );
+	}
+
+	// ── P0-A: Scope escalation ─────────────────────────────────────────────
+
+	/**
+	 * P0-A: A Subscriber (no manage_options, no edit_posts) requesting admin
+	 * scope must receive at most 'read'.
+	 */
+	public function test_scope_escalation_subscriber_requesting_admin_gets_read(): void {
+		// Subscriber: no manage_options, no edit_posts.
+		$GLOBALS['mcpwp_test_current_user'] = 10;
+		$GLOBALS['mcpwp_test_user_caps'][10] = array(); // no caps.
+
+		$ctrl   = $this->controller();
+		$result = $ctrl->clamp_scope_to_user_capability( 'admin' );
+
+		$this->assertNotContains( 'admin', $result, 'Subscriber must not receive admin scope' );
+		$this->assertNotContains( 'write', $result, 'Subscriber must not receive write scope' );
+		$this->assertContains( 'read', $result, 'Subscriber must still receive read scope' );
+	}
+
+	/**
+	 * P0-A: An Editor (edit_posts but not manage_options) requesting admin
+	 * scope must receive at most 'write' (not admin).
+	 */
+	public function test_scope_escalation_editor_requesting_admin_gets_write(): void {
+		$GLOBALS['mcpwp_test_current_user'] = 20;
+		$GLOBALS['mcpwp_test_user_caps'][20] = array(
+			'edit_posts'     => true,
+			'manage_options' => false,
+		);
+
+		$ctrl   = $this->controller();
+		$result = $ctrl->clamp_scope_to_user_capability( 'admin' );
+
+		$this->assertNotContains( 'admin', $result, 'Editor must not receive admin scope' );
+		$this->assertContains( 'write', $result, 'Editor must receive write scope' );
+		$this->assertContains( 'read', $result, 'Editor must receive read scope (implied)' );
+	}
+
+	/**
+	 * P0-A: An administrator (manage_options) requesting admin scope gets admin.
+	 */
+	public function test_scope_escalation_admin_requesting_admin_gets_admin(): void {
+		$GLOBALS['mcpwp_test_current_user'] = 1;
+		$GLOBALS['mcpwp_test_user_caps'][1] = array(
+			'edit_posts'     => true,
+			'manage_options' => true,
+		);
+
+		$ctrl   = $this->controller();
+		$result = $ctrl->clamp_scope_to_user_capability( 'admin' );
+
+		$this->assertContains( 'admin', $result, 'Admin must receive admin scope' );
+	}
+
+	/**
+	 * P0-A: Scope is clamped at clamp_scope_to_user_capability and results in
+	 * only 'read' for a subscriber — tested at the clamping layer rather than
+	 * via handle_authorize_post (which calls exit() after wp_redirect).
+	 *
+	 * The full authorize-POST→transient path is covered by the token exchange
+	 * tests that seed transients directly.
+	 */
+	public function test_scope_clamped_at_clamp_layer_for_subscriber(): void {
+		// Current user is a subscriber with no caps.
+		$GLOBALS['mcpwp_test_current_user'] = 10;
+		$GLOBALS['mcpwp_test_user_caps'][10] = array();
+
+		$ctrl   = $this->controller();
+		$result = $ctrl->clamp_scope_to_user_capability( 'admin' );
+
+		$this->assertNotContains( 'admin', $result, 'Subscriber clamp must never yield admin' );
+		$this->assertNotContains( 'write', $result, 'Subscriber clamp must never yield write' );
+		$this->assertContains( 'read', $result, 'Subscriber clamp must always yield read' );
+	}
+
+	/**
+	 * P0-A / P0-B: clamp_scope_to_user_capability with empty scope for a
+	 * subscriber returns ['read'] only (never admin or write).
+	 */
+	public function test_scope_clamp_empty_scope_subscriber(): void {
+		$GLOBALS['mcpwp_test_current_user'] = 10;
+		$GLOBALS['mcpwp_test_user_caps'][10] = array();
+
+		$ctrl   = $this->controller();
+		$result = $ctrl->clamp_scope_to_user_capability( '' );
+
+		$this->assertSame( array( 'read' ), $result, 'Empty scope for subscriber must yield [read] only' );
+	}
+
+	// ── P0-B: Empty scope defaults to read only ────────────────────────────
+
+	/**
+	 * P0-B: parse_oauth_scope_string with empty string returns ['read'] only.
+	 */
+	public function test_empty_oauth_scope_string_returns_read_only(): void {
+		$ctrl   = $this->controller();
+		$result = $ctrl->parse_oauth_scope_string( '' );
+		$this->assertSame( array( 'read' ), $result, 'Empty scope must default to [read] only' );
+	}
+
+	/**
+	 * P0-B: parse_oauth_scope_string with whitespace-only returns ['read'].
+	 */
+	public function test_whitespace_oauth_scope_string_returns_read_only(): void {
+		$ctrl   = $this->controller();
+		$result = $ctrl->parse_oauth_scope_string( '   ' );
+		$this->assertSame( array( 'read' ), $result );
+	}
+
+	/**
+	 * P0-B: A full token exchange with NO scope param in the stored code yields
+	 * a read-only token, never admin.
+	 */
+	public function test_no_scope_in_code_yields_read_only_token(): void {
+		// Simulate a code seeded by older code that stored empty scope.
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code( array( 'scope' => '' ) );
+
+		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'authorization_code',
+			'code'          => $seed['code'],
+			'redirect_uri'  => 'https://client.example.com/callback',
+			'code_verifier' => $seed['verifier'],
+		) );
+
+		$response = $ctrl->handle_token( $request );
+		$this->assertSame( 200, $response->get_status() );
+
+		$data = $response->get_data();
+		$scope_str = isset( $data['scope'] ) ? $data['scope'] : '';
+		$this->assertStringNotContainsString( 'admin', $scope_str, 'Token scope must not contain admin when code had empty scope' );
+		$this->assertStringContainsString( 'read', $scope_str, 'Token scope must contain read' );
+	}
+
+	// ── P0-C: Public client — no client_secret ────────────────────────────
+
+	/**
+	 * P0-C: A public client presenting a valid code + code_verifier and NO
+	 * client_secret must successfully receive an access_token.
+	 */
+	public function test_public_client_no_secret_succeeds(): void {
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code();
+
+		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'authorization_code',
+			'code'          => $seed['code'],
+			'redirect_uri'  => 'https://client.example.com/callback',
+			'code_verifier' => $seed['verifier'],
+			'client_id'     => 'test_client',
+			// No client_secret
+		) );
+
+		$response = $ctrl->handle_token( $request );
+
+		$this->assertSame( 200, $response->get_status(), 'Public client with valid PKCE must succeed' );
+		$data = $response->get_data();
+		$this->assertArrayHasKey( 'access_token', $data );
+		$this->assertStringStartsWith( 'mcpwp_at_', $data['access_token'] );
+	}
+
+	/**
+	 * P0-C: A public client with NO client_id AND no client_secret must also
+	 * succeed — fully anonymous public PKCE exchange.
+	 */
+	public function test_public_client_no_client_id_no_secret_succeeds(): void {
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code();
+
+		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'authorization_code',
+			'code'          => $seed['code'],
+			'redirect_uri'  => 'https://client.example.com/callback',
+			'code_verifier' => $seed['verifier'],
+			// No client_id, no client_secret
+		) );
+
+		$response = $ctrl->handle_token( $request );
+
+		$this->assertSame( 200, $response->get_status(), 'Fully anonymous PKCE exchange must succeed' );
+		$data = $response->get_data();
+		$this->assertArrayHasKey( 'access_token', $data );
+	}
+
+	/**
+	 * P0-C: A confidential client with a WRONG secret must still fail.
+	 */
+	public function test_confidential_client_wrong_secret_fails(): void {
+		// Set a hashed secret in config.
+		$secret_plaintext = 'my-secret-123';
+		update_option( 'mcpwp_settings', array(
+			'oauth_enabled'            => true,
+			'oauth_client_id'          => 'test_client',
+			'oauth_client_secret_hash' => wp_hash_password( $secret_plaintext ),
+			'oauth_token_ttl'          => 3600,
+			'oauth_redirect_uris'      => array( 'https://client.example.com/callback' ),
+		) );
+
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code();
+
+		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'authorization_code',
+			'code'          => $seed['code'],
+			'redirect_uri'  => 'https://client.example.com/callback',
+			'code_verifier' => $seed['verifier'],
+			'client_id'     => 'test_client',
+			'client_secret' => 'WRONG-secret',
+		) );
+
+		$response = $ctrl->handle_token( $request );
+		$this->assertSame( 401, $response->get_status(), 'Wrong secret must fail with 401' );
+		$this->assertSame( 'invalid_client', $response->get_data()['error'] );
+	}
+
+	// ── P1-D: Refresh token rotation ──────────────────────────────────────
+
+	/**
+	 * P1-D: A used refresh token must NOT be reusable (rotation).
+	 */
+	public function test_refresh_token_rotation_used_token_cannot_be_reused(): void {
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code();
+
+		// First: exchange auth code to get tokens.
+		$token_request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'authorization_code',
+			'code'          => $seed['code'],
+			'redirect_uri'  => 'https://client.example.com/callback',
+			'code_verifier' => $seed['verifier'],
+		) );
+
+		$token_response = $ctrl->handle_token( $token_request );
+		$this->assertSame( 200, $token_response->get_status(), 'Initial token exchange must succeed' );
+
+		$token_data    = $token_response->get_data();
+		$refresh_token = $token_data['refresh_token'];
+		$this->assertStringStartsWith( 'mcpwp_rt_', $refresh_token, 'Refresh token must have mcpwp_rt_ prefix' );
+
+		// Second: use the refresh token — must succeed and give a new token.
+		$refresh_request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'refresh_token',
+			'refresh_token' => $refresh_token,
+		) );
+
+		$refresh_response = $ctrl->handle_token( $refresh_request );
+		$this->assertSame( 200, $refresh_response->get_status(), 'First refresh must succeed' );
+
+		$refresh_data       = $refresh_response->get_data();
+		$new_refresh_token  = $refresh_data['refresh_token'];
+		$this->assertStringStartsWith( 'mcpwp_rt_', $new_refresh_token, 'New refresh token must have mcpwp_rt_ prefix' );
+		$this->assertNotSame( $refresh_token, $new_refresh_token, 'New refresh token must differ from the old one' );
+
+		// Third: try to reuse the OLD refresh token — must fail (rotation).
+		$replay_response = $ctrl->handle_token( $refresh_request );
+		$this->assertSame( 400, $replay_response->get_status(), 'Replayed refresh token must fail' );
+		$this->assertSame( 'invalid_grant', $replay_response->get_data()['error'] );
+	}
+
+	/**
+	 * P1-D: New refresh token (after rotation) must work.
+	 */
+	public function test_refresh_token_rotation_new_token_works(): void {
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code();
+
+		// Get initial tokens.
+		$token_response = $ctrl->handle_token( $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'authorization_code',
+			'code'          => $seed['code'],
+			'redirect_uri'  => 'https://client.example.com/callback',
+			'code_verifier' => $seed['verifier'],
+		) ) );
+
+		$refresh_token = $token_response->get_data()['refresh_token'];
+
+		// First use: get new tokens.
+		$rotate_response = $ctrl->handle_token( $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'refresh_token',
+			'refresh_token' => $refresh_token,
+		) ) );
+
+		$new_refresh_token = $rotate_response->get_data()['refresh_token'];
+
+		// Second use: new refresh token must succeed.
+		$second_response = $ctrl->handle_token( $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'refresh_token',
+			'refresh_token' => $new_refresh_token,
+		) ) );
+
+		$this->assertSame( 200, $second_response->get_status(), 'New refresh token after rotation must work' );
+		$this->assertArrayHasKey( 'access_token', $second_response->get_data() );
+	}
+
+	// ── P1-E: client_id bound to code ─────────────────────────────────────
+
+	/**
+	 * P1-E: A code minted for client A cannot be redeemed declaring client B.
+	 */
+	public function test_client_id_mismatch_at_token_fails(): void {
+		// Seed a code for 'test_client'.
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code( array( 'client_id' => 'test_client' ) );
+
+		// Try to redeem declaring a different client_id.
+		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'authorization_code',
+			'code'          => $seed['code'],
+			'redirect_uri'  => 'https://client.example.com/callback',
+			'code_verifier' => $seed['verifier'],
+			'client_id'     => 'evil_client', // mismatch
+		) );
+
+		$response = $ctrl->handle_token( $request );
+		$this->assertSame( 400, $response->get_status(), 'client_id mismatch must fail' );
+		$this->assertSame( 'invalid_grant', $response->get_data()['error'] );
+	}
+
+	/**
+	 * P1-E: Correct client_id matching stored value must succeed.
+	 */
+	public function test_client_id_correct_match_succeeds(): void {
+		$ctrl = $this->controller();
+		$seed = $this->seed_auth_code( array( 'client_id' => 'test_client' ) );
+
+		$request = $this->make_request( 'POST', '/mcpwp/v1/oauth/token', array(
+			'grant_type'    => 'authorization_code',
+			'code'          => $seed['code'],
+			'redirect_uri'  => 'https://client.example.com/callback',
+			'code_verifier' => $seed['verifier'],
+			'client_id'     => 'test_client', // correct
+		) );
+
+		$response = $ctrl->handle_token( $request );
+		$this->assertSame( 200, $response->get_status(), 'Correct client_id must succeed' );
+	}
+
+	// ── P2-F: X-Forwarded-Proto scheme downgrade ──────────────────────────
+
+	/**
+	 * P2-F: A request with X-Forwarded-Proto: http to an https site must still
+	 * emit an https issuer URL (no scheme downgrade without trusted-proxy opt-in).
+	 */
+	public function test_x_forwarded_proto_http_does_not_downgrade_https_origin(): void {
+		// Simulate the attacker setting X-Forwarded-Proto: http.
+		$_SERVER['HTTP_X_FORWARDED_PROTO'] = 'http';
+
+		// get_site_url() returns 'https://example.com' (see bootstrap.php).
+		$origin = Mcpwp_OAuth_Well_Known::get_site_origin();
+
+		// Clean up.
+		unset( $_SERVER['HTTP_X_FORWARDED_PROTO'] );
+
+		$this->assertStringStartsWith(
+			'https://',
+			$origin,
+			'X-Forwarded-Proto: http must not downgrade an https site to http issuer'
+		);
+	}
+
+	/**
+	 * P2-F: Without X-Forwarded-Proto, origin uses site_url scheme (https).
+	 */
+	public function test_origin_uses_site_url_scheme_when_no_forwarded_proto(): void {
+		unset( $_SERVER['HTTP_X_FORWARDED_PROTO'] );
+		$origin = Mcpwp_OAuth_Well_Known::get_site_origin();
+		$this->assertStringStartsWith( 'https://', $origin );
 	}
 
 	// ── Issued token authenticates on the API auth path ──────────────────

@@ -17,7 +17,12 @@
  *  - PKCE S256 mandatory; plain/absent rejected at authorize AND token steps.
  *  - redirect_uri must exact-match an entry in oauth_redirect_uris allow-list.
  *  - Auth codes are single-use (transient deleted on first use) with 60s TTL.
- *  - Code bound to client_id + redirect_uri + code_challenge + user_id.
+ *  - Code bound to client_id + redirect_uri + code_challenge + user_id + CLAMPED scope.
+ *  - Scope clamped to user capability at authorize time and re-validated at token time.
+ *  - client_secret OPTIONAL — public clients (PKCE only) work without a secret.
+ *  - Refresh token rotation: presented token deleted, new one issued, old can't be reused.
+ *  - Refresh token bound to user_id; re-issued token retains user binding.
+ *  - client_id verified against stored code at token exchange (P1-E).
  *  - Consent POST protected by a wp_nonce.
  *  - constant-time comparison (hash_equals) everywhere.
  *  - No token/secret material written to any log or query-string persistence.
@@ -45,6 +50,10 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 	 *
 	 * The .well-known endpoints are served via the parse_request hook registered
 	 * in Mcpwp_OAuth_Well_Known::init(), not as REST routes.
+	 *
+	 * NOTE: client_secret is intentionally NOT listed in route args, so it is
+	 * never marked required by the WP REST router.  It is read directly from
+	 * the raw request params in handle_token_authorization_code().
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -72,6 +81,8 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'handle_token' ),
 					'permission_callback' => '__return_true',
+					// No 'args' with required:true here — client_secret must remain
+					// optional for public clients (PKCE-only, no secret).
 				),
 			)
 		);
@@ -108,6 +119,10 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 			wp_redirect( $login_url );
 			exit;
 		}
+
+		// Clamp scope to what the current user is actually capable of before
+		// rendering the consent screen so users only see what they can get.
+		$params['scope'] = $this->clamp_scope_to_user_capability( $params['scope'] );
 
 		$this->render_consent_screen( $params );
 		exit;
@@ -159,6 +174,10 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 			exit;
 		}
 
+		// P0-A: Clamp the requested scope to the logged-in user's capability.
+		// Store only the clamped scope in the auth code — never the raw requested scope.
+		$clamped_scope = $this->clamp_scope_to_user_capability( $params['scope'] );
+
 		// Approval path — generate auth code.
 		$code          = bin2hex( random_bytes( 32 ) );
 		$user_id       = get_current_user_id();
@@ -170,7 +189,7 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 				'client_id'      => $params['client_id'],
 				'redirect_uri'   => $params['redirect_uri'],
 				'code_challenge' => $params['code_challenge'],
-				'scope'          => $params['scope'],
+				'scope'          => implode( ' ', $clamped_scope ),
 				'user_id'        => $user_id,
 				'expires'        => time() + 60,
 			),
@@ -226,6 +245,9 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 	/**
 	 * Process the authorization_code token exchange.
 	 *
+	 * Public clients (PKCE only, no client_secret) are explicitly supported per
+	 * OAuth 2.1 / MCP Auth Spec.  client_secret is always optional here.
+	 *
 	 * @param WP_REST_Request $request Request.
 	 * @return WP_REST_Response
 	 */
@@ -234,6 +256,7 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 		$redirect_uri  = esc_url_raw( (string) $request->get_param( 'redirect_uri' ) );
 		$code_verifier = sanitize_text_field( (string) $request->get_param( 'code_verifier' ) );
 		$client_id     = sanitize_key( (string) $request->get_param( 'client_id' ) );
+		// P0-C: client_secret is OPTIONAL — never required. Read it but don't error on absence.
 		$client_secret = (string) $request->get_param( 'client_secret' );
 
 		if ( empty( $code ) ) {
@@ -265,33 +288,53 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 			return $this->oauth_error_response( 'invalid_grant', 'redirect_uri mismatch.', 400 );
 		}
 
+		// P1-E: client_id must match the client_id that was stored in the code.
+		// Prevents code minted for client A being redeemed declaring client B.
+		if ( ! empty( $client_id ) && isset( $stored['client_id'] ) ) {
+			if ( ! hash_equals( (string) $stored['client_id'], $client_id ) ) {
+				return $this->oauth_error_response( 'invalid_grant', 'client_id mismatch.', 400 );
+			}
+		}
+
 		// PKCE: base64url(SHA256(code_verifier)) must match stored code_challenge.
 		$computed_challenge = $this->compute_pkce_challenge( $code_verifier );
 		if ( ! hash_equals( (string) $stored['code_challenge'], $computed_challenge ) ) {
 			return $this->oauth_error_response( 'invalid_grant', 'PKCE verification failed.', 400 );
 		}
 
-		// Optional client credential check (when client_secret is supplied).
-		if ( ! empty( $client_id ) && ! empty( $client_secret ) ) {
+		// P0-C: Client credential check is OPTIONAL.
+		// - If client_secret is provided: verify against configured secret (confidential client).
+		// - If only client_id (no secret): verify client_id matches configured id (public client).
+		// - If neither: skip client validation — public client presenting only PKCE (allowed by OAuth 2.1).
+		$oauth_settings = $this->get_oauth_settings();
+		if ( ! empty( $client_secret ) ) {
+			// Confidential client path — secret must verify.
 			if ( ! $this->verify_oauth_client_credentials( $client_id, $client_secret ) ) {
 				return $this->oauth_error_response( 'invalid_client', 'Invalid client credentials.', 401 );
 			}
 		} elseif ( ! empty( $client_id ) ) {
-			// client_id present without secret — validate it matches configured id.
-			$oauth_settings = $this->get_oauth_settings();
+			// Public client path — validate client_id only (no secret check).
 			if ( ! hash_equals( $oauth_settings['oauth_client_id'], sanitize_key( $client_id ) ) ) {
 				return $this->oauth_error_response( 'invalid_client', 'Invalid client_id.', 401 );
 			}
 		}
+		// else: no client_id and no secret — fully anonymous public client; PKCE is the sole proof.
 
 		// Parse scopes from stored value.
-		$scope_string = isset( $stored['scope'] ) ? (string) $stored['scope'] : 'read write';
-		$scopes       = $this->parse_scope_string( $scope_string );
+		// P0-B: Never fall back to get_default_api_key_scopes() here — that would
+		// grant read+write+admin when scope is absent. Use stored (already-clamped) scope.
+		$scope_string = isset( $stored['scope'] ) ? (string) $stored['scope'] : '';
+		$scopes       = $this->parse_oauth_scope_string( $scope_string );
+
+		// P0-A defence-in-depth: re-clamp at token issuance in case scope was set
+		// externally (e.g. seeded via wp eval in tests or by older code).
+		// Use the user_id stored in the code — that was the user who consented.
+		$stored_user_id = isset( $stored['user_id'] ) ? (int) $stored['user_id'] : 0;
+		$scopes         = $this->clamp_scope_array_to_user_id( $scopes, $stored_user_id );
 
 		// Issue token via existing backend.
-		$oauth_settings = $this->get_oauth_settings();
 		$ttl            = (int) $oauth_settings['oauth_token_ttl'];
-		$token_response = $this->issue_oauth_access_token( $scopes, $ttl );
+		$token_response = $this->issue_oauth_access_token_with_user( $scopes, $ttl, $stored_user_id );
 
 		return new WP_REST_Response( $token_response, 200 );
 	}
@@ -303,9 +346,9 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 	/**
 	 * Process the refresh_token grant.
 	 *
-	 * The refresh token is the previous mcpwp_at_ access token.  We validate it
-	 * is still alive in the transient store, then issue a fresh access token with
-	 * the same scopes.
+	 * P1-D: Refresh token rotation — the presented refresh token is deleted on
+	 * use and a brand-new one is issued.  The old token cannot be reused.
+	 * Tokens are bound to user_id.
 	 *
 	 * @param WP_REST_Request $request Request.
 	 * @return WP_REST_Response
@@ -317,19 +360,29 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 			return $this->oauth_error_response( 'invalid_request', 'refresh_token is required.', 400 );
 		}
 
-		if ( ! $this->looks_like_oauth_access_token( $refresh_token ) ) {
+		if ( ! $this->looks_like_oauth_refresh_token( $refresh_token ) ) {
 			return $this->oauth_error_response( 'invalid_grant', 'Invalid refresh token format.', 400 );
 		}
 
-		$record = get_transient( $this->get_oauth_token_transient_key( $refresh_token ) );
+		$transient_key = $this->get_oauth_refresh_token_transient_key( $refresh_token );
+		$record        = get_transient( $transient_key );
+
+		// P1-D: Delete the presented refresh token immediately (rotate before issuing new one).
+		// This ensures that even if the new issuance fails, the old token is gone.
+		delete_transient( $transient_key );
+
 		if ( ! is_array( $record ) || empty( $record['scopes'] ) ) {
 			return $this->oauth_error_response( 'invalid_grant', 'Refresh token is invalid or has expired.', 400 );
 		}
 
-		$scopes         = $this->sanitize_scopes( (array) $record['scopes'] );
+		$scopes  = $this->sanitize_scopes( (array) $record['scopes'] );
+		$user_id = isset( $record['user_id'] ) ? (int) $record['user_id'] : 0;
+
 		$oauth_settings = $this->get_oauth_settings();
 		$ttl            = (int) $oauth_settings['oauth_token_ttl'];
-		$token_response = $this->issue_oauth_access_token( $scopes, $ttl );
+
+		// Issue a new access token + new refresh token.
+		$token_response = $this->issue_oauth_access_token_with_user( $scopes, $ttl, $user_id );
 
 		return new WP_REST_Response( $token_response, 200 );
 	}
@@ -409,13 +462,13 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 	 * All OAuth parameters are embedded as hidden fields.
 	 * CSRF nonce is generated fresh per render.
 	 *
-	 * @param array $params Validated authorize parameters.
+	 * @param array $params Validated authorize parameters (scope already clamped).
 	 */
 	private function render_consent_screen( $params ) {
 		$nonce       = wp_create_nonce( 'mcpwp_oauth_consent' );
 		$site_name   = function_exists( 'get_bloginfo' ) ? esc_html( get_bloginfo( 'name' ) ) : 'this site';
 		$client_id   = esc_html( $params['client_id'] );
-		$scope_label = esc_html( $params['scope'] ? $params['scope'] : 'read write' );
+		$scope_label = esc_html( $params['scope'] ? $params['scope'] : 'read' );
 		$user_login  = '';
 		if ( function_exists( 'wp_get_current_user' ) ) {
 			$current_user = wp_get_current_user();
@@ -455,6 +508,136 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 		   . '<button type="submit" name="action" value="deny" class="btn btn-deny">Deny</button>'
 		   . '</form></body></html>';
 		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+
+	// -------------------------------------------------------------------------
+	// Scope clamping — P0-A / P0-B
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Clamp a requested scope string to the current logged-in user's capability.
+	 *
+	 * Mapping (highest grant wins, silently downgrade if not capable):
+	 *   admin  — requires current_user_can('manage_options')
+	 *   write  — requires current_user_can('edit_posts')
+	 *   read   — always granted for any logged-in user
+	 *
+	 * P0-B: Empty/absent scope defaults to ['read'] only (never admin).
+	 *
+	 * @param string $scope_string Space-separated requested scopes (may be empty).
+	 * @return string[] Clamped scope array.
+	 */
+	public function clamp_scope_to_user_capability( $scope_string ) {
+		// P0-B: empty scope must default to read only — never call get_default_api_key_scopes().
+		$requested = $this->parse_oauth_scope_string( $scope_string );
+
+		return $this->clamp_scope_array_to_user_cap_current( $requested );
+	}
+
+	/**
+	 * Clamp a scope array to what the current user is capable of.
+	 *
+	 * Internal helper used at authorize time (current user is known).
+	 *
+	 * @param string[] $requested Parsed requested scopes.
+	 * @return string[] Clamped scope array.
+	 */
+	private function clamp_scope_array_to_user_cap_current( $requested ) {
+		// Determine the ceiling for this user.
+		if ( function_exists( 'current_user_can' ) && current_user_can( 'manage_options' ) ) {
+			$ceiling = 'admin';
+		} elseif ( function_exists( 'current_user_can' ) && current_user_can( 'edit_posts' ) ) {
+			$ceiling = 'write';
+		} else {
+			$ceiling = 'read';
+		}
+
+		return $this->apply_scope_ceiling( $requested, $ceiling );
+	}
+
+	/**
+	 * Clamp a scope array to what a specific user_id is capable of.
+	 *
+	 * Used at token issuance (defence-in-depth re-clamp) where we have a stored
+	 * user_id but the current logged-in user may differ (token endpoint is not
+	 * protected by interactive session).
+	 *
+	 * NOTE: In the test harness, current_user_can() is driven by
+	 * $GLOBALS['mcpwp_test_current_user']; there is no get_user_by+caps lookup.
+	 * For production this method checks the stored user's capabilities.
+	 *
+	 * @param string[] $scopes  Scope array to clamp.
+	 * @param int      $user_id WordPress user ID.
+	 * @return string[] Clamped scope array.
+	 */
+	public function clamp_scope_array_to_user_id( $scopes, $user_id ) {
+		if ( $user_id <= 0 ) {
+			// No user bound — default to read only.
+			return array( 'read' );
+		}
+
+		// Ask WordPress about this specific user's caps.
+		$ceiling = 'read';
+		if ( function_exists( 'user_can' ) ) {
+			if ( user_can( $user_id, 'manage_options' ) ) {
+				$ceiling = 'admin';
+			} elseif ( user_can( $user_id, 'edit_posts' ) ) {
+				$ceiling = 'write';
+			}
+		} elseif ( function_exists( 'get_userdata' ) ) {
+			// Fallback: load user and check roles/caps directly.
+			$user = get_userdata( $user_id );
+			if ( $user ) {
+				$roles = isset( $user->roles ) ? (array) $user->roles : array();
+				if ( in_array( 'administrator', $roles, true ) ) {
+					$ceiling = 'admin';
+				} elseif ( array_intersect( $roles, array( 'editor', 'author', 'contributor' ) ) ) {
+					$ceiling = 'write';
+				}
+			}
+		}
+
+		return $this->apply_scope_ceiling( $scopes, $ceiling );
+	}
+
+	/**
+	 * Apply a scope ceiling — drop any scopes above the ceiling.
+	 *
+	 * When all requested scopes are above the ceiling, grant the ceiling itself.
+	 * Example: editor (ceiling=write) requesting admin → gets ['read','write'].
+	 * Example: subscriber (ceiling=read) requesting admin → gets ['read'].
+	 *
+	 * @param string[] $requested Requested scopes.
+	 * @param string   $ceiling   Maximum scope: 'read', 'write', or 'admin'.
+	 * @return string[] Clamped scope array (always at least ['read']).
+	 */
+	private function apply_scope_ceiling( $requested, $ceiling ) {
+		$ceiling_rank = $this->scope_rank( $ceiling );
+
+		$clamped = array();
+		foreach ( $requested as $s ) {
+			if ( $this->scope_rank( $s ) <= $ceiling_rank ) {
+				$clamped[] = $s;
+			}
+			// Silently drop scopes above ceiling — no error.
+		}
+
+		// When nothing was kept (all requested scopes exceeded the ceiling),
+		// grant the ceiling itself rather than dropping to bare 'read'.
+		// This ensures an editor requesting admin actually gets write (their ceiling).
+		if ( empty( $clamped ) ) {
+			$clamped = array( $ceiling );
+		}
+
+		// Expand implied scopes (admin implies write+read, write implies read).
+		if ( in_array( 'admin', $clamped, true ) ) {
+			return array( 'read', 'write', 'admin' );
+		}
+		if ( in_array( 'write', $clamped, true ) ) {
+			return array( 'read', 'write' );
+		}
+
+		return array( 'read' );
 	}
 
 	// -------------------------------------------------------------------------
@@ -519,14 +702,95 @@ class Mcpwp_REST_OAuth extends Mcpwp_REST_API {
 	}
 
 	/**
-	 * Parse a space-separated scope string into an array.
+	 * Parse a space-separated OAuth scope string into an array.
+	 *
+	 * P0-B: Unlike sanitize_scopes(), an empty/absent OAuth scope string returns
+	 * ['read'] only — never the API-key default of ['read','write','admin'].
+	 * This method must NOT call get_default_api_key_scopes().
 	 *
 	 * @param string $scope_string Space-separated scopes.
-	 * @return array Sanitized scope array.
+	 * @return array Sanitized scope array (at least ['read']).
 	 */
-	private function parse_scope_string( $scope_string ) {
-		$scopes = preg_split( '/\s+/', trim( $scope_string ), -1, PREG_SPLIT_NO_EMPTY );
-		return $this->sanitize_scopes( is_array( $scopes ) ? $scopes : array() );
+	public function parse_oauth_scope_string( $scope_string ) {
+		$scope_string = trim( (string) $scope_string );
+
+		if ( '' === $scope_string ) {
+			// P0-B: empty scope → read only.
+			return array( 'read' );
+		}
+
+		$allowed = array( 'read', 'write', 'admin' );
+		$parts   = preg_split( '/\s+/', $scope_string, -1, PREG_SPLIT_NO_EMPTY );
+		$scopes  = array();
+		foreach ( $parts as $s ) {
+			$s = sanitize_key( $s );
+			if ( in_array( $s, $allowed, true ) ) {
+				$scopes[] = $s;
+			}
+		}
+
+		// If nothing valid was parsed, fall back to read.
+		if ( empty( $scopes ) ) {
+			return array( 'read' );
+		}
+
+		return array_values( array_unique( $scopes ) );
+	}
+
+	/**
+	 * Issue an OAuth access token plus a new refresh token, bound to a user.
+	 *
+	 * Wraps issue_oauth_access_token() from the auth trait and additionally
+	 * creates a refresh token transient (P1-D: rotation on use).
+	 *
+	 * @param string[] $scopes  Granted scopes.
+	 * @param int      $ttl     Access token TTL in seconds.
+	 * @param int      $user_id WordPress user ID who consented.
+	 * @return array Token response payload including refresh_token.
+	 */
+	private function issue_oauth_access_token_with_user( $scopes, $ttl, $user_id ) {
+		$token_response = $this->issue_oauth_access_token( $scopes, $ttl );
+
+		// Issue a refresh token (separate, longer-lived transient).
+		// Refresh TTL = 30 days max or 10x access TTL, whichever is smaller.
+		$refresh_ttl    = min( 30 * DAY_IN_SECONDS, $ttl * 10 );
+		$refresh_token  = 'mcpwp_rt_' . bin2hex( random_bytes( 32 ) );
+		$refresh_record = array(
+			'scopes'     => $scopes,
+			'user_id'    => $user_id,
+			'created_at' => time(),
+			'expires_at' => time() + $refresh_ttl,
+		);
+
+		set_transient(
+			$this->get_oauth_refresh_token_transient_key( $refresh_token ),
+			$refresh_record,
+			$refresh_ttl
+		);
+
+		$token_response['refresh_token'] = $refresh_token;
+
+		return $token_response;
+	}
+
+	/**
+	 * Check whether a token looks like a generated OAuth refresh token.
+	 *
+	 * @param string $token Token string.
+	 * @return bool
+	 */
+	private function looks_like_oauth_refresh_token( $token ) {
+		return 0 === strpos( (string) $token, 'mcpwp_rt_' );
+	}
+
+	/**
+	 * Get the transient key for a refresh token.
+	 *
+	 * @param string $refresh_token Refresh token string.
+	 * @return string Transient key.
+	 */
+	public function get_oauth_refresh_token_transient_key( $refresh_token ) {
+		return 'mcpwp_oauth_rt_' . md5( (string) $refresh_token );
 	}
 
 	/**
