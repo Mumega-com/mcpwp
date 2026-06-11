@@ -5,6 +5,32 @@ All notable changes to MCPWP will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — feat/505-bridge
+
+### Added
+- `Mcpwp_Migrate`: idempotent one-time option migration that copies all known
+  `spai_*` options to their `mcpwp_*` equivalents on `plugins_loaded` and on
+  activation.  Non-destructive (originals kept), non-overwriting (skips existing
+  `mcpwp_*` values), guarded by `mcpwp_migrated_from_spai` flag.  Includes
+  encryption sanity-check for `spai_integrations` blob with admin-visible warning
+  if `AUTH_SALT` changed (provider keys must be re-entered).
+- `find_legacy_spai_key()` in `Mcpwp_Api_Auth` trait: dual-prefix API key auth
+  that accepts keys stored under `spai_api_keys` / `spai_api_key` so existing AI
+  connections continue to work through the slug-rename cutover without re-keying.
+  Uses the same `wp_check_password()` / `hash_equals()` path as the existing key
+  lookup — no timing difference.
+- `docs/BRIDGE-505-DESIGN.md`: slug-handover option analysis (Option A/B/C) with
+  recommendation for architect + mumcp-warden review.
+- `BridgeMigrateTest.php` / `BridgeAuthTest.php`: phpunit coverage for both.
+
+### Version note
+This branch does NOT bump `mcpwp.php`, `readme.txt`, or `version.json`.  The
+bridge ships as part of the v3.0.x lineage.  Version story: the data migration
+and dual-key auth are included in whatever v3.x release ships to the fleet; the
+slug handover itself is gated on architect + warden review per the design note.
+
+---
+
 ## [2.8.31] - 2026-05-20
 
 ### Fixed

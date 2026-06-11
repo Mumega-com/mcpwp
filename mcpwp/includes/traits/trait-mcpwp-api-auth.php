@@ -36,6 +36,11 @@ trait Mcpwp_Api_Auth {
 	/**
 	 * Verify API key from request.
 	 *
+	 * Accepts both current mcpwp_ keys (from mcpwp_api_keys / mcpwp_api_key)
+	 * and legacy spai_ keys (from spai_api_keys / spai_api_key) so that
+	 * existing AI connections continue to work through the 2.8.x → v3 cutover
+	 * without requiring customers to re-key.  See find_legacy_spai_key().
+	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return bool|WP_Error True if valid, error otherwise.
 	 */
@@ -92,6 +97,15 @@ trait Mcpwp_Api_Auth {
 			}
 
 			$matched_key = $this->migrate_legacy_key_to_scoped_store( $legacy_key );
+		}
+
+		// Bridge: also accept keys stored under the old spai_* option names.
+		// This allows customers on 2.8.x to keep their existing API keys working
+		// through the folder-rename cutover without re-generating keys.
+		// find_legacy_spai_key() is constant-time / hashed-compare identical to
+		// find_scoped_api_key().
+		if ( ! $matched_key ) {
+			$matched_key = $this->find_legacy_spai_key( $api_key );
 		}
 
 		if ( ! $matched_key ) {
@@ -336,6 +350,11 @@ trait Mcpwp_Api_Auth {
 			$matched_key = $this->migrate_legacy_key_to_scoped_store( $legacy_key );
 		}
 
+		// Bridge: also accept keys from the old spai_* option store.
+		if ( ! $matched_key ) {
+			$matched_key = $this->find_legacy_spai_key( $api_key );
+		}
+
 		if ( ! $matched_key ) {
 			return new WP_Error(
 				'invalid_api_key',
@@ -420,15 +439,31 @@ trait Mcpwp_Api_Auth {
 	/**
 	 * Check whether a token looks like a generated OAuth access token.
 	 *
+	 * Accepts both the v3 prefix (mcpwp_at_) and the legacy 2.8.x prefix
+	 * (spai_at_) so that OAuth-connected clients (Claude Desktop, ChatGPT)
+	 * continue to work through the slug-rename cutover without needing to
+	 * re-authenticate.  The token lookup logic in authenticate_oauth_access_token
+	 * handles the transient-key difference (spai_ tokens were stored under
+	 * spai_oauth_token_<md5>; v3 stores under mcpwp_oauth_token_<md5>).
+	 *
 	 * @param string $token Access token.
-	 * @return bool True when token has OAuth prefix.
+	 * @return bool True when token has an OAuth prefix (v3 or legacy).
 	 */
 	protected function looks_like_oauth_access_token( $token ) {
-		return 0 === strpos( (string) $token, 'mcpwp_at_' );
+		$token = (string) $token;
+		return 0 === strpos( $token, 'mcpwp_at_' ) || 0 === strpos( $token, 'spai_at_' );
 	}
 
 	/**
 	 * Validate and authenticate OAuth bearer access token.
+	 *
+	 * Handles both v3 tokens (mcpwp_at_) and legacy 2.8.x tokens (spai_at_).
+	 * 2.8.56 stored OAuth tokens under the transient key spai_oauth_token_<md5(token)>.
+	 * v3 stores them under mcpwp_oauth_token_<md5(token)>.  Because the md5 is of
+	 * the full token string (including its prefix), the transient key differs and
+	 * we must use the correct prefix-aware lookup.  For spai_at_ tokens we first
+	 * check the legacy spai_oauth_token_ transient namespace.  OAuth must be
+	 * enabled on this site for either path to work.
 	 *
 	 * @param string          $token   Access token.
 	 * @param WP_REST_Request $request Request object.
@@ -444,7 +479,19 @@ trait Mcpwp_Api_Auth {
 			);
 		}
 
-		$record = get_transient( $this->get_oauth_token_transient_key( $token ) );
+		// For legacy spai_at_ tokens we check the legacy transient namespace first.
+		// 2.8.56 used 'spai_oauth_token_' . md5($token); v3 uses 'mcpwp_oauth_token_' . md5($token).
+		// We try the legacy key first when the token has the spai_ prefix, then fall
+		// through to the standard path in case it was already re-issued under v3 naming.
+		$record = false;
+		if ( 0 === strpos( (string) $token, 'spai_at_' ) ) {
+			$legacy_transient_key = 'spai_oauth_token_' . md5( (string) $token );
+			$record               = get_transient( $legacy_transient_key );
+		}
+		if ( ! is_array( $record ) || empty( $record['scopes'] ) ) {
+			$record = get_transient( $this->get_oauth_token_transient_key( $token ) );
+		}
+
 		if ( ! is_array( $record ) || empty( $record['scopes'] ) ) {
 			$this->log_auth_failure( $request );
 			return new WP_Error(
@@ -650,6 +697,68 @@ trait Mcpwp_Api_Auth {
 			if ( $this->is_api_key_match( $api_key, $key['hash'] ) ) {
 				return $this->normalize_api_key_record( $key );
 			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Find an active API key record from the legacy spai_* option store.
+	 *
+	 * This is the dual-prefix bridge for the 2.8.x → v3 cutover.  It checks
+	 * two legacy options:
+	 *
+	 *   spai_api_keys  — the scoped multi-key store written by 2.8.x
+	 *   spai_api_key   — the single-key legacy option (written by pre-multi-key builds)
+	 *
+	 * The comparison uses the same wp_check_password() / hash_equals() path as
+	 * find_scoped_api_key(), so timing characteristics are identical.  No
+	 * plaintext key material is logged or retained.
+	 *
+	 * When a match is found the method returns a normalized key record (same
+	 * shape as find_scoped_api_key()) so the caller can apply scope checks
+	 * uniformly.  It does NOT auto-migrate the key to the mcpwp_ store — that
+	 * is intentional.  Migration is handled separately by Mcpwp_Migrate::run()
+	 * so that the auth path stays simple and side-effect-free.
+	 *
+	 * @param string $api_key Incoming plaintext API key.
+	 * @return array|null Matching (normalized) key record, or null.
+	 */
+	protected function find_legacy_spai_key( $api_key ) {
+		// 1. Check the spai_api_keys scoped multi-key store.
+		$spai_keys = get_option( 'spai_api_keys', array() );
+		if ( is_array( $spai_keys ) ) {
+			foreach ( $spai_keys as $key ) {
+				if ( ! is_array( $key ) ) {
+					continue;
+				}
+				// Skip revoked keys.
+				if ( ! empty( $key['revoked_at'] ) ) {
+					continue;
+				}
+				if ( empty( $key['hash'] ) ) {
+					continue;
+				}
+				if ( $this->is_api_key_match( $api_key, $key['hash'] ) ) {
+					return $this->normalize_api_key_record( $key );
+				}
+			}
+		}
+
+		// 2. Fall back to the single-key spai_api_key option.
+		$spai_single = get_option( 'spai_api_key' );
+		if ( ! empty( $spai_single ) && $this->is_api_key_match( $api_key, $spai_single ) ) {
+			// Synthesise a minimal key record consistent with normalize_api_key_record().
+			return $this->normalize_api_key_record(
+				array(
+					'id'         => 'spai_legacy_single',
+					'label'      => 'Legacy spai_ key (bridge)',
+					'hash'       => (string) $spai_single,
+					'scopes'     => $this->get_default_api_key_scopes(),
+					'role'       => 'admin',
+					'created_at' => null,
+				)
+			);
 		}
 
 		return null;
