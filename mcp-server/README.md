@@ -13,7 +13,7 @@ A thin stdio-to-HTTP proxy that forwards all MCP requests to your WordPress site
 MCP Client (stdio) → mcpwp (proxy) → WordPress Plugin (JSON-RPC over HTTP)
 ```
 
-The WordPress plugin exposes a complete MCP endpoint at `/wp-json/site-pilot-ai/v1/mcp`. This npm package connects to it and proxies `tools/list`, `tools/call`, `resources/list`, and `resources/read` — so every tool the plugin provides is automatically available to your AI client.
+The WordPress plugin exposes a complete MCP endpoint at `/wp-json/mcpwp/v1/mcp`. This npm package connects to it and proxies `tools/list`, `tools/call`, `resources/list`, and `resources/read` — so every tool the plugin provides is automatically available to your AI client.
 
 - **Dynamic tool discovery** — content, Elementor, WooCommerce, LearnPress, SEO, forms, media, theme builder, and more
 - **Zero dependencies** — single-file bundle, runs on Node 18+
@@ -53,7 +53,7 @@ This will:
       "args": ["-y", "mcpwp"],
       "env": {
         "WP_URL": "https://your-site.com",
-        "WP_API_KEY": "spai_your_key"
+        "WP_API_KEY": "mcpwp_your_key"
       }
     }
   }
@@ -70,7 +70,7 @@ This will:
       "args": ["-y", "mcpwp"],
       "env": {
         "WP_URL": "https://your-site.com",
-        "WP_API_KEY": "spai_your_key"
+        "WP_API_KEY": "mcpwp_your_key"
       }
     }
   }
@@ -83,9 +83,9 @@ This will:
 {
   "mcpServers": {
     "wordpress": {
-      "url": "https://your-site.com/wp-json/site-pilot-ai/v1/mcp",
+      "url": "https://your-site.com/wp-json/mcpwp/v1/mcp",
       "headers": {
-        "X-API-Key": "spai_your_key"
+        "X-API-Key": "mcpwp_your_key"
       }
     }
   }
@@ -100,12 +100,12 @@ For multiple sites, add separate entries with unique names:
     "mcpwp-production": {
       "command": "npx",
       "args": ["-y", "mcpwp"],
-      "env": { "WP_URL": "https://example.com", "WP_API_KEY": "spai_..." }
+      "env": { "WP_URL": "https://example.com", "WP_API_KEY": "mcpwp_..." }
     },
     "mcpwp-staging": {
       "command": "npx",
       "args": ["-y", "mcpwp"],
-      "env": { "WP_URL": "https://staging.example.com", "WP_API_KEY": "spai_..." }
+      "env": { "WP_URL": "https://staging.example.com", "WP_API_KEY": "mcpwp_..." }
     }
   }
 }
@@ -163,7 +163,7 @@ All tools come from the WordPress plugin. Update the plugin to get new tools —
 
 ```bash
 WP_URL=https://your-site.com       # WordPress site URL
-WP_API_KEY=spai_...                 # MCPWP API key
+WP_API_KEY=mcpwp_...                 # MCPWP API key
 WP_SITE_NAME=default                # Optional, for multi-site configs
 WP_CONFIG_PATH=~/custom/config.json # Optional, custom config path
 ```
@@ -177,7 +177,7 @@ Location: `~/.mumega-mcp/config.json`
   "sites": {
     "default": {
       "url": "https://your-site.com",
-      "apiKey": "spai_...",
+      "apiKey": "mcpwp_...",
       "name": "My Site"
     }
   },

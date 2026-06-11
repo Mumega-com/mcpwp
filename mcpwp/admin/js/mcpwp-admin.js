@@ -2,14 +2,14 @@
  * MCPWP Admin JavaScript
  *
  * All admin-page JS lives here — no inline <script> blocks in partials.
- * PHP data is passed via wp_localize_script('mcpwp-admin', 'spaiAdmin', {...}).
+ * PHP data is passed via wp_localize_script('mcpwp-admin', 'mcpwpAdmin', {...}).
  *
  * @package MCPWP
  */
 
-// PostHog analytics — single canonical init, reads from spaiAdmin.
+// PostHog analytics — single canonical init, reads from mcpwpAdmin.
 (function() {
-	var cfg = (typeof spaiAdmin !== 'undefined' && spaiAdmin.posthogToken) ? spaiAdmin : null;
+	var cfg = (typeof mcpwpAdmin !== 'undefined' && mcpwpAdmin.posthogToken) ? mcpwpAdmin : null;
 	if (!cfg || !cfg.posthogToken) return;
 	!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
 	posthog.init(cfg.posthogToken, { api_host: cfg.posthogHost, defaults: '2026-01-30' });
@@ -18,12 +18,12 @@
 (function($) {
 	'use strict';
 
-	// Guard: spaiAdmin must be defined (localized by PHP on every MCPWP page).
-	if (typeof spaiAdmin === 'undefined') return;
+	// Guard: mcpwpAdmin must be defined (localized by PHP on every MCPWP page).
+	if (typeof mcpwpAdmin === 'undefined') return;
 
-	var ajaxUrl = spaiAdmin.ajaxUrl;
-	var nonce   = spaiAdmin.nonce;
-	var strings = spaiAdmin.strings;
+	var ajaxUrl = mcpwpAdmin.ajaxUrl;
+	var nonce   = mcpwpAdmin.nonce;
+	var strings = mcpwpAdmin.strings;
 
 	// ── Clipboard helpers ────────────────────────────────────────────────────
 
@@ -212,7 +212,7 @@
 		var previewDiv = document.getElementById('mcpwp-role-preview');
 		var previewCat = document.getElementById('mcpwp-role-preview-categories');
 		var checkboxes = document.querySelectorAll('.mcpwp-category-checkbox');
-		var catLabels  = spaiAdmin.catLabels || {};
+		var catLabels  = mcpwpAdmin.catLabels || {};
 
 		function updateRoleUI() {
 			var sel  = roleSelect.options[roleSelect.selectedIndex];
@@ -298,7 +298,7 @@
 	function initToolsPage() {
 		if (!$('.mcpwp-tools-page').length) return;
 
-		var toolsNonce = spaiAdmin.toolsNonce;
+		var toolsNonce = mcpwpAdmin.toolsNonce;
 
 		$(document).on('change', '.mcpwp-category-toggle', function() {
 			var $cb       = $(this);
@@ -345,7 +345,7 @@
 	function initIntegrations() {
 		if (!$('.mcpwp-integrations-page').length) return;
 
-		var intNonce = spaiAdmin.integrationsNonce;
+		var intNonce = mcpwpAdmin.integrationsNonce;
 
 		function setStatusText(status, text, isSuccess) {
 			status.text(text)
@@ -432,9 +432,9 @@
 
 		if (!inputEl || !sendBtn) return;
 
-		var chatAjaxNonce = spaiAdmin.nonce;
-		var streamOk      = !!spaiAdmin.streamOk;
-		var chatGreeting  = spaiAdmin.chatGreeting || '';
+		var chatAjaxNonce = mcpwpAdmin.nonce;
+		var streamOk      = !!mcpwpAdmin.streamOk;
+		var chatGreeting  = mcpwpAdmin.chatGreeting || '';
 
 		// Restore history from the hidden data element if present.
 		var historyEl = document.getElementById('mcpwp-chat-history-data');

@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 6.1
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.2.0
+Stable tag: 3.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,9 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 3.2.1 =
+* Maintenance: Internal rebrand cleanup (spai→mcpwp) — cron label, code comments, and admin JS object renamed. Webhook deliveries now also emit `X-MCPWP-Signature`, `X-MCPWP-Event`, and `X-MCPWP-Webhook-ID` headers alongside the existing `X-SPAI-*` headers (both sets sent; `X-SPAI-*` retained for backward-compat). MCP tools/list response now also includes an `x_mcpwp` envelope key alongside `x_spai`. Bridge migration of legacy sites is unchanged.
 
 = 3.2.0 =
 * New: Minimal OAuth 2.1 authorization server — MCP clients (Claude Desktop, ChatGPT) can now authenticate via browser sign-in instead of API keys. Adds RFC 9728 protected-resource metadata, RFC 8414 authorization-server metadata, PKCE S256 authorize endpoint, and token exchange (authorization_code + refresh_token). X-API-Key authentication is unchanged and unaffected. Requires `oauth_enabled` setting + allow-listed redirect URIs to activate.

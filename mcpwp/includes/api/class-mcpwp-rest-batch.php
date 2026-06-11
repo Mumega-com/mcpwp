@@ -205,7 +205,10 @@ class Mcpwp_REST_Batch extends Mcpwp_REST_API {
 		if ( $api_key ) {
 			$internal_request->set_header( 'X-API-Key', $api_key );
 		}
+		// X-SPAI-* kept for backward-compat; remove in a future major.
 		$internal_request->set_header( 'X-SPAI-Batch-Sub-Request', '1' );
+		// X-MCPWP-* alias (new canonical name).
+		$internal_request->set_header( 'X-MCPWP-Batch-Sub-Request', '1' );
 
 		// Execute the request
 		$response = rest_do_request( $internal_request );

@@ -285,12 +285,18 @@ class Mcpwp_REST_MCP extends Mcpwp_REST_API {
 			}
 
 			if ( isset( $tool_map[ $name ] ) ) {
-				$tool['x_spai'] = array(
+				// x_spai kept for backward-compat; remove in a future major.
+				$tool['x_spai']   = array(
 					'method' => $tool_map[ $name ]['method'],
 					'route'  => $tool_map[ $name ]['route'],
 				);
+				// x_mcpwp alias (new canonical name).
+				$tool['x_mcpwp'] = $tool['x_spai'];
 			} else {
-				$tool['x_spai'] = array();
+				// x_spai kept for backward-compat; remove in a future major.
+				$tool['x_spai']  = array();
+				// x_mcpwp alias (new canonical name).
+				$tool['x_mcpwp'] = array();
 			}
 
 			// Get annotations from the owning registry.
