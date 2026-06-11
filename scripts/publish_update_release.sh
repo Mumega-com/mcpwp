@@ -10,10 +10,8 @@ BUILD_SCRIPT="$PLUGIN_DIR/scripts/build-selfhosted.sh"
 STATIC_DIR="/var/www/mcp-updates"
 STATIC_ZIP="$STATIC_DIR/mcpwp-latest.zip"
 STATIC_MANIFEST="$STATIC_DIR/version.json"
-WORKER_FILE="${MCPWP_WORKER_FILE:-$HOME/projects/sitepilotai/mcpwp-updates-worker/src/index.js}"
 
 BUILD=0
-DEPLOY_WORKER=0
 VERIFY_ONLY=0
 
 usage() {
@@ -23,7 +21,6 @@ Usage:
 
 Options:
   --build          Build the ZIP before publishing
-  --deploy-worker  Also sync the legacy worker source file (optional)
   --verify-only    Run consistency and live artifact checks without publishing
   -h, --help       Show help
 
@@ -45,10 +42,6 @@ while [[ $# -gt 0 ]]; do
 	case "$1" in
 	--build)
 		BUILD=1
-		shift
-		;;
-	--deploy-worker)
-		DEPLOY_WORKER=1
 		shift
 		;;
 	--verify-only)
@@ -152,26 +145,6 @@ if [[ "$VERIFY_ONLY" -eq 0 ]]; then
 	echo "  R2 upload: version.json + mcpwp-latest.zip → mumcp-updates bucket"
 fi
 
-if [[ "$DEPLOY_WORKER" -eq 1 ]]; then
-	if [[ ! -f "$WORKER_FILE" ]]; then
-		echo "Worker file not found: $WORKER_FILE" >&2
-		exit 1
-	fi
-
-	python3 - "$MANIFEST_FILE" "$WORKER_FILE" <<'PY'
-import json, pathlib, re, sys
-manifest_path = pathlib.Path(sys.argv[1])
-worker_path = pathlib.Path(sys.argv[2])
-manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
-worker = worker_path.read_text(encoding='utf-8')
-replacement = "const VERSION_INFO = " + json.dumps(manifest, indent=2) + ";"
-updated, count = re.subn(r"const VERSION_INFO = \{.*?\n\};", replacement, worker, flags=re.S)
-if count != 1:
-    raise SystemExit("Could not update VERSION_INFO in worker source")
-worker_path.write_text(updated, encoding='utf-8')
-PY
-fi
-
 LIVE_STATIC_JSON="$(curl -fsSL https://mumega.com/mcp-updates/version.json)" || true
 LIVE_STATIC_VERSION="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["version"])' <<<"$LIVE_STATIC_JSON" 2>/dev/null || echo "unknown")"
 
@@ -190,9 +163,6 @@ if [[ -n "$DOWNLOAD_URL" ]]; then
 	fi
 fi
 
-echo "Published Site Pilot AI $VERSION"
+echo "Published MCPWP $VERSION"
 echo "  static manifest: https://mumega.com/mcp-updates/version.json"
 echo "  static zip:      https://mumega.com/mcp-updates/mcpwp-latest.zip"
-if [[ "$DEPLOY_WORKER" -eq 1 ]]; then
-	echo "  worker source synced: $WORKER_FILE"
-fi
