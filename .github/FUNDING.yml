@@ -1,0 +1,11 @@
+# MCPWP — Funding links
+# Shown as a "Sponsor" button on the GitHub repo page.
+# Hadi: fill in or remove the entries you don't use.
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+
+# GitHub Sponsors (org or username — leave commented until account is set up)
+# github: mumega
+
+# Custom sponsor / upgrade URL
+custom:
+  - https://mcpwp.net/pricing   # [TK] — replace with exact pricing/upgrade page URL if different
