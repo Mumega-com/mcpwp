@@ -4,7 +4,21 @@ Canonical brand and code name: **MCPWP** (mcpwp.net).
 
 As of **v3.0.0** (2026-06-09) the plugin was hard-renamed. There is **one** name everywhere —
 no `spai_` / `site-pilot-ai` / `mumcp` / `mumega-mcp` aliases, no backward-compat dual naming.
-Those prefixes are dead. If you find one in live plugin code, it is a bug — fix it.
+Those prefixes are dead in new code.
+
+**Exception — the migration bridge (v3.0+, #505).** Once the bridge shipped to migrate
+existing 2.8.56 `site-pilot-ai` installs, a small, deliberate set of `spai_*` reads became
+**intentional backward-compat** and must NOT be "fixed":
+- `class-mcpwp-migrate.php` — reads the old `spai_*` options (the `OPTION_MAP` source side).
+- `class-mcpwp-license.php` — reads the **un-forgeable** `spai_pro_license` / `spai_trial_started`
+  originals (entitlement source of truth — see [[feedback-entitlement-unforgeable-source]]).
+- `trait-mcpwp-api-auth.php` — recognizes the legacy `spai_at_` OAuth token prefix +
+  `find_legacy_spai_key()`.
+
+These are the ONLY allowed `spai_` references in live code. Outside them, a `spai_`/`site-pilot-ai`
+in live plugin code is still a bug — fix it. Wire contracts `X-SPAI-*` headers and the `x_spai`
+MCP envelope key are **dual-emitted** alongside `X-MCPWP-*` / `x_mcpwp` for external-subscriber
+backward-compat (retire in a future major).
 
 ## Canonical values (the only correct forms)
 
@@ -50,9 +64,20 @@ old names* — do not "fix" those.
 | `SECURITY.md`, `CONTRIBUTING.md` | contributor-facing — update when convenient |
 | `.github/PULL_REQUEST_TEMPLATE.md` | dev checklist — update when convenient |
 
-## Deferred cross-repo / infra renames (tracked, not yet done)
+## Cross-repo / infra renames
 
-| Item | Why deferred |
-|------|--------------|
-| `spai-proxy-worker/` → `mcpwp-proxy-worker` | changes deployed Cloudflare worker name (DNS/routing) — needs explicit go |
+Done 2026-06-11 (spai/mumega → mcpwp infra pass):
+
+| Item | Status |
+|------|--------|
+| `spai-proxy-worker/` → `mcpwp-agency-proxy/` (dir) | **done** — deployed worker already `mcpwp-agency-proxy`; ci.yml paths updated |
+| worker `spai-screenshot` → `mcpwp-screenshot` | **done** — redeployed, AUTH_TOKEN re-set, mcpwp.net integration re-pointed, old deleted |
+| dir `spai-updates-worker/` → `mcpwp-updates-worker/` (sitepilotai repo) | **done** |
+| dir `spai-gh-webhook/` → `mcpwp-gh-webhook/` (sitepilotai repo, not deployed) | **done** |
+
+Still pending (needs operator DNS action):
+
+| Item | Why |
+|------|-----|
+| worker `spai-updates` → `mcpwp-updates` + channel → `updates.mcpwp.net` | live update channel; staged dual-serve migration, needs Custom Domain `updates.mcpwp.net` + per-site `mcpwp_version_url` repoint. Legacy `mumega.com/mc-updates` + `/spai-updates/` kept until all sites cut over |
 | repo/dir `wp-ai-operator` → `mcpwp` | filesystem rename; breaks active worktrees mid-session |
