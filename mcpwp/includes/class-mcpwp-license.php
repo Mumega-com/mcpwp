@@ -11,9 +11,13 @@
  * When a site migrated from site-pilot-ai 2.8.x and Freemius has not yet
  * re-confirmed entitlement (e.g. the site has not yet loaded the Freemius
  * SDK or the SDK reports free), a local-entitlement fallback may apply.
- * The fallback is gated on the `mcpwp_migrated_from_spai` migration flag
- * (written by Mcpwp_Migrate::run()) so it can never be triggered by an
- * arbitrarily-injected option on a fresh install.
+ * The fallback is gated on the `mcpwp_migrated_from_spai` migration flag.
+ * Note: that flag is set by Mcpwp_Migrate::run() on every completed run,
+ * including a fresh install with no spai_ data — so the flag alone does not
+ * prove a 2.8.x origin. The real protection is that `mcpwp_pro_license` and
+ * `mcpwp_trial_started` are written ONLY by the migration's OPTION_MAP copy
+ * (no REST/MCP surface writes an arbitrary option name), so a fresh install
+ * never has them and a low-privilege token cannot inject them.
  *
  * The fallback honours the same validity rules as Spai_License::is_pro()
  * in site-pilot-ai 2.8.56:
@@ -164,10 +168,14 @@ class Mcpwp_License {
 			return false;
 		}
 		// Check expiry only when expires_at is present and non-empty.
+		// Mirror Spai_License::is_expired() exactly: an unparseable expires_at
+		// (strtotime === false) is treated as EXPIRED (deny), not skipped —
+		// 2.8.56 casts false to 0 and 0 < time() is true. Failing closed here
+		// avoids a corrupted/hand-edited license blob granting Pro too leniently.
 		if ( ! empty( $license['expires_at'] ) ) {
 			$expiry = strtotime( (string) $license['expires_at'] );
-			if ( false !== $expiry && $expiry < time() ) {
-				return false; // Expired.
+			if ( false === $expiry || $expiry < time() ) {
+				return false; // Expired or unparseable.
 			}
 		}
 		return true;
