@@ -15,7 +15,7 @@
  * Plugin URI:        https://mcpwp.net/
  * Description:       Connect WordPress to AI assistants via the Model Context Protocol (MCP). Manage posts, pages, media, and Elementor through natural language.
  * Version:           3.0.1
- * Requires at least: 5.0
+ * Requires at least: 6.1
  * Requires PHP:      7.4
  * Author:            Mumega
  * Author URI:        https://mumega.com/
@@ -53,7 +53,7 @@ define( 'MCPWP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 /**
  * Minimum WordPress version.
  */
-define( 'MCPWP_MIN_WP_VERSION', '5.0' );
+define( 'MCPWP_MIN_WP_VERSION', '6.1' );
 
 /**
  * Minimum PHP version.

@@ -48,6 +48,7 @@ trait Mcpwp_Admin_Control_Room_Trait {
 		} elseif ( 'refresh_signals' === $action ) {
 			if ( class_exists( 'Mcpwp_Signals' ) ) {
 				$computed = Mcpwp_Signals::compute( array(), Mcpwp_Signals::request_time_budget() );
+				/* translators: %d: number of signals found */
 				$result   = sprintf( __( 'Signals refreshed: %d signal(s) found.', 'mcpwp' ), count( $computed ) );
 			}
 		} elseif ( 'rollback_action_log' === $action ) {

@@ -20,22 +20,26 @@ class Mcpwp_REST_Site_Updates extends Mcpwp_REST_API {
 	 * Register routes.
 	 */
 	public function register_routes() {
-		register_rest_route(
-			$this->namespace,
-			'/update',
-			array(
+		// The /update endpoint fetches from mumega.com — excluded from the WordPress.org build
+		// which must not contain third-party update paths (WP.org policy).
+		if ( ! defined( 'MCPWP_WPORG_BUILD' ) ) {
+			register_rest_route(
+				$this->namespace,
+				'/update',
 				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'check_update' ),
-					'permission_callback' => array( $this, 'check_permission' ),
-				),
-				array(
-					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'trigger_update' ),
-					'permission_callback' => array( $this, 'check_permission' ),
-				),
-			)
-		);
+					array(
+						'methods'             => WP_REST_Server::READABLE,
+						'callback'            => array( $this, 'check_update' ),
+						'permission_callback' => array( $this, 'check_permission' ),
+					),
+					array(
+						'methods'             => WP_REST_Server::CREATABLE,
+						'callback'            => array( $this, 'trigger_update' ),
+						'permission_callback' => array( $this, 'check_permission' ),
+					),
+				)
+			);
+		}
 		register_rest_route(
 			$this->namespace,
 			'/rate-limit',
@@ -182,6 +186,10 @@ class Mcpwp_REST_Site_Updates extends Mcpwp_REST_API {
 	}
 
 	public function check_update( $request ) {
+		if ( defined( 'MCPWP_WPORG_BUILD' ) ) {
+			return $this->error_response( 'not_available', __( 'Update check is not available in the WordPress.org build.', 'mcpwp' ), 404 );
+		}
+
 		$this->log_activity( 'check_update', $request );
 
 		$current_version = defined( 'MCPWP_VERSION' ) ? MCPWP_VERSION : '0.0.0';
@@ -284,6 +292,10 @@ class Mcpwp_REST_Site_Updates extends Mcpwp_REST_API {
 	}
 
 	public function trigger_update( $request ) {
+		if ( defined( 'MCPWP_WPORG_BUILD' ) ) {
+			return $this->error_response( 'not_available', __( 'Plugin self-update is not available in the WordPress.org build.', 'mcpwp' ), 404 );
+		}
+
 		$this->log_activity( 'trigger_update', $request );
 
 		if ( ! $this->can_manage_api_keys() ) {

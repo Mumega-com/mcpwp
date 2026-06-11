@@ -1553,6 +1553,7 @@ class Mcpwp_REST_MCP extends Mcpwp_REST_API {
 		global $wpdb;
 		$table = $wpdb->prefix . 'mcpwp_activity_log';
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- activity log insert; table name from $wpdb->prefix.
 		$wpdb->insert(
 			$table,
 			array(

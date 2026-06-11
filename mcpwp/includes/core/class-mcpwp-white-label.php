@@ -212,7 +212,7 @@ class Mcpwp_White_Label {
 		<div class="mcpwp-chat-widget" style="<?php echo esc_attr( $style_attr ); ?>">
 			<button
 				id="mcpwp-chat-toggle"
-				style="background:<?php echo $color; ?>;color:#fff;border:none;border-radius:99px;padding:10px 20px;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);display:flex;align-items:center;gap:6px"
+				style="background:<?php echo esc_attr( $color ); ?>;color:#fff;border:none;border-radius:99px;padding:10px 20px;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);display:flex;align-items:center;gap:6px"
 				onclick="(function(btn){
 					var panel = document.getElementById('mcpwp-chat-panel');
 					if(!panel){
@@ -228,8 +228,8 @@ class Mcpwp_White_Label {
 					}
 				})(this)"
 			>
-				<?php echo $logo_html; // phpcs:ignore WordPress.Security.EscapeOutput — logo_html is constructed with esc_url/esc_html/esc_attr ?>
-				<?php echo $name; // phpcs:ignore WordPress.Security.EscapeOutput — $name is esc_html'd above ?>
+				<?php echo wp_kses_post( $logo_html ); ?>
+				<?php echo esc_html( $name ); ?>
 			</button>
 		</div>
 		<?php

@@ -291,6 +291,7 @@ class Mcpwp_Signals {
 		// Find pages with _elementor_data meta that is invalid JSON. Fetch IDs
 		// only — loading 100 Elementor data blobs in one result set can exhaust
 		// memory on Elementor-heavy sites. The blobs are read one at a time.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- uses only core $wpdb table names; no user input in query.
 		$results = $wpdb->get_results(
 			"SELECT p.ID, p.post_title
 			 FROM {$wpdb->posts} p

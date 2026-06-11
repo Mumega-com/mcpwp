@@ -93,6 +93,8 @@ trait Mcpwp_Admin_Chat_Trait {
 		}
 
 		$message = isset( $_POST['message'] ) ? sanitize_text_field( wp_unslash( $_POST['message'] ) ) : '';
+		// History is a JSON string — wp_unslash prevents magic-quotes corruption; json_decode validates structure.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON payload; decoded array values are not written to DB without further sanitization.
 		$history = isset( $_POST['history'] ) ? json_decode( wp_unslash( $_POST['history'] ), true ) : array();
 
 		if ( empty( $message ) ) {
@@ -213,7 +215,8 @@ trait Mcpwp_Admin_Chat_Trait {
 			wp_send_json_error( array( 'message' => 'Tool execution requires administrator access.' ) );
 		}
 
-		$tool      = isset( $_POST['tool'] ) ? sanitize_text_field( wp_unslash( $_POST['tool'] ) ) : '';
+		$tool = isset( $_POST['tool'] ) ? sanitize_text_field( wp_unslash( $_POST['tool'] ) ) : '';
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON payload for tool arguments; structure is validated after decode and not written to DB directly.
 		$arguments = isset( $_POST['arguments'] ) ? json_decode( wp_unslash( $_POST['arguments'] ), true ) : array();
 
 		if ( empty( $tool ) ) {
@@ -226,7 +229,7 @@ trait Mcpwp_Admin_Chat_Trait {
 			'wp_delete_menu', 'wp_delete_menu_item', 'wp_delete_webhook', 'wp_delete_content',
 			'wp_delete_custom_css', 'wp_delete_term', 'wp_revoke_api_key', 'wp_rollback_approval',
 		);
-		$confirmed = isset( $_POST['confirmed'] ) && 'true' === $_POST['confirmed'];
+		$confirmed = isset( $_POST['confirmed'] ) && 'true' === sanitize_text_field( wp_unslash( $_POST['confirmed'] ) );
 		if ( in_array( $tool, $destructive, true ) && ! $confirmed ) {
 			wp_send_json_success( array( 'needs_confirmation' => true, 'tool' => $tool ) );
 		}
@@ -273,6 +276,7 @@ trait Mcpwp_Admin_Chat_Trait {
 		}
 
 		$message = isset( $_POST['message'] ) ? sanitize_text_field( wp_unslash( $_POST['message'] ) ) : '';
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON payload; wp_unslash prevents magic-quotes corruption.
 		$history = isset( $_POST['history'] ) ? json_decode( wp_unslash( $_POST['history'] ), true ) : array();
 
 		if ( empty( $message ) ) {
@@ -302,7 +306,9 @@ trait Mcpwp_Admin_Chat_Trait {
 		$built    = $this->build_chat_messages( $message, is_array( $history ) ? $history : array() );
 		$messages = $built['messages'];
 
-		// Use cURL to forward OpenAI's SSE stream chunk-by-chunk.
+		// SSE token streaming requires direct cURL; wp_remote_get cannot stream chunked responses
+		// because WP HTTP API buffers the full response before returning.
+		// phpcs:disable WordPress.WP.AlternativeFunctions.curl_curl_init,WordPress.WP.AlternativeFunctions.curl_curl_setopt_array,WordPress.WP.AlternativeFunctions.curl_curl_exec,WordPress.WP.AlternativeFunctions.curl_curl_close
 		if ( ! function_exists( 'curl_init' ) ) {
 			echo 'data: ' . wp_json_encode( array( 'error' => 'cURL not available' ) ) . "\n\n";
 			flush();
@@ -348,6 +354,7 @@ trait Mcpwp_Admin_Chat_Trait {
 
 		curl_exec( $ch );
 		curl_close( $ch );
+		// phpcs:enable WordPress.WP.AlternativeFunctions.curl_curl_init,WordPress.WP.AlternativeFunctions.curl_curl_setopt_array,WordPress.WP.AlternativeFunctions.curl_curl_exec,WordPress.WP.AlternativeFunctions.curl_curl_close
 		exit;
 	}
 
@@ -361,6 +368,7 @@ trait Mcpwp_Admin_Chat_Trait {
 			wp_send_json_error();
 		}
 
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON payload stored per-user only; not rendered in admin without re-escaping.
 		$history = isset( $_POST['history'] ) ? json_decode( wp_unslash( $_POST['history'] ), true ) : array();
 		update_option( 'mcpwp_chat_history_' . get_current_user_id(), array_slice( (array) $history, -50 ), false );
 		wp_send_json_success();

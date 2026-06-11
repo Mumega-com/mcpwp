@@ -39,12 +39,10 @@ $model_label = $model_labels[ $chat_model ] ?? 'Workers AI';
 	<div class="mcpwp-chat-safety" style="background:#fffbeb;border-bottom:1px solid #f6c90e;color:#92400e;">
 		<span class="dashicons dashicons-info-outline"></span>
 		<?php
+		/* translators: %s: URL of the integrations settings page */
+		$connect_text = __( 'For the best results, <a href="%s">connect OpenAI or Gemini</a>.', 'mcpwp' );
 		printf(
-			/* translators: %s: link to integrations page */
-			wp_kses(
-				__( 'For the best results, <a href="%s">connect OpenAI or Gemini</a>.', 'mcpwp' ),
-				array( 'a' => array( 'href' => array() ) )
-			),
+			wp_kses( $connect_text, array( 'a' => array( 'href' => array() ) ) ),
 			esc_url( admin_url( 'admin.php?page=' . Mcpwp_Integrations_Admin::PAGE_SLUG ) )
 		);
 		?>
