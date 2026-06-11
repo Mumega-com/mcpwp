@@ -60,6 +60,22 @@ Architect thinks on the expensive model in one warm-cache burst; execution fans 
 Sonnet (judgment work) / Haiku (mechanical work) as stateful subagents. Pre-stage cheap,
 fly once, land with a written artifact + cost. (mupot v0.19 flight-ops pattern.)
 
+## Roster
+
+| Member | Where | Role |
+|--------|-------|------|
+| Architect (this session) | server | systems, documents, dispatch — never hand-operates |
+| Sonnet workers (stateful, spawned per flight) | server | judgment work: builds, content, reviews |
+| Haiku workers | server | mechanical work: links, sweeps, checks |
+| **dara** | Hadi's Mac | **tester** — e2e install/connect verification from a real client machine; agents may migrate there for cross-machine testing (Hadi-granted 2026-06-11) |
+| kasra | bus | build/merge gate, flock reference |
+| loom | bus | cost reconciliation |
+| Hadi | mobile/street | human gate; all customer-facing verdicts |
+
+Night-run authorization (2026-06-11): Hadi grants an overnight autonomous run; scope to be
+confirmed at kickoff; Dara available as tester; all hard rules above still bind (esp. update
+channel + customer-site gates).
+
 ## Open items at charter time
 
 - [ ] mumcp bus token (architect can't read `mumcp` inbox — 403 cross-tenant)
