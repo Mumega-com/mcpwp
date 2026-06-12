@@ -62,6 +62,11 @@ class Mcpwp_REST_Screenshot extends Mcpwp_REST_API {
 							'type'        => 'boolean',
 							'default'     => false,
 						),
+						'inline'        => array(
+							'description' => __( 'Return raw base64 image data in the response. Off by default: screenshots are saved to the media library and returned as a URL, because inline base64 (500KB+) overflows AI-client contexts.', 'mcpwp' ),
+							'type'        => 'boolean',
+							'default'     => false,
+						),
 						'title'         => array(
 							'description' => __( 'Title for saved media.', 'mcpwp' ),
 							'type'        => 'string',
@@ -89,10 +94,14 @@ class Mcpwp_REST_Screenshot extends Mcpwp_REST_API {
 
 		$url         = $request->get_param( 'url' );
 		$webhook_url = $request->get_param( 'webhook_url' );
+		$inline      = rest_sanitize_boolean( $request->get_param( 'inline' ) );
 		$args        = array(
 			'width'         => $request->get_param( 'width' ),
 			'height'        => $request->get_param( 'height' ),
-			'save_to_media' => $request->get_param( 'save_to_media' ),
+			// URL-by-default: without inline, the image must land in the
+			// media library so the response can carry a URL instead of
+			// 500KB+ of base64 (#560).
+			'save_to_media' => $inline ? $request->get_param( 'save_to_media' ) : true,
 			'title'         => $request->get_param( 'title' ),
 		);
 
@@ -100,6 +109,12 @@ class Mcpwp_REST_Screenshot extends Mcpwp_REST_API {
 
 		if ( is_wp_error( $result ) ) {
 			return $result;
+		}
+
+		// Strip inline base64 when a media URL is available (default mode).
+		if ( ! $inline && ! empty( $result['screenshot'] ) && ! empty( $result['media'] ) ) {
+			unset( $result['screenshot'] );
+			$result['note'] = __( 'Screenshot saved to the media library; base64 omitted. Pass inline=true for raw image data.', 'mcpwp' );
 		}
 
 		// Async mode: webhook notification when screenshot is ready.

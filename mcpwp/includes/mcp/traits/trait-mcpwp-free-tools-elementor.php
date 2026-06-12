@@ -35,6 +35,10 @@ trait Mcpwp_Free_Tools_Elementor_Trait {
 					'type'        => 'boolean',
 					'description' => 'Strip default widget settings to reduce payload size by 70-80%',
 				),
+				'include_raw' => array(
+					'type'        => 'boolean',
+					'description' => 'Also include elementor_json (raw JSON string duplicate of elementor_data). Off by default — doubles the payload.',
+				),
 			)
 		);
 
@@ -297,7 +301,7 @@ trait Mcpwp_Free_Tools_Elementor_Trait {
 
 		$tools[] = $this->define_tool(
 			'wp_screenshot_url',
-			'Take a screenshot of a URL. Uses Cloudflare Browser Rendering (headless Chromium) if configured, otherwise falls back to WordPress mshots. Returns base64 PNG from Cloudflare or a URL from mshots. Optionally saves to media library. Set webhook_url for async mode — the webhook fires when the screenshot is ready (useful for mshots which renders asynchronously).',
+			'Take a screenshot of a URL. Uses Cloudflare Browser Rendering (headless Chromium) if configured, otherwise falls back to WordPress mshots. By default the screenshot is saved to the media library and returned as a URL (base64 payloads overflow AI-client contexts); pass inline=true for raw base64. Set webhook_url for async mode — the webhook fires when the screenshot is ready.',
 			array(
 				'url' => array(
 					'type'        => 'string',
@@ -317,6 +321,11 @@ trait Mcpwp_Free_Tools_Elementor_Trait {
 				'save_to_media' => array(
 					'type'        => 'boolean',
 					'description' => 'Also save screenshot to WordPress media library',
+					'default'     => false,
+				),
+				'inline' => array(
+					'type'        => 'boolean',
+					'description' => 'Return raw base64 image data instead of a media-library URL. Off by default — base64 (500KB+) overflows AI-client contexts.',
 					'default'     => false,
 				),
 				'webhook_url' => array(
