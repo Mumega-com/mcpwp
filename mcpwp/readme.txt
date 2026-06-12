@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 6.1
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.2.2
+Stable tag: 3.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,10 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 3.2.3 =
+* Improved: screenshots now save to the media library and return a URL by default — inline base64 (500KB+) overflowed AI-client contexts. Pass `inline=true` for raw base64.
+* Improved: `wp_get_elementor` no longer duplicates the page data as a raw JSON string (`elementor_json`) — payload halved on large pages. Pass `include_raw=true` if you need the raw string.
 
 = 3.2.2 =
 * New: Calling a Pro tool on a Free install now returns a clear upgrade-path error (JSON-RPC -32004 `pro_required` with plan and pricing link) instead of "unknown tool".

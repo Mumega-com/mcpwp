@@ -529,6 +529,7 @@ class Mcpwp_REST_Elementor extends Mcpwp_REST_API {
 		$page_id = $request->get_param( 'id' );
 		$options = array(
 			'strip_defaults' => (bool) $request->get_param( 'strip_defaults' ),
+			'include_raw'    => (bool) $request->get_param( 'include_raw' ),
 		);
 		$result  = $this->elementor->get_elementor_data( $page_id, $options );
 

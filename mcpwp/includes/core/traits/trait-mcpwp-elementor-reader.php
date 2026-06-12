@@ -75,17 +75,24 @@ trait Mcpwp_Elementor_Reader_Trait {
 			$this->strip_element_defaults( $decoded );
 		}
 
-		return array(
+		$response = array(
 			'page_id'        => (int) $page_id,
 			'title'          => $page->post_title,
 			'has_elementor'  => ! empty( $elementor_data ),
 			'edit_mode'      => $edit_mode ?: 'classic',
 			'template_type'  => $template_type ?: null,
 			'elementor_data' => $decoded,
-			'elementor_json' => $elementor_data ?: null,
 			'page_settings'  => $page_settings ? ( is_array( $page_settings ) ? $page_settings : json_decode( $page_settings, true ) ) : null,
 			'edit_url'       => admin_url( "post.php?post={$page_id}&action=elementor" ),
 		);
+
+		// The raw JSON string duplicates elementor_data byte-for-byte and
+		// doubles the payload on large pages — include only on request.
+		if ( ! empty( $data['include_raw'] ) ) {
+			$response['elementor_json'] = $elementor_data ?: null;
+		}
+
+		return $response;
 	}
 
 	/**
