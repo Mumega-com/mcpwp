@@ -480,6 +480,28 @@ class Mcpwp_REST_Site_Settings extends Mcpwp_REST_API {
 			);
 		}
 
+		$old_value = get_option( $key );
+
+		// Type-preserving guard: when the stored option is an array/object,
+		// a plain-string overwrite is almost always an accident (string-typed
+		// MCP clients) and breaks consumers that expect arrays — e.g. a
+		// stringified elementor_pro_theme_builder_conditions removes every
+		// theme-builder location site-wide. Decode valid JSON; otherwise
+		// refuse unless the caller explicitly forces the type change.
+		if ( ( is_array( $old_value ) || is_object( $old_value ) ) && is_string( $value ) ) {
+			$decoded = json_decode( $value, true );
+			if ( is_array( $decoded ) ) {
+				$value = $decoded;
+			} elseif ( ! rest_sanitize_boolean( $request->get_param( 'force_type_change' ) ) ) {
+				return $this->error_response(
+					'option_type_mismatch',
+					/* translators: %s: option key */
+					sprintf( __( 'Option "%s" currently holds an array/object; refusing to overwrite it with a plain string. Send the value as a JSON object/array, or pass force_type_change=true to override.', 'mcpwp' ), $key ),
+					409
+				);
+			}
+		}
+
 		// Type-specific sanitization
 		if ( 'admin_email' === $key ) {
 			$value = sanitize_email( $value );
@@ -492,9 +514,9 @@ class Mcpwp_REST_Site_Settings extends Mcpwp_REST_API {
 			$value = $value ? 1 : 0;
 		} elseif ( is_string( $value ) ) {
 			$value = sanitize_text_field( $value );
+		} elseif ( is_array( $value ) ) {
+			$value = map_deep( $value, 'sanitize_text_field' );
 		}
-
-		$old_value = get_option( $key );
 
 		// Wrap in try/catch: plugins like Elementor hook into update_option
 		// and may throw exceptions in REST context (e.g. AJAX auth checks).

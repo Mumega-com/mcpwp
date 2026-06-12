@@ -507,6 +507,34 @@ function rest_do_request()
     return new WP_REST_Response(array( 'ok' => true ), 200);
 }
 
+function rest_sanitize_boolean($value)
+{
+    if (is_string($value)) {
+        $value = strtolower($value);
+        if (in_array($value, array( 'false', '0', '' ), true)) {
+            return false;
+        }
+    }
+    return (bool) $value;
+}
+
+function map_deep($value, $callback)
+{
+    if (is_array($value)) {
+        foreach ($value as $index => $item) {
+            $value[ $index ] = map_deep($item, $callback);
+        }
+    } elseif (is_object($value)) {
+        $object_vars = get_object_vars($value);
+        foreach ($object_vars as $property_name => $property_value) {
+            $value->$property_name = map_deep($property_value, $callback);
+        }
+    } else {
+        $value = call_user_func($callback, $value);
+    }
+    return $value;
+}
+
 // ── Post / meta stubs (controllable via globals) ─────────────────────────
 
 $GLOBALS['_mcpwp_test_posts'] = array();
@@ -890,4 +918,5 @@ require_once dirname(__DIR__) . '/includes/core/class-mcpwp-signals.php';
 require_once dirname(__DIR__) . '/includes/api/class-mcpwp-rest-signals.php';
 // OAuth 2.1 server (#531).
 require_once dirname(__DIR__) . '/includes/api/class-mcpwp-rest-oauth.php';
+require_once dirname(__DIR__) . '/includes/api/class-mcpwp-rest-site-settings.php';
 require_once dirname(__DIR__) . '/includes/class-mcpwp-oauth-well-known.php';

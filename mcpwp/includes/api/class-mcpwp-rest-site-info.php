@@ -275,6 +275,37 @@ class Mcpwp_REST_Site_Info extends Mcpwp_REST_API {
 
 		$data = $mcp->get_introspection_data();
 
+		// Compact by default: the full output (every tool with its input
+		// schema and route map) exceeds 200KB / 5,000+ lines, which overflows
+		// AI-client contexts. Summarize tools to name + one-line description;
+		// schemas stay available via MCP tools/list (with Tool Search) or
+		// ?full=true for the legacy payload.
+		$full = rest_sanitize_boolean( $request->get_param( 'full' ) );
+		if ( ! $full && isset( $data['tools'] ) && is_array( $data['tools'] ) ) {
+			$summary = array();
+			foreach ( $data['tools'] as $tool ) {
+				$name = isset( $tool['name'] ) ? (string) $tool['name'] : '';
+				if ( '' === $name ) {
+					continue;
+				}
+				$desc = isset( $tool['description'] ) ? (string) $tool['description'] : '';
+				// First sentence, capped — enough to pick a tool, not to call it.
+				$cut  = strpos( $desc, '. ' );
+				if ( false !== $cut && $cut < 140 ) {
+					$desc = substr( $desc, 0, $cut + 1 );
+				} elseif ( strlen( $desc ) > 140 ) {
+					$desc = substr( $desc, 0, 137 ) . '...';
+				}
+				$summary[] = array(
+					'name'        => $name,
+					'description' => $desc,
+				);
+			}
+			$data['tools_count'] = count( $summary );
+			$data['tools']       = $summary;
+			$data['tools_note']  = 'Compact tool list (name + summary). Full input schemas: MCP tools/list, or GET /introspect?full=true.';
+		}
+
 		// Include site context if set.
 		$site_context = get_option( 'mcpwp_site_context', '' );
 		if ( '' !== $site_context ) {

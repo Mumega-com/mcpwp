@@ -5,7 +5,7 @@ Tags: ai, claude, mcp, elementor, api
 Requires at least: 6.1
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.2.1
+Stable tag: 3.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,12 @@ MCPWP can send anonymous usage data from your WordPress server to PostHog when t
 4. Integrations and Chat — connected services plus safety-first agent workflow
 
 == Changelog ==
+
+= 3.2.2 =
+* New: Calling a Pro tool on a Free install now returns a clear upgrade-path error (JSON-RPC -32004 `pro_required` with plan and pricing link) instead of "unknown tool".
+* Improved: `/introspect` is compact by default (tool name + summary, ~80% smaller) so AI clients no longer overflow their context; pass `?full=true` for the legacy payload with full schemas.
+* Fixed: `/option` now refuses to overwrite an array/object option with a plain string (decodes valid JSON; `force_type_change=true` to override) — prevents accidental destruction of structured options such as Elementor theme-builder conditions.
+* Fixed: numeric values in API responses are returned as JSON numbers (analytics counts, Elementor `page_id`) for typed clients.
 
 = 3.2.1 =
 * Maintenance: Internal rebrand cleanup (spai→mcpwp) — cron label, code comments, and admin JS object renamed. Webhook deliveries now also emit `X-MCPWP-Signature`, `X-MCPWP-Event`, and `X-MCPWP-Webhook-ID` headers alongside the existing `X-SPAI-*` headers (both sets sent; `X-SPAI-*` retained for backward-compat). MCP tools/list response now also includes an `x_mcpwp` envelope key alongside `x_spai`. Bridge migration of legacy sites is unchanged.
