@@ -210,7 +210,7 @@ trait Mcpwp_Elementor_Writer_Trait {
 			$result = array(
 				'success'  => true,
 				'dry_run'  => true,
-				'page_id'  => (string) $page_id,
+				'page_id'  => (int) $page_id,
 				'message'  => __( 'Validation complete — no changes saved.', 'mcpwp' ),
 			);
 
@@ -512,7 +512,7 @@ trait Mcpwp_Elementor_Writer_Trait {
 
 		$result = array(
 			'success'            => true,
-			'page_id'            => (string) $page_id,
+			'page_id'            => (int) $page_id,
 			'message'            => __( 'Elementor data updated.', 'mcpwp' ),
 			'sections_saved'     => $save_debug['sections_saved'],
 			'sections_submitted' => $save_debug['sections_submitted'],
@@ -583,7 +583,7 @@ trait Mcpwp_Elementor_Writer_Trait {
 
 		return array(
 			'success'  => true,
-			'page_id'  => $page_id,
+			'page_id'  => (int) $page_id,
 			'title'    => $page_data['post_title'],
 			'status'   => $page_data['post_status'],
 			'url'      => get_permalink( $page_id ),
@@ -744,7 +744,7 @@ trait Mcpwp_Elementor_Writer_Trait {
 
 		$result = array(
 			'success'  => true,
-			'page_id'  => $page_id,
+			'page_id'  => (int) $page_id,
 			'path'     => $found_path,
 			'changes'  => $changes,
 			'element'  => $saved_element ? $saved_element : $found,
@@ -901,7 +901,7 @@ trait Mcpwp_Elementor_Writer_Trait {
 
 		$result = array(
 			'success'     => true,
-			'page_id'     => $page_id,
+			'page_id'     => (int) $page_id,
 			'widget_id'   => $widget_id,
 			'widget_type' => isset( $found['widgetType'] ) ? $found['widgetType'] : null,
 			'path'        => $found_path,
@@ -1174,7 +1174,7 @@ trait Mcpwp_Elementor_Writer_Trait {
 
 		return array(
 			'success'       => true,
-			'page_id'       => (string) $page_id,
+			'page_id'       => (int) $page_id,
 			'element_id'    => $new_element['id'],
 			'position'      => $position,
 			'section_count' => count( $elements ),
@@ -1238,7 +1238,7 @@ trait Mcpwp_Elementor_Writer_Trait {
 
 		return array(
 			'success'       => true,
-			'page_id'       => (string) $page_id,
+			'page_id'       => (int) $page_id,
 			'removed_id'    => $element_id,
 			'removed_type'  => isset( $removed['elType'] ) ? $removed['elType'] : 'unknown',
 			'section_count' => count( $elements ),
@@ -1339,7 +1339,7 @@ trait Mcpwp_Elementor_Writer_Trait {
 
 		return array(
 			'success'       => true,
-			'page_id'       => (string) $page_id,
+			'page_id'       => (int) $page_id,
 			'replaced_id'   => $element_id,
 			'new_id'        => $new_element['id'],
 			'section_count' => count( $elements ),
@@ -1552,7 +1552,7 @@ trait Mcpwp_Elementor_Writer_Trait {
 
 		return array(
 			'success'       => true,
-			'page_id'       => (string) $page_id,
+			'page_id'       => (int) $page_id,
 			'operations'    => $results,
 			'section_count' => count( $elements ),
 			'debug'         => $debug,

@@ -240,6 +240,17 @@ class Mcpwp_Core {
 			ARRAY_A
 		);
 
+		// wpdb returns aggregate columns as strings — cast so typed JSON
+		// clients get numbers (#535).
+		foreach ( $by_action as &$row ) {
+			$row['count'] = (int) ( $row['count'] ?? 0 );
+		}
+		unset( $row );
+		foreach ( $by_day as &$row ) {
+			$row['count'] = (int) ( $row['count'] ?? 0 );
+		}
+		unset( $row );
+
 		return array(
 			'period_days'    => $days,
 			'total_requests' => (int) $total_requests,

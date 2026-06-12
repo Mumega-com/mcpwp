@@ -827,6 +827,25 @@ class Mcpwp_REST_MCP extends Mcpwp_REST_API {
 		$tool_map = $this->get_all_tool_map();
 
 		if ( ! isset( $tool_map[ $tool_name ] ) ) {
+			// Pro tool called on a Free install: answer with the upgrade path,
+			// not "unknown tool" — the tool exists, the plan doesn't (#496).
+			if ( ! $this->is_pro_active() && isset( $this->pro_registry->get_tool_map()[ $tool_name ] ) ) {
+				$this->fire_tool_called( $tool_name, $start, 'pro_required' );
+				return $this->jsonrpc_error(
+					$id,
+					-32004,
+					sprintf( 'Tool "%s" is part of MCPWP Pro, which is not active on this site.', $tool_name ),
+					array(
+						'hint'          => sprintf(
+							'"%s" requires an MCPWP Pro license (AI integrations, advanced SEO, WooCommerce and theme-builder tools). Plans start at $59/year — see https://mcpwp.net/pricing/ or upgrade in WP Admin > MCPWP. Free tools keep working without a license.',
+							$tool_name
+						),
+						'plan_required' => 'pro',
+						'upgrade_url'   => 'https://mcpwp.net/pricing/',
+					)
+				);
+			}
+
 			// Fuzzy-match for "did you mean?" suggestion.
 			$available = array_keys( $tool_map );
 			$best      = null;

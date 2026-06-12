@@ -76,7 +76,7 @@ trait Mcpwp_Elementor_Reader_Trait {
 		}
 
 		return array(
-			'page_id'        => $page_id,
+			'page_id'        => (int) $page_id,
 			'title'          => $page->post_title,
 			'has_elementor'  => ! empty( $elementor_data ),
 			'edit_mode'      => $edit_mode ?: 'classic',
@@ -142,7 +142,7 @@ trait Mcpwp_Elementor_Reader_Trait {
 		$elementor_data = get_post_meta( $page_id, '_elementor_data', true );
 		if ( empty( $elementor_data ) ) {
 			return array(
-				'page_id'       => $page_id,
+				'page_id'       => (int) $page_id,
 				'title'         => $page->post_title,
 				'has_elementor' => false,
 				'sections'      => array(),
@@ -152,7 +152,7 @@ trait Mcpwp_Elementor_Reader_Trait {
 		$elements = json_decode( $elementor_data, true );
 		if ( ! is_array( $elements ) ) {
 			return array(
-				'page_id'       => $page_id,
+				'page_id'       => (int) $page_id,
 				'title'         => $page->post_title,
 				'has_elementor' => false,
 				'sections'      => array(),
@@ -173,7 +173,7 @@ trait Mcpwp_Elementor_Reader_Trait {
 		}
 
 		return array(
-			'page_id'       => $page_id,
+			'page_id'       => (int) $page_id,
 			'title'         => $page->post_title,
 			'has_elementor' => true,
 			'section_count' => $section_count,
